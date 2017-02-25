@@ -54,7 +54,7 @@ describe StudioPresenter do
   end
 
   describe 'formatted_phone' do
-    it "returns nicely formatted phone #" do
+    it 'returns nicely formatted phone #' do
       expect(presenter.formatted_phone).to eql '(415) 617-1234'
     end
   end

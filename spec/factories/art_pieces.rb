@@ -9,7 +9,7 @@ FactoryGirl.define do
     dimensions { '10 x 10' }
     year { (Time.zone.now - Random.rand(5).years).year }
     artist do
-      FactoryGirl.create(:artist,:active)
+      FactoryGirl.create(:artist, :active)
     end
     after(:build) do |art_piece|
       art_piece.medium = FactoryGirl.create(:medium)

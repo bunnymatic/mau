@@ -9,6 +9,6 @@ module UsersHelper
       disabled: [entries.first.first],
       selected: [type.present? ? type : entries.first.first]
     }
-    options_for_select( entries, options )
+    options_for_select(entries, options)
   end
 end

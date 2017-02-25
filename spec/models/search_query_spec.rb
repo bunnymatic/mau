@@ -24,7 +24,7 @@ describe SearchQuery do
 
   describe '#page' do
     subject { super().page }
-    it { should eql 0}
+    it { should eql 0 }
   end
 
   describe '#mode' do

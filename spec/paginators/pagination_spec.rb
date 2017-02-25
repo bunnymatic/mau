@@ -8,7 +8,7 @@ describe Pagination do
   let(:per_page) { 3 }
   let(:current_page) { 0 }
   let(:opts) { nil }
-  subject(:paginator) { Pagination.new(Array.new(num_items){|x| x + 1}, current_page, per_page, opts ) }
+  subject(:paginator) { Pagination.new(Array.new(num_items) { |x| x + 1 }, current_page, per_page, opts) }
 
   describe '#last_page' do
     subject { super().last_page }
@@ -21,15 +21,15 @@ describe Pagination do
   end
 
   it 'raises an error if per_page is not valid' do
-    expect{Pagination.new([], 1, -1)}.to raise_error PaginationError
+    expect { Pagination.new([], 1, -1) }.to raise_error PaginationError
   end
 
   it 'raises an error if you try to access link_to_previous on this base class' do
-    expect{paginator.link_to_previous}.to raise_error PaginationError
+    expect { paginator.link_to_previous }.to raise_error PaginationError
   end
 
   it 'raises an error if you try to access link_to_next on this base class' do
-    expect{paginator.link_to_next}.to raise_error PaginationError
+    expect { paginator.link_to_next }.to raise_error PaginationError
   end
 
   describe '#previous_title' do
@@ -94,7 +94,7 @@ describe Pagination do
 
     describe '#items' do
       subject { super().items }
-      it { should eq [1,2,3] }
+      it { should eq [1, 2, 3] }
     end
 
     describe '#next_page' do
@@ -133,7 +133,7 @@ describe Pagination do
 
     describe '#items' do
       subject { super().items }
-      it { should eq [4,5,6] }
+      it { should eq [4, 5, 6] }
     end
 
     describe '#next_page' do
@@ -150,10 +150,10 @@ describe Pagination do
       subject { super().display_current_position }
       it { should eql 'page 2 of 3' }
     end
-    it "reports not the current page for page 2" do
+    it 'reports not the current page for page 2' do
       expect(subject.is_current_page?(2)).to eq(false)
     end
-    it "reports that this is the current page for page 1" do
+    it 'reports that this is the current page for page 1' do
       expect(subject.is_current_page?(1)).to eq(true)
     end
   end
@@ -168,7 +168,7 @@ describe Pagination do
 
     describe '#items' do
       subject { super().items }
-      it { should eq [7,8] }
+      it { should eq [7, 8] }
     end
 
     describe '#next_page' do

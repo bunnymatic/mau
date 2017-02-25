@@ -7,9 +7,9 @@ module MauImage
       thumb: [100, 100, 't_'],
       #:cropped_thumb => [127, 127, 'ct_'],
       small: [200, 200, 's_'],
-      medium: [ 400, 400, 'm_' ],
-      large: [ 800, 800, 'l_' ],
-      original: [ nil, nil, '']
+      medium: [400, 400, 'm_'],
+      large: [800, 800, 'l_'],
+      original: [nil, nil, '']
     }.freeze
 
     def initialize(name, width, height, prefix)
@@ -21,7 +21,7 @@ module MauImage
 
     def self.all
       {}.tap do |sizes|
-        SIZES.each{|k,v| sizes[k] = ImageSize.new(*(([k] + v).flatten))}
+        SIZES.each { |k, v| sizes[k] = ImageSize.new(*(([k] + v).flatten)) }
       end
     end
 
@@ -41,9 +41,9 @@ module MauImage
         return :medium if sz.blank?
         return sz.to_sym if allowed_sizes.include? sz.to_sym
         case sz.to_s
-        when "orig"
+        when 'orig'
           :original
-        when "sm", "s"
+        when 'sm', 's'
           :small
         when 'thumbnail'
           :thumb

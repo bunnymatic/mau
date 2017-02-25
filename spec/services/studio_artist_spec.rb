@@ -10,13 +10,13 @@ describe StudioArtist do
 
   context 'when the studio is not a studio' do
     it 'raises an error on construction' do
-      expect{ StudioArtist.new('my studio', artist) }.to raise_error StudioArtistError
+      expect { StudioArtist.new('my studio', artist) }.to raise_error StudioArtistError
     end
   end
 
   context 'when the artist is not an artist' do
     it 'raises an error on construction' do
-      expect{ StudioArtist.new(studio, 'da vinci') }.to raise_error StudioArtistError
+      expect { StudioArtist.new(studio, 'da vinci') }.to raise_error StudioArtistError
     end
   end
 

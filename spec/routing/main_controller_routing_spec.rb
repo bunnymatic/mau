@@ -7,7 +7,7 @@ describe 'MainController Routes' do
       expect(get: "/#{endpoint}").to route_to(controller: 'main', action: endpoint.to_s)
     end
   end
-  it "routes status to the main#status_page" do
-    expect(get: "/status").to route_to(controller: 'main', action: "status_page")
+  it 'routes status to the main#status_page' do
+    expect(get: '/status').to route_to(controller: 'main', action: 'status_page')
   end
 end

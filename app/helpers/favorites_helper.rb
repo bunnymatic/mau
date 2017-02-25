@@ -14,19 +14,19 @@ module FavoritesHelper
     [img, path, title]
   end
 
-  def draw_micro_favorite(fav, options=nil)
+  def draw_micro_favorite(fav, options = nil)
     options ||= {}
-    return '' unless fav;
+    return '' unless fav
     img, path, title = get_favorite_image_and_path fav, 'thumb'
-    xclass = options[:class] || ""
-    xstyle = options[:style].blank? ? "" : "style='#{options[:style]}'"
-    result = ""
+    xclass = options[:class] || ''
+    xstyle = options[:style].blank? ? '' : "style='#{options[:style]}'"
+    result = ''
     if img && path
       result << "<li #{xstyle}>"
       result << "<a href='#{path}' title='#{title}'>" unless options[:linkless]
       result << "<div class='thumb #{xclass}' title='#{title}' style='#{background_image_style(img)}'></div>"
-      result << "</a>" unless options[:linkless]
-      result << "</li>"
+      result << '</a>' unless options[:linkless]
+      result << '</li>'
     end
     result.html_safe
   end

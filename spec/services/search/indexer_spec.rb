@@ -138,7 +138,7 @@ describe Search::Indexer, elasticsearch: :stub do
     let(:model) { create :artist }
     subject(:service) { described_class.new(model) }
 
-    it "reindexes successfully even if the item is not in the bucket" do
+    it 'reindexes successfully even if the item is not in the bucket' do
       expect do
         subject.reindex
       end.not_to raise_error

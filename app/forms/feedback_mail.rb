@@ -12,7 +12,7 @@ class FeedbackMail
   VALID_NOTE_TYPES = %w(help inquiry).freeze
 
   validates :note_type, presence: true, inclusion: { in: VALID_NOTE_TYPES,
-    message: "%{value} is not a valid note type" }
+    message: '%{value} is not a valid note type' }
 
   validates :email, presence: true
   validates :email_confirm, presence: true
@@ -28,7 +28,7 @@ class FeedbackMail
   end
 
   def os=(v)
-    self.operating_system=v
+    self.operating_system = v
   end
 
   def emails_must_match
@@ -67,7 +67,7 @@ class FeedbackMail
 
   def save
     em = (has_account? ? account_email : email)
-    f = Feedback.new( email: em,
+    f = Feedback.new(email: em,
                         subject: subject,
                         login: login,
                         comment: comment)

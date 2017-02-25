@@ -12,7 +12,7 @@ describe Admin::EmailListsController do
   let!(:lists) { [feedback_email_list, admin_email_list] }
 
   before do
-    AdminMailerList.first.update_attributes(emails: [ FactoryGirl.create(:email, email: test_email) ])
+    AdminMailerList.first.update_attributes(emails: [FactoryGirl.create(:email, email: test_email)])
   end
 
   describe 'not logged in' do
@@ -32,7 +32,7 @@ describe Admin::EmailListsController do
       it_should_behave_like 'not authorized'
     end
   end
-  it "responds success if logged in as admin" do
+  it 'responds success if logged in as admin' do
     login_as admin
     get :index
     expect(response).to be_success
@@ -51,20 +51,20 @@ describe Admin::EmailListsController do
         get :index
       end
 
-      it "assigns 2 emails to the FeedbackMailerList list" do
+      it 'assigns 2 emails to the FeedbackMailerList list' do
         expect(assigns(:all_lists)[:feedback].emails.count).to eql 2
       end
 
-      it "the feedback lists are full of Email objects" do
+      it 'the feedback lists are full of Email objects' do
         expect(assigns(:all_lists)[:feedback].emails).to have_at_least(1).email
         expect(assigns(:all_lists)[:feedback].emails.first).to be_a_kind_of Email
       end
 
-      it "assigns 2 emails to the AdminMailerList list" do
+      it 'assigns 2 emails to the AdminMailerList list' do
         expect(assigns(:all_lists)[:admin].emails.count).to eql 2
       end
 
-      it "the admin lists are full of Email objects" do
+      it 'the admin lists are full of Email objects' do
         expect(assigns(:all_lists)[:admin].emails).to have_at_least(1).email
         expect(assigns(:all_lists)[:admin].emails.first).to be_a_kind_of Email
       end

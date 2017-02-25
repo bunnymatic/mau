@@ -4,7 +4,7 @@ class OpenStudiosPresenter
 
   def packaged_summary
     section = 'summary'
-    @summary ||= CmsDocument.packaged(PAGE,section)
+    @summary ||= CmsDocument.packaged(PAGE, section)
   end
 
   def summary_data
@@ -37,7 +37,7 @@ class OpenStudiosPresenter
   end
 
   def participating_indies
-    @participating_indies ||= sort_artists_by_name(os_participants.reject{|a| a.studio || a.address.blank? })
+    @participating_indies ||= sort_artists_by_name(os_participants.reject { |a| a.studio || a.address.blank? })
   end
 
   def sort_studios_by_name(studios)
@@ -51,6 +51,6 @@ class OpenStudiosPresenter
   private
 
   def editable_content_data(packaged_data)
-    Hash[packaged_data.select{|k,_v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
+    Hash[packaged_data.select { |k, _v| k != :content }.map { |item| ['data-%s' % item[0].to_s, item[1]] }]
   end
 end

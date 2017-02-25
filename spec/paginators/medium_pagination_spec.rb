@@ -11,11 +11,11 @@ describe MediumPagination, type: :controller do
   let(:per_page) { 3 }
   let(:current_page) { 0 }
   let(:medium) { media.last }
-  let(:page_mode) { }
+  let(:page_mode) {}
 
   subject(:paginator) do
-    MediumPagination.new(Array.new(num_items){|x| x + 1},
-                         medium, current_page, page_mode, per_page )
+    MediumPagination.new(Array.new(num_items) { |x| x + 1 },
+                         medium, current_page, page_mode, per_page)
   end
 
   its(:previous_title) { should eq 'previous' }
@@ -28,7 +28,7 @@ describe MediumPagination, type: :controller do
   it '#link_to_next provides a link to the next page' do
     lnk = Capybara::Node::Simple.new(subject.link_to_next)
 
-    expect(lnk).to have_selector("a")
+    expect(lnk).to have_selector('a')
     anchor = lnk.find('a')
     expect(anchor['href']).to eql subject.next_link
     expect(anchor['title']).to eql subject.next_title
@@ -36,7 +36,7 @@ describe MediumPagination, type: :controller do
 
   it '#link_to_previous provides a link to the previous page' do
     lnk = Capybara::Node::Simple.new(subject.link_to_previous)
-    expect(lnk).to have_selector("a")
+    expect(lnk).to have_selector('a')
     anchor = lnk.find('a')
     expect(anchor['href']).to eql subject.previous_link
     expect(anchor['title']).to eql subject.previous_title

@@ -15,11 +15,11 @@ module OpenStudiosEventShim
     PAST_OS_EVENT_KEYS = %w(201004 201010 201104 201110 201204 201210 201304 201310 201404).freeze
 
     def available_open_studios_keys
-      ((PAST_OS_EVENT_KEYS + OpenStudiosEvent.pluck(:key)).compact.map(&:to_s).uniq.sort).select{|k| k.present?}
+      ((PAST_OS_EVENT_KEYS + OpenStudiosEvent.pluck(:key)).compact.map(&:to_s).uniq.sort).select(&:present?)
     end
 
     def current_open_studios_key
-      _open_studios_shim_delegate(:key,nil)
+      _open_studios_shim_delegate(:key, nil)
     end
 
     private

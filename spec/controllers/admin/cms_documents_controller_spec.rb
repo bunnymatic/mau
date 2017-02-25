@@ -9,7 +9,7 @@ describe Admin::CmsDocumentsController do
       before do
         get meth, params: { id: 'whatever' }
       end
-      it_should_behave_like "not authorized"
+      it_should_behave_like 'not authorized'
     end
   end
 
@@ -54,13 +54,13 @@ describe Admin::CmsDocumentsController do
       it 'creates a new cms document' do
         expect do
           post :create, params: { cms_document: FactoryGirl.attributes_for(:cms_document) }
-        end.to change(CmsDocument,:count).by(1)
+        end.to change(CmsDocument, :count).by(1)
       end
       it 'renders new on failure' do
         expect do
-          post :create, params: { cms_document: { page: '', section: '', article: ''} }
+          post :create, params: { cms_document: { page: '', section: '', article: '' } }
           expect(assigns(:cms_document).errors.size).to be >= 2
-        end.to change(CmsDocument,:count).by(0)
+        end.to change(CmsDocument, :count).by(0)
       end
       it 'sets a notification' do
         post :create, params: { cms_document: FactoryGirl.attributes_for(:cms_document) }

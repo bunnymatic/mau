@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Scammer do
   before do
-    test_data =<<EOM
+    test_data = <<EOM
 "id"|"email"|"name_used"
 "7445"|"gatecharles73@gmail.com"|"Charles Gate"
 "7441"|"i.artguide@yahoo.com"|"International Art Guide"
@@ -12,7 +12,7 @@ describe Scammer do
 "7437"|"laurynsley@gmail.com"|"Lauryn Masley"
 EOM
 
-    stub_request(:get, Regexp.new( "https:\/\/api.faso.com\/1\/scammers*"))
+    stub_request(:get, Regexp.new("https:\/\/api.faso.com\/1\/scammers*"))
       .to_return(status: 200, body: test_data)
     FactoryGirl.create_list(:scammer, 2)
   end

@@ -3,7 +3,7 @@ class ArtistsGallery < ArtistsPresenter
   include Rails.application.routes.url_helpers
 
   PER_PAGE = Rails.env.development? ? 5 : 20
-  ELLIPSIS = "&hellip;"
+  ELLIPSIS = '&hellip;'
   LETTERS_REGEX = /[a-zA-Z]/
   attr_reader :pagination, :per_page, :letter, :ordering
 
@@ -12,7 +12,7 @@ class ArtistsGallery < ArtistsPresenter
   def initialize(os_only, letter, ordering, current_page, per_page = PER_PAGE)
     super os_only
     @letter = letter.try(:downcase)
-    @ordering = ([:lastname, :firstname].include? ordering.try(:to_sym)) ? ordering.to_sym : :lastname
+    @ordering = [:lastname, :firstname].include? ordering.try(:to_sym) ? ordering.to_sym : :lastname
     @per_page = per_page
     @current_page = current_page.to_i
     @pagination = ArtistsPagination.new(artists, @current_page, @per_page)
@@ -25,8 +25,8 @@ class ArtistsGallery < ArtistsPresenter
   def self.letters(first_or_last)
     name = first_or_last.to_sym if [:lastname, :firstname].include? first_or_last.to_sym
     return [] unless name
-    letters = ArtPiece.joins(:artist).where(users:{state: "active"}).group("lcase(left(users.#{name},1))").count.keys
-    letters.select{|l| LETTERS_REGEX =~ l} + [ELLIPSIS]
+    letters = ArtPiece.joins(:artist).where(users: { state: 'active' }).group("lcase(left(users.#{name},1))").count.keys
+    letters.select { |l| LETTERS_REGEX =~ l } + [ELLIPSIS]
   end
 
   def path_to(desired_params, current_params)
@@ -36,13 +36,13 @@ class ArtistsGallery < ArtistsPresenter
 
   def sanitize_index_params(params)
     params[:o] = (params[:o].presence.to_s == 'true')
-    params[:s] = (params[:s].presence.to_s == 'firstname') ? :firstname : :lastname
+    params[:s] = params[:s].presence.to_s == 'firstname' ? :firstname : :lastname
     params
   end
 
   def empty_message
     if os_only
-      "Sorry, no one with that name has signed up for the next Open Studios.  Check back later."
+      'Sorry, no one with that name has signed up for the next Open Studios.  Check back later.'
     else
       "Sorry, we couldn't find any artists with that name in the system."
     end

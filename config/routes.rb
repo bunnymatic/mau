@@ -26,7 +26,7 @@ Mau::Application.routes.draw do
   resources :feedbacks, only: [:new, :create]
 
   namespace :search do
-    match '/', action: 'index', via: [:get,:post]
+    match '/', action: 'index', via: [:get, :post]
   end
 
   get '/register' => 'users#create', as: :register
@@ -176,12 +176,12 @@ Mau::Application.routes.draw do
 
   # legacy urls
   get '/main/openstudios', to: redirect('/open_studios')
-  get '/openstudios', to: redirect("/open_studios")
+  get '/openstudios', to: redirect('/open_studios')
 
   get '*path' => 'error#index'
 
   # march 2014 - we should try to get rid of this route
   # match '/:controller(/:action(/:id))'
 
-  root to: "main#index"
+  root to: 'main#index'
 end

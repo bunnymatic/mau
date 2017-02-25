@@ -21,10 +21,10 @@ class UserPresenter < ViewPresenter
 
   def icon_for_state
     icon_class = {
-      active: "check-circle-o",
-      pending: "clock-o",
-      deleted: "times-circle-o",
-      suspended: "thumbs-o-down"
+      active: 'check-circle-o',
+      pending: 'clock-o',
+      deleted: 'times-circle-o',
+      suspended: 'thumbs-o-down'
     }[state.to_sym]
     "fa fa-#{icon_class}" if icon_class
   end
@@ -34,15 +34,15 @@ class UserPresenter < ViewPresenter
   end
 
   def member_since
-    member_since_date.strftime "%b %Y"
+    member_since_date.strftime '%b %Y'
   end
 
   def last_login
-    model.last_login_at.try(:to_formatted_s,:admin)
+    model.last_login_at.try(:to_formatted_s, :admin)
   end
 
   def activation_date
-    model.activated_at.try(:to_formatted_s,:admin_date_only)
+    model.activated_at.try(:to_formatted_s, :admin_date_only)
   end
 
   def doing_open_studios?
@@ -51,7 +51,7 @@ class UserPresenter < ViewPresenter
 
   def who_i_favorite
     # collect artist and art piece stuff
-    @who_i_favorite ||= [ my_favorite_users, my_favorite_art ].flatten.compact.uniq
+    @who_i_favorite ||= [my_favorite_users, my_favorite_art].flatten.compact.uniq
   end
 
   def who_favorites_me
@@ -108,11 +108,11 @@ class UserPresenter < ViewPresenter
   end
 
   def created_at
-    model.created_at.strftime("%m/%d/%y")
+    model.created_at.strftime('%m/%d/%y')
   end
 
   def activation_state
-    model.activated_at ? model.activated_at.strftime("%m/%d/%y") : model.state
+    model.activated_at ? model.activated_at.strftime('%m/%d/%y') : model.state
   end
 
   def has_activation_code?
@@ -128,7 +128,7 @@ class UserPresenter < ViewPresenter
   end
 
   def reset_password_link
-    url_helpers.reset_url(model.reset_code )
+    url_helpers.reset_url(model.reset_code)
   end
 
   def has_links?
@@ -149,8 +149,8 @@ class UserPresenter < ViewPresenter
       site_display = format_link_for_display(site)
       link_icon_class = icon_link_class(key, site)
       content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
-        content_tag(:i,'', class: link_icon_class) +
-          content_tag(:span,site_display)
+        content_tag(:i, '', class: link_icon_class) +
+          content_tag(:span, site_display)
       end
     end.compact
   end
@@ -181,7 +181,7 @@ class UserPresenter < ViewPresenter
         ALLOWED_FAVORITE_CLASSES.include? fav.favoritable_type
       end
     end
-    {users: @user_favorites, art_pieces: @art_piece_favorites}
+    { users: @user_favorites, art_pieces: @art_piece_favorites }
   end
 
   def my_favorite_users
@@ -189,7 +189,7 @@ class UserPresenter < ViewPresenter
   end
 
   def my_favorite_art
-    ArtPiece.includes(:artist).owned.where(id: my_favorites[:art_pieces].map(&:favoritable_id) ).map(&:artist)
+    ArtPiece.includes(:artist).owned.where(id: my_favorites[:art_pieces].map(&:favoritable_id)).map(&:artist)
   end
 
   def format_link_for_display(link)
@@ -197,21 +197,21 @@ class UserPresenter < ViewPresenter
   end
 
   def format_link(link)
-    ((link =~ /^https?:\/\//) ? link : "http://#{link}") if link.present?
+    (link =~ /^https?:\/\// ? link : "http://#{link}") if link.present?
   end
 
   def icon_link_class(key, site)
     site = strip_http_from_link(site)
-    clz = [:ico, "ico-invert", "ico-#{key}"]
+    clz = [:ico, 'ico-invert', "ico-#{key}"]
     icon_chooser = begin
                      if site =~ /\.tumblr\./
-                       "ico-tumblr"
+                       'ico-tumblr'
                      elsif key.to_sym == :blog
                        if site =~ /\.blogger\./
-                         "ico-blogger"
+                         'ico-blogger'
                        else
-                         site_bits = site.split(".")
-                         "ico-" + ((site_bits.length > 2) ? site_bits[-3] : site_bits[0])
+                         site_bits = site.split('.')
+                         'ico-' + (site_bits.length > 2 ? site_bits[-3] : site_bits[0])
                        end
                      end
                    end

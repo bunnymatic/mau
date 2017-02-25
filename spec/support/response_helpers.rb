@@ -6,11 +6,11 @@ module ResponseMatchers
     end
 
     failure_message do |_actual|
-      "expected response to be 4xx error"
+      'expected response to be 4xx error'
     end
 
     failure_message_when_negated do |_actual|
-      "expected response not to be 4xx error"
+      'expected response not to be 4xx error'
     end
 
     description do

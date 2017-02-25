@@ -34,7 +34,7 @@ module Admin
 
     def show_or_edit
       @role_users = @role.users.active
-      @users = (User.active.all - @role_users).sort_by{|u| u.full_name.downcase}
+      @users = (User.active.all - @role_users).sort_by { |u| u.full_name.downcase }
       render :edit
     end
 

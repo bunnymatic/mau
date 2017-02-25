@@ -8,12 +8,12 @@ class ArtPieceTagService
       @frequency = count.try(:to_f)
     end
 
-    def [] (key)
+    def [](key)
       raise NoMethodError.new("#{key} does not exist as a method on #{self.inspect}") unless FIELDS.include?(key.to_sym)
       send(key)
     end
 
-    def []= (key, val)
+    def []=(key, val)
       raise NoMethodError.new("#{key} does not exist as a method on #{self.inspect}") unless FIELDS.include?(key.to_sym)
       send("#{key}=", val)
     end
@@ -25,12 +25,12 @@ class ArtPieceTagService
   MAX_SHOW_TAGS = 40
   CACHE_EXPIRY = Conf.cache_expiry['tag_frequency'] || 300
 
-  def self.cache_key(norm=false)
+  def self.cache_key(norm = false)
     [:tagfreq, norm]
   end
 
   def self.delete_unused_tags
-    unused = tags_sorted_by_frequency.select{|tf| tf.frequency.to_f <= 0}.map{|t| t.tag.slug}
+    unused = tags_sorted_by_frequency.select { |tf| tf.frequency.to_f <= 0 }.map { |t| t.tag.slug }
     ArtPieceTag.where(slug: unused).destroy_all
     flush_cache
   end
@@ -38,26 +38,26 @@ class ArtPieceTagService
   def self.tags_sorted_by_frequency
     freq = keyed_frequency
     ArtPieceTag.all.map do |tag|
-      TagWithFrequency.new(tag, freq[tag.slug].to_f )
-    end.sort_by{ |tf| -tf.frequency.to_f }
+      TagWithFrequency.new(tag, freq[tag.slug].to_f)
+    end.sort_by { |tf| -tf.frequency.to_f }
   end
 
   def self.destroy(tags)
     tags = [tags].flatten.compact
     return unless tags.any?
     ActiveRecord::Base.transaction do
-      ArtPiecesTag.where(art_piece_tag_id: tags.map(&:id) ).delete_all
+      ArtPiecesTag.where(art_piece_tag_id: tags.map(&:id)).delete_all
       ArtPieceTag.where(id: tags.map(&:id)).destroy_all
       flush_cache
     end
   end
 
   def self.most_popular_tag
-    popular_tag = frequency.sort_by{|tf| [-tf.frequency, -tf.tag]}.first
+    popular_tag = frequency.sort_by { |tf| [-tf.frequency, -tf.tag] }.first
     ArtPieceTag.find_by(slug: popular_tag.tag) if popular_tag
   end
 
-  def self.frequency(_normalize=true)
+  def self.frequency(_normalize = true)
     ckey = cache_key(_normalize)
     freq = SafeCache.read(ckey)
     return freq if freq
@@ -84,11 +84,11 @@ class ArtPieceTagService
       art_piece_ids_query = ArtPiece
                             .select('art_pieces.id')
                             .joins(:artist)
-                            .where("users.state" => "active")
+                            .where('users.state' => 'active')
       dbr = ArtPieceTag.joins(:art_pieces_tags)
-                       .where("art_pieces_tags.art_piece_id" => art_piece_ids_query)
+                       .where('art_pieces_tags.art_piece_id' => art_piece_ids_query)
                        .group('art_piece_tags.slug').count
-      dbr.map{|_id, ct| TagWithFrequency.new(_id, ct) }.sort_by{ |tf| -tf.frequency }
+      dbr.map { |_id, ct| TagWithFrequency.new(_id, ct) }.sort_by { |tf| -tf.frequency }
     end
   end
 end

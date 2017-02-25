@@ -13,18 +13,18 @@ describe CatalogsController do
     artist
     jesse
 
-    ActiveRecord::Base.connection.execute("update artist_infos " \
+    ActiveRecord::Base.connection.execute('update artist_infos ' \
                                           "set open_studios_participation = '#{open_studios_event.key}'")
     allow_any_instance_of(Artist).to receive(:in_the_mission?).and_return(true)
   end
 
-  describe "#show" do
+  describe '#show' do
     let(:catalog) { assigns(:catalog) }
     context 'format=html' do
       before do
         get :show
       end
-      it{ expect(response).to be_success }
+      it { expect(response).to be_success }
     end
 
     context 'format=csv' do
@@ -38,18 +38,18 @@ describe CatalogsController do
       it { expect(response).to be_success }
       it { expect(response).to be_csv_type }
       it 'includes the right headers' do
-        expected_headers = ["First Name","Last Name","Full Name","Email", "Group Site Name",
-                            "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Media"]
+        expected_headers = ['First Name', 'Last Name', 'Full Name', 'Email', 'Group Site Name',
+                            'Studio Address', 'Studio Number', 'Cross Street 1', 'Cross Street 2', 'Media']
 
         expect(parsed.headers).to eq(expected_headers)
       end
 
       it 'includes the right data' do
         expect(parsed.size).to eq(Artist.active.count)
-        row = parsed.detect{|row| row['Full Name'] == artist.full_name}
+        row = parsed.detect { |row| row['Full Name'] == artist.full_name }
         expect(row).to be_present
         expect(row['Email']).to eql artist.email
-        expect(row["Media"]).to eql artist.art_pieces.map{|a| a.medium.try(:name)}.join(" ")
+        expect(row['Media']).to eql artist.art_pieces.map { |a| a.medium.try(:name) }.join(' ')
       end
     end
   end
@@ -72,24 +72,24 @@ describe CatalogsController do
       it { expect(response).to be_csv_type }
 
       it 'includes the right headers' do
-        expected_headers = ["Studio", "Name", "Art URL", "Art Title", "Medium", "Tags", "MAU Link", "Email",
-                            "Website", "Facebook", "Twitter", "Blog", "Pinterest",
-                            "Myspace", "Flickr", "Instagram", "Artspan"]
+        expected_headers = ['Studio', 'Name', 'Art URL', 'Art Title', 'Medium', 'Tags', 'MAU Link', 'Email',
+                            'Website', 'Facebook', 'Twitter', 'Blog', 'Pinterest',
+                            'Myspace', 'Flickr', 'Instagram', 'Artspan']
         expect(parsed.headers).to eq(expected_headers)
       end
 
       it 'includes the right data' do
         expected_artists = Artist.active.open_studios_participants.select do |a|
-          social_keys.map{|s| a.send(s).present?}.any?
+          social_keys.map { |s| a.send(s).present? }.any?
         end
         expect(parsed.size).to eq(expected_artists.count)
         artist = expected_artists.first
-        row = parsed.detect{|row| row['Name'] == artist.full_name}
+        row = parsed.detect { |row| row['Name'] == artist.full_name }
         expect(row).to be_present
         expect(row['Email']).to eql artist.email
 
-        expect(row["Facebook"]).to eql artist.facebook.to_s
-        expect(row["Twitter"]).to eql artist.twitter.to_s
+        expect(row['Facebook']).to eql artist.facebook.to_s
+        expect(row['Twitter']).to eql artist.twitter.to_s
       end
     end
   end

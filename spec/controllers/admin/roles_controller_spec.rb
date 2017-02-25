@@ -12,8 +12,8 @@ describe Admin::RolesController do
   let(:admin_role) { admin.roles.first }
 
   describe 'non-admin' do
-    [:index,:edit,:show].each do |endpoint|
-      context "#{endpoint}" do
+    [:index, :edit, :show].each do |endpoint|
+      context endpoint.to_s do
         before do
           get endpoint, params: { id: 'whatever' }
         end
@@ -73,26 +73,26 @@ describe Admin::RolesController do
       context 'with good params' do
         it 'creates a role' do
           expect do
-            post :create, params: { role: {role: 'new role'} }
+            post :create, params: { role: { role: 'new role' } }
           end.to change(Role, :count).by(1)
         end
         it 'redirects to the roles index page' do
-          post :create, params: { role: {role: 'new role'} }
+          post :create, params: { role: { role: 'new role' } }
           expect(response).to redirect_to admin_roles_path
         end
       end
       context 'with bad params' do
         it 'does not create a role' do
           expect do
-            post :create, params: { role: {role: ''} }
+            post :create, params: { role: { role: '' } }
           end.to change(Role, :count).by(0)
         end
         it 'renders new' do
-          post :create, params: { role: {role: ''} }
+          post :create, params: { role: { role: '' } }
           expect(response).to render_template 'new'
         end
         it 'sets errors on role' do
-          post :create, params: { role: {role: ''} }
+          post :create, params: { role: { role: '' } }
           expect(assigns(:role).errors).not_to be_empty
         end
       end

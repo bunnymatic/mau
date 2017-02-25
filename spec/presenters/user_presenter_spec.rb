@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "rails_helper"
+require 'rails_helper'
 
 describe UserPresenter do
   include PresenterSpecHelpers
@@ -9,17 +9,17 @@ describe UserPresenter do
   let(:user) { create :artist, created_at: created, activated_at: activated }
   subject(:presenter) { described_class.new(user) }
 
-  its(:member_since) { is_expected.to eql created.strftime("%b %Y") }
+  its(:member_since) { is_expected.to eql created.strftime('%b %Y') }
 
   describe '#member_since_date' do
-    context "when activated_at is unset" do
-      it "computes member_since_date using created_at" do
+    context 'when activated_at is unset' do
+      it 'computes member_since_date using created_at' do
         expect(presenter.member_since_date.to_date).to eql(created.to_date)
       end
     end
-    context "when activated_at is set" do
-      let(:activated) {9.months.ago }
-      it "computes member_since_date using activated_at" do
+    context 'when activated_at is set' do
+      let(:activated) { 9.months.ago }
+      it 'computes member_since_date using activated_at' do
         expect(presenter.member_since_date.to_date).to eql(activated.to_date)
       end
     end
@@ -67,16 +67,16 @@ describe UserPresenter do
       create_favorite user, active_with_art.art_pieces.first
     end
 
-    it "includes only active artists" do
+    it 'includes only active artists' do
       expect(presenter.who_i_favorite).to include active_with_art
       expect(presenter.who_i_favorite).not_to include inactive_with_art
     end
 
-    it "does not include art" do
-      expect(presenter.who_i_favorite.any?{|f| f.is_a? ArtPiece}).to eq false
+    it 'does not include art' do
+      expect(presenter.who_i_favorite.any? { |f| f.is_a? ArtPiece }).to eq false
     end
 
-    it "does not include fans" do
+    it 'does not include fans' do
       expect(presenter.who_i_favorite).not_to include fan
     end
   end

@@ -7,7 +7,7 @@ class SearchController < ApplicationController
     respond_to do |format|
       format.html {}
       format.json do
-        render json: json_results.sort_by{|r| -1.0 * r[:_score]}[0..LIMIT]
+        render json: json_results.sort_by { |r| -1.0 * r[:_score] }[0..LIMIT]
       end
     end
   end

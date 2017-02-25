@@ -8,10 +8,10 @@ class SearchQuery
 
   attr_accessor :mediums, :studios, :keywords, :studios, :os_flag, :page, :mode, :per_page, :limit
 
-  def initialize(attributes={})
+  def initialize(attributes = {})
     self.studios = set_studios(attributes[:studios]) || []
     self.mediums = set_mediums(attributes[:mediums]) || []
-    self.keywords = (attributes[:keywords] || '').split(",").map(&:strip) || []
+    self.keywords = (attributes[:keywords] || '').split(',').map(&:strip) || []
     self.os_flag = { '1' => true, '2' => false }[attributes[:os_artist]]
     self.page = attributes[:p].to_i
     self.mode = attributes[:m]
@@ -20,7 +20,7 @@ class SearchQuery
   end
 
   def query
-    @query ||= @keywords.compact.join(", ")
+    @query ||= @keywords.compact.join(', ')
   end
 
   def empty?
@@ -31,7 +31,7 @@ class SearchQuery
 
   def set_mediums(vals)
     return [] unless vals
-    medium_ids = vals.map(&:to_i).reject{|v| v <= 0}
+    medium_ids = vals.map(&:to_i).reject { |v| v <= 0 }
     Medium.by_name.where(id: medium_ids)
   end
 

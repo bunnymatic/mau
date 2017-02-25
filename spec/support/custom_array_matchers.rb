@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 RSpec::Matchers.define :be_monotonically_increasing do
   match do |actual|
-    derivative = actual.each_cons(2).map{|x, y| y <=> x}
-    derivative.all?{|v| v >= 0}
+    derivative = actual.each_cons(2).map { |x, y| y <=> x }
+    derivative.all? { |v| v >= 0 }
   end
 
   failure_message do |actual|
@@ -20,8 +20,8 @@ end
 
 RSpec::Matchers.define :be_monotonically_decreasing do
   match do |actual|
-    derivative = actual.each_cons(2).map{|x, y| y <=> x}
-    derivative.all?{|v| v <= 0}
+    derivative = actual.each_cons(2).map { |x, y| y <=> x }
+    derivative.all? { |v| v <= 0 }
   end
 
   failure_message do |actual|
@@ -39,8 +39,8 @@ end
 
 RSpec::Matchers.define :be_strictly_increasing do
   match do |actual|
-    derivative = actual.each_cons(2).map{|x, y| y <=> x}
-    derivative.all?{|v| v > 0}
+    derivative = actual.each_cons(2).map { |x, y| y <=> x }
+    derivative.all? { |v| v > 0 }
   end
 
   failure_message do |actual|
@@ -58,8 +58,8 @@ end
 
 RSpec::Matchers.define :be_strictly_decreasing do
   match do |actual|
-    derivative = actual.each_cons(2).map{|x, y| y <=> x}
-    derivative.all?{|v| v < 0}
+    derivative = actual.each_cons(2).map { |x, y| y <=> x }
+    derivative.all? { |v| v < 0 }
   end
 
   failure_message do |actual|

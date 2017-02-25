@@ -21,7 +21,7 @@ class TestEsServer
   end
 
   def self.stop
-    puts "skipping es teardown for speed"
+    puts 'skipping es teardown for speed'
     # puts "Tearing down elastic search cluster on port #{port} if necessary"
     # cluster.stop(port: port) if running?
   end

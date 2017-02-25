@@ -13,7 +13,7 @@ class Favorite < ApplicationRecord
 
   def uniqueness_of_user_and_item
     if self.class.where(user_id: user, favoritable_type: favoritable_type, favoritable_id: favoritable_id).take
-      errors.add(:user, "You have already favorited that item")
+      errors.add(:user, 'You have already favorited that item')
     end
   end
 

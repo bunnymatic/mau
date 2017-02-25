@@ -22,11 +22,11 @@ class ArtPieceImage < ImageFile
     @paths ||= Hash[MauImage::ImageSize.allowed_sizes.map do |kk|
                       path = self.path kk.to_s
                       [kk, path] if path
-                    end.reject{|_k,v| v.nil?}
+                    end.reject { |_k, v| v.nil? }
                    ]
   end
 
-  def path(size="medium")
+  def path(size = 'medium')
     return art_piece.photo(size) if art_piece.photo?
     return unless filename && artist
     fname = File.basename(filename)

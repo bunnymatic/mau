@@ -5,8 +5,8 @@ describe MediumPresenter do
   let(:medium) { build :medium }
   subject(:presenter) { described_class.new(medium) }
 
-  describe "#hashtag" do
-    it "parameterizes the name" do
+  describe '#hashtag' do
+    it 'parameterizes the name' do
       expect(subject.hashtag).to eql medium.name.parameterize.underscore
     end
 
@@ -26,17 +26,17 @@ describe MediumPresenter do
     # "Painting - Encaustic",
     # "Wooden"
 
-    context "for Painting - Oil" do
+    context 'for Painting - Oil' do
       let(:medium) { build :medium, name: 'Painting - Oil' }
-      it "makes returns oilpainting" do
-        expect(subject.hashtag).to eql "oilpainting"
+      it 'makes returns oilpainting' do
+        expect(subject.hashtag).to eql 'oilpainting'
       end
     end
 
-    context "for Glass/Ceramics" do
+    context 'for Glass/Ceramics' do
       let(:medium) { build :medium, name: 'Glass/Ceramics' }
-      it "makes returns oilpainting" do
-        expect(subject.hashtag).to eql "glass_ceramics"
+      it 'makes returns oilpainting' do
+        expect(subject.hashtag).to eql 'glass_ceramics'
       end
     end
   end

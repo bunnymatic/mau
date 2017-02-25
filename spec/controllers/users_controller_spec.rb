@@ -34,7 +34,7 @@ describe UsersController do
     it { get :index; expect(response).to redirect_to artists_path }
   end
 
-  describe "#new" do
+  describe '#new' do
     context 'already logged in' do
       before do
         login_as fan
@@ -46,23 +46,23 @@ describe UsersController do
     end
   end
 
-  describe "#whoami" do
-    context "when not logged in" do
-      it "returns nil" do
+  describe '#whoami' do
+    context 'when not logged in' do
+      it 'returns nil' do
         get :whoami
-        expect(JSON.parse(response.body)["current_user"]).to be_nil
+        expect(JSON.parse(response.body)['current_user']).to be_nil
       end
     end
-    context "when logged in" do
-      it "returns login name" do
+    context 'when logged in' do
+      it 'returns login name' do
         login_as fan
         get :whoami
-        expect(JSON.parse(response.body)["current_user"]).to eql fan.login
+        expect(JSON.parse(response.body)['current_user']).to eql fan.login
       end
     end
   end
 
-  describe "#create" do
+  describe '#create' do
     context 'with blacklisted domain' do
       before do
         # disable sweep of flash.now messages
@@ -77,30 +77,30 @@ describe UsersController do
           post :create, params: params_with_secret(
             mau_fan: {
               login: 'newuser',
-              lastname: "bmatic2",
-              firstname: "bmatic2",
-              password: "8characters",
-              password_confirmation: "8characters",
-              email: "bmatic2@blacklist.com"
+              lastname: 'bmatic2',
+              firstname: 'bmatic2',
+              password: '8characters',
+              password_confirmation: '8characters',
+              email: 'bmatic2@blacklist.com'
             },
-            type: "MauFan"
+            type: 'MauFan'
           )
-        end.to change(User,:count).by(0)
+        end.to change(User, :count).by(0)
       end
       it 'allows non blacklist domain to add a user' do
         expect do
           post :create, params: params_with_secret(
             mau_fan: {
               login: 'newuser',
-              lastname: "bmatic2",
-              firstname: "bmatic2",
-              password: "8characters",
-              password_confirmation: "8characters",
-              email: "bmatic2@nonblacklist.com"
+              lastname: 'bmatic2',
+              firstname: 'bmatic2',
+              password: '8characters',
+              password_confirmation: '8characters',
+              email: 'bmatic2@nonblacklist.com'
             },
-            type: "MauFan"
+            type: 'MauFan'
           )
-        end.to change(User,:count).by(1)
+        end.to change(User, :count).by(1)
       end
     end
     # context "with invalid recaptcha" do
@@ -132,7 +132,7 @@ describe UsersController do
     #   end
     # end
 
-    context "with partial params" do
+    context 'with partial params' do
       before do
         # disable sweep of flash.now messages
         # so we can test them
@@ -140,44 +140,44 @@ describe UsersController do
       end
       context "login = 'newuser'" do
         before do
-          post :create, params: { user: { login: 'newuser' }, type: "MauFan" }
+          post :create, params: { user: { login: 'newuser' }, type: 'MauFan' }
         end
 
-        it "login=>newuser : should return success" do
+        it 'login=>newuser : should return success' do
           expect(response).to be_success
         end
 
-        it "sets a flash.now indicating failure" do
-          post :create, params: { user: { login: 'newuser' }, type: "MauFan" }
+        it 'sets a flash.now indicating failure' do
+          post :create, params: { user: { login: 'newuser' }, type: 'MauFan' }
         end
       end
     end
-    context "valid user params and type = MauFan" do
+    context 'valid user params and type = MauFan' do
       before do
-        expect(UserMailer).to receive(:activation).exactly(:once).and_return(double("UserMailer::Activation", deliver_later: true))
+        expect(UserMailer).to receive(:activation).exactly(:once).and_return(double('UserMailer::Activation', deliver_later: true))
         post :create, params: params_with_secret(
           mau_fan: {
             login: 'newuser',
-            lastname: "bmatic2",
-            firstname: "bmatic2",
-            password: "8characters",
-            password_confirmation: "8characters",
-            email: "bmatic2@b.com"
+            lastname: 'bmatic2',
+            firstname: 'bmatic2',
+            password: '8characters',
+            password_confirmation: '8characters',
+            email: 'bmatic2@b.com'
           },
-          type: "MauFan"
+          type: 'MauFan'
         )
       end
-      it "redirects to index" do
-        expect(response).to redirect_to( login_url )
+      it 'redirects to index' do
+        expect(response).to redirect_to(login_url)
       end
-      it "sets flash indicating that activation email has been sent" do
-        expect(flash[:notice]).to include(" ready to roll")
+      it 'sets flash indicating that activation email has been sent' do
+        expect(flash[:notice]).to include(' ready to roll')
       end
-      context "creates an account" do
+      context 'creates an account' do
         before do
-          @found_user = User.find_by_login("newuser")
+          @found_user = User.find_by_login('newuser')
         end
-        it "in the user database" do
+        it 'in the user database' do
           expect(@found_user).to be
         end
         it "whose state is 'active'" do
@@ -187,38 +187,38 @@ describe UsersController do
           @found_user.type == 'MauFan'
         end
       end
-      it "should register as a fan account" do
-        expect(MauFan.find_by_login("newuser")).to be
+      it 'should register as a fan account' do
+        expect(MauFan.find_by_login('newuser')).to be
       end
-      it "should not register as an artist account" do
-        expect(Artist.find_by_login("newuser")).to be_nil
+      it 'should not register as an artist account' do
+        expect(Artist.find_by_login('newuser')).to be_nil
       end
-      it "should register as user account" do
-        expect(User.find_by_login("newuser")).to be
+      it 'should register as user account' do
+        expect(User.find_by_login('newuser')).to be
       end
     end
-    context "valid user param (email/password only) and type = MauFan" do
+    context 'valid user param (email/password only) and type = MauFan' do
       before do
         post :create, params: params_with_secret(
           mau_fan: {
-            password: "8characters",
-            password_confirmation: "8characters",
-            email: "bmati2@b.com"
+            password: '8characters',
+            password_confirmation: '8characters',
+            email: 'bmati2@b.com'
           },
-          type: "MauFan"
+          type: 'MauFan'
         )
       end
-      it "redirects to index" do
-        expect(response).to redirect_to( login_url )
+      it 'redirects to index' do
+        expect(response).to redirect_to(login_url)
       end
-      it "sets flash indicating that activation email has been sent" do
-        expect(flash[:notice]).to include(" ready to roll")
+      it 'sets flash indicating that activation email has been sent' do
+        expect(flash[:notice]).to include(' ready to roll')
       end
-      context "creates an account" do
+      context 'creates an account' do
         before do
-          @found_user = User.find_by_login("bmati2@b.com")
+          @found_user = User.find_by_login('bmati2@b.com')
         end
-        it "in the user database" do
+        it 'in the user database' do
           expect(@found_user).to be
         end
         it "whose state is 'active'" do
@@ -228,42 +228,42 @@ describe UsersController do
           @found_user.type == 'MauFan'
         end
       end
-      it "should register as a fan account" do
-        expect(MauFan.find_by_login("bmati2@b.com")).to be
+      it 'should register as a fan account' do
+        expect(MauFan.find_by_login('bmati2@b.com')).to be
       end
-      it "should not register as an artist account" do
-        expect(Artist.find_by_login("bmati2@b.com")).to be_nil
+      it 'should not register as an artist account' do
+        expect(Artist.find_by_login('bmati2@b.com')).to be_nil
       end
-      it "should register as user account" do
-        expect(User.find_by_login("bmati2@b.com")).to be
+      it 'should register as user account' do
+        expect(User.find_by_login('bmati2@b.com')).to be
       end
     end
-    context "valid artist params and type = Artist" do
+    context 'valid artist params and type = Artist' do
       before do
         allow_any_instance_of(Artist).to receive(:activation_code).and_return('random_activation_code')
         expect_any_instance_of(Artist).to receive(:make_activation_code).at_least(1)
         post :create, params: params_with_secret(
           artist: {
             login: 'newuser2',
-            lastname: "bmatic",
-            firstname: "bmatic",
-            password: "8characters",
-            password_confirmation: "8characters",
-            email: "bmatic2@b.com"
-          }, type: "Artist"
+            lastname: 'bmatic',
+            firstname: 'bmatic',
+            password: '8characters',
+            password_confirmation: '8characters',
+            email: 'bmatic2@b.com'
+          }, type: 'Artist'
         )
       end
-      it "redirects to index" do
-        expect(response).to redirect_to( root_url )
+      it 'redirects to index' do
+        expect(response).to redirect_to(root_url)
       end
-      it "sets flash indicating that activation email has been sent" do
-        expect(flash[:notice]).to include(" email with your activation code")
+      it 'sets flash indicating that activation email has been sent' do
+        expect(flash[:notice]).to include(' email with your activation code')
       end
-      context "creates an account" do
+      context 'creates an account' do
         before do
-          @found_artist = User.find_by_login("newuser2")
+          @found_artist = User.find_by_login('newuser2')
         end
-        it "in the artist database" do
+        it 'in the artist database' do
           expect(@found_artist).to be
         end
         it "whose state is 'pending'" do
@@ -272,17 +272,17 @@ describe UsersController do
         it "whose type is 'Artist'" do
           expect(@found_artist.type).to eql 'Artist'
         end
-        it "has an associated artist_info" do
+        it 'has an associated artist_info' do
           expect(@found_artist.artist_info).not_to be_nil
         end
       end
-      it "should not register as a fan account" do
-        expect(MauFan.find_by_login("newuser2")).to be_nil
+      it 'should not register as a fan account' do
+        expect(MauFan.find_by_login('newuser2')).to be_nil
       end
     end
   end
 
-  describe "#show" do
+  describe '#show' do
     context 'looking for an invalid user id' do
       before do
         get :show, params: { id: 'eat it' }
@@ -297,13 +297,13 @@ describe UsersController do
       end
       it { expect(response).to redirect_to artist_path(artist) }
     end
-    context "getting a users page while not logged in" do
+    context 'getting a users page while not logged in' do
       before do
         get :show, params: { id: fan.id }
       end
       it { expect(response).to be_success }
     end
-    context "while logged in as an user" do
+    context 'while logged in as an user' do
       before do
         login_as(fan)
         @logged_in_user = fan
@@ -312,124 +312,124 @@ describe UsersController do
       it { expect(response).to be_success }
     end
   end
-  describe "#edit" do
-    context "while not logged in" do
+  describe '#edit' do
+    context 'while not logged in' do
       before do
         get :edit, params: { id: 123_123 }
       end
-      it_should_behave_like "redirects to login"
+      it_should_behave_like 'redirects to login'
     end
-    context "while logged in as an artist" do
+    context 'while logged in as an artist' do
       before do
         login_as(artist)
         get :edit, params: { id: 123_123 }
       end
-      it "GET should redirect to artist edit" do
+      it 'GET should redirect to artist edit' do
         expect(response).to be_redirect
       end
-      it "renders the edit template" do
+      it 'renders the edit template' do
         expect(response).to redirect_to edit_artist_url(artist)
       end
     end
-    context "while logged in as an user" do
+    context 'while logged in as an user' do
       before do
         login_as(fan)
         get :edit, params: { id: fan.id }
       end
 
       it { expect(response).to be_success }
-      it "renders the user edit template" do
-        expect(response).to render_template("edit")
+      it 'renders the user edit template' do
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "login_required" do
-    context "get redirects to requested page via login" do
+  describe 'login_required' do
+    context 'get redirects to requested page via login' do
       before do
         get :edit, params: { id: 'nobody' }
       end
-      it "edit requires login" do
-        expect(response).to redirect_to( new_user_session_path )
+      it 'edit requires login' do
+        expect(response).to redirect_to(new_user_session_path)
       end
-      it "auth system should try to record referrer" do
+      it 'auth system should try to record referrer' do
         expect(request.session[:return_to]).to eql edit_user_path(id: 'nobody')
       end
     end
   end
-  describe "#update" do
-    context "while not logged in" do
-      context "with invalid params" do
+  describe '#update' do
+    context 'while not logged in' do
+      context 'with invalid params' do
         before do
           put :update, params: { id: quentin.id, user: {} }
         end
-        it_should_behave_like "redirects to login"
+        it_should_behave_like 'redirects to login'
       end
-      context "with valid params" do
+      context 'with valid params' do
         before do
           put :update, params: { id: quentin.id, user: { firstname: 'blow' } }
         end
-        it_should_behave_like "redirects to login"
+        it_should_behave_like 'redirects to login'
       end
     end
-    context "while logged in" do
+    context 'while logged in' do
       before do
         login_as(quentin, record: true)
         @logged_in_user = quentin
       end
-      context "with valid and a cancel" do
+      context 'with valid and a cancel' do
         before do
           put :update, params: { id: quentin.id, user: { firstname: 'blow' }, commit: 'Cancel' }
         end
         it { expect(response).to redirect_to(user_path(quentin)) }
       end
-      context "with valid params" do
+      context 'with valid params' do
         before do
-          put :update, params: { id: quentin.id, user: {firstname: 'blow'} }
+          put :update, params: { id: quentin.id, user: { firstname: 'blow' } }
         end
-        it "redirects to user edit page" do
+        it 'redirects to user edit page' do
           expect(response).to redirect_to(edit_user_path(quentin))
         end
-        it "contains flash notice of success" do
-          expect(flash[:notice]).to eql "Your profile has been updated"
+        it 'contains flash notice of success' do
+          expect(flash[:notice]).to eql 'Your profile has been updated'
         end
-        it "updates user attributes" do
-          expect(User.find(quentin.id).firstname).to eql "blow"
+        it 'updates user attributes' do
+          expect(User.find(quentin.id).firstname).to eql 'blow'
         end
       end
-      context "with unicode name" do
+      context 'with unicode name' do
         before do
-          put :update, params: { id: quentin.id, user: { lastname: "蕭秋芬" } }
+          put :update, params: { id: quentin.id, user: { lastname: '蕭秋芬' } }
         end
-        it "redirects to user edit page" do
+        it 'redirects to user edit page' do
           expect(response).to redirect_to(edit_user_path(quentin))
         end
-        it "contains flash notice of success" do
-          expect(flash[:notice]).to eql "Your profile has been updated"
+        it 'contains flash notice of success' do
+          expect(flash[:notice]).to eql 'Your profile has been updated'
         end
-        it "updates user attributes" do
-          expect(quentin.reload.lastname).to eql "蕭秋芬"
+        it 'updates user attributes' do
+          expect(quentin.reload.lastname).to eql '蕭秋芬'
         end
       end
     end
   end
 
-  describe "#reset" do
-    context "get" do
+  describe '#reset' do
+    context 'get' do
       before do
         expect(User).to receive(:find_by_reset_code).and_return(fan)
-        fan.update_attribute(:reset_code,'abc')
+        fan.update_attribute(:reset_code, 'abc')
         get :reset, params: { reset_code: 'abc' }
       end
       it { expect(response).to be_success }
     end
-    context "get with invalid reset code" do
+    context 'get with invalid reset code' do
       before do
         get :reset, params: { reset_code: 'abc' }
       end
-      it { expect(response.code).to eql "404" }
+      it { expect(response.code).to eql '404' }
     end
-    context "post" do
+    context 'post' do
       context "with passwords that don't match" do
         before do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
@@ -442,11 +442,11 @@ describe UsersController do
           }
         end
         it { expect(response).to be_success }
-        it "has an error message" do
+        it 'has an error message' do
           expect(assigns(:user).errors.full_messages.length).to eql 1
         end
       end
-      context "with matching passwords" do
+      context 'with matching passwords' do
         before do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
           expect_any_instance_of(MauFan).to receive(:delete_reset_code).exactly(:once)
@@ -458,17 +458,17 @@ describe UsersController do
             reset_code: 'abc'
           }
         end
-        it "returns redirect" do
-          expect(response).to redirect_to "/login"
+        it 'returns redirect' do
+          expect(response).to redirect_to '/login'
         end
-        it "sets notice" do
+        it 'sets notice' do
           expect(flash[:notice]).to include('reset successfully for ')
         end
       end
     end
   end
 
-  describe "resend_activation" do
+  describe 'resend_activation' do
     before do
       get :resend_activation
     end
@@ -480,57 +480,57 @@ describe UsersController do
         expect(User).to receive(:find_by_email).and_return(nil)
         post :resend_activation, params: { user: { email: 'a@b.c' } }
       end
-      it "redirect to root" do
-        expect(response).to redirect_to( root_url )
+      it 'redirect to root' do
+        expect(response).to redirect_to(root_url)
       end
-      it "has notice message" do
-        expect(flash[:notice]).to include "sent your activation code to a@b.c"
+      it 'has notice message' do
+        expect(flash[:notice]).to include 'sent your activation code to a@b.c'
       end
     end
-    context "post with email that is for a fan" do
+    context 'post with email that is for a fan' do
       before do
         post :resend_activation, params: { user: { email: 'a@b.c' } }
       end
-      it "redirect to root" do
-        expect(response).to redirect_to( root_url )
+      it 'redirect to root' do
+        expect(response).to redirect_to(root_url)
       end
-      it "has notice message" do
-        expect(flash[:notice]).to include "We sent your activation"
+      it 'has notice message' do
+        expect(flash[:notice]).to include 'We sent your activation'
       end
     end
-    context "post with email that is for an artist" do
+    context 'post with email that is for an artist' do
       before do
         post :resend_activation, params: { user: { email: 'a@b.c' } }
       end
-      it "redirect to root" do
-        expect(response).to redirect_to( root_url )
+      it 'redirect to root' do
+        expect(response).to redirect_to(root_url)
       end
-      it "has notice message" do
-        expect(flash[:notice]).to include "sent your activation code to a@b.c"
+      it 'has notice message' do
+        expect(flash[:notice]).to include 'sent your activation code to a@b.c'
       end
     end
   end
 
-  describe "#forgot" do
+  describe '#forgot' do
     before do
       get :forgot
     end
 
     it { expect(response).to be_success }
 
-    context "post a fan email" do
+    context 'post a fan email' do
       let(:make_forgot_request) do
         post :forgot, params: { user: { email: fan.email } }
       end
-      it "looks up user by email" do
+      it 'looks up user by email' do
         expect(User).to receive(:find_by_email).with(fan.email).exactly(:once)
         make_forgot_request
       end
-      it "calls create_reset_code" do
+      it 'calls create_reset_code' do
         expect_any_instance_of(MauFan).to receive(:create_reset_code).exactly(:once)
         make_forgot_request
       end
-      it "redirects to login" do
+      it 'redirects to login' do
         make_forgot_request
         expect(response).to redirect_to(login_url)
       end
@@ -574,7 +574,7 @@ describe UsersController do
     it 'does not blow away all activation codes' do
       FactoryGirl.create_list(:artist, 2)
       make_activate_call
-      expect(User.all.map{|u| u.activation_code}.select{|u| u.present?}.count).to be > 0
+      expect(User.all.map(&:activation_code).select(&:present?).count).to be > 0
     end
     it 'does not send email' do
       expect(ArtistMailer).to receive(:activation).never
@@ -583,7 +583,7 @@ describe UsersController do
     end
   end
 
-  describe "resend_activation" do
+  describe 'resend_activation' do
     before do
       get :resend_activation
     end

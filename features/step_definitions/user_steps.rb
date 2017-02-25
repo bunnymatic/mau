@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 When(/^I change my password to "(.*?)"$/) do |new_pass|
   visit edit_artist_path(@artist)
-  fill_in("Old Password", with: '8characters')
-  fill_in("New Password", with: new_pass)
-  fill_in("Confirm new Password", with: new_pass)
+  fill_in('Old Password', with: '8characters')
+  fill_in('New Password', with: new_pass)
+  fill_in('Confirm new Password', with: new_pass)
   click_on 'change password'
 end
 
 When(/^I change my email to "(.*?)"$/) do |new_email|
   visit edit_artist_path(@artist)
-  click_on "Personal Info"
-  fill_in("Email", with: new_email)
-  click_on_first "Save Changes"
+  click_on 'Personal Info'
+  fill_in('Email', with: new_email)
+  click_on_first 'Save Changes'
 end
 
 When(/^I add a photo to upload$/) do
-  attach_file "Photo", File.join(Rails.root,"/spec/fixtures/files/profile.png")
+  attach_file 'Photo', File.join(Rails.root, '/spec/fixtures/files/profile.png')
 end
 
 When(/^I fill in "(.*?)" for my password$/) do |pass|
@@ -23,29 +23,29 @@ When(/^I fill in "(.*?)" for my password$/) do |pass|
 end
 
 When(/^I fill in valid credentials using my email$/) do
-  fill_in_login_form @artist.email, "8characters"
+  fill_in_login_form @artist.email, '8characters'
 end
 
 When(/^I fill in valid credentials$/) do
-  fill_in_login_form @artist.login, "8characters"
+  fill_in_login_form @artist.login, '8characters'
 end
 
 Then(/^I see that I'm logged in$/) do
   expect(page).to have_flash :notice, /you\'re in/i
-  within(".nav") do
+  within('.nav') do
     expect(page).to have_content 'My Account'
   end
 end
 
 Then(/^I see my photo in my profile$/) do
-  within(".artist-profile__image") do
+  within('.artist-profile__image') do
     expect(page.find('.profile')['src']).to include 'profile.png'
   end
 end
 
 Then(/^I see that I'm logged out$/) do
   within '.nav' do
-    expect(page).to have_link "sign in", href: '/login'
+    expect(page).to have_link 'sign in', href: '/login'
   end
 end
 
@@ -88,7 +88,7 @@ When(/^I login as an editor$/) do
 end
 
 When(/^I login as a manager$/) do
-  studios = FactoryGirl.create_list(:studio,2)
+  studios = FactoryGirl.create_list(:studio, 2)
   @manager = FactoryGirl.create(:user, :manager, :active, studio: studios.first)
   steps %(When I visit the login page)
   fill_in_login_form @manager.login, '8characters'
@@ -127,11 +127,11 @@ Then /^I see that "(.*?)" is a new fan$/ do |username|
 end
 
 Then /^I click the fan signup button$/ do
-  resp = JSON.generate(                        email: "example email",
-                                               euid: "example euid",
-                                               leid: "example leid")
+  resp = JSON.generate(email: 'example email',
+                       euid: 'example euid',
+                       leid: 'example leid')
   stub_request(:any, /.*\.mailchimp.com/).to_return(body: resp)
-  step %q(I click "Sign up")
+  step 'I click "Sign up"'
 end
 
 Then(/^I see that I have been deactivated$/) do

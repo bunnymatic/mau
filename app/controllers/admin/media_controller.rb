@@ -24,7 +24,7 @@ module Admin
         flash[:notice] = 'Medium was successfully created.'
         redirect_to admin_media_path
       else
-        render "new"
+        render 'new'
       end
     end
 
@@ -36,7 +36,7 @@ module Admin
         flash[:notice] = 'Medium was successfully updated.'
         redirect_to admin_media_path
       else
-        render action: "edit"
+        render action: 'edit'
       end
     end
 

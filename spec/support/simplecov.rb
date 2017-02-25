@@ -5,7 +5,7 @@ require 'simplecov'
 class SimpleCov::Formatter::QualityFormatter
   def format(result)
     SimpleCov::Formatter::HTMLFormatter.new.format(result)
-    File.open("coverage/covered_percent", "w") do |f|
+    File.open('coverage/covered_percent', 'w') do |f|
       f.puts result.source_files.covered_percent.to_f
     end
   end
@@ -15,7 +15,7 @@ SimpleCov.formatter = SimpleCov::Formatter::QualityFormatter
 
 if ENV['COVERAGE']
   SimpleCov.start do
-    add_filter "/lib/restful_authentication/"
+    add_filter '/lib/restful_authentication/'
     add_filter '/config/'
     add_filter '/vendor/'
     add_filter '/spec/'

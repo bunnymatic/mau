@@ -12,10 +12,10 @@ Then(/^I see the "(.*?)" as a medium$/) do |arg1|
 end
 
 When(/^I click on the first medium$/) do
-  wait_until { page.find("medium a") }
+  wait_until { page.find('medium a') }
   medium_link = all('.art-piece__info .media a').first
   medium_path = medium_link['href']
-  @medium = Medium.find( medium_path.split("/").last )
+  @medium = Medium.find(medium_path.split('/').last)
   medium_link.click
 end
 
@@ -23,5 +23,5 @@ Then(/^I see that medium detail page$/) do
   expect(current_path).to eql medium_path(@medium)
   expect(page).to have_css '.header', text: @medium.name
   expect(page).to have_css '.tagcloud li'
-  expect(page).to have_css ".art-card"
+  expect(page).to have_css '.art-card'
 end

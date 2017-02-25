@@ -11,7 +11,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
   end
 
   def pieces
-    @art_pieces ||= @artist.art_pieces.map{|ap| ArtPiecePresenter.new(ap) }
+    @art_pieces ||= @artist.art_pieces.map { |ap| ArtPiecePresenter.new(ap) }
   end
 
   def num_pieces

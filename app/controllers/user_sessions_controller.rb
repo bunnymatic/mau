@@ -22,14 +22,14 @@ class UserSessionsController < ApplicationController
 
   def destroy
     current_user_session.destroy
-    flash[:notice] = "See you next time.  Now go make some art!"
+    flash[:notice] = 'See you next time.  Now go make some art!'
     redirect_back_or_default root_path
   end
 
   private
 
   def load_cms_content
-    @cms_content = CmsDocument.packaged('signup','signup')
+    @cms_content = CmsDocument.packaged('signup', 'signup')
   end
 
   def user_session_params

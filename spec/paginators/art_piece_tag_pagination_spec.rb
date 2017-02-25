@@ -13,7 +13,7 @@ describe ArtPieceTagPagination do
   let(:mode) { nil }
 
   subject(:paginator) do
-    ArtPieceTagPagination.new(Array.new(num_items){|x| x + 1},
+    ArtPieceTagPagination.new(Array.new(num_items) { |x| x + 1 },
                               tag, current_page, mode, per_page)
   end
 

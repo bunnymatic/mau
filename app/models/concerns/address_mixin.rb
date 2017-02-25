@@ -15,13 +15,13 @@ module AddressMixin
   end
 
   def map_link
-    "http://maps.google.com/maps?q=%s" % URI.escape(self.full_address) if self.full_address
+    'http://maps.google.com/maps?q=%s' % URI.escape(self.full_address) if self.full_address
   end
 
   protected
 
   def get_state
-    (self.respond_to? :addr_state) ? self.addr_state : self.state
+    self.respond_to?(:addr_state) ? self.addr_state : self.state
   end
 
   def compute_geocode(force = false)

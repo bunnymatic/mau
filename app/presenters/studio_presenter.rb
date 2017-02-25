@@ -23,11 +23,11 @@ class StudioPresenter < ViewPresenter
   end
 
   def formatted_phone
-    phone.gsub(/(\d{3})(\d{3})(\d{4})/,"(\\1) \\2-\\3")
+    phone.gsub(/(\d{3})(\d{3})(\d{4})/, '(\\1) \\2-\\3')
   end
 
   def page_title
-    @page_title ||= PageInfoService.title("Studio: %s" % name)
+    @page_title ||= PageInfoService.title('Studio: %s' % name)
   end
 
   def has_profile_image?
@@ -35,7 +35,7 @@ class StudioPresenter < ViewPresenter
   end
 
   def image(size = 'small')
-    @studio.get_profile_image(size) || "/images/default-studio.png"
+    @studio.get_profile_image(size) || '/images/default-studio.png'
   end
 
   def street_with_cross
@@ -72,7 +72,7 @@ class StudioPresenter < ViewPresenter
   def artists_with_art
     @artists_with_art ||=
       begin
-        artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(artist)}
+        artists.select { |a| a.art_pieces.present? }.map { |artist| ArtistPresenter.new(artist) }
       end
   end
 
@@ -89,7 +89,7 @@ class StudioPresenter < ViewPresenter
   end
 
   def artists_without_art
-    @artists_without_art ||= artists.select{|a| a.art_pieces.empty?}
+    @artists_without_art ||= artists.select { |a| a.art_pieces.empty? }
   end
 
   def artists
@@ -101,7 +101,7 @@ class StudioPresenter < ViewPresenter
   end
 
   def website
-    url.gsub('http://','')
+    url.gsub('http://', '')
   end
 
   def studio_path

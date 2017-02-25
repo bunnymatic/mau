@@ -11,12 +11,12 @@ class Address
       @lat = model.lat
       @lng = model.lng
       @street = model.street
-      @city = fetch_with_default("San Francisco") { model.city }
-      @state = fetch_with_default("CA") { get_state(model) }
-      @zip = fetch_with_default("94110") { model.zip }
+      @city = fetch_with_default('San Francisco') { model.city }
+      @state = fetch_with_default('CA') { get_state(model) }
+      @zip = fetch_with_default('94110') { model.zip }
 
     rescue NoMethodError => ex
-      raise ArgumentError.new("the model does not appear to have address like attributes")
+      raise ArgumentError.new('the model does not appear to have address like attributes')
     end
   end
 
@@ -33,12 +33,12 @@ class Address
   end
 
   def to_s(full = nil)
-    return "" unless present?
-    full ? [street, city, state, zip].join(", ") : [street, zip].join(" ")
+    return '' unless present?
+    full ? [street, city, state, zip].join(', ') : [street, zip].join(' ')
   end
 
-  def ==(addr)
-    (addr.class == self.class) && (addr._state == self._state)
+  def ==(other)
+    (other.class == self.class) && (other._state == self._state)
   end
 
   protected

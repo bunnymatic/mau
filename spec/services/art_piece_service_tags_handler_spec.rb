@@ -14,20 +14,20 @@ describe ArtPieceServiceTagsHandler do
   let(:existing_tag) { existing_tags.first }
   subject(:dummy) { dummy_class.new(ActionController::Parameters.new(params)) }
 
-  describe "#prepare_tags_params" do
-    context "with tags" do
-      let(:params) { { "tags" => "#{existing_tag.name}, that, the other" } }
-      it "returns tags" do
+  describe '#prepare_tags_params' do
+    context 'with tags' do
+      let(:params) { { 'tags' => "#{existing_tag.name}, that, the other" } }
+      it 'returns tags' do
         subject.prepare_tags_params
-        prepared_params = subject.instance_variable_get("@params".to_sym)
+        prepared_params = subject.instance_variable_get('@params'.to_sym)
         tags = prepared_params[:tags]
         expect(tags).to have(3).items
-        expect(tags.all?{|tag| tag.is_a? ArtPieceTag}).to be_truthy
+        expect(tags.all? { |tag| tag.is_a? ArtPieceTag }).to be_truthy
       end
 
-      it "creates new tags as needed" do
+      it 'creates new tags as needed' do
         subject.prepare_tags_params
-        prepared_params = subject.instance_variable_get("@params".to_sym)
+        prepared_params = subject.instance_variable_get('@params'.to_sym)
         tags = prepared_params[:tags]
         new_tags = ArtPieceTag.where(name: ['that', 'the other'])
         expect(new_tags).to have(2).items

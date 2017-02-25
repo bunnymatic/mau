@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-puts "Searching..."
+puts 'Searching...'
 artists = []
 $stdin.read.split("\n").each do |line|
   next if line.blank? || (line =~ /^#/)
@@ -13,6 +13,6 @@ $stdin.read.split("\n").each do |line|
   end
 end
 puts "Found #{artists.count} artists that match"
-artists.map{|a| "#{a.get_name}\t#{a.get_share_link}\t#{a.qrcode}"}.each do |astr|
+artists.map { |a| "#{a.get_name}\t#{a.get_share_link}\t#{a.qrcode}" }.each do |astr|
   puts astr
 end

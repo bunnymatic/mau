@@ -44,7 +44,7 @@ class UpdateArtistService
       next unless old_value.present? || new_value.present?
       msg = "#{@artist.full_name} changed their #{field} from " \
             "[#{old_value.to_s.truncate(50)}] to [#{new_value.to_s.truncate(50)}]"
-      data = {'user' => @artist.login, 'user_id' => @artist.id}
+      data = { 'user' => @artist.login, 'user_id' => @artist.id }
       UserChangedEvent.create(message: msg, data: data)
     end
   end
@@ -52,7 +52,7 @@ class UpdateArtistService
   def trigger_os_signup_event(participating)
     msg = "#{@artist.full_name} set their os status to" \
           " #{participating} for #{current_open_studios_key} open studios"
-    data = {'user' => @artist.login, 'user_id' => @artist.id}
+    data = { 'user' => @artist.login, 'user_id' => @artist.id }
     OpenStudiosSignupEvent.create(message: msg,
                                   data: data)
   end

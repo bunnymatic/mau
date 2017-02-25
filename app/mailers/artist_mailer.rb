@@ -3,7 +3,7 @@
 class ArtistMailer < MauMailer
   def favorite_notification(artist, fan)
     setup_email(artist)
-    subject = "Someone hearts you! ❤"
+    subject = 'Someone hearts you! ❤'
 
     @sender = fan
     @artist_url = artist_url(@artist)

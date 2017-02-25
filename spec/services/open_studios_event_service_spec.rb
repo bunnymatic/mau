@@ -18,7 +18,7 @@ describe OpenStudiosEventService do
   before do
     # allow_any_instance_of(OpenStudiosEvent).to receive(:save_attached_files).and_return(true)
     Timecop.freeze
-    [ past_oses, current_os, future_oses ].flatten
+    [past_oses, current_os, future_oses].flatten
   end
 
   after do
@@ -26,11 +26,11 @@ describe OpenStudiosEventService do
   end
 
   describe '.for_display' do
-    it "returns the pretty version for a given tag" do
-      expect(OpenStudiosEventService.for_display("201104")).to eql current_os.start_date.strftime("2011 Apr")
+    it 'returns the pretty version for a given tag' do
+      expect(OpenStudiosEventService.for_display('201104')).to eql current_os.start_date.strftime('2011 Apr')
     end
-    it "reverses the date given reverse = true" do
-      expect(OpenStudiosEventService.for_display("201104", true)).to eql current_os.start_date.strftime("Apr 2011")
+    it 'reverses the date given reverse = true' do
+      expect(OpenStudiosEventService.for_display('201104', true)).to eql current_os.start_date.strftime('Apr 2011')
     end
   end
 end

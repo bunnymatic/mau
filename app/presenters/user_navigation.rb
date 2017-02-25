@@ -20,8 +20,8 @@ class UserNavigation < Navigation
     return [] unless current_artist
     [
       link_to('My Profile', url_helpers.artist_path(current_artist), title: 'View My Info'),
-      link_to('My Art', url_helpers.manage_art_artist_path(current_artist), title: "Manage My Art"),
-      link_to('My Favorites', url_helpers.favorites_path(current_artist), title: "Manage My Art"),
+      link_to('My Art', url_helpers.manage_art_artist_path(current_artist), title: 'Manage My Art'),
+      link_to('My Favorites', url_helpers.favorites_path(current_artist), title: 'Manage My Art'),
       link_to('My Account', url_helpers.edit_artist_path(current_artist), title: 'Edit My Info')
     ]
   end

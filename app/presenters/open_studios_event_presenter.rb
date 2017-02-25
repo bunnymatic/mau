@@ -11,7 +11,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def title
-    (available? && @model.title.present?) ? @model.title : "Open Studios"
+    available? && @model.title.present? ? @model.title : 'Open Studios'
   end
 
   def for_display
@@ -23,7 +23,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def display_logo
-    if(available? && logo?)
+    if available? && logo?
       logo.url(:square)
     else
       image_path('mau-nextos.png')
@@ -35,10 +35,10 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def start_date
-    model.start_date.strftime("%b %d, %Y")
+    model.start_date.strftime('%b %d, %Y')
   end
 
   def end_date
-    model.end_date.strftime("%b %d, %Y")
+    model.end_date.strftime('%b %d, %Y')
   end
 end

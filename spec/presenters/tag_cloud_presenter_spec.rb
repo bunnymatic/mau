@@ -37,14 +37,14 @@ describe TagCloudPresenter, type: :controller do
 
   describe '#frequency' do
     it do
-      expect(presenter.frequency.map{|tf| [tf.tag, tf.frequency]})
-        .to eql expected_frequency.map{|tf| [tf.tag, tf.frequency]}
+      expect(presenter.frequency.map { |tf| [tf.tag, tf.frequency] })
+        .to eql expected_frequency.map { |tf| [tf.tag, tf.frequency] }
     end
   end
 
   describe '#tags' do
-    it "returns tags that have frequency" do
-      expect(presenter.tags).to match_array(ArtPieceTag.where(slug: expected_frequency.map{|f| f.tag}).all)
+    it 'returns tags that have frequency' do
+      expect(presenter.tags).to match_array(ArtPieceTag.where(slug: expected_frequency.map(&:tag)).all)
     end
   end
 

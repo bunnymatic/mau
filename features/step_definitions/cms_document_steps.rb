@@ -6,5 +6,5 @@ Then(/^I see the cms content page$/) do
 end
 
 Then(/^I see no cms content in the list$/) do
-  expect( all('table tbody tr').count ).to eql 0
+  expect(all('table tbody tr').count).to eql 0
 end

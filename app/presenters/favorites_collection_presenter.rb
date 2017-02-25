@@ -16,24 +16,24 @@ class FavoritesCollectionPresenter < ViewPresenter
 
   def title
     if is_current_user?
-      ((link_to "My", url_helpers.user_path(current_user)) + " Favorites").html_safe
+      ((link_to 'My', url_helpers.user_path(current_user)) + ' Favorites').html_safe
     else
-      ((link_to "#{user.get_name}'s", url_helpers.user_path(user)) + " Favorites").html_safe
+      ((link_to "#{user.get_name}'s", url_helpers.user_path(user)) + ' Favorites').html_safe
     end
   end
 
   def empty_message
     if is_current_user?
-      msg =<<-EOS
+      msg = <<-EOS
         It looks like you don't have any favorites yet.
         Go find an artist or some artwork that you like.
         You'll see this
         <span class='fa fa-heart'></span>
         around the site.  Click on it to favorite art or artists.
       EOS
-      [content_tag('p', msg.html_safe), content_tag('p', 'Start your search below.') ].join
+      [content_tag('p', msg.html_safe), content_tag('p', 'Start your search below.')].join
     else
-      "<p>This user has not favorited anything yet.</p>"
+      '<p>This user has not favorited anything yet.</p>'
     end
   end
 

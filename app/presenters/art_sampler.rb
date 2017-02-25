@@ -11,7 +11,7 @@ class ArtSampler
   end
 
   def pieces
-    @pieces ||= fetch_pieces.map{|piece| ArtPiecePresenter.new(piece)}.compact
+    @pieces ||= fetch_pieces.map { |piece| ArtPiecePresenter.new(piece) }.compact
   end
 
   private
@@ -19,12 +19,12 @@ class ArtSampler
   def fetch_pieces
     result = []
     result += new_pieces if offset < NUM_NEW_ART_PIECES
-    result += random_pieces-new_pieces
+    result += random_pieces - new_pieces
   end
 
   def random_pieces
     ArtPiece.includes(:artist)
-            .where( users: { state: :active })
+            .where(users: { state: :active })
             .order("rand(#{seed})")
             .limit(@number_of_images_per_fetch)
             .offset(offset)
@@ -32,9 +32,9 @@ class ArtSampler
 
   def new_pieces
     @new_pieces ||= ArtPiece.includes(:artist)
-                            .where( users: { state: :active })
+                            .where(users: { state: :active })
                             .order('art_pieces.created_at desc')
-                            .limit(Artist::MAX_PIECES*NUM_NEW_ART_PIECES)
+                            .limit(Artist::MAX_PIECES * NUM_NEW_ART_PIECES)
                             .uniq_by(&:artist_id)
                             .first(NUM_NEW_ART_PIECES)
   end

@@ -35,8 +35,8 @@ class ArtPieceSerializer < MauSerializer
     @tags ||=
       begin
         return unless object.tags.present?
-        tag_attrs = object.tags.map{|t| t.attributes}
-        tag_attrs.each {|t| t['name'] = HtmlEncoder.encode t['name']}
+        tag_attrs = object.tags.map(&:attributes)
+        tag_attrs.each { |t| t['name'] = HtmlEncoder.encode t['name'] }
         tag_attrs
       end
   end

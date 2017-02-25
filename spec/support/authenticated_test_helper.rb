@@ -16,7 +16,7 @@ module AuthenticatedTestHelper
   end
 
   def user_session(user, stubs = {})
-    @current_user_session = double(UserSession, {user: user}.merge(stubs))
+    @current_user_session = double(UserSession, { user: user }.merge(stubs))
   end
 
   def logout

@@ -14,7 +14,7 @@ module Admin
           end
         end
         format.json do
-          render json: events, root: "application_events"
+          render json: events, root: 'application_events'
         end
       end
     end
@@ -26,7 +26,7 @@ module Admin
       since_date = application_event_params[:since].presence
       limit = DEFAULT_NUM_EVENTS unless limit.positive?
       since = since_date ? Time.zone.parse(since_date) : 1.year.ago
-      events = ApplicationEvent.by_recency.where(["created_at > ?", since]).limit(limit)
+      events = ApplicationEvent.by_recency.where(['created_at > ?', since]).limit(limit)
     end
 
     def application_event_params

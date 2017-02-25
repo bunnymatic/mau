@@ -11,7 +11,7 @@ class ArtPieceTagPresenter
     @pieces ||=
       begin
         pieces = (by_artist? ? pieces_by_artist : tagged_art_pieces).compact.sort_by(&:updated_at).reverse
-        pieces.map{ |p| ArtPiecePresenter.new(p) }
+        pieces.map { |p| ArtPiecePresenter.new(p) }
       end
   end
 
@@ -21,7 +21,7 @@ class ArtPieceTagPresenter
     @tagged_art_pieces ||= ArtPiecesTag.includes(:art_piece)
                                        .where(art_piece_tag_id: tag.id)
                                        .map(&:art_piece)
-                                       .compact.select{|ap| ap.artist.try(:active?) }
+                                       .compact.select { |ap| ap.artist.try(:active?) }
   end
 
   def by_artist?

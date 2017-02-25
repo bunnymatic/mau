@@ -12,7 +12,7 @@ describe AdminArtistList do
     FactoryGirl.create(:artist, :pending)
   end
 
-  let(:parsed) { CSV.parse(list.csv,headers: true) }
+  let(:parsed) { CSV.parse(list.csv, headers: true) }
 
   subject(:list) { AdminArtistList.new }
 

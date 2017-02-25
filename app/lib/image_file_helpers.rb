@@ -2,7 +2,7 @@
 module ImageFileHelpers
   FILENAME_CLEANER = /[\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\']/
   def clean_filename(fname)
-    fname.gsub(FILENAME_CLEANER,'').gsub(/\s+/, '')
+    fname.gsub(FILENAME_CLEANER, '').gsub(/\s+/, '')
   end
 
   # def full_image_path(fname)

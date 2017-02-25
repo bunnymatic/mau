@@ -9,7 +9,7 @@ describe IndependentStudio do
 
   describe '#name' do
     subject { super().name }
-    it { should eq "Independent Studios" }
+    it { should eq 'Independent Studios' }
   end
 
   describe '#url' do
@@ -23,6 +23,6 @@ describe IndependentStudio do
   end
 
   it "to_json is pre-keyed by 'studio'" do
-    expect(JSON.parse(IndependentStudio.new.to_json)).to have_key "studio"
+    expect(JSON.parse(IndependentStudio.new.to_json)).to have_key 'studio'
   end
 end

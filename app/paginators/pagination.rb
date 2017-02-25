@@ -4,11 +4,11 @@ class PaginationError < StandardError; end
 class Pagination < ViewPresenter
   attr_reader :per_page
 
-  def initialize(array, current, per_page, opts=nil)
-    raise PaginationError.new("per_page must be present and greater than 0") unless per_page && (per_page.to_i > 0)
+  def initialize(array, current, per_page, opts = nil)
+    raise PaginationError.new('per_page must be present and greater than 0') unless per_page && (per_page.to_i > 0)
     @array = array
     @current = current
-    @per_page = [per_page,1].max
+    @per_page = [per_page, 1].max
     opts ||= {}
     @previous_label = opts[:previous_label]
     @previous_title = opts[:previous_title]
@@ -21,7 +21,7 @@ class Pagination < ViewPresenter
   end
 
   def count
-    @count ||= (@array||[]).length
+    @count ||= (@array || []).length
   end
 
   def is_current_page?(page)
@@ -33,7 +33,7 @@ class Pagination < ViewPresenter
   end
 
   def last_page
-    @last_page ||= ((count.to_f-1.0) / per_page.to_f).floor.to_i
+    @last_page ||= ((count.to_f - 1.0) / per_page.to_f).floor.to_i
     @last_page = 0 if @last_page < 0
     @last_page
   end
@@ -86,20 +86,20 @@ class Pagination < ViewPresenter
 
   def link_to_page(page)
     unless respond_to? :page_link
-      raise PaginationError.new "link_to_page requires page_link to be defined!"
+      raise PaginationError.new 'link_to_page requires page_link to be defined!'
     end
-    link_to page+1, page_link(page), title: page+1
+    link_to page + 1, page_link(page), title: page + 1
   end
 
   def link_to_previous
     unless respond_to? :previous_link
-      raise PaginationError.new "link_to_previous requires previous_link to be defined!"
+      raise PaginationError.new 'link_to_previous requires previous_link to be defined!'
     end
     link_to previous_label, previous_link, title: previous_title
   end
 
   def link_to_next
-    raise PaginationError.new("link_to_next requires next_link to be defined!") unless respond_to? :next_link
+    raise PaginationError.new('link_to_next requires next_link to be defined!') unless respond_to? :next_link
     link_to next_label, next_link, title: next_title
   end
 

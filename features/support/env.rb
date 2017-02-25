@@ -12,8 +12,8 @@ require './spec/support/faker_files'
 require 'cucumber/rails'
 require 'factory_girl'
 
-Dir[Rails.root.join("spec/factories/**/*.rb")].each { |f| require f }
-Dir[Rails.root.join("features/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join('spec/factories/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('features/support/**/*.rb')].each { |f| require f }
 
 require './spec/support/fake_geocoder'
 
@@ -44,7 +44,7 @@ ActionController::Base.allow_rescue = false
 begin
   DatabaseCleaner.strategy = :transaction
 rescue NameError
-  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+  raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
 end
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.

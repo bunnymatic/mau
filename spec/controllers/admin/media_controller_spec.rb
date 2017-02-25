@@ -13,7 +13,7 @@ describe Admin::MediaController do
       end
       it_should_behave_like 'not authorized'
     end
-    context "as an admin" do
+    context 'as an admin' do
       before do
         login_as admin
         get :index
@@ -24,7 +24,7 @@ describe Admin::MediaController do
     end
   end
 
-  describe "#edit" do
+  describe '#edit' do
     let(:make_edit_request) do
       get :edit, params: { id: medium }
     end
@@ -34,7 +34,7 @@ describe Admin::MediaController do
       end
       it_should_behave_like 'not authorized'
     end
-    context "as an admin" do
+    context 'as an admin' do
       before do
         login_as admin
         make_edit_request
@@ -44,14 +44,14 @@ describe Admin::MediaController do
     end
   end
 
-  describe "#new" do
+  describe '#new' do
     context 'as unauthorized' do
       before do
         get :new
       end
       it_should_behave_like 'not authorized'
     end
-    context "as an admin" do
+    context 'as an admin' do
       before do
         login_as admin
         get :new
@@ -61,54 +61,54 @@ describe Admin::MediaController do
     end
   end
 
-  describe "#create" do
+  describe '#create' do
     context 'as unauthorized' do
       before do
         post :create
       end
       it_should_behave_like 'not authorized'
     end
-    context "as an admin" do
+    context 'as an admin' do
       before do
         login_as admin
       end
       it 'creates a new medium' do
         expect do
-          post :create, params: { medium: {name: 'blah'} }
+          post :create, params: { medium: { name: 'blah' } }
         end.to change(Medium, :count).by(1)
       end
       it 'redirects back to the new medium show page' do
-        post :create, params: { medium: {name: 'blah'} }
+        post :create, params: { medium: { name: 'blah' } }
         expect(response).to redirect_to admin_media_path
       end
       it 'renders new on error' do
-        post :create, params: { medium: {name: nil} }
+        post :create, params: { medium: { name: nil } }
         expect(response).to render_template 'new'
       end
     end
   end
 
-  describe "#update" do
+  describe '#update' do
     context 'as unauthorized' do
       before do
         post :update, params: { id: 'whatever' }
       end
       it_should_behave_like 'not authorized'
     end
-    context "as an admin" do
+    context 'as an admin' do
       before do
         login_as admin
       end
       it 'redirects back to the new medium show page' do
-        post :update, params: { id: medium.id, medium: {name: 'brand spankin new'} }
+        post :update, params: { id: medium.id, medium: { name: 'brand spankin new' } }
         expect(response).to redirect_to admin_media_path
       end
       it 'updates the medium' do
-        post :update, params: { id: medium.id, medium: {name: 'brand spankin'} }
+        post :update, params: { id: medium.id, medium: { name: 'brand spankin' } }
         expect(medium.reload.name).to eql 'brand spankin'
       end
       it 'renders new on error' do
-        post :update, params: { id: medium.id, medium: {name: nil} }
+        post :update, params: { id: medium.id, medium: { name: nil } }
         expect(response).to render_template 'edit'
       end
     end
@@ -124,15 +124,15 @@ describe Admin::MediaController do
       end
       it_should_behave_like 'not authorized'
     end
-    context "as an admin" do
+    context 'as an admin' do
       before do
         login_as admin
       end
-      it "destroys and redirects" do
+      it 'destroys and redirects' do
         expect do
           make_destroy_call
           expect(response).to redirect_to admin_media_path
-        end.to change(Medium,:count).by(-1)
+        end.to change(Medium, :count).by(-1)
       end
     end
   end

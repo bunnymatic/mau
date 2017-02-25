@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 def find_admin_user_show_row(title)
-  page.all('.admin-user__profile-table-row').detect{|row| row.text.include? title}
+  page.all('.admin-user__profile-table-row').detect { |row| row.text.include? title }
 end
 
 When /^I set all artists to do open studios$/ do
@@ -25,7 +25,7 @@ When(/^I uncheck the box for the first participating artist/) do
   id = cb['id']
   uncheck cb['id']
   click_on_first 'update os status'
-  @participating_artist = Artist.find(id.split("_").last)
+  @participating_artist = Artist.find(id.split('_').last)
 end
 
 Then(/^I see that the first participating artist is no longer doing open studios/) do
@@ -36,12 +36,12 @@ end
 Then /^I see that all artists are doing open studios$/ do
   expect(@artists).to have_at_least(1).artist
   expect(page).to have_flash :notice, /updated setting for/i
-  expect(@artists.map{|a| a.reload.doing_open_studios?}.all?).to eq true
+  expect(@artists.map { |a| a.reload.doing_open_studios? }.all?).to eq true
 end
 
 When(/^I remove the first artist from the studio$/) do
   anchor = all('a.unaffiliate').first
-  artist_id = anchor['href'].split("?").last.split("=").last
+  artist_id = anchor['href'].split('?').last.split('=').last
   @unaffiliated_artist = Artist.find(artist_id)
   expect(page).to have_content @unaffiliated_artist.full_name
   anchor.click
@@ -62,7 +62,7 @@ Then(/^I see that the first artist is suspended$/) do
 end
 
 When(/^I edit my studio$/) do
-  visit edit_admin_studio_path( (@manager || @user).studio )
+  visit edit_admin_studio_path((@manager || @user).studio)
 end
 
 Then /^I see everyone who is "([^"]*)"$/ do |artist_state|
@@ -70,8 +70,8 @@ Then /^I see everyone who is "([^"]*)"$/ do |artist_state|
 end
 
 When(/^I click on the first artist edit button that's not me$/) do
-  not_me = Artist.active.limit(2).detect{|a| a.login != (@artist.name || @user.name)}
-  cell = page.all('table tr').detect{|el| el.text.include? not_me.login}
+  not_me = Artist.active.limit(2).detect { |a| a.login != (@artist.name || @user.name) }
+  cell = page.all('table tr').detect { |el| el.text.include? not_me.login }
   cell.find('.admin-artist-edit-link').click
 end
 
@@ -86,7 +86,7 @@ When(/^I see the admin artist show page with updated values:$/) do |expected_val
 end
 
 When(/^I see that the admin artist pages shows that artist in studio "([^"]*)"$/) do |studio_name|
-  row = find_admin_user_show_row("Studio")
+  row = find_admin_user_show_row('Studio')
   expect(row).to be_present
   expect(row.all('td').last).to have_content(studio_name)
 end

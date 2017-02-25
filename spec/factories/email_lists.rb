@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :email_list do
     trait :with_member do
       after(:create) do |list|
-        list.update_attributes(emails: [ FactoryGirl.create(:email) ])
+        list.update_attributes(emails: [FactoryGirl.create(:email)])
       end
     end
   end

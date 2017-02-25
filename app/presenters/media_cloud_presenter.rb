@@ -21,7 +21,7 @@ class MediaCloudPresenter < ViewPresenter
   end
 
   def media_lut
-    @media_lut = Hash[Medium.all.map{|m| [m.id, m]}]
+    @media_lut = Hash[Medium.all.map { |m| [m.id, m] }]
   end
 
   def media_for_display
@@ -33,7 +33,7 @@ class MediaCloudPresenter < ViewPresenter
           content_tag 'span', class: 'clouditem' do
             link_to medium.safe_name, medium_path(medium)
           end
-        end.select{|m| m.present?}
+        end.select(&:present?)
       end
   end
 end

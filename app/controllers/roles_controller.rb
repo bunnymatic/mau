@@ -15,11 +15,11 @@ class RolesController < ::BaseAdminController
       r = Role.find(role_id)
       u = User.find(user_id)
       if u && r
-        u.roles_users.select{|ru| ru.role_id == r.id}.map(&:destroy)
+        u.roles_users.select { |ru| ru.role_id == r.id }.map(&:destroy)
         flash[:notice] = "Removed #{r.role} role from #{u.full_name}"
       end
     rescue ActiveRecord::RecordNotFound => ex
-      flash[:error] = "Unable to find the role or user.  Nothing done."
+      flash[:error] = 'Unable to find the role or user.  Nothing done.'
     end
   end
 end

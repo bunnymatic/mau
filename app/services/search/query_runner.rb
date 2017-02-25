@@ -25,17 +25,17 @@ module Search
         size: 100,
         highlight: {
           fields: {
-            "name" => {},
-            "tags" => {},
-            "title" => {},
-            "artist_name" => {},
-            "artist_bio" => {},
-            "bio" => {}
+            'name' => {},
+            'tags' => {},
+            'title' => {},
+            'artist_name' => {},
+            'artist_bio' => {},
+            'bio' => {}
           }
         }
       }
       EsClient.client.search(
-        index: [:art_pieces, :studios, :artists].join(","),
+        index: [:art_pieces, :studios, :artists].join(','),
         body: query_body
       )
     end
@@ -46,8 +46,8 @@ module Search
       raw_results['hits']['hits'].map do |hit|
         highlights = hit['highlight'] || {}
         highlights.each do |full_field, value|
-          field1, field2 = full_field.split(".")
-          hit["_source"][field1][field2] = value if [field1,field2,value].all?(&:present?)
+          field1, field2 = full_field.split('.')
+          hit['_source'][field1][field2] = value if [field1, field2, value].all?(&:present?)
         end
         OpenStruct.new(hit)
       end

@@ -10,7 +10,7 @@ class FavoritesController < ApplicationController
               nil
             end
     if @user.nil? || !@user.active?
-      flash[:error] = "The account you were looking for was not found."
+      flash[:error] = 'The account you were looking for was not found.'
       redirect_back_or_default(artists_path)
       return
     end
@@ -39,7 +39,7 @@ class FavoritesController < ApplicationController
       obj = fav.to_obj
       fav.destroy
       if request.xhr?
-        render json: {message: 'Removed a favorite'}
+        render json: { message: 'Removed a favorite' }
         return
       else
         flash[:notice] = "#{obj.get_name true} has been removed from your favorites.".html_safe

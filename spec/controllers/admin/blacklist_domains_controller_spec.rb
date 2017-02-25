@@ -7,7 +7,7 @@ describe Admin::BlacklistDomainsController do
 
   context 'authorization' do
     describe 'not logged in' do
-      describe "#index" do
+      describe '#index' do
         before do
           get :index
         end
@@ -15,7 +15,7 @@ describe Admin::BlacklistDomainsController do
       end
     end
     describe 'logged in as plain user' do
-      describe "#index" do
+      describe '#index' do
         before do
           login_as fan
           get :index
@@ -56,14 +56,14 @@ describe Admin::BlacklistDomainsController do
       it 'creates a new blacklist domain' do
         expect do
           post :create, params: { blacklist_domain: { domain: 'blah.de.blah.com' } }
-        end.to change(BlacklistDomain,:count).by(1)
+        end.to change(BlacklistDomain, :count).by(1)
       end
       it 'renders new on failure' do
         expect do
           post :create, params: { blacklist_domain: { domain: '' } }
           expect(response).to render_template :new
           expect(assigns(:domain).errors).to be_present
-        end.to change(BlacklistDomain,:count).by(0)
+        end.to change(BlacklistDomain, :count).by(0)
       end
       it 'sets a notification' do
         post :create, params: { blacklist_domain: { domain: 'blah.de.blah.com' } }

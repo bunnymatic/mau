@@ -8,23 +8,23 @@ describe Admin::FavoritesController do
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
   let(:art_pieces) { artist.art_pieces }
 
-  describe "#index" do
-    context "as an admin" do
+  describe '#index' do
+    context 'as an admin' do
       before do
         login_as(:admin)
         get :index
       end
       it { expect(response).to be_success }
     end
-    context "as a non-admin" do
+    context 'as a non-admin' do
       before do
         login_as jesse
         get :index
       end
-      it "responds failure if not logged in" do
+      it 'responds failure if not logged in' do
         expect(response).to redirect_to '/error'
       end
-      it "responds failure if not logged in as admin" do
+      it 'responds failure if not logged in as admin' do
         expect(response).to redirect_to '/error'
       end
     end

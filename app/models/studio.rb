@@ -8,8 +8,8 @@ class Studio < ApplicationRecord
 
   self.__elasticsearch__.client = Search::EsClient.root_es_client
 
-  settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2}) do
-    mappings(_all: {analyzer: :mau_snowball_analyzer}) do
+  settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2 }) do
+    mappings(_all: { analyzer: :mau_snowball_analyzer }) do
       indexes :name, analyzer: :mau_snowball_analyzer
       indexes :address, analyzer: :mau_snowball_analyzer
     end
@@ -47,19 +47,19 @@ class Studio < ApplicationRecord
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
   validates_attachment_presence :photo
-  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
+  validates_attachment_content_type :photo, content_type: %r{\Aimage\/.*\Z}, if: :"photo?"
 
   def self.by_position
     order('position, lower(name)')
   end
 
-  SORT_BY_NAME = lambda do |a,b|
-    if !a || a.id == 0
+  SORT_BY_NAME = lambda do |a, b|
+    if a.nil?
       1
-    elsif !b || b.id == 0
+    elsif b.nil?
       -1
     else
-      a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
+      a.name.downcase.gsub(/^the /, '') <=> b.name.downcase.gsub(/^the /, '')
     end
   end
 
@@ -68,16 +68,16 @@ class Studio < ApplicationRecord
   end
 
   def normalize_phone_number
-    phone.gsub!(/\D+/,'') if phone
+    phone&.gsub!(/\D+/, '')
   end
 
-  def as_indexed_json(_opts={})
+  def as_indexed_json(_opts = {})
     idxd = as_json(only: [:name, :slug])
     extras = {}
-    extras["address"] = address.to_s
-    extras["images"] = image_paths
-    extras["os_participant"] = artists.any?{|a| a.try(:doing_open_studios?)}
-    idxd["studio"].merge!(extras)
+    extras['address'] = address.to_s
+    extras['images'] = image_paths
+    extras['os_participant'] = artists.any? { |a| a.try(:doing_open_studios?) }
+    idxd['studio'].merge!(extras)
     idxd
   end
 

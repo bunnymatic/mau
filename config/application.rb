@@ -30,7 +30,7 @@ module Mau
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.cache_store = :dalli_store, { namespace: "mau#{Rails.env}"}
+    config.cache_store = :dalli_store, { namespace: "mau#{Rails.env}" }
 
     # app_paths = %w(services lib mailers presenters paginators models/concerns)
     # config.autoload_paths += app_paths.map{|path| File.join(Rails.root,'app', path)}
@@ -52,10 +52,10 @@ module Mau
       bucket: ::Conf.S3_BUCKET || "mission-artists-#{Rails.env}",
       access_key_id: ::Conf.AWS_ACCESS_KEY_ID || 'bogus',
       secret_access_key: ::Conf.AWS_SECRET_ACCESS_KEY || 'bogus',
-      s3_region: Conf.S3_REGION || "us-east-1"
+      s3_region: Conf.S3_REGION || 'us-east-1'
     }
 
-    config.api_consumer_key = ENV.fetch("API_CONSUMER_KEY", ::Conf.api_consumer_key)
+    config.api_consumer_key = ENV.fetch('API_CONSUMER_KEY', ::Conf.api_consumer_key)
     config.elasticsearch_url = ENV['ELASTICSEARCH_URL'] || 'http://localhost:9200'
 
     config.active_support.test_order = :random

@@ -13,10 +13,10 @@ describe ArtistSerializer do
         expect(JSON.parse(serializer.to_json)['artist']).not_to have_key field.to_s
       end
     end
-    it "includes firstname" do
+    it 'includes firstname' do
       expect(JSON.parse(serializer.to_json)['artist']['firstname']).to eql artist.firstname
     end
-    it "includes full name" do
+    it 'includes full name' do
       expect(JSON.parse(serializer.to_json)['artist']['full_name']).to eql artist.full_name
     end
     it 'includes the street address' do

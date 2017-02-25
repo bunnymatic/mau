@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 class UsersController < ApplicationController
   before_action :logged_out_required, only: [:new]
-  before_action :admin_required, only: [ :destroy ]
-  before_action :user_required, only: [ :edit, :update, :suspend, :deactivate,
-                                        :change_password_update]
+  before_action :admin_required, only: [:destroy]
+  before_action :user_required, only: [:edit, :update, :suspend, :deactivate,
+                                       :change_password_update]
 
   DEFAULT_ACCOUNT_TYPE = 'MauFan'
 
@@ -29,13 +29,13 @@ class UsersController < ApplicationController
   def show
     @fan = safe_find_user(params[:id])
     unless @fan && @fan.active?
-      flash.now[:error] = "The account you were looking for was not found."
+      flash.now[:error] = 'The account you were looking for was not found.'
       redirect_to artists_path and return
     end
     if @fan.is_artist?
       redirect_to artist_path(@fan) and return
     else
-      @page_title = PageInfoService.title("Fan: %s" % @fan.get_name(true))
+      @page_title = PageInfoService.title('Fan: %s' % @fan.get_name(true))
     end
     @fan = UserPresenter.new(@fan)
   end
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     @studios = StudioService.all
     type = params[:type] || user_attrs[:type]
     @type = %w(Artist MauFan).include?(type) ? type : 'Artist'
-    @user = (@type == 'MauFan') ? fan : artist
+    @user = @type == 'MauFan' ? fan : artist
   end
 
   def update
@@ -57,10 +57,10 @@ class UsersController < ApplicationController
     # clean os from radio buttons
     msg = {}
     if current_user.update_attributes(user_params)
-      Messager.new.publish "/artists/#{current_user.id}/update", "updated artist info"
-      msg["notice"] = "Your profile has been updated"
+      Messager.new.publish "/artists/#{current_user.id}/update", 'updated artist info'
+      msg['notice'] = 'Your profile has been updated'
     else
-      msg["error"] = ex.to_s
+      msg['error'] = ex.to_s
     end
     redirect_to edit_user_url(current_user), flash: msg
   end
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
     recaptcha = true # && verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
     secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
     if secret && recaptcha && @user.save
-      new_state = (@user.is_a? Artist) ? 'pending' : 'active'
+      new_state = @user.is_a? Artist ? 'pending' : 'active'
       @user.update_attribute(:state, new_state)
       redirect_after_create and return
     else
@@ -86,23 +86,23 @@ class UsersController < ApplicationController
   # Change user passowrd
   def change_password_update
     msg = {}
-    if current_user.valid_password? user_attrs["old_password"]
+    if current_user.valid_password? user_attrs['old_password']
       if current_user.update_attributes(password_params)
-        msg[:notice] = "Your password has been updated"
+        msg[:notice] = 'Your password has been updated'
       else
         msg[:error] = current_user.errors.full_messages.to_sentence
       end
     else
-      msg[:error] = "Your old password was incorrect"
+      msg[:error] = 'Your old password was incorrect'
     end
     redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
   end
 
   def reset
-    @user = User.find_by_reset_code(params["reset_code"]) unless params["reset_code"].nil?
+    @user = User.find_by_reset_code(params['reset_code']) unless params['reset_code'].nil?
 
     if @user.nil?
-      flash[:error] = "We were unable to find a user with that activation code"
+      flash[:error] = 'We were unable to find a user with that activation code'
       render_not_found Exception.new('failed to find user with activation code')
       return
     end
@@ -114,9 +114,9 @@ class UsersController < ApplicationController
         redirect_to login_path
         return
       else
-        flash[:error] = "Failed to update your password."
-        @user.password = '';
-        @user.password_confirmation ='';
+        flash[:error] = 'Failed to update your password.'
+        @user.password = ''
+        @user.password_confirmation = ''
       end
     end
   end
@@ -128,7 +128,7 @@ class UsersController < ApplicationController
       if u.id != current_user.id
         name = u.login
         u.delete!
-        flash[:notice] = "The account for login %s has been deactivated." % name
+        flash[:notice] = 'The account for login %s has been deactivated.' % name
       else
         flash[:error] = "You can't delete yourself."
       end
@@ -154,7 +154,7 @@ class UsersController < ApplicationController
       MailChimpService.new(user).subscribe_and_welcome
       flash[:notice] = "We're so excited to have you! Just sign in to get started."
     elsif code.blank?
-      flash[:error] = "Your activation code was missing.  Please follow the URL from your email."
+      flash[:error] = 'Your activation code was missing.  Please follow the URL from your email.'
     end
 
     redirect_to login_path
@@ -167,10 +167,10 @@ class UsersController < ApplicationController
       if email.present?
         flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
         user = User.find_by_email email
-        user.resend_activation if user
+        user&.resend_activation
         redirect_back_or_default('/')
       else
-        flash[:error] = "You need to enter an email"
+        flash[:error] = 'You need to enter an email'
       end
     end
   end
@@ -180,12 +180,12 @@ class UsersController < ApplicationController
     inputs = params.require(user_params_key).permit(:email)
     user = User.find_by_email(inputs[:email])
     flash[:notice] = "We've sent email with instructions on how to reset your password."\
-                     "  Please check your email."
+                     '  Please check your email.'
     if user
       if !user.active?
         flash[:notice] = nil
-        flash[:error] = "That account is not yet active.  Have you responded to the activation email we"\
-                        " already sent?  Enter your email below if you need us to send you a new activation email."
+        flash[:error] = 'That account is not yet active.  Have you responded to the activation email we'\
+                        ' already sent?  Enter your email below if you need us to send you a new activation email.'
       else
         user.create_reset_code
       end
@@ -196,7 +196,7 @@ class UsersController < ApplicationController
   def deactivate
     logout
     SuspendArtistService.new(current_user).suspend!
-    flash[:notice] = "Your account has been deactivated."
+    flash[:notice] = 'Your account has been deactivated.'
     redirect_to root_path
   end
 
@@ -204,10 +204,10 @@ class UsersController < ApplicationController
 
   def render_on_failed_create
     msg = [
-      "There was a problem creating your account.",
+      'There was a problem creating your account.',
       [@user.errors[:base]],
-      " Please correct these issues or contact the webmaster (link below), if you continue to have problems."
-    ].flatten.join("<br/>")
+      ' Please correct these issues or contact the webmaster (link below), if you continue to have problems.'
+    ].flatten.join('<br/>')
     flash.now[:error] = msg.html_safe
     @studios = StudioService.all
     @user.valid?
@@ -220,7 +220,7 @@ class UsersController < ApplicationController
       @user.build_artist_info
       @user.artist_info.save!
       @user.save!
-      Messager.new.publish "/artists/create", "added a new artist"
+      Messager.new.publish '/artists/create', 'added a new artist'
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
       redirect_to root_path
     else
@@ -235,7 +235,7 @@ class UsersController < ApplicationController
     begin
       User.friendly.find(id)
     rescue ActiveRecord::RecordNotFound
-      flash.now[:error] = "The user you were looking for was not found."
+      flash.now[:error] = 'The user you were looking for was not found.'
       return nil
     end
   end
@@ -265,7 +265,7 @@ class UsersController < ApplicationController
   def scammer_emails
     @scammer_email ||=
       begin
-        fixed_names = ['philipcolee@yahoo.com','evott@rocketmail.com', 'mrsute14@yahoo.com','garymartin@gmail.com]']
+        fixed_names = ['philipcolee@yahoo.com', 'evott@rocketmail.com', 'mrsute14@yahoo.com', 'garymartin@gmail.com]']
         Scammer.all.map(&:email) + fixed_names
       end
   end
@@ -300,7 +300,7 @@ class UsersController < ApplicationController
   end
 
   def user_params_key
-    [:artist, :mau_fan, :user].detect{|k| params.has_key? k}
+    [:artist, :mau_fan, :user].detect { |k| params.has_key? k }
   end
 
   def destroy_params
@@ -317,8 +317,8 @@ class UsersController < ApplicationController
     if params[:emailsettings]
       em = params[:emailsettings]
       em2 = {}
-      em.each_pair do |k,v|
-        em2[k] = ( v.to_i != 0 ? true : false)
+      em.each_pair do |k, v|
+        em2[k] = (v.to_i != 0 ? true : false)
       end
       attrs[:email_attrs] = em2.to_json
     end

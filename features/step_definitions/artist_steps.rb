@@ -17,23 +17,23 @@ Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
     /#{new_title}/i =~ title
   end
   within '.title' do
-    expect(page).to_not have_content "Mona Lisa"
+    expect(page).to_not have_content 'Mona Lisa'
     expect(page).to have_content new_title
   end
 end
 
 When(/^I update the medium to the last medium$/) do
-  selectize_single_select "art_piece_medium_id", Medium.last.name
+  selectize_single_select 'art_piece_medium_id', Medium.last.name
 end
 
 Then(/^I see that my art medium was updated to the last medium$/) do
-  within ".media" do
+  within '.media' do
     expect(page).to have_content(Medium.last.name)
   end
 end
 
 When(/^I update the art piece tags to:/) do |data|
-  selectize_multi_select "art_piece_tag_ids", data.raw
+  selectize_multi_select 'art_piece_tag_ids', data.raw
 end
 
 Then(/^I see that my art tags are:$/) do |data|
@@ -47,17 +47,17 @@ end
 
 When(/^I fill out the add art form$/) do
   @medium = Medium.first
-  attach_file "Photo", File.join(Rails.root,"/spec/fixtures/files/art.png")
-  fill_in "Title", with: 'Mona Lisa'
-  fill_in "Dimensions", with: '4 x 3'
-  fill_in "Year", with: '1515'
-  selectize_single_select "art_piece_medium_id", @medium.name
-  selectize_multi_select "art_piece_tag_ids", %w(superfragile complimicated)
+  attach_file 'Photo', File.join(Rails.root, '/spec/fixtures/files/art.png')
+  fill_in 'Title', with: 'Mona Lisa'
+  fill_in 'Dimensions', with: '4 x 3'
+  fill_in 'Year', with: '1515'
+  selectize_single_select 'art_piece_medium_id', @medium.name
+  selectize_multi_select 'art_piece_tag_ids', %w(superfragile complimicated)
 end
 
 Then /^I see that my art was added$/ do
-  expect(page).to have_content "Mona Lisa"
-  expect(page).to have_content "complimicated, superfragile"
+  expect(page).to have_content 'Mona Lisa'
+  expect(page).to have_content 'complimicated, superfragile'
   expect(page).to have_content @medium.name
 end
 
@@ -65,7 +65,7 @@ Then /^I see that my art was not added$/ do
   within '.error-msg' do
     expect(page).to have_content "Title can't be blank"
   end
-  expect(page).to have_css "#art_piece_title_input.error"
+  expect(page).to have_css '#art_piece_title_input.error'
 end
 
 When(/^I rearrange my art with drag and drop$/) do
@@ -162,9 +162,9 @@ Then(/^I see that I've successfully unsigned up for Open Studios$/) do
 end
 
 When(/^I click on the first artist's card$/) do
-  @artist = Artist.active.all.detect{|a| a.representative_piece.present?}
+  @artist = Artist.active.all.detect { |a| a.representative_piece.present? }
   click_on_first @artist.full_name
-  expect(page).to have_css('.artists.show');
+  expect(page).to have_css('.artists.show')
 end
 
 Then(/^I see "([^"]*)"'s artist card$/) do |name|
@@ -206,17 +206,17 @@ end
 
 When(/^I submit a new profile picture$/) do
   find('.file.input')
-  attach_file "Photo", File.join(Rails.root,"/spec/fixtures/files/art.png")
+  attach_file 'Photo', File.join(Rails.root, '/spec/fixtures/files/art.png')
 end
 
 Then(/^I see that I have a new profile picture$/) do
-  img = find(".artist-profile__image img")
+  img = find('.artist-profile__image img')
   expect(img).to be_present
 end
 
 Then(/^the artists index page shows no artists for open studios$/) do
   expect(page).to_not have_css '.artist-card'
-  expect(page).to have_css 'h2', text: "Artists in Open Studios"
+  expect(page).to have_css 'h2', text: 'Artists in Open Studios'
   expect(page).to have_content 'Sorry, no one has signed up for the next Open Studios'
 end
 

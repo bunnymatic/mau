@@ -45,7 +45,7 @@ describe ArtistsGallery do
   end
 
   it 'shows no artists without a representative piece' do
-    with_art, without_art = presenter.items.partition{|a| a.representative_piece}
+    with_art, without_art = presenter.items.partition(&:representative_piece)
     expect(without_art).to be_empty
     expect(with_art.size).to eq(1)
     expect(with_art.first.lastname).to eql 'Atkins'
@@ -60,7 +60,7 @@ describe ArtistsGallery do
 
     describe '#empty_message' do
       subject { super().empty_message }
-      it { should include "no one with that name has signed up" }
+      it { should include 'no one with that name has signed up' }
     end
   end
 

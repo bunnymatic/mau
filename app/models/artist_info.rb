@@ -4,8 +4,8 @@ class ArtistInfo < ApplicationRecord
 
   include Geokit::ActsAsMappable
   acts_as_mappable
-  before_validation(on: :create){ compute_geocode }
-  before_validation(on: :update){ compute_geocode }
+  before_validation(on: :create) { compute_geocode }
+  before_validation(on: :update) { compute_geocode }
 
   validates :artist_id, presence: true, uniqueness: true
 
@@ -23,14 +23,14 @@ class ArtistInfo < ApplicationRecord
       end
   end
 
-  def update_os_participation(os,value)
+  def update_os_participation(os, value)
     key = if os.is_a? OpenStudiosEvent
             os.key
           else
             os
           end
 
-    self.os_participation = Hash[key.to_s,value]
+    self.os_participation = Hash[key.to_s, value]
   end
 
   private
@@ -38,7 +38,7 @@ class ArtistInfo < ApplicationRecord
   def os_participation=(os)
     current = parse_open_studios_participation(self.open_studios_participation)
     current.merge!(os)
-    current.delete_if{ |_k,v| !(v=='true' || v==true || v=='on' || v=='1' || v==1) }
+    current.delete_if { |_k, v| !(v == 'true' || v == true || v == 'on' || v == '1' || v == 1) }
     update_attributes(open_studios_participation: current.keys.join('|'))
   end
 
@@ -46,7 +46,7 @@ class ArtistInfo < ApplicationRecord
     if os.blank?
       {}
     else
-      Hash[ os.split('|').select{|k| k.match(/^[\w\d]/)}.map{ |k| [k,true] }]
+      Hash[os.split('|').select { |k| k.match(/^[\w\d]/) }.map { |k| [k, true] }]
     end
   end
 end

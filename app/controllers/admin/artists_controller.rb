@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 module Admin
   class ArtistsController < ::BaseAdminController
-    before_action :admin_required, only: [ :suspend, :index, :edit, :update ]
-    before_action :set_artist, only: [ :edit, :suspend, :update ]
+    before_action :admin_required, only: [:suspend, :index, :edit, :update]
+    before_action :set_artist, only: [:edit, :suspend, :update]
 
     def index
       @artist_list = AdminArtistList.new
-      @active_artist_list, @inactive_artist_list = @artist_list.partition{|a| a.pending? || a.active?}
+      @active_artist_list, @inactive_artist_list = @artist_list.partition { |a| a.pending? || a.active? }
       respond_to do |format|
         format.html
         format.csv { render_csv_string(@artist_list.csv, @artist_list.csv_filename) }
@@ -19,7 +19,7 @@ module Admin
       if @artist.update_attributes(artist_params)
         redirect_to admin_user_path(@artist), notice: "#{@artist.get_name} has been updated"
       else
-        render :edit, warning: "There were problems updating the artist"
+        render :edit, warning: 'There were problems updating the artist'
       end
     end
 
@@ -46,9 +46,9 @@ module Admin
             @updated_count += 1
           end
         end
-        msg = "Updated setting for %d artists" % @updated_count
+        msg = 'Updated setting for %d artists' % @updated_count
         if @skipped_count > 0
-          msg += " and skipped %d artists who are not in the mission or have an invalid address" % @skipped_count
+          msg += ' and skipped %d artists who are not in the mission or have an invalid address' % @skipped_count
         end
         flash[:notice] = msg
       end

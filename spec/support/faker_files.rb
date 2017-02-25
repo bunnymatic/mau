@@ -11,9 +11,9 @@ module Faker
         dir + file
       end
 
-      def dir(depth=nil)
-        depth ||= 1+rand(2)
-        Array.new(depth){ Faker::Lorem.word }.join('/')
+      def dir(depth = nil)
+        depth ||= 1 + rand(2)
+        Array.new(depth) { Faker::Lorem.word }.join('/')
       end
     end
   end

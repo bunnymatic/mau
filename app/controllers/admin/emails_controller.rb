@@ -11,7 +11,7 @@ module Admin
       load_email
       member = EmailListMembership.where(email_list_id: @email_list.id, email_id: @email.id).first
       member.destroy if member.present?
-      render json: {success: true}
+      render json: { success: true }
     end
 
     def create

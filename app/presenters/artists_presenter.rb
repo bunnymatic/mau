@@ -19,7 +19,7 @@ class ArtistsPresenter < ViewPresenter
   end
 
   def artists_only_in_the_mission
-    (os_only ? artists : artists.select(&:in_the_mission?) )
+    (os_only ? artists : artists.select(&:in_the_mission?))
   end
 
   def artists
@@ -30,7 +30,7 @@ class ArtistsPresenter < ViewPresenter
                        else
                          active_artists
                        end).sort_by(&:sortable_name)
-        artist_list.map{|artist| ArtistPresenter.new(artist)}
+        artist_list.map { |artist| ArtistPresenter.new(artist) }
       end
   end
 end

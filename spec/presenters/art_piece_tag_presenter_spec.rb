@@ -17,7 +17,7 @@ describe ArtPieceTagPresenter do
   let(:art) { tag.art_piece }
   let(:mode) { 'p' }
 
-  subject(:presenter) { ArtPieceTagPresenter.new(tag,mode) }
+  subject(:presenter) { ArtPieceTagPresenter.new(tag, mode) }
 
   describe '#art_pieces' do
     it 'has 5 art_pieces' do
@@ -25,7 +25,7 @@ describe ArtPieceTagPresenter do
     end
   end
   it 'sorts by updated at' do
-    expect(subject.art_pieces.map{|p| p.art_piece.updated_at.to_i}).to be_monotonically_decreasing
+    expect(subject.art_pieces.map { |p| p.art_piece.updated_at.to_i }).to be_monotonically_decreasing
   end
 
   context 'when showing only by artist' do

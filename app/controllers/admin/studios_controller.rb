@@ -9,7 +9,7 @@ module Admin
     skip_before_action :verify_authenticity_token, only: [:unaffiliate_artist]
 
     def index
-      @studios = StudioService.all.map{|s| StudioPresenter.new(s)}
+      @studios = StudioService.all.map { |s| StudioPresenter.new(s) }
     end
 
     def new
@@ -37,11 +37,11 @@ module Admin
         memo[studio.id.to_s] = studio
       end
       ActiveRecord::Base.transaction do
-        studio_slugs.each_with_index do |slug,idx|
+        studio_slugs.each_with_index do |slug, idx|
           studios_lut[slug].update_attributes!(position: idx)
         end
       end
-      render json: {status: :ok}
+      render json: { status: :ok }
     end
 
     # PUT /studios/1
@@ -50,7 +50,7 @@ module Admin
         flash[:notice] = "That's great that we're keeping studio data current.  Keep up the good work."
         redirect_to(@studio) and return
       else
-        render "edit"
+        render 'edit'
       end
     end
 
@@ -62,7 +62,7 @@ module Admin
         @studio.destroy
       end
 
-      redirect_to(studios_url, notice: "Sad to see them go.  But there are probably more right around the bend.")
+      redirect_to(studios_url, notice: 'Sad to see them go.  But there are probably more right around the bend.')
     end
 
     def unaffiliate_artist
@@ -70,10 +70,10 @@ module Admin
       if artist == current_artist
         redirect_to_edit error: 'You cannot unaffiliate yourself' and return
       end
-      msg = if StudioArtist.new(@studio,artist).unaffiliate
-              {notice: "#{artist.full_name} is no longer associated with #{@studio.name}."}
+      msg = if StudioArtist.new(@studio, artist).unaffiliate
+              { notice: "#{artist.full_name} is no longer associated with #{@studio.name}." }
             else
-              {error: "There was a problem finding that artist associated with this studio."}
+              { error: 'There was a problem finding that artist associated with this studio.' }
             end
       redirect_to_edit msg
     end
@@ -84,15 +84,15 @@ module Admin
 
     def studio_manager_required
       unless (is_manager? && (current_user.studio.to_param == params[:id].to_s)) || is_admin?
-        redirect_to request.referer, flash: {error: "You are not a manager of that studio."}
+        redirect_to request.referer, flash: { error: 'You are not a manager of that studio.' }
       end
     end
 
     private
 
     def studio_params
-      params.require(:studio).permit( :name, :street, :city, :state, :zip,
-                                      :url, :lat, :lng, :cross_street, :phone, :photo )
+      params.require(:studio).permit(:name, :street, :city, :state, :zip,
+                                     :url, :lat, :lng, :cross_street, :phone, :photo)
     end
 
     def reorder_studio_params

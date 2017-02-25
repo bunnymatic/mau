@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 class MauMailer < ActionMailer::Base
-  SUBJECT_PREFIX = "[Mission Artists]"
-  NOTE_FROM_ADDRESS = "Mission Artists <mau@missionartists.org>"
-  ACCOUNTS_FROM_ADDRESS = "Mission Artists Accounts <mau@missionartists.org>"
+  SUBJECT_PREFIX = '[Mission Artists]'
+  NOTE_FROM_ADDRESS = 'Mission Artists <mau@missionartists.org>'
+  ACCOUNTS_FROM_ADDRESS = 'Mission Artists Accounts <mau@missionartists.org>'
 
   include ActionMailer::Text
 

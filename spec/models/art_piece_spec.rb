@@ -6,8 +6,8 @@ describe ArtPiece do
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
   let(:art_piece) { artist.art_pieces.first }
 
-  it{ should validate_presence_of(:title) }
-  it{ should validate_length_of(:title).is_at_least(2).is_at_most(80) }
+  it { should validate_presence_of(:title) }
+  it { should validate_length_of(:title).is_at_least(2).is_at_most(80) }
 
   describe 'new' do
     it 'allows quotes' do

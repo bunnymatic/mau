@@ -12,7 +12,7 @@ module HtmlHelper
       elsif idx == (nel - 1)
         cls += ' last'
       end
-      "<li class='#{cls}'>" + el + "</li>"
+      "<li class='#{cls}'>" + el + '</li>'
     end.join('')
   end
 end

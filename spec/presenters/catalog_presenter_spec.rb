@@ -6,8 +6,8 @@ describe CatalogPresenter do
   let!(:artists) { FactoryGirl.create_list :artist, 4, :with_studio }
   let(:reception_doc) do
     FactoryGirl.create(:cms_document,
-                       page: "main_openstudios",
-                       section: "preview_reception",
+                       page: 'main_openstudios',
+                       section: 'preview_reception',
                        article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
   end
 
@@ -53,9 +53,9 @@ describe CatalogPresenter do
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
     it do
-      should eql(                   "data-page" => reception_doc.page,
-                                    "data-section" => reception_doc.section,
-                                    "data-cmsid" => reception_doc.id)
+      should eql('data-page' => reception_doc.page,
+                 'data-section' => reception_doc.section,
+                 'data-cmsid' => reception_doc.id)
     end
   end
 
@@ -65,7 +65,7 @@ describe CatalogPresenter do
   end
   it 'sorts artists by name within their studio' do
     subject.artists_by_studio.each do |_studio, artists|
-      expect(artists.map{|a| a.lastname.downcase}).to be_monotonically_increasing
+      expect(artists.map { |a| a.lastname.downcase }).to be_monotonically_increasing
     end
   end
 end

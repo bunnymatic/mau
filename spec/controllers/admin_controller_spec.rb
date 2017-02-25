@@ -13,7 +13,7 @@ describe AdminController do
   include OpenStudiosEventShim
 
   context 'authorization' do
-    [:index, :os_status ].each do |endpoint|
+    [:index, :os_status].each do |endpoint|
       describe 'not logged in' do
         describe endpoint.to_s do
           before do

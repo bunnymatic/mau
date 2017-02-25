@@ -7,8 +7,8 @@ describe Address do
   let(:model) { Artist.new }
   subject(:address) { described_class.new(model) }
 
-  describe "for an artist" do
-    context "with an address" do
+  describe 'for an artist' do
+    context 'with an address' do
       let(:model) { artist }
 
       its(:geocoded?) { is_expected.to eq true }
@@ -17,19 +17,19 @@ describe Address do
       its(:state) { is_expected.to eq artist.addr_state }
       its(:lat) { is_expected.to eq artist.lat }
       its(:lng) { is_expected.to eq artist.lng }
-      its(:to_s) { is_expected.to eq("%s %s" % [artist.street, "94110"]) }
+      its(:to_s) { is_expected.to eq('%s %s' % [artist.street, '94110']) }
       its(:present?) { is_expected.to eq true }
       its(:empty?) { is_expected.to eq false }
 
-      context "who is in a studio" do
+      context 'who is in a studio' do
         let(:model) { create :artist, studio: studio }
 
-        it "returns the address information of the studio" do
+        it 'returns the address information of the studio' do
           expect(address).to eq studio.address
         end
       end
     end
-    context "without an address" do
+    context 'without an address' do
       let(:model) { create :artist, :without_address }
 
       its(:geocoded?) { is_expected.to eq false }
@@ -40,7 +40,7 @@ describe Address do
     end
   end
 
-  describe "for a studio" do
+  describe 'for a studio' do
     let(:model) { studio }
     its(:geocoded?) { is_expected.to eq true }
     its(:street) { is_expected.to eq studio.street }
@@ -48,14 +48,14 @@ describe Address do
     its(:state) { is_expected.to eq studio.state }
     its(:lat) { is_expected.to eq studio.lat }
     its(:lng) { is_expected.to eq studio.lng }
-    its(:to_s) { is_expected.to eq("%s %s" % [studio.street, studio.zip]) }
+    its(:to_s) { is_expected.to eq('%s %s' % [studio.street, studio.zip]) }
     its(:present?) { is_expected.to eq true }
     its(:empty?) { is_expected.to eq false }
   end
 
   describe "for an model that doesn't have lat, lng or street attribute" do
-    it "raises an ArgumentError on initialization" do
-      expect{ Address.new(ArtPiece.new) }.to raise_error(ArgumentError)
+    it 'raises an ArgumentError on initialization' do
+      expect { Address.new(ArtPiece.new) }.to raise_error(ArgumentError)
     end
   end
 end

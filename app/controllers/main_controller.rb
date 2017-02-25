@@ -23,14 +23,14 @@ class MainController < ApplicationController
   end
 
   def about
-    @page_title = PageInfoService.title("About Us")
-    @content = CmsDocument.packaged('main','about')
+    @page_title = PageInfoService.title('About Us')
+    @content = CmsDocument.packaged('main', 'about')
   end
 
   def status_page
     # do dummy db test
     Medium.first
-    render json: {success: true}, status: 200
+    render json: { success: true }, status: 200
   end
 
   def notes_mailer
@@ -38,7 +38,7 @@ class MainController < ApplicationController
     data = {}
     if f.valid?
       f.save
-      data = {success: true}
+      data = { success: true }
       status = 200
     else
       data = {
@@ -51,7 +51,7 @@ class MainController < ApplicationController
   end
 
   def resources
-    @page_title = PageInfoService.title("Open Studios")
+    @page_title = PageInfoService.title('Open Studios')
     page = 'main'
     section = 'artist_resources'
     doc = CmsDocument.where(page: page, section: section).first
@@ -66,7 +66,7 @@ class MainController < ApplicationController
   end
 
   def venues
-    @page_title = PageInfoService.title("Venues")
+    @page_title = PageInfoService.title('Venues')
     page = 'venues'
     section = 'all'
     doc = CmsDocument.where(page: page, section: section).first
@@ -116,14 +116,14 @@ EOM
       flash.now[:notice] = "Thanks for your donation!  We'll spend it wisely."
     end
     if page == 'paypal_cancel'
-      flash.now[:error] = "Did you have problems submitting your donation?"\
-                          " If so, please tell us with the feedback link at the bottom of the page."\
+      flash.now[:error] = 'Did you have problems submitting your donation?'\
+                          ' If so, please tell us with the feedback link at the bottom of the page.'\
                           " We'd love to know if the website or the PayPal connection is not working."
     end
   end
 
   def sampler_params
-    params.permit(:seed, :offset, :number_of_images).tap { |_k,v| v = v.to_i }
+    params.permit(:seed, :offset, :number_of_images).tap { |_k, v| v = v.to_i }
   end
 
   def feedback_mail_params

@@ -3,7 +3,7 @@ class FeedbacksController < ApplicationController
   layout false
 
   def _get_title
-    "Feedback"
+    'Feedback'
   end
 
   def new
@@ -19,7 +19,7 @@ class FeedbacksController < ApplicationController
       FeedbackMailer.feedback(@feedback).deliver_later
       render 'thankyou', status: :created
     else
-      @error_message = "Please enter a comment or hit cancel."
+      @error_message = 'Please enter a comment or hit cancel.'
 
       # Returns the whole form back. This is not the most effective
       # use of AJAX as we could return the error message in JSON, but

@@ -55,32 +55,32 @@ describe OpenStudiosPresenter do
 
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
-    it { should have_key 'data-cmsid'}
+    it { should have_key 'data-cmsid' }
   end
 
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
-    it { should have_key 'data-page'}
+    it { should have_key 'data-page' }
   end
 
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
-    it { should have_key 'data-section'}
+    it { should have_key 'data-section' }
   end
 
   describe '#summary_data' do
     subject { super().summary_data }
-    it { should have_key 'data-cmsid'}
+    it { should have_key 'data-cmsid' }
   end
 
   describe '#summary_data' do
     subject { super().summary_data }
-    it { should have_key 'data-page'}
+    it { should have_key 'data-page' }
   end
 
   describe '#summary_data' do
     subject { super().summary_data }
-    it { should have_key 'data-section'}
+    it { should have_key 'data-section' }
   end
 
   it 'participating studios by name' do

@@ -8,21 +8,21 @@ class Medium < ApplicationRecord
   include FriendlyId
   friendly_id :name, use: [:slugged]
 
-  validates :name, presence: true, length: {within: (2..244)}
+  validates :name, presence: true, length: { within: (2..244) }
 
-  CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20
+  CACHE_EXPIRY = Conf.cache_expiry['media_frequency'] || 20
 
   scope :alpha, -> { order(:name) }
 
   def self.options_for_select
-    [['None', 0]] + Medium.all.map{|u| [u.name,u.id]}
+    [['None', 0]] + Medium.all.map { |u| [u.name, u.id] }
   end
 
-  def self.cache_key(norm=false)
+  def self.cache_key(norm = false)
     [:medfreq, norm]
   end
 
-  def self.frequency(_normalize=false)
+  def self.frequency(_normalize = false)
     ckey = cache_key(_normalize)
     freq = SafeCache.read(ckey)
     if freq
@@ -45,10 +45,10 @@ class Medium < ApplicationRecord
 
   class << self
     def get_media_usage
-      dbr = ArtPiece.joins(:artist).where("users.state" => "active").select('medium_id')
+      dbr = ArtPiece.joins(:artist).where('users.state' => 'active').select('medium_id')
                     .group('medium_id').count
       Medium.all.map do |medium|
-        { "medium" => medium.id, "ct" => dbr[medium.id].to_i }
+        { 'medium' => medium.id, 'ct' => dbr[medium.id].to_i }
       end
     end
   end

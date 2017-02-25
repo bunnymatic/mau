@@ -11,7 +11,7 @@ class FasoImporter
   end
 
   def uri
-    @uri ||= URI.parse("https://api.faso.com/1/scammers?key=2386ad2c89aa40dfa0ce90e868797a33&format=pipe")
+    @uri ||= URI.parse('https://api.faso.com/1/scammers?key=2386ad2c89aa40dfa0ce90e868797a33&format=pipe')
   end
 
   def make_request
@@ -30,7 +30,7 @@ class FasoImporter
     resp = make_request
     resp.body.split("\n").map(&:chomp).map do |row|
       entry = parse_row(row)
-      Scammer.new( name: entry['name_used'], faso_id: entry['id'], email: entry['email']) if entry
+      Scammer.new(name: entry['name_used'], faso_id: entry['id'], email: entry['email']) if entry
     end.compact.uniq
   end
 
@@ -50,6 +50,6 @@ class FasoImporter
   end
 
   def pipe_split(row)
-    (row.split '|').map{|entry| entry.gsub(/^"/, '').gsub(/"$/, '')}
+    (row.split '|').map { |entry| entry.gsub(/^"/, '').gsub(/"$/, '') }
   end
 end

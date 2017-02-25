@@ -4,7 +4,7 @@ module Admin
     before_action :admin_required
 
     def index
-      @os_events = OpenStudiosEventService.all.map{|osev| OpenStudiosEventPresenter.new(osev)}
+      @os_events = OpenStudiosEventService.all.map { |osev| OpenStudiosEventPresenter.new(osev) }
     end
 
     def new
@@ -14,7 +14,7 @@ module Admin
     def create
       @os_event = OpenStudiosEvent.new(open_studios_event_params)
       if @os_event.save
-        redirect_to admin_open_studios_events_path, flash: {notice: 'Successfully added a new Open Studios Event'}
+        redirect_to admin_open_studios_events_path, flash: { notice: 'Successfully added a new Open Studios Event' }
       else
         render :new
       end
@@ -27,7 +27,7 @@ module Admin
     def update
       @os_event = OpenStudiosEventService.find(params[:id])
       if OpenStudiosEventService.update(@os_event, open_studios_event_params)
-        redirect_to admin_open_studios_events_path, flash: {notice: 'Successfully updated an Open Studios Event'}
+        redirect_to admin_open_studios_events_path, flash: { notice: 'Successfully updated an Open Studios Event' }
       else
         render :edit
       end
@@ -36,12 +36,12 @@ module Admin
     def destroy
       @os_event = OpenStudiosEventService.find(params[:id])
       OpenStudiosEventService.destroy(@os_event)
-      redirect_to admin_open_studios_events_path, notice: "The Event has been removed"
+      redirect_to admin_open_studios_events_path, notice: 'The Event has been removed'
     end
 
     def clear_cache
       OpenStudiosEventService.clear_cache
-      redirect_to admin_open_studios_events_path, notice: "The cache has been cleared"
+      redirect_to admin_open_studios_events_path, notice: 'The cache has been cleared'
     end
 
     private

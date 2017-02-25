@@ -4,7 +4,7 @@ module MockSearchService
     runner = Search::QueryRunner.new('query')
     allow(runner).to receive(:search).and_call_original
     allow(runner).to receive(:multi_index_search).and_return JSON.parse(mock_search_results)
-    allow(Search::QueryRunner).to receive(:new).and_return( runner )
+    allow(Search::QueryRunner).to receive(:new).and_return(runner)
   end
 
   def stub_indexer!
@@ -22,7 +22,7 @@ module MockSearchService
   end
 
   def mock_search_results
-    File.read(File.open(File.join(Rails.root, 'spec','fixtures','files/search_results.json'),'r'))
+    File.read(File.open(File.join(Rails.root, 'spec', 'fixtures', 'files/search_results.json'), 'r'))
   end
 end
 

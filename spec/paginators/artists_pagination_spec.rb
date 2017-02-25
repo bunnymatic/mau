@@ -27,7 +27,7 @@ describe ArtistsPagination, type: :controller do
 
   describe '#last_link' do
     subject { super().last_link }
-    it { should eql mock_view_context.artists_path(p: (artists.length/2)) }
+    it { should eql mock_view_context.artists_path(p: (artists.length / 2)) }
   end
 
   it '#link_to_next provides a link to the next page' do

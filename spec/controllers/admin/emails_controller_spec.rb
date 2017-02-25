@@ -28,7 +28,7 @@ describe Admin::EmailsController do
     it 'adds a new email to the email list' do
       expect do
         make_request
-      end.to change(Email,:count).by(1)
+      end.to change(Email, :count).by(1)
     end
   end
 
@@ -39,7 +39,7 @@ describe Admin::EmailsController do
 
     let(:first_email) do
       email = FactoryGirl.create(:email)
-      FeedbackMailerList.first.update_attributes(emails: [ email ])
+      FeedbackMailerList.first.update_attributes(emails: [email])
       email
     end
     before do
@@ -49,18 +49,18 @@ describe Admin::EmailsController do
       first_email
       expect do
         make_delete_request
-      end.to change(FeedbackMailerList.first.emails, :count).by(-1);
+      end.to change(FeedbackMailerList.first.emails, :count).by(-1)
     end
     it 'does not delete the email from the email table' do
       first_email
       expect do
         make_delete_request
-      end.to change(Email, :count).by(0);
+      end.to change(Email, :count).by(0)
     end
 
     it 'returns a message indicating who was removed' do
       make_delete_request
-      expect(response.content_type).to eql "application/json"
+      expect(response.content_type).to eql 'application/json'
       expect(response).to be_success
     end
   end

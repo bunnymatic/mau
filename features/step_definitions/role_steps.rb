@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 Then(/^I see the admin roles page$/) do
-  expect(page).to have_content "Roles & Members"
-  expect(page).to have_selector ".editor.role-container .role_members li", count: Role.editor.users.count
-  expect(page).to have_selector ".admin.role-container .role_members li", count: Role.admin.users.count
+  expect(page).to have_content 'Roles & Members'
+  expect(page).to have_selector '.editor.role-container .role_members li', count: Role.editor.users.count
+  expect(page).to have_selector '.admin.role-container .role_members li', count: Role.admin.users.count
 end
 
 When(/^I add a new role called "(.*)"$/) do |role|
   within '.header' do
     click_on 'add role'
   end
-  fill_in "Role", with: role
+  fill_in 'Role', with: role
   click_on 'Create Role'
 end
 
@@ -21,7 +21,7 @@ end
 
 When(/^I remove the role "(.*)"$/) do |role|
   within ".#{role}.role-container" do
-    click_on "destroy"
+    click_on 'destroy'
   end
 end
 

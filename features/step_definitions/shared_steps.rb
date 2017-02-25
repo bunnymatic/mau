@@ -4,8 +4,8 @@ require_relative '../../spec/support/mobile_setup'
 def fill_in_login_form(login, pass)
   flash = all('.flash__close')
   flash.map(&:click) if flash.any?
-  fill_in("Login", with: login)
-  fill_in("Password", with: pass)
+  fill_in('Login', with: login)
+  fill_in('Password', with: pass)
 end
 
 def path_from_title(titleized_path_name)
@@ -26,8 +26,8 @@ end
 # so invisible buttons that may become visible because of animation
 # will cause issues - use click_on instead
 def all_links_or_buttons_with_title(title)
-  all('a').select{|a| a["title"] == title } ||
-    all('button').select{|b| b.value == title }
+  all('a').select { |a| a['title'] == title } ||
+    all('button').select { |b| b.value == title }
 end
 
 def find_links_or_buttons(locator)
@@ -47,7 +47,7 @@ Given /^Mailchimp is hooked up$/ do
 end
 
 When /I'm on my smart phone/ do
-  current_session.header("User-Agent", IPHONE_USER_AGENT)
+  current_session.header('User-Agent', IPHONE_USER_AGENT)
 end
 
 Then /^show me the page$/ do
@@ -88,7 +88,7 @@ end
 When /I sign in with password "(.*?)"/ do |pass|
   visit login_path
   fill_in_login_form @artist.login, pass
-  click_on "Sign In"
+  click_on 'Sign In'
 end
 
 When /I am signed in as an artist/ do
@@ -110,7 +110,7 @@ When /^I (log|sign)\s?out$/ do |_dummy|
 end
 
 Then /^I see that I'm signed in$/ do
-  expect(page).to have_content "MY PROFILE"
+  expect(page).to have_content 'MY PROFILE'
 end
 
 When(/^I change "(.*?)" to "(.*?)" in the "(.*?)" form$/) do |form_field_label, value, form_selector|
@@ -144,7 +144,7 @@ Then(/^I do not see an error message$/) do
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  wait_until { all(".error-msg").any? }
+  wait_until { all('.error-msg').any? }
   expect(page).to have_selector '.error-msg', text: msg
 end
 
@@ -165,7 +165,7 @@ Then(/^I close the notice$/) do
 end
 
 Then(/^I close the flash$/) do
-  all('.flash .js-flash__close').each {|f| f.click}
+  all('.flash .js-flash__close').each(&:click)
 end
 
 When(/^I visit the "(.*?)" page$/) do |titleized_path_name|

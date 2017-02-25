@@ -32,7 +32,7 @@ describe ArtPiecePresenter do
 
   context 'with favorites' do
     before do
-      favorites_mock = double(:mock_favorites_relation, where: [1,2])
+      favorites_mock = double(:mock_favorites_relation, where: [1, 2])
       allow(Favorite).to receive(:art_pieces).and_return(favorites_mock)
     end
 

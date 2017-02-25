@@ -11,8 +11,8 @@ def choice(arr, num)
       ii = rand(num_left)
       idx = idxs.delete_at(ii)
       new_arr << arr[idx]
-      num = num - 1
-      num_left = num_left - 1
+      num -= 1
+      num_left -= 1
       idx
     end
     new_arr

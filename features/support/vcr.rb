@@ -11,4 +11,3 @@ VCR.configure do |c|
     uri.host == 'maps.googleapis.com' || uri.host == 'geocoder.us'
   end
 end
-

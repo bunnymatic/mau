@@ -9,7 +9,7 @@ RSpec::Matchers.define :have_flash do |kind, msg|
       !page.all(flash_class(kind)).empty?
     end
 
-    expect(page).to have_css("#{flash_class(kind)}", text: msg)
+    expect(page).to have_css(flash_class(kind).to_s, text: msg)
   end
 
   failure_message_for_should do |actual|

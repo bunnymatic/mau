@@ -32,18 +32,18 @@ class FavoritesService
     end
 
     def notify_favorited_user(fav, sender)
-      artist = (fav.is_a? User) ? fav : fav.artist
+      artist = fav.is_a? User ? fav : fav.artist
       begin
         if artist && artist.emailsettings['favorites']
           ArtistMailer.favorite_notification(artist, sender).deliver_later
         end
       rescue Postmark::InvalidMessageError => ex
-        Rails.logger.error("Failed to notify favorited user %s [%s]" % [fav.inspect, ex.message])
+        Rails.logger.error('Failed to notify favorited user %s [%s]' % [fav.inspect, ex.message])
       end
     end
 
     def remove_favorite(user, obj)
-      user.favorites.where( favoritable_type: obj.class.name, favoritable_id: obj.id ).destroy_all
+      user.favorites.where(favoritable_type: obj.class.name, favoritable_id: obj.id).destroy_all
       obj
     end
 

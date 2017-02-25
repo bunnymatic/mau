@@ -10,7 +10,7 @@ module Mau
     }.freeze
 
     def number
-      VERSION.values_at(:major, :minor, :rev).join(".")
+      VERSION.values_at(:major, :minor, :rev).join('.')
     end
 
     def name

@@ -19,20 +19,20 @@ describe Favorite, 'named scopes' do
     create_favorite anna, jesse.art_pieces.last
   end
 
-  it "does not allow duplicates" do
+  it 'does not allow duplicates' do
     f = Favorite.new user_id: fan.id, favoritable_type: jesse.class.name, favoritable_id: jesse.id
     expect(f).to_not be_valid
     expect(f.errors[:user]).to have(1).item
   end
 
-  it "users finds only users or artists" do
+  it 'users finds only users or artists' do
     expect(favorite_users.count).to be > 0
     favorite_users.all.each do |f|
       expect(f.is_user?).to eq(true)
       expect(f.is_art_piece?).to eq false
     end
   end
-  it "users finds only artists" do
+  it 'users finds only artists' do
     expect(favorite_artists.count).to be > 0
     favorite_artists.all.each do |f|
       expect(f.is_user?).to eq(true)
@@ -40,7 +40,7 @@ describe Favorite, 'named scopes' do
       expect(f.is_art_piece?).to eq false
     end
   end
-  it "art_pieces finds only art_pieces" do
+  it 'art_pieces finds only art_pieces' do
     expect(favorite_art_pieces.count).to be > 0
     favorite_art_pieces.all.each do |f|
       expect(f.is_user?).to eq false

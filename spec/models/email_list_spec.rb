@@ -14,7 +14,7 @@ describe EmailList do
         expect(eml).not_to be_valid
       end
     end
-    it "adds valid emails" do
+    it 'adds valid emails' do
       expect do
         eml = WhateverMailList.new
         ['a@example.com', 'b@example.com'].each do |email|
@@ -23,7 +23,7 @@ describe EmailList do
         eml.save
       end.to change(Email, :count).by(2)
     end
-    it "adds ids on the email_list_membership table" do
+    it 'adds ids on the email_list_membership table' do
       eml = WhateverMailList.new
       ['a@example.com', 'b@example.com'].each do |email|
         eml.emails << Email.new(email: email)
@@ -31,7 +31,7 @@ describe EmailList do
       eml.save
       expect(EmailListMembership.all.map(&:id).uniq.count).to be >= 2
     end
-    it "does not add duplicate emails to a list" do
+    it 'does not add duplicate emails to a list' do
       expect do
         eml = TestMailerList.new
         eml.emails << Email.new(email: 'joe@example.com')
@@ -40,7 +40,7 @@ describe EmailList do
       end.to raise_error ActiveRecord::StatementInvalid
     end
   end
-  it "adds a new email list" do
+  it 'adds a new email list' do
     expect do
       eml = TestMailerList.new
       ['uniq1@example.com', 'more_uniq@example.com'].each do |email|

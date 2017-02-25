@@ -2,6 +2,6 @@
 require 'rails_helper'
 
 describe Feedback do
-  it{ should validate_presence_of :subject }
-  it{ should validate_presence_of :comment }
+  it { should validate_presence_of :subject }
+  it { should validate_presence_of :comment }
 end

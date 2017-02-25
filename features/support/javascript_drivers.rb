@@ -18,9 +18,9 @@ Capybara.javascript_driver = :poltergeist
 # webkit only
 Before('@javascript') do |_scenario, _block|
   if page.driver.respond_to? :header
-    page.driver.header "Authorization", ENV.fetch('API_CONSUMER_KEY', 'Testing Testing 1 2')
+    page.driver.header 'Authorization', ENV.fetch('API_CONSUMER_KEY', 'Testing Testing 1 2')
   else
-    page.driver.add_header "Authorization", ENV.fetch('API_CONSUMER_KEY', 'Testing Testing 1 2')
+    page.driver.add_header 'Authorization', ENV.fetch('API_CONSUMER_KEY', 'Testing Testing 1 2')
   end
 end
 

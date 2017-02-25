@@ -19,7 +19,7 @@ describe OpenStudiosEvent do
   before do
     # allow_any_instance_of(OpenStudiosEvent).to receive(:save_attached_files).and_return(true)
     Timecop.freeze
-    [ past_oses, current_os, future_oses ].flatten
+    [past_oses, current_os, future_oses].flatten
   end
 
   after do
@@ -27,8 +27,8 @@ describe OpenStudiosEvent do
   end
 
   describe '#for_display' do
-    it "returns the pretty version for the current os" do
-      expect(current_os.for_display).to eql current_os.start_date.strftime("%Y %b")
+    it 'returns the pretty version for the current os' do
+      expect(current_os.for_display).to eql current_os.start_date.strftime('%Y %b')
     end
   end
 
@@ -58,7 +58,7 @@ describe OpenStudiosEvent do
 
   describe '.key' do
     it 'returns a year month key based on start date' do
-      expect(current_os.key).to eql current_os.start_date.year.to_s + ("%02d" % current_os.start_date.month)
+      expect(current_os.key).to eql current_os.start_date.year.to_s + ('%02d' % current_os.start_date.month)
     end
   end
 end

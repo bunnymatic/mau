@@ -9,7 +9,7 @@ describe ArtistProfileImage do
     let(:size) { :thumb }
     let(:prefix) { 't_' }
     let(:expected_path) do
-      ('/'+ [directory,artist.id,'profile', prefix+artist.profile_image].join('/'))
+      ('/' + [directory, artist.id, 'profile', prefix + artist.profile_image].join('/'))
     end
     context 'thumb' do
       it 'returns the right path' do

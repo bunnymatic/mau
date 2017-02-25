@@ -2,7 +2,7 @@
 Teaspoon.configure do |config|
   # Determines where the Teaspoon routes will be mounted. Changing this to "/jasmine" would allow you to browse to
   # `http://localhost:3000/jasmine` to run your tests.
-  config.mount_at = "/teaspoon"
+  config.mount_at = '/teaspoon'
 
   # Specifies the root where Teaspoon will look for files. If you're testing an engine using a dummy application it can
   # be useful to set this to your engines root (e.g. `Teaspoon::Engine.root`).
@@ -11,7 +11,7 @@ Teaspoon.configure do |config|
 
   # Paths that will be appended to the Rails assets paths
   # Note: Relative to `config.root`.
-  config.asset_paths = ["spec/javascripts", "spec/javascripts/stylesheets"]
+  config.asset_paths = ['spec/javascripts', 'spec/javascripts/stylesheets']
 
   # Fixtures are rendered through a controller, which allows using HAML, RABL/JBuilder, etc. Files in these paths will
   # be rendered as fixtures.
@@ -35,11 +35,11 @@ Teaspoon.configure do |config|
     # Note: If no version is specified, the latest is assumed.
     #
     # Versions: 1.3.1, 2.0.3, 2.1.3, 2.2.0, 2.2.1, 2.3.4
-    suite.use_framework :jasmine, "2.3.4"
+    suite.use_framework :jasmine, '2.3.4'
 
     # Specify a file matcher as a regular expression and all matching files will be loaded when the suite is run. These
     # files need to be within an asset path. You can add asset paths using the `config.asset_paths`.
-    suite.matcher = "{spec/javascripts}/**/*_spec.{js,js.coffee,coffee}"
+    suite.matcher = '{spec/javascripts}/**/*_spec.{js,js.coffee,coffee}'
 
     # Load additional JS files, but requiring them in your spec helper is the preferred way to do this.
     # suite.javascripts = []
@@ -50,16 +50,16 @@ Teaspoon.configure do |config|
 
     # This suites spec helper, which can require additional support files. This file is loaded before any of your test
     # files are loaded.
-    suite.helper = "spec_helper"
+    suite.helper = 'spec_helper'
 
     # Partial to be rendered in the head tag of the runner. You can use the provided ones or define your own by creating
     # a `_boot.html.erb` in your fixtures path, and adjust the config to `"/boot"` for instance.
     #
     # Available: boot, boot_require_js
-    suite.boot_partial = "boot"
+    suite.boot_partial = 'boot'
 
     # Partial to be rendered in the body tag of the runner. You can define your own to create a custom body structure.
-    suite.body_partial = "body"
+    suite.body_partial = 'body'
 
     # Hooks allow you to use `Teaspoon.hook("fixtures")` before, after, or during your spec run. This will make a
     # synchronous Ajax request to the server that will call all of the blocks you've defined for that hook name.

@@ -8,8 +8,8 @@ describe Admin::ApplicationEventsController do
   let!(:events) do
     Array.new(3) do |x|
       [
-        FactoryGirl.create(:open_studios_signup_event, created_at: x.weeks.ago, data: {user: 'artist'}),
-        FactoryGirl.create(:generic_event, created_at: x.weeks.ago, data: {user: 'artist'})
+        FactoryGirl.create(:open_studios_signup_event, created_at: x.weeks.ago, data: { user: 'artist' }),
+        FactoryGirl.create(:generic_event, created_at: x.weeks.ago, data: { user: 'artist' })
       ]
     end.flatten
   end
@@ -84,7 +84,7 @@ describe Admin::ApplicationEventsController do
       it 'fetches all events since that date' do
         _events = assigns(:events_by_type).values.flatten
         expect(_events).to have(2).events
-        expect(_events.all?{ |ev| ev.created_at > 1.day.ago })
+        expect(_events.all? { |ev| ev.created_at > 1.day.ago })
       end
     end
 

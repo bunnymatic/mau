@@ -4,8 +4,6 @@ class EmailList < ApplicationRecord
   has_many :emails, through: :email_list_memberships
 
   def formatted_emails
-    emails.map do |em|
-      em.formatted
-    end
+    emails.map(&:formatted)
   end
 end

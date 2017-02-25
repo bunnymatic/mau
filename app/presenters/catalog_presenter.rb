@@ -5,7 +5,7 @@ class CatalogPresenter < ViewPresenter
   include OpenStudiosEventShim
 
   def csv_filename
-    @csv_filename ||= (['mau_catalog', current_open_studios_key].compact.join("_") + '.csv')
+    @csv_filename ||= (['mau_catalog', current_open_studios_key].compact.join('_') + '.csv')
   end
 
   def csv
@@ -52,7 +52,7 @@ class CatalogPresenter < ViewPresenter
   end
 
   def preview_reception_data
-    Hash[preview_receptions.except(:content).map{|k,v| ["data-#{k}", v]}]
+    Hash[preview_receptions.except(:content).map { |k, v| ["data-#{k}", v] }]
   end
 
   def preview_reception_content
@@ -71,8 +71,8 @@ class CatalogPresenter < ViewPresenter
   private
 
   def csv_headers
-    @csv_headers ||= ["First Name","Last Name","Full Name","Email", "Group Site Name",
-                      "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Media"]
+    @csv_headers ||= ['First Name', 'Last Name', 'Full Name', 'Email', 'Group Site Name',
+                      'Studio Address', 'Studio Number', 'Cross Street 1', 'Cross Street 2', 'Media']
   end
 
   def artist_as_csv_row(artist)
@@ -87,7 +87,7 @@ class CatalogPresenter < ViewPresenter
       a.studionumber,
       a.studio.try(:cross_street).to_s,
       '',
-      a.media.map(&:name).join(" ")
+      a.media.map(&:name).join(' ')
     ]
   end
 end

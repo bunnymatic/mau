@@ -7,7 +7,7 @@ shared_examples_for AddressMixin do
     {
       street: Faker::Address.street_name,
       city: Faker::Address.city,
-      zip: Faker::Address.zip_code,
+      zip: Faker::Address.zip_code
     }
   end
   let(:with_state) do
@@ -27,11 +27,11 @@ shared_examples_for AddressMixin do
 
   it 'builds a full address for maps' do
     expect(with_address.full_address).to eql [base_attributes[:street], base_attributes[:city],
-                                              the_state, base_attributes[:zip].to_i].join(", ")
+                                              the_state, base_attributes[:zip].to_i].join(', ')
   end
 
   it 'provides a short address' do
-    expect(with_address.address.to_s).to eql [base_attributes[:street], base_attributes[:zip].to_i].join(" ")
+    expect(with_address.address.to_s).to eql [base_attributes[:street], base_attributes[:zip].to_i].join(' ')
   end
 
   it 'address returns nil if there is no street' do
@@ -51,7 +51,7 @@ shared_examples_for AddressMixin do
     it 'calls Geocode with the full address' do
       expect(Geokit::Geocoders::MultiGeocoder).to receive(:geocode)
         .with(with_address.full_address)
-        .and_return((double("Geokit::GeoLoc", success: true,
+        .and_return((double('Geokit::GeoLoc', success: true,
                            lat: 9.0,
                            lng: 10.0)))
       expect(with_address.send(:compute_geocode)).to eql [with_address.lat.to_f, with_address.lng.to_f]

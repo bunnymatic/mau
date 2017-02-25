@@ -8,25 +8,25 @@ describe ArtistInfo do
   let(:artist_info) { FactoryGirl.create(:artist).artist_info }
 
   describe 'address mixin' do
-    it "responds to address" do
+    it 'responds to address' do
       expect(artist_info).to respond_to :address
     end
-    it "responds to full_address" do
+    it 'responds to full_address' do
       expect(artist_info).to respond_to :full_address
     end
   end
 
   describe 'create' do
-    describe "with valid attrs" do
-      it "artist_info is valid" do
-        expect(artist_info).to receive(:compute_geocode).and_return([-37,122])
+    describe 'with valid attrs' do
+      it 'artist_info is valid' do
+        expect(artist_info).to receive(:compute_geocode).and_return([-37, 122])
         expect(artist_info).to be_valid
       end
-      it "save triggers geocode" do
-        expect(artist_info).to receive(:compute_geocode).and_return([-37,122])
+      it 'save triggers geocode' do
+        expect(artist_info).to receive(:compute_geocode).and_return([-37, 122])
         artist_info.save
       end
-      it "requires an artist" do
+      it 'requires an artist' do
         expect do
           artist_info.artist_id = nil
           artist_info.save!
@@ -36,15 +36,15 @@ describe ArtistInfo do
   end
 
   describe 'save' do
-    it "triggers geocode given new street" do
-      expect(artist_info).to receive(:compute_geocode).at_least(1).and_return([-37,122])
+    it 'triggers geocode given new street' do
+      expect(artist_info).to receive(:compute_geocode).at_least(1).and_return([-37, 122])
       artist_info.save!
     end
   end
 
-  describe "open studios participation" do
+  describe 'open studios participation' do
     before do
-      allow(artist_info).to receive(:compute_geocode).at_least(1).and_return([-37,122])
+      allow(artist_info).to receive(:compute_geocode).at_least(1).and_return([-37, 122])
       artist_info.save!
     end
 
@@ -53,7 +53,7 @@ describe ArtistInfo do
         expect(artist_info).to receive('open_studios_participation').at_least(:once).and_return('date|other')
         expect(artist_info.os_participation['date']).to eq(true)
       end
-      it "returns nil if participation is missing" do
+      it 'returns nil if participation is missing' do
         expect(artist_info).to receive('open_studios_participation').at_least(:once).and_return('date|something')
         expect(artist_info.os_participation['other']).to be_nil
       end
@@ -88,14 +88,14 @@ describe ArtistInfo do
         expect(artist_info.os_participation['201104']).to be_nil
       end
       it 'adds another key properly using update' do
-        artist_info.update_attribute(:open_studios_participation,'201104')
+        artist_info.update_attribute(:open_studios_participation, '201104')
         artist_info.update_os_participation('201114', true)
         artist_info.reload
         expect(artist_info.os_participation['201114']).to eq(true)
         expect(artist_info.os_participation['201104']).to eq(true)
       end
       it 'adds another key properly using =' do
-        artist_info.update_attribute(:open_studios_participation,'201104')
+        artist_info.update_attribute(:open_studios_participation, '201104')
         artist_info.send(:os_participation=, '201204' => true)
         artist_info.reload
         expect(artist_info.os_participation['201204']).to eq(true)

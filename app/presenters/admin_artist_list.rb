@@ -13,13 +13,13 @@ class AdminArtistList < ViewPresenter
   def artists
     @artists ||=
       begin
-        raw_artists.map{|a| ArtistPresenter.new(a) }
+        raw_artists.map { |a| ArtistPresenter.new(a) }
       end
   end
 
   def csv_headers
-    @csv_headers ||= ["Login", "First Name","Last Name","Full Name","Group Site Name",
-                      "Studio Address","Studio Number","Email Address"]
+    @csv_headers ||= ['Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name',
+                      'Studio Address', 'Studio Number', 'Email Address']
   end
 
   def csv
@@ -49,7 +49,7 @@ class AdminArtistList < ViewPresenter
   private
 
   def set_sort_by(sort_by)
-    @sort_by = (ALLOWED_SORT_BY.include? sort_by.to_s) ? sort_by : ALLOWED_SORT_BY.first
+    @sort_by = ALLOWED_SORT_BY.include? sort_by.to_s ? sort_by : ALLOWED_SORT_BY.first
   end
 
   def sort_by_clause

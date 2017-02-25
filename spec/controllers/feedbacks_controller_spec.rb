@@ -7,7 +7,7 @@ describe FeedbacksController do
       get :new
     end
     it { expect(response).to be_success }
-    it "sets a new feedback" do
+    it 'sets a new feedback' do
       expect(assigns(:feedback)).to be_a_kind_of Feedback
       expect(assigns(:feedback)).to be_new_record
     end
@@ -38,8 +38,8 @@ describe FeedbacksController do
           }
         end.to change(Feedback, :count).by(1)
       end
-      it {expect(response).to be_success}
-      it {expect(response).to render_template :thankyou}
+      it { expect(response).to be_success }
+      it { expect(response).to render_template :thankyou }
     end
   end
 end

@@ -9,7 +9,7 @@ class ArtistSerializer < MauSerializer
   include ActionView::Helpers::UrlHelper
 
   def art_pieces
-    object.art_pieces.map{|a| Hash[[:id].map{|k| [k, a.send(k)]}]}
+    object.art_pieces.map { |a| Hash[[:id].map { |k| [k, a.send(k)] }] }
   end
 
   def link

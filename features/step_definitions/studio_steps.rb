@@ -19,7 +19,7 @@ When(/^I edit the first studio$/) do
 end
 
 When(/^I change the street address to "(.*?)"$/) do |street_address|
-  fill_in "Street", with: street_address
+  fill_in 'Street', with: street_address
   click_on 'Update Studio'
 end
 

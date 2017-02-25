@@ -6,7 +6,7 @@ FactoryGirl.define do
     addr_state { 'ca' }
     lat { 37.75 }
     lng { -122.41 }
-    bio { Faker::Lorem.paragraphs(1).join ' '}
+    bio { Faker::Lorem.paragraphs(1).join ' ' }
     max_pieces { 10 }
   end
 end

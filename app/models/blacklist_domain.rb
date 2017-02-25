@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class BlacklistDomain < ApplicationRecord
   DOMAIN_REGEX = /\A[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}\z/
-  DOMAIN_MESSAGE = "This domain does not appear to be valid."
+  DOMAIN_MESSAGE = 'This domain does not appear to be valid.'
 
   before_validation :downcase_domain
   validates :domain, uniqueness: true
@@ -13,6 +13,6 @@ class BlacklistDomain < ApplicationRecord
   end
 
   def downcase_domain
-    domain.downcase! if domain
+    domain&.downcase!
   end
 end

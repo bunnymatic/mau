@@ -2,15 +2,15 @@
 require 'csv'
 require 'xmlrpc/client'
 
-Mime::Type.register "image/png", :png
+Mime::Type.register 'image/png', :png
 
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_action :user_required, only: [ :edit, :update, :manage_art, :delete_art,
-                                        :destroyart, :setarrangement, :arrange_art ]
+  before_action :user_required, only: [:edit, :update, :manage_art, :delete_art,
+                                       :destroyart, :setarrangement, :arrange_art]
 
   def index
     respond_to do |format|
@@ -24,7 +24,7 @@ class ArtistsController < ApplicationController
 
         # build alphabetical list keyed by first letter
         @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_sort, cur_page)
-        @page_title = PageInfoService.title("Artists")
+        @page_title = PageInfoService.title('Artists')
         if request.xhr?
           render partial: 'artist_list', locals: { gallery: @gallery }
         else
@@ -57,7 +57,7 @@ class ArtistsController < ApplicationController
 
     @roster = ArtistsRoster.new(@os_only)
 
-    @page_title = PageInfoService.title("Artists")
+    @page_title = PageInfoService.title('Artists')
 
     render action: 'roster'
   end
@@ -68,7 +68,7 @@ class ArtistsController < ApplicationController
     inp = (params[:input] || params[:q]).try(:downcase)
     if inp
       # filter with input prefix
-      names = (inp.present? ? names.select{|name| %r{#{inp}}i =~ name['value']} : [])
+      names = (inp.present? ? names.select { |name| /#{inp}/i =~ name['value'] } : [])
     end
     render json: names, adapter: :json_api
   end
@@ -76,9 +76,9 @@ class ArtistsController < ApplicationController
   def destroyart
     # receives post from delete art form
     redirect_to(artist_path(current_user)) and return unless destroy_art_params
-    ids = destroy_art_params.select { |_kk,vv| vv != "0" }.keys
+    ids = destroy_art_params.select { |_kk, vv| vv != '0' }.keys
     ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
-    Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", "deleted art pieces"
+    Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", 'deleted art pieces'
     redirect_to(artist_path(current_user))
   end
 
@@ -92,16 +92,16 @@ class ArtistsController < ApplicationController
       neworder = params[:neworder].split(',')
       neworder.each_with_index do |apid, idx|
         a = ArtPiece.where(id: apid, artist_id: current_user.id).first
-        a.update_attribute(:position, idx) if a
+        a&.update_attribute(:position, idx)
       end
-      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", "reordered art pieces"
+      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", 'reordered art pieces'
     else
-      flash[:error] ="There was a problem interpreting the input parameters.  Please try again."
+      flash[:error] = 'There was a problem interpreting the input parameters.  Please try again.'
     end
     if request.xhr?
       render json: true
     else
-      flash[:notice] = "Your images have been reordered."
+      flash[:notice] = 'Your images have been reordered.'
       redirect_to artist_path(current_user)
     end
   end
@@ -117,7 +117,7 @@ class ArtistsController < ApplicationController
         if !@artist
           redirect_to artists_path, error: 'We were unable to find the artist you were looking for.'
         else
-          @artist = ArtistPresenter.new( @artist)
+          @artist = ArtistPresenter.new(@artist)
           set_artist_meta
         end
       end
@@ -149,15 +149,15 @@ class ArtistsController < ApplicationController
   def update
     if request.xhr?
       os_status = UpdateArtistService.new(current_artist, artist_params).update_os_status
-      render json: {success: true, os_status: os_status, current_os: OpenStudiosEventService.current}
+      render json: { success: true, os_status: os_status, current_os: OpenStudiosEventService.current }
     else
       if commit_is_cancel
         redirect_to user_path(current_user)
         return
       end
       if UpdateArtistService.new(current_artist, artist_params).update
-        Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
-        flash[:notice] = "Your profile has been updated"
+        Messager.new.publish "/artists/#{current_artist.id}/update", 'updated artist info'
+        flash[:notice] = 'Your profile has been updated'
         redirect_to edit_artist_url(current_user)
       else
         @user = ArtistPresenter.new(current_artist.reload)
@@ -179,7 +179,7 @@ class ArtistsController < ApplicationController
 
   def set_artist_meta
     return unless @artist
-    @page_title = PageInfoService.title("Artist: %s" % @artist.get_name)
+    @page_title = PageInfoService.title('Artist: %s' % @artist.get_name)
     @page_image = @artist.get_profile_image(:large) if @artist.has_profile_image?
     @page_description = build_page_description @artist
     @page_keywords += @artist.media_and_tags + (@page_keywords || [])
@@ -221,23 +221,23 @@ class ArtistsController < ApplicationController
   def artist_params
     if params[:emailsettings]
       em = params[:emailsettings]
-      em = Hash[em.map{|k,v| [k, !!v.to_i]}]
+      em = Hash[em.map { |k, v| [k, !!v.to_i] }]
       params[:artist][:email_attrs] = em.to_json
     end
 
-    if params[:artist].has_key?("studio") && params[:artist]["studio"].blank?
-      params[:artist]["studio_id"] = nil
-      params[:artist].delete("studio")
+    if params[:artist].has_key?('studio') && params[:artist]['studio'].blank?
+      params[:artist]['studio_id'] = nil
+      params[:artist].delete('studio')
     end
 
     permitted = [:studio, :login, :email, :email_attrs,
                  :password, :password_confirmation, :photo, :os_participation,
-                 :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume ] + User.stored_attributes[:links]
+                 :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume] + User.stored_attributes[:links]
     params.require(:artist).permit(*permitted, artist_info_attributes: artist_info_permitted_attributes)
   end
 
   def is_os_only(osonly)
-    [true, "1",1,"on","true"].include? osonly
+    [true, '1', 1, 'on', 'true'].include? osonly
   end
 
   def fetch_artists_for_autosuggest

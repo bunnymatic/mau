@@ -15,7 +15,7 @@ module Search
         type: 'nGram',
         min_gram: 4,
         max_gram: 10,
-        token_chars: [ :letter, :digit ]
+        token_chars: [:letter, :digit]
       }
     }.freeze
 

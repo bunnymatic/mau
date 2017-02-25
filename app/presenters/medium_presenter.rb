@@ -7,7 +7,7 @@ class MediumPresenter < DelegatingPresenter
 
   def hashtag
     name = @medium.name
-    name = name.split("-").map(&:strip).reverse.join("") if /^painting/i =~ name
+    name = name.split('-').map(&:strip).reverse.join('') if /^painting/i =~ name
     hashtag = name.parameterize.underscore
   end
 end

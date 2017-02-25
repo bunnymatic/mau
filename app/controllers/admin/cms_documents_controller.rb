@@ -16,14 +16,14 @@ module Admin
 
     def destroy
       @cms_document.destroy
-      redirect_to admin_cms_documents_path, notice: "CmsDocument was removed"
+      redirect_to admin_cms_documents_path, notice: 'CmsDocument was removed'
     end
 
     def update
       if @cms_document.update_attributes(cms_document_params)
         redirect_to [:admin, @cms_document], notice: 'CmsDocument was successfully updated.'
       else
-        render "edit"
+        render 'edit'
       end
     end
 
@@ -35,7 +35,7 @@ module Admin
       if @cms_document.save
         redirect_to [:admin, @cms_document], notice: 'CmsDocument was successfully created.'
       else
-        render "edit"
+        render 'edit'
       end
     end
 

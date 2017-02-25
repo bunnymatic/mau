@@ -19,7 +19,7 @@ class MediaPresenter
         else
           raw_art_pieces
         end
-      end.map{|a| ArtPiecePresenter.new(a)}
+      end.map { |a| ArtPiecePresenter.new(a) }
   end
 
   def art_pieces_by_artist
@@ -29,7 +29,7 @@ class MediaPresenter
           raw_art_pieces.each do |piece|
             bucket[piece.artist_id] = piece unless bucket.has_key? piece.artist_id
           end
-        end.values.sort_by { |p| p.updated_at }.reverse
+        end.values.sort_by(&:updated_at).reverse
       end
   end
 

@@ -8,15 +8,15 @@ class Role < ApplicationRecord
 
   class << self
     def admin
-      Role.find_by_role("admin")
+      Role.find_by_role('admin')
     end
 
     def manager
-      Role.find_by_role("manager")
+      Role.find_by_role('manager')
     end
 
     def editor
-      Role.find_by_role("editor")
+      Role.find_by_role('editor')
     end
   end
 end

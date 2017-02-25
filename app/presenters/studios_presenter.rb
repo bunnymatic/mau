@@ -9,6 +9,6 @@ class StudiosPresenter
   end
 
   def studios
-    @studios.map{|s| StudioPresenter.new(s)}
+    @studios.map { |s| StudioPresenter.new(s) }
   end
 end
