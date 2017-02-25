@@ -2,7 +2,7 @@
 class ArtistProfileImage < ProfileImage
   def self.get_path(artist, size = 'medium')
     if artist.photo?
-      return photo(size)
+      photo(size)
     else
       # get path for image of size
       # size should be either "thumb","medium"

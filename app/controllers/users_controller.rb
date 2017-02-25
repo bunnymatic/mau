@@ -75,7 +75,7 @@ class UsersController < ApplicationController
     recaptcha = true # && verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
     secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
     if secret && recaptcha && @user.save
-      new_state = @user.is_a? Artist ? 'pending' : 'active'
+      new_state = @user.is_a?(Artist) ? 'pending' : 'active'
       @user.update_attribute(:state, new_state)
       redirect_after_create && return
     else
@@ -232,12 +232,10 @@ class UsersController < ApplicationController
   end
 
   def safe_find_user(id)
-    begin
-      User.friendly.find(id)
-    rescue ActiveRecord::RecordNotFound
-      flash.now[:error] = 'The user you were looking for was not found.'
-      return nil
-    end
+    User.friendly.find(id)
+  rescue ActiveRecord::RecordNotFound
+    flash.now[:error] = 'The user you were looking for was not found.'
+    return nil
   end
 
   private
@@ -300,7 +298,7 @@ class UsersController < ApplicationController
   end
 
   def user_params_key
-    [:artist, :mau_fan, :user].detect { |k| params.has_key? k }
+    [:artist, :mau_fan, :user].detect { |k| params.key? k }
   end
 
   def destroy_params

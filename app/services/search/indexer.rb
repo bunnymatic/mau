@@ -40,18 +40,14 @@ module Search
       end
 
       def remove
-        begin
-          object.__elasticsearch__.delete_document
-        rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
-        end
+        object.__elasticsearch__.delete_document
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
       end
 
       def update
-        begin
-          object.__elasticsearch__.update_document
-        rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
-          index
-        end
+        object.__elasticsearch__.update_document
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
+        index
       end
     end
 

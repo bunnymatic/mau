@@ -378,8 +378,8 @@ describe ArtistsController, elasticsearch: true do
     it 'returns a hash with a list of artists' do
       j = JSON.parse(response.body)
       expect(j).to be_a_kind_of Array
-      expect(j.first.has_key?('info')).to be
-      expect(j.first.has_key?('value')).to be
+      expect(j.first.key?('info')).to be
+      expect(j.first.key?('value')).to be
     end
     it 'list of artists matches the input parameter' do
       j = JSON.parse(response.body)

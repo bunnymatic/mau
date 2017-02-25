@@ -3,21 +3,19 @@ class Address
   attr_reader :lat, :lng, :street, :city, :state, :zip
 
   def initialize(model)
-    begin
-      if model.respond_to?(:studio_id) && (model.studio_id.presence.to_i > 0) && model.studio
-        model = model.studio
-      end
-
-      @lat = model.lat
-      @lng = model.lng
-      @street = model.street
-      @city = fetch_with_default('San Francisco') { model.city }
-      @state = fetch_with_default('CA') { get_state(model) }
-      @zip = fetch_with_default('94110') { model.zip }
-
-    rescue NoMethodError => ex
-      raise ArgumentError.new('the model does not appear to have address like attributes')
+    if model.respond_to?(:studio_id) && (model.studio_id.presence.to_i > 0) && model.studio
+      model = model.studio
     end
+
+    @lat = model.lat
+    @lng = model.lng
+    @street = model.street
+    @city = fetch_with_default('San Francisco') { model.city }
+    @state = fetch_with_default('CA') { get_state(model) }
+    @zip = fetch_with_default('94110') { model.zip }
+
+  rescue NoMethodError => ex
+    raise ArgumentError, 'the model does not appear to have address like attributes'
   end
 
   def present?
@@ -38,7 +36,7 @@ class Address
   end
 
   def ==(other)
-    (other.class == self.class) && (other._state == self._state)
+    (other.class == self.class) && (other._state == _state)
   end
 
   protected

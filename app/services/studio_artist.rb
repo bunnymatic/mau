@@ -3,8 +3,8 @@ class StudioArtistError < StandardError; end
 
 class StudioArtist
   def initialize(studio, artist)
-    raise StudioArtistError.new 'artist must be an artist' unless artist.is_a? Artist
-    raise StudioArtistError.new 'studio must be a studio' unless studio.is_a? Studio
+    raise StudioArtistError, 'artist must be an artist' unless artist.is_a? Artist
+    raise StudioArtistError, 'studio must be a studio' unless studio.is_a? Studio
     @studio = studio
     @artist = artist
   end

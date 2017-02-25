@@ -12,13 +12,11 @@ module Api
     end
 
     def internal_request?
-      begin
-        server = Rails.application.config.action_mailer.default_url_options[:host]
-        referrer = URI.parse(request.env['HTTP_REFERER'].to_s)
-        referrer && referrer.host && (server.include?(referrer.host) || /^https?:\/\/127\.0\.0\.1\//)
-      rescue URI::Error => ex
-        false
-      end
+      server = Rails.application.config.action_mailer.default_url_options[:host]
+      referrer = URI.parse(request.env['HTTP_REFERER'].to_s)
+      referrer && referrer.host && (server.include?(referrer.host) || /^https?:\/\/127\.0\.0\.1\//)
+    rescue URI::Error => ex
+      false
     end
   end
 end

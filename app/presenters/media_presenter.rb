@@ -27,7 +27,7 @@ class MediaPresenter
       begin
         {}.tap do |bucket|
           raw_art_pieces.each do |piece|
-            bucket[piece.artist_id] = piece unless bucket.has_key? piece.artist_id
+            bucket[piece.artist_id] = piece unless bucket.key? piece.artist_id
           end
         end.values.sort_by(&:updated_at).reverse
       end

@@ -9,7 +9,7 @@ module Admin
         format.html do
           @events_by_type = events.each_with_object({}) do |item, result|
             tp = item.class.name
-            result[tp] = [] unless result.has_key? tp
+            result[tp] = [] unless result.key? tp
             result[tp] << item
           end
         end

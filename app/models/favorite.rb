@@ -30,11 +30,11 @@ class Favorite < ApplicationRecord
   end
 
   def to_obj
-    if FAVORITABLE_TYPES.include? self.favoritable_type
+    if FAVORITABLE_TYPES.include? favoritable_type
       begin
-        self.favoritable_type.constantize.find(self.favoritable_id)
+        favoritable_type.constantize.find(favoritable_id)
       rescue ActiveRecord::RecordNotFound
-        self.destroy
+        destroy
         nil
       end
     end

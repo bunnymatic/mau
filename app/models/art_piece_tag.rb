@@ -11,6 +11,6 @@ class ArtPieceTag < ApplicationRecord
   scope :alpha, -> { order('name') }
 
   def safe_name
-    HtmlEncoder.encode(self.name).gsub(' ', '&nbsp;').html_safe
+    HtmlEncoder.encode(name).gsub(' ', '&nbsp;').html_safe
   end
 end

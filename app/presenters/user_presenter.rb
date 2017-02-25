@@ -100,7 +100,7 @@ class UserPresenter < ViewPresenter
   end
 
   def favorites_of_me
-    @favorites_of_me ||= Favorite.users.where(favoritable_id: self.id).order('created_at desc')
+    @favorites_of_me ||= Favorite.users.where(favoritable_id: id).order('created_at desc')
   end
 
   def valid?

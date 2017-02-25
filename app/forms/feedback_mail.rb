@@ -45,7 +45,7 @@ class FeedbackMail
   end
 
   def has_account?
-    !!(current_user)
+    !!current_user
   end
 
   def comment

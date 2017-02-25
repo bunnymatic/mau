@@ -35,7 +35,7 @@ class ArtPiece < ApplicationRecord
     Search::Indexer.remove(self)
   end
 
-  self.__elasticsearch__.client = Search::EsClient.root_es_client
+  __elasticsearch__.client = Search::EsClient.root_es_client
 
   settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2 }) do
     mappings(_all: { analyzer: :mau_snowball_analyzer }) do
@@ -95,11 +95,11 @@ class ArtPiece < ApplicationRecord
   end
 
   def get_name(escape = false)
-    escape ? safe_title : self.title
+    escape ? safe_title : title
   end
 
   def safe_title
-    HtmlEncoder.encode(self.title)
+    HtmlEncoder.encode(title)
   end
 
   def get_path(size = nil)
@@ -119,7 +119,7 @@ class ArtPiece < ApplicationRecord
 
   def clear_caches
     ArtPieceCacheService.clear
-    if self.artist && self.artist.id != nil?
+    if artist && artist.id != nil?
       SafeCache.delete(artist.representative_art_cache_key)
     end
   end

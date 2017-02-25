@@ -5,19 +5,19 @@ class StatsCalculator
 
     def initialize(hash = nil)
       if hash.nil? || hash.is_a?(Hash)
-        self.merge!(hash || {})
+        merge!(hash || {})
       else
-        raise ValueError.new("#{hash.inspect} is not a valid histogram initalize (Hash required)")
+        raise ValueError, "#{hash.inspect} is not a valid histogram initalize (Hash required)"
       end
     end
 
     def add(val)
-      raise ValueError.new("#{val.inspect} is not a valid histogram element") unless val.present?
+      raise ValueError, "#{val.inspect} is not a valid histogram element" unless val.present?
       self[val] = (self[val] || 0) + 1
     end
 
     def sort_by_value_reverse
-      Histogram.new(Hash[self.sort_by(&:last).reverse])
+      Histogram.new(Hash[sort_by(&:last).reverse])
     end
 
     def append(hist)

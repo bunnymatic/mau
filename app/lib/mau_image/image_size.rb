@@ -21,7 +21,7 @@ module MauImage
 
     def self.all
       {}.tap do |sizes|
-        SIZES.each { |k, v| sizes[k] = ImageSize.new(*(([k] + v).flatten)) }
+        SIZES.each { |k, v| sizes[k] = ImageSize.new(*([k] + v).flatten) }
       end
     end
 

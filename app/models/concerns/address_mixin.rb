@@ -15,13 +15,13 @@ module AddressMixin
   end
 
   def map_link
-    'http://maps.google.com/maps?q=%s' % URI.escape(self.full_address) if self.full_address
+    'http://maps.google.com/maps?q=%s' % URI.escape(full_address) if full_address
   end
 
   protected
 
   def get_state
-    self.respond_to?(:addr_state) ? self.addr_state : self.state
+    respond_to?(:addr_state) ? addr_state : state
   end
 
   def compute_geocode(force = false)
@@ -32,15 +32,15 @@ module AddressMixin
         if result.try(:success)
           self.lat = result.lat
           self.lng = result.lng
-          [self.lat, self.lng]
+          [lat, lng]
         end
       end
     rescue Geocoder::Error => ex
-      logger.warn("Failed to Geocode: #{address.to_s(true)} for #{self.inspect}")
+      logger.warn("Failed to Geocode: #{address.to_s(true)} for #{inspect}")
     end
   end
 
   def should_recompute?
-    (self.changes.keys & %w(street city addr_state zip)).present?
+    (changes.keys & %w(street city addr_state zip)).present?
   end
 end

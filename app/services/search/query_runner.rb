@@ -41,7 +41,7 @@ module Search
     end
 
     def package_results(raw_results)
-      return unless raw_results.has_key?('hits') && raw_results['hits'].has_key?('hits')
+      return unless raw_results.key?('hits') && raw_results['hits'].key?('hits')
 
       raw_results['hits']['hits'].map do |hit|
         highlights = hit['highlight'] || {}

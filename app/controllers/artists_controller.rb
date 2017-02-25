@@ -38,7 +38,7 @@ class ArtistsController < ApplicationController
   end
 
   def edit
-    redirect_to(edit_user_path(current_user)) && (return) unless current_user.is_artist?
+    redirect_to(edit_user_path(current_user)) && return unless current_user.is_artist?
     @user = ArtistPresenter.new(current_artist)
     @studios = StudioService.all
     @artist_info = current_artist.artist_info || ArtistInfo.new(id: current_artist.id)
@@ -75,7 +75,7 @@ class ArtistsController < ApplicationController
 
   def destroyart
     # receives post from delete art form
-    redirect_to(artist_path(current_user)) && (return) unless destroy_art_params
+    redirect_to(artist_path(current_user)) && return unless destroy_art_params
     ids = destroy_art_params.select { |_kk, vv| vv != '0' }.keys
     ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
     Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", 'deleted art pieces'
@@ -87,7 +87,7 @@ class ArtistsController < ApplicationController
   end
 
   def setarrangement
-    if params.has_key? :neworder
+    if params.key? :neworder
       # new endpoint for rearranging - more than just setting representative
       neworder = params[:neworder].split(',')
       neworder.each_with_index do |apid, idx|
@@ -170,11 +170,9 @@ class ArtistsController < ApplicationController
   protected
 
   def safe_find_artist(id)
-    begin
-      Artist.friendly.find id
-    rescue ActiveRecord::RecordNotFound
-      nil
-    end
+    Artist.friendly.find id
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   def set_artist_meta
@@ -211,7 +209,7 @@ class ArtistsController < ApplicationController
   end
 
   def destroy_art_params
-    if params.has_key? :art
+    if params.key? :art
       params.require(:art).permit!
     else
       params
@@ -225,7 +223,7 @@ class ArtistsController < ApplicationController
       params[:artist][:email_attrs] = em.to_json
     end
 
-    if params[:artist].has_key?('studio') && params[:artist]['studio'].blank?
+    if params[:artist].key?('studio') && params[:artist]['studio'].blank?
       params[:artist]['studio_id'] = nil
       params[:artist].delete('studio')
     end

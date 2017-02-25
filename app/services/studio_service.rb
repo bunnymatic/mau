@@ -24,7 +24,7 @@ class StudioService
 
     def get_studio_from_id(_id)
       if (_id == 'independent-studios') || (_id.to_s == '0')
-        return Studio.indy
+        Studio.indy
       else
         begin
           Studio.friendly.find(_id)

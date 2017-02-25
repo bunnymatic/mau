@@ -41,7 +41,7 @@ class AdminFavoritesPresenter
 
   def increment(type, entry)
     k = type.tableize.to_sym
-    entry[k] += 1 if entry.has_key? k
+    entry[k] += 1 if entry.key? k
   end
 
   def tally_favorites(tally, fav)

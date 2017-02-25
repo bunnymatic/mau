@@ -6,7 +6,7 @@ class Studio < ApplicationRecord
 
   include Elasticsearch::Model
 
-  self.__elasticsearch__.client = Search::EsClient.root_es_client
+  __elasticsearch__.client = Search::EsClient.root_es_client
 
   settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2 }) do
     mappings(_all: { analyzer: :mau_snowball_analyzer }) do

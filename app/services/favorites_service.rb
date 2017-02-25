@@ -9,7 +9,7 @@ class FavoritesService
   def self.add(user, obj)
     type, id = unpack_object(obj)
     unless Favorite::FAVORITABLE_TYPES.include? type
-      raise InvalidFavoriteTypeError.new("You can't favorite that type of object")
+      raise InvalidFavoriteTypeError, "You can't favorite that type of object"
     end
     obj = type.constantize.find(id)
     obj ? add_favorite(user, obj) : nil
@@ -18,7 +18,7 @@ class FavoritesService
   def self.remove(user, obj)
     type, id = unpack_object(obj)
     unless Favorite::FAVORITABLE_TYPES.include? type
-      raise InvalidFavoriteTypeError.new("You can't unfavorite that type of object")
+      raise InvalidFavoriteTypeError, "You can't unfavorite that type of object"
     end
     obj = type.constantize.find(id)
     (obj ? remove_favorite(user, obj) : nil)
@@ -32,7 +32,7 @@ class FavoritesService
     end
 
     def notify_favorited_user(fav, sender)
-      artist = fav.is_a? User ? fav : fav.artist
+      artist = fav.is_a?(User) ? fav : fav.artist
       begin
         if artist && artist.emailsettings['favorites']
           ArtistMailer.favorite_notification(artist, sender).deliver_later

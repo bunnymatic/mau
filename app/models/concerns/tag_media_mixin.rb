@@ -3,7 +3,7 @@ module TagMediaMixin
   extend ActiveSupport::Concern
 
   def safe_name
-    HtmlEncoder.encode(self.name).gsub(' ', '&nbsp;').html_safe
+    HtmlEncoder.encode(name).gsub(' ', '&nbsp;').html_safe
   end
 
   module ClassMethods

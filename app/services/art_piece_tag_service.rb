@@ -9,12 +9,12 @@ class ArtPieceTagService
     end
 
     def [](key)
-      raise NoMethodError.new("#{key} does not exist as a method on #{self.inspect}") unless FIELDS.include?(key.to_sym)
+      raise NoMethodError, "#{key} does not exist as a method on #{inspect}" unless FIELDS.include?(key.to_sym)
       send(key)
     end
 
     def []=(key, val)
-      raise NoMethodError.new("#{key} does not exist as a method on #{self.inspect}") unless FIELDS.include?(key.to_sym)
+      raise NoMethodError, "#{key} does not exist as a method on #{inspect}" unless FIELDS.include?(key.to_sym)
       send("#{key}=", val)
     end
   end

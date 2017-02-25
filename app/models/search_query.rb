@@ -24,7 +24,7 @@ class SearchQuery
   end
 
   def empty?
-    !([studios, mediums, keywords, os_flag].any?(&:present?))
+    ![studios, mediums, keywords, os_flag].any?(&:present?)
   end
 
   private

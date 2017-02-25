@@ -4,13 +4,11 @@ module Api
     class ArtPiecesController < Api::ApiController
       respond_to :json, :xml
       def index
-        begin
-          artist = Artist.find(params[:artist_id])
-          art = artist.art_pieces
-          respond_with art
-        rescue ActiveRecord::RecordNotFound => ex
-          render json: {}
-        end
+        artist = Artist.find(params[:artist_id])
+        art = artist.art_pieces
+        respond_with art
+      rescue ActiveRecord::RecordNotFound => ex
+        render json: {}
       end
 
       def show

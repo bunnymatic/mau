@@ -12,7 +12,7 @@ class ArtistsGallery < ArtistsPresenter
   def initialize(os_only, letter, ordering, current_page, per_page = PER_PAGE)
     super os_only
     @letter = letter.try(:downcase)
-    @ordering = [:lastname, :firstname].include? ordering.try(:to_sym) ? ordering.to_sym : :lastname
+    @ordering = [:lastname, :firstname].include?(ordering.try(:to_sym)) ? ordering.to_sym : :lastname
     @per_page = per_page
     @current_page = current_page.to_i
     @pagination = ArtistsPagination.new(artists, @current_page, @per_page)
