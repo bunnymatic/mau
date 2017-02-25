@@ -52,8 +52,8 @@ shared_examples_for AddressMixin do
       expect(Geokit::Geocoders::MultiGeocoder).to receive(:geocode)
         .with(with_address.full_address)
         .and_return((double('Geokit::GeoLoc', success: true,
-                           lat: 9.0,
-                           lng: 10.0)))
+                                              lat: 9.0,
+                                              lng: 10.0)))
       expect(with_address.send(:compute_geocode)).to eql [with_address.lat.to_f, with_address.lng.to_f]
     end
   end

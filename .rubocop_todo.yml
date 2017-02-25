@@ -164,10 +164,10 @@ Rails/OutputSafety:
 
 # Offense count: 2
 # Cop supports --auto-correct.
-Rails/PluralizationGrammar:
-  Exclude:
-    - 'spec/models/open_studios_event_spec.rb'
-    - 'spec/services/open_studios_event_service_spec.rb'
+# Rails/PluralizationGrammar:
+#   Exclude:
+#     - 'spec/models/open_studios_event_spec.rb'
+#     - 'spec/services/open_studios_event_service_spec.rb'
 
 # Offense count: 28
 # Configuration parameters: Blacklist.
@@ -196,46 +196,6 @@ Style/AccessorMethodName:
     - 'app/presenters/thumbnail_browser_presenter.rb'
     - 'app/services/art_piece_tag_service.rb'
     - 'script/dump_current_database.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedHashRocketStyle, SupportedHashRocketStyles, EnforcedColonStyle, SupportedColonStyles, EnforcedLastArgumentHashStyle, SupportedLastArgumentHashStyles.
-# SupportedHashRocketStyles: key, separator, table
-# SupportedColonStyles: key, separator, table
-# SupportedLastArgumentHashStyles: always_inspect, always_ignore, ignore_implicit, ignore_explicit
-Style/AlignHash:
-  Exclude:
-    - 'app/forms/feedback_mail.rb'
-    - 'spec/support/address_mixin_shared_examples.rb'
-    - 'spec/support/faye_client_stub.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: with_first_parameter, with_fixed_indentation
-Style/AlignParameters:
-  Exclude:
-    - 'app/forms/feedback_mail.rb'
-    - 'config/deploy/acceptance.rb'
-    - 'config/deploy/production.rb'
-
-# Offense count: 21
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: always, conditionals
-Style/AndOr:
-  Exclude:
-    - 'app/controllers/admin/roles_controller.rb'
-    - 'app/controllers/admin/studios_controller.rb'
-    - 'app/controllers/api/api_controller.rb'
-    - 'app/controllers/art_piece_tags_controller.rb'
-    - 'app/controllers/art_pieces_controller.rb'
-    - 'app/controllers/artists_controller.rb'
-    - 'app/controllers/favorites_controller.rb'
-    - 'app/controllers/studios_controller.rb'
-    - 'app/controllers/users_controller.rb'
-    - 'app/presenters/art_piece_presenter.rb'
-    - 'lib/rand_helpers.rb'
 
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.

@@ -32,7 +32,7 @@ class ArtPieceTagsController < ApplicationController
     begin
       @tag = ArtPieceTag.friendly.find(params[:id])
     rescue ActiveRecord::RecordNotFound => ex
-      redirect_to_most_popular_tag(flash: { error: "Sorry, we can't find the tag you were looking for" }) and return
+      redirect_to_most_popular_tag(flash: { error: "Sorry, we can't find the tag you were looking for" }) && (return)
     end
 
     page = show_tag_params[:p].to_i

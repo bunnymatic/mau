@@ -26,9 +26,9 @@ class FavoritesController < ApplicationController
       result = FavoritesService.add(current_user, obj)
       msg = "#{obj.get_name(true)} has been added to your favorites."
       msg = "We love you too, but you can't favorite yourself." unless result
-      render json: { message: msg } and return
+      render(json: { message: msg }) && return
     rescue InvalidFavoriteTypeError, NameError
-      render_not_found(message: "You can't favorite that type of object") and return
+      render_not_found(message: "You can't favorite that type of object") && (return)
     end
     head(404)
   end

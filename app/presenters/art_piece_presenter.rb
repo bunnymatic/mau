@@ -29,7 +29,7 @@ class ArtPiecePresenter < ViewPresenter
   end
 
   def has_year?
-    year.present? and year.to_i > 1899
+    year.present? && year.to_i > 1899
   end
 
   def path

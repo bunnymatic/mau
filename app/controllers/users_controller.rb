@@ -30,10 +30,10 @@ class UsersController < ApplicationController
     @fan = safe_find_user(params[:id])
     unless @fan && @fan.active?
       flash.now[:error] = 'The account you were looking for was not found.'
-      redirect_to artists_path and return
+      redirect_to(artists_path) && return
     end
     if @fan.is_artist?
-      redirect_to artist_path(@fan) and return
+      redirect_to(artist_path(@fan)) && return
     else
       @page_title = PageInfoService.title('Fan: %s' % @fan.get_name(true))
     end
@@ -77,9 +77,9 @@ class UsersController < ApplicationController
     if secret && recaptcha && @user.save
       new_state = @user.is_a? Artist ? 'pending' : 'active'
       @user.update_attribute(:state, new_state)
-      redirect_after_create and return
+      redirect_after_create && return
     else
-      render_on_failed_create and return
+      render_on_failed_create && return
     end
   end
 
@@ -135,7 +135,7 @@ class UsersController < ApplicationController
     else
       flash[:error] = "Couldn't find user #{id}"
     end
-    redirect_to users_path and return
+    redirect_to(users_path) && return
   end
 
   def activate
@@ -146,7 +146,7 @@ class UsersController < ApplicationController
     unless user
       flash[:error] = "We couldn't find an artist with that activation code -- check your email?"\
                        " Or maybe you've already activated -- try signing in."
-      redirect_to login_path and return
+      redirect_to(login_path) && return
     end
 
     if code.present? && !user.active?
@@ -176,7 +176,7 @@ class UsersController < ApplicationController
   end
 
   def forgot
-    render and return unless request.post?
+    render && return unless request.post?
     inputs = params.require(user_params_key).permit(:email)
     user = User.find_by_email(inputs[:email])
     flash[:notice] = "We've sent email with instructions on how to reset your password."\

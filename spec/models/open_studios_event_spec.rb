@@ -8,7 +8,7 @@ describe OpenStudiosEvent do
       FactoryGirl.create(:open_studios_event, start_date: 12.months.ago)
     ]
   end
-  let(:current_os) { FactoryGirl.create(:open_studios_event, start_date: 1.months.since) }
+  let(:current_os) { FactoryGirl.create(:open_studios_event, start_date: 1.month.since) }
   let(:future_oses) do
     [
       FactoryGirl.create(:open_studios_event, start_date: 6.months.since),

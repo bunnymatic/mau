@@ -7,12 +7,12 @@ class FeedbackMail
   extend ActiveModel::Naming
 
   attr_accessor :note_type, :email, :email_confirm,
-    :inquiry, :current_user, :operating_system, :browser, :device
+                :inquiry, :current_user, :operating_system, :browser, :device
 
   VALID_NOTE_TYPES = %w(help inquiry).freeze
 
   validates :note_type, presence: true, inclusion: { in: VALID_NOTE_TYPES,
-    message: '%{value} is not a valid note type' }
+                                                     message: '%{value} is not a valid note type' }
 
   validates :email, presence: true
   validates :email_confirm, presence: true
@@ -68,9 +68,9 @@ class FeedbackMail
   def save
     em = (has_account? ? account_email : email)
     f = Feedback.new(email: em,
-                        subject: subject,
-                        login: login,
-                        comment: comment)
+                     subject: subject,
+                     login: login,
+                     comment: comment)
     FeedbackMailer.feedback(f).deliver_later if f.save
   end
 end

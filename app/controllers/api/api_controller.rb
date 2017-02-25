@@ -6,7 +6,7 @@ module Api
     def require_authorization
       auth_key = request.headers['HTTP_AUTHORIZATION']
       unless internal_request? || (auth_key.present? && auth_key == Rails.application.config.api_consumer_key)
-        render(plain: 'Unauthorized Request.  Access Denied.', status: :unauthorized) and return
+        render(plain: 'Unauthorized Request.  Access Denied.', status: :unauthorized) && return
       end
       true
     end

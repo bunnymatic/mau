@@ -48,7 +48,7 @@ module Admin
     def update
       if @studio.update_attributes(studio_params)
         flash[:notice] = "That's great that we're keeping studio data current.  Keep up the good work."
-        redirect_to(@studio) and return
+        redirect_to(@studio) && return
       else
         render 'edit'
       end
@@ -68,7 +68,7 @@ module Admin
     def unaffiliate_artist
       artist = Artist.find(params[:artist_id])
       if artist == current_artist
-        redirect_to_edit error: 'You cannot unaffiliate yourself' and return
+        redirect_to_edit(error: 'You cannot unaffiliate yourself') && return
       end
       msg = if StudioArtist.new(@studio, artist).unaffiliate
               { notice: "#{artist.full_name} is no longer associated with #{@studio.name}." }

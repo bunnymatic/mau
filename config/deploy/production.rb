@@ -16,12 +16,12 @@
 # something that quacks like a hash can be used to set
 # extended properties on the server.
 server 'www.missionartists.org',
-  user: 'deploy',
-  roles: %w(web app db),
-  ssh_options: {
-    user: 'deploy',
-    forward_agent: true
-  }
+       user: 'deploy',
+       roles: %w(web app db),
+       ssh_options: {
+         user: 'deploy',
+         forward_agent: true
+       }
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 set :branch, 'master'

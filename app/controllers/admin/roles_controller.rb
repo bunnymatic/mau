@@ -18,7 +18,7 @@ module Admin
     def create
       @role = Role.new(role_params)
       if @role.save
-        redirect_to admin_roles_path and return
+        redirect_to(admin_roles_path) && return
       else
         render :new
       end

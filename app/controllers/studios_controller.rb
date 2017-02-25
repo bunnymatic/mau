@@ -19,7 +19,7 @@ class StudiosController < ApplicationController
   def show
     unless @studio
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
-      redirect_to studios_path and return
+      redirect_to(studios_path) && return
     end
 
     respond_to do |format|

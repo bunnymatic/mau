@@ -38,7 +38,7 @@ class ArtistsController < ApplicationController
   end
 
   def edit
-    redirect_to edit_user_path(current_user) and return unless current_user.is_artist?
+    redirect_to(edit_user_path(current_user)) && (return) unless current_user.is_artist?
     @user = ArtistPresenter.new(current_artist)
     @studios = StudioService.all
     @artist_info = current_artist.artist_info || ArtistInfo.new(id: current_artist.id)
@@ -75,7 +75,7 @@ class ArtistsController < ApplicationController
 
   def destroyart
     # receives post from delete art form
-    redirect_to(artist_path(current_user)) and return unless destroy_art_params
+    redirect_to(artist_path(current_user)) && (return) unless destroy_art_params
     ids = destroy_art_params.select { |_kk, vv| vv != '0' }.keys
     ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
     Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", 'deleted art pieces'
