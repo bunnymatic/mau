@@ -127,7 +127,7 @@ class ArtPiece < ApplicationRecord
   def remove_images
     paths = get_paths.values
     paths.each do |pth|
-      pth = File.expand_path(File.join(Rails.root, 'public', pth))
+      pth = Rails.root.join('public', pth)
       next unless File.exist? pth
       begin
         File.delete pth

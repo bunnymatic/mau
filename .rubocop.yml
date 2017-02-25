@@ -56,3 +56,7 @@ Style/RegexpLiteral:
 
 Metrics/CyclomaticComplexity:
   Max: 10
+
+Rails/FilePath:
+  Exclude:
+    - config/environments/test.rb

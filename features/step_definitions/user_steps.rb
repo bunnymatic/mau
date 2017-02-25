@@ -15,7 +15,7 @@ When(/^I change my email to "(.*?)"$/) do |new_email|
 end
 
 When(/^I add a photo to upload$/) do
-  attach_file 'Photo', File.join(Rails.root, '/spec/fixtures/files/profile.png')
+  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'profile.png')
 end
 
 When(/^I fill in "(.*?)" for my password$/) do |pass|

@@ -71,7 +71,7 @@ Then /^I fill in the open studios event form for next weekend without a key$/ do
   @end_date = Time.zone.now.beginning_of_week + 11.days
   fill_in 'Start date', with: @start_date
   fill_in 'End date', with: @end_date
-  attach_file 'Logo', File.join(Rails.root, 'spec/fixtures/files/open_studios_event.png')
+  attach_file 'Logo', Rails.root.join('spec', 'fixtures', 'files', 'open_studios_event.png')
   click_on 'Create'
 end
 
@@ -84,7 +84,7 @@ Then /^I fill in the open studios event form for next weekend$/ do
   fill_in 'Start date', with: @start_date
   fill_in 'End date', with: @end_date
   fill_in 'Key', with: dt.strftime('%Y%m')
-  attach_file 'Logo', File.join(Rails.root, 'spec/fixtures/files/open_studios_event.png')
+  attach_file 'Logo', Rails.root.join('spec', 'fixtures', 'files', 'open_studios_event.png')
   click_on 'Create'
 end
 

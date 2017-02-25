@@ -22,7 +22,8 @@ module MockSearchService
   end
 
   def mock_search_results
-    File.read(File.open(File.join(Rails.root, 'spec', 'fixtures', 'files/search_results.json'), 'r'))
+    results_json = Rails.root.join 'spec', 'fixtures', 'file', 'search_results.json'
+    File.read(File.open(results_json, 'r'))
   end
 end
 

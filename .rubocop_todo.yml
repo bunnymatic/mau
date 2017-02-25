@@ -75,24 +75,6 @@ Rails/DynamicFindBy:
     - 'spec/models/blacklist_domain_spec.rb'
     - 'spec/models/scammer_spec.rb'
 
-# Offense count: 33
-Rails/FilePath:
-  Exclude:
-    - 'app/controllers/admin/tests_controller.rb'
-    - 'app/models/art_piece.rb'
-    - 'config/environments/acceptance.rb'
-    - 'config/environments/development.rb'
-    - 'config/environments/test.rb'
-    - 'config/initializers/assets.rb'
-    - 'features/step_definitions/artist_steps.rb'
-    - 'features/step_definitions/open_studios_steps.rb'
-    - 'features/step_definitions/user_steps.rb'
-    - 'features/support/env.rb'
-    - 'features/support/paperclip.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/rails_helper.rb~'
-    - 'spec/support/mock_search_service.rb'
-
 # Offense count: 13
 Rails/OutputSafety:
   Exclude:
