@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 module CmsDocumentsHelper
   def render_cms_content(cms_content = nil)
     cms_content ||= {}

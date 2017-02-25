@@ -25,7 +25,7 @@
             = studio.artists_count_label
           .os_population
             = studio.open_studios_artists_count_label
-    - if studio.has_open_studios_artists?
+    - if studio.open_studios_artists?
       section.studio__open-studios-banner
         = link_to open_studios_path do
           .os-violator.with-image

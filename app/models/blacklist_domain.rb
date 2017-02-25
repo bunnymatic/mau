@@ -7,7 +7,7 @@ class BlacklistDomain < ApplicationRecord
   validates :domain, uniqueness: true
   validates :domain, format: { with: DOMAIN_REGEX, message: DOMAIN_MESSAGE }
 
-  def self.is_allowed?(email_or_domain)
+  def self.allowed?(email_or_domain)
     domain = (email_or_domain.to_s.gsub(/^(.*)\@/, '') || '').downcase
     !(domain.empty? || BlacklistDomain.where(domain: domain).first)
   end

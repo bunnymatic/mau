@@ -25,27 +25,18 @@ describe Favorite, 'named scopes' do
     expect(f.errors[:user]).to have(1).item
   end
 
-  it 'users finds only users or artists' do
-    expect(favorite_users.count).to be > 0
-    favorite_users.all.each do |f|
-      expect(f.is_user?).to eq(true)
-      expect(f.is_art_piece?).to eq false
-    end
-  end
   it 'users finds only artists' do
     expect(favorite_artists.count).to be > 0
     favorite_artists.all.each do |f|
-      expect(f.is_user?).to eq(true)
-      expect(f.is_artist?).to eq(true)
-      expect(f.is_art_piece?).to eq false
+      expect(f.artist?).to eq(true)
+      expect(f.art_piece?).to eq false
     end
   end
   it 'art_pieces finds only art_pieces' do
     expect(favorite_art_pieces.count).to be > 0
     favorite_art_pieces.all.each do |f|
-      expect(f.is_user?).to eq false
-      expect(f.is_artist?).to eq false
-      expect(f.is_art_piece?).to eq(true)
+      expect(f.artist?).to eq false
+      expect(f.art_piece?).to eq(true)
     end
   end
 

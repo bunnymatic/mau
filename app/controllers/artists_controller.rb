@@ -16,7 +16,7 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html do
         # collect query args to build links
-        @os_only = is_os_only(params[:o])
+        @os_only = os_only?(params[:o])
         cur_page = (params[:p] || 0).to_i
         cur_sort = params[:s] || :lastname
         @letters = ArtistsGallery.letters(cur_sort)
@@ -53,7 +53,7 @@ class ArtistsController < ApplicationController
 
   def roster
     # collect query args to build links
-    @os_only = is_os_only(params[:o])
+    @os_only = os_only?(params[:o])
 
     @roster = ArtistsRoster.new(@os_only)
 
@@ -234,7 +234,7 @@ class ArtistsController < ApplicationController
     params.require(:artist).permit(*permitted, artist_info_attributes: artist_info_permitted_attributes)
   end
 
-  def is_os_only(osonly)
+  def os_only?(osonly)
     [true, '1', 1, 'on', 'true'].include? osonly
   end
 

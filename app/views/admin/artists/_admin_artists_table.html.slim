@@ -45,22 +45,22 @@
             td
               .email = a.email
               .address = a.address
-              - if a.has_activation_code? && !a.active?
+              - if a.activation_code? && !a.active?
                 .admin-tooltip.activation-link
                   i.fa.fa-link
                   | Activation Link
                   .tooltip-content
                     = a.activation_link
-              - if a.has_reset_code?
+              - if a.reset_code?
                 .admin-tooltip.forgot-password-link
                   i.fa.fa-link
                   | Reset Password Link
                   .tooltip-content
                     = a.reset_password_link
 
-            td data-order=(a.has_address? ? a.doing_open_studios?.to_s : -1)
+            td data-order=(a.address? ? a.doing_open_studios?.to_s : -1)
               / this make sure that all os settings are sent to the controller
-              - if a.has_address? && a.active?
+              - if a.address? && a.active?
                 - checked = a.doing_open_studios?
                 - name = "os[#{a.id}]"
                 = hidden_field_tag name, "0"

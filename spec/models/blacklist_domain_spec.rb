@@ -23,15 +23,15 @@ describe BlacklistDomain do
     end
   end
 
-  describe '#is_allowed?' do
+  describe '#allowed?' do
     before do
       FactoryGirl.create(:blacklist_domain, domain: 'blacklist.com')
     end
     it 'finds blacklist domains in email' do
-      expect(BlacklistDomain.is_allowed?('jon@blacklist.com')).to eq false
+      expect(BlacklistDomain.allowed?('jon@blacklist.com')).to eq false
     end
     it 'allows non blacklisted email' do
-      expect(BlacklistDomain.is_allowed?('jon@notblacklist.com')).to eq(true)
+      expect(BlacklistDomain.allowed?('jon@notblacklist.com')).to eq(true)
     end
   end
 end

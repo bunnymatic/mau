@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 module FavoritesHelper
   def get_favorite_image_and_path(fav, sz = :small)
     title = fav.get_name

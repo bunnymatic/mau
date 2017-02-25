@@ -128,7 +128,7 @@ class User < ApplicationRecord
   end
 
   def validate_email
-    errors.add(:email, 'is an invalid email') unless BlacklistDomain.is_allowed?(email)
+    errors.add(:email, 'is an invalid email') unless BlacklistDomain.allowed?(email)
   end
 
   def resend_activation

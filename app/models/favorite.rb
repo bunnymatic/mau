@@ -17,15 +17,11 @@ class Favorite < ApplicationRecord
     end
   end
 
-  def is_user?
-    [Artist.name, User.name].include? favoritable_type
-  end
-
-  def is_art_piece?
+  def art_piece?
     favoritable_type == ArtPiece.name
   end
 
-  def is_artist?
+  def artist?
     favoritable_type == Artist.name
   end
 
