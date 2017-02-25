@@ -78,7 +78,7 @@ class UserPresenter < ViewPresenter
   def facebook_handle
     @facebook_handle ||=
       begin
-        match = /facebook.com\/(.*)/.match(model.facebook.to_s)
+        match = %r{facebook.com/(.*)}.match(model.facebook.to_s)
         match.captures.first if match
       end
   end
@@ -86,7 +86,7 @@ class UserPresenter < ViewPresenter
   def instagram_handle
     @instagram_handle ||=
       begin
-        match = /instagram.com\/(.*)/.match(model.instagram.to_s)
+        match = %r{instagram.com/(.*)}.match(model.instagram.to_s)
         match.captures.first if match
       end
   end
@@ -94,7 +94,7 @@ class UserPresenter < ViewPresenter
   def twitter_handle
     @twitter_handle ||=
       begin
-        match = /twitter.com\/(.*)/.match(model.twitter.to_s)
+        match = %r{twitter.com/(.*)}.match(model.twitter.to_s)
         match.captures.first if match
       end
   end
@@ -197,7 +197,7 @@ class UserPresenter < ViewPresenter
   end
 
   def format_link(link)
-    (link =~ /^https?:\/\// ? link : "http://#{link}") if link.present?
+    (link =~ %r{^https?://} ? link : "http://#{link}") if link.present?
   end
 
   def icon_link_class(key, site)

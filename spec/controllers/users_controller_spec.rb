@@ -31,7 +31,10 @@ describe UsersController do
   end
 
   describe '#index' do
-    it { get :index; expect(response).to redirect_to artists_path }
+    it "works" do
+      get :index
+      expect(response).to redirect_to artists_path
+    end
   end
 
   describe '#new' do

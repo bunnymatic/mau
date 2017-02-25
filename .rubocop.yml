@@ -46,3 +46,10 @@ Style/DoubleNegation:
 Lint/HandleExceptions:
   Exclude:
     - app/services/search/indexer.rb
+
+Style/RegexpLiteral:
+  EnforcedStyle: slashes
+  SupportedStyles:
+    - slashes
+    - percent_r
+  AllowInnerSlashes: false
