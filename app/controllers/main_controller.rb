@@ -12,9 +12,9 @@ class MainController < ApplicationController
   def faq; end
 
   def sampler
-    sampler = ArtSampler.new(seed: sampler_params[:seed].to_i,
-                             offset: sampler_params[:offset].to_i,
-                             number_of_images: sampler_params[:number_of_images].to_i)
+    sampler = ArtSampler.new(seed: sampler_params[:seed],
+                             offset: sampler_params[:offset],
+                             number_of_images: sampler_params[:number_of_images])
     render partial: 'sampler_thumb', collection: sampler.pieces
   end
 
