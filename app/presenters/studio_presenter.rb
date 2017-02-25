@@ -39,9 +39,7 @@ class StudioPresenter < ViewPresenter
   end
 
   def street_with_cross
-    r = @studio.street
-    r << " (@ #{studio.cross_street})" if @studio.cross_street?
-    r
+    [@studio.street, ("(@ #{studio.cross_street})" if @studio.cross_street?)].compact.join(' ')
   end
 
   def artists_count_label

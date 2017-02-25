@@ -46,5 +46,4 @@ describe ImageFile do
       expect(ImageFile.get_path(directory, :original, file)).to eql([directory, file].join('/'))
     end
   end
-
 end

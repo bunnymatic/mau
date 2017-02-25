@@ -57,8 +57,6 @@ class AdminFavoritesPresenter
     end
   end
 
-  private
-
   def sum_column(col_name)
     favorites.values.map { |v| v[col_name].to_i }.sum
   end

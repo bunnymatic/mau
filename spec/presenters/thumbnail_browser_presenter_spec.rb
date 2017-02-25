@@ -27,7 +27,6 @@ describe ThumbnailBrowserPresenter do
     end
   end
 
-
   describe '#row_class' do
     subject { super().row_class }
     it { should eql 'rows1' }
