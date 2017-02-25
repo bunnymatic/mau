@@ -151,10 +151,10 @@ describe Pagination do
       it { should eql 'page 2 of 3' }
     end
     it 'reports not the current page for page 2' do
-      expect(subject.is_current_page?(2)).to eq(false)
+      expect(subject.current_page?(2)).to eq(false)
     end
     it 'reports that this is the current page for page 1' do
-      expect(subject.is_current_page?(1)).to eq(true)
+      expect(subject.current_page?(1)).to eq(true)
     end
   end
 

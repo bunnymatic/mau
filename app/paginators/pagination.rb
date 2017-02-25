@@ -24,7 +24,7 @@ class Pagination < ViewPresenter
     @count ||= (@array || []).length
   end
 
-  def is_current_page?(page)
+  def current_page?(page)
     page.to_i == @current.to_i
   end
 

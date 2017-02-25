@@ -10,12 +10,12 @@ class FavoritesCollectionPresenter < ViewPresenter
     @current_user = current_user
   end
 
-  def is_current_user?
+  def current_user_is_user?
     current_user && (user == current_user)
   end
 
   def title
-    if is_current_user?
+    if current_user_is_user?
       ((link_to 'My', url_helpers.user_path(current_user)) + ' Favorites').html_safe
     else
       ((link_to "#{user.get_name}'s", url_helpers.user_path(user)) + ' Favorites').html_safe
@@ -23,7 +23,7 @@ class FavoritesCollectionPresenter < ViewPresenter
   end
 
   def empty_message
-    if is_current_user?
+    if current_user_is_user?
       msg = <<-EOS
         It looks like you don't have any favorites yet.
         Go find an artist or some artwork that you like.

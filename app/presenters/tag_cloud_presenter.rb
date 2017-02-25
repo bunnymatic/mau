@@ -30,7 +30,7 @@ class TagCloudPresenter < ViewPresenter
     tags_lut[slug]
   end
 
-  def is_current_tag?(tag)
+  def current_tag?(tag)
     current_tag == tag
   end
 

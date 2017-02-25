@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_artist
-    current_user if current_user.try(:is_artist?)
+    current_user if current_user.try(:artist?)
   end
 
   def redirect_back_or_default(default = nil)
@@ -118,40 +118,40 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def is_admin?
-    current_user && current_user.is_admin?
+  def admin?
+    current_user.try(:admin?)
   end
 
-  def is_editor?
-    is_admin? || (current_user && current_user.is_editor?)
+  def editor?
+    current_user.try(:editor?)
   end
 
-  def is_manager?
-    is_admin? || (current_user && current_user.is_manager?)
+  def manager?
+    current_user.try(:manager?)
   end
 
-  def is_artist?
-    current_user && current_user.is_a?(Artist)
+  def artist?
+    current_user.try(:artist?)
   end
 
   def admin_required
-    redirect_to '/error' unless is_admin?
+    redirect_to '/error' unless admin?
   end
 
   def artist_required
-    redirect_to '/error' unless is_artist?
+    redirect_to '/error' unless artist?
   end
 
   def editor_required
-    redirect_to '/error' unless is_editor?
+    redirect_to '/error' unless editor?
   end
 
   def manager_required
-    redirect_to '/error' unless is_manager?
+    redirect_to '/error' unless manager?
   end
 
   def editor_or_manager_required
-    redirect_to '/error' unless is_manager? || is_editor?
+    redirect_to '/error' unless manager? || editor?
   end
 
   def check_browser
@@ -194,14 +194,6 @@ EOF
 
   def format_json?
     request.format == Mime::Type.lookup_by_extension(:json)
-  end
-
-  def is_local_referer?
-    if request.referer.to_s =~ %r{^https?\:\/\/}i
-      request.referer.to_s.match(/#{request.domain}/)
-    else
-      true
-    end
   end
 
   def current_open_studios

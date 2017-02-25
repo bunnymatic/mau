@@ -53,3 +53,6 @@ Style/RegexpLiteral:
     - slashes
     - percent_r
   AllowInnerSlashes: false
+
+Metrics/CyclomaticComplexity:
+  Max: 10

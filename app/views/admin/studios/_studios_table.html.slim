@@ -27,10 +27,10 @@ table.js-data-tables.pure-table.pure-table-striped#studios_index
             = link_to studio.studio_path, title: 'Show' do
               = fa_icon 'eye-open'
           .edit.btn
-            - if current_user.is_admin? || current_user.manages?(studio.studio)
+            - if current_user.manages?(studio.studio)
               = link_to edit_admin_studio_path(studio.studio), title: 'Edit' do
                 = fa_icon 'edit'
           .remove.btn
-            - if current_user.is_admin? && !(studio.is_a? IndependentStudio)
+            - if current_user.admin? && !(studio.is_a? IndependentStudio)
               = link_to admin_studio_path(studio.studio), method: :delete, confirm: 'Are you sure?', title: 'Remove' do
                 = fa_icon 'remove'

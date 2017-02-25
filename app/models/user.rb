@@ -186,12 +186,12 @@ class User < ApplicationRecord
     @fav_art_pieces ||= favorites_to_obj.select { |f| f.is_a? ArtPiece }.uniq
   end
 
-  def is_artist?
+  def artist?
     self[:type] == 'Artist'
   end
 
   def manages?(studio)
-    is_manager? && (self.studio == studio)
+    admin? || manager? && (self.studio == studio)
   end
 
   def make_activation_code
@@ -214,13 +214,13 @@ class User < ApplicationRecord
   end
 
   def tell_user_they_signed_up
-    return unless is_artist?
+    return unless artist?
     reload
     ArtistMailer.signup_notification(self).deliver_later
   end
 
   def notify_user_about_state_change
-    mailer_class = is_artist? ? ArtistMailer : UserMailer
+    mailer_class = artist? ? ArtistMailer : UserMailer
     reload
     if recently_activated? && mailchimp_subscribed_at.nil?
       mailer_class.activation(self).deliver_later

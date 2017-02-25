@@ -5,7 +5,7 @@
       li
         = paginator.link_to_previous
       - paginator.pages.each do |page|
-        li.page class=(paginator.is_current_page?(page) ? 'current' : '')
+        li.page class=(paginator.current_page?(page) ? 'current' : '')
           = paginator.link_to_page(page)
       li.page
         = paginator.link_to_next

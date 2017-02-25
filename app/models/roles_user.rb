@@ -4,7 +4,7 @@ class RolesUser < ApplicationRecord
   belongs_to :user
   belongs_to :role
 
-  def is_manager_role?
+  def manager?
     role_id == Role.manager.id
   end
 end

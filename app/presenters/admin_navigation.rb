@@ -51,11 +51,11 @@ class AdminNavigation < ViewPresenter
   end
 
   def links
-    links = if current_user.is_admin?
+    links = if current_user.admin?
               admin_links
-            elsif current_user.is_editor?
+            elsif current_user.editor?
               [[nil, editor_links]]
-            elsif current_user.is_manager?
+            elsif current_user.manager?
               [[nil, manager_links]]
             end
     links.each do |_sxn, entries|

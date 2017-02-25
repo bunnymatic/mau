@@ -16,7 +16,7 @@ class AdminEmailList < ViewPresenter
   end
 
   def artists
-    @artists ||= (is_multiple_os_query? ? os_participants : artists_by_list) || []
+    @artists ||= (multi_os_query? ? os_participants : artists_by_list) || []
   end
 
   def emails
@@ -110,8 +110,8 @@ class AdminEmailList < ViewPresenter
     @queried_os_tags ||= (list_names & available_open_studios_keys)
   end
 
-  def is_multiple_os_query?
-    @is_os_list ||= (list_names.length > 1) && (queried_os_tags.length > 1)
+  def multi_os_query?
+    list_names.present? && queried_os_tags.present?
   end
 
   def csv_headers

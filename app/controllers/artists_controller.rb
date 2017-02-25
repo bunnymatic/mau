@@ -38,7 +38,7 @@ class ArtistsController < ApplicationController
   end
 
   def edit
-    redirect_to(edit_user_path(current_user)) && return unless current_user.is_artist?
+    redirect_to(edit_user_path(current_user)) && return unless current_user.artist?
     @user = ArtistPresenter.new(current_artist)
     @studios = StudioService.all
     @artist_info = current_artist.artist_info || ArtistInfo.new(id: current_artist.id)

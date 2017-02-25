@@ -71,10 +71,10 @@ describe User do
 
   context 'make sure our factories work' do
     it 'creates an editor' do
-      expect(FactoryGirl.create(:user, :editor, :active).is_editor?).to eq(true)
+      expect(FactoryGirl.create(:user, :editor, :active).editor?).to eq(true)
     end
     it 'creates an admin' do
-      expect(FactoryGirl.create(:user, :admin, :active).is_admin?).to eq(true)
+      expect(FactoryGirl.create(:user, :admin, :active).admin?).to eq(true)
     end
   end
 
@@ -204,26 +204,26 @@ describe User do
 
   describe 'roles' do
     it 'without admin role user is not admin' do
-      expect(artist).not_to be_is_admin
+      expect(artist).not_to be_admin
     end
     it 'without editor role user is not editor' do
-      expect(artist).not_to be_is_editor
+      expect(artist).not_to be_editor
     end
     it 'with admin role, user is admin' do
-      expect(admin).to be_is_admin
+      expect(admin).to be_admin
     end
     it 'with editor role, user is editor' do
-      expect(editor).to be_is_editor
+      expect(editor).to be_editor
     end
     it 'with editor and manager role, user is editor and manager but not admin' do
-      expect(managing_editor).to be_is_editor
-      expect(managing_editor).to be_is_manager
-      expect(managing_editor).not_to be_is_admin
+      expect(managing_editor).to be_editor
+      expect(managing_editor).to be_manager
+      expect(managing_editor).not_to be_admin
     end
     it 'with admin role, user is editor and manager and admin' do
-      expect(admin).to be_is_editor
-      expect(admin).to be_is_manager
-      expect(admin).to be_is_admin
+      expect(admin).to be_editor
+      expect(admin).to be_manager
+      expect(admin).to be_admin
     end
     it 'does not save multiple roles of the same type' do
       expect do

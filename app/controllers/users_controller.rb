@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   def edit
     @fan = safe_find_user(params[:id])
 
-    if (@fan != current_user) || current_user.is_artist?
+    if (@fan != current_user) || current_user.artist?
       flash.keep
       redirect_to edit_artist_path(current_user)
       return
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
       flash.now[:error] = 'The account you were looking for was not found.'
       redirect_to(artists_path) && return
     end
-    if @fan.is_artist?
+    if @fan.artist?
       redirect_to(artist_path(@fan)) && return
     else
       @page_title = PageInfoService.title('Fan: %s' % @fan.get_name(true))

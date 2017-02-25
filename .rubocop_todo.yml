@@ -77,10 +77,6 @@ Metrics/BlockLength:
 Metrics/ClassLength:
   Max: 297
 
-# Offense count: 7
-Metrics/CyclomaticComplexity:
-  Max: 8
-
 # Offense count: 6
 Metrics/PerceivedComplexity:
   Max: 9
