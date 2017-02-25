@@ -15,9 +15,9 @@ AllCops:
     - db/schema.rb
     - db/migrate/**/*
     - spec/*.opts
-    - tmp/**
-    - vendor/**
-    - log/**
+    - tmp/**/*
+    - vendor/**/*
+    - log/**/*
     - app/lib/app_config.rb
     - config/initializers/setup_email_lists.rb
     - features/step_definitions/factory_steps.rb
