@@ -12,7 +12,7 @@ class CmsDocument < ApplicationRecord
       page: page.to_s,
       section: section.to_s
     }
-    markdown_content = where(page: page.to_s, section: section.to_s).first
+    markdown_content = find_by(page: page.to_s, section: section.to_s)
 
     unless markdown_content.nil?
       pkg[:content] = MarkdownService.markdown(markdown_content.article)

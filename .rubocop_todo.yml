@@ -45,19 +45,10 @@ Lint/UnderscorePrefixedVariableName:
     - 'app/services/studio_service.rb'
     - 'spec/controllers/admin/application_events_controller_spec.rb'
 
-# Offense count: 6
-Metrics/AbcSize:
-  Max: 36
-
 # Offense count: 3
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
   Max: 151
-
-# Offense count: 1
-# Configuration parameters: CountComments.
-Metrics/ClassLength:
-  Max: 297
 
 # Offense count: 6
 Metrics/PerceivedComplexity:
@@ -101,23 +92,6 @@ Rails/FilePath:
     - 'spec/rails_helper.rb'
     - 'spec/rails_helper.rb~'
     - 'spec/support/mock_search_service.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/FindBy:
-  Exclude:
-    - 'app/models/blacklist_domain.rb'
-    - 'app/models/cms_document.rb'
-    - 'app/models/favorite.rb'
-
-# Offense count: 1
-# Configuration parameters: Include.
-# Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
-Rails/Output:
-  Exclude:
-    - 'config/initializers/setup_email_lists.rb'
 
 # Offense count: 13
 Rails/OutputSafety:

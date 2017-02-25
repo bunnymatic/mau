@@ -9,7 +9,7 @@ class BlacklistDomain < ApplicationRecord
 
   def self.allowed?(email_or_domain)
     domain = (email_or_domain.to_s.gsub(/^(.*)\@/, '') || '').downcase
-    !(domain.empty? || BlacklistDomain.where(domain: domain).first)
+    !(domain.empty? || BlacklistDomain.find_by(domain: domain))
   end
 
   def downcase_domain
