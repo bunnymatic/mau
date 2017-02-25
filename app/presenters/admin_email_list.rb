@@ -78,7 +78,7 @@ class AdminEmailList < ViewPresenter
     when 'no_profile'
       Artist.active.where('profile_image is null')
     when 'no_images'
-      Artist.active.reject { |a| a.art_pieces.count > 0 }
+      Artist.active.reject { |a| a.art_pieces.count.positive? }
     when *available_open_studios_keys
       Artist.active.open_studios_participants(list_name)
     end

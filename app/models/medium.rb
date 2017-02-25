@@ -41,9 +41,9 @@ class Medium < ApplicationRecord
     order(:name)
   end
 
-  private
-
   class << self
+    private
+
     def get_media_usage
       dbr = ArtPiece.joins(:artist).where('users.state' => 'active').select('medium_id')
                     .group('medium_id').count

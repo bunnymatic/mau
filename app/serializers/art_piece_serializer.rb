@@ -47,6 +47,6 @@ class ArtPieceSerializer < MauSerializer
 
   def favorites_count
     @favorites_count ||= Favorite.art_pieces.where(favoritable_id: object.id).count
-    @favorites_count if @favorites_count > 0
+    @favorites_count if @favorites_count.positive?
   end
 end

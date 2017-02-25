@@ -7,7 +7,7 @@ module HtmlHelper
     nel = html_arr.count
     html_arr.map.with_index do |el, idx|
       cls = clazz
-      if idx == 0
+      if idx.zero?
         cls += ' first'
       elsif idx == (nel - 1)
         cls += ' last'

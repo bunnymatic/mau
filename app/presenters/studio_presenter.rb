@@ -77,11 +77,11 @@ class StudioPresenter < ViewPresenter
   end
 
   def has_artists?
-    @has_artists ||= (artists.count > 0)
+    artists.count.positive?
   end
 
   def has_open_studios_artists?
-    @has_open_studios_artists ||= (open_studios_artists.count > 0)
+    open_studios_artists.count.positive?
   end
 
   def has_artists_without_art?
@@ -97,7 +97,7 @@ class StudioPresenter < ViewPresenter
   end
 
   def indy?
-    @studio.id == 0
+    @studio.id.zero?
   end
 
   def website

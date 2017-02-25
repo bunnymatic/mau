@@ -5,7 +5,7 @@ class Pagination < ViewPresenter
   attr_reader :per_page
 
   def initialize(array, current, per_page, opts = nil)
-    raise PaginationError, 'per_page must be present and greater than 0' unless per_page && (per_page.to_i > 0)
+    raise PaginationError, 'per_page must be present and greater than 0' unless per_page && per_page.to_i.positive?
     @array = array
     @current = current
     @per_page = [per_page, 1].max
@@ -34,7 +34,7 @@ class Pagination < ViewPresenter
 
   def last_page
     @last_page ||= ((count.to_f - 1.0) / per_page.to_f).floor.to_i
-    @last_page = 0 if @last_page < 0
+    @last_page = 0 if @last_page.negative?
     @last_page
   end
 

@@ -47,7 +47,7 @@ module Admin
           end
         end
         msg = 'Updated setting for %d artists' % @updated_count
-        if @skipped_count > 0
+        if @skipped_count.positive?
           msg += ' and skipped %d artists who are not in the mission or have an invalid address' % @skipped_count
         end
         flash[:notice] = msg

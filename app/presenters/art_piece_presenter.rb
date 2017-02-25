@@ -9,7 +9,7 @@ class ArtPiecePresenter < ViewPresenter
 
   def favorites_count
     @favorites_count ||= Favorite.art_pieces.where(favoritable_id: @art_piece.id).count
-    @favorites_count if @favorites_count > 0
+    @favorites_count if @favorites_count.positive?
   end
 
   def artist_name

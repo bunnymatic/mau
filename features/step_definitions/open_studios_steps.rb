@@ -101,8 +101,9 @@ Then /^I see that the new open studios event is no longer there$/ do
 end
 
 Then(/^I see the open studios participants$/) do
-  expect(all('.artist-card').count).to be > 0
-  expect(all('.artist-card').count).to eql all('.os-violator').count
+  cards = all('.artist-card')
+  expect(cards.count).to be_positive
+  expect(cards.count).to eql all('.os-violator').count
 end
 
 Then(/^I see a map of open studios participants$/) do

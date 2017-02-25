@@ -3,7 +3,7 @@ class Address
   attr_reader :lat, :lng, :street, :city, :state, :zip
 
   def initialize(model)
-    if model.respond_to?(:studio_id) && (model.studio_id.presence.to_i > 0) && model.studio
+    if model.respond_to?(:studio_id) && model.studio_id.presence.to_i.positive? && model.studio
       model = model.studio
     end
 
