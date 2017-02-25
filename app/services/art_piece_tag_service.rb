@@ -68,8 +68,6 @@ class ArtPieceTagService
     tags[0..MAX_SHOW_TAGS]
   end
 
-  private
-
   class << self
     private
 

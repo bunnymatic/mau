@@ -47,11 +47,11 @@ Lint/UnderscorePrefixedVariableName:
 
 # Offense count: 3
 # Configuration parameters: ContextCreatingMethods, MethodCreatingMethods.
-Lint/UselessAccessModifier:
-  Exclude:
-    - 'app/models/medium.rb'
-    - 'app/presenters/admin_favorites_presenter.rb'
-    - 'app/services/art_piece_tag_service.rb'
+# Lint/UselessAccessModifier:
+#   Exclude:
+#     - 'app/models/medium.rb'
+#     - 'app/presenters/admin_favorites_presenter.rb'
+#     - 'app/services/art_piece_tag_service.rb'
 
 # Offense count: 33
 Lint/UselessAssignment:
@@ -161,13 +161,6 @@ Rails/OutputSafety:
     - 'app/presenters/favorites_collection_presenter.rb'
     - 'app/presenters/thumbnail_browser_presenter.rb'
     - 'app/services/markdown_service.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Rails/PluralizationGrammar:
-#   Exclude:
-#     - 'spec/models/open_studios_event_spec.rb'
-#     - 'spec/services/open_studios_event_service_spec.rb'
 
 # Offense count: 28
 # Configuration parameters: Blacklist.
