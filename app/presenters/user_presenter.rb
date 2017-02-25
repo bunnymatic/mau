@@ -115,11 +115,11 @@ class UserPresenter < ViewPresenter
     model.activated_at ? model.activated_at.strftime('%m/%d/%y') : model.state
   end
 
-  def has_activation_code?
+  def activation_code?
     model.state != 'active' && model.activation_code.present?
   end
 
-  def has_reset_code?
+  def reset_code?
     model.reset_code.present?
   end
 
@@ -131,8 +131,8 @@ class UserPresenter < ViewPresenter
     url_helpers.reset_url(model.reset_code)
   end
 
-  def has_links?
-    @has_links ||= links.any?
+  def links?
+    links.any?
   end
 
   def links
@@ -155,7 +155,7 @@ class UserPresenter < ViewPresenter
     end.compact
   end
 
-  def has_profile_image?
+  def profile_image?
     model.photo? || model.profile_image.present?
   end
 

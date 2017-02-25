@@ -26,7 +26,7 @@ class ArtistPresenter < UserPresenter
     model.get_name
   end
 
-  def has_media?
+  def media?
     media.present?
   end
 
@@ -62,11 +62,11 @@ class ArtistPresenter < UserPresenter
     (media + tags).map(&:name).flatten.compact.uniq
   end
 
-  def has_bio?
+  def bio?
     !model.bio.blank?
   end
 
-  def has_art?
+  def art?
     artist? && art_pieces.present?
   end
 
@@ -93,7 +93,7 @@ class ArtistPresenter < UserPresenter
     number.present? ? ('#' + number) : ''
   end
 
-  delegate :has_address?, to: :model
+  delegate :address?, to: :model
 
   delegate :in_the_mission?, to: :model
 

@@ -11,7 +11,7 @@ class SocialCatalogPresenter < ArtistsPresenter
   end
 
   def artists
-    super.select(&:has_art?).sort(&Artist::SORT_BY_LASTNAME)
+    super.select(&:art?).sort(&Artist::SORT_BY_LASTNAME)
   end
 
   def artist_has_links(artist)

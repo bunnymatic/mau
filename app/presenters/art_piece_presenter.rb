@@ -16,11 +16,11 @@ class ArtPiecePresenter < ViewPresenter
     artist.get_name
   end
 
-  def has_medium?
+  def medium?
     medium.present?
   end
 
-  def has_tags?
+  def tags?
     tags.present?
   end
 
@@ -28,7 +28,7 @@ class ArtPiecePresenter < ViewPresenter
     @tags ||= @art_piece.uniq_tags
   end
 
-  def has_year?
+  def year?
     year.present? && year.to_i > 1899
   end
 

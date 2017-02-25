@@ -102,7 +102,7 @@ describe Artist do
       it 'returns empty for address' do
         expect(nobody.send(:address)).to be_empty
       end
-      it { expect(nobody).to_not be_has_address }
+      it { expect(nobody).to_not be_address }
     end
   end
   describe 'in_the_mission?' do
@@ -112,7 +112,7 @@ describe Artist do
         allow(artist_without_studio.artist_info).to receive(:lng).and_return(-122.41)
       end
       it 'returns true' do
-        expect(artist_without_studio).to have_address
+        expect(artist_without_studio).to be_address
         expect(artist_without_studio).to be_in_the_mission
       end
     end
@@ -124,12 +124,12 @@ describe Artist do
         allow(artist.studio).to receive(:lng).and_return(-122.41)
       end
       it 'returns true' do
-        expect(artist).to have_address
+        expect(artist).to be_address
         expect(artist).to be_in_the_mission
       end
     end
     it 'returns false for artist with wayout address' do
-      expect(wayout_artist).to have_address
+      expect(wayout_artist).to be_address
       expect(wayout_artist).to_not be_in_the_mission
     end
     context 'for artist not in the mission but in a studio in the mission' do
@@ -141,7 +141,7 @@ describe Artist do
         allow(wayout_artist.studio).to receive(:lng).and_return(-122.41)
       end
       it 'returns true' do
-        expect(wayout_artist).to have_address
+        expect(wayout_artist).to be_address
         expect(wayout_artist).to be_in_the_mission
       end
     end

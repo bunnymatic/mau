@@ -16,7 +16,7 @@
               .studio--cross-street @ #{studio.cross_street}
 
             .studio-city #{studio.city}
-            - if studio.has_phone?
+            - if studio.phone?
               .studio-phone #{studio.formatted_phone}
         .info
           .studio__website

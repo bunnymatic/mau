@@ -64,7 +64,7 @@ module Admin
     # return ternary - nil if the artist was skipped, else true if the artist setting was changed, false if not
     # TODO: move to UpdateArtistService?  or AdminUpdateArtistService?
     def update_artist_os_standing(artist, current_open_studios, doing_it)
-      return nil unless artist.has_address?
+      return nil unless artist.address?
       if artist.doing_open_studios? != doing_it
         artist.update_os_participation current_open_studios, doing_it
         true

@@ -18,7 +18,7 @@ class StudioPresenter < ViewPresenter
     (name || '').downcase
   end
 
-  def has_phone?
+  def phone?
     phone.present?
   end
 
@@ -30,7 +30,7 @@ class StudioPresenter < ViewPresenter
     @page_title ||= PageInfoService.title('Studio: %s' % name)
   end
 
-  def has_profile_image?
+  def profile_image?
     @studio.get_profile_image(:small).present?
   end
 
@@ -46,13 +46,13 @@ class StudioPresenter < ViewPresenter
 
   def artists_count_label
     @artists_count_label ||=
-      has_artists? ? "#{artists.count} artist".pluralize(artists.count) : ''
+      artists? ? "#{artists.count} artist".pluralize(artists.count) : ''
   end
 
   def open_studios_artists_count_label
     @open_studios_count_label ||=
       begin
-        if has_open_studios_artists? && current_open_studios
+        if open_studios_artists? && current_open_studios
           "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) +
             " in #{current_open_studios.title}"
         else
@@ -65,7 +65,7 @@ class StudioPresenter < ViewPresenter
     artists.open_studios_participants
   end
 
-  def has_artists_with_art?
+  def artists_with_art?
     artists_with_art.present?
   end
 
@@ -76,15 +76,15 @@ class StudioPresenter < ViewPresenter
       end
   end
 
-  def has_artists?
+  def artists?
     artists.count.positive?
   end
 
-  def has_open_studios_artists?
+  def open_studios_artists?
     open_studios_artists.count.positive?
   end
 
-  def has_artists_without_art?
+  def artists_without_art?
     artists_without_art.present?
   end
 

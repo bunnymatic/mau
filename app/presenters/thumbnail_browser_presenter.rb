@@ -18,7 +18,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
     @num_pieces ||= pieces.count
   end
 
-  def has_thumbs?
+  def thumbs?
     thumbs.count.positive?
   end
 

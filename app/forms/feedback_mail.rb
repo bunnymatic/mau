@@ -44,7 +44,7 @@ class FeedbackMail
       current_user.try(:login) || 'anon'
   end
 
-  def has_account?
+  def account?
     !!current_user
   end
 
@@ -66,7 +66,7 @@ class FeedbackMail
   end
 
   def save
-    em = (has_account? ? account_email : email)
+    em = (account? ? account_email : email)
     f = Feedback.new(email: em,
                      subject: subject,
                      login: login,

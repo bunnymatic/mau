@@ -9,6 +9,8 @@ describe ThumbnailBrowserPresenter do
   let(:art_piece) { artist.art_pieces[1] }
   subject(:presenter) { ThumbnailBrowserPresenter.new(artist, art_piece) }
 
+  its(:thumbs?) { is_expected.to be_truthy }
+
   describe '#pieces' do
     subject { super().pieces }
 
@@ -25,10 +27,6 @@ describe ThumbnailBrowserPresenter do
     end
   end
 
-  describe '#has_thumbs?' do
-    subject { super().has_thumbs? }
-    it { should eq(true) }
-  end
 
   describe '#row_class' do
     subject { super().row_class }

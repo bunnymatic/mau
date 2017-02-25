@@ -10,25 +10,11 @@ describe ArtPiecePresenter do
   let(:tag) { FactoryGirl.build(:art_piece_tag) }
   subject(:presenter) { ArtPiecePresenter.new(art_piece) }
 
-  describe '#favorites_count' do
-    subject { super().favorites_count }
-    it { should be_nil }
-  end
-
-  describe '#has_tags?' do
-    subject { super().has_tags? }
-    it { should eq(false) }
-  end
-
-  describe '#tags' do
-    subject { super().tags }
-    it { should be_empty }
-  end
-
-  describe '#has_year?' do
-    subject { super().has_year? }
-    it { should eq(true) }
-  end
+  its(:favorites_count) { is_expected.to be_nil }
+  its(:tags?) { is_expected.to be_falsy }
+  its(:tags) { is_expected.to be_empty }
+  its(:year?) { is_expected.to be_truthy }
+  its(:year) { is_expected.to eql art_piece.year }
 
   context 'with favorites' do
     before do
@@ -47,10 +33,7 @@ describe ArtPiecePresenter do
       allow(art_piece).to receive(:year).and_return(1000)
     end
 
-    describe '#has_year?' do
-      subject { super().has_year? }
-      it { should eq(false) }
-    end
+    its(:year?) { is_expected.to be_falsy }
   end
 
   context 'with tags' do
@@ -58,14 +41,7 @@ describe ArtPiecePresenter do
       allow_any_instance_of(ArtPiece).to receive(:uniq_tags).and_return(tags)
     end
 
-    describe '#has_tags?' do
-      subject { super().has_tags? }
-      it { should eq(true) }
-    end
-
-    describe '#tags' do
-      subject { super().tags }
-      it { should eql tags }
-    end
+    its(:tags?) { is_expected.to be_truthy }
+    its(:tags) { is_expected.to eql art_piece.tags }
   end
 end

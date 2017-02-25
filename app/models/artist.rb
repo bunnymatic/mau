@@ -85,7 +85,7 @@ class Artist < User
   end
 
   def in_the_mission?
-    return false unless has_address?
+    return false unless address?
     within_bounds?(address.lat, address.lng)
   end
 

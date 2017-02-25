@@ -78,7 +78,7 @@ class Pagination < ViewPresenter
     current_page < last_page
   end
 
-  alias has_more? next_link?
+  alias more? next_link?
 
   def previous_title
     @previous_title || 'previous'
