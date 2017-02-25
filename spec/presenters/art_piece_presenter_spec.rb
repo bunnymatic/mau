@@ -22,10 +22,7 @@ describe ArtPiecePresenter do
       allow(Favorite).to receive(:art_pieces).and_return(favorites_mock)
     end
 
-    describe '#favorites_count' do
-      subject { super().favorites_count }
-      it { should eql 2 }
-    end
+    its(:favorites_count) { is_expected.to eql(2) }
   end
 
   context 'with a bad year' do
@@ -42,6 +39,6 @@ describe ArtPiecePresenter do
     end
 
     its(:tags?) { is_expected.to be_truthy }
-    its(:tags) { is_expected.to eql art_piece.tags }
+    its(:tags) { is_expected.to eql tags }
   end
 end
