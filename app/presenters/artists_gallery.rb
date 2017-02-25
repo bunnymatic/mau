@@ -23,7 +23,7 @@ class ArtistsGallery < ArtistsPresenter
   end
 
   def self.letters(first_or_last)
-    name = first_or_last.to_sym if ([:lastname, :firstname].include? first_or_last.to_sym)
+    name = first_or_last.to_sym if [:lastname, :firstname].include? first_or_last.to_sym
     return [] unless name
     letters = ArtPiece.joins(:artist).where(users:{state: "active"}).group("lcase(left(users.#{name},1))").count.keys
     letters.select{|l| LETTERS_REGEX =~ l} + [ELLIPSIS]

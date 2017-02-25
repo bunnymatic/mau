@@ -4,7 +4,7 @@ require 'csv'
 class AdminArtistList < ViewPresenter
   include Enumerable
 
-  ALLOWED_SORT_BY = %w|studio_id lastname firstname id login email activated_at|.freeze
+  ALLOWED_SORT_BY = %w(studio_id lastname firstname id login email activated_at).freeze
 
   def raw_artists
     @raw_artists ||= Artist.all.includes(:artist_info, :studio, :art_pieces).order(sort_by_clause)

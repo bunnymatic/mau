@@ -62,37 +62,37 @@ Then(/^I see the login page$/) do
 end
 
 When(/^I login$/) do
-  steps %{When I visit the login page}
+  steps %(When I visit the login page)
   # if we're already logged in we'll be somewhere else
   fill_in_login_form (@artist || @user).login, '8characters'
-  steps %{And I click "Sign In"}
+  steps %(And I click "Sign In")
 end
 
 When(/^I login as an artist$/) do
-  steps %{Given there are artists with art in the system}
+  steps %(Given there are artists with art in the system)
   @artist = @artists.first
-  steps %{When I login}
+  steps %(When I login)
 end
 
 When(/^I login as a fan$/) do
-  steps %{Given there are users in the system}
+  steps %(Given there are users in the system)
   @user = MauFan.first
-  steps %{When I login}
+  steps %(When I login)
 end
 
 When(/^I login as an editor$/) do
   @editor = FactoryGirl.create(:user, :editor, :active)
-  steps %{When I visit the login page}
+  steps %(When I visit the login page)
   fill_in_login_form @editor.login, '8characters'
-  steps %{And I click "Sign In"}
+  steps %(And I click "Sign In")
 end
 
 When(/^I login as a manager$/) do
   studios = FactoryGirl.create_list(:studio,2)
   @manager = FactoryGirl.create(:user, :manager, :active, studio: studios.first)
-  steps %{When I visit the login page}
+  steps %(When I visit the login page)
   fill_in_login_form @manager.login, '8characters'
-  steps %{And I click "Sign In"}
+  steps %(And I click "Sign In")
 end
 
 When(/^I'm logged out$/) do
@@ -105,8 +105,8 @@ When(/^I login as "(.*?)"$/) do |login|
   visit login_path
   @artist = User.find_by(login: login)
   fill_in_login_form login, '8characters'
-  steps %{And I click "Sign In"}
-  steps %{Then I see a flash notice "You're in"}
+  steps %(And I click "Sign In")
+  steps %(Then I see a flash notice "You're in")
   visit path
 end
 
@@ -115,13 +115,13 @@ Then(/^I see my fan profile edit form$/) do
 end
 
 Then /^I see that "(.*?)" is a new pending artist$/ do |username|
-  steps %{Then I see a flash notice "Thanks for signing up! We're sending you an email"}
+  steps %(Then I see a flash notice "Thanks for signing up! We're sending you an email")
   expect(current_path).to eql root_path
   expect(Artist.find_by_login(username)).to be_pending
 end
 
 Then /^I see that "(.*?)" is a new fan$/ do |username|
-  steps %{Then I see a flash notice "Thanks for signing up!"}
+  steps %(Then I see a flash notice "Thanks for signing up!")
   expect(current_path).to eql login_path
   expect(MauFan.find_by_login(username)).to be_active
 end
@@ -131,7 +131,7 @@ Then /^I click the fan signup button$/ do
                                                euid: "example euid",
                                                leid: "example leid")
   stub_request(:any, /.*\.mailchimp.com/).to_return(body: resp)
-  step %q{I click "Sign up"}
+  step %q(I click "Sign up")
 end
 
 Then(/^I see that I have been deactivated$/) do

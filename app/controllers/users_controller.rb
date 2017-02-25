@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     fan = MauFan.new
     @studios = StudioService.all
     type = params[:type] || user_attrs[:type]
-    @type = ['Artist','MauFan'].include?(type) ? type : 'Artist'
+    @type = %w(Artist MauFan).include?(type) ? type : 'Artist'
     @user = (@type == 'MauFan') ? fan : artist
   end
 
@@ -256,7 +256,7 @@ class UsersController < ApplicationController
   def basic_note_info_from_params
     # TODO: use strong params
     {}.tap do |info|
-      %w|comment login email page name|.each do |k|
+      %w(comment login email page name).each do |k|
         info[k] = params[k] if params.include? k
       end
     end

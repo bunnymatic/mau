@@ -650,17 +650,3 @@ Style/UnneededPercentQ:
 Style/VariableName:
   Exclude:
     - 'spec/support/mock_search_service.rb'
-
-# Offense count: 14
-# Cop supports --auto-correct.
-# Configuration parameters: SupportedStyles, WordRegex.
-# SupportedStyles: percent, brackets
-Style/WordArray:
-  EnforcedStyle: percent
-  MinSize: 5
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/ZeroLengthPredicate:
-  Exclude:
-    - 'spec/controllers/admin/studios_controller_spec.rb'

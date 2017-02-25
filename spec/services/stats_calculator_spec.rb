@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe StatsCalculator do
-  let(:data) { %w| a a b b c d d d d | }
+  let(:data) { %w( a a b b c d d d d ) }
   subject(:calc) { StatsCalculator }
   describe '#histogram' do
     it 'computes a histogram from a hash' do

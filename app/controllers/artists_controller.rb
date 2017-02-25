@@ -68,7 +68,7 @@ class ArtistsController < ApplicationController
     inp = (params[:input] || params[:q]).try(:downcase)
     if inp
       # filter with input prefix
-      names = (inp.present? ? names.select{|name| %r|#{inp}|i =~ name['value']} : [])
+      names = (inp.present? ? names.select{|name| %r{#{inp}}i =~ name['value']} : [])
     end
     render json: names, adapter: :json_api
   end
@@ -195,7 +195,7 @@ class ArtistsController < ApplicationController
   end
 
   def build_page_description(artist)
-    if (artist)
+    if artist
       trim_bio = (artist.bio || '').truncate(500)
       if trim_bio.present?
         return "Mission Artists Artist : #{artist.get_name(true)} : " + trim_bio
@@ -207,7 +207,7 @@ class ArtistsController < ApplicationController
   private
 
   def artist_info_permitted_attributes
-    %i|bio street city addr_state zip studionumber|
+    %i(bio street city addr_state zip studionumber)
   end
 
   def destroy_art_params

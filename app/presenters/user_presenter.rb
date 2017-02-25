@@ -219,6 +219,6 @@ class UserPresenter < ViewPresenter
   end
 
   def strip_http_from_link(link)
-    link.gsub %r/^https?:\/\//, ''
+    link.gsub %r{^https?:\/\/}, ''
   end
 end

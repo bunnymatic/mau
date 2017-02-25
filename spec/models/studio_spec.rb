@@ -61,7 +61,7 @@ describe Studio do
       create(:studio, name: 'zal', position: 5)
       create(:studio, name: 'Alp', position: 5)
       create(:studio, name: 'bor', position: 5)
-      expect(Studio.by_position.map{|s| s.name}).to eql ['Alp', 'bor', 'zal', 'Zed']
+      expect(Studio.by_position.map{|s| s.name}).to eql %w(Alp bor zal Zed)
     end
   end
 end

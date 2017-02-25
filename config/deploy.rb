@@ -6,7 +6,7 @@ set :stages, %w(production acceptance)
 set :rbenv_type, :user # or :system, depends on your rbenv setup
 set :rbenv_ruby, '2.3.3'
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_map_bins, %w(rake gem bundle ruby rails)
 set :rbenv_roles, :all # default value
 
 set :application, 'MAU'
@@ -42,10 +42,10 @@ set :assets_roles, [:web, :app] # Defaults to [:web]
 # set :keep_releases, 5
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml config/config.keys.yml config/secrets.yml}
+set :linked_files, %w(config/database.yml config/config.keys.yml config/secrets.yml)
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w(log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system)
 
 set :rails_env, (fetch(:rails_env) || fetch(:stage))
 

@@ -10,7 +10,7 @@ end
 
 When(/^I destroy the first tag$/) do
   @first_tag = ArtPieceTagService.tags_sorted_by_frequency.first
-  steps %{When I click on the first "Remove" button}
+  steps %(When I click on the first "Remove" button)
 end
 
 Then(/^I see a list of artists who have art in the most popular tag$/) do

@@ -14,9 +14,9 @@ When(/^I add a new role called "(.*)"$/) do |role|
 end
 
 When(/^I add a user to the "(.*)" role$/) do |role|
-  step %{I click on the manage link for #{role}s}
-  step %{I choose the last user in the user list}
-  step %{I click "add user"}
+  step %(I click on the manage link for #{role}s)
+  step %(I choose the last user in the user list)
+  step %(I click "add user")
 end
 
 When(/^I remove the role "(.*)"$/) do |role|

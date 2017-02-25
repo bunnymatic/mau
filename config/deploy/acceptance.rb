@@ -17,7 +17,7 @@
 # extended properties on the server.
 server 'mau.rcode5.com',
   user: 'deploy',
-  roles: %w{web app db},
+  roles: %w(web app db),
   ssh_options: {
     user: 'deploy',
     forward_agent: true

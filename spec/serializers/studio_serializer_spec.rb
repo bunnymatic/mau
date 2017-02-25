@@ -25,7 +25,7 @@ describe StudioSerializer do
     end
 
     it "includes trimmed version of artists" do
-      expect(parsed['studio']['artists'].map(&:keys).flatten.uniq).to match_array(%w|id firstname lastname slug full_name|)
+      expect(parsed['studio']['artists'].map(&:keys).flatten.uniq).to match_array(%w(id firstname lastname slug full_name))
     end
   end
 end

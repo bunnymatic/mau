@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module AddressMixin
   # for models with street, city, zip, lat, lng and either state or addr_state
 
@@ -40,6 +41,6 @@ module AddressMixin
   end
 
   def should_recompute?
-    (self.changes.keys & ["street", "city", "addr_state", "zip"]).present?
+    (self.changes.keys & %w(street city addr_state zip)).present?
   end
 end

@@ -30,7 +30,7 @@ describe Admin::TestsController do
       before do
         @t = Time.zone.now
         Timecop.freeze(@t)
-        expect(FileUtils).to receive(:mkdir_p).with %r|/public/images/tmp$|
+        expect(FileUtils).to receive(:mkdir_p).with %r{/public/images/tmp$}
         allow(Qr4r).to receive(:encode)
       end
       it 'builds a qr image' do

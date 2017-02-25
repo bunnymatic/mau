@@ -7,7 +7,7 @@ end
 
 studios = Studio.find(:all)
 studios.each do |s|
-  if (!s.lat || !s.lng)
+  if !s.lat || !s.lng
     # updates geocode
     p "Updating %s" % s.name
     s.save

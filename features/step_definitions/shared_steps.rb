@@ -92,12 +92,12 @@ When /I sign in with password "(.*?)"/ do |pass|
 end
 
 When /I am signed in as an artist/ do
-  steps %{
+  steps %(
     Given an account has been created
     Given I visit the login page
     When I fill in valid credentials
     And I click "Sign In"
-  }
+  )
 end
 
 Then /^I see "(.*?)" on the page$/ do |content|
@@ -192,11 +192,11 @@ end
 
 When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
   # page.driver.browser.mouse.move_to(page.driver.browser.find_element(:id=>"admin_nav")) if running_js?
-  step %|I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav"|
+  step %(I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav")
 end
 
 When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
-  step %|I click on "#{link_title}" in the ".nav.nav-tabs"|
+  step %(I click on "#{link_title}" in the ".nav.nav-tabs")
 end
 
 When(/^I click on the first "([^"]*?)"$/) do |button_text|
