@@ -1,14 +1,15 @@
+# frozen_string_literal: true
 require 'capybara/poltergeist'
 
 Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, {debug: false, js_errors: true})
+  Capybara::Poltergeist::Driver.new(app, debug: false, js_errors: true)
 end
 # Capybara.register_driver :chrome do |app|
 #     Capybara::Selenium::Driver.new(app, browser: :chrome)
 # end
 
 Capybara.javascript_driver = :poltergeist
-#Capybara.javascript_driver = :webkit
+# Capybara.javascript_driver = :webkit
 
 # Capybara::Webkit.configure do |config|
 #     config.block_unknown_urls

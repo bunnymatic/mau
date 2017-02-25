@@ -1,23 +1,23 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe OpenStudiosEvent do
-
-  let(:past_oses) {
+  let(:past_oses) do
     [
-     FactoryGirl.create(:open_studios_event, :start_date => 6.months.ago),
-     FactoryGirl.create(:open_studios_event, :start_date => 12.months.ago)
+      FactoryGirl.create(:open_studios_event, start_date: 6.months.ago),
+      FactoryGirl.create(:open_studios_event, start_date: 12.months.ago)
     ]
-  }
-  let(:current_os) { FactoryGirl.create(:open_studios_event, :start_date => 1.months.since) }
-  let(:future_oses) {
+  end
+  let(:current_os) { FactoryGirl.create(:open_studios_event, start_date: 1.months.since) }
+  let(:future_oses) do
     [
-     FactoryGirl.create(:open_studios_event, :start_date => 6.months.since),
-     FactoryGirl.create(:open_studios_event, :start_date => 12.months.since)
+      FactoryGirl.create(:open_studios_event, start_date: 6.months.since),
+      FactoryGirl.create(:open_studios_event, start_date: 12.months.since)
     ]
-  }
+  end
 
   before do
-    #allow_any_instance_of(OpenStudiosEvent).to receive(:save_attached_files).and_return(true)
+    # allow_any_instance_of(OpenStudiosEvent).to receive(:save_attached_files).and_return(true)
     Timecop.freeze
     [ past_oses, current_os, future_oses ].flatten
   end
@@ -61,5 +61,4 @@ describe OpenStudiosEvent do
       expect(current_os.key).to eql current_os.start_date.year.to_s + ("%02d" % current_os.start_date.month)
     end
   end
-
 end

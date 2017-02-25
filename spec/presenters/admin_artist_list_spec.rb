@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'capybara/rspec'
 
 describe AdminArtistList do
-
   include PresenterSpecHelpers
 
   let!(:artists) do
@@ -12,7 +12,7 @@ describe AdminArtistList do
     FactoryGirl.create(:artist, :pending)
   end
 
-  let(:parsed) { CSV.parse(list.csv,:headers => true) }
+  let(:parsed) { CSV.parse(list.csv,headers: true) }
 
   subject(:list) { AdminArtistList.new }
 
@@ -26,5 +26,4 @@ describe AdminArtistList do
   it 'has correct data in the csv' do
     expect(parsed.first['Full Name']).to eql list.artists.first.full_name
   end
-
 end

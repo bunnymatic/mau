@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Address do
-
   let(:artist) { create :artist }
   let(:studio) { create :studio }
   let(:model) { Artist.new }
@@ -28,7 +28,6 @@ describe Address do
           expect(address).to eq studio.address
         end
       end
-
     end
     context "without an address" do
       let(:model) { create :artist, :without_address }
@@ -59,5 +58,4 @@ describe Address do
       expect{ Address.new(ArtPiece.new) }.to raise_error(ArgumentError)
     end
   end
-
 end

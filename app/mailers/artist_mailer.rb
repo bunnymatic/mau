@@ -1,6 +1,6 @@
 # coding: utf-8
+# frozen_string_literal: true
 class ArtistMailer < MauMailer
-
   def favorite_notification(artist, fan)
     setup_email(artist)
     subject = "Someone hearts you! ❤"
@@ -13,13 +13,12 @@ class ArtistMailer < MauMailer
          subject: build_subject(subject)) do |fmt|
       fmt.html { render 'favorite_notification' }
     end
-
   end
 
   def signup_notification(artist)
     subject = 'Please activate your new account'
     setup_email(artist)
-    @url  = activate_url(activation_code: artist.activation_code)
+    @url = activate_url(activation_code: artist.activation_code)
     mail(to: artist.email,
          from: ACCOUNTS_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|
@@ -29,8 +28,8 @@ class ArtistMailer < MauMailer
 
   def resend_activation(artist)
     setup_email(artist)
-    subject    = 'Reactivate your MAU account'
-    @url  = activate_url(activation_code: artist.activation_code)
+    subject = 'Reactivate your MAU account'
+    @url = activate_url(activation_code: artist.activation_code)
     mail(to: artist.email,
          from: ACCOUNTS_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|
@@ -40,9 +39,9 @@ class ArtistMailer < MauMailer
 
   def activation(artist)
     setup_email(artist)
-    subject    = 'Your account has been activated!'
-    @url  = root_url
-    @artistsurl  = artist_url(artist)
+    subject = 'Your account has been activated!'
+    @url = root_url
+    @artistsurl = artist_url(artist)
     mail(to: artist.email,
          from: ACCOUNTS_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|
@@ -52,8 +51,8 @@ class ArtistMailer < MauMailer
 
   def reset_notification(artist)
     setup_email(artist)
-    subject    = 'Link to reset your password'
-    @url  = reset_url(reset_code: artist.reset_code)
+    subject = 'Link to reset your password'
+    @url = reset_url(reset_code: artist.reset_code)
     mail(to: artist.email,
          from: ACCOUNTS_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|
@@ -62,8 +61,8 @@ class ArtistMailer < MauMailer
   end
 
   protected
+
   def setup_email(artist)
     @artist = artist
   end
-
 end

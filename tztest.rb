@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 puts "Server Timezone: %s" % Rails.configuration.time_zone
 # try with ruby 1.8.7/1.9.2
 # try with different rails apps timezones
@@ -10,7 +11,6 @@ times = [[ :now , Time.now ],
          [:spring_parsed_zoned , Time.zone.parse(springtime)],
          [:fall_parsed , Time.parse(falltime)],
          [:fall_parsed_zoned , Time.zone.parse(falltime)]]
-
 
 times.each{|k,v| puts "[%s] %s" % [ k.to_s.humanize.titleize, v ] }
 

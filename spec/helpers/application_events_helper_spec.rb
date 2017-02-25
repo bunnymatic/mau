@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ApplicationEventsHelper do
@@ -9,7 +10,7 @@ describe ApplicationEventsHelper do
     it { expect(helper.link_to_user(no_user_event)).to eql '' }
     it 'links to the artist' do
       link_text = helper.link_to_user(event)
-      expect(link_text).to eql(link_to artist.id, artist_path(artist.id))
+      expect(link_text).to eql(link_to(artist.id, artist_path(artist.id)))
     end
   end
 end

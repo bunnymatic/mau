@@ -1,14 +1,14 @@
+# frozen_string_literal: true
 class ArtPiecePresenter < ViewPresenter
-
   attr_reader :art_piece
-  delegate :id, :year, :photo, :medium, :get_path, :artist, :title, :updated_at, :to_param, :to => :art_piece
+  delegate :id, :year, :photo, :medium, :get_path, :artist, :title, :updated_at, :to_param, to: :art_piece
 
   def initialize(art_piece)
     @art_piece = art_piece
   end
 
   def favorites_count
-    @favorites_count ||= Favorite.art_pieces.where(:favoritable_id => @art_piece.id).count
+    @favorites_count ||= Favorite.art_pieces.where(favoritable_id: @art_piece.id).count
     @favorites_count if @favorites_count > 0
   end
 
@@ -40,8 +40,8 @@ class ArtPiecePresenter < ViewPresenter
     url_helpers.art_piece_url(art_piece)
   end
 
-  alias_method :show_path, :path
-  alias_method :destroy_path, :path
+  alias show_path path
+  alias destroy_path path
 
   def edit_path
     url_helpers.edit_art_piece_path(art_piece)
@@ -50,5 +50,4 @@ class ArtPiecePresenter < ViewPresenter
   def artist_path
     url_helpers.artist_path(artist)
   end
-
 end

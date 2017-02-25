@@ -1,8 +1,8 @@
 # coding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe UsersController do
-
   let(:fan) { FactoryGirl.create(:fan) }
   let(:quentin) { FactoryGirl.create :artist }
   let(:admin) { FactoryGirl.create :user, :admin, :active }
@@ -20,7 +20,7 @@ describe UsersController do
 
   let(:scammer) { FactoryGirl.create :scammer }
 
-  def params_with_secret opts
+  def params_with_secret(opts)
     {
       secret_word: Conf.signup_secret_word
     }.merge(opts)
@@ -62,50 +62,45 @@ describe UsersController do
     end
   end
 
-
   describe "#create" do
     context 'with blacklisted domain' do
       before do
         # disable sweep of flash.now messages
         # so we can test them
         FactoryGirl.create(:blacklist_domain, domain: 'blacklist.com')
-        #allow(@controller).to receive(:sweep)
+        # allow(@controller).to receive(:sweep)
         allow(@controller).to receive(:verify_recaptcha).and_return(true)
         expect(@controller).to receive(:verify_secret_word).and_return(true)
       end
       it 'forbids email whose domain is on the blacklist' do
-        expect {
+        expect do
           post :create, params: params_with_secret(
-                 {
-                   mau_fan: {
-                     login: 'newuser',
-                     lastname: "bmatic2",
-                     firstname: "bmatic2",
-                     password: "8characters",
-                     password_confirmation: "8characters",
-                     email: "bmatic2@blacklist.com"
-                   },
-                   type: "MauFan"
-                 }
-               )
-        }.to change(User,:count).by(0)
+            mau_fan: {
+              login: 'newuser',
+              lastname: "bmatic2",
+              firstname: "bmatic2",
+              password: "8characters",
+              password_confirmation: "8characters",
+              email: "bmatic2@blacklist.com"
+            },
+            type: "MauFan"
+          )
+        end.to change(User,:count).by(0)
       end
       it 'allows non blacklist domain to add a user' do
-        expect {
+        expect do
           post :create, params: params_with_secret(
-                 {
-                   mau_fan: {
-                     login: 'newuser',
-                     lastname: "bmatic2",
-                     firstname: "bmatic2",
-                     password: "8characters",
-                     password_confirmation: "8characters",
-                     email: "bmatic2@nonblacklist.com"
-                   },
-                   type: "MauFan"
-                 }
-               )
-        }.to change(User,:count).by(1)
+            mau_fan: {
+              login: 'newuser',
+              lastname: "bmatic2",
+              firstname: "bmatic2",
+              password: "8characters",
+              password_confirmation: "8characters",
+              email: "bmatic2@nonblacklist.com"
+            },
+            type: "MauFan"
+          )
+        end.to change(User,:count).by(1)
       end
     end
     # context "with invalid recaptcha" do
@@ -141,7 +136,7 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        #allow(@controller).to receive(:sweep)
+        # allow(@controller).to receive(:sweep)
       end
       context "login = 'newuser'" do
         before do
@@ -161,17 +156,16 @@ describe UsersController do
       before do
         expect(UserMailer).to receive(:activation).exactly(:once).and_return(double("UserMailer::Activation", deliver_later: true))
         post :create, params: params_with_secret(
-               {
-                 mau_fan: {
-                   login: 'newuser',
-                   lastname: "bmatic2",
-                   firstname: "bmatic2",
-                   password: "8characters",
-                   password_confirmation: "8characters",
-                   email: "bmatic2@b.com"
-                 },
-                 type: "MauFan"
-               })
+          mau_fan: {
+            login: 'newuser',
+            lastname: "bmatic2",
+            firstname: "bmatic2",
+            password: "8characters",
+            password_confirmation: "8characters",
+            email: "bmatic2@b.com"
+          },
+          type: "MauFan"
+        )
       end
       it "redirects to index" do
         expect(response).to redirect_to( login_url )
@@ -206,14 +200,13 @@ describe UsersController do
     context "valid user param (email/password only) and type = MauFan" do
       before do
         post :create, params: params_with_secret(
-               {
-                 mau_fan: {
-                   password: "8characters",
-                   password_confirmation: "8characters",
-                   email: "bmati2@b.com"
-                 },
-                 type: "MauFan"
-               })
+          mau_fan: {
+            password: "8characters",
+            password_confirmation: "8characters",
+            email: "bmati2@b.com"
+          },
+          type: "MauFan"
+        )
       end
       it "redirects to index" do
         expect(response).to redirect_to( login_url )
@@ -222,7 +215,6 @@ describe UsersController do
         expect(flash[:notice]).to include(" ready to roll")
       end
       context "creates an account" do
-
         before do
           @found_user = User.find_by_login("bmati2@b.com")
         end
@@ -251,16 +243,15 @@ describe UsersController do
         allow_any_instance_of(Artist).to receive(:activation_code).and_return('random_activation_code')
         expect_any_instance_of(Artist).to receive(:make_activation_code).at_least(1)
         post :create, params: params_with_secret(
-               {
-                 artist: {
-                   login: 'newuser2',
-                   lastname: "bmatic",
-                   firstname: "bmatic",
-                   password: "8characters",
-                   password_confirmation: "8characters",
-                   email: "bmatic2@b.com"
-                 }, type: "Artist"
-               })
+          artist: {
+            login: 'newuser2',
+            lastname: "bmatic",
+            firstname: "bmatic",
+            password: "8characters",
+            password_confirmation: "8characters",
+            email: "bmatic2@b.com"
+          }, type: "Artist"
+        )
       end
       it "redirects to index" do
         expect(response).to redirect_to( root_url )
@@ -324,14 +315,14 @@ describe UsersController do
   describe "#edit" do
     context "while not logged in" do
       before do
-        get :edit, params: { id: 123123 }
+        get :edit, params: { id: 123_123 }
       end
       it_should_behave_like "redirects to login"
     end
     context "while logged in as an artist" do
       before do
         login_as(artist)
-        get :edit, params: { id: 123123 }
+        get :edit, params: { id: 123_123 }
       end
       it "GET should redirect to artist edit" do
         expect(response).to be_redirect
@@ -443,12 +434,12 @@ describe UsersController do
         before do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
           post :reset, params: {
-                 user: {
-                   password: 'whatever',
-                   password_confirmation: 'whateveryo'
-                 },
-                 reset_code: 'abc'
-               }
+            user: {
+              password: 'whatever',
+              password_confirmation: 'whateveryo'
+            },
+            reset_code: 'abc'
+          }
         end
         it { expect(response).to be_success }
         it "has an error message" do
@@ -460,12 +451,12 @@ describe UsersController do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
           expect_any_instance_of(MauFan).to receive(:delete_reset_code).exactly(:once)
           post :reset, params: {
-                 user: {
-                   password: 'whatever',
-                   password_confirmation: 'whatever'
-                 },
-                 reset_code: 'abc'
-               }
+            user: {
+              password: 'whatever',
+              password_confirmation: 'whatever'
+            },
+            reset_code: 'abc'
+          }
         end
         it "returns redirect" do
           expect(response).to redirect_to "/login"
@@ -528,9 +519,9 @@ describe UsersController do
     it { expect(response).to be_success }
 
     context "post a fan email" do
-      let(:make_forgot_request) {
+      let(:make_forgot_request) do
         post :forgot, params: { user: { email: fan.email } }
-      }
+      end
       it "looks up user by email" do
         expect(User).to receive(:find_by_email).with(fan.email).exactly(:once)
         make_forgot_request
@@ -548,9 +539,9 @@ describe UsersController do
 
   describe 'activate' do
     describe 'with valid activation code' do
-      let(:make_activate_call) {
+      let(:make_activate_call) do
         get :activate, params: { activation_code: pending_fan.activation_code }
-      }
+      end
       before do
         expect_any_instance_of(MauFan).to receive(:activate!)
       end
@@ -569,9 +560,9 @@ describe UsersController do
   end
 
   describe 'with invalid activation code' do
-    let(:make_activate_call) {
+    let(:make_activate_call) do
       get :activate, params: { activation_code: 'blah' }
-    }
+    end
     it 'redirects to login' do
       make_activate_call
       expect(response).to redirect_to login_url
@@ -636,5 +627,4 @@ describe UsersController do
       end
     end
   end
-
 end

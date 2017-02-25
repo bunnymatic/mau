@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class ArtPiecesController < ApplicationController
-
   include TagsHelper
 
   before_action :user_required, only: [ :new, :edit, :update, :create, :destroy]
@@ -16,16 +16,15 @@ class ArtPiecesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html {
+      format.html do
         set_page_info_from_art_piece
         @art_piece = ArtPieceHtmlPresenter.new(@art_piece)
         render action: 'show'
-      }
-      format.json {
+      end
+      format.json do
         redirect_to api_v2_art_piece_path(@art_piece, format: :json)
-      }
+      end
     end
-
   end
 
   # GET /art_pieces/1/edit
@@ -102,7 +101,7 @@ class ArtPiecesController < ApplicationController
     ArtPiece.where(id: id).first
   end
 
-  def build_page_description art_piece
+  def build_page_description(art_piece)
     return "Mission Artists Art : #{art_piece.title} by #{art_piece.artist.get_name(true)}" if art_piece
   end
 
@@ -111,5 +110,4 @@ class ArtPiecesController < ApplicationController
                                       :year, :medium, :medium_id,
                                       :description, :position, :photo, :tags)
   end
-
 end

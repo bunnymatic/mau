@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class ViewPresenter
-
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::TagHelper
@@ -17,5 +17,4 @@ class ViewPresenter
   def csv_safe(val)
     (val || '').gsub(/\"\',/, '')
   end
-
 end

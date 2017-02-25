@@ -1,7 +1,6 @@
+# frozen_string_literal: true
 class StatsCalculator
-
   class Histogram < Hash
-
     class ValueError < StandardError ; end
 
     def initialize(hash=nil)
@@ -10,7 +9,6 @@ class StatsCalculator
       else
         raise ValueError.new("#{hash.inspect} is not a valid histogram initalize (Hash required)")
       end
-
     end
 
     def add(val)
@@ -27,7 +25,6 @@ class StatsCalculator
         self[k] = (self[k] || 0) + v
       end
     end
-
   end
 
   def self.histogram(data)
@@ -43,5 +40,4 @@ class StatsCalculator
     @data.each { |v| hist.add(v) }
     hist.sort_by_value_reverse
   end
-
 end

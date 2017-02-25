@@ -1,10 +1,9 @@
+# frozen_string_literal: true
 class UsersController < ApplicationController
-
-  before_action :logged_out_required, :only => [:new]
-  before_action :admin_required, :only => [ :destroy ]
-  before_action :user_required, :only => [ :edit, :update, :suspend, :deactivate,
-                                           :change_password_update]
-
+  before_action :logged_out_required, only: [:new]
+  before_action :admin_required, only: [ :destroy ]
+  before_action :user_required, only: [ :edit, :update, :suspend, :deactivate,
+                                        :change_password_update]
 
   DEFAULT_ACCOUNT_TYPE = 'MauFan'
 
@@ -49,7 +48,6 @@ class UsersController < ApplicationController
     @type = ['Artist','MauFan'].include?(type) ? type : 'Artist'
     @user = (@type == 'MauFan') ? fan : artist
   end
-
 
   def update
     if commit_is_cancel
@@ -140,14 +138,13 @@ class UsersController < ApplicationController
     redirect_to users_path and return
   end
 
-
   def activate
     logout
     code = activate_params[:activation_code]
     user = User.find_by(activation_code: code) if code.present?
 
-    if !user
-      flash[:error]  = "We couldn't find an artist with that activation code -- check your email?"+
+    unless user
+      flash[:error] = "We couldn't find an artist with that activation code -- check your email?"\
                        " Or maybe you've already activated -- try signing in."
       redirect_to login_path and return
     end
@@ -170,9 +167,7 @@ class UsersController < ApplicationController
       if email.present?
         flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
         user = User.find_by_email email
-        if user
-          user.resend_activation
-        end
+        user.resend_activation if user
         redirect_back_or_default('/')
       else
         flash[:error] = "You need to enter an email"
@@ -184,12 +179,12 @@ class UsersController < ApplicationController
     render and return unless request.post?
     inputs = params.require(user_params_key).permit(:email)
     user = User.find_by_email(inputs[:email])
-    flash[:notice] = "We've sent email with instructions on how to reset your password."+
+    flash[:notice] = "We've sent email with instructions on how to reset your password."\
                      "  Please check your email."
     if user
       if !user.active?
         flash[:notice] = nil
-        flash[:error] = "That account is not yet active.  Have you responded to the activation email we"+
+        flash[:error] = "That account is not yet active.  Have you responded to the activation email we"\
                         " already sent?  Enter your email below if you need us to send you a new activation email."
       else
         user.create_reset_code
@@ -206,6 +201,7 @@ class UsersController < ApplicationController
   end
 
   protected
+
   def render_on_failed_create
     msg = [
       "There was a problem creating your account.",
@@ -215,7 +211,7 @@ class UsersController < ApplicationController
     flash.now[:error] = msg.html_safe
     @studios = StudioService.all
     @user.valid?
-    render :action => 'new'
+    render action: 'new'
   end
 
   def redirect_after_create
@@ -261,9 +257,7 @@ class UsersController < ApplicationController
     # TODO: use strong params
     {}.tap do |info|
       %w|comment login email page name|.each do |k|
-        if params.include? k
-          info[k] = params[k]
-        end
+        info[k] = params[k] if params.include? k
       end
     end
   end
@@ -340,5 +334,4 @@ class UsersController < ApplicationController
     opts[:model].errors.add(:base, opts[:message] || "You clearly don't have the secret password.") unless valid
     valid
   end
-
 end

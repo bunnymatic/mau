@@ -1,5 +1,5 @@
+# frozen_string_literal: false
 class ThumbnailBrowserPresenter < ViewPresenter
-
   include ApplicationHelper
 
   attr_reader :next_img, :prev_img, :current_index
@@ -33,11 +33,11 @@ class ThumbnailBrowserPresenter < ViewPresenter
       item_path = item.get_path('thumb')
       style = background_image_style(item_path)
       thumb = {
-        :path => item_path,
-        :clz => 'tiny-thumb',
-        :id => item_id,
-        :link => url_helpers.art_piece_path(item),
-        :background_style => style
+        path: item_path,
+        clz: 'tiny-thumb',
+        id: item_id,
+        link: url_helpers.art_piece_path(item),
+        background_style: style
       }
       if item_id == @current_piece.id
         set_current_piece(idx)
@@ -52,6 +52,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
   end
 
   private
+
   def set_current_piece(idx)
     @current_index = idx
     nxt = (idx + 1) % num_pieces

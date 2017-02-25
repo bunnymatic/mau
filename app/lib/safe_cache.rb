@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class SafeCache
-
   def self.read(k)
     begin
       Rails.cache.read(k)
@@ -26,5 +26,4 @@ class SafeCache
       nil
     end
   end
-
 end

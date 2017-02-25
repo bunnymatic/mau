@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FeedbackMail do
-
   let(:feedback_params) { FactoryGirl.attributes_for(:feedback_mail) }
   subject(:feedback_mail) { FactoryGirl.build(:feedback_mail) }
 
@@ -11,11 +11,11 @@ describe FeedbackMail do
   it{ should validate_inclusion_of(:note_type).in_array( FeedbackMail::VALID_NOTE_TYPES ) }
 
   context "if emails don't match (and are required" do
-    subject(:feedback_mail) {
+    subject(:feedback_mail) do
       FactoryGirl.build(:feedback_mail,
                         email: 'jon@here.com',
                         email_confirm: 'joe@here.com')
-    }
+    end
     it{ should_not be_valid }
     it "includes the errors on base" do
       subject.valid?

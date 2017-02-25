@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 require 'rails_helper'
 describe Admin::RolesController do
-
   let(:editor) { FactoryGirl.create(:artist, :editor, :active) }
   let(:manager) { FactoryGirl.create(:artist, :manager, :active) }
   let(:admin) { FactoryGirl.create(:artist, :admin, :active) }
@@ -46,15 +46,15 @@ describe Admin::RolesController do
     describe 'POST update' do
       context 'with good params' do
         it 'adds a role to a user' do
-          expect{
+          expect do
             post :update, params: { id: admin_role.id, user: artist }
-          }.to change(artist.roles, :count).by(1)
+          end.to change(artist.roles, :count).by(1)
         end
         it 'is idempotnent' do
-          expect{
+          expect do
             post :update, params: { id: admin_role.id, user: artist }
             post :update, params: { id: admin_role.id, user: artist }
-          }.to change(artist.roles, :count).by(1)
+          end.to change(artist.roles, :count).by(1)
         end
       end
     end
@@ -72,9 +72,9 @@ describe Admin::RolesController do
     describe 'POST create' do
       context 'with good params' do
         it 'creates a role' do
-          expect{
+          expect do
             post :create, params: { role: {role: 'new role'} }
-          }.to change(Role, :count).by(1)
+          end.to change(Role, :count).by(1)
         end
         it 'redirects to the roles index page' do
           post :create, params: { role: {role: 'new role'} }
@@ -83,9 +83,9 @@ describe Admin::RolesController do
       end
       context 'with bad params' do
         it 'does not create a role' do
-          expect{
+          expect do
             post :create, params: { role: {role: ''} }
-          }.to change(Role, :count).by(0)
+          end.to change(Role, :count).by(0)
         end
         it 'renders new' do
           post :create, params: { role: {role: ''} }
@@ -104,16 +104,16 @@ describe Admin::RolesController do
       end
       context 'with role' do
         it 'removes the role' do
-          expect {
+          expect do
             delete :destroy, params: { id: manager_role.id }
-          }.to change(Role, :count).by(-1)
+          end.to change(Role, :count).by(-1)
         end
         it 'removes the role from all users' do
           ru = RolesUser.where(role: manager_role)
           expected_change = ru.count
-          expect {
+          expect do
             delete :destroy, params: { id: manager_role.id }
-          }.to change(RolesUser, :count).by(-expected_change)
+          end.to change(RolesUser, :count).by(-expected_change)
           artist.reload
           expect(artist.roles).not_to include manager
         end
@@ -123,7 +123,5 @@ describe Admin::RolesController do
         end
       end
     end
-
   end
-
 end

@@ -1,12 +1,12 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe MediaController do
-
   let(:media) { FactoryGirl.create_list(:medium, 4) }
   let(:artists) { FactoryGirl.create_list(:artist, 2, :active) }
-  let(:art_pieces) {
-    10.times.map { FactoryGirl.create(:art_piece, medium_id: media.sample.id, artist: artists.sample) }
-  }
+  let(:art_pieces) do
+    Array.new(10) { FactoryGirl.create(:art_piece, medium_id: media.sample.id, artist: artists.sample) }
+  end
 
   before do
     art_pieces
@@ -29,7 +29,6 @@ describe MediaController do
       end
     end
   end
-
 
   describe "#show" do
     let(:medium) { Artist.active.map(&:art_pieces).flatten.map(&:medium).first }
@@ -78,5 +77,4 @@ describe MediaController do
       end
     end
   end
-
 end

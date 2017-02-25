@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class OpenStudiosController < ApplicationController
-
   def show
     @page_title = PageInfoService.title("Open Studios")
     @os_only = true
@@ -14,5 +14,4 @@ class OpenStudiosController < ApplicationController
       render partial: '/artists/artist_list', locals: { gallery: @gallery }
     end
   end
-
 end

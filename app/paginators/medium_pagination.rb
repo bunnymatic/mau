@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class MediumPagination < Pagination
-
   include ArtistOrPiece
 
   PER_PAGE = 20
@@ -11,15 +11,14 @@ class MediumPagination < Pagination
   end
 
   def page_link(page)
-    url_helpers.medium_path(@current_medium, page_args.merge(:p => page))
+    url_helpers.medium_path(@current_medium, page_args.merge(p: page))
   end
 
   def previous_link
-    url_helpers.medium_path(@current_medium, page_args.merge(:p => previous_page))
+    url_helpers.medium_path(@current_medium, page_args.merge(p: previous_page))
   end
 
   def next_link
-    url_helpers.medium_path(@current_medium, page_args.merge(:p => next_page))
+    url_helpers.medium_path(@current_medium, page_args.merge(p: next_page))
   end
-
 end

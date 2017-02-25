@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'htmlentities'
 
 module HtmlHelper
-
   # adds first and last to the list
   def print_html_list(clazz, html_arr)
     nel = html_arr.count
@@ -15,5 +15,4 @@ module HtmlHelper
       "<li class='#{cls}'>" + el + "</li>"
     end.join('')
   end
-
 end

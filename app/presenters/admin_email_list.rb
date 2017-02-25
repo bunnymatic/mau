@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 require 'csv'
 class AdminEmailList < ViewPresenter
-
   include OpenStudiosEventShim
 
-  BASE_COLUMN_HEADERS = ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"]
+  BASE_COLUMN_HEADERS = ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"].freeze
 
   attr_accessor :list_names
 
@@ -22,14 +22,12 @@ class AdminEmailList < ViewPresenter
   def emails
     @emails ||= artists.select{|a| a.email.present?}.map do |a|
       OpenStruct.new(
-        {
-          id: a.id,
-          name: a.get_name,
-          email: a.email,
-          activated_at: a.activated_at,
-          last_login: a.last_login_at.try(:to_formatted_s,:admin),
-          link: url_helpers.artist_path(a.slug)
-        }
+        id: a.id,
+        name: a.get_name,
+        email: a.email,
+        activated_at: a.activated_at,
+        last_login: a.last_login_at.try(:to_formatted_s,:admin),
+        link: url_helpers.artist_path(a.slug)
       )
     end
   end
@@ -73,8 +71,6 @@ class AdminEmailList < ViewPresenter
     case list_name
     when 'fans'
       MauFan.all
-    when *available_open_studios_keys
-      Artist.active.open_studios_participants(list_name)
     when 'all'
       Artist.all
     when 'active', 'pending'
@@ -83,6 +79,8 @@ class AdminEmailList < ViewPresenter
       Artist.active.where("profile_image is null")
     when 'no_images'
       Artist.active.reject{|a| a.art_pieces.count > 0}
+    when *available_open_studios_keys
+      Artist.active.open_studios_participants(list_name)
     end
   end
 
@@ -98,16 +96,15 @@ class AdminEmailList < ViewPresenter
          [ "pending", 'Pending'],
          [ "fans", 'Fans' ],
          [ "no_profile", 'Active with no profile image'],
-         [ "no_images", 'Active with no art']
-        ] + os_lists
+         [ "no_images", 'Active with no art']] + os_lists
       end
   end
 
   private
+
   def titles
     @titles ||= Hash[lists]
   end
-
 
   def queried_os_tags
     @queried_os_tags ||= (list_names & available_open_studios_keys)
@@ -123,15 +120,13 @@ class AdminEmailList < ViewPresenter
 
   def artist_as_csv_row(artist)
     [
-     csv_safe(artist.firstname),
-     csv_safe(artist.lastname),
-     artist.get_name(false),
-     artist.email,
-     artist.studio ? artist.studio.name : ''
+      csv_safe(artist.firstname),
+      csv_safe(artist.lastname),
+      artist.get_name(false),
+      artist.email,
+      artist.studio ? artist.studio.name : ''
     ] + available_open_studios_keys.map do |os_tag|
       ((artist.respond_to? :os_participation) && artist.os_participation[os_tag]).to_s
     end
   end
-
-
 end

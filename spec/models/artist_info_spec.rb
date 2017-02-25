@@ -1,8 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
-
 describe ArtistInfo do
-
   it_should_behave_like AddressMixin
 
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
@@ -28,10 +27,10 @@ describe ArtistInfo do
         artist_info.save
       end
       it "requires an artist" do
-        expect {
+        expect do
           artist_info.artist_id = nil
           artist_info.save!
-        }.to raise_error ActiveRecord::RecordInvalid
+        end.to raise_error ActiveRecord::RecordInvalid
       end
     end
   end
@@ -62,7 +61,7 @@ describe ArtistInfo do
 
     describe 'add entry' do
       it "adding with = given = { '201104' => true } sets os_participation['201104']" do
-        artist_info.send(:os_participation=, { '201104' => true })
+        artist_info.send(:os_participation=, '201104' => true)
         artist_info.reload
         expect(artist_info.os_participation['201104']).to eql true
       end
@@ -78,7 +77,7 @@ describe ArtistInfo do
         artist_info.open_studios_participation = '201104'
       end
       it "sets false using = {'201104',false}" do
-        artist_info.send(:os_participation=, {'201104' => false})
+        artist_info.send(:os_participation=, '201104' => false)
         artist_info.reload
         expect(artist_info.os_participation['201104']).to be_nil
       end
@@ -97,12 +96,11 @@ describe ArtistInfo do
       end
       it 'adds another key properly using =' do
         artist_info.update_attribute(:open_studios_participation,'201104')
-        artist_info.send(:os_participation=, {'201204' => true })
+        artist_info.send(:os_participation=, '201204' => true)
         artist_info.reload
         expect(artist_info.os_participation['201204']).to eq(true)
         expect(artist_info.os_participation['201104']).to eq(true)
       end
     end
   end
-
 end

@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 require 'rails_helper'
 describe UpdateArtistService do
-
   let(:params) { {} }
   let(:artist) { create(:artist) }
   subject(:service) { described_class.new(artist, params) }
@@ -8,15 +8,14 @@ describe UpdateArtistService do
   include MockSearchService
 
   describe ".update" do
-
     before do
       stub_search_service!
     end
 
     describe "with user attributes" do
-      let(:params) {
+      let(:params) do
         { firstname: "BillyBob" }
-      }
+      end
       it "updates them" do
         service.update
         expect(artist.reload.firstname).to eql "BillyBob"
@@ -26,13 +25,12 @@ describe UpdateArtistService do
         expect(UserChangedEvent).to receive(:create)
         service.update
       end
-
     end
 
     describe "with artist info attributes" do
-      let(:params) {
+      let(:params) do
         { artist_info_attributes: { studionumber: '5' } }
-      }
+      end
       it "updates them" do
         service.update
         expect(artist.reload.studionumber).to eql "5"
@@ -49,18 +47,18 @@ describe UpdateArtistService do
 
     describe "with a huge bio update" do
       let(:big_bio) { Faker::Lorem.paragraphs(4).join }
-      let(:params) {
+      let(:params) do
         { artist_info_attributes: { bio: big_bio } }
-      }
+      end
       it "updates things without raising an error" do
         service.update
       end
     end
 
     describe "when the login changes" do
-      let(:params) {
+      let(:params) do
         { login: 'newlogin' }
-      }
+      end
       it "updates the slug" do
         expect(artist.login).not_to eql "newlogin"
         expect(artist.slug).not_to eql "newlogin"
@@ -70,7 +68,5 @@ describe UpdateArtistService do
         expect(artist.login).to eql "newlogin"
       end
     end
-
-
   end
 end

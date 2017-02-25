@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::TestsController do
-
   let(:admin) { FactoryGirl.create(:artist, :admin) }
 
   context 'unauthorized' do
@@ -38,7 +38,5 @@ describe Admin::TestsController do
         expect(assigns(:qrfile)).to eql "/images/tmp/qrtest_#{@t.to_i}.png"
       end
     end
-
   end
-
 end

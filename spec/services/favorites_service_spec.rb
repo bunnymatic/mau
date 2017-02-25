@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FavoritesService do
-
   let(:artist) { create(:artist, :with_art) }
   let(:fan) { create(:fan) }
   subject(:service) { described_class }
@@ -26,7 +26,6 @@ describe FavoritesService do
         expect(ArtistMailer).to receive(:favorite_notification).and_return(failed_mailer)
         service.add fan, artist
       end
-
     end
     context "an art piece" do
       it "adds the art piece favorite" do
@@ -37,24 +36,24 @@ describe FavoritesService do
     context "a something else" do
       context "an un favoritable type" do
         it 'raises an error' do
-          expect {
+          expect do
             service.add fan, Studio.new
-          }.to raise_error InvalidFavoriteTypeError
+          end.to raise_error InvalidFavoriteTypeError
         end
       end
     end
     context "if you're favoriting your own stuff" do
       it "does not add a favorite" do
-        expect {
+        expect do
           r = service.add artist, artist
           expect(r).to be_blank
-        }.to change(Favorite, :count).by(0)
+        end.to change(Favorite, :count).by(0)
       end
       it "does not add a favorite art piece" do
-        expect {
+        expect do
           r = service.add artist, artist.art_pieces.first
           expect(r).to be_blank
-        }.to change(Favorite, :count).by(0)
+        end.to change(Favorite, :count).by(0)
       end
     end
   end
@@ -66,14 +65,14 @@ describe FavoritesService do
         artist
       end
       it 'removes the favorite' do
-        expect {
+        expect do
           service.remove fan, artist
-        }.to change(Favorite, :count).by(-1)
+        end.to change(Favorite, :count).by(-1)
       end
       it 'removes the association' do
-        expect {
+        expect do
           service.remove fan, artist
-        }.to change(fan.favorites, :count).by(-1)
+        end.to change(fan.favorites, :count).by(-1)
       end
     end
     context "an art piece" do
@@ -82,21 +81,21 @@ describe FavoritesService do
         artist
       end
       it 'removes the favorite' do
-        expect {
+        expect do
           service.remove fan, artist.art_pieces.first
-        }.to change(Favorite, :count).by(-1)
+        end.to change(Favorite, :count).by(-1)
       end
       it 'removes the association' do
-        expect {
+        expect do
           service.remove fan, artist.art_pieces.first
-        }.to change(fan.favorites, :count).by(-1)
+        end.to change(fan.favorites, :count).by(-1)
       end
     end
     context "an un favoritable type" do
       it 'raises an error' do
-        expect {
+        expect do
           service.remove fan, Studio.new
-        }.to raise_error InvalidFavoriteTypeError
+        end.to raise_error InvalidFavoriteTypeError
       end
     end
   end

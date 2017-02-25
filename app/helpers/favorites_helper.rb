@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 module FavoritesHelper
-  def get_favorite_image_and_path fav, sz = :small
+  def get_favorite_image_and_path(fav, sz = :small)
     title = fav.get_name
     img = ''
     path = ''
@@ -13,7 +14,7 @@ module FavoritesHelper
     [img, path, title]
   end
 
-  def draw_micro_favorite fav, options=nil
+  def draw_micro_favorite(fav, options=nil)
     options ||= {}
     return '' unless fav;
     img, path, title = get_favorite_image_and_path fav, 'thumb'

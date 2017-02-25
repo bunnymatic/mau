@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   sequence(:subject) { |n| "Subject of Feedback #{n}" }
   factory :feedback do

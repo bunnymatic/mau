@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module TagMediaMixin
   extend ActiveSupport::Concern
 
@@ -24,5 +25,4 @@ module TagMediaMixin
       SafeCache.delete cache_key(false)
     end
   end
-
 end

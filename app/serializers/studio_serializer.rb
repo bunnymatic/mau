@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class StudioSerializer < MauSerializer
   attributes :id, :name, :street_address, :city, :map_url, :url, :artists, :slug
 
@@ -9,9 +10,7 @@ class StudioSerializer < MauSerializer
   end
 
   def url
-    unless object.is_a? IndependentStudio
-      studio_path(object)
-    end
+    studio_path(object) unless object.is_a? IndependentStudio
   end
 
   def street_address
@@ -25,5 +24,4 @@ class StudioSerializer < MauSerializer
   def map_url
     object.map_link
   end
-
 end

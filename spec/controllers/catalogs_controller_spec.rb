@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe CatalogsController do
-
   let(:jesse) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
 
@@ -13,7 +13,7 @@ describe CatalogsController do
     artist
     jesse
 
-    ActiveRecord::Base.connection.execute("update artist_infos " +
+    ActiveRecord::Base.connection.execute("update artist_infos " \
                                           "set open_studios_participation = '#{open_studios_event.key}'")
     allow_any_instance_of(Artist).to receive(:in_the_mission?).and_return(true)
   end
@@ -29,17 +29,17 @@ describe CatalogsController do
 
     context 'format=csv' do
       render_views
-      let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
+      let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge(headers: true) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
 
       before do
-        get :show, :format => :csv
+        get :show, format: :csv
       end
       it { expect(response).to be_success }
       it { expect(response).to be_csv_type }
       it 'includes the right headers' do
-        expected_headers =  ["First Name","Last Name","Full Name","Email", "Group Site Name",
-                             "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Media"]
+        expected_headers = ["First Name","Last Name","Full Name","Email", "Group Site Name",
+                            "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Media"]
 
         expect(parsed.headers).to eq(expected_headers)
       end
@@ -52,7 +52,6 @@ describe CatalogsController do
         expect(row["Media"]).to eql artist.art_pieces.map{|a| a.medium.try(:name)}.join(" ")
       end
     end
-
   end
 
   describe '#social' do
@@ -63,11 +62,11 @@ describe CatalogsController do
       it { expect(response).to be_success }
     end
     context 'format=csv' do
-      let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
+      let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge(headers: true) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
       let(:social_keys) { SocialCatalogPresenter::SOCIAL_KEYS }
       before do
-        get :social, :format => :csv
+        get :social, format: :csv
       end
       it { expect(response).to be_success }
       it { expect(response).to be_csv_type }
@@ -92,8 +91,6 @@ describe CatalogsController do
         expect(row["Facebook"]).to eql artist.facebook.to_s
         expect(row["Twitter"]).to eql artist.twitter.to_s
       end
-
     end
-
   end
 end

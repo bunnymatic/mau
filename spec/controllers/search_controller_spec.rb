@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe SearchController, elasticsearch: true do
-
   def letter_frequency(words)
     Hash.new(0).tap do |letters|
       [words].flatten.compact.join.downcase.gsub(/\s+/,'').each_char {|c| letters[c] += 1 }
@@ -9,10 +9,10 @@ describe SearchController, elasticsearch: true do
   end
 
   let!(:studios) { FactoryGirl.create_list :studio, 4 }
-  let!(:artists) {
+  let!(:artists) do
     FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.first) +
-    FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.last)
-  }
+      FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.last)
+  end
   let(:media_search) { artists.map{|a| a.art_pieces.map(&:medium) }.flatten.compact[0..1] }
   let(:studios_search) { studios[0..1] }
 
@@ -35,5 +35,4 @@ describe SearchController, elasticsearch: true do
       end
     end
   end
-
 end

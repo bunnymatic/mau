@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 module Admin
   class ArtistsController < ::BaseAdminController
-    before_action :admin_required, :only => [ :suspend, :index, :edit, :update ]
+    before_action :admin_required, only: [ :suspend, :index, :edit, :update ]
     before_action :set_artist, only: [ :edit, :suspend, :update ]
 
     def index
@@ -12,8 +13,7 @@ module Admin
       end
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
       if @artist.update_attributes(artist_params)
@@ -56,6 +56,7 @@ module Admin
     end
 
     private
+
     def set_artist
       @artist = Artist.find(params[:id])
     end
@@ -81,6 +82,4 @@ module Admin
                                      artist_info_attributes: [:studionumber, :street, :bio])
     end
   end
-
-
 end

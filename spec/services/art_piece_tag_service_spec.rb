@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPieceTagService do
@@ -35,35 +36,35 @@ describe ArtPieceTagService do
 
   describe '.delete_unused_tags' do
     it 'removes only tags that are unused' do
-      expect {
+      expect do
         service.delete_unused_tags
         expect(service.tags_sorted_by_frequency.size).to be >= 7
-      }.to change(ArtPieceTag, :count).by(-5)
+      end.to change(ArtPieceTag, :count).by(-5)
     end
   end
 
   describe '.destroy' do
     it 'removes the tag' do
-      expect {
+      expect do
         service.delete_unused_tags
         expect(service.tags_sorted_by_frequency.size).to be >= 6
-      }.to change(ArtPieceTag, :count).by(-5)
+      end.to change(ArtPieceTag, :count).by(-5)
     end
     it 'removes the tag references on any art pieces' do
       tags = service.tags_sorted_by_frequency.select{|tf| tf.frequency > 0}.first(3).map(&:tag)
       art_piece = tags.first.art_pieces.first
       tag_names = tags.map(&:name)
-      expect {
-        expect {
+      expect do
+        expect do
           expect(art_piece.tags.map(&:name) & tag_names).not_to be_empty
           service.destroy(tags)
           expect(art_piece.tags.map(&:name) & tag_names).to be_empty
-        }.to change(ArtPieceTag, :count).by(-3)
-      }.to change(ArtPiecesTag, :count).by(-3)
+        end.to change(ArtPieceTag, :count).by(-3)
+      end.to change(ArtPiecesTag, :count).by(-3)
     end
   end
 
-  describe 'frequency'  do
+  describe 'frequency' do
     before do
       art_pieces.each_with_index do |ap, idx|
         ap.tags = tags[0..(5-idx)]
@@ -92,7 +93,7 @@ describe ArtPieceTagService do
       service.frequency(true)
     end
     it 'does not update the cache if it succeeds' do
-      expect(SafeCache).to receive(:read).with([:tagfreq, true]).and_return({:frequency => 'stuff'})
+      expect(SafeCache).to receive(:read).with([:tagfreq, true]).and_return(frequency: 'stuff')
       expect(SafeCache).not_to receive(:write)
       service.frequency(true)
     end
@@ -105,5 +106,4 @@ describe ArtPieceTagService do
       ArtPieceTagService.flush_cache
     end
   end
-
 end

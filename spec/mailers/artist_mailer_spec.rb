@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtistMailer do
-
   let(:artist) { FactoryGirl.create(:artist, :active) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:pending_artist) { FactoryGirl.create(:artist, :pending) }
@@ -11,7 +11,7 @@ describe ArtistMailer do
       @mail = ArtistMailer.signup_notification(pending_artist)
     end
     it "includes an activation code" do
-      expect(@mail.to_s).to match activate_url(:activation_code => pending_artist.activation_code)
+      expect(@mail.to_s).to match activate_url(activation_code: pending_artist.activation_code)
     end
   end
 
@@ -36,7 +36,7 @@ describe ArtistMailer do
       @mail = ArtistMailer.resend_activation(pending_artist)
     end
     it "includes an activation code" do
-      expect(@mail).to have_body_text( activate_url(:activation_code => pending_artist.activation_code) )
+      expect(@mail).to have_body_text( activate_url(activation_code: pending_artist.activation_code) )
     end
   end
 

@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 When(/^I click to add this as a favorite$/) do
-  find('favorite-this').find('a').click()
+  find('favorite-this').find('a').click
 end
 
 Then(/^I see all the favorites in a table$/) do
@@ -20,14 +21,11 @@ Then(/^I see all the favorites in a table$/) do
   end
 end
 
-
 When(/^I login as an artist with favorites$/) do
   @artist = Artist.first
   Artist.all[1..-1][0..3].each do |a|
     FavoritesService.add(@artist, a)
-    if a.art_pieces.present?
-      FavoritesService.add(@artist, a.art_pieces.first)
-    end
+    FavoritesService.add(@artist, a.art_pieces.first) if a.art_pieces.present?
   end
   step "I login"
 end
@@ -74,8 +72,8 @@ When /^I remove the first favorite$/ do
 end
 
 Then /^I see that I've lost one of my favorites$/ do
-  wait_until {
+  wait_until do
     all('.flash').any?
-  }
+  end
   expect(@artist_favorites_count).to eql (@artist.reload.favorites.count + 1)
 end

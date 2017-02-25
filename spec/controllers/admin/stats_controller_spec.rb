@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 require 'rails_helper'
 describe Admin::StatsController do
-
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:artist) { FactoryGirl.create(:artist, :active) }
@@ -102,5 +102,4 @@ describe Admin::StatsController do
       end
     end
   end
-
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ApplicationHelper
   def application_body_class
     [@current_controller, @body_classes].flatten.compact.uniq.join ' '
@@ -16,5 +17,4 @@ module ApplicationHelper
   def background_image_style(img)
     'background-image: url("%s");' % img
   end
-
 end

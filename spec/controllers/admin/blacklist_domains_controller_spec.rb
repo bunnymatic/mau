@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::BlacklistDomainsController do
-
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
 
@@ -26,7 +26,6 @@ describe Admin::BlacklistDomainsController do
   end
 
   context 'authorized' do
-
     let(:domain) { FactoryGirl.create(:blacklist_domain) }
 
     describe '#new' do
@@ -55,16 +54,16 @@ describe Admin::BlacklistDomainsController do
         login_as admin
       end
       it 'creates a new blacklist domain' do
-        expect{
+        expect do
           post :create, params: { blacklist_domain: { domain: 'blah.de.blah.com' } }
-        }.to change(BlacklistDomain,:count).by(1)
+        end.to change(BlacklistDomain,:count).by(1)
       end
       it 'renders new on failure' do
-        expect{
+        expect do
           post :create, params: { blacklist_domain: { domain: '' } }
           expect(response).to render_template :new
           expect(assigns(:domain).errors).to be_present
-        }.to change(BlacklistDomain,:count).by(0)
+        end.to change(BlacklistDomain,:count).by(0)
       end
       it 'sets a notification' do
         post :create, params: { blacklist_domain: { domain: 'blah.de.blah.com' } }
@@ -97,10 +96,10 @@ describe Admin::BlacklistDomainsController do
       end
       it 'removes the domain' do
         domain
-        expect{
+        expect do
           delete :destroy, params: { id: domain.id }
           expect(BlacklistDomain.where(id: domain.id)).to be_empty
-        }.to change(BlacklistDomain, :count).by(-1)
+        end.to change(BlacklistDomain, :count).by(-1)
       end
       it 'sets a notification' do
         delete :destroy, params: { id: domain.id }

@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module Admin
   class OpenStudiosEventsController < ::BaseAdminController
-
     before_action :admin_required
 
     def index
@@ -45,6 +45,7 @@ module Admin
     end
 
     private
+
     def open_studios_event_params
       params.require(:open_studios_event).permit(:title, :start_date, :end_date, :key, :logo)
     end

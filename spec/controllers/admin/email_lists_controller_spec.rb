@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::EmailListsController do
@@ -67,7 +68,6 @@ describe Admin::EmailListsController do
         expect(assigns(:all_lists)[:admin].emails).to have_at_least(1).email
         expect(assigns(:all_lists)[:admin].emails.first).to be_a_kind_of Email
       end
-
     end
   end
 end

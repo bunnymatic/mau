@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Search
   class QueryRunner
     def initialize(query = nil, _include_highlight = true)
@@ -34,10 +35,9 @@ module Search
         }
       }
       EsClient.client.search(
-        {
-          index: [:art_pieces, :studios, :artists].join(","),
-          body: query_body
-        })
+        index: [:art_pieces, :studios, :artists].join(","),
+        body: query_body
+      )
     end
 
     def package_results(raw_results)
@@ -53,8 +53,6 @@ module Search
       end
     end
 
-    def es_client
-      es.client
-    end
+    delegate :client, to: :es, prefix: true
   end
 end

@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class OpenStudiosPresenter
-
   PAGE = 'main_openstudios'
 
   def packaged_summary
@@ -49,8 +49,8 @@ class OpenStudiosPresenter
   end
 
   private
+
   def editable_content_data(packaged_data)
     Hash[packaged_data.select{|k,_v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
   end
-
 end

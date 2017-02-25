@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 class OpenStudiosEvent < ApplicationRecord
-  #attr_accessible :end_date, :start_date, :key, :logo, :title
+  # attr_accessible :end_date, :start_date, :key, :logo, :title
 
   validates :key, presence: true, uniqueness: true
   validates :start_date, presence: true
@@ -21,11 +22,11 @@ class OpenStudiosEvent < ApplicationRecord
   # define future/past not as scopes because we want Time.zone.now() to be evaluated at query time
   # Also, this allows us to test with Timecop as opposed to using database NOW() method
   def self.past
-    where("start_date < ?", Time.zone.now()).order(:start_date)
+    where("start_date < ?", Time.zone.now).order(:start_date)
   end
 
   def self.future
-    where("end_date > ?", Time.zone.now()).order(:start_date)
+    where("end_date > ?", Time.zone.now).order(:start_date)
   end
 
   def self.current
@@ -37,5 +38,4 @@ class OpenStudiosEvent < ApplicationRecord
       errors.add(:end_date, 'should be after start date.') unless end_date >= start_date
     end
   end
-
 end

@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class UserNavigation < Navigation
-
   attr_reader :current_user
 
   def initialize(user)
@@ -15,6 +15,7 @@ class UserNavigation < Navigation
   end
 
   private
+
   def artist_nav_items
     return [] unless current_artist
     [
@@ -32,5 +33,4 @@ class UserNavigation < Navigation
       link_to('My Account', url_helpers.edit_user_path(current_user))
     ]
   end
-
 end

@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 class Email < ApplicationRecord
-
   has_many :email_list_memberships
-  has_many :email_list, :through => :email_list_membership
-  validates_presence_of :email
-  validates_format_of :email,    :with => Mau::Regex::EMAIL, :message => Mau::Regex::BAD_EMAIL_MESSAGE
+  has_many :email_list, through: :email_list_membership
+  validates :email, presence: true
+  validates :email, format: { with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE }
 
   def formatted
     name.present? ? "#{name} <#{email}>" : email
@@ -14,5 +14,4 @@ class Email < ApplicationRecord
   #   found = Email.find_by_email(email.email)
   #   found ? found : email
   # end
-
 end

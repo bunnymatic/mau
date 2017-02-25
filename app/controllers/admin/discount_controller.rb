@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rdiscount'
 module Admin
   class DiscountController < ::BaseAdminController
@@ -7,6 +8,7 @@ module Admin
     end
 
     private
+
     def markup_params
       params.permit(:markdown)[:markdown]
     end

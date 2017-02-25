@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec::Matchers.define :be_monotonically_increasing do
   match do |actual|
     derivative = actual.each_cons(2).map{|x, y| y <=> x}

@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtistsPresenter do
-
   include PresenterSpecHelpers
 
   let(:os_only) { false }
@@ -17,7 +17,6 @@ describe ArtistsPresenter do
     end
   end
   describe '#artists' do
-
     context 'os_only is false' do
       it 'shows active artists sorted by name' do
         expect(subject.artists.map(&:artist)).to eql Artist.active.sort_by(&:sortable_name).to_a
@@ -32,7 +31,6 @@ describe ArtistsPresenter do
         expect(subject.artists.map(&:artist).to_a).to eql(expected)
       end
     end
-
   end
 
   describe '#artists_only_in_the_mission' do
@@ -49,8 +47,5 @@ describe ArtistsPresenter do
 
     context 'os_only is true' do
     end
-
   end
-
-
 end

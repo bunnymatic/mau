@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Api
   class ApiController < ActionController::Base
     before_action :require_authorization
@@ -18,7 +19,6 @@ module Api
       rescue URI::Error => ex
         false
       end
-
     end
   end
 end

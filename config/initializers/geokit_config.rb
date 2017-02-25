@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'geokit'
 
 Geokit::Geocoders::GoogleGeocoder.api_key = Conf.ga_server_api_key
-Geokit::Geocoders::request_timeout = 3
+Geokit::Geocoders.request_timeout = 3
 
-if Rails.env.test?
-  Geokit::Geocoders::provider_order = [:fake]
-else
-  Geokit::Geocoders::provider_order = [:google]
-end
+Geokit::Geocoders.provider_order = if Rails.env.test?
+                                     [:fake]
+                                   else
+                                     [:google]
+                                   end

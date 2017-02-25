@@ -1,13 +1,14 @@
+# frozen_string_literal: true
 class Medium < ApplicationRecord
   has_many :art_pieces
 
-  #default_scope order('name')
+  # default_scope order('name')
   include TagMediaMixin
 
   include FriendlyId
   friendly_id :name, use: [:slugged]
 
-  validates :name, :presence => true, :length => {:within => (2..244)}
+  validates :name, presence: true, length: {within: (2..244)}
 
   CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20
 
@@ -32,7 +33,7 @@ class Medium < ApplicationRecord
     meds = get_media_usage
     meds = normalize(meds, 'ct') if _normalize
 
-    SafeCache.write(ckey, meds, :expires_in => CACHE_EXPIRY)
+    SafeCache.write(ckey, meds, expires_in: CACHE_EXPIRY)
     meds
   end
 
@@ -44,12 +45,11 @@ class Medium < ApplicationRecord
 
   class << self
     def get_media_usage
-      dbr = ArtPiece.joins(:artist).where("users.state" => "active").select('medium_id').
-            group('medium_id').count
+      dbr = ArtPiece.joins(:artist).where("users.state" => "active").select('medium_id')
+                    .group('medium_id').count
       Medium.all.map do |medium|
         { "medium" => medium.id, "ct" => dbr[medium.id].to_i }
       end
     end
   end
-
 end

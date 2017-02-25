@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class ArtPieceTagsController < ApplicationController
-
   before_action :admin_required, except: [ :index, :show, :autosuggest ]
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
@@ -19,10 +19,10 @@ class ArtPieceTagsController < ApplicationController
   def index
     respond_to do |format|
       format.html { redirect_to_most_popular_tag }
-      format.json {
+      format.json do
         tags = ArtPieceTag.all
         render json: tags
-      }
+      end
     end
   end
 
@@ -42,12 +42,12 @@ class ArtPieceTagsController < ApplicationController
     @tag_cloud_presenter = TagCloudPresenter.new(ArtPieceTag, @tag, mode)
     @paginator = ArtPieceTagPagination.new(@tag_presenter.art_pieces, @tag, page, mode)
 
-    @by_artists_link = art_piece_tag_url(@tag, { m: 'a' })
-    @by_pieces_link = art_piece_tag_url(@tag, { m: 'p' })
+    @by_artists_link = art_piece_tag_url(@tag, m: 'a')
+    @by_pieces_link = art_piece_tag_url(@tag, m: 'p')
   end
 
-
   private
+
   def fetch_tags_for_autosuggest
     tags = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless tags

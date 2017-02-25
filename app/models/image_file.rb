@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'pathname'
 
 class ImageFile
-
   include ImageFileHelpers
 
   def self.get_path(dir, size, fname)
@@ -18,5 +18,4 @@ class ImageFile
             [sz, image_info.path.gsub(file_match, MauImage::ImageSize.find(sz).prefix + destfile)]
           end ]
   end
-
 end

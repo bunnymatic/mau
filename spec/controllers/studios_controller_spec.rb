@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe StudiosController do
-
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:manager) { FactoryGirl.create(:artist, :with_studio, :manager) }
   let(:indy_artist) { FactoryGirl.create(:artist, :active) }
@@ -36,8 +36,6 @@ describe StudiosController do
         end
         it {expect(response).to be_success}
       end
-
     end
   end
-
 end

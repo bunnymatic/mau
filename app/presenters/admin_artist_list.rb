@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'csv'
 
 class AdminArtistList < ViewPresenter
-
   include Enumerable
 
   ALLOWED_SORT_BY = %w|studio_id lastname firstname id login email activated_at|.freeze
@@ -47,6 +47,7 @@ class AdminArtistList < ViewPresenter
   end
 
   private
+
   def set_sort_by(sort_by)
     @sort_by = (ALLOWED_SORT_BY.include? sort_by.to_s) ? sort_by : ALLOWED_SORT_BY.first
   end
@@ -57,15 +58,14 @@ class AdminArtistList < ViewPresenter
 
   def artist_as_csv_row(artist)
     [
-     csv_safe(artist.login),
-     csv_safe(artist.firstname),
-     csv_safe(artist.lastname),
-     artist.get_name,
-     artist.studio ? artist.studio.name : '',
-     artist.address.street,
-     artist.studionumber,
-     artist.email
+      csv_safe(artist.login),
+      csv_safe(artist.firstname),
+      csv_safe(artist.lastname),
+      artist.get_name,
+      artist.studio ? artist.studio.name : '',
+      artist.address.street,
+      artist.studionumber,
+      artist.email
     ]
   end
-
 end

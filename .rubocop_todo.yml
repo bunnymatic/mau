@@ -22,12 +22,6 @@ Lint/ParenthesesAsGroupedExpression:
     - 'spec/services/create_art_piece_service_spec.rb'
     - 'spec/services/update_art_piece_service_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/SafeNavigationChain:
-  Exclude:
-    - 'app/models/address.rb'
-
 # Offense count: 7
 Lint/ShadowingOuterLocalVariable:
   Exclude:
@@ -91,59 +85,12 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Max: 9
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/CaseWhenSplat:
-  Exclude:
-    - 'app/presenters/admin_email_list.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Performance/RedundantBlockCall:
-  Exclude:
-    - 'app/models/address.rb'
-    - 'features/support/capybara_helpers.rb'
-    - 'spec/support/wait_until.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Performance/RedundantMatch:
-  Exclude:
-    - 'app/presenters/user_presenter.rb'
-    - 'script/find_artists_by_name.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/StringReplacement:
-  Exclude:
-    - 'features/step_definitions/shared_steps.rb'
-
-# Offense count: 10
-# Cop supports --auto-correct.
-Performance/TimesMap:
-  Exclude:
-    - 'app/controllers/admin/stats_controller.rb'
-    - 'spec/controllers/admin/application_events_controller_spec.rb'
-    - 'spec/controllers/artists_controller_spec.rb'
-    - 'spec/controllers/media_controller_spec.rb'
-    - 'spec/lib/enumerable_spec.rb'
-    - 'spec/paginators/art_piece_tag_pagination_spec.rb'
-    - 'spec/paginators/medium_pagination_spec.rb'
-    - 'spec/paginators/pagination_spec.rb'
-    - 'spec/support/faker_files.rb'
-
 # Offense count: 3
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: strict, flexible
 Rails/Date:
   Exclude:
     - 'app/controllers/admin/stats_controller.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Rails/Delegate:
-  Exclude:
-    - 'app/services/search/query_runner.rb'
 
 # Offense count: 28
 # Cop supports --auto-correct.
@@ -222,15 +169,6 @@ Rails/PluralizationGrammar:
     - 'spec/models/open_studios_event_spec.rb'
     - 'spec/services/open_studios_event_service_spec.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: referer, referrer
-Rails/RequestReferer:
-  Exclude:
-    - 'app/controllers/admin/studios_controller.rb'
-    - 'app/controllers/favorites_controller.rb'
-
 # Offense count: 28
 # Configuration parameters: Blacklist.
 # Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters
@@ -246,29 +184,6 @@ Rails/TimeZone:
     - 'app/services/token_service.rb'
     - 'tztest.rb'
 
-# Offense count: 18
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/Validation:
-  Exclude:
-    - 'app/models/application_event.rb'
-    - 'app/models/art_piece.rb'
-    - 'app/models/blacklist_domain.rb'
-    - 'app/models/email.rb'
-    - 'app/models/email_list_membership.rb'
-    - 'app/models/feedback.rb'
-    - 'app/models/open_studios_tally.rb'
-    - 'app/models/role.rb'
-    - 'app/models/roles_user.rb'
-    - 'app/models/scammer.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Security/YAMLLoad:
-  Exclude:
-    - 'app/lib/app_config.rb'
-
 # Offense count: 11
 Style/AccessorMethodName:
   Exclude:
@@ -281,23 +196,6 @@ Style/AccessorMethodName:
     - 'app/presenters/thumbnail_browser_presenter.rb'
     - 'app/services/art_piece_tag_service.rb'
     - 'script/dump_current_database.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: prefer_alias, prefer_alias_method
-Style/Alias:
-  Exclude:
-    - 'app/paginators/pagination.rb'
-    - 'app/presenters/art_piece_presenter.rb'
-    - 'app/presenters/user_presenter.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/AlignArray:
-  Exclude:
-    - 'app/controllers/studios_controller.rb'
-    - 'config/initializers/friendly_id.rb'
 
 # Offense count: 4
 # Cop supports --auto-correct.
@@ -339,47 +237,6 @@ Style/AndOr:
     - 'app/presenters/art_piece_presenter.rb'
     - 'lib/rand_helpers.rb'
 
-# Offense count: 9
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: percent_q, bare_percent
-Style/BarePercentLiterals:
-  Exclude:
-    - 'features/step_definitions/search_steps.rb'
-    - 'features/step_definitions/shared_steps.rb'
-    - 'features/support/selectize_select.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/BlockComments:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
-# Offense count: 122
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, ProceduralMethods, FunctionalMethods, IgnoredMethods.
-# SupportedStyles: line_count_based, semantic, braces_for_chaining
-# ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object
-# FunctionalMethods: let, let!, subject, watch
-# IgnoredMethods: lambda, proc, it
-Style/BlockDelimiters:
-  Enabled: false
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/BlockEndNewline:
-  Exclude:
-    - 'spec/controllers/main_controller_spec.rb'
-    - 'spec/mailers/feedback_mailer_list_spec.rb'
-    - 'spec/presenters/tag_cloud_presenter_spec.rb'
-
-# Offense count: 68
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Enabled: false
-
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: nested, compact
@@ -387,145 +244,10 @@ Style/ClassAndModuleChildren:
   Exclude:
     - 'spec/support/simplecov.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/ClosingParenthesisIndentation:
-  Exclude:
-    - 'spec/controllers/users_controller_spec.rb'
-
-# Offense count: 16
-# Cop supports --auto-correct.
-Style/ColonMethodCall:
-  Exclude:
-    - 'app/controllers/admin/tests_controller.rb'
-    - 'app/lib/app_config.rb'
-    - 'config/initializers/geokit_config.rb'
-    - 'spec/controllers/main_controller_spec.rb'
-    - 'spec/factories/application_events.rb'
-    - 'spec/models/blacklist_domain_spec.rb'
-    - 'spec/serializers/email_serializer_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/CommentIndentation:
-  Exclude:
-    - 'spec/presenters/medium_presenter_spec.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, SingleLineConditionsOnly, IncludeTernaryExpressions.
-# SupportedStyles: assign_to_condition, assign_inside_condition
-Style/ConditionalAssignment:
-  Exclude:
-    - 'app/controllers/admin/studios_controller.rb'
-    - 'app/models/artist_info.rb'
-    - 'app/serializers/art_piece_serializer.rb'
-    - 'config/initializers/geokit_config.rb'
-
 # Offense count: 1
 Style/ConstantName:
   Exclude:
     - 'config/application.rb'
-
-# Offense count: 14
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: leading, trailing
-Style/DotPosition:
-  Exclude:
-    - 'app/controllers/admin/stats_controller.rb'
-    - 'app/models/medium.rb'
-    - 'spec/controllers/art_piece_tags_controller_spec.rb'
-    - 'spec/models/scammer_spec.rb'
-    - 'spec/support/address_mixin_shared_examples.rb'
-    - 'spec/support/faye_client_stub.rb'
-
-# Offense count: 7
-# Cop supports --auto-correct.
-Style/EachWithObject:
-  Exclude:
-    - 'app/controllers/admin/application_events_controller.rb'
-    - 'app/controllers/admin/roles_controller.rb'
-    - 'app/controllers/admin/studios_controller.rb'
-    - 'app/serializers/art_piece_serializer.rb'
-    - 'app/services/art_piece_tag_service.rb'
-    - 'app/services/mail_chimp_service.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: empty, nil, both
-Style/EmptyElse:
-  Exclude:
-    - 'app/models/concerns/address_mixin.rb'
-
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: AllowAdjacentOneLineDefs.
-Style/EmptyLineBetweenDefs:
-  Exclude:
-    - 'app/controllers/api/v2/media_controller.rb'
-    - 'app/helpers/open_studios_helper.rb'
-    - 'app/models/independent_studio.rb'
-    - 'spec/support/faker_files.rb'
-
-# Offense count: 54
-# Cop supports --auto-correct.
-Style/EmptyLines:
-  Enabled: false
-
-# Offense count: 51
-# Cop supports --auto-correct.
-Style/EmptyLinesAroundAccessModifier:
-  Enabled: false
-
-# Offense count: 256
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: empty_lines, no_empty_lines
-Style/EmptyLinesAroundBlockBody:
-  Enabled: false
-
-# Offense count: 204
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
-Style/EmptyLinesAroundClassBody:
-  Enabled: false
-
-# Offense count: 9
-# Cop supports --auto-correct.
-Style/EmptyLinesAroundMethodBody:
-  Exclude:
-    - 'app/controllers/admin/stats_controller.rb'
-    - 'app/controllers/admin/studios_controller.rb'
-    - 'app/controllers/api/api_controller.rb'
-    - 'app/controllers/art_pieces_controller.rb'
-    - 'app/controllers/artists_controller.rb'
-    - 'app/mailers/admin_mailer.rb'
-    - 'app/mailers/artist_mailer.rb'
-    - 'app/mailers/feedback_mailer.rb'
-    - 'app/services/stats_calculator.rb'
-
-# Offense count: 39
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
-Style/EmptyLinesAroundModuleBody:
-  Enabled: false
-
-# Offense count: 10
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: compact, expanded
-Style/EmptyMethod:
-  Exclude:
-    - 'app/controllers/admin/artists_controller.rb'
-    - 'app/controllers/admin/blacklist_domains_controller.rb'
-    - 'app/controllers/admin/cms_documents_controller.rb'
-    - 'app/controllers/admin/studios_controller.rb'
-    - 'app/controllers/admin/tests_controller.rb'
-    - 'app/controllers/main_controller.rb'
 
 # Offense count: 3
 Style/EndOfLine:
@@ -533,20 +255,6 @@ Style/EndOfLine:
     - 'app/controllers/feedbacks_controller.rb'
     - 'app/helpers/feedbacks_helper.rb'
     - 'app/lib/app_config.rb'
-
-# Offense count: 28
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
-Style/ExtraSpacing:
-  Enabled: false
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: consistent, special_for_inner_method_call, special_for_inner_method_call_in_parentheses
-Style/FirstParameterIndentation:
-  Exclude:
-    - 'spec/controllers/users_controller_spec.rb'
 
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -561,23 +269,9 @@ Style/For:
 Style/FormatString:
   Enabled: false
 
-# Offense count: 446
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: when_needed, always, never
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
 # Offense count: 24
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
-  Enabled: false
-
-# Offense count: 285
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
   Enabled: false
 
 # Offense count: 2
@@ -589,101 +283,6 @@ Style/IdenticalConditionalBranches:
 Style/IfInsideElse:
   Exclude:
     - 'app/models/artist_profile_image.rb'
-
-# Offense count: 29
-# Cop supports --auto-correct.
-# Configuration parameters: MaxLineLength.
-Style/IfUnlessModifier:
-  Enabled: false
-
-# Offense count: 10
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: special_inside_parentheses, consistent, align_brackets
-Style/IndentArray:
-  Exclude:
-    - 'app/presenters/admin_artist_list.rb'
-    - 'app/presenters/admin_email_list.rb'
-    - 'app/presenters/catalog_presenter.rb'
-    - 'features/step_definitions/factory_steps.rb'
-    - 'spec/models/open_studios_event_spec.rb'
-    - 'spec/presenters/artists_gallery_spec.rb'
-    - 'spec/services/open_studios_event_service_spec.rb'
-
-# Offense count: 21
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: special_inside_parentheses, consistent, align_braces
-Style/IndentHash:
-  Exclude:
-    - 'features/step_definitions/user_steps.rb'
-    - 'spec/controllers/feedbacks_controller_spec.rb'
-    - 'spec/controllers/main_controller_spec.rb'
-    - 'spec/controllers/users_controller_spec.rb'
-    - 'spec/presenters/catalog_presenter_spec.rb'
-    - 'spec/services/mail_chimp_service_spec.rb'
-
-# Offense count: 11
-# Cop supports --auto-correct.
-# Configuration parameters: Width.
-Style/IndentationWidth:
-  Exclude:
-    - 'app/lib/tag_converter.rb'
-    - 'app/presenters/catalog_presenter.rb'
-    - 'app/presenters/social_catalog_presenter.rb'
-    - 'app/presenters/studios_presenter.rb'
-    - 'app/presenters/user_presenter.rb'
-    - 'features/support/javascript_drivers.rb'
-    - 'spec/controllers/roles_controller_spec.rb'
-    - 'spec/models/open_studios_event_spec.rb'
-    - 'spec/presenters/catalog_presenter_spec.rb'
-    - 'spec/services/open_studios_event_service_spec.rb'
-
-# Offense count: 62
-# Cop supports --auto-correct.
-Style/LeadingCommentSpace:
-  Enabled: false
-
-# Offense count: 12
-# Cop supports --auto-correct.
-Style/LineEndConcatenation:
-  Exclude:
-    - 'app/controllers/admin/email_lists_controller.rb'
-    - 'app/controllers/main_controller.rb'
-    - 'app/controllers/users_controller.rb'
-    - 'app/services/update_artist_service.rb'
-    - 'spec/controllers/catalogs_controller_spec.rb'
-    - 'spec/support/faye_client_stub.rb'
-    - 'spec/support/mobile_setup.rb'
-
-# Offense count: 10
-# Cop supports --auto-correct.
-Style/MethodCallWithoutArgsParentheses:
-  Exclude:
-    - 'app/models/artist_profile_image.rb'
-    - 'app/models/open_studios_event.rb'
-    - 'app/models/studio_image.rb'
-    - 'app/services/studio_service.rb'
-    - 'config/initializers/unicorn.rb'
-    - 'features/step_definitions/favorites_steps.rb'
-    - 'features/step_definitions/studio_steps.rb'
-    - 'script/update_artists_geo.rb'
-
-# Offense count: 10
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: require_parentheses, require_no_parentheses, require_no_parentheses_except_multiline
-Style/MethodDefParentheses:
-  Exclude:
-    - 'app/controllers/art_pieces_controller.rb'
-    - 'app/controllers/artists_controller.rb'
-    - 'app/controllers/roles_controller.rb'
-    - 'app/helpers/application_events_helper.rb'
-    - 'app/helpers/favorites_helper.rb'
-    - 'app/lib/messager.rb'
-    - 'app/paginators/pagination.rb'
-    - 'features/support/suppress_messager.rb'
-    - 'spec/controllers/users_controller_spec.rb'
 
 # Offense count: 1
 Style/MethodMissing:
@@ -697,16 +296,6 @@ Style/MethodName:
   Exclude:
     - 'app/models/scammer.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: symmetrical, new_line, same_line
-Style/MultilineArrayBraceLayout:
-  Exclude:
-    - 'app/presenters/admin_email_list.rb'
-    - 'app/presenters/admin_navigation.rb'
-    - 'script/remove_spam_accounts.rb'
-
 # Offense count: 5
 Style/MultilineBlockChain:
   Exclude:
@@ -716,167 +305,12 @@ Style/MultilineBlockChain:
     - 'app/services/art_piece_tag_service.rb'
     - 'spec/controllers/search_controller_spec.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/MultilineBlockLayout:
-  Exclude:
-    - 'spec/controllers/main_controller_spec.rb'
-    - 'spec/presenters/tag_cloud_presenter_spec.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: symmetrical, new_line, same_line
-Style/MultilineHashBraceLayout:
-  Exclude:
-    - 'app/services/site_statistics.rb'
-    - 'spec/models/maufan_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/MultilineIfModifier:
-  Exclude:
-    - 'spec/support/mobile_setup.rb'
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: symmetrical, new_line, same_line
-Style/MultilineMethodCallBraceLayout:
-  Exclude:
-    - 'app/services/search/query_runner.rb'
-    - 'spec/controllers/main_controller_spec.rb'
-    - 'spec/controllers/users_controller_spec.rb'
-
-# Offense count: 16
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: aligned, indented, indented_relative_to_receiver
-Style/MultilineMethodCallIndentation:
-  Exclude:
-    - 'app/presenters/art_piece_tag_presenter.rb'
-    - 'app/presenters/art_sampler.rb'
-    - 'app/services/art_piece_tag_service.rb'
-    - 'spec/models/scammer_spec.rb'
-    - 'spec/presenters/tag_cloud_presenter_spec.rb'
-
-# Offense count: 11
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: aligned, indented
-Style/MultilineOperationIndentation:
-  Exclude:
-    - 'app/controllers/admin/email_lists_controller.rb'
-    - 'app/controllers/main_controller.rb'
-    - 'app/presenters/user_presenter.rb'
-    - 'app/services/favorites_service.rb'
-    - 'config/unicorn/acceptance.rb'
-    - 'config/unicorn/production.rb'
-    - 'spec/controllers/search_controller_spec.rb'
-    - 'spec/presenters/admin_email_list_spec.rb'
-    - 'spec/support/mobile_setup.rb'
-
-# Offense count: 36
-# Cop supports --auto-correct.
-Style/MutableConstant:
-  Enabled: false
-
-# Offense count: 9
-# Cop supports --auto-correct.
-Style/NegatedIf:
-  Exclude:
-    - 'app/controllers/artists_controller.rb'
-    - 'app/controllers/favorites_controller.rb'
-    - 'app/controllers/main_controller.rb'
-    - 'app/controllers/media_controller.rb'
-    - 'app/controllers/users_controller.rb'
-    - 'app/models/cms_document.rb'
-    - 'features/step_definitions/factory_steps.rb'
-    - 'spec/support/test_es_server.rb'
-
-# Offense count: 17
-# Cop supports --auto-correct.
-Style/NestedParenthesizedCalls:
-  Exclude:
-    - 'spec/controllers/artists_controller_spec.rb'
-    - 'spec/helpers/application_events_helper_spec.rb'
-    - 'spec/lib/image_file_helpers_spec.rb'
-    - 'spec/models/image_file_spec.rb'
-    - 'spec/routing/artists_controller_routing_spec.rb'
-    - 'spec/support/image_file_helpers_shared_examples.rb'
 
 # Offense count: 1
 Style/NestedTernaryOperator:
   Exclude:
     - 'app/presenters/user_presenter.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, MinBodyLength, SupportedStyles.
-# SupportedStyles: skip_modifier_ifs, always
-Style/Next:
-  Exclude:
-    - 'app/models/art_piece.rb'
-    - 'app/presenters/user_presenter.rb'
-    - 'app/services/update_artist_service.rb'
-    - 'script/remove_spam_accounts.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-Style/NumericLiterals:
-  MinDigits: 7
-
-# Offense count: 17
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle, SupportedStyles.
-# SupportedStyles: predicate, comparison
-Style/NumericPredicate:
-  Exclude:
-    - 'spec/**/*'
-    - 'app/controllers/admin/artists_controller.rb'
-    - 'app/helpers/html_helper.rb'
-    - 'app/models/address.rb'
-    - 'app/models/studio.rb'
-    - 'app/paginators/pagination.rb'
-    - 'app/presenters/admin_email_list.rb'
-    - 'app/presenters/art_piece_presenter.rb'
-    - 'app/presenters/studio_presenter.rb'
-    - 'app/presenters/thumbnail_browser_presenter.rb'
-    - 'app/serializers/art_piece_serializer.rb'
-    - 'features/step_definitions/open_studios_steps.rb'
-    - 'lib/rand_helpers.rb'
-
-# Offense count: 1
-Style/OpMethod:
-  Exclude:
-    - 'app/models/address.rb'
-
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: AllowSafeAssignment.
-Style/ParenthesesAroundCondition:
-  Exclude:
-    - 'app/controllers/admin/artists_controller.rb'
-    - 'app/controllers/art_pieces_controller.rb'
-    - 'app/controllers/artists_controller.rb'
-    - 'app/lib/mau_image/image_size.rb'
-    - 'app/presenters/art_sampler.rb'
-    - 'app/presenters/artists_gallery.rb'
-    - 'script/update_artists_geo.rb'
-    - 'spec/support/address_mixin_shared_examples.rb'
-
-# Offense count: 48
-# Cop supports --auto-correct.
-# Configuration parameters: PreferredDelimiters.
-Style/PercentLiteralDelimiters:
-  Enabled: false
-
-# Offense count: 39
-# Configuration parameters: NamePrefix, NamePrefixBlacklist, NameWhitelist.
-# NamePrefix: is_, has_, have_
-# NamePrefixBlacklist: is_, has_, have_
-# NameWhitelist: is_a?
-Style/PredicateName:
   Enabled: false
 
 # Offense count: 14

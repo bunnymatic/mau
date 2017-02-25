@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe StudioService do
@@ -22,6 +23,5 @@ describe StudioService do
         expect(studios.map(&:position)).to be_monotonically_increasing
       end
     end
-
   end
 end

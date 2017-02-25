@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module PresenterSpecHelpers
   class MockViewContext
-
     include ActionView::Helpers::UrlHelper
     include Rails.application.routes.url_helpers
 
@@ -18,15 +18,12 @@ module PresenterSpecHelpers
     end
 
     def output_buffer=(s)
-      if s.present?
-        @buffer += s
-      end
+      @buffer += s if s.present?
     end
 
     def output_buffer
       @buffer ||= ''
     end
-
   end
 
   def self.included(base)

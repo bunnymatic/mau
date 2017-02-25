@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class ArtPieceTagPresenter
-
   attr_reader :tag
 
   def initialize(tag, mode)
@@ -16,11 +16,12 @@ class ArtPieceTagPresenter
   end
 
   private
+
   def tagged_art_pieces
     @tagged_art_pieces ||= ArtPiecesTag.includes(:art_piece)
-                         .where(:art_piece_tag_id => tag.id)
-                         .map(&:art_piece)
-                         .compact.select{|ap| ap.artist.try(:active?) }
+                                       .where(art_piece_tag_id: tag.id)
+                                       .map(&:art_piece)
+                                       .compact.select{|ap| ap.artist.try(:active?) }
   end
 
   def by_artist?
@@ -40,5 +41,4 @@ class ArtPieceTagPresenter
         end.values
       end
   end
-
 end

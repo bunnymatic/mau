@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 class ArtPieceTagService
-
   class TagWithFrequency
-    FIELDS = [:tag, :frequency]
+    FIELDS = [:tag, :frequency].freeze
     attr_accessor(*FIELDS)
     def initialize(tag, count)
       @tag = tag
@@ -17,7 +17,6 @@ class ArtPieceTagService
       raise NoMethodError.new("#{key} does not exist as a method on #{self.inspect}") unless FIELDS.include?(key.to_sym)
       send("#{key}=", val)
     end
-
   end
 
   include TagMediaMixin
@@ -65,18 +64,19 @@ class ArtPieceTagService
     tags = get_tag_usage
     tags = normalize(tags, 'frequency') if _normalize
 
-    SafeCache.write(ckey, tags[0..MAX_SHOW_TAGS], :expires_in => CACHE_EXPIRY)
+    SafeCache.write(ckey, tags[0..MAX_SHOW_TAGS], expires_in: CACHE_EXPIRY)
     tags[0..MAX_SHOW_TAGS]
   end
 
   private
+
   class << self
     private
+
     def keyed_frequency
       # return frequency of tag usage keyed by tag id
-      get_tag_usage.inject({}) do |memo, record|
+      get_tag_usage.each_with_object({}) do |record, memo|
         memo[record.tag] = record.frequency
-        memo
       end
     end
 
@@ -86,10 +86,9 @@ class ArtPieceTagService
                             .joins(:artist)
                             .where("users.state" => "active")
       dbr = ArtPieceTag.joins(:art_pieces_tags)
-            .where("art_pieces_tags.art_piece_id" => art_piece_ids_query)
-            .group('art_piece_tags.slug').count
+                       .where("art_pieces_tags.art_piece_id" => art_piece_ids_query)
+                       .group('art_piece_tags.slug').count
       dbr.map{|_id, ct| TagWithFrequency.new(_id, ct) }.sort_by{ |tf| -tf.frequency }
     end
   end
-
 end

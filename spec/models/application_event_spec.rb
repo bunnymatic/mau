@@ -1,12 +1,12 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ApplicationEvent do
-
   it 'sends events to subscribers after save' do
     mock_messager = double(Messager)
     expect(mock_messager).to receive :publish
     expect(Messager).to receive(:new).and_return mock_messager
-    OpenStudiosSignupEvent.create(:message => 'this is a new open studios event')
+    OpenStudiosSignupEvent.create(message: 'this is a new open studios event')
   end
 
   describe "#scopes" do
@@ -19,7 +19,7 @@ describe ApplicationEvent do
 
     describe "by_recency" do
       it "returns events in order by time" do
-        expect(ApplicationEvent.by_recency.to_a).to eql ApplicationEvent.all.order({created_at: :desc}).to_a
+        expect(ApplicationEvent.by_recency.to_a).to eql ApplicationEvent.all.order(created_at: :desc).to_a
       end
     end
 

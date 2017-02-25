@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 class ArtPieceImageError < StandardError; end
 
 class ArtPieceImage < ImageFile
-
-  delegate :artist, :filename, :to => :art_piece
+  delegate :artist, :filename, to: :art_piece
 
   attr_accessor :art_piece
 
@@ -27,13 +27,10 @@ class ArtPieceImage < ImageFile
   end
 
   def path(size="medium")
-    if art_piece.photo?
-      return art_piece.photo(size)
-    end
+    return art_piece.photo(size) if art_piece.photo?
     return unless filename && artist
     fname = File.basename(filename)
     path = artist_image_dir(artist)
     ImageFile.get_path(path, size, fname)
   end
-
 end

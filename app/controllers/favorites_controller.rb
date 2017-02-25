@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FavoritesController < ApplicationController
   before_action :user_required, only: [:create, :destroy]
   before_action :user_must_be_you, only: [:create, :destroy]
@@ -24,12 +25,10 @@ class FavoritesController < ApplicationController
       obj = FavoritesService.get_object(type, _id)
       result = FavoritesService.add(current_user, obj)
       msg = "#{obj.get_name(true)} has been added to your favorites."
-      if !result
-        msg = "We love you too, but you can't favorite yourself."
-      end
+      msg = "We love you too, but you can't favorite yourself." unless result
       render json: { message: msg } and return
     rescue InvalidFavoriteTypeError, NameError
-      render_not_found({message: "You can't favorite that type of object" }) and return
+      render_not_found(message: "You can't favorite that type of object") and return
     end
     head(404)
   end
@@ -44,10 +43,10 @@ class FavoritesController < ApplicationController
         return
       else
         flash[:notice] = "#{obj.get_name true} has been removed from your favorites.".html_safe
-        redirect_to(request.referrer || user_path(obj))
+        redirect_to(request.referer || user_path(obj))
       end
     rescue InvalidFavoriteTypeError => ex
-      render_not_found({message: ex.message })
+      render_not_found(message: ex.message)
     end
   end
 

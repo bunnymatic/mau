@@ -1,15 +1,16 @@
+# frozen_string_literal: true
 When(/^I change my password to "(.*?)"$/) do |new_pass|
   visit edit_artist_path(@artist)
-  fill_in("Old Password", :with => '8characters')
-  fill_in("New Password", :with => new_pass)
-  fill_in("Confirm new Password", :with => new_pass)
+  fill_in("Old Password", with: '8characters')
+  fill_in("New Password", with: new_pass)
+  fill_in("Confirm new Password", with: new_pass)
   click_on 'change password'
 end
 
 When(/^I change my email to "(.*?)"$/) do |new_email|
   visit edit_artist_path(@artist)
   click_on "Personal Info"
-  fill_in("Email", :with => new_email)
+  fill_in("Email", with: new_email)
   click_on_first "Save Changes"
 end
 
@@ -53,7 +54,7 @@ When(/^I fill in an invalid username and password$/) do
 end
 
 When(/^I fill in my email/) do
-  fill_in :user_email, :with => @artist.email
+  fill_in :user_email, with: @artist.email
 end
 
 Then(/^I see the login page$/) do
@@ -88,7 +89,7 @@ end
 
 When(/^I login as a manager$/) do
   studios = FactoryGirl.create_list(:studio,2)
-  @manager = FactoryGirl.create(:user, :manager, :active, :studio => studios.first)
+  @manager = FactoryGirl.create(:user, :manager, :active, studio: studios.first)
   steps %{When I visit the login page}
   fill_in_login_form @manager.login, '8characters'
   steps %{And I click "Sign In"}
@@ -126,12 +127,10 @@ Then /^I see that "(.*?)" is a new fan$/ do |username|
 end
 
 Then /^I click the fan signup button$/ do
-  resp = JSON.generate({
-                        email: "example email",
-                        euid: "example euid",
-                        leid: "example leid"
-                       })
-  stub_request(:any, /.*\.mailchimp.com/).to_return(:body => resp)
+  resp = JSON.generate(                        email: "example email",
+                                               euid: "example euid",
+                                               leid: "example leid")
+  stub_request(:any, /.*\.mailchimp.com/).to_return(body: resp)
   step %q{I click "Sign up"}
 end
 

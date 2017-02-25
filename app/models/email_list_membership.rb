@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 class EmailListMembership < ApplicationRecord
   belongs_to :email_list
   belongs_to :email
-  validates_uniqueness_of :email_list_id, :scope => :email_id
+  validates :email_list_id, uniqueness: { scope: :email_id }
 end

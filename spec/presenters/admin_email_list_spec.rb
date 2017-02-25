@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe AdminEmailList do
-
   let(:current) { OpenStudiosEvent.current }
   let(:listname) { 'active' }
   subject(:email_list) { AdminEmailList.new(listname) }
@@ -41,9 +41,7 @@ describe AdminEmailList do
     it 'shows the title and list size and correct emails when we ask for fans' do
       expect(email_list.display_title).to eq("Fans [1]")
     end
-
   end
-
 
   context 'listname is no_images' do
     let(:listname) { 'no_images' }
@@ -57,7 +55,6 @@ describe AdminEmailList do
     it 'shows the title and list size and correct emails when we ask for fans' do
       expect(email_list.display_title).to eq("Active with no art [1]");
     end
-
   end
 
   context 'listname is pending' do
@@ -96,7 +93,7 @@ describe AdminEmailList do
 
     it 'returns emails that have been in both open studios' do
       expected = Artist.active.select{|a| a.os_participation[ostags.first]}.map(&:email) |
-        Artist.active.select{|a| a.os_participation[ostags.last]}.map(&:email)
+                 Artist.active.select{|a| a.os_participation[ostags.last]}.map(&:email)
       expect(emails.map(&:email).sort).to eql expected.sort
     end
   end

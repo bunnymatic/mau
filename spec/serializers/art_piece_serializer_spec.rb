@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPieceSerializer do
@@ -42,6 +43,5 @@ describe ArtPieceSerializer do
     it 'includes the medium' do
       expect(@ap['medium']['name']).to eql art_piece.medium.name
     end
-
   end
 end

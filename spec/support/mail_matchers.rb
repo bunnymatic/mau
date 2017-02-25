@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class HaveBodyText
   def initialize(expected_text)
     @expected_text = expected_text
@@ -12,7 +13,7 @@ class HaveBodyText
   end
 
   def matches?(email)
-    [ email.html_part.to_s, email.text_part.to_s ].all? { |body|
+    [ email.html_part.to_s, email.text_part.to_s ].all? do |body|
       if @expected_text.is_a?(String)
         @given_text = body.to_s.gsub(/\s+/, " ")
         @expected_text = @expected_text.gsub(/\s+/, " ")
@@ -21,7 +22,7 @@ class HaveBodyText
         @given_text = body.to_s
         !!(@given_text =~ @expected_text)
       end
-    }
+    end
   end
 
   def failure_message

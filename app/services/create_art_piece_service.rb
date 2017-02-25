@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class CreateArtPieceService
-
   attr_reader :params, :artist
 
   include ArtPieceServiceTagsHandler
@@ -15,5 +15,4 @@ class CreateArtPieceService
     art_piece.save
     art_piece
   end
-
 end

@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe StudioArtist do
-
   let(:studios) { FactoryGirl.create_list :studio, 2 }
   let(:studio) { studios.first }
   let(:artist) { FactoryGirl.create(:artist, :active, :manager, studio: studio) }
@@ -40,7 +40,6 @@ describe StudioArtist do
     end
 
     context 'artist is not in the studio' do
-
       let(:artist) { FactoryGirl.create(:artist, :active, studio: studios.first) }
       subject(:studio_artist) { StudioArtist.new(studios.last, artist) }
 
@@ -53,7 +52,5 @@ describe StudioArtist do
         expect(artist.studio).to eql studios.first
       end
     end
-
   end
-
 end

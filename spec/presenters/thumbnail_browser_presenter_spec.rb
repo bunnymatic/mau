@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ThumbnailBrowserPresenter do
-
   include PresenterSpecHelpers
 
   let(:artist) { FactoryGirl.create(:artist, :with_art) }
@@ -54,5 +54,4 @@ describe ThumbnailBrowserPresenter do
     subject { super().current_index }
     it { should eql 1 }
   end
-
 end

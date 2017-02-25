@@ -1,14 +1,15 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe CatalogPresenter do
   let!(:open_studios_event) { FactoryGirl.create :open_studios_event }
   let!(:artists) { FactoryGirl.create_list :artist, 4, :with_studio }
-  let(:reception_doc) {
+  let(:reception_doc) do
     FactoryGirl.create(:cms_document,
                        page: "main_openstudios",
                        section: "preview_reception",
                        article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
-  }
+  end
 
   before do
     artists[0..1].each do |artist|
@@ -27,9 +28,9 @@ describe CatalogPresenter do
       subject { super().all }
       describe '#sort' do
         subject { super().sort }
-        it {
+        it do
           should eql Artist.active.open_studios_participants.all.sort
-        }
+        end
       end
     end
   end
@@ -52,11 +53,9 @@ describe CatalogPresenter do
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
     it do
-      should eql({
-                   "data-page" => reception_doc.page,
-                   "data-section" => reception_doc.section,
-                   "data-cmsid" => reception_doc.id
-                 })
+      should eql(                   "data-page" => reception_doc.page,
+                                    "data-section" => reception_doc.section,
+                                    "data-cmsid" => reception_doc.id)
     end
   end
 
@@ -69,5 +68,4 @@ describe CatalogPresenter do
       expect(artists.map{|a| a.lastname.downcase}).to be_monotonically_increasing
     end
   end
-
 end

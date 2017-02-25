@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'csv'
 
 class SocialCatalogPresenter < ArtistsPresenter
-
   include OpenStudiosEventShim
 
   SOCIAL_KEYS = User.stored_attributes[:links].freeze
@@ -28,7 +28,7 @@ class SocialCatalogPresenter < ArtistsPresenter
         csv_data = CSV.generate(DEFAULT_CSV_OPTS) do |_csv|
           _csv << csv_headers
           artists.each do |artist|
-           _csv << artist_as_csv_row(artist)
+            _csv << artist_as_csv_row(artist)
           end
         end
       end
@@ -39,8 +39,8 @@ class SocialCatalogPresenter < ArtistsPresenter
   end
 
   private
-  def csv_keys
-  end
+
+  def csv_keys; end
 
   def csv_headers
     @csv_headers ||= (["Studio", "Name", "Art URL", "Art Title", "Medium", "Tags", "MAU Link", "Email"] +
@@ -59,5 +59,4 @@ class SocialCatalogPresenter < ArtistsPresenter
       artist.email
     ] + SOCIAL_KEYS.map{|s| (artist.respond_to?(s) && artist.send(s)).to_s }
   end
-
 end

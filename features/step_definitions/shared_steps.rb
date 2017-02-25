@@ -1,16 +1,15 @@
+# frozen_string_literal: true
 require_relative '../../spec/support/mobile_setup'
 
 def fill_in_login_form(login, pass)
   flash = all('.flash__close')
-  if flash.any?
-    flash.map(&:click)
-  end
-  fill_in("Login", :with => login)
-  fill_in("Password", :with => pass)
+  flash.map(&:click) if flash.any?
+  fill_in("Login", with: login)
+  fill_in("Password", with: pass)
 end
 
 def path_from_title(titleized_path_name)
-  clean_path_name = titleized_path_name.downcase.gsub(/ /, '_')
+  clean_path_name = titleized_path_name.downcase.tr(' ', '_')
   path_helper_name = "#{clean_path_name}_path".to_sym
   send(path_helper_name)
 end
@@ -93,7 +92,7 @@ When /I sign in with password "(.*?)"/ do |pass|
 end
 
 When /I am signed in as an artist/ do
-  steps %Q{
+  steps %{
     Given an account has been created
     Given I visit the login page
     When I fill in valid credentials
@@ -192,12 +191,12 @@ When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
 end
 
 When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
-  #page.driver.browser.mouse.move_to(page.driver.browser.find_element(:id=>"admin_nav")) if running_js?
-  step %Q|I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav"|
+  # page.driver.browser.mouse.move_to(page.driver.browser.find_element(:id=>"admin_nav")) if running_js?
+  step %|I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav"|
 end
 
 When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
-  step %Q|I click on "#{link_title}" in the ".nav.nav-tabs"|
+  step %|I click on "#{link_title}" in the ".nav.nav-tabs"|
 end
 
 When(/^I click on the first "([^"]*?)"$/) do |button_text|

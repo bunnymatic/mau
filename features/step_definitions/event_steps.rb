@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Then(/^I see a list of events/) do
   expect(page).to have_selector '.events .event .title'
 end

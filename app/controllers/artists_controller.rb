@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 require 'csv'
 require 'xmlrpc/client'
 
 Mime::Type.register "image/png", :png
 
 class ArtistsController < ApplicationController
-
   # Be sure to include AuthenticationSystem in Application Controller instead
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
@@ -14,7 +14,7 @@ class ArtistsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html {
+      format.html do
         # collect query args to build links
         @os_only = is_os_only(params[:o])
         cur_page = (params[:p] || 0).to_i
@@ -30,10 +30,10 @@ class ArtistsController < ApplicationController
         else
           render action: 'index'
         end
-      }
-      format.json {
+      end
+      format.json do
         head(403)
-      }
+      end
     end
   end
 
@@ -41,7 +41,7 @@ class ArtistsController < ApplicationController
     redirect_to edit_user_path(current_user) and return unless current_user.is_artist?
     @user = ArtistPresenter.new(current_artist)
     @studios = StudioService.all
-    @artist_info = current_artist.artist_info || ArtistInfo.new({ id: current_artist.id })
+    @artist_info = current_artist.artist_info || ArtistInfo.new(id: current_artist.id)
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
   end
 
@@ -50,7 +50,6 @@ class ArtistsController < ApplicationController
     # give user a tabbed page to edit their art
     @artist = ArtistPresenter.new(current_artist)
   end
-
 
   def roster
     # collect query args to build links
@@ -76,9 +75,7 @@ class ArtistsController < ApplicationController
 
   def destroyart
     # receives post from delete art form
-    unless destroy_art_params
-      redirect_to(artist_path(current_user)) and return
-    end
+    redirect_to(artist_path(current_user)) and return unless destroy_art_params
     ids = destroy_art_params.select { |_kk,vv| vv != "0" }.keys
     ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
     Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", "deleted art pieces"
@@ -116,17 +113,17 @@ class ArtistsController < ApplicationController
   def show
     @artist = get_active_artist_from_params
     respond_to do |format|
-      format.html {
+      format.html do
         if !@artist
           redirect_to artists_path, error: 'We were unable to find the artist you were looking for.'
         else
           @artist = ArtistPresenter.new( @artist)
           set_artist_meta
         end
-      }
-      format.json  {
+      end
+      format.json do
         render json: @artist
-      }
+      end
     end
   end
 
@@ -171,6 +168,7 @@ class ArtistsController < ApplicationController
   end
 
   protected
+
   def safe_find_artist(id)
     begin
       Artist.friendly.find id
@@ -180,7 +178,7 @@ class ArtistsController < ApplicationController
   end
 
   def set_artist_meta
-    return if !@artist
+    return unless @artist
     @page_title = PageInfoService.title("Artist: %s" % @artist.get_name)
     @page_image = @artist.get_profile_image(:large) if @artist.has_profile_image?
     @page_description = build_page_description @artist
@@ -196,7 +194,7 @@ class ArtistsController < ApplicationController
     artist
   end
 
-  def build_page_description artist
+  def build_page_description(artist)
     if (artist)
       trim_bio = (artist.bio || '').truncate(500)
       if trim_bio.present?
@@ -207,6 +205,7 @@ class ArtistsController < ApplicationController
   end
 
   private
+
   def artist_info_permitted_attributes
     %i|bio street city addr_state zip studionumber|
   end
@@ -234,8 +233,7 @@ class ArtistsController < ApplicationController
     permitted = [:studio, :login, :email, :email_attrs,
                  :password, :password_confirmation, :photo, :os_participation,
                  :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume ] + User.stored_attributes[:links]
-    params.require(:artist).permit(*permitted, :artist_info_attributes => artist_info_permitted_attributes)
-
+    params.require(:artist).permit(*permitted, artist_info_attributes: artist_info_permitted_attributes)
   end
 
   def is_os_only(osonly)
@@ -255,5 +253,4 @@ class ArtistsController < ApplicationController
     end
     artist_names
   end
-
 end

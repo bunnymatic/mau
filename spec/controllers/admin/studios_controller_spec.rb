@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'htmlentities'
 
 describe Admin::StudiosController do
-
   let(:studios) { create_list :studio, 3, :with_artists }
   let(:studio) { studios.first }
   let(:studio2) { studios.last }
@@ -27,16 +27,15 @@ describe Admin::StudiosController do
     describe "#create" do
       let(:studio_attrs) { FactoryGirl.attributes_for(:studio, photo: fixture_file_upload('/files/art.png', 'image/png')) }
       it "setups up a new studio" do
-        expect{
+        expect do
           put :create, params: { studio: studio_attrs }
-        }.to change(Studio, :count).by(1)
+        end.to change(Studio, :count).by(1)
       end
       it "renders new on failure" do
-        expect{
+        expect do
           put :create, params: { studio: {name:''} }
           expect(response).to render_template 'new'
-        }.to change(Studio, :count).by(0)
-
+        end.to change(Studio, :count).by(0)
       end
     end
 
@@ -52,7 +51,6 @@ describe Admin::StudiosController do
     end
 
     describe "#reorder" do
-
       it "arranges studios in the order specified given studio slugs" do
         new_order = studios.shuffle
         post :reorder, params: { studios: new_order.map(&:slug) }
@@ -71,14 +69,13 @@ describe Admin::StudiosController do
         post :reorder, params: { studios: studios.shuffle.map(&:slug) }
         expect(response.content_type).to eql 'application/json'
       end
-
     end
   end
 
   describe "destroy" do
-    let(:make_destroy_call) {
+    let(:make_destroy_call) do
       delete :destroy, params: { id: studio.to_param }
-    }
+    end
     describe "unauthorized" do
       before do
         make_destroy_call
@@ -88,7 +85,7 @@ describe Admin::StudiosController do
     [:editor, :manager].each do |u|
       describe "as #{u}" do
         before do
-          #login_as self.send(u)
+          # login_as self.send(u)
           make_destroy_call
         end
         it_should_behave_like 'not authorized'
@@ -100,9 +97,9 @@ describe Admin::StudiosController do
         login_as(admin)
       end
       it "deletes the studio" do
-        expect {
+        expect do
           make_destroy_call
-        }.to change(Studio, :count).by(-1)
+        end.to change(Studio, :count).by(-1)
       end
       it "sets artists to indy for all artists in the deleted studio" do
         artist_ids = studio.reload.artists.map(&:id)
@@ -113,7 +110,6 @@ describe Admin::StudiosController do
       end
     end
   end
-
 
   # studio manager required endpoints
   [:edit, :unaffiliate_artist].each do |endpoint|
@@ -171,19 +167,19 @@ describe Admin::StudiosController do
 
     context "artist to unaffiliate is not the logged in artist" do
       it "removes the artist from the studio" do
-        expect {
+        expect do
           post :unaffiliate_artist, params: { id: studio.to_param, artist_id: artist.id }
-        }.to change(studio.artists.active, :count).by(-1)
+        end.to change(studio.artists.active, :count).by(-1)
       end
       it "does not add any studios" do
-        expect {
+        expect do
           post :unaffiliate_artist, params: { id: studio.to_param, artist_id: artist.id }
-        }.to change(Studio, :count).by(0)
+        end.to change(Studio, :count).by(0)
       end
       it "does nothing if the artist is not in the studio" do
-        expect {
+        expect do
           post :unaffiliate_artist, params: { id: studio.to_param, artist_id: non_studio_artist.id }
-        }.to change(studio.artists.active, :count).by(0)
+        end.to change(studio.artists.active, :count).by(0)
       end
       it "redirects to the studio edit page" do
         post :unaffiliate_artist, params: { id: studio.to_param, artist_id: artist.id }
@@ -204,7 +200,6 @@ describe Admin::StudiosController do
         expect(artist.studio).to eql studio
       end
     end
-
   end
 
   describe "index" do
@@ -222,5 +217,4 @@ describe Admin::StudiosController do
       it_should_behave_like 'not authorized'
     end
   end
-
 end

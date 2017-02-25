@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 spam_accounts = ["attonhayd John <slip23572@tom.com>",
                  "halermary aifseng <casteelwof@hotmail.com>",
@@ -52,17 +53,15 @@ spam_accounts = ["attonhayd John <slip23572@tom.com>",
                  "theno John <zhuangtiu39341@yeah.net>",
                  "discountwom billaa <channii20396@yeah.net>",
                  "rolex billaa <feikaiz1540@163.com>",
-                 "mau test artist <asdfas@b.com>"
-                ]
+                 "mau test artist <asdfas@b.com>"]
 
 spam_accounts.each do |acct|
   m = /<(.*)>/.match(acct)
-  if m
-    email = m[1]
-    a = Artist.find_by_email(email)
-    if a
-      puts "Removing artist " + a.email
-      a.destroy
-    end
+  next unless m
+  email = m[1]
+  a = Artist.find_by_email(email)
+  if a
+    puts "Removing artist " + a.email
+    a.destroy
   end
 end

@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe MediaPresenter do
-
   include PresenterSpecHelpers
 
   let(:media) { FactoryGirl.create_list(:medium, 4) }

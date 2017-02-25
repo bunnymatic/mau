@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class MediaPresenter
-
   include ArtistOrPiece
 
   attr_reader :medium
@@ -38,8 +38,8 @@ class MediaPresenter
   end
 
   private
+
   def raw_art_pieces
     @raw_art_pieces ||= @medium.art_pieces.joins(:artist).where(users: { state: :active }).order('updated_at').reverse
   end
-
 end

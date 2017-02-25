@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class SearchQuery
-
   PER_PAGE = 12
 
   include ActiveModel::Validations
@@ -28,16 +28,15 @@ class SearchQuery
   end
 
   private
+
   def set_mediums(vals)
     return [] unless vals
     medium_ids = vals.map(&:to_i).reject{|v| v <= 0}
-    Medium.by_name.where(:id => medium_ids)
+    Medium.by_name.where(id: medium_ids)
   end
 
   def set_studios(vals)
     return [] unless vals
     Studio.where(id: vals.compact.uniq)
   end
-
-
 end

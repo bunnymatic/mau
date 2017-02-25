@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module Admin
   class MediaController < ::BaseAdminController
-
     def index
       @media = Medium.alpha
     end
@@ -36,7 +36,7 @@ module Admin
         flash[:notice] = 'Medium was successfully updated.'
         redirect_to admin_media_path
       else
-        render :action => "edit"
+        render action: "edit"
       end
     end
 
@@ -49,9 +49,9 @@ module Admin
     end
 
     private
+
     def medium_params
       params.require(:medium).permit(:name)
     end
-
   end
 end

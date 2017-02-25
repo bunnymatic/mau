@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 class StudioArtistError < StandardError; end
 
 class StudioArtist
-
   def initialize(studio, artist)
     raise StudioArtistError.new 'artist must be an artist' unless artist.is_a? Artist
     raise StudioArtistError.new 'studio must be a studio' unless studio.is_a? Studio
@@ -20,6 +20,7 @@ class StudioArtist
   end
 
   private
+
   def artist_is_in_studio?
     @artist.studio == @studio
   end
@@ -27,5 +28,4 @@ class StudioArtist
   def artist_roles
     @artist_roles ||= @artist.roles_users
   end
-
 end

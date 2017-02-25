@@ -18,11 +18,13 @@ module AddressMixin
   end
 
   protected
+
   def get_state
     (self.respond_to? :addr_state) ? self.addr_state : self.state
   end
 
   def compute_geocode(force = false)
+    return unless (should_recompute? || force) && address.present?
     begin
       if address.present? && (should_recompute? || force)
         result = Geokit::Geocoders::MultiGeocoder.geocode(address.to_s(true))
@@ -30,11 +32,7 @@ module AddressMixin
           self.lat = result.lat
           self.lng = result.lng
           [self.lat, self.lng]
-        else
-          #errors.add(:street, "Unable to Geocode your address.")
         end
-      else
-        # puts "No Adddress - skip geocoding"
       end
     rescue Geocoder::Error => ex
       logger.warn("Failed to Geocode: #{address.to_s(true)} for #{self.inspect}")
@@ -44,5 +42,4 @@ module AddressMixin
   def should_recompute?
     (self.changes.keys & ["street", "city", "addr_state", "zip"]).present?
   end
-
 end

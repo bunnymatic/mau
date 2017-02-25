@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Api::V2::StudiosController do
-
   let(:studio) {create(:studio, :with_artists)}
   let(:headers) { {} }
   before do
@@ -54,9 +54,6 @@ describe Api::V2::StudiosController do
           make_request
         end
       end
-
     end
-
   end
-
 end

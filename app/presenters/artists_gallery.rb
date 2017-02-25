@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class ArtistsGallery < ArtistsPresenter
-
   include Rails.application.routes.url_helpers
 
   PER_PAGE = Rails.env.development? ? 5 : 20
@@ -7,7 +7,7 @@ class ArtistsGallery < ArtistsPresenter
   LETTERS_REGEX = /[a-zA-Z]/
   attr_reader :pagination, :per_page, :letter, :ordering
 
-  delegate :items, :has_more?, :current_page, :next_page, :to => :pagination
+  delegate :items, :has_more?, :current_page, :next_page, to: :pagination
 
   def initialize(os_only, letter, ordering, current_page, per_page = PER_PAGE)
     super os_only

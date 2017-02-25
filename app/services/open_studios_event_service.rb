@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 # manage caching the list of open studios events
 class OpenStudiosEventService
-
   CURRENT_CACHE_KEY = :current_os_event
   FUTURE_CACHE_KEY = :future_os_events
   PAST_CACHE_KEY = :past_os_events
@@ -79,9 +79,7 @@ class OpenStudiosEventService
   end
 
   def self.clear_cache(id = nil)
-    if id
-      SafeCache.delete(event_cache_key(id))
-    end
+    SafeCache.delete(event_cache_key(id)) if id
     SafeCache.delete(FUTURE_CACHE_KEY)
     SafeCache.delete(PAST_CACHE_KEY)
     SafeCache.delete(CURRENT_CACHE_KEY)

@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe AdminNavigation do
-
   include PresenterSpecHelpers
 
   let(:user) { FactoryGirl.create(:user, :admin, :active) }
@@ -16,7 +16,7 @@ describe AdminNavigation do
   end
 
   describe 'as an editor' do
-    let(:user) { FactoryGirl.create(:user, :editor,  :active ) }
+    let(:user) { FactoryGirl.create(:user, :editor, :active ) }
     it { expect(subject.links.last.last.map(&:first)).to eq [:events, :cms_documents] }
   end
 end

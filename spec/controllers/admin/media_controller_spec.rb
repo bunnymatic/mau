@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::MediaController do
-
   let(:admin) { FactoryGirl.create(:artist, :admin, :active) }
   let!(:media) { FactoryGirl.create_list(:medium, 3) }
   let(:medium) { media.first }
@@ -25,9 +25,9 @@ describe Admin::MediaController do
   end
 
   describe "#edit" do
-    let(:make_edit_request) {
+    let(:make_edit_request) do
       get :edit, params: { id: medium }
-    }
+    end
     context 'as unauthorized' do
       before do
         make_edit_request
@@ -73,9 +73,9 @@ describe Admin::MediaController do
         login_as admin
       end
       it 'creates a new medium' do
-        expect{
+        expect do
           post :create, params: { medium: {name: 'blah'} }
-        }.to change(Medium, :count).by(1)
+        end.to change(Medium, :count).by(1)
       end
       it 'redirects back to the new medium show page' do
         post :create, params: { medium: {name: 'blah'} }
@@ -115,9 +115,9 @@ describe Admin::MediaController do
   end
 
   describe '#destroy' do
-    let(:make_destroy_call) {
+    let(:make_destroy_call) do
       delete :destroy, params: { id: medium.id }
-    }
+    end
     context 'as unauthorized' do
       before do
         make_destroy_call
@@ -129,12 +129,11 @@ describe Admin::MediaController do
         login_as admin
       end
       it "destroys and redirects" do
-        expect{
+        expect do
           make_destroy_call
           expect(response).to redirect_to admin_media_path
-        }.to change(Medium,:count).by(-1)
+        end.to change(Medium,:count).by(-1)
       end
     end
   end
-
 end

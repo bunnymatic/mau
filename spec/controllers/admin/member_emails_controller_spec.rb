@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::MemberEmailsController do
-
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }
 
@@ -50,7 +50,7 @@ describe Admin::MemberEmailsController do
     end
 
     describe 'csv' do
-      let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge({headers:true}) }
+      let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge(headers:true) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
       before do
         pending_artist
@@ -69,8 +69,6 @@ describe Admin::MemberEmailsController do
         expect(parsed.first["Full Name"]).to eql pending_artist.full_name
         expect(parsed.first["Group Site Name"]).to eql pending_artist.studio.name
       end
-
     end
   end
-
 end

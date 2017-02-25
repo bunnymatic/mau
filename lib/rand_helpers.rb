@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 def choice(arr, num)
   arrlen = arr.length
   if num >= arrlen

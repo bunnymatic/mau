@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Then(/^I see the most popular tag page$/) do
   first_tag = ArtPieceTagService.tags_sorted_by_frequency.first.tag
   expect(current_path).to eql art_piece_tag_path(first_tag)
@@ -38,7 +39,6 @@ Then(/^I see more artists who have art in the most popular tag$/) do
     expect(element.any? { |el| el.has_content? have_content @first_tag.art_pieces.last.title }).to be_falsy
   end
 end
-
 
 When(/^I click on the first tag$/) do
   wait_until { page.find("art-piece-tag a") }

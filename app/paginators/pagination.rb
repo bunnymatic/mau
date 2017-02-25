@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 class PaginationError < StandardError; end
 
 class Pagination < ViewPresenter
-
   attr_reader :per_page
 
   def initialize(array, current, per_page, opts=nil)
@@ -78,13 +78,13 @@ class Pagination < ViewPresenter
     current_page < last_page
   end
 
-  alias_method :has_more?, :next_link?
+  alias has_more? next_link?
 
   def previous_title
     @previous_title || 'previous'
   end
 
-  def link_to_page page
+  def link_to_page(page)
     unless respond_to? :page_link
       raise PaginationError.new "link_to_page requires page_link to be defined!"
     end
@@ -114,5 +114,4 @@ class Pagination < ViewPresenter
   def next_label
     (@next_label || 'next&gt;').html_safe
   end
-
 end

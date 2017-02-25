@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :role do
     role 'a_role'
@@ -11,6 +12,5 @@ FactoryGirl.define do
     trait :manager do
       role 'manager'
     end
-
   end
 end

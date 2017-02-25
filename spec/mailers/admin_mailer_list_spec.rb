@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe AdminMailerList do
@@ -14,25 +15,24 @@ describe AdminMailerList do
   end
   it 'adds email to the Email table' do
     mailing_list = AdminMailerList.all.first
-    expect {
-      mailing_list.emails << Email.new(:email => 'whatever@dude.com')
+    expect do
+      mailing_list.emails << Email.new(email: 'whatever@dude.com')
       mailing_list.save
-    }.to change(Email, :count).by(1)
+    end.to change(Email, :count).by(1)
   end
   it 'adds email to this list' do
     mailing_list = AdminMailerList.all.first
-    mailing_list.emails << Email.new(:email => 'whatever@dude.com')
+    mailing_list.emails << Email.new(email: 'whatever@dude.com')
     mailing_list.save
     mailing_list.reload
     expect(mailing_list.emails.count).to eq(2)
   end
   it 'does not add duplicate emails' do
     mailing_list = AdminMailerList.all.first
-    expect {
-      mailing_list.emails << Email.new(:email => 'whatever@dude.com')
-      mailing_list.emails << Email.new(:email => 'whatever@dude.com')
+    expect do
+      mailing_list.emails << Email.new(email: 'whatever@dude.com')
+      mailing_list.emails << Email.new(email: 'whatever@dude.com')
       mailing_list.save
-    }.to raise_error(ActiveRecord::StatementInvalid)
+    end.to raise_error(ActiveRecord::StatementInvalid)
   end
-
 end

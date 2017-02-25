@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Api::V2::ArtistsController do
-
   let(:studio) {create(:studio, :with_artists)}
   let(:headers) { {} }
   before do
@@ -38,7 +38,5 @@ describe Api::V2::ArtistsController do
         expect(studio.artists.count).not_to eql studio.artists.active.count
       end
     end
-
   end
-
 end

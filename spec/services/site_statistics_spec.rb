@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe SiteStatistics do
-
   subject(:stats) { SiteStatistics.new }
-  let!(:models) {
+  let!(:models) do
     Timecop.freeze
 
     FactoryGirl.create_list(:studio, 2)
@@ -24,10 +24,10 @@ describe SiteStatistics do
     create_favorite( Artist.first, Artist.last )
     create_favorite( Artist.first, Artist.last(2).first)
     create_favorite( Artist.first, ArtPiece.first)
-  }
+  end
 
   it 'assigns the correct social links' do
-    expect(stats.social_links).to eql( { "website" => 5, "facebook" => 2, "twitter" => 2 } )
+    expect(stats.social_links).to eql( "website" => 5, "facebook" => 2, "twitter" => 2 )
   end
 
   it 'assigns correct values for favorites' do

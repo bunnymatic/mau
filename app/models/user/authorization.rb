@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 # Roles and User Authorization mixin
 class User
   module Authorization
-
     def is_special?
       is_admin? || is_manager? || is_editor?
     end
@@ -17,7 +17,5 @@ class User
     def is_editor?
       is_admin? || (roles.include? Role.editor)
     end
-
   end
-
 end

@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 class MarkdownService
-
-  DEFAULT_MARKDOWN_OPTS = [:smart, :filter_styles, :safelink, :no_pseudo_protocols]
+  DEFAULT_MARKDOWN_OPTS = [:smart, :filter_styles, :safelink, :no_pseudo_protocols].freeze
 
   def self.markdown(discount, markdown_opts = nil)
     markdown_opts ||= DEFAULT_MARKDOWN_OPTS
@@ -8,7 +8,6 @@ class MarkdownService
   end
 
   class << self
-
     private
 
     def strip_lines(multiline_string)
@@ -20,7 +19,5 @@ class MarkdownService
       doc.xpath(".//script").remove
       doc.to_s
     end
-
   end
-
 end

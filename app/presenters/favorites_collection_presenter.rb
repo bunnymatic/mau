@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class FavoritesCollectionPresenter < ViewPresenter
-
   attr_reader :user, :collection, :current_user
 
   include Enumerable
@@ -63,5 +63,4 @@ class FavoritesCollectionPresenter < ViewPresenter
   def each(&block)
     collection.each(&block)
   end
-
 end

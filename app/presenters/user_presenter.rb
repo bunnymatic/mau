@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 # This presenter adds helpful display/view related methods
 # to make it easy to draw user data on a page
 
 class UserPresenter < ViewPresenter
-
   ALLOWED_FAVORITE_CLASSES = [Artist, MauFan, User].map(&:name)
-  ALLOWED_LINKS = [:website]
+  ALLOWED_LINKS = [:website].freeze
   attr_accessor :model
 
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
@@ -144,14 +144,13 @@ class UserPresenter < ViewPresenter
   def links_html
     self.class.keyed_links.map do |key|
       site = @model.send(key)
-      if site.present?
-        formatted_site = format_link(site)
-        site_display = format_link_for_display(site)
-        link_icon_class = icon_link_class(key, site)
-        content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
-          content_tag(:i,'', class: link_icon_class) +
-            content_tag(:span,site_display)
-        end
+      next unless site.present?
+      formatted_site = format_link(site)
+      site_display = format_link_for_display(site)
+      link_icon_class = icon_link_class(key, site)
+      content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
+        content_tag(:i,'', class: link_icon_class) +
+          content_tag(:span,site_display)
       end
     end.compact
   end
@@ -168,13 +167,14 @@ class UserPresenter < ViewPresenter
     model.links[:website].presence || model.url
   end
 
-  alias_method :get_profile_image, :profile_image
+  alias get_profile_image profile_image
 
   def self.keyed_links
     (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
   end
 
   private
+
   def my_favorites
     if !@user_favorites || !@art_piece_favorites
       @user_favorites, @art_piece_favorites = model.favorites.partition do |fav|
@@ -197,9 +197,7 @@ class UserPresenter < ViewPresenter
   end
 
   def format_link(link)
-    if link.present?
-      (/^https?:\/\//.match(link) ? link : "http://#{link}")
-    end
+    ((link =~ /^https?:\/\//) ? link : "http://#{link}") if link.present?
   end
 
   def icon_link_class(key, site)
@@ -223,5 +221,4 @@ class UserPresenter < ViewPresenter
   def strip_http_from_link(link)
     link.gsub %r/^https?:\/\//, ''
   end
-
 end

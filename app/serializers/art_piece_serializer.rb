@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ArtPieceSerializer < MauSerializer
   attributes :id, :artist, :medium, :tags, :artist_name, :favorites_count,
              :year, :dimensions, :filename, :title, :artist_id, :image_urls
@@ -9,18 +10,16 @@ class ArtPieceSerializer < MauSerializer
 
   def image_urls
     urls = {}
-    if object.photo?
-      urls = (MauImage::Paperclip::STANDARD_STYLES.keys + [:original]).inject({}) do |memo, key|
-        memo[key] = object.photo.url(key, timestamp: false)
-        memo
-      end
-    else
-      urls = object.image_paths
-    end
+    urls = if object.photo?
+             (MauImage::Paperclip::STANDARD_STYLES.keys + [:original]).each_with_object({}) do |key, memo|
+               memo[key] = object.photo.url(key, timestamp: false)
+             end
+           else
+             object.image_paths
+           end
 
-    urls.inject({}) do |memo, (sz, path)|
+    urls.each_with_object({}) do |(sz, path), memo|
       memo[sz] = path
-      memo
     end
   end
 
@@ -47,8 +46,7 @@ class ArtPieceSerializer < MauSerializer
   end
 
   def favorites_count
-    @favorites_count ||= Favorite.art_pieces.where(:favoritable_id => object.id).count
+    @favorites_count ||= Favorite.art_pieces.where(favoritable_id: object.id).count
     @favorites_count if @favorites_count > 0
   end
-
 end

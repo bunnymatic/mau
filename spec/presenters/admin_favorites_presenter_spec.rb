@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe AdminFavoritesPresenter do
-
   let!(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
   let(:prolific_artist) { FactoryGirl.create(:artist, :active, :with_art, number_of_art_pieces: 15) }
 
@@ -39,5 +39,4 @@ describe AdminFavoritesPresenter do
   it "artist should have 2 favorited" do
     expect(@presenter.favorites.detect{|f| f[0] == artist}[1].favorited).to eql 2
   end
-
 end

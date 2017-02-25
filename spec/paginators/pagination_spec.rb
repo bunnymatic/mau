@@ -1,14 +1,14 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Pagination do
-
   include PresenterSpecHelpers
 
   let(:num_items) { 8 }
   let(:per_page) { 3 }
   let(:current_page) { 0 }
   let(:opts) { nil }
-  subject(:paginator) { Pagination.new(num_items.times.map{|x| x + 1}, current_page, per_page, opts ) }
+  subject(:paginator) { Pagination.new(Array.new(num_items){|x| x + 1}, current_page, per_page, opts ) }
 
   describe '#last_page' do
     subject { super().last_page }
@@ -57,14 +57,14 @@ describe Pagination do
     it { should eq 0..2 }
   end
   context 'when we specify the next and previous labels and titles' do
-    let(:opts) {
+    let(:opts) do
       {
         previous_title: 'behind',
         previous_label: '<',
         next_title: 'forward',
         next_label: '>'
       }
-    }
+    end
 
     describe '#previous_title' do
       subject { super().previous_title }
@@ -156,7 +156,6 @@ describe Pagination do
     it "reports that this is the current page for page 1" do
       expect(subject.is_current_page?(1)).to eq(true)
     end
-
   end
 
   context 'on the last page' do
@@ -240,5 +239,4 @@ describe Pagination do
     its(:previous_page) { is_expected.to eql(0) }
     its(:items) { is_expected.to eql([]) }
   end
-
 end

@@ -1,14 +1,15 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPieceServiceTagsHandler do
-  let(:dummy_class) {
-    Class.new {
+  let(:dummy_class) do
+    Class.new do
       include ArtPieceServiceTagsHandler
       def initialize(parms)
         @params = parms
       end
-    }
-  }
+    end
+  end
   let!(:existing_tags) { create_list :art_piece_tag, 2 }
   let(:existing_tag) { existing_tags.first }
   subject(:dummy) { dummy_class.new(ActionController::Parameters.new(params)) }
@@ -34,5 +35,4 @@ describe ArtPieceServiceTagsHandler do
       end
     end
   end
-
 end

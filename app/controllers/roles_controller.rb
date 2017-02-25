@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class RolesController < ::BaseAdminController
-
   def destroy
     if params[:id] && params[:user_id]
       remove_role_from_user params[:id], params[:user_id]
@@ -8,7 +8,8 @@ class RolesController < ::BaseAdminController
   end
 
   private
-  def remove_role_from_user role_id, user_id
+
+  def remove_role_from_user(role_id, user_id)
     # remove role from user
     begin
       r = Role.find(role_id)
@@ -21,5 +22,4 @@ class RolesController < ::BaseAdminController
       flash[:error] = "Unable to find the role or user.  Nothing done."
     end
   end
-
 end

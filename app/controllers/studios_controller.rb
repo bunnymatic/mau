@@ -1,18 +1,18 @@
+# frozen_string_literal: true
 require 'studio'
 class StudiosController < ApplicationController
-
   before_action :load_studio_list, only: [:index, :show]
   before_action :load_studio, only: [:edit, :update, :destroy, :show,
-                                        :unaffiliate_artist, :upload_profile, :add_profile]
+                                     :unaffiliate_artist, :upload_profile, :add_profile]
 
   def index
     respond_to do |format|
-      format.html {
+      format.html do
         @studios = StudiosPresenter.new(@studio_list)
-      }
-      format.json {
+      end
+      format.json do
         head(403)
-      }
+      end
     end
   end
 
@@ -23,13 +23,13 @@ class StudiosController < ApplicationController
     end
 
     respond_to do |format|
-      format.html {
+      format.html do
         @studio = StudioPresenter.new(@studio)
         @page_title = @studio.page_title
-      }
-      format.json {
+      end
+      format.json do
         head(403)
-      }
+      end
     end
   end
 
@@ -42,5 +42,4 @@ class StudiosController < ApplicationController
   def load_studio
     @studio ||= StudioService.find(params[:id])
   end
-
 end

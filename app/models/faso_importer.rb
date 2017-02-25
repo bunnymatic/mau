@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class FasoImporter
-
   include Enumerable
 
   def initialize
@@ -30,7 +30,7 @@ class FasoImporter
     resp = make_request
     resp.body.split("\n").map(&:chomp).map do |row|
       entry = parse_row(row)
-      Scammer.new( :name => entry['name_used'], :faso_id => entry['id'], :email => entry['email']) if entry
+      Scammer.new( name: entry['name_used'], faso_id: entry['id'], email: entry['email']) if entry
     end.compact.uniq
   end
 
@@ -39,6 +39,7 @@ class FasoImporter
   end
 
   private
+
   def parse_row(row)
     if !@headers
       @headers = pipe_split(row)
@@ -51,5 +52,4 @@ class FasoImporter
   def pipe_split(row)
     (row.split '|').map{|entry| entry.gsub(/^"/, '').gsub(/"$/, '')}
   end
-
 end

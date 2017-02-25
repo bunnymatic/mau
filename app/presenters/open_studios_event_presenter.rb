@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 class OpenStudiosEventPresenter < ViewPresenter
-
   attr_reader :model
 
-  delegate :key, :logo, :logo?, :to_param, :to => :model
+  delegate :key, :logo, :logo?, :to_param, to: :model
 
   include OpenStudiosEventShim
 
@@ -21,7 +21,6 @@ class OpenStudiosEventPresenter < ViewPresenter
       OpenStudiosEventService.for_display(current_open_studios_key)
     end
   end
-
 
   def display_logo
     if(available? && logo?)
@@ -42,5 +41,4 @@ class OpenStudiosEventPresenter < ViewPresenter
   def end_date
     model.end_date.strftime("%b %d, %Y")
   end
-
 end

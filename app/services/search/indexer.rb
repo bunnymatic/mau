@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module Search
   class Indexer
-
     ANALYZERS = {
       mau_snowball_analyzer: {
         type: 'snowball',
@@ -9,7 +9,7 @@ module Search
       mau_ngram_analyzer: {
         tokenizer: :mau_ngram_tokenizer
       }
-    }
+    }.freeze
     TOKENIZERS = {
       mau_ngram_tokenizer: {
         type: 'nGram',
@@ -17,12 +17,12 @@ module Search
         max_gram: 10,
         token_chars: [ :letter, :digit ]
       }
-    }
+    }.freeze
 
     ANALYZERS_TOKENIZERS = {
       analyzer: ANALYZERS,
       tokenizer: TOKENIZERS
-    }
+    }.freeze
 
     class ObjectSearchService
       attr_reader :object
@@ -142,6 +142,5 @@ module Search
     def self.update(object)
       run_es_method_on_object(:update, object)
     end
-
   end
 end

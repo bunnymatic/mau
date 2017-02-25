@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::EmailsController do
@@ -25,9 +26,9 @@ describe Admin::EmailsController do
       expect(response.content_type.to_s).to eql 'application/json'
     end
     it 'adds a new email to the email list' do
-      expect {
+      expect do
         make_request
-      }.to change(Email,:count).by(1)
+      end.to change(Email,:count).by(1)
     end
   end
 
@@ -46,15 +47,15 @@ describe Admin::EmailsController do
     end
     it 'deletes entries from an email list' do
       first_email
-      expect {
+      expect do
         make_delete_request
-      }.to change(FeedbackMailerList.first.emails, :count).by(-1);
+      end.to change(FeedbackMailerList.first.emails, :count).by(-1);
     end
     it 'does not delete the email from the email table' do
       first_email
-      expect {
+      expect do
         make_delete_request
-      }.to change(Email, :count).by(0);
+      end.to change(Email, :count).by(0);
     end
 
     it 'returns a message indicating who was removed' do
@@ -62,7 +63,5 @@ describe Admin::EmailsController do
       expect(response.content_type).to eql "application/json"
       expect(response).to be_success
     end
-
   end
-
 end

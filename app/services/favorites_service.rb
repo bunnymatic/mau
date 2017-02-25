@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 class InvalidFavoriteTypeError < StandardError; end
 
 class FavoritesService
-
   def self.get_object(type, id)
     type.constantize.find(id)
   end
@@ -26,6 +26,7 @@ class FavoritesService
 
   class << self
     private
+
     def unpack_object(obj)
       [obj.class.name, obj.id]
     end
@@ -64,9 +65,7 @@ class FavoritesService
     def trying_to_favorite_yourself?(user, obj)
       false if obj.nil?
       ((obj.is_a?(User) || obj.is_a?(Artist)) && obj.id == user.id) ||
-       (obj.is_a?(ArtPiece) && obj.artist.id == user.id)
+        (obj.is_a?(ArtPiece) && obj.artist.id == user.id)
     end
-
   end
-
 end

@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FeedbackMailer do
-
   let(:fb) { FactoryGirl.create(:feedback) }
   before do
     list = FactoryGirl.create(:feedback_email_list, :with_member)
@@ -14,5 +14,4 @@ describe FeedbackMailer do
     end
     expect(m.from).to include 'info@missionartists.org'
   end
-
 end

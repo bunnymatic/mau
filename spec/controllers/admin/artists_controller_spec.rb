@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::ArtistsController do
-
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:pending) { FactoryGirl.create(:artist, :pending, activation_code: 'ACTIVATEME') }
   let(:password_reset) { FactoryGirl.create(:artist, :active, reset_code: "RESET") }
@@ -35,7 +35,7 @@ describe Admin::ArtistsController do
       context 'format=html' do
         context 'with no params' do
           before do
-            allow_any_instance_of(ArtistInfo).to receive(:os_participation).and_return({ current_os.key => true})
+            allow_any_instance_of(ArtistInfo).to receive(:os_participation).and_return(current_os.key => true)
             allow_any_instance_of(Artist).to receive(:os_participation).and_return({ current_os.key => true}, address: { yes: 'we do' })
             pending
             password_reset
@@ -45,7 +45,7 @@ describe Admin::ArtistsController do
         end
       end
       context 'format=csv' do
-        let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge({headers:true}) }
+        let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge(headers:true) }
         let(:parsed) { CSV.parse(response.body, parse_args) }
 
         before do
@@ -70,5 +70,4 @@ describe Admin::ArtistsController do
       end
     end
   end
-
 end

@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require "rails_helper"
 
 describe UserPresenter do
-
   include PresenterSpecHelpers
 
   let(:created) { 1.year.ago }
@@ -26,7 +26,6 @@ describe UserPresenter do
   end
 
   describe '#icon_link_class' do
-
     it 'returns ico-tumblr for www.whatever.tumblr.com' do
       clz = presenter.send(:icon_link_class, :blog, 'http://www.whatever.tumblr.com')
       expect(clz).to include 'ico-tumblr'
@@ -47,15 +46,12 @@ describe UserPresenter do
       clz = presenter.send(:icon_link_class, :twitter, 'whatever')
       expect(clz).to include 'ico-twitter'
     end
-
   end
 
   describe '#links_html' do
-
     it 'shows html links' do
       expect(presenter.links_html.join).to match(/#{user.links.first}/)
     end
-
   end
 
   describe '#who_i_favorite' do
@@ -84,6 +80,4 @@ describe UserPresenter do
       expect(presenter.who_i_favorite).not_to include fan
     end
   end
-
-
 end

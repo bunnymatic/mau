@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Scammer do
@@ -11,8 +12,8 @@ describe Scammer do
 "7437"|"laurynsley@gmail.com"|"Lauryn Masley"
 EOM
 
-    stub_request(:get, Regexp.new( "https:\/\/api.faso.com\/1\/scammers*")).
-                 to_return({:status => 200, :body => test_data})
+    stub_request(:get, Regexp.new( "https:\/\/api.faso.com\/1\/scammers*"))
+      .to_return(status: 200, body: test_data)
     FactoryGirl.create_list(:scammer, 2)
   end
   describe '#importFromFASO' do
@@ -31,7 +32,7 @@ EOM
   describe 'validations' do
     it 'doesn\'t allow duplicate faso_id entries' do
       faso_id = Scammer.first.faso_id
-      expect(Scammer.new(:faso_id => faso_id, :email => 'joe@example.com', :name => 'my name')).not_to be_valid
+      expect(Scammer.new(faso_id: faso_id, email: 'joe@example.com', name: 'my name')).not_to be_valid
     end
   end
 end

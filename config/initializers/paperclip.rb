@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 if Rails.env != 'test'
   opts = {
     storage: :s3,

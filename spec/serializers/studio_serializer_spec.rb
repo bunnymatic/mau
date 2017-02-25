@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe StudioSerializer do
@@ -26,6 +27,5 @@ describe StudioSerializer do
     it "includes trimmed version of artists" do
       expect(parsed['studio']['artists'].map(&:keys).flatten.uniq).to match_array(%w|id firstname lastname slug full_name|)
     end
-
   end
 end

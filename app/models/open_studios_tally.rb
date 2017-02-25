@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class OpenStudiosTally < ApplicationRecord
-  validates_presence_of :oskey
+  validates :oskey, presence: true
 end

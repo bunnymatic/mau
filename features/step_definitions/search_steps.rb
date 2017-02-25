@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 When(/^I search for the first art piece by title$/) do
-  step %Q|I search for "#{ArtPiece.first.title.split.first}"|
+  step %|I search for "#{ArtPiece.first.title.split.first}"|
 end
 
 When(/^I search for the first art piece by artist name$/) do
-  step %Q|I search for "#{ArtPiece.first.artist.firstname.upcase}"|
+  step %|I search for "#{ArtPiece.first.artist.firstname.upcase}"|
 end
 
 When(/^I search for "(.*?)"$/) do |query|
@@ -22,5 +23,5 @@ Then(/^I see "([^"]*)" in the search results$/) do |keyword|
 end
 
 Then(/^I see the search results have the first art piece$/) do
-  step %Q|I see "#{ArtPiece.first.title}" in the search results|
+  step %|I see "#{ArtPiece.first.title}" in the search results|
 end

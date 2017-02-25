@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPieceTagPagination do
@@ -12,7 +13,7 @@ describe ArtPieceTagPagination do
   let(:mode) { nil }
 
   subject(:paginator) do
-    ArtPieceTagPagination.new(num_items.times.map{|x| x + 1},
+    ArtPieceTagPagination.new(Array.new(num_items){|x| x + 1},
                               tag, current_page, mode, per_page)
   end
 
@@ -39,12 +40,12 @@ describe ArtPieceTagPagination do
 
     describe '#next_link' do
       subject { super().next_link }
-      it { should eq art_piece_tag_path(tag, :p => 1) }
+      it { should eq art_piece_tag_path(tag, p: 1) }
     end
 
     describe '#previous_link' do
       subject { super().previous_link }
-      it { should eq art_piece_tag_path(tag, :p => 0) }
+      it { should eq art_piece_tag_path(tag, p: 0) }
     end
   end
 
@@ -53,12 +54,12 @@ describe ArtPieceTagPagination do
 
     describe '#next_link' do
       subject { super().next_link }
-      it { should eq art_piece_tag_path(tag, :p => 1, :m => 's') }
+      it { should eq art_piece_tag_path(tag, p: 1, m: 's') }
     end
 
     describe '#previous_link' do
       subject { super().previous_link }
-      it { should eq art_piece_tag_path(tag, :p => 0, :m => 's') }
+      it { should eq art_piece_tag_path(tag, p: 0, m: 's') }
     end
   end
 
@@ -67,14 +68,12 @@ describe ArtPieceTagPagination do
 
     describe '#next_link' do
       subject { super().next_link }
-      it { should eq art_piece_tag_path(tag, :p => 2) }
+      it { should eq art_piece_tag_path(tag, p: 2) }
     end
 
     describe '#previous_link' do
       subject { super().previous_link }
-      it { should eq art_piece_tag_path(tag, :p => 0) }
+      it { should eq art_piece_tag_path(tag, p: 0) }
     end
   end
-
-
 end

@@ -7,10 +7,17 @@ AllCops:
     - spec/**
     - features/**
   Exclude:
+    - '**/*.sh'
+    - '**/*.bash'
+    - '**/*.yml'
+    - '**/*.txt'
+    - '**/*.md'
     - db/schema.rb
-    - db/migrate/**/*.rb
+    - db/migrate/**/*
     - spec/*.opts
+    - tmp/**
     - vendor/**
+    - log/**
     - app/lib/app_config.rb
     - config/initializers/setup_email_lists.rb
     - features/step_definitions/factory_steps.rb
@@ -35,3 +42,7 @@ Style/Documentation:
 
 Style/DoubleNegation:
   Enabled: false
+
+Lint/HandleExceptions:
+  Exclude:
+    - app/services/search/indexer.rb

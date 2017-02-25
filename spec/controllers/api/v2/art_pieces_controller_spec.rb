@@ -1,9 +1,8 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Api::V2::ArtPiecesController do
-
   describe "#index" do
-
     render_views
 
     before do
@@ -15,7 +14,5 @@ describe Api::V2::ArtPiecesController do
       expect(response).to be_success
       expect(response.body).to eq '{}'
     end
-
   end
-
 end

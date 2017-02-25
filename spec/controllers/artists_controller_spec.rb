@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'htmlentities'
 
 describe ArtistsController, elasticsearch: true do
-
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art, nomdeplume: nil, firstname: 'joe', lastname: 'ablow') }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
@@ -83,7 +83,7 @@ describe ArtistsController, elasticsearch: true do
             expect(response).to redirect_to(edit_artist_path(artist))
           end
           it 'publishes an update message' do
-            mock_messagers = 2.times.map do
+            mock_messagers = Array.new(2) do
               mock_messager = instance_double(Messager)
               expect(mock_messager).to receive(:publish)
               mock_messager
@@ -120,7 +120,7 @@ describe ArtistsController, elasticsearch: true do
           expect(artist.address.to_s).to include street
         end
         it 'publishes an update message' do
-          mock_messagers = 2.times.map do
+          mock_messagers = Array.new(2) do
             mock_messager = instance_double(Messager)
             expect(mock_messager).to receive(:publish)
             mock_messager
@@ -142,9 +142,9 @@ describe ArtistsController, elasticsearch: true do
         end
         it "saves an OpenStudiosSignupEvent when the user sets their open studios status to true" do
           stub_request(:get, Regexp.new( "http:\/\/example.com\/openstudios.*" ))
-          expect {
+          expect do
             put :update, xhr: true, params: { id: artist, commit: 'submit', artist: { "os_participation" => '1' } }
-          }.to change(OpenStudiosSignupEvent,:count).by(1)
+          end.to change(OpenStudiosSignupEvent,:count).by(1)
         end
       end
       context 'update name and bio' do
@@ -152,10 +152,10 @@ describe ArtistsController, elasticsearch: true do
           artist.update_os_participation OpenStudiosEvent.current, true
         end
         it 'does not reset the open studios participation setting' do
-          expect{
+          expect do
             attrs = {"firstname"=>"mr joe", "artist_info_attributes"=>{"bio"=>"Dolor error praesentium et"}}
             put :update, params: { id: artist, commit: 'submit', artist: attrs }
-          }.to_not change(artist, :doing_open_studios?)
+          end.to_not change(artist, :doing_open_studios?)
         end
       end
     end
@@ -179,7 +179,7 @@ describe ArtistsController, elasticsearch: true do
     context "while logged in" do
       render_views
       before do
-        artist.update_attributes({facebook: 'example.com/facebooklink', blog: 'example.com/bloglink'})
+        artist.update_attributes(facebook: 'example.com/facebooklink', blog: 'example.com/bloglink')
         login_as artist
         get :edit, params: { id: artist.to_param }
       end
@@ -321,9 +321,9 @@ describe ArtistsController, elasticsearch: true do
 
   describe '#destroyart' do
     let(:art_pieces) { ArtPiece.all.reject{|art| art.artist == artist} }
-    let(:art_pieces_for_deletion) {
+    let(:art_pieces_for_deletion) do
       Hash[art_pieces.map.with_index{|a,idx| [a.id, idx % 2]}]
-    }
+    end
     let(:destroy_params) { { params: {art: art_pieces_for_deletion} } }
     let(:num_to_dump) { art_pieces_for_deletion.values.select{|v| v==1}.count }
     before do
@@ -339,11 +339,10 @@ describe ArtistsController, elasticsearch: true do
     context 'when trying to destroy art that is not yours' do
       it{ expect(response).to redirect_to artist_path(artist) }
       it "should not remove art" do
-        expect{
+        expect do
           post :destroyart, destroy_params
-        }.to_not change(ArtPiece, :count)
+        end.to_not change(ArtPiece, :count)
       end
-
     end
 
     context 'when trying to destroy art that is yours' do
@@ -353,11 +352,10 @@ describe ArtistsController, elasticsearch: true do
       end
       it{ expect(response).to redirect_to artist_path(artist) }
       it "should remove art" do
-        expect{
+        expect do
           post :destroyart, destroy_params
-        }.to change(ArtPiece, :count).by(-1*num_to_dump)
+        end.to change(ArtPiece, :count).by(-1*num_to_dump)
       end
-
     end
   end
 
@@ -371,7 +369,6 @@ describe ArtistsController, elasticsearch: true do
     end
   end
 
-
   describe '#suggest' do
     before do
       Rails.cache.clear
@@ -381,8 +378,8 @@ describe ArtistsController, elasticsearch: true do
     it 'returns a hash with a list of artists' do
       j = JSON.parse(response.body)
       expect(j).to be_a_kind_of Array
-      expect(j.first.has_key? 'info').to be
-      expect(j.first.has_key? 'value').to be
+      expect(j.first.has_key?('info')).to be
+      expect(j.first.has_key?('value')).to be
     end
     it 'list of artists matches the input parameter' do
       j = JSON.parse(response.body)
@@ -391,5 +388,4 @@ describe ArtistsController, elasticsearch: true do
       expect(j.first['value']).to eql artist.get_name
     end
   end
-
 end

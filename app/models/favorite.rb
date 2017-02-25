@@ -1,14 +1,15 @@
+# frozen_string_literal: true
 class Favorite < ApplicationRecord
   belongs_to :user
-  belongs_to :favorite, :polymorphic => true
+  belongs_to :favorite, polymorphic: true
 
   validate :uniqueness_of_user_and_item
 
-  scope :art_pieces, -> { where(:favoritable_type => ArtPiece.name) }
-  scope :users, -> { where(:favoritable_type => [Artist.name, User.name]) }
-  scope :artists, -> { where(:favoritable_type => Artist.name) }
+  scope :art_pieces, -> { where(favoritable_type: ArtPiece.name) }
+  scope :users, -> { where(favoritable_type: [Artist.name, User.name]) }
+  scope :artists, -> { where(favoritable_type: Artist.name) }
 
-  FAVORITABLE_TYPES = ['Artist','ArtPiece']
+  FAVORITABLE_TYPES = ['Artist','ArtPiece'].freeze
 
   def uniqueness_of_user_and_item
     if self.class.where(user_id: user, favoritable_type: favoritable_type, favoritable_id: favoritable_id).take

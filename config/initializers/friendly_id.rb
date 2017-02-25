@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # FriendlyId Global Configuration
 #
 # Use this to set up shared configuration options for your entire application.
@@ -17,8 +18,8 @@ FriendlyId.defaults do |config|
   config.use :reserved
 
   config.reserved_words = %w(new edit index session login logout users admin
-    manage_art delete_art destroyart setarrangement arrange_art map_page suggets
-    stylesheets assets javascripts images)
+                             manage_art delete_art destroyart setarrangement arrange_art map_page suggets
+                             stylesheets assets javascripts images)
 
   #  ## Friendly Finders
   #

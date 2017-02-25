@@ -1,12 +1,12 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtistsGallery do
-
   include PresenterSpecHelpers
 
   let(:current_page) { 1 }
   let(:per_page) { 2 }
-  let(:artists) {
+  let(:artists) do
     [
       create(:artist, :with_art, firstname: 'a', lastname: 'Abby'),
       create(:artist, :with_art, firstname: 'b', lastname: 'Asinine'),
@@ -16,8 +16,8 @@ describe ArtistsGallery do
       create(:artist, :with_art, firstname: 'zap', lastname: ''),
       create(:artist, firstname: 'z', lastname: 'Arnold'),
       create(:artist, firstname: 'a', lastname: 'Bored')
-   ]
-  }
+    ]
+  end
   let(:showing_artists) { artists.first(per_page) }
   let(:os_only) { false }
   let(:letter) { 'A' }
@@ -71,5 +71,4 @@ describe ArtistsGallery do
       expect(subject.artists.map(&:artist)).to eql artists[3..5]
     end
   end
-
 end

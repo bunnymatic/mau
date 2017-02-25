@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FavoritesCollectionPresenter do
@@ -42,8 +43,6 @@ describe FavoritesCollectionPresenter do
         end
       end
     end
-
-
   end
 
   context 'when the artist has no favorites' do
@@ -72,5 +71,4 @@ describe FavoritesCollectionPresenter do
       end
     end
   end
-
 end

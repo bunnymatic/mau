@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module CapybaraHelpers
   ##
   #
@@ -23,10 +24,10 @@ module CapybaraHelpers
     Capybara.current_driver == Capybara.javascript_driver
   end
 
-  def wait_until(time = Capybara.default_max_wait_time, &block)
+  def wait_until(time = Capybara.default_max_wait_time)
     Timeout.timeout(time) do
       loop do
-        break if block.call
+        break if yield
         sleep 0.01
       end
     end
@@ -49,7 +50,6 @@ module CapybaraHelpers
       fill_in field, with: with
     end
   end
-
 end
 
 World CapybaraHelpers

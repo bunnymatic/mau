@@ -1,20 +1,19 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPiecesController do
-
   let(:medium) { FactoryGirl.create(:medium) }
   let(:existing_tag) { FactoryGirl.create(:art_piece_tag) }
   let(:tags) { nil }
-  let(:art_piece_attributes) {
+  let(:art_piece_attributes) do
     FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id, photo: fixture_file_upload("/files/art.png", "image/jpeg"))
-  }
+  end
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let!(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
   let(:art_pieces) { artist.reload.art_pieces }
   let(:art_piece) { art_pieces.first.reload }
-
 
   describe "#show" do
     context "not logged in" do
@@ -113,13 +112,13 @@ describe ArtPiecesController do
         let(:tags) { "this, that, #{existing_tag.name}" }
 
         it 'redirects to show page on success' do
-          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags}) }
+          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tags: tags) }
           expect(response).to redirect_to art_piece_path(ArtPiece.find_by(title: art_piece_attributes[:title]))
         end
         it 'creates a piece of art' do
-          expect{
+          expect do
             post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
-          }.to change(ArtPiece, :count).by 1
+          end.to change(ArtPiece, :count).by 1
         end
         it 'sets a flash message on success' do
           post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
@@ -131,17 +130,17 @@ describe ArtPiecesController do
         end
         it 'publishes a message' do
           expect_any_instance_of(Messager).to receive(:publish)
-          post :create, params: { artist_id: artist.id,  art_piece: art_piece_attributes }
+          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
         end
         it 'correctly adds tags to the art piece' do
-          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags}) }
+          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tags: tags) }
           expect(ArtPiece.last.tags.count).to eql 3
         end
         it 'only adds the new tags' do
           tags
-          expect{
-            post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags}) }
-          }.to change(ArtPieceTag, :count).by 2
+          expect do
+            post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tags: tags) }
+          end.to change(ArtPieceTag, :count).by 2
         end
       end
     end
@@ -199,7 +198,6 @@ describe ArtPiecesController do
         post :update, params: { id: ap.id, art_piece: {title: 'new title'} }
         expect(response).to redirect_to(ap)
       end
-
     end
   end
 
@@ -242,7 +240,6 @@ describe ArtPiecesController do
         it { expect(response).to be_success }
       end
     end
-
   end
 
   describe "#delete" do
@@ -262,15 +259,14 @@ describe ArtPiecesController do
         expect(response).to be_redirect
       end
       it "does not removes that art piece" do
-        expect {
+        expect do
           post :destroy, params: { id: art_piece.id }
-        }.to change(ArtPiece, :count).by 0
+        end.to change(ArtPiece, :count).by 0
       end
       it "does not publish a message " do
         expect_any_instance_of(Messager).to receive(:publish).never
         post :destroy, params: { id: art_piece.id }
       end
-
     end
 
     context "while logged in as art piece owner" do

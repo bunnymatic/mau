@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class SiteStatistics
-
   attr_accessor :last_30_days, :last_week, :yesterday, :totals
 
   include OpenStudiosEventShim
@@ -48,7 +48,6 @@ class SiteStatistics
     end
     compute_totals
   end
-
 
   CREATED_CLAUSE = "created_at >= ?"
   ACTIVATED_CLAUSE = "activated_at >= ?"
@@ -122,8 +121,7 @@ class SiteStatistics
       artists_pending: artist_states.fetch("pending", 'n/a'),
       artists_without_art: Artist.without_art.count,
       artists_no_profile_image: Artist.active.where("profile_image is not null").count,
-      artists: artist_states.values.sum
-    }
+      artists: artist_states.values.sum}
   end
 
   def other_users_stats

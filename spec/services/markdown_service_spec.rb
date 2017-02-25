@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe MarkdownService do
@@ -18,5 +19,4 @@ describe MarkdownService do
     expect(marked_down).to include "<p>this will not"
     expect(marked_down).to include "<p>and neither will"
   end
-
 end

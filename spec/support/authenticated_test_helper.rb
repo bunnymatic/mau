@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 module AuthenticatedTestHelper
-
   # Sets the current artist in the session from the artist factories
   def login_as(user, session_stubs = nil)
     logout
-    session_stubs ||= { :record => true }
+    session_stubs ||= { record: true }
     u = user.is_a?(User) ? user : FactoryGirl.create(:user, :active, user)
     allow(UserSession).to receive(:find).and_return(user_session(current_user(u), session_stubs))
     @logged_in_user = u
@@ -16,7 +16,7 @@ module AuthenticatedTestHelper
   end
 
   def user_session(user, stubs = {})
-    @current_user_session = double(UserSession, {:user => user}.merge(stubs))
+    @current_user_session = double(UserSession, {user: user}.merge(stubs))
   end
 
   def logout
@@ -25,9 +25,8 @@ module AuthenticatedTestHelper
     @logged_in_user = nil
     @logged_in_artist = nil
   end
-
 end
 
 RSpec.configure do |config|
-  config.include AuthenticatedTestHelper, :type => :controller
+  config.include AuthenticatedTestHelper, type: :controller
 end

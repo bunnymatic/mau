@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class ArtSampler
-
   attr_reader :seed, :offset
 
   NUM_NEW_ART_PIECES = 2
@@ -15,29 +15,27 @@ class ArtSampler
   end
 
   private
+
   def fetch_pieces
     result = []
-    if (offset < NUM_NEW_ART_PIECES)
-      result += new_pieces
-    end
+    result += new_pieces if (offset < NUM_NEW_ART_PIECES)
     result += random_pieces-new_pieces
   end
 
   def random_pieces
     ArtPiece.includes(:artist)
-      .where( {users: { state: :active } })
-      .order("rand(#{seed})")
-      .limit(@number_of_images_per_fetch)
-      .offset(offset)
+            .where( users: { state: :active })
+            .order("rand(#{seed})")
+            .limit(@number_of_images_per_fetch)
+            .offset(offset)
   end
 
   def new_pieces
     @new_pieces ||= ArtPiece.includes(:artist)
-                  .where( {users: { state: :active } })
-                  .order('art_pieces.created_at desc')
-                  .limit(Artist::MAX_PIECES*NUM_NEW_ART_PIECES)
-                  .uniq_by(&:artist_id)
-                  .first(NUM_NEW_ART_PIECES)
+                            .where( users: { state: :active })
+                            .order('art_pieces.created_at desc')
+                            .limit(Artist::MAX_PIECES*NUM_NEW_ART_PIECES)
+                            .uniq_by(&:artist_id)
+                            .first(NUM_NEW_ART_PIECES)
   end
-
 end

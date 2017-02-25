@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'yaml'
 
@@ -18,9 +19,7 @@ def get_db_cmdline_args
   # TODO - if you use other args like :socket, or ? they are ignored
   # we could add host, port etc to make this more flexible
   db_args = [['--user=','username'], ['--password=','password']].map do |entry|
-    if dbcnf[entry[1]].present?
-      "#{entry[0]}#{dbcnf[entry[1]]}"
-    end
+    "#{entry[0]}#{dbcnf[entry[1]]}" if dbcnf[entry[1]].present?
   end.compact
   db_args += [ "--single-transaction"]
 end

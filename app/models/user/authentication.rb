@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class User
   module Authentication
     def mailer_class
@@ -9,5 +10,4 @@ class User
       self.update_attributes( state: "active", activated_at: Time.zone.now)
     end
   end
-
 end

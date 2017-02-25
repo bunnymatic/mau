@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe StudioPresenter do
-
   let(:studio) { FactoryGirl.create(:studio, cross_street: 'hollywood', phone: '4156171234') }
   let!(:artist1) { FactoryGirl.create(:artist, :active, :with_art, studio: studio) }
   let!(:artist2) { FactoryGirl.create(:artist, :active, studio: studio) }
@@ -58,5 +58,4 @@ describe StudioPresenter do
       expect(presenter.formatted_phone).to eql '(415) 617-1234'
     end
   end
-
 end

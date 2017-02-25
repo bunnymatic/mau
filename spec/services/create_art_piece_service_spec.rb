@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe CreateArtPieceService do
-
   let(:artist) { create :artist, :active }
   let(:existing_tag) { create :art_piece_tag, name: 'existing tag' }
   let(:params) { {} }
@@ -9,9 +9,9 @@ describe CreateArtPieceService do
 
   context "with params[:tags]" do
     let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name].join(", ") }
-    let(:params) {
-      attributes_for(:art_piece).merge({tags: tag_params})
-    }
+    let(:params) do
+      attributes_for(:art_piece).merge(tags: tag_params)
+    end
 
     it "creates an art piece" do
       expect{ service.create_art_piece }.to change(ArtPiece, :count).by(1)
@@ -31,12 +31,12 @@ describe CreateArtPieceService do
 
   context "with invalid data" do
     let(:tag_params) { ['supertag', existing_tag.name].join(", ") }
-    let(:params) {
-      attrs = attributes_for(:art_piece).merge({tags: tag_params})
+    let(:params) do
+      attrs = attributes_for(:art_piece).merge(tags: tag_params)
       attrs.delete :title
       attrs.delete :photo_file_name
       attrs
-    }
+    end
 
     it "returns the art piece with errors" do
       ap = service.create_art_piece
@@ -49,5 +49,4 @@ describe CreateArtPieceService do
       expect(ap.tags).to be_empty
     end
   end
-
 end

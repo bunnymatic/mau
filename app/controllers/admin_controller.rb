@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 class AdminController < BaseAdminController
-
-  before_action :admin_required, :except => [:index]
+  before_action :admin_required, except: [:index]
 
   layout 'admin'
 
@@ -16,5 +16,4 @@ class AdminController < BaseAdminController
       @totals[ostag] = @os.select{|a| (a.os_participation || {})[ostag] }.length
     end
   end
-
 end

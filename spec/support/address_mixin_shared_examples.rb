@@ -1,28 +1,28 @@
+# frozen_string_literal: true
 shared_examples_for AddressMixin do
-
-  let(:the_state) {
+  let(:the_state) do
     Faker::Address.state
-  }
-  let(:base_attributes) {
+  end
+  let(:base_attributes) do
     {
-      :street => Faker::Address.street_name,
-      :city => Faker::Address.city,
-      :zip => Faker::Address.zip_code,
+      street: Faker::Address.street_name,
+      city: Faker::Address.city,
+      zip: Faker::Address.zip_code,
     }
-  }
-  let(:with_state) {
-    base_attributes.merge(:state => the_state)
-  }
-  let(:with_addr_state) {
-    base_attributes.merge(:addr_state => the_state)
-  }
-  let(:with_address) {
+  end
+  let(:with_state) do
+    base_attributes.merge(state: the_state)
+  end
+  let(:with_addr_state) do
+    base_attributes.merge(addr_state: the_state)
+  end
+  let(:with_address) do
     if (described_class.new.respond_to? :addr_state)
-      described_class.new(with_addr_state.merge({lat: nil, lng: nil}))
+      described_class.new(with_addr_state.merge(lat: nil, lng: nil))
     else
       described_class.new(with_state)
     end
-  }
+  end
   let(:without_address) { described_class.new }
 
   it 'builds a full address for maps' do
@@ -49,13 +49,12 @@ shared_examples_for AddressMixin do
 
   describe '#compute_geocode' do
     it 'calls Geocode with the full address' do
-      expect(Geokit::Geocoders::MultiGeocoder).to receive(:geocode).
-        with(with_address.full_address).
-        and_return((double("Geokit::GeoLoc", :success => true,
-                           :lat => 9.0,
-                           :lng => 10.0)))
+      expect(Geokit::Geocoders::MultiGeocoder).to receive(:geocode)
+        .with(with_address.full_address)
+        .and_return((double("Geokit::GeoLoc", success: true,
+                           lat: 9.0,
+                           lng: 10.0)))
       expect(with_address.send(:compute_geocode)).to eql [with_address.lat.to_f, with_address.lng.to_f]
     end
   end
-
 end

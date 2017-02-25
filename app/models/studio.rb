@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 require 'uri'
 class Studio < ApplicationRecord
-
   include AddressMixin
   include Geokit::ActsAsMappable
 
@@ -53,7 +53,7 @@ class Studio < ApplicationRecord
     order('position, lower(name)')
   end
 
-  SORT_BY_NAME = lambda{|a,b|
+  SORT_BY_NAME = lambda do |a,b|
     if !a || a.id == 0
       1
     elsif !b || b.id == 0
@@ -61,17 +61,14 @@ class Studio < ApplicationRecord
     else
       a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
     end
-  }
-
+  end
 
   def to_param
     slug || id
   end
 
   def normalize_phone_number
-    if phone
-      phone.gsub!(/\D+/,'')
-    end
+    phone.gsub!(/\D+/,'') if phone
   end
 
   def as_indexed_json(_opts={})

@@ -1,25 +1,25 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe SocialCatalogPresenter, type: :view do
-
   let(:open_studios_event) { FactoryGirl.create :open_studios_event }
   let(:studio) { create(:studio) }
-  let(:unlisted_because_not_os) {
+  let(:unlisted_because_not_os) do
     create(:artist, :active, :with_links, :with_art)
-  }
-  let(:unlisted_because_no_art) {
+  end
+  let(:unlisted_because_no_art) do
     create(:artist, :active, :with_links, doing_open_studios: open_studios_event)
-  }
-  let(:listed_indy_artist) {
+  end
+  let(:listed_indy_artist) do
     create(:artist, :active, :with_art, :in_the_mission, doing_open_studios: open_studios_event)
-  }
-  let(:listed_studio_artist) {
+  end
+  let(:listed_studio_artist) do
     create(:artist, :active, :with_art, :with_links, doing_open_studios: open_studios_event, studio: studio)
-  }
+  end
   let!(:artists) do
     [unlisted_because_no_art, unlisted_because_not_os, listed_indy_artist, listed_studio_artist]
   end
-  let(:parsed) { CSV.parse(subject.csv, :headers => true) }
+  let(:parsed) { CSV.parse(subject.csv, headers: true) }
 
   before do
     # TODO: update studio/artist factories to set address properly without compute_geocode
@@ -65,5 +65,4 @@ describe SocialCatalogPresenter, type: :view do
       expect(row["MAU Link"]).to eql artist_url(artist)
     end
   end
-
 end

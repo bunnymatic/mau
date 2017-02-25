@@ -1,8 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
-
 describe MauImage::ImageSize do
-
   describe '#all' do
     let(:all) { MauImage::ImageSize.all }
 

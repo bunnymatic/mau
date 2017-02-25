@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class AdminNavigation < ViewPresenter
-
   attr_reader :current_user
 
   def initialize(user)
@@ -43,8 +43,7 @@ class AdminNavigation < ViewPresenter
 
   def editor_links
     [[:events, {}],
-     [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]
-    ]
+     [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]]
   end
 
   def manager_links

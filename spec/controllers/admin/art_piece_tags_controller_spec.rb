@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 require 'rails_helper'
 describe Admin::ArtPieceTagsController do
-
   let(:user) { FactoryGirl.create(:user, :active) }
   let(:admin) { FactoryGirl.create(:user, :admin, :active) }
   let!(:artist) { FactoryGirl.create(:artist, :with_tagged_art) }
@@ -38,9 +38,9 @@ describe Admin::ArtPieceTagsController do
       login_as admin
     end
     it "removes the tag" do
-      expect {
+      expect do
         delete :destroy, params: { id: tag.id }
-      }.to change(ArtPieceTag, :count).by(-1)
+      end.to change(ArtPieceTag, :count).by(-1)
       expect(ArtPieceTag.where(id: tag.id)).to be_empty
     end
     it "clears the cache" do
@@ -61,9 +61,9 @@ describe Admin::ArtPieceTagsController do
       expect(response).to redirect_to '/admin/art_piece_tags'
     end
     it 'removes empty tags' do
-      expect {
+      expect do
         get :cleanup
-      }.to change(ArtPieceTag,:count).by(-2)
+      end.to change(ArtPieceTag,:count).by(-2)
     end
   end
 end

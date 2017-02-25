@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPieceTagPresenter do
-
   include PresenterSpecHelpers
 
   let(:artist) { FactoryGirl.create :artist, :active, :with_tagged_art, number_of_art_pieces: 4 }
@@ -55,6 +55,4 @@ describe ArtPieceTagPresenter do
       expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
     end
   end
-
-
 end

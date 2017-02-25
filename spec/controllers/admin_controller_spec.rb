@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe AdminController do
@@ -52,5 +53,4 @@ describe AdminController do
       expect(assigns(:totals).count).to eql 9
     end
   end
-
 end

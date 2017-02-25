@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 class Address
-
   attr_reader :lat, :lng, :street, :city, :state, :zip
 
   def initialize(model)
     begin
-      if model.respond_to?(:studio_id) && model.studio_id.present? && (model&.studio_id > 0) && model.studio
+      if model.respond_to?(:studio_id) && (model.studio_id.presence.to_i > 0) && model.studio
         model = model.studio
       end
 
@@ -42,20 +42,21 @@ class Address
   end
 
   protected
+
   def _state
     [lat, lng, street, state, zip]
   end
 
   private
+
   def get_state(model)
     return model.addr_state if model.respond_to?(:addr_state)
     model.state
   end
 
-  def fetch_with_default(default, &block)
-    val = block.call
+  def fetch_with_default(default)
+    val = yield
     return default if val.blank?
     val
   end
-
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 When(/^I visit my home page$/) do
   visit artist_path(@artist)
 end
@@ -212,7 +213,6 @@ Then(/^I see that I have a new profile picture$/) do
   img = find(".artist-profile__image img")
   expect(img).to be_present
 end
-
 
 Then(/^the artists index page shows no artists for open studios$/) do
   expect(page).to_not have_css '.artist-card'

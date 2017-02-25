@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FavoritesController do
@@ -29,12 +30,12 @@ describe FavoritesController do
         login_as fan
       end
       it "does not create an artist for user that doesn't match login" do
-        expect {
+        expect do
           post :create, xhr: true, params: {user_id: artist.id, favorite: { type: 'Artist', id: artist.id }}
 
           expect(response).to redirect_to user_path(fan)
           expect(artist.reload.favorites).to be_empty
-        }.to change(fan.favorites, :count).by(0)
+        end.to change(fan.favorites, :count).by(0)
       end
 
       context "adding a favorite artist" do
@@ -126,12 +127,9 @@ describe FavoritesController do
         expect(favs.map { |f| f.favoritable_id }).to include artist.id
       end
     end
-
   end
 
-
   describe "#index" do
-
     context "while not logged in" do
       before do
         get :index, params: { id: fan.id }
@@ -168,6 +166,5 @@ describe FavoritesController do
         expect(response).to be_success
       end
     end
-
   end
 end

@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 class Role < ApplicationRecord
-  has_many :roles_users, :dependent => :destroy
-  has_many :users, :through => :roles_users
+  has_many :roles_users, dependent: :destroy
+  has_many :users, through: :roles_users
 
-  validates_presence_of :role
-  validates_uniqueness_of :role
+  validates :role, presence: true
+  validates :role, uniqueness: true
 
   class << self
     def admin
@@ -17,7 +18,5 @@ class Role < ApplicationRecord
     def editor
       Role.find_by_role("editor")
     end
-
   end
-
 end

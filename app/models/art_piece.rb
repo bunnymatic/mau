@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 class ArtPiece < ApplicationRecord
-
   belongs_to :artist
 
   has_many :art_pieces_tags
-  has_many :tags, :through => :art_pieces_tags, :source => :art_piece_tag
+  has_many :tags, through: :art_pieces_tags, source: :art_piece_tag
 
   belongs_to :medium
 
@@ -53,8 +53,8 @@ class ArtPiece < ApplicationRecord
   after_save :remove_old_art
   after_save :clear_caches
 
-  validates_presence_of     :title
-  validates_length_of       :title,    :within => 2..80
+  validates :title, presence: true
+  validates :title, length: { within: 2..80 }
 
   def as_indexed_json(_opts={})
     return {} unless artist && artist.active?
@@ -73,7 +73,6 @@ class ArtPiece < ApplicationRecord
     idxd
   end
 
-
   def self.find_random(num = 1)
     owned.limit(num).order("rand()")
   end
@@ -86,10 +85,9 @@ class ArtPiece < ApplicationRecord
     super.alpha
   end
 
-
   def clear_tags_and_favorites
     klassname = self.class.name
-    Favorite.where(:favoritable_id => id, :favoritable_type => klassname).compact.map(&:destroy)
+    Favorite.where(favoritable_id: id, favoritable_type: klassname).compact.map(&:destroy)
   end
 
   def uniq_tags
@@ -118,6 +116,7 @@ class ArtPiece < ApplicationRecord
   end
 
   private
+
   def clear_caches
     ArtPieceCacheService.clear
     if self.artist && self.artist.id != nil?
@@ -129,13 +128,12 @@ class ArtPiece < ApplicationRecord
     paths = get_paths.values
     paths.each do |pth|
       pth = File.expand_path( File.join( Rails.root, 'public', pth ) )
-      if File.exist? pth
-        begin
-          result = File.delete pth
-          ::Rails.logger.debug("Deleted %s" % pth)
-        rescue
-          ::Rails.logger.error("Failed to delete image %s [%s]" % [pth, $!])
-        end
+      next unless File.exist? pth
+      begin
+        result = File.delete pth
+        ::Rails.logger.debug("Deleted %s" % pth)
+      rescue
+        ::Rails.logger.error("Failed to delete image %s [%s]" % [pth, $!])
       end
     end
   end
@@ -153,5 +151,4 @@ class ArtPiece < ApplicationRecord
       end
     end
   end
-
 end

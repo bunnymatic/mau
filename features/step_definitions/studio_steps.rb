@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Then(/^I see the admin studios list$/) do
   s = Studio.last
   expect(page).to have_content s.name
@@ -49,7 +50,7 @@ Then /^I see that some studios are participating in open studios$/ do
 end
 
 When /^I click on the first studio card$/ do
-  all('.studio-card').first.click()
+  all('.studio-card').first.click
 end
 
 Then(/^I fill in the filter search box with "(.*?)"$/) do |studio|

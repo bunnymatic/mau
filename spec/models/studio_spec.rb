@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Studio do
-
   subject(:studio) { FactoryGirl.build(:studio) }
 
   it_should_behave_like AddressMixin
@@ -63,7 +63,5 @@ describe Studio do
       create(:studio, name: 'bor', position: 5)
       expect(Studio.by_position.map{|s| s.name}).to eql ['Alp', 'bor', 'zal', 'Zed']
     end
-
   end
-
 end

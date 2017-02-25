@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 class StudioPresenter < ViewPresenter
-
   include OpenStudiosEventShim
 
   attr_reader :studio
   delegate :get_profile_image, :slug, :phone, :phone?, :map_link,
-           :city, :street, :cross_street, :url, :url?, :to_param, :to => :studio
+           :city, :street, :cross_street, :url, :url?, :to_param, to: :studio
 
   def initialize(studio)
     @studio = studio
@@ -40,9 +40,7 @@ class StudioPresenter < ViewPresenter
 
   def street_with_cross
     r = @studio.street
-    if @studio.cross_street?
-      r << " (@ #{studio.cross_street})"
-    end
+    r << " (@ #{studio.cross_street})" if @studio.cross_street?
     r
   end
 
@@ -113,5 +111,4 @@ class StudioPresenter < ViewPresenter
   def current_open_studios
     @current_open_studios ||= OpenStudiosEventService.current
   end
-
 end

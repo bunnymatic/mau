@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :open_studios_event do
     start_date { Time.zone.now }
@@ -9,6 +10,5 @@ FactoryGirl.define do
     trait :future do
       start_date { Time.zone.now + 1.week }
     end
-
   end
 end

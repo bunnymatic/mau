@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe UserMailer do
@@ -28,5 +29,4 @@ describe UserMailer do
       expect(@mail).to have_body_text fan.login
     end
   end
-
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe OpenStudiosPresenter do
@@ -31,7 +32,6 @@ describe OpenStudiosPresenter do
   end
 
   describe '#participating_studios' do
-
     it 'has 2 studios' do
       expect(presenter.participating_studios.size).to eq(2)
     end
@@ -90,5 +90,4 @@ describe OpenStudiosPresenter do
   it 'participating indys by artist last name' do
     expect(subject.participating_indies.map(&:lastname).map(&:downcase)).to be_monotonically_increasing
   end
-
 end
