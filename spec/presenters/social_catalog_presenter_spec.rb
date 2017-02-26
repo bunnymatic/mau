@@ -53,7 +53,7 @@ describe SocialCatalogPresenter, type: :view do
     expected_artists = [listed_indy_artist, listed_studio_artist]
     expect(parsed.size).to eq(expected_artists.count)
     expected_artists.each do |artist|
-      row = parsed.detect { |row| row['Name'] == artist.full_name }
+      row = parsed.detect { |r| r['Name'] == artist.full_name }
       expect(row).to be_present
       expect(row['Email']).to eql artist.email
       expect(row['Art URL']).to eql artist.representative_piece.try(:photo).try(:url).to_s

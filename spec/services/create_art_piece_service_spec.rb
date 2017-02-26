@@ -5,7 +5,7 @@ describe CreateArtPieceService do
   let(:artist) { create :artist, :active }
   let(:existing_tag) { create :art_piece_tag, name: 'existing tag' }
   let(:params) { {} }
-  subject (:service) { described_class.new(artist, params) }
+  subject(:service) { described_class.new(artist, params) }
 
   context 'with params[:tags]' do
     let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name].join(', ') }

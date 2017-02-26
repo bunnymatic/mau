@@ -6,7 +6,7 @@ describe UpdateArtPieceService do
   let!(:art) { artist.art_pieces.first }
   let(:existing_tag) { art.tags.first }
   let(:params) { {} }
-  subject (:service) { described_class.new(art, params) }
+  subject(:service) { described_class.new(art, params) }
 
   context 'with params[:tags]' do
     let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name].join(', ') }

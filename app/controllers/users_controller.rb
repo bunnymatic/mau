@@ -314,21 +314,11 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    k = user_params_key
-    attrs = user_attrs
-    if params[:emailsettings]
-      em = params[:emailsettings]
-      em2 = {}
-      em.each_pair do |k, v|
-        em2[k] = (v.to_i != 0 ? true : false)
-      end
-      attrs[:email_attrs] = em2.to_json
-    end
+    key = user_params_key
     permitted = [:login, :email, :firstname, :lastname, :type,
                  :password, :password_confirmation,
-                 :studio, :studio_id, :nomdeplume, :photo,
-                 :email_attrs] + User.stored_attributes[:links]
-    params.require(k).permit(*permitted)
+                 :studio, :studio_id, :nomdeplume, :photo] + User.stored_attributes[:links]
+    params.require(key).permit(*permitted)
   end
 
   def verify_secret_word(opts)

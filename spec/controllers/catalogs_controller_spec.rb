@@ -46,7 +46,7 @@ describe CatalogsController do
 
       it 'includes the right data' do
         expect(parsed.size).to eq(Artist.active.count)
-        row = parsed.detect { |row| row['Full Name'] == artist.full_name }
+        row = parsed.detect { |r| r['Full Name'] == artist.full_name }
         expect(row).to be_present
         expect(row['Email']).to eql artist.email
         expect(row['Media']).to eql artist.art_pieces.map { |a| a.medium.try(:name) }.join(' ')
@@ -84,7 +84,7 @@ describe CatalogsController do
         end
         expect(parsed.size).to eq(expected_artists.count)
         artist = expected_artists.first
-        row = parsed.detect { |row| row['Name'] == artist.full_name }
+        row = parsed.detect { |r| r['Name'] == artist.full_name }
         expect(row).to be_present
         expect(row['Email']).to eql artist.email
 

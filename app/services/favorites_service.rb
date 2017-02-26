@@ -34,9 +34,7 @@ class FavoritesService
     def notify_favorited_user(fav, sender)
       artist = fav.is_a?(User) ? fav : fav.artist
       begin
-        if artist && artist.emailsettings['favorites']
-          ArtistMailer.favorite_notification(artist, sender).deliver_later
-        end
+        ArtistMailer.favorite_notification(artist, sender).deliver_later if artist
       rescue Postmark::InvalidMessageError => ex
         Rails.logger.error('Failed to notify favorited user %s [%s]' % [fav.inspect, ex.message])
       end

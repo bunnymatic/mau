@@ -6,9 +6,9 @@ class OpenStudiosEventService
   PAST_CACHE_KEY = :past_os_events
 
   def self.for_display(os_key, reverse = false)
-    if os = OpenStudiosEvent.find_by(key: os_key)
-      os.for_display(reverse)
-    elsif os_key
+    os = OpenStudiosEvent.find_by(key: os_key)
+    return os.for_display(reverse) if os
+    if os_key
       os_key = os_key.to_s
       yr = os_key[0..3]
       mo = os_key[4..-1]

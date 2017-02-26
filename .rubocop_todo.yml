@@ -6,31 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 3
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
-  Exclude:
-    - 'app/services/open_studios_event_service.rb'
-    - 'app/services/site_statistics.rb'
-    - 'bin/spring'
-
-# Offense count: 5
-Lint/ParenthesesAsGroupedExpression:
-  Exclude:
-    - 'features/step_definitions/favorites_steps.rb'
-    - 'spec/controllers/admin/stats_controller_spec.rb'
-    - 'spec/services/create_art_piece_service_spec.rb'
-    - 'spec/services/update_art_piece_service_spec.rb'
-
-# Offense count: 7
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - 'app/controllers/users_controller.rb'
-    - 'features/step_definitions/favorites_steps.rb'
-    - 'spec/controllers/admin/artists_controller_spec.rb'
-    - 'spec/controllers/catalogs_controller_spec.rb'
-    - 'spec/presenters/social_catalog_presenter_spec.rb'
-
 # Offense count: 12
 Lint/UnderscorePrefixedVariableName:
   Exclude:
@@ -53,27 +28,6 @@ Metrics/BlockLength:
 # Offense count: 6
 Metrics/PerceivedComplexity:
   Max: 9
-
-# Offense count: 28
-# Cop supports --auto-correct.
-# Configuration parameters: Whitelist.
-# Whitelist: find_by_sql
-# Rails/DynamicFindBy:
-#   Exclude:
-#     - 'app/controllers/users_controller.rb'
-#     - 'app/models/role.rb'
-#     - 'app/models/user_session.rb'
-#     - 'app/services/open_studios_event_service.rb'
-#     - 'app/services/site_statistics.rb'
-#     - 'features/step_definitions/admin_steps.rb'
-#     - 'features/step_definitions/role_steps.rb'
-#     - 'features/step_definitions/user_steps.rb'
-#     - 'script/find_artists_by_name.rb'
-#     - 'script/remove_spam_accounts.rb'
-#     - 'spec/controllers/admin/studios_controller_spec.rb'
-#     - 'spec/controllers/users_controller_spec.rb'
-#     - 'spec/models/blacklist_domain_spec.rb'
-#     - 'spec/models/scammer_spec.rb'
 
 # Offense count: 13
 Rails/OutputSafety:

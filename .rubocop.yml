@@ -12,6 +12,7 @@ AllCops:
     - '**/*.yml'
     - '**/*.txt'
     - '**/*.md'
+    - 'bin/spring'
     - db/schema.rb
     - db/migrate/**/*
     - spec/*.opts

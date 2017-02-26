@@ -30,16 +30,7 @@ class SiteStatistics
   private
 
   def display_key(os_key)
-    reverse = true
-    if os = OpenStudiosEvent.find_by(key: os_key)
-      os.for_display(reverse)
-    elsif os_key
-      os_key = os_key.to_s
-      yr = os_key[0..3]
-      mo = os_key[4..-1]
-      seas = mo == '10' ? 'Oct' : 'Apr'
-      '%s %s' % (reverse ? [seas, yr] : [yr, seas])
-    end
+    OpenStudiosEventService.for_display(os_key, true)
   end
 
   def compute

@@ -217,18 +217,12 @@ class ArtistsController < ApplicationController
   end
 
   def artist_params
-    if params[:emailsettings]
-      em = params[:emailsettings]
-      em = Hash[em.map { |k, v| [k, !!v.to_i] }]
-      params[:artist][:email_attrs] = em.to_json
-    end
-
     if params[:artist].key?('studio') && params[:artist]['studio'].blank?
       params[:artist]['studio_id'] = nil
       params[:artist].delete('studio')
     end
 
-    permitted = [:studio, :login, :email, :email_attrs,
+    permitted = [:studio, :login, :email,
                  :password, :password_confirmation, :photo, :os_participation,
                  :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume] + User.stored_attributes[:links]
     params.require(:artist).permit(*permitted, artist_info_attributes: artist_info_permitted_attributes)

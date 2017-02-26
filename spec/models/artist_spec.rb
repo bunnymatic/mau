@@ -65,20 +65,6 @@ describe Artist do
       a = Artist.find(artist.id)
       expect(a.bio).to eql 'stuff'
     end
-
-    it 'should update email settings' do
-      attr_hash = JSON.parse(artist.email_attrs)
-      expect(attr_hash['fromartist']).to eql(true)
-      expect(attr_hash['fromall']).to eql(true)
-      attr_hash['favorites'] = false
-      artist.emailsettings = attr_hash
-      artist.save
-      artist.reload
-      attr_hash = artist.emailsettings
-      expect(attr_hash['fromartist']).to eql(true)
-      expect(attr_hash['fromall']).to eql(true)
-      expect(attr_hash['favorites']).to eql(false)
-    end
   end
 
   describe 'address methods' do

@@ -62,7 +62,7 @@ describe Admin::ArtistsController do
         end
         it 'includes the right data' do
           expect(parsed.size).to eq(Artist.all.count)
-          row = parsed.detect { |row| row['Full Name'] == artist.full_name }
+          row = parsed.detect { |r| r['Full Name'] == artist.full_name }
           expect(row).to be_present
           expect(row['Login']).to eql artist.login
           expect(row['Group Site Name']).to eql artist.studio.name

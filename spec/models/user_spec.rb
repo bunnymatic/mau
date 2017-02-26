@@ -155,12 +155,6 @@ describe User do
       end
     end
   end
-  describe 'create' do
-    it 'sets email attrs to true for everything' do
-      FactoryGirl.create(:user, :pending)
-      expect(User.all.last.emailsettings.all? { |_k, v| v }).to eq(true)
-    end
-  end
   describe 'named scope' do
     it 'active returns only active users' do
       User.active.all.each do |u|

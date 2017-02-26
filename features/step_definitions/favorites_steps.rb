@@ -12,11 +12,11 @@ Then(/^I see all the favorites in a table$/) do
     expect(page).to have_css 'td', text: totals['ArtPiece'].to_s
     expect(page).to have_css 'td', text: totals['Artist'].to_s
   end
-  u = User.select { |u| u.favorites.present? }.sort { |u| -u.favorites.count }.detect { |f| f.is_a? MauFan }
-  within (find('.user-entry', text: u.login)) do
-    expect(page).to have_link u.login, href: user_path(u)
-    expect(page).to have_css 'td', text: u.favorites.select { |f| f.favoritable_type == 'ArtPiece' }.count.to_s
-    expect(page).to have_css 'td', text: u.favorites.select { |f| f.favoritable_type == 'Artist' }.count.to_s
+  user = User.select { |u| u.favorites.present? }.sort { |ux| -ux.favorites.count }.detect { |f| f.is_a? MauFan }
+  within(find('.user-entry', text: user.login)) do
+    expect(page).to have_link user.login, href: user_path(u)
+    expect(page).to have_css 'td', text: user.favorites.select { |f| f.favoritable_type == 'ArtPiece' }.count.to_s
+    expect(page).to have_css 'td', text: user.favorites.select { |f| f.favoritable_type == 'Artist' }.count.to_s
     expect(page).to have_css 'td', text: '0'
   end
 end
@@ -75,5 +75,5 @@ Then /^I see that I've lost one of my favorites$/ do
   wait_until do
     all('.flash').any?
   end
-  expect(@artist_favorites_count).to eql (@artist.reload.favorites.count + 1)
+  expect(@artist_favorites_count).to eql(@artist.reload.favorites.count + 1)
 end

@@ -99,16 +99,6 @@ class User < ApplicationRecord
     photo? ? photo(size) : ArtistProfileImage.get_path(self, size)
   end
 
-  def emailsettings=(v)
-    self.email_attrs = v.to_json
-  end
-
-  def emailsettings
-    s = JSON.parse(email_attrs)
-    s['favorites'] = true unless s.key? 'favorites'
-    s
-  end
-
   def full_name
     full_name = nomdeplume if nomdeplume.present?
     if !full_name && firstname.present? && lastname.present?

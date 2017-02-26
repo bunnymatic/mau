@@ -27,7 +27,7 @@ describe Admin::StatsController do
       Timecop.freeze
       FactoryGirl.create(:artist, :active, :with_art)
       3.times.each do |n|
-        Timecop.travel (1 + n).days.ago
+        Timecop.travel((1 + n).days.ago)
         FactoryGirl.create(:artist, :active, :with_art)
       end
       artists_per_day
