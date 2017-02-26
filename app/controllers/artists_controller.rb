@@ -111,7 +111,7 @@ class ArtistsController < ApplicationController
   end
 
   def show
-    @artist = get_active_artist_from_params
+    @artist = active_artist_from_params
     respond_to do |format|
       format.html do
         if !@artist
@@ -129,7 +129,7 @@ class ArtistsController < ApplicationController
 
   # TODO: use paperclip to save the qr code
   # def qrcode
-  #   @artist = get_active_artist_from_params
+  #   @artist = active_artist_from_params
   #   if @artist
   #     qrcode_system_path = @artist.qrcode
   #     respond_to do |fmt|
@@ -183,7 +183,7 @@ class ArtistsController < ApplicationController
     @page_keywords += @artist.media_and_tags + (@page_keywords || [])
   end
 
-  def get_active_artist_from_params
+  def active_artist_from_params
     artist = safe_find_artist(params[:id])
     if artist && !artist.active?
       flash.now[:error] = "The artist '" + artist.get_name(true) + "' is no longer with us."

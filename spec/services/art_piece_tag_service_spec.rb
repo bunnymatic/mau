@@ -27,7 +27,7 @@ describe ArtPieceTagService do
       ]
       tags = art_piece_tags.shuffle.map { |t| ArtPieceTagService::TagWithFrequency.new(t.slug, 10) }
 
-      allow(described_class).to receive(:get_tag_usage).and_return(tags)
+      allow(described_class).to receive(:compute_tag_usage).and_return(tags)
     end
     it 'returns most popular tag by frequency and medium' do
       expect(described_class.most_popular_tag).to eql(ArtPieceTag.find('hello'))

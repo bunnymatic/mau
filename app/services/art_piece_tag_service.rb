@@ -61,7 +61,7 @@ class ArtPieceTagService
     ckey = cache_key(normalized)
     freq = SafeCache.read(ckey)
     return freq if freq
-    tags = get_tag_usage
+    tags = compute_tag_usage
     tags = normalize(tags, 'frequency') if normalized
 
     SafeCache.write(ckey, tags[0..MAX_SHOW_TAGS], expires_in: CACHE_EXPIRY)
@@ -73,12 +73,12 @@ class ArtPieceTagService
 
     def keyed_frequency
       # return frequency of tag usage keyed by tag id
-      get_tag_usage.each_with_object({}) do |record, memo|
+      compute_tag_usage.each_with_object({}) do |record, memo|
         memo[record.tag] = record.frequency
       end
     end
 
-    def get_tag_usage
+    def compute_tag_usage
       art_piece_ids_query = ArtPiece
                             .select('art_pieces.id')
                             .joins(:artist)

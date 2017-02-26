@@ -40,7 +40,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
         background_style: style
       }
       if item_id == @current_piece.id
-        set_current_piece(idx)
+        mark_as_current(idx)
         thumb[:clz] << ' selected'
       end
       OpenStruct.new(thumb)
@@ -53,7 +53,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
 
   private
 
-  def set_current_piece(idx)
+  def mark_as_current(idx)
     @current_index = idx
     nxt = (idx + 1) % num_pieces
     prv = (idx - 1) % num_pieces

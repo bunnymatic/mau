@@ -30,18 +30,4 @@ describe ArtPiece do
       art_piece.save
     end
   end
-
-  describe 'get_path' do
-    it 'returns a path to the art piece' do
-      expect(art_piece.get_path).to match %r{/system/art_pieces/.*/new-studio.jpg}
-    end
-  end
-
-  describe 'destroy' do
-    it 'tries to delete the files associated with this art piece' do
-      allow(File).to receive(:exist?).and_return(true)
-      expect(File).to receive(:delete).exactly(art_piece.get_paths.length).times
-      art_piece.destroy
-    end
-  end
 end

@@ -48,7 +48,7 @@ class ArtPiece < ApplicationRecord
     end
   end
 
-  before_destroy :remove_images
+  # after_destroy :remove_images
   after_destroy :clear_tags_and_favorites
   after_save :remove_old_art
   after_save :clear_caches
@@ -102,18 +102,16 @@ class ArtPiece < ApplicationRecord
     HtmlEncoder.encode(title)
   end
 
-  def get_path(size = nil)
-    size ||= 'medium'
-    image_paths[size.to_sym]
+  def paths
+    @paths ||=
+      begin
+        MauImage::ImageSize.allowed_sizes.each_with_object({}) do |size, memo|
+          memo[size] = photo(size) if photo?
+        end
+      end
   end
 
-  def image_paths
-    @image_paths ||= ArtPieceImage.new(self).paths
-  end
-
-  def get_paths
-    image_paths
-  end
+  alias image_paths paths
 
   private
 
@@ -121,20 +119,6 @@ class ArtPiece < ApplicationRecord
     ArtPieceCacheService.clear
     if artist && artist.id != nil?
       SafeCache.delete(artist.representative_art_cache_key)
-    end
-  end
-
-  def remove_images
-    paths = get_paths.values
-    paths.each do |pth|
-      pth = Rails.root.join('public', pth)
-      next unless File.exist? pth
-      begin
-        File.delete pth
-        ::Rails.logger.debug('Deleted %s' % pth)
-      rescue
-        ::Rails.logger.error('Failed to delete image %s [%s]' % [pth, $ERROR_INFO])
-      end
     end
   end
 

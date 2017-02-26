@@ -69,3 +69,7 @@ Rails/FilePath:
 Rails/TimeZone:
   Exclude:
     - tztest.rb
+
+Style/AccessorMethodName:
+  Exclude:
+    - app/models/concerns/address_mixin.rb

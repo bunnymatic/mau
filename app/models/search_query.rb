@@ -9,8 +9,8 @@ class SearchQuery
   attr_accessor :mediums, :studios, :keywords, :studios, :os_flag, :page, :mode, :per_page, :limit
 
   def initialize(attributes = {})
-    self.studios = set_studios(attributes[:studios]) || []
-    self.mediums = set_mediums(attributes[:mediums]) || []
+    self.studios = studios_from_attrs(attributes[:studios]) || []
+    self.mediums = mediums_from_attrs(attributes[:mediums]) || []
     self.keywords = (attributes[:keywords] || '').split(',').map(&:strip) || []
     self.os_flag = { '1' => true, '2' => false }[attributes[:os_artist]]
     self.page = attributes[:p].to_i
@@ -29,13 +29,13 @@ class SearchQuery
 
   private
 
-  def set_mediums(vals)
+  def mediums_from_attrs(vals)
     return [] unless vals
     medium_ids = vals.map(&:to_i).reject { |v| v <= 0 }
     Medium.by_name.where(id: medium_ids)
   end
 
-  def set_studios(vals)
+  def studios_from_attrs(vals)
     return [] unless vals
     Studio.where(id: vals.compact.uniq)
   end

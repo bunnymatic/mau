@@ -30,7 +30,7 @@ class Medium < ApplicationRecord
       return freq
     end
     # if normalize = true, scale counts from 1.0
-    meds = get_media_usage
+    meds = tally_media_usage
     meds = normalize(meds, 'ct') if normalized
 
     SafeCache.write(ckey, meds, expires_in: CACHE_EXPIRY)
@@ -44,12 +44,10 @@ class Medium < ApplicationRecord
   class << self
     private
 
-    def get_media_usage
+    def tally_media_usage
       dbr = ArtPiece.joins(:artist).where('users.state' => 'active').select('medium_id')
                     .group('medium_id').count
-      Medium.all.map do |medium|
-        { 'medium' => medium.id, 'ct' => dbr[medium.id].to_i }
-      end
+      Medium.all.map { |medium| { 'medium' => medium.id, 'ct' => dbr[medium.id].to_i } }
     end
   end
 end

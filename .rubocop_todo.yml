@@ -35,19 +35,6 @@ Rails/OutputSafety:
 Rails/SkipsModelValidations:
   Enabled: false
 
-# Offense count: 11
-Style/AccessorMethodName:
-  Exclude:
-    - 'app/controllers/artists_controller.rb'
-    - 'app/models/art_piece.rb'
-    - 'app/models/concerns/address_mixin.rb'
-    - 'app/models/medium.rb'
-    - 'app/models/search_query.rb'
-    - 'app/presenters/admin_artist_list.rb'
-    - 'app/presenters/thumbnail_browser_presenter.rb'
-    - 'app/services/art_piece_tag_service.rb'
-    - 'script/dump_current_database.rb'
-
 # Offense count: 1
 Style/ConstantName:
   Exclude:
