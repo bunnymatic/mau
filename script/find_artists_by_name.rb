@@ -8,7 +8,7 @@ $stdin.read.split("\n").each do |line|
   line.split(',').each do |item|
     name_bits = item.split
     next if name_bits.length < 2
-    a = Artist.find_by_firstname_and_lastname(name_bits[0].downcase, name_bits[1].downcase)
+    a = Artist.find_by(firstname: name_bits[0].downcase, lastname: name_bits[1].downcase)
     artists << a if a
   end
 end

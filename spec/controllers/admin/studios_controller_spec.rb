@@ -157,7 +157,7 @@ describe Admin::StudiosController do
   end
 
   describe 'unaffiliate_artist' do
-    let(:manager_role) { Role.find_by_role('manager') }
+    let(:manager_role) { Role.find_by(role: 'manager') }
     let(:artist) { (studio.artists.active.to_a - [admin]).first }
     let(:non_studio_artist) { studio2.artists.active.first }
 

@@ -53,7 +53,7 @@ end
 
 When(/^I suspend the first artist$/) do
   name = page.all('#good table tbody tr td.login a').first.text
-  @first_artist = Artist.find_by_login(name)
+  @first_artist = Artist.find_by(login: name)
   click_on_first 'Suspend artist'
 end
 

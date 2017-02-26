@@ -99,7 +99,7 @@ class UsersController < ApplicationController
   end
 
   def reset
-    @user = User.find_by_reset_code(params['reset_code']) unless params['reset_code'].nil?
+    @user = User.find_by(reset_code: reset_code_from_params)
 
     if @user.nil?
       flash[:error] = 'We were unable to find a user with that activation code'
@@ -166,7 +166,7 @@ class UsersController < ApplicationController
       email = inputs[:email]
       if email.present?
         flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
-        user = User.find_by_email email
+        user = User.find_by(email: email)
         user&.resend_activation
         redirect_back_or_default('/')
       else
@@ -178,7 +178,7 @@ class UsersController < ApplicationController
   def forgot
     render && return unless request.post?
     inputs = params.require(user_params_key).permit(:email)
-    user = User.find_by_email(inputs[:email])
+    user = User.find_by(email: inputs[:email])
     flash[:notice] = "We've sent email with instructions on how to reset your password."\
                      '  Please check your email.'
     if user
@@ -303,6 +303,10 @@ class UsersController < ApplicationController
 
   def destroy_params
     params.permit(:id)
+  end
+
+  def reset_code_from_params
+    params.permit(:reset_code)[:reset_code]
   end
 
   def activate_params

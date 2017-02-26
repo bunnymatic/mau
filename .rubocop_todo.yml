@@ -58,22 +58,22 @@ Metrics/PerceivedComplexity:
 # Cop supports --auto-correct.
 # Configuration parameters: Whitelist.
 # Whitelist: find_by_sql
-Rails/DynamicFindBy:
-  Exclude:
-    - 'app/controllers/users_controller.rb'
-    - 'app/models/role.rb'
-    - 'app/models/user_session.rb'
-    - 'app/services/open_studios_event_service.rb'
-    - 'app/services/site_statistics.rb'
-    - 'features/step_definitions/admin_steps.rb'
-    - 'features/step_definitions/role_steps.rb'
-    - 'features/step_definitions/user_steps.rb'
-    - 'script/find_artists_by_name.rb'
-    - 'script/remove_spam_accounts.rb'
-    - 'spec/controllers/admin/studios_controller_spec.rb'
-    - 'spec/controllers/users_controller_spec.rb'
-    - 'spec/models/blacklist_domain_spec.rb'
-    - 'spec/models/scammer_spec.rb'
+# Rails/DynamicFindBy:
+#   Exclude:
+#     - 'app/controllers/users_controller.rb'
+#     - 'app/models/role.rb'
+#     - 'app/models/user_session.rb'
+#     - 'app/services/open_studios_event_service.rb'
+#     - 'app/services/site_statistics.rb'
+#     - 'features/step_definitions/admin_steps.rb'
+#     - 'features/step_definitions/role_steps.rb'
+#     - 'features/step_definitions/user_steps.rb'
+#     - 'script/find_artists_by_name.rb'
+#     - 'script/remove_spam_accounts.rb'
+#     - 'spec/controllers/admin/studios_controller_spec.rb'
+#     - 'spec/controllers/users_controller_spec.rb'
+#     - 'spec/models/blacklist_domain_spec.rb'
+#     - 'spec/models/scammer_spec.rb'
 
 # Offense count: 13
 Rails/OutputSafety:

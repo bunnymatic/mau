@@ -31,7 +31,7 @@ class SiteStatistics
 
   def display_key(os_key)
     reverse = true
-    if os = OpenStudiosEvent.find_by_key(os_key)
+    if os = OpenStudiosEvent.find_by(key: os_key)
       os.for_display(reverse)
     elsif os_key
       os_key = os_key.to_s

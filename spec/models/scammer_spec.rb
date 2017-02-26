@@ -26,7 +26,7 @@ EOM
     end
     it 'entries are correct after import' do
       Scammer.importFromFASO
-      expect(Scammer.find_by_faso_id('7437').email).to eq('laurynsley@gmail.com')
+      expect(Scammer.find_by(faso_id: '7437').email).to eq('laurynsley@gmail.com')
     end
   end
   describe 'validations' do

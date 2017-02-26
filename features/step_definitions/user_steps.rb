@@ -117,13 +117,13 @@ end
 Then /^I see that "(.*?)" is a new pending artist$/ do |username|
   steps %(Then I see a flash notice "Thanks for signing up! We're sending you an email")
   expect(current_path).to eql root_path
-  expect(Artist.find_by_login(username)).to be_pending
+  expect(Artist.find_by(login: username)).to be_pending
 end
 
 Then /^I see that "(.*?)" is a new fan$/ do |username|
   steps %(Then I see a flash notice "Thanks for signing up!")
   expect(current_path).to eql login_path
-  expect(MauFan.find_by_login(username)).to be_active
+  expect(MauFan.find_by(login: username)).to be_active
 end
 
 Then /^I click the fan signup button$/ do

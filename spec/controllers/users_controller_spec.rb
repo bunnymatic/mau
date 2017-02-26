@@ -178,7 +178,7 @@ describe UsersController do
       end
       context 'creates an account' do
         before do
-          @found_user = User.find_by_login('newuser')
+          @found_user = User.find_by(login: 'newuser')
         end
         it 'in the user database' do
           expect(@found_user).to be
@@ -191,13 +191,13 @@ describe UsersController do
         end
       end
       it 'should register as a fan account' do
-        expect(MauFan.find_by_login('newuser')).to be
+        expect(MauFan.find_by(login: 'newuser')).to be
       end
       it 'should not register as an artist account' do
-        expect(Artist.find_by_login('newuser')).to be_nil
+        expect(Artist.find_by(login: 'newuser')).to be_nil
       end
       it 'should register as user account' do
-        expect(User.find_by_login('newuser')).to be
+        expect(User.find_by(login: 'newuser')).to be
       end
     end
     context 'valid user param (email/password only) and type = MauFan' do
@@ -219,7 +219,7 @@ describe UsersController do
       end
       context 'creates an account' do
         before do
-          @found_user = User.find_by_login('bmati2@b.com')
+          @found_user = User.find_by(login: 'bmati2@b.com')
         end
         it 'in the user database' do
           expect(@found_user).to be
@@ -232,13 +232,13 @@ describe UsersController do
         end
       end
       it 'should register as a fan account' do
-        expect(MauFan.find_by_login('bmati2@b.com')).to be
+        expect(MauFan.find_by(login: 'bmati2@b.com')).to be
       end
       it 'should not register as an artist account' do
-        expect(Artist.find_by_login('bmati2@b.com')).to be_nil
+        expect(Artist.find_by(login: 'bmati2@b.com')).to be_nil
       end
       it 'should register as user account' do
-        expect(User.find_by_login('bmati2@b.com')).to be
+        expect(User.find_by(login: 'bmati2@b.com')).to be
       end
     end
     context 'valid artist params and type = Artist' do
@@ -264,10 +264,10 @@ describe UsersController do
       end
       context 'creates an account' do
         before do
-          @found_artist = User.find_by_login('newuser2')
+          @found_artist = User.find_by(login: 'newuser2')
         end
         it 'in the artist database' do
-          expect(@found_artist).to be
+          expect(@found_artist).to be_present?
         end
         it "whose state is 'pending'" do
           expect(@found_artist.state).to eql 'pending'
@@ -280,7 +280,7 @@ describe UsersController do
         end
       end
       it 'should not register as a fan account' do
-        expect(MauFan.find_by_login('newuser2')).to be_nil
+        expect(MauFan.find_by(login: 'newuser2')).to be_nil
       end
     end
   end
@@ -418,30 +418,31 @@ describe UsersController do
   end
 
   describe '#reset' do
+    let(:reset_code) { 'whatever' }
     context 'get' do
       before do
-        expect(User).to receive(:find_by_reset_code).and_return(fan)
-        fan.update_attribute(:reset_code, 'abc')
-        get :reset, params: { reset_code: 'abc' }
+        expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
+        fan.update_attribute(:reset_code, reset_code)
+        get :reset, params: { reset_code: reset_code }
       end
       it { expect(response).to be_success }
     end
     context 'get with invalid reset code' do
       before do
-        get :reset, params: { reset_code: 'abc' }
+        get :reset, params: { reset_code: reset_code }
       end
-      it { expect(response.code).to eql '404' }
+      it { expect(response).to be_not_found }
     end
     context 'post' do
       context "with passwords that don't match" do
         before do
-          expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
+          expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
           post :reset, params: {
             user: {
               password: 'whatever',
               password_confirmation: 'whateveryo'
             },
-            reset_code: 'abc'
+            reset_code: reset_code
           }
         end
         it { expect(response).to be_success }
@@ -451,14 +452,15 @@ describe UsersController do
       end
       context 'with matching passwords' do
         before do
-          expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
+          expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
+          allow(User).to receive(:find_by).and_call_original
           expect_any_instance_of(MauFan).to receive(:delete_reset_code).exactly(:once)
           post :reset, params: {
             user: {
               password: 'whatever',
               password_confirmation: 'whatever'
             },
-            reset_code: 'abc'
+            reset_code: reset_code
           }
         end
         it 'returns redirect' do

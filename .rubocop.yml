@@ -25,6 +25,10 @@ AllCops:
 Rails:
   Enabled: true
 
+Rails/DynamicFindBy:
+  Exclude:
+    - 'app/models/user_session.rb'
+
 Metrics/AbcSize:
   Max: 38
 

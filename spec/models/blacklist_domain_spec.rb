@@ -4,7 +4,7 @@ require 'rails_helper'
 describe BlacklistDomain do
   it 'downcases the domain' do
     BlacklistDomain.create!(domain: 'MYUppercaseDomain.com')
-    expect(BlacklistDomain.find_by_domain('myuppercasedomain.com')).to be
+    expect(BlacklistDomain.find_by(domain: 'myuppercasedomain.com')).to be
   end
 
   it 'should create a new instance given valid attributes' do
