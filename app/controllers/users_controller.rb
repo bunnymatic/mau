@@ -269,20 +269,20 @@ class UsersController < ApplicationController
   end
 
   def build_note_info_from_params
-    _id = params[:id]
+    id = params[:id]
     note_info = basic_note_info_from_params
     if params.include? 'i_love_honey'
       # spammer hit the honey pot.
-      note_info['artist_id'] = _id
+      note_info['artist_id'] = id
       note_info['reason'] = 'hit the honey pot'
     elsif scammer_emails.include? note_info['email']
-      note_info['artist_id'] = _id
+      note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect scammer email address'
     elsif /Morning,I would love to purchase/i =~ note_info['comment']
-      note_info['artist_id'] = _id
+      note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect spam intro'
     elsif /\s+details..i/i =~ note_info['comment']
-      note_info['artist_id'] = _id
+      note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect spam intro'
     end
     note_info

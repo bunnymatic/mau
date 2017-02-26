@@ -82,9 +82,9 @@ describe Admin::ApplicationEventsController do
         expect(response).to be_success
       end
       it 'fetches all events since that date' do
-        _events = assigns(:events_by_type).values.flatten
-        expect(_events).to have(2).events
-        expect(_events.all? { |ev| ev.created_at > 1.day.ago })
+        events = assigns(:events_by_type).values.flatten
+        expect(events).to have(2).events
+        expect(events.all? { |ev| ev.created_at > 1.day.ago })
       end
     end
 

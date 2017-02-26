@@ -22,8 +22,8 @@ class Medium < ApplicationRecord
     [:medfreq, norm]
   end
 
-  def self.frequency(_normalize = false)
-    ckey = cache_key(_normalize)
+  def self.frequency(normalized = false)
+    ckey = cache_key(normalized)
     freq = SafeCache.read(ckey)
     if freq
       logger.debug('read medium frequency from cache')
@@ -31,7 +31,7 @@ class Medium < ApplicationRecord
     end
     # if normalize = true, scale counts from 1.0
     meds = get_media_usage
-    meds = normalize(meds, 'ct') if _normalize
+    meds = normalize(meds, 'ct') if normalized
 
     SafeCache.write(ckey, meds, expires_in: CACHE_EXPIRY)
     meds

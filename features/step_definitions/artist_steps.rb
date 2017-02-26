@@ -226,13 +226,15 @@ Then(/^I see open studios artists on the artists list$/) do
 end
 
 Then(/^the meta description includes the artist's bio$/) do
-  #steps %q{Then the page meta name "description" includes "#{@artist.bio.first(50)}"}
-  #steps %q{Then the page meta property "og:description" includes "#{@artist.bio.first(50)}"}
+  pending
+  # steps %q{Then the page meta name "description" includes "#{@artist.bio.first(50)}"}
+  # steps %q{Then the page meta property "og:description" includes "#{@artist.bio.first(50)}"}
 end
 
 When(/^the meta description includes that art piece's title$/) do
-  steps %q(Then the page meta name "description" includes "#{@art_piece.title}")
-  steps %q(Then the page meta property "og:description" includes "#{@art_piece.title}")
+  pending
+  # steps %q(Then the page meta name "description" includes "#{@art_piece.title}")
+  # steps %q(Then the page meta property "og:description" includes "#{@art_piece.title}")
 end
 
 When(/^the meta keywords includes that art piece's tags and medium$/) do

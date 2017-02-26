@@ -57,12 +57,12 @@ class ArtPieceTagService
     ArtPieceTag.find_by(slug: popular_tag.tag) if popular_tag
   end
 
-  def self.frequency(_normalize = true)
-    ckey = cache_key(_normalize)
+  def self.frequency(normalized = true)
+    ckey = cache_key(normalized)
     freq = SafeCache.read(ckey)
     return freq if freq
     tags = get_tag_usage
-    tags = normalize(tags, 'frequency') if _normalize
+    tags = normalize(tags, 'frequency') if normalized
 
     SafeCache.write(ckey, tags[0..MAX_SHOW_TAGS], expires_in: CACHE_EXPIRY)
     tags[0..MAX_SHOW_TAGS]
@@ -86,7 +86,7 @@ class ArtPieceTagService
       dbr = ArtPieceTag.joins(:art_pieces_tags)
                        .where('art_pieces_tags.art_piece_id' => art_piece_ids_query)
                        .group('art_piece_tags.slug').count
-      dbr.map { |_id, ct| TagWithFrequency.new(_id, ct) }.sort_by { |tf| -tf.frequency }
+      dbr.map { |id, ct| TagWithFrequency.new(id, ct) }.sort_by { |tf| -tf.frequency }
     end
   end
 end

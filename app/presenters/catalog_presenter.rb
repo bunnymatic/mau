@@ -11,10 +11,10 @@ class CatalogPresenter < ViewPresenter
   def csv
     @csv ||=
       begin
-        CSV.generate(DEFAULT_CSV_OPTS) do |_csv|
-          _csv << csv_headers
+        CSV.generate(DEFAULT_CSV_OPTS) do |csv|
+          csv << csv_headers
           all_artists.sort(&Artist::SORT_BY_LASTNAME).each do |artist|
-            _csv << artist_as_csv_row(artist)
+            csv << artist_as_csv_row(artist)
           end
         end
       end

@@ -20,9 +20,9 @@ class FavoritesController < ApplicationController
 
   def create
     type = favorite_params[:type]
-    _id = favorite_params[:id]
+    id = favorite_params[:id]
     begin
-      obj = FavoritesService.get_object(type, _id)
+      obj = FavoritesService.get_object(type, id)
       result = FavoritesService.add(current_user, obj)
       msg = "#{obj.get_name(true)} has been added to your favorites."
       msg = "We love you too, but you can't favorite yourself." unless result
