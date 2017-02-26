@@ -136,11 +136,6 @@ describe UsersController do
     # end
 
     context 'with partial params' do
-      before do
-        # disable sweep of flash.now messages
-        # so we can test them
-        # allow(@controller).to receive(:sweep)
-      end
       context "login = 'newuser'" do
         before do
           post :create, params: { user: { login: 'newuser' }, type: 'MauFan' }
@@ -267,7 +262,7 @@ describe UsersController do
           @found_artist = User.find_by(login: 'newuser2')
         end
         it 'in the artist database' do
-          expect(@found_artist).to be_present?
+          expect(@found_artist).to be_present
         end
         it "whose state is 'pending'" do
           expect(@found_artist.state).to eql 'pending'
@@ -474,6 +469,7 @@ describe UsersController do
   end
 
   describe 'resend_activation' do
+    let(:email) { 'a@b.c' }
     before do
       get :resend_activation
     end
@@ -482,19 +478,19 @@ describe UsersController do
 
     context "post with email that's not in the system" do
       before do
-        expect(User).to receive(:find_by_email).and_return(nil)
-        post :resend_activation, params: { user: { email: 'a@b.c' } }
+        expect(User).to receive(:find_by).with(email: email).and_return(nil)
+        post :resend_activation, params: { user: { email: email } }
       end
       it 'redirect to root' do
         expect(response).to redirect_to(root_url)
       end
       it 'has notice message' do
-        expect(flash[:notice]).to include 'sent your activation code to a@b.c'
+        expect(flash[:notice]).to include "sent your activation code to #{email}"
       end
     end
     context 'post with email that is for a fan' do
       before do
-        post :resend_activation, params: { user: { email: 'a@b.c' } }
+        post :resend_activation, params: { user: { email: email } }
       end
       it 'redirect to root' do
         expect(response).to redirect_to(root_url)
@@ -505,13 +501,13 @@ describe UsersController do
     end
     context 'post with email that is for an artist' do
       before do
-        post :resend_activation, params: { user: { email: 'a@b.c' } }
+        post :resend_activation, params: { user: { email: email } }
       end
       it 'redirect to root' do
         expect(response).to redirect_to(root_url)
       end
       it 'has notice message' do
-        expect(flash[:notice]).to include 'sent your activation code to a@b.c'
+        expect(flash[:notice]).to include "sent your activation code to #{email}"
       end
     end
   end
@@ -528,7 +524,7 @@ describe UsersController do
         post :forgot, params: { user: { email: fan.email } }
       end
       it 'looks up user by email' do
-        expect(User).to receive(:find_by_email).with(fan.email).exactly(:once)
+        expect(User).to receive(:find_by).with(email: fan.email).exactly(:once)
         make_forgot_request
       end
       it 'calls create_reset_code' do
