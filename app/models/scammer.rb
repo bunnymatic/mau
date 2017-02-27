@@ -8,7 +8,7 @@ class Scammer < ApplicationRecord
   validates :email, presence: true
   validates :email, length: { within: 6..100 } # r@a.wk
 
-  def self.importFromFASO
+  def self.import_from_faso
     importer = FasoImporter.new
     importer.scammers.each do |s|
       s.save if s.valid?

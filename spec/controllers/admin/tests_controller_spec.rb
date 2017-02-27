@@ -5,7 +5,7 @@ describe Admin::TestsController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
 
   context 'unauthorized' do
-    [:social_icons, :qr, :flash_test, :custom_map].map(&:to_s).each do |endpoint|
+    %w(social_icons qr flash_test custom_map).each do |endpoint|
       it "#{endpoint} returns error if you're not logged in" do
         get endpoint
         expect(response).to redirect_to '/error'

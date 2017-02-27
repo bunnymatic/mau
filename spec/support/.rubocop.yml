@@ -1,6 +1,0 @@
-inherit_from: ../.rubocop.yml
-
-Lint/HandleExceptions:
-  Enabled: false
-Lint/RescueException:
-  Enabled: false

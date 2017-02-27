@@ -5,3 +5,10 @@ Metrics/BlockLength:
 
 Rails/OutputSafety:
   Enabled: false
+
+Lint/HandleExceptions:
+  Exclude:
+    - 'support/**/*'
+Lint/RescueException:
+  Exclude:
+    - 'support/**/*'

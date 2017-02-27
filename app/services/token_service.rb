@@ -5,6 +5,6 @@ class TokenService
   end
 
   def self.generate
-    secure_digest(Time.now, (1..10).map { rand.to_s })
+    secure_digest(Time.new.to_i, Array.new(10) { rand.to_s })
   end
 end

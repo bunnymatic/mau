@@ -11,7 +11,7 @@ class ApplicationEvent < ApplicationRecord
   after_save :publish_event
 
   def self.since(date)
-    where(created_at: date..Time.now)
+    where(created_at: date..Time.zone.now)
   end
 
   def publish_event

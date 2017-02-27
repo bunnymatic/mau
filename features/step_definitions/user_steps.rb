@@ -7,6 +7,12 @@ When(/^I change my password to "(.*?)"$/) do |new_pass|
   click_on 'change password'
 end
 
+When(/^I set my new password to "(.*?)"$/) do |new_pass|
+  fill_in('Password', with: new_pass, match: :prefer_exact)
+  fill_in('Confirm Password', with: new_pass, match: :prefer_exact)
+  click_on 'Reset Password'
+end
+
 When(/^I change my email to "(.*?)"$/) do |new_email|
   visit edit_artist_path(@artist)
   click_on 'Personal Info'
@@ -136,4 +142,16 @@ end
 
 Then(/^I see that I have been deactivated$/) do
   expect(@artist.state).to eql :suspended
+end
+
+Then(/^I click on the reset link in my email$/) do
+  open_email(@artist.email)
+  email = current_email.body
+  reset_link = $1 if %r{(https?://.*/reset/.*)\s+} =~ email
+  expect(reset_link).to be_present, 'Unable to find reset link in the email'
+  visit reset_link
+end
+
+When(/^I visit a reset link with an unknown reset code$/) do
+  visit 'http://test.host/reset/this-is-a-bogus'
 end

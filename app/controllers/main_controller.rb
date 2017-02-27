@@ -54,30 +54,28 @@ class MainController < ApplicationController
     @page_title = PageInfoService.title('Open Studios')
     page = 'main'
     section = 'artist_resources'
-    doc = CmsDocument.where(page: page, section: section).first
+    doc = CmsDocument.find_by(page: page, section: section)
     @content = {
       page: page,
       section: section
     }
-    unless doc.nil?
-      @content[:content] = MarkdownService.markdown(doc.article)
-      @content[:cmsid] = doc.id
-    end
+    render && return unless doc
+    @content[:content] = MarkdownService.markdown(doc.article)
+    @content[:cmsid] = doc.id
   end
 
   def venues
     @page_title = PageInfoService.title('Venues')
     page = 'venues'
     section = 'all'
-    doc = CmsDocument.where(page: page, section: section).first
+    doc = CmsDocument.find_by(page: page, section: section)
     @content = {
       page: page,
       section: section
     }
-    if doc
-      @content[:content] = MarkdownService.markdown(doc.article)
-      @content[:cmsid] = doc.id
-    end
+    render && return unless doc
+    @content[:content] = MarkdownService.markdown(doc.article)
+    @content[:cmsid] = doc.id
 
     # temporary venues endpoint until we actually add a real
     # controller/model behind it
@@ -112,9 +110,8 @@ EOM
   private
 
   def setup_paypal_flash_messages(page)
-    if page == 'paypal_success'
-      flash.now[:notice] = "Thanks for your donation!  We'll spend it wisely."
-    end
+    flash.now[:notice] = "Thanks for your donation!  We'll spend it wisely." if page == 'paypal_success'
+
     if page == 'paypal_cancel'
       flash.now[:error] = 'Did you have problems submitting your donation?'\
                           ' If so, please tell us with the feedback link at the bottom of the page.'\

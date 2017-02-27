@@ -1,0 +1,9 @@
+inherit_from: ../.rubocop.yml
+
+Lint/Debugger:
+  Exclude:
+    - 'step_definitions/**/*'
+
+Lint/AmbiguousRegexpLiteral:
+  Exclude:
+    - 'step_definitions/**/*'

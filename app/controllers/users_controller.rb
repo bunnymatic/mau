@@ -102,23 +102,23 @@ class UsersController < ApplicationController
     @user = User.find_by(reset_code: reset_code_from_params)
 
     if @user.nil?
-      flash[:error] = 'We were unable to find a user with that activation code'
-      render_not_found Exception.new('failed to find user with activation code')
+      flash[:error] = 'Are you sure you got the right link -- maybe you should double check your email?'
+      render_not_found Exception.new('failed to find user with reset code')
       return
     end
-    if request.post? && user_params
-      if @user.update_attributes(user_params.slice(:password, :password_confirmation))
-        @user.delete_reset_code
-        flash[:notice] = "Password reset successfully for #{@user.email}.  Please log in."
-        logout
-        redirect_to login_path
-        return
-      else
-        flash[:error] = 'Failed to update your password.'
-        @user.password = ''
-        @user.password_confirmation = ''
-      end
+    render && return unless request.post? && user_params
+
+    if @user.update_attributes(user_params.slice(:password, :password_confirmation))
+      @user.delete_reset_code
+      flash[:notice] = "Password reset successfully for #{@user.email}.  Please log in."
+      logout
+      redirect_to login_path
+      return
     end
+
+    flash[:error] = 'Failed to update your password.'
+    @user.password = ''
+    @user.password_confirmation = ''
   end
 
   def destroy
@@ -144,8 +144,8 @@ class UsersController < ApplicationController
     user = User.find_by(activation_code: code) if code.present?
 
     unless user
-      flash[:error] = "We couldn't find an artist with that activation code -- check your email?"\
-                       " Or maybe you've already activated -- try signing in."
+      flash[:error] = 'Are you sure you got the right link -- maybe you should double check your email?'\
+                      " Or maybe you've already activated -- try signing in."
       redirect_to(login_path) && return
     end
 

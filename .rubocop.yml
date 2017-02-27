@@ -65,3 +65,7 @@ Metrics/CyclomaticComplexity:
 Rails/FilePath:
   Exclude:
     - config/environments/test.rb
+
+Rails/TimeZone:
+  Exclude:
+    - tztest.rb

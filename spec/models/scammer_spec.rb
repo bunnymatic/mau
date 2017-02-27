@@ -16,16 +16,16 @@ EOM
       .to_return(status: 200, body: test_data)
     FactoryGirl.create_list(:scammer, 2)
   end
-  describe '#importFromFASO' do
+  describe '#import_from_faso' do
     it 'adds new data to the scammers list' do
-      expect { Scammer.importFromFASO }.to change(Scammer, :count).by(4)
+      expect { Scammer.import_from_faso }.to change(Scammer, :count).by(4)
     end
     it 'called twice doesn\'t add anyone new' do
-      Scammer.importFromFASO
-      expect { Scammer.importFromFASO }.to change(Scammer, :count).by(0)
+      Scammer.import_from_faso
+      expect { Scammer.import_from_faso }.to change(Scammer, :count).by(0)
     end
     it 'entries are correct after import' do
-      Scammer.importFromFASO
+      Scammer.import_from_faso
       expect(Scammer.find_by(faso_id: '7437').email).to eq('laurynsley@gmail.com')
     end
   end

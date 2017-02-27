@@ -25,20 +25,20 @@ module Admin
     end
 
     def qr
-      if request.post?
-        @string_to_encode = params['string_to_encode']
-        @pixel_size = params['pixel_size']
-        if @string_to_encode.present?
-          opts = {}
-          ['pixel_size'].each do |opt|
-            opts[opt.to_sym] = params[opt] if params[opt]
-          end
-          base_file = File.join('images', 'tmp', "qrtest_#{Time.zone.now.to_i}.png")
-          f = Rails.root.join('public', base_file)
-          FileUtils.mkdir_p(File.dirname(f))
-          Qr4r.encode(params['string_to_encode'], f, opts)
-          @qrfile = '/' + base_file
+      render && return unless request.post?
+
+      @string_to_encode = params['string_to_encode']
+      @pixel_size = params['pixel_size']
+      if @string_to_encode.present?
+        opts = {}
+        ['pixel_size'].each do |opt|
+          opts[opt.to_sym] = params[opt] if params[opt]
         end
+        base_file = File.join('images', 'tmp', "qrtest_#{Time.zone.now.to_i}.png")
+        f = Rails.root.join('public', base_file)
+        FileUtils.mkdir_p(File.dirname(f))
+        Qr4r.encode(params['string_to_encode'], f.to_s, opts)
+        @qrfile = '/' + base_file
       end
     end
   end

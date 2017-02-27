@@ -37,8 +37,7 @@ module Admin
         @updated_count = 0
         @skipped_count = 0
         os_by_artist = params['os']
-        artists = Artist.active.where(id: os_by_artist.keys)
-        for artist in artists
+        Artist.active.where(id: os_by_artist.keys).each do |artist|
           changed = update_artist_os_standing(artist, current_open_studios, os_by_artist[artist.id.to_s] == '1')
           if changed.nil?
             @skipped_count += 1
