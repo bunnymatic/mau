@@ -96,7 +96,7 @@ class User < ApplicationRecord
   end
 
   def get_profile_image(size = :medium)
-    photo(size) if artist.photo?
+    photo(size) if photo?
   end
 
   def full_name
