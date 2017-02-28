@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :art_piece do
     title { Faker::Company.name }
-    photo_file_name    'new-studio.jpg'
+    photo_file_name    'new-art-piece.jpg'
     photo_content_type 'image/jpeg'
     photo_file_size    1234
     photo_updated_at   1.day.ago

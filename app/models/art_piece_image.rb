@@ -19,11 +19,13 @@ class ArtPieceImage < ImageFile
   end
 
   def paths
-    @paths ||= Hash[MauImage::ImageSize.allowed_sizes.map do |kk|
-                      path = self.path kk.to_s
-                      [kk, path] if path
-                    end.reject { |_k, v| v.nil? }
-                   ]
+    @paths ||=
+      begin
+        MauImage::ImageSize.allowed_sizes.each_with_object({}) do |size, memo|
+          path = self.path(size)
+          memo[size] = path if path.present?
+        end.reject { |_k, v| v.nil? }
+      end
   end
 
   def path(size = 'medium')

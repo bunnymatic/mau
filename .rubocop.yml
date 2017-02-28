@@ -69,3 +69,6 @@ Rails/FilePath:
 Rails/TimeZone:
   Exclude:
     - tztest.rb
+
+Style/PerlBackrefs:
+  Enabled: false
