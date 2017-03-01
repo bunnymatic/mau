@@ -156,11 +156,11 @@ class UserPresenter < ViewPresenter
   end
 
   def profile_image?
-    model.photo? || model.profile_image.present?
+    model.photo?
   end
 
   def profile_image(size = small)
-    model.photo? ? model.photo(size) : (model.profile_image.present? ? model.get_profile_image(size) : nil)
+    model.photo(size) if model.photo?
   end
 
   def website

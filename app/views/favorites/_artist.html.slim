@@ -11,7 +11,7 @@
   - if artist.doing_open_studios?
     .os-violator title="Open Studios Participant!"
   = link_to artist_path(artist) do
-    .image style=background_image_style(artist.representative_piece.get_path(:medium))
+    .image style=background_image_style(artist.representative_piece.path)
   .desc
     .name
       = link_to artist_path(artist) do

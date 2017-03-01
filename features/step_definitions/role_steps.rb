@@ -55,7 +55,7 @@ Then(/^I expect to see the last user is now an editor$/) do
 end
 
 When(/^I remove a user from the editor list$/) do
-  within all('.members_edit li').first do
+  within first('.members_edit li') do
     @previous_editor_name = find('.user').text.gsub(/\s+X$/, '')
     click_on 'X'
   end

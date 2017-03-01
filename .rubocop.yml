@@ -73,3 +73,6 @@ Rails/TimeZone:
 Style/AccessorMethodName:
   Exclude:
     - app/models/concerns/address_mixin.rb
+
+Style/PerlBackrefs:
+  Enabled: false

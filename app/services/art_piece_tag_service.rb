@@ -37,9 +37,10 @@ class ArtPieceTagService
 
   def self.tags_sorted_by_frequency
     freq = keyed_frequency
-    ArtPieceTag.all.map do |tag|
+    all_tags = ArtPieceTag.all.map do |tag|
       TagWithFrequency.new(tag, freq[tag.slug].to_f)
-    end.sort_by { |tf| -tf.frequency.to_f }
+    end
+    all_tags.sort_by { |tf| -tf.frequency.to_f }
   end
 
   def self.destroy(tags)

@@ -26,7 +26,6 @@ Scenario: I can edit my profile picture
   And I add a photo to upload
   And I click on "Upload"
   When I click on "Profile Picture"
-  And I take a screenshot
   Then I see my photo in my profile
 
 Scenario: I can edit my links

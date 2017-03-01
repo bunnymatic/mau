@@ -11,11 +11,17 @@ FactoryGirl.define do
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.first_name }
     nomdeplume { Faker::Company.name }
-    profile_image { Faker::Files.file }
     website { Faker::Internet.url }
     trait :pending do
       state :pending
       activation_code 'factory_activation_code'
+    end
+
+    trait :with_photo do
+      photo_file_name    'new-profile.jpg'
+      photo_content_type 'image/jpeg'
+      photo_file_size    134
+      photo_updated_at   2.days.ago
     end
 
     trait :active do

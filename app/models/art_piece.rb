@@ -102,11 +102,15 @@ class ArtPiece < ApplicationRecord
     HtmlEncoder.encode(title)
   end
 
+  def path(size)
+    photo(size) if photo?
+  end
+
   def paths
     @paths ||=
       begin
         MauImage::ImageSize.allowed_sizes.each_with_object({}) do |size, memo|
-          memo[size] = photo(size) if photo?
+          memo[size] = path(size)
         end
       end
   end

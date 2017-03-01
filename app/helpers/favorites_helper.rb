@@ -5,7 +5,7 @@ module FavoritesHelper
     img = ''
     path = ''
     if fav.is_a? ArtPiece
-      img = fav.get_path sz
+      img = fav.path sz
       path = art_piece_path fav.id
     else
       img = fav.get_profile_image(sz) || asset_path('default_user.svg')

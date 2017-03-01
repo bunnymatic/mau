@@ -13,7 +13,7 @@ table.js-data-tables.pure-table.pure-table-striped#studios_index
     - studios.each do |studio|
       tr
         td.profile-image
-          img src=studio.get_profile_image('thumb')
+          img src=studio.image(:thumb)
         td
           = link_to studio.name, studio_path(studio)
         td = studio.street

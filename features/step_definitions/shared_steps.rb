@@ -269,7 +269,7 @@ When /^I uncheck "([^"]*?)"$/ do |cb|
 end
 
 Then(/^I click on the "([^"]*)" icon$/) do |icon_class|
-  all(".fa.fa-#{icon_class}").first.click
+  first(".fa.fa-#{icon_class}").click
 end
 
 Then(/^I see "([^"]*)" in the "([^"]*)"$/) do |text, container|

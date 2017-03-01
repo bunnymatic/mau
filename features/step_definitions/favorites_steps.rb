@@ -14,7 +14,7 @@ Then(/^I see all the favorites in a table$/) do
   end
   user = User.select { |u| u.favorites.present? }.sort { |ux| -ux.favorites.count }.detect { |f| f.is_a? MauFan }
   within(find('.user-entry', text: user.login)) do
-    expect(page).to have_link user.login, href: user_path(u)
+    expect(page).to have_link user.login, href: user_path(user)
     expect(page).to have_css 'td', text: user.favorites.select { |f| f.favoritable_type == 'ArtPiece' }.count.to_s
     expect(page).to have_css 'td', text: user.favorites.select { |f| f.favoritable_type == 'Artist' }.count.to_s
     expect(page).to have_css 'td', text: '0'
@@ -66,7 +66,7 @@ Then(/^I see my empty favorites page$/) do
 end
 
 When /^I remove the first favorite$/ do
-  within all('.artist-card__remove-favorite').first do
+  within first('.artist-card__remove-favorite') do
     click_on('Remove Favorite')
   end
 end

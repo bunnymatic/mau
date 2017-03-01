@@ -25,7 +25,7 @@ describe ArtPieceTagPresenter do
     end
   end
   it 'sorts by updated at' do
-    expect(subject.art_pieces.map { |p| p.art_piece.updated_at.to_i }).to be_monotonically_decreasing
+    expect(subject.art_pieces.map { |p| p.updated_at.to_i }).to be_monotonically_decreasing
   end
 
   context 'when showing only by artist' do

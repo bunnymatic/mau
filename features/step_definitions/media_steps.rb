@@ -13,7 +13,7 @@ end
 
 When(/^I click on the first medium$/) do
   wait_until { page.find('medium a') }
-  medium_link = all('.art-piece__info .media a').first
+  medium_link = first('.art-piece__info .media a')
   medium_path = medium_link['href']
   @medium = Medium.find(medium_path.split('/').last)
   medium_link.click

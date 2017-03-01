@@ -90,13 +90,13 @@ end
 
 When /^I move the last image to the first position$/ do
   @last_piece = @artist.art_pieces.last
-  card = page.all('.js-sortable li').last
-  target = page.all('.js-sortable li').first
+  card = all('.js-sortable li').last
+  target = first('.js-sortable li')
   card.drag_to(target)
 end
 
 Then /^I see that my representative image has been updated$/ do
-  expect(all('.art-card').first['data-id']).to eql @last_piece.id.to_s
+  expect(first('.art-card')['data-id']).to eql @last_piece.id.to_s
 end
 
 Then(/^I can arrange my art$/) do
@@ -188,7 +188,7 @@ Then(/^I see that artist's profile page$/) do
 end
 
 When(/^I click on an art card$/) do
-  art_card = all('.art-card a .image').first
+  art_card = first('.art-card a .image')
   if running_js?
     art_card.trigger('click')
   else

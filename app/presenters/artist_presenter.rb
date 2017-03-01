@@ -202,7 +202,7 @@ class ArtistPresenter < UserPresenter
   private
 
   def map_thumb
-    @representative_thumb ||= representative_piece.get_path('thumb')
+    @representative_thumb ||= representative_piece.path('thumb')
   end
 
   def map_thumb_image

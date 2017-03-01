@@ -12,7 +12,7 @@ Then(/^I see a list of months and years for existing events/) do
 end
 
 Then(/^I click on the calendar link$/) do
-  all('a', text: 'View Events Calendar').first.click
+  first('a', text: 'View Events Calendar').click
 end
 
 Then(/^I see the events for that month$/) do

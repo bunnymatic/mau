@@ -67,22 +67,16 @@ Style/IdenticalConditionalBranches:
     - 'app/presenters/artist_presenter.rb'
 
 # Offense count: 3
-Style/MultilineBlockChain:
-  Exclude:
-    - 'app/models/art_piece_image.rb'
-    - 'app/services/art_piece_tag_service.rb'
-    - 'spec/controllers/search_controller_spec.rb'
+# Style/MultilineBlockChain:
+#   Exclude:
+#     - 'app/models/art_piece_image.rb'
+#     - 'app/services/art_piece_tag_service.rb'
+#     - 'spec/controllers/search_controller_spec.rb'
 
 # Offense count: 1
-Style/NestedTernaryOperator:
-  Exclude:
-    - 'app/presenters/user_presenter.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/PerlBackrefs:
-  Exclude:
-    - 'features/step_definitions/user_steps.rb'
+# Style/NestedTernaryOperator:
+#   Exclude:
+#     - 'app/presenters/user_presenter.rb'
 
 # Offense count: 1
 Style/StructInheritance:
@@ -92,6 +86,6 @@ Style/StructInheritance:
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: snake_case, camelCase
-Style/VariableName:
-  Exclude:
-    - 'spec/support/mock_search_service.rb'
+# Style/VariableName:
+#   Exclude:
+#     - 'spec/support/mock_search_service.rb'

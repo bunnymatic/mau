@@ -188,11 +188,19 @@ describe User do
   end
 
   describe 'get_profile_image' do
-    it 'returns the medium artists profile image if there is one' do
-      expect(artist.get_profile_image).to eql "/artistdata/#{artist.id}/profile/m_profile.jpg"
+    context 'when the user has a photo' do
+      let(:artist) { build_stubbed(:artist, :with_photo) }
+      it 'returns the medium artists profile image' do
+        expect(artist.get_profile_image).to match %r{system/artists/photos/(.*)/medium/new-profile.jpg}
+      end
+      it 'returns the small artists profile image given size = small' do
+        expect(artist.get_profile_image(:small)).to match %r{system/artists/photos/(.*)/small/new-profile.jpg}
+      end
     end
-    it 'returns the small artists profile image if there is one give size = small' do
-      expect(artist.get_profile_image(:small)).to eql "/artistdata/#{artist.id}/profile/s_profile.jpg"
+    context 'when there is no image' do
+      it 'returns nil' do
+        expect(artist.get_profile_image).to be_nil
+      end
     end
   end
 

@@ -21,7 +21,7 @@ Then(/^I see the admin artists list$/) do
 end
 
 When(/^I uncheck the box for the first participating artist/) do
-  cb = all('#good table input[checked=checked]').first
+  cb = first('#good table input[checked=checked]')
   id = cb['id']
   uncheck cb['id']
   click_on_first 'update os status'
@@ -40,7 +40,7 @@ Then /^I see that all artists are doing open studios$/ do
 end
 
 When(/^I remove the first artist from the studio$/) do
-  anchor = all('a.unaffiliate').first
+  anchor = first('a.unaffiliate')
   artist_id = anchor['href'].split('?').last.split('=').last
   @unaffiliated_artist = Artist.find(artist_id)
   expect(page).to have_content @unaffiliated_artist.full_name
@@ -52,7 +52,7 @@ Then(/^I see that artist is no longer part of the studio list$/) do
 end
 
 When(/^I suspend the first artist$/) do
-  name = page.all('#good table tbody tr td.login a').first.text
+  name = first('#good table tbody tr td.login a').text
   @first_artist = Artist.find_by(login: name)
   click_on_first 'Suspend artist'
 end

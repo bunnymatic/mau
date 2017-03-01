@@ -8,12 +8,12 @@ module MockSearchService
   end
 
   def stub_indexer!
-    mockIndexer = double(Search::Indexer::ObjectSearchService)
-    allow(mockIndexer).to receive(:index)
-    allow(mockIndexer).to receive(:reindex)
-    allow(mockIndexer).to receive(:update)
-    allow(mockIndexer).to receive(:remove)
-    allow(Search::Indexer::ObjectSearchService).to receive(:new).and_return(mockIndexer)
+    mock_indexer = double(Search::Indexer::ObjectSearchService)
+    allow(mock_indexer).to receive(:index)
+    allow(mock_indexer).to receive(:reindex)
+    allow(mock_indexer).to receive(:update)
+    allow(mock_indexer).to receive(:remove)
+    allow(Search::Indexer::ObjectSearchService).to receive(:new).and_return(mock_indexer)
   end
 
   def stub_search_service!
