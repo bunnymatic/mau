@@ -10,8 +10,9 @@ class MailChimpService
 
   def subscribe_and_welcome
     raise 'Conf:mailchimp_api_key not set' if API_KEY.blank?
+    return unless @user.mailchimp_subscribed_at
     subscribe
-    @user.update_attribute(:mailchimp_subscribed_at, Time.zone.now)
+    @user.update_attributes(mailchimp_subscribed_at: Time.zone.now)
   end
 
   ATTRIBUTE_CONVERSIONS = {

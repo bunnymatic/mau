@@ -102,11 +102,11 @@ describe Admin::StudiosController do
         end.to change(Studio, :count).by(-1)
       end
       it 'sets artists to indy for all artists in the deleted studio' do
-        artist_ids = studio.reload.artists.map(&:id)
-        assert(!artist_ids.empty?, 'You need to have a couple artists on that studio in your fixtures')
+        artists = studio.reload.artists
+        expect(artists).not_to be_empty, 'You need to have a couple artists on that studio in your fixtures'
         make_destroy_call
-        users = User.find(artist_ids)
-        expect(users.all? { |a| a.studio_id == 0 }).to eq(true), 'Not all the artists were moved into the "Indy" studio'
+        users = User.where(id: artists.pluck(:id))
+        expect(users.select { a.studio.present? }).to be_empty, 'Not all the artists were moved into the "Indy" studio'
       end
     end
   end

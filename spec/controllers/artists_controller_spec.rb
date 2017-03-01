@@ -3,13 +3,18 @@ require 'rails_helper'
 require 'htmlentities'
 
 describe ArtistsController, elasticsearch: true do
+  let(:studio) { create :studio }
   let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art, nomdeplume: nil, firstname: 'joe', lastname: 'ablow') }
-  let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
-  let(:artist_with_tags) { FactoryGirl.create(:artist, :with_studio, :with_art, :with_tagged_art, firstname: 'Bill', lastname: "O'Tagman") }
+  let(:artist) do
+    FactoryGirl.create(:artist, :with_art,
+                       studio: studio,
+                       number_of_art_pieces: 3,
+                       nomdeplume: nil, firstname: 'joe', lastname: 'ablow')
+  end
+  let(:artist2) { FactoryGirl.create(:artist, :active, studio: studio) }
   let(:without_address) { FactoryGirl.create(:artist, :active, :without_address) }
   let(:artists) do
-    [artist] + FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art)
+    [artist] + FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, number_of_art_pieces: 1)
   end
   let!(:open_studios_event) { create(:open_studios_event) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
@@ -20,16 +25,11 @@ describe ArtistsController, elasticsearch: true do
   describe '#index' do
     before do
       artists
+      get :index
     end
-
-    describe 'html' do
-      before do
-        get :index
-      end
-      it { expect(response).to be_success }
-      it 'set the title' do
-        expect(assigns(:page_title)).to eql 'Mission Artists - Artists'
-      end
+    it { expect(response).to be_success }
+    it 'set the title' do
+      expect(assigns(:page_title)).to eql 'Mission Artists - Artists'
     end
   end
 
@@ -52,7 +52,7 @@ describe ArtistsController, elasticsearch: true do
   end
   describe '#update' do
     before do
-      artist_info.update_attribute(:open_studios_participation, '')
+      artist_info.update_attributes(open_studios_participation: '')
     end
     context 'while not logged in' do
       context 'with invalid params' do
@@ -136,7 +136,7 @@ describe ArtistsController, elasticsearch: true do
         end
 
         it 'sets false if artist has no address' do
-          without_address.artist_info.update_attribute(:open_studios_participation, '')
+          without_address.artist_info.update_attributes(open_studios_participation: '')
           put :update, xhr: true, params: { id: without_address, commit: 'submit', artist: { 'os_participation' => '1' } }
           expect(without_address.reload.os_participation[OpenStudiosEvent.current.key]).to be_nil
         end
@@ -177,7 +177,6 @@ describe ArtistsController, elasticsearch: true do
     end
 
     context 'while logged in' do
-      render_views
       before do
         artist.update_attributes(facebook: 'example.com/facebooklink', blog: 'example.com/bloglink')
         login_as artist
@@ -188,23 +187,30 @@ describe ArtistsController, elasticsearch: true do
   end
 
   describe '#show' do
-    it 'when looking for a suspended artist' do
-      artist.update_attribute('state', 'suspended')
+    it 'cant see a suspended artist' do
+      artist.update_attributes(state: :suspended)
       get :show, params: { id: artist.id }
       expect(flash[:error]).to be_present
       expect(response).to redirect_to artists_path
     end
 
+    it 'cant find an fan' do
+      get :show, params: { id: fan.id }
+      expect(response).to redirect_to artists_path
+    end
+
     context 'while not logged in' do
       before(:each) do
-        get :show, params: { id: artist_with_tags.id }
+        get :show, params: { id: artist2.id }
       end
       it { expect(response).to be_success }
     end
 
-    it 'reports cannot find artist' do
-      get :show, params: { id: fan.id }
-      expect(response).to redirect_to artists_path
+    context 'while not logged in' do
+      before(:each) do
+        get :show, params: { id: artist2.id }
+      end
+      it { expect(response).to be_success }
     end
 
     describe 'logged in as admin' do
@@ -326,34 +332,50 @@ describe ArtistsController, elasticsearch: true do
     end
     let(:destroy_params) { { params: { art: art_pieces_for_deletion } } }
     let(:num_to_dump) { art_pieces_for_deletion.values.select { |v| v == 1 }.count }
-    before do
-      artist_with_tags
-      login_as artist
-      post :destroyart
+
+    def run_destroy(params = nil)
+      post :destroyart, params || { params: {} }
     end
-    it 'validate fixtures' do
-      expect(art_pieces.size).to be >= 2
+
+    context 'with no args' do
+      before do
+        login_as artist
+        run_destroy
+      end
+      it { expect(response).to redirect_to artist_path(artist) }
     end
-    it { expect(response).to redirect_to artist_path(artist) }
 
     context 'when trying to destroy art that is not yours' do
-      it { expect(response).to redirect_to artist_path(artist) }
+      before do
+        artist2
+        login_as artist
+      end
+      it do
+        run_destroy
+        expect(response).to redirect_to artist_path(artist)
+      end
       it 'should not remove art' do
         expect do
-          post :destroyart, destroy_params
+          run_destroy destroy_params
         end.to_not change(ArtPiece, :count)
       end
     end
 
     context 'when trying to destroy art that is yours' do
       let(:art_pieces) { artist.art_pieces }
+      before do
+        login_as artist
+      end
       it 'validate fixtures' do
         expect(art_pieces.size).to be >= 2
       end
-      it { expect(response).to redirect_to artist_path(artist) }
+      it do
+        run_destroy destroy_params
+        expect(response).to redirect_to artist_path(artist)
+      end
       it 'should remove art' do
         expect do
-          post :destroyart, destroy_params
+          run_destroy destroy_params
         end.to change(ArtPiece, :count).by(-1 * num_to_dump)
       end
     end

@@ -144,10 +144,6 @@ describe UsersController do
         it 'login=>newuser : should return success' do
           expect(response).to be_success
         end
-
-        it 'sets a flash.now indicating failure' do
-          post :create, params: { user: { login: 'newuser' }, type: 'MauFan' }
-        end
       end
     end
     context 'valid user params and type = MauFan' do
@@ -417,7 +413,7 @@ describe UsersController do
     context 'get' do
       before do
         expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
-        fan.update_attribute(:reset_code, reset_code)
+        fan.update_attributes(reset_code: reset_code)
         get :reset, params: { reset_code: reset_code }
       end
       it { expect(response).to be_success }

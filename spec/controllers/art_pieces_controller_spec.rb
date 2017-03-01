@@ -10,8 +10,8 @@ describe ArtPiecesController do
   end
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
-  let!(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
-  let(:artist2) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
+  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
+  let(:artist2) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art, number_of_art_pieces: 1) }
   let(:art_pieces) { artist.reload.art_pieces }
   let(:art_piece) { art_pieces.first.reload }
 
@@ -45,8 +45,8 @@ describe ArtPiecesController do
 
       context 'when the artist is not active' do
         it 'reports a missing art piece' do
-          artist.update_attribute(:state, 'pending')
-          get :show, params: { id: art_piece.id }
+          artist.update_attributes!(state: :pending)
+          get :show, params: { id: artist.representative_piece.id }
           expect(response).to redirect_to '/error'
         end
       end
@@ -56,19 +56,6 @@ describe ArtPiecesController do
           get :show, params: { id: 'bogusid' }
           expect(flash[:error]).to match(/couldn\'t find that art/)
           expect(response).to redirect_to '/error'
-        end
-      end
-      context 'when logged in as not artpiece owner' do
-        render_views
-        before do
-          login_as fan
-          get :show, params: { id: art_piece.id }
-        end
-        it "doesn't have edit button" do
-          expect(css_select('.edit-buttons #artpiece_edit a')).to be_empty
-        end
-        it "doesn't have delete button" do
-          expect(css_select('.edit-buttons #artpiece_del a')).to be_empty
         end
       end
     end

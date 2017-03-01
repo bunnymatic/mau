@@ -8,7 +8,7 @@ describe MediaPresenter do
   let(:artists) { FactoryGirl.create_list(:artist, 5, :with_art) }
   let!(:art_pieces) do
     pieces = artists.map(&:art_pieces).flatten
-    pieces.each { |ap| ap.update_attribute :medium_id, select_medium.id }
+    pieces.each { |ap| ap.update_attributes(medium: select_medium) }
   end
 
   let(:page) { 1 }

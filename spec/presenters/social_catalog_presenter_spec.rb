@@ -23,10 +23,11 @@ describe SocialCatalogPresenter, type: :view do
 
   before do
     # TODO: update studio/artist factories to set address properly without compute_geocode
-    studio.update_attribute(:lat, 37.75)
-    studio.update_attribute(:lng, -122.41)
-    listed_indy_artist.artist_info.update_attribute(:lat, 37.76)
-    listed_indy_artist.artist_info.update_attribute(:lng, -122.411)
+    studio.attributes = { lat: 37.75, lng: -122.41 }
+    studio.save validate: false
+
+    listed_indy_artist.artist_info.attributes = { lat: 37.76, lng: -122.411 }
+    listed_indy_artist.artist_info.save validate: false
   end
 
   describe '#artists' do

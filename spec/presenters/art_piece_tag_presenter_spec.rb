@@ -46,13 +46,4 @@ describe ArtPieceTagPresenter do
       expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
     end
   end
-
-  context 'when there is art without and owner' do
-    before do
-      ArtPiece.limit(2).each { |a| a.update_attribute :artist_id, nil }
-    end
-    it 'shows art only from active artists' do
-      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
-    end
-  end
 end

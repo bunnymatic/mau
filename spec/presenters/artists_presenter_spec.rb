@@ -5,15 +5,15 @@ describe ArtistsPresenter do
   include PresenterSpecHelpers
 
   let(:os_only) { false }
-  let(:artists) { FactoryGirl.create_list :artist, 4, :with_art }
+  let(:artists) { FactoryGirl.create_list :artist, 4, :with_art, :in_the_mission }
 
   subject(:presenter) { ArtistsPresenter.new(os_only) }
 
   before do
-    # bypass test geocoder
+    # bypass test geocoder by saving without validations
     artists.each do |a|
-      a.artist_info.update_attribute(:lat, 37.75)
-      a.artist_info.update_attribute(:lng, -122.41)
+      a.artist_info.attributes = { lat: 37.75, lng: -122.41 }
+      a.artist_info.save validate: false
     end
   end
   describe '#artists' do

@@ -12,12 +12,15 @@ describe OpenStudiosPresenter do
   subject(:presenter) { described_class.new }
 
   before do
-    [studio, studio2].each do |s|
-      s.update_attribute :lat, 37.75
-      s.update_attribute :lng, -122.41
+    [studio, studio2].each do |stdio|
+      stdio.attributes = { lat: 37.75, lng: -122.41 }
+      stdio.save(validate: false)
     end
-    indy_artist.artist_info.update_attribute :lat, 37.75
-    indy_artist.artist_info.update_attribute :lng, -122.41
+    indy_artist.artist_info.attributes = {
+      lat: 37.75,
+      lng: -122.41
+    }
+    indy_artist.artist_info.save validate: false
 
     FactoryGirl.create(:cms_document,
                        page: :main_openstudios,

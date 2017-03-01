@@ -88,14 +88,14 @@ describe ArtistInfo do
         expect(artist_info.os_participation['201104']).to be_nil
       end
       it 'adds another key properly using update' do
-        artist_info.update_attribute(:open_studios_participation, '201104')
+        artist_info.update_attributes(open_studios_participation: '201104')
         artist_info.update_os_participation('201114', true)
         artist_info.reload
         expect(artist_info.os_participation['201114']).to eq(true)
         expect(artist_info.os_participation['201104']).to eq(true)
       end
       it 'adds another key properly using =' do
-        artist_info.update_attribute(:open_studios_participation, '201104')
+        artist_info.update_attributes(open_studios_participation: '201104')
         artist_info.send(:os_participation=, '201204' => true)
         artist_info.reload
         expect(artist_info.os_participation['201204']).to eq(true)

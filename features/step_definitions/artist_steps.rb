@@ -226,20 +226,20 @@ Then(/^I see open studios artists on the artists list$/) do
 end
 
 Then(/^the meta description includes the artist's bio$/) do
-  steps %Q{Then the page meta name "description" includes "#{@artist.bio.first(50)}"}
-  steps %Q{Then the page meta property "og:description" includes "#{@artist.bio.first(50)}"}
+  steps %(Then the page meta name "description" includes "#{@artist.bio.first(50)}")
+  steps %(Then the page meta property "og:description" includes "#{@artist.bio.first(50)}")
 end
 
 When(/^the meta description includes that art piece's title$/) do
-  steps %Q(Then the page meta name "description" includes "#{@art_piece.title}")
-  steps %Q(Then the page meta property "og:description" includes "#{@art_piece.title}")
+  steps %(Then the page meta name "description" includes "#{@art_piece.title}")
+  steps %(Then the page meta property "og:description" includes "#{@art_piece.title}")
 end
 
 When(/^the meta keywords includes that art piece's tags and medium$/) do
   @art_piece.tags.each do |_tag|
-    steps %Q(Then the page meta name "keywords" includes "#{tag.name}")
+    steps %(Then the page meta name "keywords" includes "#{tag.name}")
   end
   if @art_piece.medium
-    steps %Q(Then the page meta name "keywords" includes "#{@art_piece.medium.name}")
+    steps %(Then the page meta name "keywords" includes "#{@art_piece.medium.name}")
   end
 end

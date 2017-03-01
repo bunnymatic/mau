@@ -54,7 +54,6 @@ class UsersController < ApplicationController
       redirect_to user_path(current_user)
       return
     end
-    # clean os from radio buttons
     msg = {}
     if current_user.update_attributes(user_params)
       Messager.new.publish "/artists/#{current_user.id}/update", 'updated artist info'
@@ -70,13 +69,11 @@ class UsersController < ApplicationController
     @type = params.delete(:type)
     @type ||= user_attrs[:type]
 
-    # validate email domain
     @user = build_user_from_params
     recaptcha = true # && verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
     secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
+    @user.state = 'pending'
     if secret && recaptcha && @user.save
-      new_state = @user.is_a?(Artist) ? 'pending' : 'active'
-      @user.update_attribute(:state, new_state)
       redirect_after_create && return
     else
       render_on_failed_create && return

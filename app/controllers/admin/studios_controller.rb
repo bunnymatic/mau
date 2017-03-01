@@ -56,9 +56,7 @@ module Admin
 
     def destroy
       if @studio
-        @studio.artists.each do |artist|
-          artist.update_attribute(:studio_id, 0)
-        end
+        @studio.artists.each { |artist| StudioArtist.new(@studio, artist).unaffiliate }
         @studio.destroy
       end
 

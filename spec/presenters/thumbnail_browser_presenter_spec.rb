@@ -4,7 +4,7 @@ require 'rails_helper'
 describe ThumbnailBrowserPresenter do
   include PresenterSpecHelpers
 
-  let(:artist) { FactoryGirl.create(:artist, :with_art) }
+  let(:artist) { FactoryGirl.create(:artist, :with_art, number_of_art_pieces: 3) }
   let(:art_pieces) { artist.art_pieces }
   let(:art_piece) { artist.art_pieces[1] }
   subject(:presenter) { ThumbnailBrowserPresenter.new(artist, art_piece) }

@@ -2,7 +2,7 @@
 require_relative '../support/test_users_helper'
 
 FactoryGirl.define do
-  sequence(:login) { |n| format("#{Faker::Internet.user_name}%04d", n) }
+  sequence(:login) { |n| sprintf("#{Faker::Internet.user_name}%04d", n) }
   factory :user do
     login
     email { "#{login}@example.com" }
@@ -69,7 +69,7 @@ FactoryGirl.define do
 
     transient do
       max_pieces 10
-      number_of_art_pieces 3
+      number_of_art_pieces 2
       doing_open_studios nil
     end
 
@@ -105,8 +105,7 @@ FactoryGirl.define do
     trait :with_art do
       active
       after(:create) do |artist, ctx|
-        num = ctx.number_of_art_pieces
-        num.times.each do |idx|
+        ctx.number_of_art_pieces.times.each do |idx|
           FactoryGirl.create(:art_piece, artist: artist, created_at: idx.weeks.ago)
         end
         artist.reload

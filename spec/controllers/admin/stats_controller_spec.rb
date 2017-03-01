@@ -60,9 +60,9 @@ describe Admin::StatsController do
         u3 = artist2
 
         a1 = ArtPiece.first
-        a1.update_attribute(:artist_id, artist.id)
+        a1.update_attributes! artist: artist
         a2 = ArtPiece.last
-        a2.update_attribute(:artist_id, artist.id)
+        a2.update_attributes! artist: artist
 
         artist_stub = double(Artist, id: 42, emailsettings: { 'favorites' => false })
         allow_any_instance_of(ArtPiece).to receive(:artist).and_return(artist_stub)

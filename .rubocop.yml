@@ -49,9 +49,10 @@ Style/DoubleNegation:
   Enabled: false
 
 Style/FormatString:
+  EnforcedStyle: sprintf
   SupportedStyles:
-    - format
     - sprintf
+    - format
 
 Lint/HandleExceptions:
   Exclude:
