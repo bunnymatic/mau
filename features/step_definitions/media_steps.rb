@@ -20,8 +20,8 @@ When(/^I click on the first medium$/) do
 end
 
 Then(/^I see that medium detail page$/) do
-  expect(current_path).to eql medium_path(@medium)
   expect(page).to have_css '.header', text: @medium.name
   expect(page).to have_css '.tagcloud li'
   expect(page).to have_css '.art-card'
+  expect(current_path).to eql medium_path(@medium)
 end

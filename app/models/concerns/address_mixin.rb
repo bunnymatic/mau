@@ -15,7 +15,7 @@ module AddressMixin
   end
 
   def map_link
-    'http://maps.google.com/maps?q=%s' % URI.escape(full_address) if full_address
+    sprintf('http://maps.google.com/maps?q=%s', URI.escape(full_address)) if full_address
   end
 
   protected

@@ -27,7 +27,7 @@ class StudioPresenter < ViewPresenter
   end
 
   def page_title
-    @page_title ||= PageInfoService.title('Studio: %s' % name)
+    @page_title ||= PageInfoService.title("Studio: #{name}")
   end
 
   def profile_image?

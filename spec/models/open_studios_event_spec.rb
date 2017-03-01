@@ -58,7 +58,7 @@ describe OpenStudiosEvent do
 
   describe '.key' do
     it 'returns a year month key based on start date' do
-      expect(current_os.key).to eql current_os.start_date.year.to_s + ('%02d' % current_os.start_date.month)
+      expect(current_os.key).to eql current_os.start_date.year.to_s + sprintf('%02d', current_os.start_date.month)
     end
   end
 end

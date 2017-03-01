@@ -48,6 +48,11 @@ Style/Documentation:
 Style/DoubleNegation:
   Enabled: false
 
+Style/FormatString:
+  SupportedStyles:
+    - format
+    - sprintf
+
 Lint/HandleExceptions:
   Exclude:
     - app/services/search/indexer.rb

@@ -35,7 +35,7 @@ class UsersController < ApplicationController
     if @fan.artist?
       redirect_to(artist_path(@fan)) && return
     else
-      @page_title = PageInfoService.title('Fan: %s' % @fan.get_name(true))
+      @page_title = PageInfoService.title(sprintf('Fan: %s', @fan.get_name(true)))
     end
     @fan = UserPresenter.new(@fan)
   end
@@ -128,7 +128,7 @@ class UsersController < ApplicationController
       if u.id != current_user.id
         name = u.login
         u.delete!
-        flash[:notice] = 'The account for login %s has been deactivated.' % name
+        flash[:notice] = "The account for login #{name} has been deactivated."
       else
         flash[:error] = "You can't delete yourself."
       end

@@ -48,8 +48,8 @@ When(/^I click on the first tag$/) do
 end
 
 Then(/^I see that tag detail page$/) do
-  expect(current_path).to eql art_piece_tag_path(@tag)
   expect(page).to have_css '.header', text: @tag.name
   expect(page).to have_css '.tagcloud li'
   expect(page).to have_css '.art-card'
+  expect(current_path).to eql art_piece_tag_path(@tag)
 end

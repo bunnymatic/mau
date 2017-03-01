@@ -17,7 +17,7 @@ describe Address do
       its(:state) { is_expected.to eq artist.addr_state }
       its(:lat) { is_expected.to eq artist.lat }
       its(:lng) { is_expected.to eq artist.lng }
-      its(:to_s) { is_expected.to eq('%s %s' % [artist.street, '94110']) }
+      its(:to_s) { is_expected.to eq([artist.street, '94110'].join(' ')) }
       its(:present?) { is_expected.to eq true }
       its(:empty?) { is_expected.to eq false }
 
@@ -48,7 +48,7 @@ describe Address do
     its(:state) { is_expected.to eq studio.state }
     its(:lat) { is_expected.to eq studio.lat }
     its(:lng) { is_expected.to eq studio.lng }
-    its(:to_s) { is_expected.to eq('%s %s' % [studio.street, studio.zip]) }
+    its(:to_s) { is_expected.to eq([studio.street, studio.zip].join(' ')) }
     its(:present?) { is_expected.to eq true }
     its(:empty?) { is_expected.to eq false }
   end

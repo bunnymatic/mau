@@ -51,6 +51,6 @@ class OpenStudiosPresenter
   private
 
   def editable_content_data(packaged_data)
-    Hash[packaged_data.select { |k, _v| k != :content }.map { |item| ['data-%s' % item[0].to_s, item[1]] }]
+    Hash[packaged_data.select { |k, _v| k != :content }.map { |item| ["data-#{item[0]}", item[1]] }]
   end
 end

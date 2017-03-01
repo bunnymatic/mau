@@ -61,7 +61,7 @@ class AdminNavigation < ViewPresenter
     links.each do |_sxn, entries|
       entries.each do |key, entry|
         entry[:display] = (entry[:display] || key.to_s).tr('_', ' ')
-        entry[:link] = entry[:link] || ('/admin/%s' % key)
+        entry[:link] = entry[:link] || "/admin/#{key}"
       end
     end
   end
