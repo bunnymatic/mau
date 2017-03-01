@@ -55,11 +55,6 @@ Style/GuardClause:
     - 'app/services/stats_calculator.rb'
     - 'spec/support/test_es_server.rb'
 
-# Offense count: 2
-Style/IdenticalConditionalBranches:
-  Exclude:
-    - 'app/presenters/artist_presenter.rb'
-
 # Offense count: 3
 # Style/MultilineBlockChain:
 #   Exclude:

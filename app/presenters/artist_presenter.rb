@@ -142,13 +142,8 @@ class ArtistPresenter < UserPresenter
     content_tag 'div', class: 'map__info-window-text' do
       name = content_tag 'a', get_name, href: url_helpers.artist_path(model)
       html = [name]
-      street = address.street
-      if artist.studio
-        html << content_tag('div', artist.try(:studio).try(:name), class: 'studio')
-        html << content_tag('div', street)
-      else
-        html << content_tag('div', street)
-      end
+      html << content_tag('div', artist.try(:studio).try(:name), class: 'studio') if artist.studio
+      html << content_tag('div', address.street)
       safe_join(html)
     end
   end
