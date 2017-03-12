@@ -29,7 +29,7 @@ class OpenStudiosPresenter
   end
 
   def os_participants
-    @participants ||= Artist.active.open_studios_participants.select(&:in_the_mission?)
+    @participants ||= Artist.active.open_studios_participants.in_the_mission
   end
 
   def participating_studios
