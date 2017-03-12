@@ -28,6 +28,6 @@ module FavoritesHelper
       result << '</a>' unless options[:linkless]
       result << '</li>'
     end
-    result.html_safe
+    safe_join([result])
   end
 end

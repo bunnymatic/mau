@@ -9,8 +9,4 @@ class ArtPieceTag < ApplicationRecord
   validates :name, presence: true, length: { within: 3..25 }
 
   scope :alpha, -> { order('name') }
-
-  def safe_name
-    HtmlEncoder.encode(name).gsub(' ', '&nbsp;').html_safe
-  end
 end

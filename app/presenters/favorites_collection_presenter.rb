@@ -16,9 +16,9 @@ class FavoritesCollectionPresenter < ViewPresenter
 
   def title
     if current_user_is_user?
-      ((link_to 'My', url_helpers.user_path(current_user)) + ' Favorites').html_safe
+      safe_join([(link_to 'My', url_helpers.user_path(current_user)) + ' Favorites'])
     else
-      ((link_to "#{user.get_name}'s", url_helpers.user_path(user)) + ' Favorites').html_safe
+      safe_join([(link_to "#{user.get_name}'s", url_helpers.user_path(user)) + ' Favorites'])
     end
   end
 
@@ -31,7 +31,7 @@ class FavoritesCollectionPresenter < ViewPresenter
         <span class='fa fa-heart'></span>
         around the site.  Click on it to favorite art or artists.
       EOS
-      [content_tag('p', msg.html_safe), content_tag('p', 'Start your search below.')].join
+      safe_join([content_tag('p', msg), content_tag('p', 'Start your search below.')])
     else
       '<p>This user has not favorited anything yet.</p>'
     end

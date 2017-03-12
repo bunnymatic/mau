@@ -41,7 +41,7 @@ class FavoritesController < ApplicationController
       render json: { message: 'Removed a favorite' }
       return
     else
-      flash[:notice] = "#{obj.get_name true} has been removed from your favorites.".html_safe
+      flash[:notice] = safe_join [obj.get_name(true), ' has been removed from your favorites.']
       redirect_to(request.referer || user_path(obj))
     end
   rescue InvalidFavoriteTypeError => ex

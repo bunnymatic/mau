@@ -47,10 +47,6 @@ class ThumbnailBrowserPresenter < ViewPresenter
     end
   end
 
-  def thumbs_json
-    @json ||= thumbs.map(&:marshal_dump).to_json.html_safe
-  end
-
   private
 
   def mark_as_current(idx)
