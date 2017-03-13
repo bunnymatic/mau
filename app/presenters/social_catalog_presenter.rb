@@ -11,7 +11,10 @@ class SocialCatalogPresenter < ArtistsPresenter
   end
 
   def artists
-    super.select(&:art?).sort(&Artist::SORT_BY_LASTNAME)
+    super.select{ |a| a.has_art? }.sort do |a,b|
+      by_studio = Studio::SORT_BY_NAME.call(a.studio, b.studio)
+      (by_studio == 0) ? (b.representative_piece.updated_at <=> a.representative_piece.updated_at) : by_studio
+    end
   end
 
   def artist_has_links(artist)
@@ -39,8 +42,21 @@ class SocialCatalogPresenter < ArtistsPresenter
   end
 
   private
+  def artists_by_studio
+    @artists_by_studio ||=
+      begin
+        artists = {}
+        group_studio_artists.each do |a|
+          artists[a.studio] = [] unless artists[a.studio]
+          artists[a.studio] << a
+        end
+        artists.values.each do |artist_list|
+          artist_list.sort! &Artist::SORT_BY_LASTNAME
+        end
+        artists
+    end
+  end
 
-  def csv_keys; end
 
   def csv_headers
     @csv_headers ||= (['Studio', 'Name', 'Art URL', 'Art Title', 'Medium', 'Tags', 'MAU Link', 'Email'] +

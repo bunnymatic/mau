@@ -14,10 +14,6 @@ class ArtistsPresenter < ViewPresenter
     @active_artists ||= Artist.active.includes(:studio, :artist_info, :art_pieces)
   end
 
-  def os_participants
-    @os_participants ||= active_artists.open_studios_participants
-  end
-
   def artists_only_in_the_mission
     (os_only ? artists : artists.select(&:in_the_mission?))
   end
@@ -26,7 +22,7 @@ class ArtistsPresenter < ViewPresenter
     @artists ||=
       begin
         artist_list = (if os_only
-                         os_participants.select(&:in_the_mission?)
+                         active_artists.open_studios_participants.in_the_mission
                        else
                          active_artists
                        end).sort_by(&:sortable_name)

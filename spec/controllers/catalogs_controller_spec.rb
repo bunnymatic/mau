@@ -10,12 +10,14 @@ describe CatalogsController do
   before do
     Rails.cache.clear
     fix_leaky_fixtures
-    artist
-    jesse
+
+    jesse.studio.update_attribute(:lat, 37.75)
+    jesse.studio.update_attribute(:lng, -122.41)
+    artist.studio.update_attribute(:lat, 37.751)
+    artist.studio.update_attribute(:lng, -122.411)
 
     ActiveRecord::Base.connection.execute('update artist_infos ' \
                                           "set open_studios_participation = '#{open_studios_event.key}'")
-    allow_any_instance_of(Artist).to receive(:in_the_mission?).and_return(true)
   end
 
   describe '#show' do

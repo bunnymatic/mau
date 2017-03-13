@@ -147,18 +147,24 @@
       right: 10px;
       top: 10px;
       font-size: 24px;
+      @include opacity(0);
     }
     &.active {
       @include transform(translate3d(0,0,1px));
       pointer-events: auto;
       left: $sidebar-collapse-nav-width + 5;
       width: 250px;
+
       ul.tab-pane {
         @include opacity(1);
         li:last-child {
           border-bottom: 1px solid lighten($gto_gray, 50%);
         }
       }
+      .nav-mobile__close {
+        @include opacity(1);
+      }
+
     }
     ul.tab-panel {
       /* border-top: 1px solid lighten($gto_gray, 40%); */
