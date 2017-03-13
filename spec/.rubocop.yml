@@ -6,6 +6,12 @@ Metrics/BlockLength:
 Rails/OutputSafety:
   Enabled: false
 
+Rails/SkipsModelValidations:
+  Enabled: true
+  Exclude:
+    - '**/*'
+
+
 Lint/HandleExceptions:
   Exclude:
     - 'support/**/*'

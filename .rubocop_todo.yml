@@ -15,12 +15,6 @@ Metrics/BlockLength:
 Metrics/PerceivedComplexity:
   Max: 9
 
-# Offense count: 27
-# Configuration parameters: Blacklist.
-# Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters
-Rails/SkipsModelValidations:
-  Enabled: true
-
 # Offense count: 1
 Style/ConstantName:
   Exclude:

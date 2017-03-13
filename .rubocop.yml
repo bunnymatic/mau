@@ -72,6 +72,10 @@ Rails/FilePath:
   Exclude:
     - config/environments/test.rb
 
+Rails/OutputSafety:
+  Exclude:
+    - app/services/markdown_service.rb
+
 Rails/TimeZone:
   Exclude:
     - tztest.rb

@@ -56,19 +56,20 @@ class Artist < User
   scope :with_representative_image, -> { joins(:art_pieces).group('art_pieces.artist_id') }
   scope :by_lastname, -> { order(:lastname) }
   scope :without_art, -> { active.where('id not in (select artist_id from art_pieces)') }
-  scope :in_the_mission, -> {
+  scope :in_the_mission, lambda {
     # avoid sql between (in mysql) because it's not smart about floats
     def between_clause(fld)
       "(#{fld} >= ? AND #{fld} <= ?)"
     end
 
-    joins(:artist_info, "LEFT JOIN `studios` ON `studios`.id = `users`.`studio_id`").where(
-      ["(#{between_clause('artist_infos.lat')} and #{between_clause('artist_infos.lng')}) or " +
+    joins(:artist_info, 'LEFT JOIN `studios` ON `studios`.id = `users`.`studio_id`').where(
+      ["(#{between_clause('artist_infos.lat')} and #{between_clause('artist_infos.lng')}) or " \
        "(#{between_clause('studios.lat')} and #{between_clause('studios.lng')})",
        SOUTH_BOUNDARY, NORTH_BOUNDARY,
        WEST_BOUNDARY, EAST_BOUNDARY,
        SOUTH_BOUNDARY, NORTH_BOUNDARY,
-       WEST_BOUNDARY, EAST_BOUNDARY ] )
+       WEST_BOUNDARY, EAST_BOUNDARY]
+    )
   }
   has_one :artist_info, dependent: :destroy
   accepts_nested_attributes_for :artist_info, update_only: true
