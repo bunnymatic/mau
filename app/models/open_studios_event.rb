@@ -34,8 +34,7 @@ class OpenStudiosEvent < ApplicationRecord
   end
 
   def end_date_is_after_start_date
-    if end_date && start_date
-      errors.add(:end_date, 'should be after start date.') unless end_date >= start_date
-    end
+    return unless end_date && start_date
+    errors.add(:end_date, 'should be after start date.') unless end_date >= start_date
   end
 end

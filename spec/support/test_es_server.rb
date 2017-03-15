@@ -14,10 +14,10 @@ class TestEsServer
   end
 
   def self.start
-    unless running?
-      puts "Starting elasticsearch cluster on port #{port}"
-      cluster.start(port: port, number_of_nodes: 1, clear_cluster: true) unless running?
-    end
+    return unless running?
+
+    puts "Starting elasticsearch cluster on port #{port}"
+    cluster.start(port: port, number_of_nodes: 1, clear_cluster: true) unless running?
   end
 
   def self.stop

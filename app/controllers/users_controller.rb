@@ -158,22 +158,23 @@ class UsersController < ApplicationController
   end
 
   def resend_activation
-    if request.post?
-      inputs = params.require(user_params_key).permit(:email)
-      email = inputs[:email]
-      if email.present?
-        flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
-        user = User.find_by(email: email)
-        user&.resend_activation
-        redirect_back_or_default('/')
-      else
-        flash[:error] = 'You need to enter an email'
-      end
+    render && return unless request.post?
+
+    inputs = params.require(user_params_key).permit(:email)
+    email = inputs[:email]
+    if email.present?
+      flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
+      user = User.find_by(email: email)
+      user&.resend_activation
+      redirect_back_or_default('/')
+    else
+      flash[:error] = 'You need to enter an email'
     end
   end
 
   def forgot
     render && return unless request.post?
+
     inputs = params.require(user_params_key).permit(:email)
     user = User.find_by(email: inputs[:email])
     flash[:notice] = "We've sent email with instructions on how to reset your password."\

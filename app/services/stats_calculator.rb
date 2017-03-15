@@ -4,11 +4,8 @@ class StatsCalculator
     class ValueError < StandardError; end
 
     def initialize(hash = nil)
-      if hash.nil? || hash.is_a?(Hash)
-        merge!(hash || {})
-      else
-        raise ValueError, "#{hash.inspect} is not a valid histogram initalize (Hash required)"
-      end
+      raise ValueError, "#{hash.inspect} is not a valid histogram initalize (Hash required)" if hash.present? && !hash.is_a?(Hash)
+      merge!(hash || {})
     end
 
     def add(val)

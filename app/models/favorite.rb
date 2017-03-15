@@ -12,9 +12,8 @@ class Favorite < ApplicationRecord
   FAVORITABLE_TYPES = %w(Artist ArtPiece).freeze
 
   def uniqueness_of_user_and_item
-    if self.class.find_by(user: user, favoritable_type: favoritable_type, favoritable_id: favoritable_id)
-      errors.add(:user, 'You have already favorited that item')
-    end
+    duplicate = self.class.find_by(user: user, favoritable_type: favoritable_type, favoritable_id: favoritable_id)
+    errors.add(:user, 'You have already favorited that item') if duplicate
   end
 
   def art_piece?
@@ -26,13 +25,12 @@ class Favorite < ApplicationRecord
   end
 
   def to_obj
-    if FAVORITABLE_TYPES.include? favoritable_type
-      begin
-        favoritable_type.constantize.find(favoritable_id)
-      rescue ActiveRecord::RecordNotFound
-        destroy
-        nil
-      end
+    return nil unless FAVORITABLE_TYPES.include? favoritable_type
+    begin
+      favoritable_type.constantize.find(favoritable_id)
+    rescue ActiveRecord::RecordNotFound
+      destroy
+      nil
     end
   end
 end

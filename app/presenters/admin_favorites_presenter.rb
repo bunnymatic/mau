@@ -50,11 +50,11 @@ class AdminFavoritesPresenter
     increment(fav.favoritable_type, tally[key])
 
     # favorited
-    if fav.favoritable_type == 'Artist'
-      key = User.find(fav.favoritable_id)
-      tally[key] ||= { artists: 0, art_pieces: 0, favorited: 0 }
-      tally[key][:favorited] += 1
-    end
+    return unless fav.favoritable_type == 'Artist'
+
+    key = User.find(fav.favoritable_id)
+    tally[key] ||= { artists: 0, art_pieces: 0, favorited: 0 }
+    tally[key][:favorited] += 1
   end
 
   def sum_column(col_name)

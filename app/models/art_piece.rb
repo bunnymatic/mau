@@ -121,22 +121,20 @@ class ArtPiece < ApplicationRecord
 
   def clear_caches
     ArtPieceCacheService.clear
-    if artist && artist.id != nil?
-      SafeCache.delete(artist.representative_art_cache_key)
-    end
+    SafeCache.delete(artist.representative_art_cache_key) if artist && artist.id != nil?
   end
 
   def remove_old_art
     # mostly this makes stuff work for testing
-    if artist
-      max = artist.max_pieces
-      cur = artist.art_pieces.length
-      del = 0
-      while cur && max && (cur > max)
-        artist.art_pieces.last.destroy
-        cur -= 1
-        del += 1
-      end
+    return unless artist
+
+    max = artist.max_pieces
+    cur = artist.art_pieces.length
+    del = 0
+    while cur && max && (cur > max)
+      artist.art_pieces.last.destroy
+      cur -= 1
+      del += 1
     end
   end
 end
