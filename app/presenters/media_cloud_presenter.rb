@@ -30,9 +30,7 @@ class MediaCloudPresenter < ViewPresenter
         frequency.map do |entry|
           medium = find_medium(entry['medium'])
           next unless medium
-          content_tag 'span', class: 'clouditem' do
-            link_to medium.safe_name, medium_path(medium)
-          end
+          medium
         end.select(&:present?)
       end
   end

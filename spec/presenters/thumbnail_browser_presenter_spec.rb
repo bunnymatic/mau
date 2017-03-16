@@ -12,43 +12,23 @@ describe ThumbnailBrowserPresenter do
   its(:thumbs?) { is_expected.to be_truthy }
 
   describe '#pieces' do
-    subject { super().pieces }
-
     it 'has artist.art_pieces.count pieces' do
-      expect(subject.size).to eq(artist.art_pieces.count)
+      expect(subject.pieces.size).to eq(artist.art_pieces.count)
     end
   end
 
   describe '#thumbs' do
-    subject { super().thumbs }
-
     it 'has artist.art_pieces.count pieces' do
-      expect(subject.size).to eq(artist.art_pieces.count)
+      expect(subject.thumbs.size).to eq(artist.art_pieces.count)
     end
   end
 
-  describe '#row_class' do
-    subject { super().row_class }
-    it { should eql 'rows1' }
-  end
+  its(:row_class) { is_expected.to eql('rows1') }
 
-  describe '#thumbs_json' do
-    subject { super().thumbs_json }
-    it { should be_a_kind_of String }
-  end
+  its(:next_img) { is_expected.to eql(artist.art_pieces[2].id) }
 
-  describe '#next_img' do
-    subject { super().next_img }
-    it { should eql artist.art_pieces[2].id }
-  end
+  its(:prev_img) { is_expected.to eql(artist.art_pieces[0].id) }
 
-  describe '#prev_img' do
-    subject { super().prev_img }
-    it { should eql artist.art_pieces[0].id }
-  end
+  its(:current_index) { is_expected.to eql(1) }
 
-  describe '#current_index' do
-    subject { super().current_index }
-    it { should eql 1 }
-  end
 end

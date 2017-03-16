@@ -2,10 +2,6 @@
 module TagMediaMixin
   extend ActiveSupport::Concern
 
-  def safe_name
-    safe_join([HtmlEncoder.encode(name).gsub(' ', '&nbsp;')])
-  end
-
   module ClassMethods
     def normalize(arr, fld)
       maxct = get_max_value(arr, fld)
