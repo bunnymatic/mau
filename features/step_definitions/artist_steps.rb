@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 When(/^I visit my home page$/) do
   visit artist_path(@artist)
 end
@@ -16,23 +17,23 @@ Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
     /#{new_title}/i =~ title
   end
   within '.title' do
-    expect(page).to_not have_content "Mona Lisa"
+    expect(page).to_not have_content 'Mona Lisa'
     expect(page).to have_content new_title
   end
 end
 
 When(/^I update the medium to the last medium$/) do
-  selectize_single_select "art_piece_medium_id", Medium.last.name
+  selectize_single_select 'art_piece_medium_id', Medium.last.name
 end
 
 Then(/^I see that my art medium was updated to the last medium$/) do
-  within ".media" do
+  within '.media' do
     expect(page).to have_content(Medium.last.name)
   end
 end
 
 When(/^I update the art piece tags to:/) do |data|
-  selectize_multi_select "art_piece_tag_ids", data.raw
+  selectize_multi_select 'art_piece_tag_ids', data.raw
 end
 
 Then(/^I see that my art tags are:$/) do |data|
@@ -46,17 +47,17 @@ end
 
 When(/^I fill out the add art form$/) do
   @medium = Medium.first
-  attach_file "Photo", File.join(Rails.root,"/spec/fixtures/files/art.png")
-  fill_in "Title", with: 'Mona Lisa'
-  fill_in "Dimensions", with: '4 x 3'
-  fill_in "Year", with: '1515'
-  selectize_single_select "art_piece_medium_id", @medium.name
-  selectize_multi_select "art_piece_tag_ids", ['superfragile', 'complimicated']
+  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'art.png')
+  fill_in 'Title', with: 'Mona Lisa'
+  fill_in 'Dimensions', with: '4 x 3'
+  fill_in 'Year', with: '1515'
+  selectize_single_select 'art_piece_medium_id', @medium.name
+  selectize_multi_select 'art_piece_tag_ids', %w(superfragile complimicated)
 end
 
 Then /^I see that my art was added$/ do
-  expect(page).to have_content "Mona Lisa"
-  expect(page).to have_content "complimicated, superfragile"
+  expect(page).to have_content 'Mona Lisa'
+  expect(page).to have_content 'complimicated, superfragile'
   expect(page).to have_content @medium.name
 end
 
@@ -64,7 +65,7 @@ Then /^I see that my art was not added$/ do
   within '.error-msg' do
     expect(page).to have_content "Title can't be blank"
   end
-  expect(page).to have_css "#art_piece_title_input.error"
+  expect(page).to have_css '#art_piece_title_input.error'
 end
 
 When(/^I rearrange my art with drag and drop$/) do
@@ -89,13 +90,13 @@ end
 
 When /^I move the last image to the first position$/ do
   @last_piece = @artist.art_pieces.last
-  card = page.all('.js-sortable li').last
-  target = page.all('.js-sortable li').first
+  card = all('.js-sortable li').last
+  target = first('.js-sortable li')
   card.drag_to(target)
 end
 
 Then /^I see that my representative image has been updated$/ do
-  expect(all('.art-card').first['data-id']).to eql @last_piece.id.to_s
+  expect(first('.art-card')['data-id']).to eql @last_piece.id.to_s
 end
 
 Then(/^I can arrange my art$/) do
@@ -161,9 +162,9 @@ Then(/^I see that I've successfully unsigned up for Open Studios$/) do
 end
 
 When(/^I click on the first artist's card$/) do
-  @artist = Artist.active.all.detect{|a| a.representative_piece.present?}
+  @artist = Artist.active.all.detect { |a| a.representative_piece.present? }
   click_on_first @artist.full_name
-  expect(page).to have_css('.artists.show');
+  expect(page).to have_css('.artists.show')
 end
 
 Then(/^I see "([^"]*)"'s artist card$/) do |name|
@@ -187,7 +188,7 @@ Then(/^I see that artist's profile page$/) do
 end
 
 When(/^I click on an art card$/) do
-  art_card = all('.art-card a .image').first
+  art_card = first('.art-card a .image')
   if running_js?
     art_card.trigger('click')
   else
@@ -205,18 +206,17 @@ end
 
 When(/^I submit a new profile picture$/) do
   find('.file.input')
-  attach_file "Photo", File.join(Rails.root,"/spec/fixtures/files/art.png")
+  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'art.png')
 end
 
 Then(/^I see that I have a new profile picture$/) do
-  img = find(".artist-profile__image img")
+  img = find('.artist-profile__image img')
   expect(img).to be_present
 end
 
-
 Then(/^the artists index page shows no artists for open studios$/) do
   expect(page).to_not have_css '.artist-card'
-  expect(page).to have_css 'h2', text: "Artists in Open Studios"
+  expect(page).to have_css 'h2', text: 'Artists in Open Studios'
   expect(page).to have_content 'Sorry, no one has signed up for the next Open Studios'
 end
 
@@ -226,20 +226,20 @@ Then(/^I see open studios artists on the artists list$/) do
 end
 
 Then(/^the meta description includes the artist's bio$/) do
-  %q{Then the page meta name "description" includes "#{@artist.bio.first(50)}"}
-  %q{Then the page meta property "og:description" includes "#{@artist.bio.first(50)}"}
+  steps %(Then the page meta name "description" includes "#{@artist.bio.first(50)}")
+  steps %(Then the page meta property "og:description" includes "#{@artist.bio.first(50)}")
 end
 
 When(/^the meta description includes that art piece's title$/) do
-  %q{Then the page meta name "description" includes "#{@art_piece.title}"}
-  %q{Then the page meta property "og:description" includes "#{@art_piece.title}"}
+  steps %(Then the page meta name "description" includes "#{@art_piece.title}")
+  steps %(Then the page meta property "og:description" includes "#{@art_piece.title}")
 end
 
 When(/^the meta keywords includes that art piece's tags and medium$/) do
-  @art_piece.tags.each do |tag|
-    %q{Then the page meta name "keywords" includes "#{tag.name}"}
+  @art_piece.tags.each do |_tag|
+    steps %(Then the page meta name "keywords" includes "#{tag.name}")
   end
   if @art_piece.medium
-    %q{Then the page meta name "keywords" includes "#{@art_piece.medium.name}"}
+    steps %(Then the page meta name "keywords" includes "#{@art_piece.medium.name}")
   end
 end

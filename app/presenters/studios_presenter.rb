@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class StudiosPresenter
-
   include Enumerable
   attr_reader :view_mode
 
@@ -9,7 +9,6 @@ class StudiosPresenter
   end
 
   def studios
-     @studios.map{|s| StudioPresenter.new(s)}
+    @studios.map { |s| StudioPresenter.new(s) }
   end
-
 end

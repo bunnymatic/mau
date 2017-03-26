@@ -14,7 +14,7 @@
           | Q: share my page with others?
         p.faq__a
           | A: 2 ways : Look for "Share this page" on your profile for Twitter and Facebook links.  Or use your custom MAU webpage everywhere!<br/>
-          - nm = (logged_in? && current_user.is_artist?) ? current_user.login : "&lt;your username&gt;".html_safe
+          - nm = (logged_in? && current_user.artist?) ? current_user.login : "&lt;your username&gt;".html_safe
           span
             = artists_url
             strong> = nm

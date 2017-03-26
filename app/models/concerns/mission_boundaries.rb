@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module MissionBoundaries
   # thanks, http://www.gps-coordinates.net/
   # order is important for the js overlay
@@ -19,4 +20,9 @@ module MissionBoundaries
       NORTH_BOUNDARY, EAST_BOUNDARY
     ]
   }.freeze
+
+  def within_bounds?(lat, lng)
+    return false unless lat && lng
+    lat >= SOUTH_BOUNDARY && lat <= NORTH_BOUNDARY && lng >= WEST_BOUNDARY && lng <= EAST_BOUNDARY
+  end
 end

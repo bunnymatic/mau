@@ -1,12 +1,12 @@
+# frozen_string_literal: true
 shared_examples_for ImageFileHelpers do
-
   describe 'clean_filename' do
     [['fname.jpg', 'fname.jpg'],
      ['f & name.jpg', 'fname.jpg'],
      ['f & *#q45sd  name.jpg', 'fq45sdname.jpg'],
      ['fname .jpg', 'fname.jpg']].each do |f|
       it "cleans #{f[0]} to #{f[1]}" do
-        expect(described_class.clean_filename f[0]).to eql f[1]
+        expect(described_class.clean_filename(f[0])).to eql f[1]
       end
     end
   end
@@ -18,7 +18,7 @@ shared_examples_for ImageFileHelpers do
     end
 
     it 'builds a timestamped filename given an input filename' do
-      fname = described_class.create_timestamped_filename("/a/b/c/whatever.jpg")
+      fname = described_class.create_timestamped_filename('/a/b/c/whatever.jpg')
       expect(fname).to eql([Time.zone.now.to_i.to_s, 'whatever.jpg'].join)
     end
   end
@@ -29,19 +29,16 @@ shared_examples_for ImageFileHelpers do
       end
     end
 
-    it "returns pdf for whatever.pdf" do
-      expect(described_class.get_file_extension("whatever.pdf")).to eql 'pdf'
+    it 'returns pdf for whatever.pdf' do
+      expect(described_class.get_file_extension('whatever.pdf')).to eql 'pdf'
     end
 
-    it "raises when there is no ." do
-      expect{described_class.get_file_extension("pdf")}.to raise_error(ArgumentError)
+    it 'raises when there is no .' do
+      expect { described_class.get_file_extension('pdf') }.to raise_error(ArgumentError)
     end
 
-    it "raises when there is no extension" do
-      expect{described_class.get_file_extension("pdf.")}.to raise_error(ArgumentError)
+    it 'raises when there is no extension' do
+      expect { described_class.get_file_extension('pdf.') }.to raise_error(ArgumentError)
     end
-
-
   end
-
 end

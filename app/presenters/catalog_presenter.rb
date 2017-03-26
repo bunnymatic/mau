@@ -1,20 +1,20 @@
+# frozen_string_literal: true
 require 'csv'
 
 class CatalogPresenter < ViewPresenter
-
   include OpenStudiosEventShim
 
   def csv_filename
-    @csv_filename ||= (['mau_catalog', current_open_studios_key].compact.join("_") + '.csv')
+    @csv_filename ||= (['mau_catalog', current_open_studios_key].compact.join('_') + '.csv')
   end
 
   def csv
     @csv ||=
       begin
-        CSV.generate(ApplicationController::DEFAULT_CSV_OPTS) do |_csv|
-          _csv << csv_headers
+        CSV.generate(DEFAULT_CSV_OPTS) do |csv|
+          csv << csv_headers
           all_artists.sort(&Artist::SORT_BY_LASTNAME).each do |artist|
-            _csv << artist_as_csv_row(artist)
+            csv << artist_as_csv_row(artist)
           end
         end
       end
@@ -39,20 +39,20 @@ class CatalogPresenter < ViewPresenter
   def artists_by_studio
     @artists_by_studio ||=
       begin
-        artists = {}
-        group_studio_artists.each do |a|
-          artists[a.studio] = [] unless artists[a.studio]
-          artists[a.studio] << a
-        end
-        artists.values.each do |artist_list|
-          artist_list.sort! &Artist::SORT_BY_LASTNAME
-        end
-        artists
+      artists = {}
+      group_studio_artists.each do |a|
+        artists[a.studio] = [] unless artists[a.studio]
+        artists[a.studio] << a
+      end
+      artists.values.each do |artist_list|
+        artist_list.sort!(&Artist::SORT_BY_LASTNAME)
+      end
+      artists
     end
   end
 
   def preview_reception_data
-    Hash[preview_receptions.except(:content).map{|k,v| ["data-#{k}", v]}]
+    Hash[preview_receptions.except(:content).map { |k, v| ["data-#{k}", v] }]
   end
 
   def preview_reception_content
@@ -69,25 +69,25 @@ class CatalogPresenter < ViewPresenter
   end
 
   private
+
   def csv_headers
-    @csv_headers ||= ["First Name","Last Name","Full Name","Email", "Group Site Name",
-                      "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Media"]
+    @csv_headers ||= ['First Name', 'Last Name', 'Full Name', 'Email', 'Group Site Name',
+                      'Studio Address', 'Studio Number', 'Cross Street 1', 'Cross Street 2', 'Media']
   end
 
   def artist_as_csv_row(artist)
     a = ArtistPresenter.new(artist)
     [
-     csv_safe(a.firstname),
-     csv_safe(a.lastname),
-     a.get_name(true),
-     a.email,
-     a.studio.try(:name).to_s,
-     a.address.street,
-     a.studionumber,
-     a.studio.try(:cross_street).to_s,
-     '',
-     a.media.map(&:name).join(" ")
+      csv_safe(a.firstname),
+      csv_safe(a.lastname),
+      a.get_name(true),
+      a.email,
+      a.studio.try(:name).to_s,
+      a.address.street,
+      a.studionumber,
+      a.studio.try(:cross_street).to_s,
+      '',
+      a.media.map(&:name).join(' ')
     ]
   end
-
 end

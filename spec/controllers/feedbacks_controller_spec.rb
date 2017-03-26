@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FeedbacksController do
@@ -6,7 +7,7 @@ describe FeedbacksController do
       get :new
     end
     it { expect(response).to be_success }
-    it "sets a new feedback" do
+    it 'sets a new feedback' do
       expect(assigns(:feedback)).to be_a_kind_of Feedback
       expect(assigns(:feedback)).to be_new_record
     end
@@ -30,16 +31,15 @@ describe FeedbacksController do
     context 'with good data' do
       before do
         expect(FeedbackMailer).to receive(:feedback).and_return(double(deliver_later: true))
-        expect{
+        expect do
           attrs = FactoryGirl.attributes_for(:feedback)
           get :create, params: {
-                feedback: attrs
-              }
-        }.to change(Feedback, :count).by(1)
+            feedback: attrs
+          }
+        end.to change(Feedback, :count).by(1)
       end
-      it {expect(response).to be_success}
-      it {expect(response).to render_template :thankyou}
+      it { expect(response).to be_success }
+      it { expect(response).to render_template :thankyou }
     end
-
   end
 end

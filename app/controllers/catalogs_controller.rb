@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class CatalogsController < ApplicationController
-
   layout 'catalog'
 
   def show
@@ -7,9 +7,9 @@ class CatalogsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.csv {
+      format.csv do
         render_csv_string(@catalog.csv, @catalog.csv_filename)
-      }
+      end
     end
   end
 
@@ -17,10 +17,9 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       @social_artists = SocialCatalogPresenter.new
       format.html
-      format.csv {
+      format.csv do
         render_csv_string(@social_artists.csv, @social_artists.csv_filename)
-      }
+      end
     end
   end
-
 end

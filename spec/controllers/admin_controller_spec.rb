@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe AdminController do
@@ -12,7 +13,7 @@ describe AdminController do
   include OpenStudiosEventShim
 
   context 'authorization' do
-    [:index, :os_status ].each do |endpoint|
+    [:index, :os_status].each do |endpoint|
       describe 'not logged in' do
         describe endpoint.to_s do
           before do
@@ -47,10 +48,9 @@ describe AdminController do
       expect(response).to be_success
     end
     it 'sets a list of artists in alpha order by last name' do
-      assigns(:os).length == Artist.active.count
+      expect(assigns(:os)).to have(Artist.active.count).items
       expect(assigns(:os).map(&:lastname).map(&:downcase)).to be_monotonically_increasing
       expect(assigns(:totals).count).to eql 9
     end
   end
-
 end

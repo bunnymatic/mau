@@ -1,14 +1,14 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Pagination do
-
   include PresenterSpecHelpers
 
   let(:num_items) { 8 }
   let(:per_page) { 3 }
   let(:current_page) { 0 }
   let(:opts) { nil }
-  subject(:paginator) { Pagination.new(num_items.times.map{|x| x + 1}, current_page, per_page, opts ) }
+  subject(:paginator) { Pagination.new(Array.new(num_items) { |x| x + 1 }, current_page, per_page, opts) }
 
   describe '#last_page' do
     subject { super().last_page }
@@ -21,15 +21,15 @@ describe Pagination do
   end
 
   it 'raises an error if per_page is not valid' do
-    expect{Pagination.new([], 1, -1)}.to raise_error PaginationError
+    expect { Pagination.new([], 1, -1) }.to raise_error PaginationError
   end
 
   it 'raises an error if you try to access link_to_previous on this base class' do
-    expect{paginator.link_to_previous}.to raise_error PaginationError
+    expect { paginator.link_to_previous }.to raise_error PaginationError
   end
 
   it 'raises an error if you try to access link_to_next on this base class' do
-    expect{paginator.link_to_next}.to raise_error PaginationError
+    expect { paginator.link_to_next }.to raise_error PaginationError
   end
 
   describe '#previous_title' do
@@ -57,14 +57,14 @@ describe Pagination do
     it { should eq 0..2 }
   end
   context 'when we specify the next and previous labels and titles' do
-    let(:opts) {
+    let(:opts) do
       {
         previous_title: 'behind',
         previous_label: '<',
         next_title: 'forward',
         next_label: '>'
       }
-    }
+    end
 
     describe '#previous_title' do
       subject { super().previous_title }
@@ -94,7 +94,7 @@ describe Pagination do
 
     describe '#items' do
       subject { super().items }
-      it { should eq [1,2,3] }
+      it { should eq [1, 2, 3] }
     end
 
     describe '#next_page' do
@@ -133,7 +133,7 @@ describe Pagination do
 
     describe '#items' do
       subject { super().items }
-      it { should eq [4,5,6] }
+      it { should eq [4, 5, 6] }
     end
 
     describe '#next_page' do
@@ -150,13 +150,12 @@ describe Pagination do
       subject { super().display_current_position }
       it { should eql 'page 2 of 3' }
     end
-    it "reports not the current page for page 2" do
-      expect(subject.is_current_page?(2)).to eq(false)
+    it 'reports not the current page for page 2' do
+      expect(subject.current_page?(2)).to eq(false)
     end
-    it "reports that this is the current page for page 1" do
-      expect(subject.is_current_page?(1)).to eq(true)
+    it 'reports that this is the current page for page 1' do
+      expect(subject.current_page?(1)).to eq(true)
     end
-
   end
 
   context 'on the last page' do
@@ -169,7 +168,7 @@ describe Pagination do
 
     describe '#items' do
       subject { super().items }
-      it { should eq [7,8] }
+      it { should eq [7, 8] }
     end
 
     describe '#next_page' do
@@ -235,25 +234,9 @@ describe Pagination do
   context 'when current page is less than 0' do
     let(:current_page) { -8 }
 
-    describe '#current_page' do
-      subject { super().current_page }
-      it { should eq -8 }
-    end
-
-    describe '#items' do
-      subject { super().items }
-      it { should eq [] }
-    end
-
-    describe '#next_page' do
-      subject { super().next_page }
-      it { should eq -7 }
-    end
-
-    describe '#previous_page' do
-      subject { super().previous_page }
-      it { should eq 0 }
-    end
+    its(:current_page) { is_expected.to eql(-8) }
+    its(:next_page) { is_expected.to eql(-7) }
+    its(:previous_page) { is_expected.to eql(0) }
+    its(:items) { is_expected.to eql([]) }
   end
-
 end

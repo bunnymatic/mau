@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module Admin
   class EmailsController < ::BaseAdminController
-
     def index
       load_email_list
       render json: @email_list.emails
@@ -9,9 +9,9 @@ module Admin
     def destroy
       load_email_list
       load_email
-      member = EmailListMembership.where(:email_list_id => @email_list.id, :email_id => @email.id).first
+      member = EmailListMembership.where(email_list_id: @email_list.id, email_id: @email.id).first
       member.destroy if member.present?
-      render :json => {success: true}
+      render json: { success: true }
     end
 
     def create
@@ -25,9 +25,7 @@ module Admin
             @email_list.save
           else
             new_email = @email_list.emails.create(email_params)
-            unless new_email.valid?
-              errors = new_email.errors.full_messages
-            end
+            errors = new_email.errors.full_messages unless new_email.valid?
           end
         rescue ActiveRecord::RecordInvalid => ex
           errors << ex.to_s
@@ -41,6 +39,7 @@ module Admin
     end
 
     private
+
     def load_email_list
       @email_list = EmailList.find(params[:email_list_id])
     end

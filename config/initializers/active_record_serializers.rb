@@ -1,3 +1,4 @@
-require "active_model_serializers"
+# frozen_string_literal: true
+require 'active_model_serializers'
 
 ActiveModelSerializers.config.adapter = :json # Default: `:attributes`

@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe HtmlHelper do
-
   describe '.print_html_list' do
-    let(:links) { %w( one two three ) }
+    let(:links) { %w(one two three) }
     let(:list) { helper.print_html_list('mylist', links).to_s }
     let(:html_list) { Capybara::Node::Simple.new(list) }
     it 'lists all the links as a list' do
@@ -18,9 +18,7 @@ describe HtmlHelper do
       expect(tags.last['class']).to include 'last'
     end
     it 'includes a the input class on all elements' do
-      expect(html_list).to have_css 'li.mylist', :count => links.length
+      expect(html_list).to have_css 'li.mylist', count: links.length
     end
-
   end
-
 end

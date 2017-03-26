@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Api
   module V2
     class MediaController < Api::ApiController
@@ -5,6 +6,7 @@ module Api
       def index
         respond_with Medium.all
       end
+
       def show
         m = Medium.find(params[:id])
         respond_with m

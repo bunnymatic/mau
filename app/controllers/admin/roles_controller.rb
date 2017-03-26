@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Admin
   class RolesController < ::BaseAdminController
     before_action :admin_required
@@ -5,9 +6,8 @@ module Admin
 
     def index
       @roles = Role.all
-      @users_by_role = @roles.inject({}) do |memo, role|
+      @users_by_role = @roles.each_with_object({}) do |role, memo|
         memo[role.role] = role.users.active
-        memo
       end
     end
 
@@ -18,7 +18,7 @@ module Admin
     def create
       @role = Role.new(role_params)
       if @role.save
-        redirect_to admin_roles_path and return
+        redirect_to(admin_roles_path) && return
       else
         render :new
       end
@@ -34,7 +34,7 @@ module Admin
 
     def show_or_edit
       @role_users = @role.users.active
-      @users = (User.active.all - @role_users).sort_by{|u| u.full_name.downcase}
+      @users = (User.active.all - @role_users).sort_by { |u| u.full_name.downcase }
       render :edit
     end
 
@@ -56,6 +56,7 @@ module Admin
     end
 
     private
+
     def load_role
       @role = Role.find(params[:id])
     end

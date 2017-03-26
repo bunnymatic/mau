@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Admin
   class ArtPieceTagsController < ::BaseAdminController
     def index
@@ -16,9 +17,9 @@ module Admin
     end
 
     private
+
     def load_tag
       @tag = ArtPieceTag.find(params[:id])
     end
   end
-
 end

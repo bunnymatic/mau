@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe SearchQuery do
-
   describe '#keywords' do
     subject { super().keywords }
     it { should be_empty }
@@ -24,7 +24,7 @@ describe SearchQuery do
 
   describe '#page' do
     subject { super().page }
-    it { should eql 0}
+    it { should eql 0 }
   end
 
   describe '#mode' do
@@ -41,5 +41,4 @@ describe SearchQuery do
     subject { super().per_page }
     it { should eql SearchQuery::PER_PAGE }
   end
-
 end

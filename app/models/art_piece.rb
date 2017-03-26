@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 class ArtPiece < ApplicationRecord
-
   belongs_to :artist
 
   has_many :art_pieces_tags
-  has_many :tags, :through => :art_pieces_tags, :source => :art_piece_tag
+  has_many :tags, through: :art_pieces_tags, source: :art_piece_tag
 
   belongs_to :medium
 
@@ -12,8 +12,8 @@ class ArtPiece < ApplicationRecord
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
   validates_attachment_presence :photo
   validates_attachment_content_type :photo,
-                                    content_type: ["image/jpg", "image/jpeg", "image/png", "image/gif"],
-                                    message: "Only JPEG, PNG, and GIF images are allowed"
+                                    content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
+                                    message: 'Only JPEG, PNG, and GIF images are allowed'
   validates :artist_id, presence: true
   include Elasticsearch::Model
 
@@ -35,10 +35,10 @@ class ArtPiece < ApplicationRecord
     Search::Indexer.remove(self)
   end
 
-  self.__elasticsearch__.client = Search::EsClient.root_es_client
+  __elasticsearch__.client = Search::EsClient.root_es_client
 
-  settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2}) do
-    mappings(_all: {analyzer: :mau_snowball_analyzer}) do
+  settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2 }) do
+    mappings(_all: { analyzer: :mau_snowball_analyzer }) do
       indexes :title, analyzer: :mau_snowball_analyzer
       indexes :year
       indexes :medium, analyzer: :mau_snowball_analyzer
@@ -48,48 +48,46 @@ class ArtPiece < ApplicationRecord
     end
   end
 
-  before_destroy :remove_images
+  # after_destroy :remove_images
   after_destroy :clear_tags_and_favorites
   after_save :remove_old_art
   after_save :clear_caches
 
-  validates_presence_of     :title
-  validates_length_of       :title,    :within => 2..80
+  validates :title, presence: true
+  validates :title, length: { within: 2..80 }
 
-  def as_indexed_json(opts={})
+  def as_indexed_json(_opts = {})
     return {} unless artist && artist.active?
 
     idxd = as_json(only: [:title, :year])
     extras = {}
-    extras["medium"] = medium.try(:name)
-    extras["tags"] = tags.map(&:name).join(", ")
-    extras["images"] = image_paths
+    extras['medium'] = medium.try(:name)
+    extras['tags'] = tags.map(&:name).join(', ')
+    extras['images'] = image_paths
     # guard against bad data
-    extras["artist_name"] = artist.full_name
-    extras["studio_name"] = artist.studio.name if artist.studio
-    extras["os_participant"] = artist.doing_open_studios?
+    extras['artist_name'] = artist.full_name
+    extras['studio_name'] = artist.studio.name if artist.studio
+    extras['os_participant'] = artist.doing_open_studios?
 
-    idxd["art_piece"].merge! extras
+    idxd['art_piece'].merge! extras
     idxd
   end
 
-
   def self.find_random(num = 1)
-    owned.limit(num).order("rand()")
+    owned.limit(num).order('rand()')
   end
 
   def self.owned
-    joins(:artist).where( users: { state: 'active' } )
+    joins(:artist).where(users: { state: 'active' })
   end
 
   def tags
     super.alpha
   end
 
-
   def clear_tags_and_favorites
     klassname = self.class.name
-    Favorite.where(:favoritable_id => id, :favoritable_type => klassname).compact.map(&:destroy)
+    Favorite.where(favoritable_id: id, favoritable_type: klassname).compact.map(&:destroy)
   end
 
   def uniq_tags
@@ -97,62 +95,46 @@ class ArtPiece < ApplicationRecord
   end
 
   def get_name(escape = false)
-    escape ? safe_title : self.title
+    escape ? safe_title : title
   end
 
   def safe_title
-    HtmlEncoder.encode(self.title)
+    HtmlEncoder.encode(title)
   end
 
-  def get_path(size = nil, full_path = false)
-    size ||= 'medium'
-    artpiece_path = image_paths[size.to_sym]
-    (full_path ? full_image_path(artpiece_path) : artpiece_path)
+  def path(size)
+    photo(size) if photo?
   end
 
-  def image_paths
-    @image_paths ||= ArtPieceImage.new(self).paths
-  end
-
-  def get_paths
-    image_paths
-  end
-
-  private
-  def clear_caches
-    ArtPieceCacheService.clear
-    if self.artist && self.artist.id != nil?
-      SafeCache.delete(artist.representative_art_cache_key)
-    end
-  end
-
-  def remove_images
-    paths = get_paths.values
-    paths.each do |pth|
-      pth = File.expand_path( File.join( Rails.root, 'public', pth ) )
-      if File.exist? pth
-        begin
-          result = File.delete pth
-          ::Rails.logger.debug("Deleted %s" % pth)
-        rescue
-          ::Rails.logger.error("Failed to delete image %s [%s]" % [pth, $!])
+  def paths
+    @paths ||=
+      begin
+        MauImage::ImageSize.allowed_sizes.each_with_object({}) do |size, memo|
+          memo[size] = path(size)
         end
       end
-    end
+  end
+
+  alias image_paths paths
+
+  private
+
+  def clear_caches
+    ArtPieceCacheService.clear
+    SafeCache.delete(artist.representative_art_cache_key) if artist && artist.id != nil?
   end
 
   def remove_old_art
     # mostly this makes stuff work for testing
-    if artist
-      max = artist.max_pieces
-      cur = artist.art_pieces.length
-      del = 0
-      while cur && max && (cur > max)
-        artist.art_pieces.last.destroy
-        cur = cur - 1
-        del = del + 1
-      end
+    return unless artist
+
+    max = artist.max_pieces
+    cur = artist.art_pieces.length
+    del = 0
+    while cur && max && (cur > max)
+      artist.art_pieces.last.destroy
+      cur -= 1
+      del += 1
     end
   end
-
 end

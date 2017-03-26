@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class IndependentStudio
   extend  ActiveModel::Naming
   extend  ActiveModel::Translation
@@ -12,11 +13,12 @@ class IndependentStudio
   delegate :id, :name, :street, :city, :state, :cross_street, :phone, :zip, :lat, :lng, to: :studio
 
   class InnerStudio < Struct.new(:id, :name, :street, :city, :state,
-                                 :cross_street, :phone, :zip, :profile_image, :lat, :lng )
+                                 :cross_street, :phone, :zip, :profile_image, :lat, :lng)
     def initialize(h)
       super(*h.values_at(:id, :name, :street, :city, :state,
                          :cross_street, :phone, :zip, :profile_image, :lat, :lng))
     end
+
     def to_param
       name.parameterize
     end
@@ -26,29 +28,29 @@ class IndependentStudio
     def initialize(img)
       @img = img
     end
-    def url(*args)
+
+    def url(*_args)
       @img
     end
+
     def to_json
       url
     end
   end
 
-  def initialize(*args)
+  def initialize(*_args)
     # stick this in @studio so that to_json structures things just like Studio#to_json
-    @studio = InnerStudio.new({
-                                id: 0,
-                                name: 'Independent Studios',
-                                street: "The Mission District",
-                                city: "San Francisco",
-                                state: "CA",
-                                zip: '94110',
-                                profile_image: ImageContainer.new("/studiodata/0/profile/independent-studios.jpg"),
-                                cross_street: nil,
-                                phone: nil,
-                                lat: nil,
-                                lng: nil
-                              })
+    @studio = InnerStudio.new(id: 0,
+                              name: 'Independent Studios',
+                              street: 'The Mission District',
+                              city: 'San Francisco',
+                              state: 'CA',
+                              zip: '94110',
+                              profile_image: ImageContainer.new('/studiodata/0/profile/independent-studios.jpg'),
+                              cross_street: nil,
+                              phone: nil,
+                              lat: nil,
+                              lng: nil)
   end
 
   def slug
@@ -75,7 +77,7 @@ class IndependentStudio
     nil
   end
 
-  def get_profile_image(*args)
+  def get_profile_image(*_args)
     @studio.profile_image.url
   end
 
@@ -96,7 +98,7 @@ class IndependentStudio
   end
 
   def map_link
-    "http://maps.google.com/?q=SF+CA,+94110"
+    'http://maps.google.com/?q=SF+CA,+94110'
   end
 
   def profile_image?

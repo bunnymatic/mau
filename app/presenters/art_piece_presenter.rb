@@ -1,54 +1,56 @@
+# frozen_string_literal: true
 class ArtPiecePresenter < ViewPresenter
+  attr_reader :model
+  delegate :id, :year, :photo, :medium, :artist, :title, :updated_at, :to_param, to: :model
 
-  attr_reader :art_piece
-  delegate :id, :year, :photo, :medium, :get_path, :artist, :title, :updated_at, :to_param, :to => :art_piece
-
-  def initialize(art_piece)
-    @art_piece = art_piece
+  def initialize(model)
+    @model = model
   end
 
   def favorites_count
-    @favorites_count ||= Favorite.art_pieces.where(:favoritable_id => @art_piece.id).count
-    @favorites_count if @favorites_count > 0
+    @favorites_count ||= Favorite.art_pieces.where(favoritable_id: model.id).count
+    @favorites_count if @favorites_count.positive?
   end
 
   def artist_name
     artist.get_name
   end
 
-  def has_medium?
+  def medium?
     medium.present?
   end
 
-  def has_tags?
+  def tags?
     tags.present?
   end
 
   def tags
-    @tags ||= @art_piece.uniq_tags
+    @tags ||= model.uniq_tags
   end
 
-  def has_year?
-    year.present? and year.to_i > 1899
+  def year?
+    year.present? && year.to_i > 1899
   end
 
-  def path
-    url_helpers.art_piece_path(art_piece)
+  def path(size = :medium)
+    model.photo(size) if model.photo?
+  end
+
+  def show_path
+    url_helpers.art_piece_path(model)
   end
 
   def url
-    url_helpers.art_piece_url(art_piece)
+    url_helpers.art_piece_url(model)
   end
 
-  alias_method :show_path, :path
-  alias_method :destroy_path, :path
+  alias destroy_path show_path
 
   def edit_path
-    url_helpers.edit_art_piece_path(art_piece)
+    url_helpers.edit_art_piece_path(model)
   end
 
   def artist_path
     url_helpers.artist_path(artist)
   end
-
 end

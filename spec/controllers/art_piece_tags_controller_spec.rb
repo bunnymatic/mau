@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPieceTagsController do
-
   let(:artists) { FactoryGirl.create_list(:artist, 3, :with_tagged_art) }
   let(:artist) { artists.first }
   let(:tags) { artist.art_pieces.map(&:tags).flatten }
@@ -50,7 +50,7 @@ describe ArtPieceTagsController do
 
   describe '#autosuggest' do
     before do
-      get :autosuggest, params: { format: "json", input: tags.first.name.downcase }
+      get :autosuggest, params: { format: 'json', input: tags.first.name.downcase }
     end
     it_should_behave_like 'successful json'
     it 'returns all tags as json' do
@@ -71,8 +71,8 @@ describe ArtPieceTagsController do
     end
 
     it 'uses the cache there is data' do
-      expect(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key']).
-        and_return([ { "text" => ArtPieceTag.last.name, "id" => ArtPieceTag.last.id } ])
+      expect(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key'])
+        .and_return([{ 'text' => ArtPieceTag.last.name, 'id' => ArtPieceTag.last.id }])
       expect(Rails.cache).not_to receive(:write)
       get :autosuggest, params: { format: :json, input: 'tag' }
       j = JSON.parse(response.body)
@@ -97,10 +97,8 @@ describe ArtPieceTagsController do
         get :show, params: { id: 'abc5' }
       end
       it 'redirects to the most popular tag' do
-        expect(response).to redirect_to art_piece_tag_path(tag);
+        expect(response).to redirect_to art_piece_tag_path(tag)
       end
     end
-
   end
-
 end

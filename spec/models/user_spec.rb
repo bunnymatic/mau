@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe User do
@@ -26,9 +27,9 @@ describe User do
   end
 
   it 'allows unicode characters for name fields' do
-    user.nomdeplume = "蕭秋芬";
+    user.nomdeplume = '蕭秋芬'
     user.save!
-    expect(user.reload.nomdeplume).to eql "蕭秋芬"
+    expect(user.reload.nomdeplume).to eql '蕭秋芬'
   end
 
   it 'requires password and password confirmation' do
@@ -38,25 +39,25 @@ describe User do
     expect(user).to have_at_least(1).error_on(:password_confirmation)
   end
 
-  it{ should validate_presence_of(:login) }
-  it{ should validate_length_of(:login).is_at_least(5).is_at_most(40) }
+  it { should validate_presence_of(:login) }
+  it { should validate_length_of(:login).is_at_least(5).is_at_most(40) }
 
-  it{ should validate_presence_of(:email) }
-  it{ should validate_length_of(:email).is_at_least(6).is_at_most(100) }
+  it { should validate_presence_of(:email) }
+  it { should validate_length_of(:email).is_at_least(6).is_at_most(100) }
 
-  it{ should validate_length_of(:firstname).is_at_most(100) }
-  it{ should validate_length_of(:lastname).is_at_most(100) }
+  it { should validate_length_of(:firstname).is_at_most(100) }
+  it { should validate_length_of(:lastname).is_at_most(100) }
 
-  context '.find_by_login_or_email' do
+  context '.login_or_email_finder' do
     let!(:artist) { create :artist, login: 'whatever_yo', email: 'yo_whatever@example.com' }
     it 'finds users by their login' do
-      expect(User.find_by_login_or_email('whatever_yo')).to eql artist
+      expect(User.login_or_email_finder('whatever_yo')).to eql artist
     end
     it 'finds users by their email' do
-      expect(User.find_by_login_or_email('yo_whatever@example.com')).to eql artist
+      expect(User.login_or_email_finder('yo_whatever@example.com')).to eql artist
     end
     it 'returns nil when there is no match' do
-      expect(User.find_by_login_or_email('ack')).to be_nil
+      expect(User.login_or_email_finder('ack')).to be_nil
     end
   end
 
@@ -64,28 +65,27 @@ describe User do
     before do
       stub_signup_notification
     end
-    it{ should validate_uniqueness_of(:login) }
-    it{ should validate_uniqueness_of(:email) }
+    it { should validate_uniqueness_of(:login) }
+    it { should validate_uniqueness_of(:email) }
   end
 
   context 'make sure our factories work' do
     it 'creates an editor' do
-      expect(FactoryGirl.create(:user, :editor, :active).is_editor?).to eq(true)
+      expect(FactoryGirl.create(:user, :editor, :active).editor?).to eq(true)
     end
     it 'creates an admin' do
-      expect(FactoryGirl.create(:user, :admin, :active).is_admin?).to eq(true)
+      expect(FactoryGirl.create(:user, :admin, :active).admin?).to eq(true)
     end
   end
 
-
   describe '#sortable_name' do
-    let(:user1) { FactoryGirl.create(:user, :active, firstname: nil, lastname: nil, login: 'zzzzza')}
-    let(:user2) { FactoryGirl.create(:user, :active, firstname: nil, lastname: nil, login: 'bbbbbb')}
-    let(:user3) { FactoryGirl.create(:user, :active, firstname: nil, lastname: nil, login: 'aaaaaa')}
-    let(:artists) { [user1, user2, user3]}
-    let(:sorted_artists) {
+    let(:user1) { FactoryGirl.create(:user, :active, firstname: nil, lastname: nil, login: 'zzzzza') }
+    let(:user2) { FactoryGirl.create(:user, :active, firstname: nil, lastname: nil, login: 'bbbbbb') }
+    let(:user3) { FactoryGirl.create(:user, :active, firstname: nil, lastname: nil, login: 'aaaaaa') }
+    let(:artists) { [user1, user2, user3] }
+    let(:sorted_artists) do
       artists.sort_by(&:sortable_name)
-    }
+    end
 
     context 'when artists only have a login' do
       it 'should sort the artists by their login name' do
@@ -96,7 +96,7 @@ describe User do
     end
 
     context 'when the artists last name is punctuation' do
-      let(:user1) { FactoryGirl.create(:user, :active, firstname: 'RUBYSPAM', lastname: '*', login: 'aaabbb')}
+      let(:user1) { FactoryGirl.create(:user, :active, firstname: 'RUBYSPAM', lastname: '*', login: 'aaabbb') }
       it 'should sort the artists by their login name' do
         expect(sorted_artists.first.login).to eql user3.login
         expect(sorted_artists[1].login).to eql user2.login
@@ -105,16 +105,15 @@ describe User do
     end
 
     context 'when some artists have empty last names' do
-       let(:user1) { FactoryGirl.create(:user, :active, firstname: 'bob', lastname: 'kabob', login: 'zzzzza')}
-       let(:user2) { FactoryGirl.create(:user, :active, firstname: 'Bob', lastname: ' ', login: 'bbbbbb')}
-       let(:user3) { FactoryGirl.create(:user, :active, firstname: 'faern', lastname: '', login: 'cccccc')}
-       it 'should sort the artists properly' do
+      let(:user1) { FactoryGirl.create(:user, :active, firstname: 'bob', lastname: 'kabob', login: 'zzzzza') }
+      let(:user2) { FactoryGirl.create(:user, :active, firstname: 'Bob', lastname: ' ', login: 'bbbbbb') }
+      let(:user3) { FactoryGirl.create(:user, :active, firstname: 'faern', lastname: '', login: 'cccccc') }
+      it 'should sort the artists properly' do
         expect(sorted_artists.first.login).to eql user2.login
         expect(sorted_artists[1].login).to eql user3.login
         expect(sorted_artists.last.login).to eql user1.login
       end
     end
-
   end
   describe '#full_name' do
     context 'an artist with a login but no names' do
@@ -149,26 +148,20 @@ describe User do
         expect(user).not_to be_valid
         expect(user).to have_at_least(1).error_on(:email)
       end
-      it "should not allow blow@ for email" do
+      it 'should not allow blow@ for email' do
         user = FactoryGirl.build(:user, email: 'blow@')
         expect(user).not_to be_valid
         expect(user).to have_at_least(1).error_on(:email)
       end
     end
   end
-  describe 'create' do
-    it 'sets email attrs to true for everything' do
-      FactoryGirl.create(:user, :pending)
-      expect(User.all.last.emailsettings.all?{|k,v| v}).to eq(true)
-    end
-  end
   describe 'named scope' do
-    it "active returns only active users" do
+    it 'active returns only active users' do
       User.active.all.each do |u|
         expect(u.state).to eql 'active'
       end
     end
-    it "pending returns only pending users" do
+    it 'pending returns only pending users' do
       User.pending.all.each do |u|
         expect(u.state).to eql 'pending'
       end
@@ -181,8 +174,8 @@ describe User do
       expect(user.get_name).to eql 'blurp'
     end
     it 'returns first + last if defined' do
-      user = FactoryGirl.build(:user, nomdeplume: nil )
-      expect(user.get_name).to eql([user.firstname, user.lastname].join ' ')
+      user = FactoryGirl.build(:user, nomdeplume: nil)
+      expect(user.get_name).to eql([user.firstname, user.lastname].join(' '))
     end
     it 'returns login if nom, and firstname are not defined' do
       user = FactoryGirl.build(:user, nomdeplume: '', firstname: '')
@@ -192,72 +185,67 @@ describe User do
       user = FactoryGirl.build(:user, nomdeplume: '', lastname: '')
       expect(user.get_name).to eql user.login
     end
-
   end
 
   describe 'get_profile_image' do
-    it 'returns the medium artists profile image if there is one' do
-      expect(artist.get_profile_image).to eql "/artistdata/#{artist.id}/profile/m_profile.jpg"
+    context 'when the user has a photo' do
+      let(:artist) { build_stubbed(:artist, :with_photo) }
+      it 'returns the medium artists profile image' do
+        expect(artist.get_profile_image).to match %r{system/artists/photos/(.*)/medium/new-profile.jpg}
+      end
+      it 'returns the small artists profile image given size = small' do
+        expect(artist.get_profile_image(:small)).to match %r{system/artists/photos/(.*)/small/new-profile.jpg}
+      end
     end
-    it 'returns the small artists profile image if there is one give size = small' do
-      expect(artist.get_profile_image(:small)).to eql "/artistdata/#{artist.id}/profile/s_profile.jpg"
-    end
-  end
-
-  describe 'get_share_link' do
-    it "returns the artists link" do
-      expect(user.get_share_link).to match %r|/artists/#{user.login}$|
-    end
-    it "returns the html safe artists link given html_safe = true" do
-      expect(user.get_share_link(true).downcase).to match %r|%2fartists%2f#{user.login}$|
-    end
-    it "returns the artists link with params given params" do
-      expect(user.get_share_link(false, this: "that")).to match %r|artists/#{user.login}\?this=that$|
+    context 'when there is no image' do
+      it 'returns nil' do
+        expect(artist.get_profile_image).to be_nil
+      end
     end
   end
 
   describe 'roles' do
-    it "without admin role user is not admin" do
-      expect(artist).not_to be_is_admin
+    it 'without admin role user is not admin' do
+      expect(artist).not_to be_admin
     end
-    it "without editor role user is not editor" do
-      expect(artist).not_to be_is_editor
+    it 'without editor role user is not editor' do
+      expect(artist).not_to be_editor
     end
-    it "with admin role, user is admin" do
-      expect(admin).to be_is_admin
+    it 'with admin role, user is admin' do
+      expect(admin).to be_admin
     end
-    it "with editor role, user is editor" do
-      expect(editor).to be_is_editor
+    it 'with editor role, user is editor' do
+      expect(editor).to be_editor
     end
-    it "with editor and manager role, user is editor and manager but not admin" do
-      expect(managing_editor).to be_is_editor
-      expect(managing_editor).to be_is_manager
-      expect(managing_editor).not_to be_is_admin
+    it 'with editor and manager role, user is editor and manager but not admin' do
+      expect(managing_editor).to be_editor
+      expect(managing_editor).to be_manager
+      expect(managing_editor).not_to be_admin
     end
-    it "with admin role, user is editor and manager and admin" do
-      expect(admin).to be_is_editor
-      expect(admin).to be_is_manager
-      expect(admin).to be_is_admin
+    it 'with admin role, user is editor and manager and admin' do
+      expect(admin).to be_editor
+      expect(admin).to be_manager
+      expect(admin).to be_admin
     end
     it 'does not save multiple roles of the same type' do
-      expect {
+      expect do
         manager.roles << Role.where(role: :manager).first
-      }.to raise_error(ActiveRecord::RecordInvalid)
+      end.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 
   describe 'address' do
-    it "responds to address" do
+    it 'responds to address' do
       expect(simple_artist).to respond_to :address
     end
-    it "responds to full address" do
+    it 'responds to full address' do
       expect(simple_artist).to respond_to :full_address
     end
-    it "returns nothing" do
+    it 'returns nothing' do
       expect(simple_artist.address).not_to be_present
     end
   end
-  describe "unavailable methods" do
+  describe 'unavailable methods' do
     it "doesn't reply to old artists attributes" do
       [:lat, :lng, :bio, :street, :city, :zip].each do |method|
         expect(maufan).not_to respond_to method
@@ -265,22 +253,22 @@ describe User do
     end
   end
 
-  describe "forgot password methods" do
-    context "artfan" do
+  describe 'forgot password methods' do
+    context 'artfan' do
       before do
         Timecop.travel(1.hour.since)
       end
-      it "create_reset_code creates a reset code" do
+      it 'create_reset_code creates a reset code' do
         ActiveJob::Base.queue_adapter = :test
         expect(maufan.reset_code).to be_nil
-        expect {
+        expect do
           maufan.create_reset_code
           expect(maufan.reset_code).not_to be_nil
-        }.to have_enqueued_job.on_queue('mailers')
+        end.to have_enqueued_job.on_queue('mailers')
       end
     end
-    context "artist" do
-      it "create_reset_code creates a reset code" do
+    context 'artist' do
+      it 'create_reset_code creates a reset code' do
         expect(artist.reset_code).to be_nil
         artist.create_reset_code
         expect(artist.reset_code).not_to be_nil
@@ -289,11 +277,10 @@ describe User do
   end
 
   describe 'field cleaner' do
-    let(:simple_artist) { build :artist, firstname: '  first  ', lastname: ' _ _ _ ',  nomdeplume: ' mi nom ' }
+    let(:simple_artist) { build :artist, firstname: '  first  ', lastname: ' _ _ _ ', nomdeplume: ' mi nom ' }
     it 'cleans firstname, lastname and nomdeplume fields of whitespace before save' do
       simple_artist.valid?
       expect(simple_artist.firstname).to eql 'first'
     end
   end
-
 end

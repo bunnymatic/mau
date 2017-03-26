@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 When(/^I fill in the feedback form$/) do
   within '#feedback' do
     fill_in 'feedback_comment', with: 'this is my feedback'

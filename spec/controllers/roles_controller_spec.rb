@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 describe RolesController do
   let(:editor) { FactoryGirl.create(:artist, :editor, :active) }
@@ -16,9 +17,9 @@ describe RolesController do
     end
     context 'with role and user' do
       it 'removes the role association from the user' do
-        expect{
+        expect do
           delete :destroy, params: { user_id: editor.id, id: editor_role.id }
-         }.to change(editor.roles, :count).by(-1)
+        end.to change(editor.roles, :count).by(-1)
       end
       it 'redirects to the role page' do
         delete :destroy, params: { user_id: editor.id, id: editor_role.id }
@@ -27,9 +28,9 @@ describe RolesController do
     end
     context 'with invalid role and user' do
       it 'removes the role association from the user' do
-        expect{
-          delete :destroy, params: { user_id: 'bogus', id: editor_role.id  }
-        }.to change(editor.roles, :count).by(0)
+        expect do
+          delete :destroy, params: { user_id: 'bogus', id: editor_role.id }
+        end.to change(editor.roles, :count).by(0)
       end
       it 'redirects to the role page' do
         delete :destroy, params: { user_id: 'bogus', id: editor_role.id }

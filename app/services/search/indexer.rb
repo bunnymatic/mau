@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module Search
   class Indexer
-
     ANALYZERS = {
       mau_snowball_analyzer: {
         type: 'snowball',
@@ -9,20 +9,20 @@ module Search
       mau_ngram_analyzer: {
         tokenizer: :mau_ngram_tokenizer
       }
-    }
+    }.freeze
     TOKENIZERS = {
       mau_ngram_tokenizer: {
         type: 'nGram',
         min_gram: 4,
         max_gram: 10,
-        token_chars: [ :letter, :digit ]
+        token_chars: [:letter, :digit]
       }
-    }
+    }.freeze
 
     ANALYZERS_TOKENIZERS = {
       analyzer: ANALYZERS,
       tokenizer: TOKENIZERS
-    }
+    }.freeze
 
     class ObjectSearchService
       attr_reader :object
@@ -40,18 +40,14 @@ module Search
       end
 
       def remove
-        begin
-          object.__elasticsearch__.delete_document
-        rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
-        end
+        object.__elasticsearch__.delete_document
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound
       end
 
       def update
-        begin
-          object.__elasticsearch__.update_document
-        rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
-          index
-        end
+        object.__elasticsearch__.update_document
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound
+        index
       end
     end
 
@@ -142,6 +138,5 @@ module Search
     def self.update(object)
       run_es_method_on_object(:update, object)
     end
-
   end
 end

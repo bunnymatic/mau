@@ -8,7 +8,7 @@
       - [:totals, :yesterday, :last_week, :last_30_days, :open_studios, :social_links].each_with_index do |category, idx|
         - stats = @activity_stats.send category
         = render 'dashboard_stats_table', stats: stats, classes: category, title: category.to_s.titleize
-  - if current_user.is_admin?
+  - if current_user.admin?
     .pure-g
       .pure-u-1-1.header
         h2.title Graphs

@@ -1,10 +1,9 @@
+# frozen_string_literal: true
 class UsersController < ApplicationController
-
-  before_action :logged_out_required, :only => [:new]
-  before_action :admin_required, :only => [ :destroy ]
-  before_action :user_required, :only => [ :edit, :update, :suspend, :deactivate,
-                                           :change_password_update]
-
+  before_action :logged_out_required, only: [:new]
+  before_action :admin_required, only: [:destroy]
+  before_action :user_required, only: [:edit, :update, :suspend, :deactivate,
+                                       :change_password_update]
 
   DEFAULT_ACCOUNT_TYPE = 'MauFan'
 
@@ -19,7 +18,7 @@ class UsersController < ApplicationController
   def edit
     @fan = safe_find_user(params[:id])
 
-    if (@fan != current_user) || current_user.is_artist?
+    if (@fan != current_user) || current_user.artist?
       flash.keep
       redirect_to edit_artist_path(current_user)
       return
@@ -30,13 +29,13 @@ class UsersController < ApplicationController
   def show
     @fan = safe_find_user(params[:id])
     unless @fan && @fan.active?
-      flash.now[:error] = "The account you were looking for was not found."
-      redirect_to artists_path and return
+      flash.now[:error] = 'The account you were looking for was not found.'
+      redirect_to(artists_path) && return
     end
-    if @fan.is_artist?
-      redirect_to artist_path(@fan) and return
+    if @fan.artist?
+      redirect_to(artist_path(@fan)) && return
     else
-      @page_title = PageInfoService.title("Fan: %s" % @fan.get_name(true))
+      @page_title = PageInfoService.title(sprintf('Fan: %s', @fan.get_name(true)))
     end
     @fan = UserPresenter.new(@fan)
   end
@@ -46,23 +45,21 @@ class UsersController < ApplicationController
     fan = MauFan.new
     @studios = StudioService.all
     type = params[:type] || user_attrs[:type]
-    @type = ['Artist','MauFan'].include?(type) ? type : 'Artist'
-    @user = (@type == 'MauFan') ? fan : artist
+    @type = %w(Artist MauFan).include?(type) ? type : 'Artist'
+    @user = @type == 'MauFan' ? fan : artist
   end
-
 
   def update
     if commit_is_cancel
       redirect_to user_path(current_user)
       return
     end
-    # clean os from radio buttons
     msg = {}
     if current_user.update_attributes(user_params)
-      Messager.new.publish "/artists/#{current_user.id}/update", "updated artist info"
-      msg["notice"] = "Your profile has been updated"
+      Messager.new.publish "/artists/#{current_user.id}/update", 'updated artist info'
+      msg['notice'] = 'Your profile has been updated'
     else
-      msg["error"] = ex.to_s
+      msg['error'] = ex.to_s
     end
     redirect_to edit_user_url(current_user), flash: msg
   end
@@ -72,55 +69,53 @@ class UsersController < ApplicationController
     @type = params.delete(:type)
     @type ||= user_attrs[:type]
 
-    # validate email domain
     @user = build_user_from_params
     recaptcha = true # && verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
     secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
+    @user.state = 'pending'
     if secret && recaptcha && @user.save
-      new_state = (@user.is_a? Artist) ? 'pending' : 'active'
-      @user.update_attribute(:state, new_state)
-      redirect_after_create and return
+      redirect_after_create && return
     else
-      render_on_failed_create and return
+      render_on_failed_create && return
     end
   end
 
   # Change user passowrd
   def change_password_update
     msg = {}
-    if current_user.valid_password? user_attrs["old_password"]
+    if current_user.valid_password? user_attrs['old_password']
       if current_user.update_attributes(password_params)
-        msg[:notice] = "Your password has been updated"
+        msg[:notice] = 'Your password has been updated'
       else
         msg[:error] = current_user.errors.full_messages.to_sentence
       end
     else
-      msg[:error] = "Your old password was incorrect"
+      msg[:error] = 'Your old password was incorrect'
     end
     redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
   end
 
   def reset
-    @user = User.find_by_reset_code(params["reset_code"]) unless params["reset_code"].nil?
+    @user = User.find_by(reset_code: reset_code_from_params)
 
     if @user.nil?
-      flash[:error] = "We were unable to find a user with that activation code"
-      render_not_found Exception.new('failed to find user with activation code')
+      flash[:error] = 'Are you sure you got the right link -- maybe you should double check your email?'
+      render_not_found Exception.new('failed to find user with reset code')
       return
     end
-    if request.post? && user_params
-      if @user.update_attributes(user_params.slice(:password, :password_confirmation))
-        @user.delete_reset_code
-        flash[:notice] = "Password reset successfully for #{@user.email}.  Please log in."
-        logout
-        redirect_to login_path
-        return
-      else
-        flash[:error] = "Failed to update your password."
-        @user.password = '';
-        @user.password_confirmation ='';
-      end
+    render && return unless request.post? && user_params
+
+    if @user.update_attributes(user_params.slice(:password, :password_confirmation))
+      @user.delete_reset_code
+      flash[:notice] = "Password reset successfully for #{@user.email}.  Please log in."
+      logout
+      redirect_to login_path
+      return
     end
+
+    flash[:error] = 'Failed to update your password.'
+    @user.password = ''
+    @user.password_confirmation = ''
   end
 
   def destroy
@@ -130,26 +125,25 @@ class UsersController < ApplicationController
       if u.id != current_user.id
         name = u.login
         u.delete!
-        flash[:notice] = "The account for login %s has been deactivated." % name
+        flash[:notice] = "The account for login #{name} has been deactivated."
       else
         flash[:error] = "You can't delete yourself."
       end
     else
       flash[:error] = "Couldn't find user #{id}"
     end
-    redirect_to users_path and return
+    redirect_to(users_path) && return
   end
-
 
   def activate
     logout
     code = activate_params[:activation_code]
     user = User.find_by(activation_code: code) if code.present?
 
-    if !user
-      flash[:error]  = "We couldn't find an artist with that activation code -- check your email?"+
-                       " Or maybe you've already activated -- try signing in."
-      redirect_to login_path and return
+    unless user
+      flash[:error] = 'Are you sure you got the right link -- maybe you should double check your email?'\
+                      " Or maybe you've already activated -- try signing in."
+      redirect_to(login_path) && return
     end
 
     if code.present? && !user.active?
@@ -157,40 +151,39 @@ class UsersController < ApplicationController
       MailChimpService.new(user).subscribe_and_welcome
       flash[:notice] = "We're so excited to have you! Just sign in to get started."
     elsif code.blank?
-      flash[:error] = "Your activation code was missing.  Please follow the URL from your email."
+      flash[:error] = 'Your activation code was missing.  Please follow the URL from your email.'
     end
 
     redirect_to login_path
   end
 
   def resend_activation
-    if request.post?
-      inputs = params.require(user_params_key).permit(:email)
-      email = inputs[:email]
-      if email.present?
-        flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
-        user = User.find_by_email email
-        if user
-          user.resend_activation
-        end
-        redirect_back_or_default('/')
-      else
-        flash[:error] = "You need to enter an email"
-      end
+    render && return unless request.post?
+
+    inputs = params.require(user_params_key).permit(:email)
+    email = inputs[:email]
+    if email.present?
+      flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
+      user = User.find_by(email: email)
+      user&.resend_activation
+      redirect_back_or_default('/')
+    else
+      flash[:error] = 'You need to enter an email'
     end
   end
 
   def forgot
-    render and return unless request.post?
+    render && return unless request.post?
+
     inputs = params.require(user_params_key).permit(:email)
-    user = User.find_by_email(inputs[:email])
-    flash[:notice] = "We've sent email with instructions on how to reset your password."+
-                     "  Please check your email."
+    user = User.find_by(email: inputs[:email])
+    flash[:notice] = "We've sent email with instructions on how to reset your password."\
+                     '  Please check your email.'
     if user
       if !user.active?
         flash[:notice] = nil
-        flash[:error] = "That account is not yet active.  Have you responded to the activation email we"+
-                        " already sent?  Enter your email below if you need us to send you a new activation email."
+        flash[:error] = 'That account is not yet active.  Have you responded to the activation email we'\
+                        ' already sent?  Enter your email below if you need us to send you a new activation email.'
       else
         user.create_reset_code
       end
@@ -201,21 +194,22 @@ class UsersController < ApplicationController
   def deactivate
     logout
     SuspendArtistService.new(current_user).suspend!
-    flash[:notice] = "Your account has been deactivated."
+    flash[:notice] = 'Your account has been deactivated.'
     redirect_to root_path
   end
 
   protected
+
   def render_on_failed_create
     msg = [
-      "There was a problem creating your account.",
+      'There was a problem creating your account.',
       [@user.errors[:base]],
-      " Please correct these issues or contact the webmaster (link below), if you continue to have problems."
-    ].flatten.join("<br/>")
-    flash.now[:error] = msg.html_safe
+      ' Please correct these issues or contact the webmaster (link below), if you continue to have problems.'
+    ].flatten.join('<br/>')
+    flash.now[:error] = msg
     @studios = StudioService.all
     @user.valid?
-    render :action => 'new'
+    render action: 'new'
   end
 
   def redirect_after_create
@@ -224,7 +218,7 @@ class UsersController < ApplicationController
       @user.build_artist_info
       @user.artist_info.save!
       @user.save!
-      Messager.new.publish "/artists/create", "added a new artist"
+      Messager.new.publish '/artists/create', 'added a new artist'
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
       redirect_to root_path
     else
@@ -236,12 +230,10 @@ class UsersController < ApplicationController
   end
 
   def safe_find_user(id)
-    begin
-      User.friendly.find(id)
-    rescue ActiveRecord::RecordNotFound
-      flash.now[:error] = "The user you were looking for was not found."
-      return nil
-    end
+    User.friendly.find(id)
+  rescue ActiveRecord::RecordNotFound
+    flash.now[:error] = 'The user you were looking for was not found.'
+    return nil
   end
 
   private
@@ -258,11 +250,10 @@ class UsersController < ApplicationController
   end
 
   def basic_note_info_from_params
+    # TODO: use strong params
     {}.tap do |info|
-      ['comment','login','email','page','name'].each do |k|
-        if params.include? k
-          info[k] = params[k]
-        end
+      %w(comment login email page name).each do |k|
+        info[k] = params[k] if params.include? k
       end
     end
   end
@@ -270,26 +261,26 @@ class UsersController < ApplicationController
   def scammer_emails
     @scammer_email ||=
       begin
-        fixed_names = ['philipcolee@yahoo.com','evott@rocketmail.com', 'mrsute14@yahoo.com','garymartin@gmail.com]']
+        fixed_names = ['philipcolee@yahoo.com', 'evott@rocketmail.com', 'mrsute14@yahoo.com', 'garymartin@gmail.com]']
         Scammer.all.map(&:email) + fixed_names
       end
   end
 
   def build_note_info_from_params
-    _id = params[:id]
+    id = params[:id]
     note_info = basic_note_info_from_params
     if params.include? 'i_love_honey'
       # spammer hit the honey pot.
-      note_info['artist_id'] = _id
+      note_info['artist_id'] = id
       note_info['reason'] = 'hit the honey pot'
     elsif scammer_emails.include? note_info['email']
-      note_info['artist_id'] = _id
+      note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect scammer email address'
     elsif /Morning,I would love to purchase/i =~ note_info['comment']
-      note_info['artist_id'] = _id
+      note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect spam intro'
     elsif /\s+details..i/i =~ note_info['comment']
-      note_info['artist_id'] = _id
+      note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect spam intro'
     end
     note_info
@@ -305,11 +296,15 @@ class UsersController < ApplicationController
   end
 
   def user_params_key
-    [:artist, :mau_fan, :user].detect{|k| params.has_key? k}
+    [:artist, :mau_fan, :user].detect { |k| params.key? k }
   end
 
   def destroy_params
     params.permit(:id)
+  end
+
+  def reset_code_from_params
+    params.permit(:reset_code)[:reset_code]
   end
 
   def activate_params
@@ -317,21 +312,11 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    k = user_params_key
-    attrs = user_attrs
-    if params[:emailsettings]
-      em = params[:emailsettings]
-      em2 = {}
-      em.each_pair do |k,v|
-        em2[k] = ( v.to_i != 0 ? true : false)
-      end
-      attrs[:email_attrs] = em2.to_json
-    end
+    key = user_params_key
     permitted = [:login, :email, :firstname, :lastname, :type,
                  :password, :password_confirmation,
-                 :studio, :studio_id, :nomdeplume, :photo,
-                 :email_attrs] + User.stored_attributes[:links]
-    params.require(k).permit(*permitted)
+                 :studio, :studio_id, :nomdeplume, :photo] + User.stored_attributes[:links]
+    params.require(key).permit(*permitted)
   end
 
   def verify_secret_word(opts)
@@ -339,5 +324,4 @@ class UsersController < ApplicationController
     opts[:model].errors.add(:base, opts[:message] || "You clearly don't have the secret password.") unless valid
     valid
   end
-
 end

@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Studio do
-
   subject(:studio) { FactoryGirl.build(:studio) }
 
   it_should_behave_like AddressMixin
@@ -16,10 +16,10 @@ describe Studio do
   end
 
   describe 'address' do
-    it "responds to address" do
+    it 'responds to address' do
       expect(studio).to respond_to :address
     end
-    it "responds to full address" do
+    it 'responds to full address' do
       expect(studio).to respond_to :full_address
     end
   end
@@ -29,12 +29,12 @@ describe Studio do
     before do
       @s = Studio.new(FactoryGirl.attributes_for(:studio))
     end
-    it "studio is valid" do
+    it 'studio is valid' do
       expect(@s).to be_valid
     end
-    it "save triggers geocode" do
+    it 'save triggers geocode' do
       s = Studio.new(FactoryGirl.attributes_for(:studio))
-      expect(s).to receive(:compute_geocode).at_least(:once).and_return([-37,122])
+      expect(s).to receive(:compute_geocode).at_least(:once).and_return([-37, 122])
       s.save!
     end
   end
@@ -44,26 +44,24 @@ describe Studio do
       studio.save
     end
 
-    it "triggers geocode given new street" do
+    it 'triggers geocode given new street' do
       studio.street = '1891 Bryant St'
-      expect(studio).to receive(:compute_geocode).at_least(:once).and_return([-37,122])
+      expect(studio).to receive(:compute_geocode).at_least(:once).and_return([-37, 122])
       studio.save!
     end
   end
 
-  describe "by_position" do
-    it "sorts by position" do
-      create_list(:studio,3)
+  describe 'by_position' do
+    it 'sorts by position' do
+      create_list(:studio, 3)
       expect(Studio.by_position.map(&:position)).to be_monotonically_increasing
     end
-    it "sorts by name if position is the same" do
+    it 'sorts by name if position is the same' do
       create(:studio, name: 'Zed', position: 5)
       create(:studio, name: 'zal', position: 5)
       create(:studio, name: 'Alp', position: 5)
       create(:studio, name: 'bor', position: 5)
-      expect(Studio.by_position.map{|s| s.name}).to eql ['Alp', 'bor', 'zal', 'Zed']
+      expect(Studio.by_position.map(&:name)).to eql %w(Alp bor zal Zed)
     end
-
   end
-
 end

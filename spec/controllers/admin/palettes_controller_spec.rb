@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::PalettesController do
@@ -6,6 +7,6 @@ describe Admin::PalettesController do
       login_as :admin
       get :show
     end
-    it{ expect(response).to be_success }
+    it { expect(response).to be_success }
   end
 end

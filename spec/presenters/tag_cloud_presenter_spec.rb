@@ -1,13 +1,13 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe TagCloudPresenter, type: :controller do
-
   include PresenterSpecHelpers
 
   let(:mode) { 'a' }
   let(:clz) { ArtPieceTag }
   let(:artist) { FactoryGirl.create :artist, :with_art, number_of_art_pieces: 7 }
-  let(:tags) {
+  let(:tags) do
     tags = FactoryGirl.create_list(:art_piece_tag, 3)
     artist.art_pieces.reverse.each_with_index do |ap, idx|
       ap.tags = ap.tags + [tags.first]
@@ -15,7 +15,7 @@ describe TagCloudPresenter, type: :controller do
       ap.save
     end
     tags
-  }
+  end
   let(:expected_frequency) { ArtPieceTagService.frequency(true) }
   let(:expected_order) { tags }
   let(:current_tag) { tags[1] }
@@ -36,16 +36,17 @@ describe TagCloudPresenter, type: :controller do
   end
 
   describe '#frequency' do
-    it { expect(presenter.frequency.map{|tf| [tf.tag, tf.frequency]})
-         .to eql expected_frequency.map{|tf| [tf.tag, tf.frequency]}  }
-  end
-
-  describe '#tags' do
-    it "returns tags that have frequency" do
-      expect(presenter.tags).to match_array(ArtPieceTag.where(slug: expected_frequency.map{|f| f.tag}).all)
+    it do
+      expect(presenter.frequency.map { |tf| [tf.tag, tf.frequency] })
+        .to eql expected_frequency.map { |tf| [tf.tag, tf.frequency] }
     end
   end
 
+  describe '#tags' do
+    it 'returns tags that have frequency' do
+      expect(presenter.tags).to match_array(ArtPieceTag.where(slug: expected_frequency.map(&:tag)).all)
+    end
+  end
 
   it 'returns the tag path' do
     expect(presenter.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, m: mode)
@@ -57,5 +58,4 @@ describe TagCloudPresenter, type: :controller do
       expect(presenter.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, m: mode)
     end
   end
-
 end

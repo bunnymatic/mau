@@ -1,24 +1,23 @@
+# frozen_string_literal: true
 require 'active_model'
 
 class FeedbackMail
-
   include ActiveModel::Validations
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
   attr_accessor :note_type, :email, :email_confirm,
-    :inquiry, :current_user, :operating_system, :browser, :device
+                :inquiry, :current_user, :operating_system, :browser, :device
 
+  VALID_NOTE_TYPES = %w(help inquiry).freeze
 
-  VALID_NOTE_TYPES = %w(help inquiry)
+  validates :note_type, presence: true, inclusion: { in: VALID_NOTE_TYPES,
+                                                     message: '%{value} is not a valid note type' }
 
-  validates :note_type, :presence => true, :inclusion => { :in => VALID_NOTE_TYPES,
-    :message => "%{value} is not a valid note type" }
+  validates :email, presence: true
+  validates :email_confirm, presence: true
 
-  validates :email, :presence => true
-  validates :email_confirm, :presence => true
-
-  validates :inquiry, :presence => true
+  validates :inquiry, presence: true
 
   validate :emails_must_match
 
@@ -29,7 +28,7 @@ class FeedbackMail
   end
 
   def os=(v)
-    self.operating_system=v
+    self.operating_system = v
   end
 
   def emails_must_match
@@ -45,8 +44,8 @@ class FeedbackMail
       current_user.try(:login) || 'anon'
   end
 
-  def has_account?
-    !!(current_user)
+  def account?
+    !!current_user
   end
 
   def comment
@@ -67,14 +66,11 @@ class FeedbackMail
   end
 
   def save
-    em = (has_account? ? account_email : email)
-    f = Feedback.new( { :email => em,
-                        :subject => subject,
-                        :login => login,
-                        :comment => comment })
-    if f.save
-      FeedbackMailer.feedback(f).deliver_later
-    end
+    em = (account? ? account_email : email)
+    f = Feedback.new(email: em,
+                     subject: subject,
+                     login: login,
+                     comment: comment)
+    FeedbackMailer.feedback(f).deliver_later if f.save
   end
-
 end

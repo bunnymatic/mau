@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 When(/^I fill in the new studio information for "(.*)"$/) do |name|
   within '#new_studio' do
-    fill_in "Name", with: name
-    fill_in "Street", with: '100 Market St'
-    attach_file "Photo", fixture_file("files/art.png")
+    fill_in 'Name', with: name
+    fill_in 'Street', with: '100 Market St'
+    attach_file 'Photo', fixture_file('files/art.png')
   end
 end
 
@@ -19,5 +20,5 @@ Then(/^I click on the last remove studio button$/) do
 end
 
 Then(/^I see the last studio has been removed$/) do
-  expect(page).to have_flash :notice, "Sad to see them go"
+  expect(page).to have_flash :notice, 'Sad to see them go'
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'elasticsearch/extensions/test/cluster'
 class TestEsServer
   def self.cluster
@@ -9,19 +10,19 @@ class TestEsServer
   end
 
   def self.running?
-    cluster.running?(port: self.port)
+    cluster.running?(port: port)
   end
 
   def self.start
-    if !running?
-      puts "Starting elasticsearch cluster on port #{port}"
-      cluster.start(port: port, number_of_nodes: 1, clear_cluster: true) unless running?
-    end
+    return if running?
+
+    puts "Starting elasticsearch cluster on port #{port}"
+    cluster.start(port: port, number_of_nodes: 1, clear_cluster: true) unless running?
   end
 
   def self.stop
-    puts "skipping es teardown for speed"
-    #puts "Tearing down elastic search cluster on port #{port} if necessary"
-    #cluster.stop(port: port) if running?
+    puts 'skipping es teardown for speed'
+    # puts "Tearing down elastic search cluster on port #{port} if necessary"
+    # cluster.stop(port: port) if running?
   end
 end

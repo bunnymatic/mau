@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class UpdateArtPieceService
-
   attr_reader :art_piece, :params
 
   include ArtPieceServiceTagsHandler
@@ -14,5 +14,4 @@ class UpdateArtPieceService
     art_piece.update_attributes(params)
     art_piece
   end
-
 end

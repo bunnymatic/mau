@@ -1,23 +1,23 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPiece do
-
   let(:valid_attrs) { FactoryGirl.attributes_for(:art_piece) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
   let(:art_piece) { artist.art_pieces.first }
 
-  it{ should validate_presence_of(:title) }
-  it{ should validate_length_of(:title).is_at_least(2).is_at_most(80) }
+  it { should validate_presence_of(:title) }
+  it { should validate_length_of(:title).is_at_least(2).is_at_most(80) }
 
-  describe 'new'  do
+  describe 'new' do
     it 'allows quotes' do
-      p = valid_attrs.merge({:title => 'what"ever'})
+      p = valid_attrs.merge(title: 'what"ever')
       ap = ArtPiece.new(p)
       expect(ap).to be_valid
     end
 
     it 'encodes quotes to html numerically' do
-      p = valid_attrs.merge({:title => 'what"ever'})
+      p = valid_attrs.merge(title: 'what"ever')
       ap = ArtPiece.new(p)
       expect(ap.safe_title).to eq('what&quot;ever')
     end
@@ -30,19 +30,4 @@ describe ArtPiece do
       art_piece.save
     end
   end
-
-  describe 'get_path' do
-    it 'returns a path to the art piece' do
-      expect(art_piece.get_path).to match %r{/system/art_pieces/.*/new-studio.jpg}
-    end
-  end
-
-  describe 'destroy' do
-    it 'tries to delete the files associated with this art piece' do
-      allow(File).to receive(:exist?).and_return(true)
-      expect(File).to receive(:delete).exactly(art_piece.get_paths.length).times
-      art_piece.destroy
-    end
-  end
-
 end

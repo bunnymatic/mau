@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FeedbackMailerList do
   before do
-    list = FactoryGirl.create(:feedback_email_list, :with_member)
+    FactoryGirl.create(:feedback_email_list, :with_member)
   end
 
   it 'returns the right count for AdminMailerList' do
@@ -16,17 +17,17 @@ describe FeedbackMailerList do
 
   it 'adds email to the Email table' do
     mailing_list = FeedbackMailerList.all.first
-    expect {
-      mailing_list.emails << Email.new(:email => 'whatever@dude.com')
-      mailing_list.save }.to change(Email, :count).by(1)
+    expect do
+      mailing_list.emails << Email.new(email: 'whatever@dude.com')
+      mailing_list.save
+    end.to change(Email, :count).by(1)
   end
 
   it 'adds email to this list' do
     mailing_list = FeedbackMailerList.all.first
-    mailing_list.emails << Email.new(:email => 'whatever@dude.com')
+    mailing_list.emails << Email.new(email: 'whatever@dude.com')
     mailing_list.save
     mailing_list.reload
     expect(mailing_list.emails.count).to eq(2)
   end
-
 end

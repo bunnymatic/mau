@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class MainController < ApplicationController
   layout 'application'
 
@@ -6,11 +7,9 @@ class MainController < ApplicationController
     @seed = Time.zone.now.to_i
   end
 
-  def contact
-  end
+  def contact; end
 
-  def faq
-  end
+  def faq; end
 
   def sampler
     sampler = ArtSampler.new(seed: sampler_params[:seed],
@@ -24,22 +23,22 @@ class MainController < ApplicationController
   end
 
   def about
-    @page_title = PageInfoService.title("About Us")
-    @content = CmsDocument.packaged('main','about')
+    @page_title = PageInfoService.title('About Us')
+    @content = CmsDocument.packaged('main', 'about')
   end
 
   def status_page
     # do dummy db test
     Medium.first
-    render json: {success: true}, status: 200
+    render json: { success: true }, status: 200
   end
 
   def notes_mailer
-    f = FeedbackMail.new(feedback_mail_params.merge({current_user: current_user}))
+    f = FeedbackMail.new(feedback_mail_params.merge(current_user: current_user))
     data = {}
     if f.valid?
       f.save
-      data = {success: true}
+      data = { success: true }
       status = 200
     else
       data = {
@@ -52,33 +51,31 @@ class MainController < ApplicationController
   end
 
   def resources
-    @page_title = PageInfoService.title("Open Studios")
+    @page_title = PageInfoService.title('Open Studios')
     page = 'main'
     section = 'artist_resources'
-    doc = CmsDocument.where(page: page, section: section).first
+    doc = CmsDocument.find_by(page: page, section: section)
     @content = {
       page: page,
       section: section
     }
-    if !doc.nil?
-      @content[:content] = MarkdownService.markdown(doc.article)
-      @content[:cmsid] = doc.id
-    end
+    render && return unless doc
+    @content[:content] = MarkdownService.markdown(doc.article)
+    @content[:cmsid] = doc.id
   end
 
   def venues
-    @page_title = PageInfoService.title("Venues")
+    @page_title = PageInfoService.title('Venues')
     page = 'venues'
     section = 'all'
-    doc = CmsDocument.where(page: page, section: section).first
+    doc = CmsDocument.find_by(page: page, section: section)
     @content = {
       page: page,
       section: section
     }
-    if doc
-      @content[:content] = MarkdownService.markdown(doc.article)
-      @content[:cmsid] = doc.id
-    end
+    render && return unless doc
+    @content[:content] = MarkdownService.markdown(doc.article)
+    @content[:cmsid] = doc.id
 
     # temporary venues endpoint until we actually add a real
     # controller/model behind it
@@ -111,19 +108,18 @@ EOM
   end
 
   private
+
+  PAYPAL_SUCCESS_MSG = "Thanks for your donation!  We'll spend it wisely."
+  PAYPAL_CANCEL_MSG = 'Did you have problems submitting your donation?'\
+                      ' If so, please tell us with the feedback link at the bottom of the page.'\
+                      " We'd love to know if the website or the PayPal connection is not working."
   def setup_paypal_flash_messages(page)
-    if page == 'paypal_success'
-      flash.now[:notice] = "Thanks for your donation!  We'll spend it wisely."
-    end
-    if page == 'paypal_cancel'
-      flash.now[:error] = "Did you have problems submitting your donation?"+
-        " If so, please tell us with the feedback link at the bottom of the page."+
-        " We'd love to know if the website or the PayPal connection is not working."
-    end
+    flash.now[:notice] = PAYPAL_SUCCESS_MSG if page == 'paypal_success'
+    flash.now[:error] = PAYPAL_CANCEL_MSG if page == 'paypal_cancel'
   end
 
   def sampler_params
-    params.permit(:seed, :offset, :number_of_images).tap { |k,v| v = v.to_i }
+    params.permit(:seed, :offset, :number_of_images)
   end
 
   def feedback_mail_params

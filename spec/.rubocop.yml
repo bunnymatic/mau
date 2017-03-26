@@ -1,0 +1,20 @@
+inherit_from: ../.rubocop.yml
+
+Metrics/BlockLength:
+  Max: 600
+
+Rails/OutputSafety:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: true
+  Exclude:
+    - '**/*'
+
+
+Lint/HandleExceptions:
+  Exclude:
+    - 'support/**/*'
+Lint/RescueException:
+  Exclude:
+    - 'support/**/*'

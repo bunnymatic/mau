@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::MauFansController do
-
   let(:admin) { create :artist, :admin }
   describe '#index' do
     before do
@@ -11,9 +11,8 @@ describe Admin::MauFansController do
       get :index
     end
     it { expect(response).to be_success }
-    it "assigns fans" do
+    it 'assigns fans' do
       expect(assigns(:fans)).to have(2).fans
     end
   end
-
 end

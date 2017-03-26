@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class TagCloudPresenter < ViewPresenter
-
   include Enumerable
   include TagsHelper
 
@@ -22,7 +22,7 @@ class TagCloudPresenter < ViewPresenter
   def tags_lut
     @tags_lut ||=
       begin
-        Hash[tags.map{|t| [t.slug, t]}]
+        Hash[tags.map { |t| [t.slug, t] }]
       end
   end
 
@@ -30,7 +30,7 @@ class TagCloudPresenter < ViewPresenter
     tags_lut[slug]
   end
 
-  def is_current_tag?(tag)
+  def current_tag?(tag)
     current_tag == tag
   end
 

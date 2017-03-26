@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class MediaCloudPresenter < ViewPresenter
-
   include TagsHelper
 
   attr_reader :frequency, :mode
@@ -13,7 +13,7 @@ class MediaCloudPresenter < ViewPresenter
   end
 
   def medium_path(medium)
-    url_helpers.medium_path(medium, :m => mode)
+    url_helpers.medium_path(medium, m: mode)
   end
 
   def find_medium(id)
@@ -21,7 +21,7 @@ class MediaCloudPresenter < ViewPresenter
   end
 
   def media_lut
-    @media_lut = Hash[Medium.all.map{|m| [m.id, m]}]
+    @media_lut = Hash[Medium.all.map { |m| [m.id, m] }]
   end
 
   def media_for_display
@@ -30,11 +30,8 @@ class MediaCloudPresenter < ViewPresenter
         frequency.map do |entry|
           medium = find_medium(entry['medium'])
           next unless medium
-          content_tag 'span', :class => 'clouditem' do
-            link_to medium.safe_name, medium_path(medium)
-          end
-        end.select{|m| m.present?}
+          medium
+        end.select(&:present?)
       end
   end
-
 end

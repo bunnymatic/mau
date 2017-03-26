@@ -3,7 +3,7 @@
     h2.title
       | Studios (#{@studios.count})
       .admin-table__controls
-        - if current_user.is_admin?
+        - if current_user.admin?
           = link_to new_admin_studio_path, title: 'add studio' do
             = fa_icon "plus-circle"
       = render partial: '/flash_notice_error'

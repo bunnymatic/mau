@@ -1,8 +1,8 @@
 / expects gallery as ArtistsGallery && filter as true/false
-.js-pagination-state( style="display:none;" data-current-page=gallery.current_page data-next-page=gallery.next_page data-has-more=gallery.has_more? data-current-letter=gallery.letter data-sort-order=gallery.ordering data-os-only="#{gallery.os_only}")
+.js-pagination-state( style="display:none;" data-current-page=gallery.current_page data-next-page=gallery.next_page data-has-more=gallery.more? data-current-letter=gallery.letter data-sort-order=gallery.ordering data-os-only="#{gallery.os_only}")
 
 = render partial: "/artists/artist", collection: gallery.pagination.items
-- if gallery.has_more?
+- if gallery.more?
   #js-scroll-load-more.scroll-load-more
     .hint scroll down for more
     i.fa.fa-spinner.fa-spin

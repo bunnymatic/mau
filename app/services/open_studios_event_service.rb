@@ -1,19 +1,19 @@
+# frozen_string_literal: true
 # manage caching the list of open studios events
 class OpenStudiosEventService
-
   CURRENT_CACHE_KEY = :current_os_event
   FUTURE_CACHE_KEY = :future_os_events
   PAST_CACHE_KEY = :past_os_events
 
-  def self.for_display(os_key, reverse = false )
-    if os = OpenStudiosEvent.find_by_key(os_key)
-      os.for_display(reverse)
-    elsif os_key
+  def self.for_display(os_key, reverse = false)
+    os = OpenStudiosEvent.find_by(key: os_key)
+    return os.for_display(reverse) if os
+    if os_key
       os_key = os_key.to_s
       yr = os_key[0..3]
       mo = os_key[4..-1]
-      seas = (mo == '10') ? 'Oct':'Apr'
-      "%s %s" % (reverse ? [seas,yr] : [ yr, seas ])
+      seas = mo == '10' ? 'Oct' : 'Apr'
+      (reverse ? [seas, yr] : [yr, seas]).join(' ')
     else
       'n/a'
     end
@@ -79,9 +79,7 @@ class OpenStudiosEventService
   end
 
   def self.clear_cache(id = nil)
-    if id
-      SafeCache.delete(event_cache_key(id))
-    end
+    SafeCache.delete(event_cache_key(id)) if id
     SafeCache.delete(FUTURE_CACHE_KEY)
     SafeCache.delete(PAST_CACHE_KEY)
     SafeCache.delete(CURRENT_CACHE_KEY)

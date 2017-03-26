@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 # This presenter fetches a list of artists
 # and makes them easily accessible as ArtistPresenter objects
 class ArtistsPresenter < ViewPresenter
-
   PER_PAGE = 28
 
   attr_reader :os_only
@@ -15,7 +15,7 @@ class ArtistsPresenter < ViewPresenter
   end
 
   def artists_only_in_the_mission
-    (os_only ? artists : artists.select(&:in_the_mission?) )
+    (os_only ? artists : artists.select(&:in_the_mission?))
   end
 
   def artists
@@ -26,8 +26,7 @@ class ArtistsPresenter < ViewPresenter
                        else
                          active_artists
                        end).sort_by(&:sortable_name)
-        artist_list.map{|artist| ArtistPresenter.new(artist)}
+        artist_list.map { |artist| ArtistPresenter.new(artist) }
       end
   end
-
 end

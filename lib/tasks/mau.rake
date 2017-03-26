@@ -6,6 +6,25 @@ alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
 namespace :mau do
 
+  desc "populate media"
+  task populate_media: [:environment] do
+    ['Drawing',
+     'Mixed-Media',
+     'Photography',
+     'Glass/Ceramics',
+     'Printmaking',
+     'Painting - Oil',
+     'Painting - Acrylic',
+     'Painting - Watercolor',
+     'Sculpture',
+     'Jewelry',
+     'Fiber/Textile',
+     'Furniture',
+     'Books'].each do |name|
+      Medium.where(name: name).first_or_create
+    end
+  end
+
   desc 'show social link counts'
   task show_social_link_type_counts: [:environment] do
     link_count = Artist.active.all.map(&:links).inject({}) do |memo, links|
@@ -104,7 +123,7 @@ namespace :mau do
 
   desc 'import scammer emails from FASO'
   task import_scammer_list: [:environment] do
-    Scammer.importFromFASO
+    Scammer.import_from_FASO
   end
 
   desc 'reset all passwords to "whatever"'

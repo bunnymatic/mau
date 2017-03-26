@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ArtistSerializer < MauSerializer
   attributes :full_name, :doing_open_studios, :profile_images,
              :id, :url, :studio_id,
@@ -8,7 +9,7 @@ class ArtistSerializer < MauSerializer
   include ActionView::Helpers::UrlHelper
 
   def art_pieces
-    object.art_pieces.map{|a| Hash[[:id].map{|k| [k, a.send(k)]}]}
+    object.art_pieces.map { |a| Hash[[:id].map { |k| [k, a.send(k)] }] }
   end
 
   def link
@@ -16,11 +17,11 @@ class ArtistSerializer < MauSerializer
   end
 
   def street_address
-    address = object.address.street
+    object.address.street
   end
 
   def city
-    address = object.address.city
+    object.address.city
   end
 
   def map_url

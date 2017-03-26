@@ -11,10 +11,9 @@
         #{studio.street}
         = link_to studio.map_link, title: :map, target: "_blank" do
           %i.fa.fa-map-marker
-    - if studio.has_artists?
+    - if studio.artists?
       .populations
         .population
           = studio.artists_count_label
         .os_population
           = studio.open_studios_artists_count_label
-

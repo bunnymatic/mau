@@ -11,8 +11,10 @@
     .pure-g
       .pure-u-1-1.tagcloud
         ul
-          - @media_cloud.media_for_display.each do |m|
-            li = m
+          - @media_cloud.media_for_display.each do |medium|
+            li
+              span.clouditem
+                = link_to medium.name, medium
 
   .pure-u-1-2.pure-u-sm-2-3.pure-u-lg-4-5
     .pure-g

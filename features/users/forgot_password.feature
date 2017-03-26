@@ -12,3 +12,13 @@ Scenario: try to reset with a known account
   And I click "Submit"
   Then I see the login page
   And I see a flash notice "We've sent email"
+
+  When I click on the reset link in my email
+  And I set my new password to "the-long-pass"
+  And I sign in with password "the-long-pass"
+  Then I see that I'm logged in
+
+Scenario: try to reset with a bogus reset code
+  When I visit a reset link with an unknown reset code
+  Then I see an error message "Are you sure you got the right link"
+  And I see that I'm logged out

@@ -1,13 +1,14 @@
+# frozen_string_literal: true
 require 'net/http'
 require 'uri'
 
 class Scammer < ApplicationRecord
-  validates_uniqueness_of   :faso_id
+  validates   :faso_id, uniqueness: true
 
-  validates_presence_of     :email
-  validates_length_of       :email,    :within => 6..100 #r@a.wk
+  validates :email, presence: true
+  validates :email, length: { within: 6..100 } # r@a.wk
 
-  def self.importFromFASO
+  def self.import_from_faso
     importer = FasoImporter.new
     importer.scammers.each do |s|
       s.save if s.valid?

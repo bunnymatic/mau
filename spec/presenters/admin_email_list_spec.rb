@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe AdminEmailList do
-
   let(:current) { OpenStudiosEvent.current }
   let(:listname) { 'active' }
   subject(:email_list) { AdminEmailList.new(listname) }
@@ -39,11 +39,9 @@ describe AdminEmailList do
     end
 
     it 'shows the title and list size and correct emails when we ask for fans' do
-      expect(email_list.display_title).to eq("Fans [1]")
+      expect(email_list.display_title).to eq('Fans [1]')
     end
-
   end
-
 
   context 'listname is no_images' do
     let(:listname) { 'no_images' }
@@ -51,13 +49,12 @@ describe AdminEmailList do
     its(:csv_filename) { is_expected.to eql 'email_no_images.csv' }
 
     it "assigns a list of emails of artists who don't have images" do
-      expect(emails.length).to eql Artist.active.reject{|a| a.representative_piece}.length
+      expect(emails.length).to eql Artist.active.reject(&:representative_piece).length
     end
 
     it 'shows the title and list size and correct emails when we ask for fans' do
-      expect(email_list.display_title).to eq("Active with no art [1]");
+      expect(email_list.display_title).to eq('Active with no art [1]')
     end
-
   end
 
   context 'listname is pending' do
@@ -70,20 +67,20 @@ describe AdminEmailList do
     end
 
     it 'shows the title and list size and correct emails when we ask for pending' do
-      expect(email_list.display_title).to eql "Pending [1]"
+      expect(email_list.display_title).to eql 'Pending [1]'
     end
   end
 
-  describe "list name is an os event tag" do
+  describe 'list name is an os event tag' do
     let!(:ostag) { current.key }
     let(:listname) { ostag }
 
-    it "assigns a list of os artists" do
-      expect(emails.length).to eql Artist.active.all.count{|a| a.os_participation[ostag]}
+    it 'assigns a list of os artists' do
+      expect(emails.length).to eql Artist.active.all.count { |a| a.os_participation[ostag] }
     end
 
-    it "shows the title and list size and correct emails" do
-      expected_participants = Artist.active.all.count{|a| a.os_participation[ostag]}
+    it 'shows the title and list size and correct emails' do
+      expected_participants = Artist.active.all.count { |a| a.os_participation[ostag] }
       expect(email_list.display_title).to eql "#{current.for_display} [#{expected_participants}]"
     end
   end
@@ -92,11 +89,11 @@ describe AdminEmailList do
     let(:ostags) { OpenStudiosEvent.all.map(&:key) }
     let(:listname) { ostags }
 
-    its(:csv_filename) { is_expected.to eql 'email_' + listname.join("_") + ".csv" }
+    its(:csv_filename) { is_expected.to eql 'email_' + listname.join('_') + '.csv' }
 
     it 'returns emails that have been in both open studios' do
-      expected = Artist.active.select{|a| a.os_participation[ostags.first]}.map(&:email) |
-        Artist.active.select{|a| a.os_participation[ostags.last]}.map(&:email)
+      expected = Artist.active.select { |a| a.os_participation[ostags.first] }.map(&:email) |
+                 Artist.active.select { |a| a.os_participation[ostags.last] }.map(&:email)
       expect(emails.map(&:email).sort).to eql expected.sort
     end
   end

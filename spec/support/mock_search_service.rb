@@ -1,20 +1,29 @@
+# frozen_string_literal: true
 module MockSearchService
-  def stub_search_service!
+  def stub_query_runner!
     runner = Search::QueryRunner.new('query')
     allow(runner).to receive(:search).and_call_original
     allow(runner).to receive(:multi_index_search).and_return JSON.parse(mock_search_results)
-    allow(Search::QueryRunner).to receive(:new).and_return( runner )
+    allow(Search::QueryRunner).to receive(:new).and_return(runner)
+  end
 
-    mockIndexer = double(Search::Indexer::ObjectSearchService)
-    allow(mockIndexer).to receive(:index)
-    allow(mockIndexer).to receive(:reindex)
-    allow(mockIndexer).to receive(:update)
-    allow(mockIndexer).to receive(:remove)
-    allow(Search::Indexer::ObjectSearchService).to receive(:new).and_return(mockIndexer)
+  def stub_indexer!
+    mock_indexer = double(Search::Indexer::ObjectSearchService)
+    allow(mock_indexer).to receive(:index)
+    allow(mock_indexer).to receive(:reindex)
+    allow(mock_indexer).to receive(:update)
+    allow(mock_indexer).to receive(:remove)
+    allow(Search::Indexer::ObjectSearchService).to receive(:new).and_return(mock_indexer)
+  end
+
+  def stub_search_service!
+    stub_query_runner!
+    stub_indexer!
   end
 
   def mock_search_results
-    File.read(File.open(File.join(Rails.root, 'spec','fixtures','files/search_results.json'),'r'))
+    results_json = Rails.root.join 'spec', 'fixtures', 'files', 'search_results.json'
+    File.read(File.open(results_json, 'r'))
   end
 end
 

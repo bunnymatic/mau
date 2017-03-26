@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPiecePresenter do
-
   include PresenterSpecHelpers
 
   let(:artist) { FactoryGirl.create(:artist, :with_art, :active) }
@@ -10,36 +10,29 @@ describe ArtPiecePresenter do
   let(:tag) { FactoryGirl.build(:art_piece_tag) }
   subject(:presenter) { ArtPiecePresenter.new(art_piece) }
 
-  describe '#favorites_count' do
-    subject { super().favorites_count }
-    it { should be_nil }
-  end
+  its(:favorites_count) { is_expected.to be_nil }
+  its(:tags?) { is_expected.to be_falsy }
+  its(:tags) { is_expected.to be_empty }
+  its(:year?) { is_expected.to be_truthy }
+  its(:year) { is_expected.to eql art_piece.year }
 
-  describe '#has_tags?' do
-    subject { super().has_tags? }
-    it { should eq(false) }
-  end
-
-  describe '#tags' do
-    subject { super().tags }
-    it { should be_empty }
-  end
-
-  describe '#has_year?' do
-    subject { super().has_year? }
-    it { should eq(true) }
+  describe '#path' do
+    it 'returns medium by default' do
+      expect(presenter.path).to match %r{art_pieces/photos/.*/medium/new-art-piece.jpg}
+    end
+    it 'returns the right size if given an argument' do
+      expect(presenter.path(:small)).to match %r{art_pieces/photos/.*/small/new-art-piece.jpg}
+      expect(presenter.path(:large)).to match %r{art_pieces/photos/.*/large/new-art-piece.jpg}
+    end
   end
 
   context 'with favorites' do
     before do
-      favorites_mock = double(:mock_favorites_relation, :where => [1,2])
+      favorites_mock = double(:mock_favorites_relation, where: [1, 2])
       allow(Favorite).to receive(:art_pieces).and_return(favorites_mock)
     end
 
-    describe '#favorites_count' do
-      subject { super().favorites_count }
-      it { should eql 2 }
-    end
+    its(:favorites_count) { is_expected.to eql(2) }
   end
 
   context 'with a bad year' do
@@ -47,10 +40,7 @@ describe ArtPiecePresenter do
       allow(art_piece).to receive(:year).and_return(1000)
     end
 
-    describe '#has_year?' do
-      subject { super().has_year? }
-      it { should eq(false) }
-    end
+    its(:year?) { is_expected.to be_falsy }
   end
 
   context 'with tags' do
@@ -58,16 +48,7 @@ describe ArtPiecePresenter do
       allow_any_instance_of(ArtPiece).to receive(:uniq_tags).and_return(tags)
     end
 
-    describe '#has_tags?' do
-      subject { super().has_tags? }
-      it { should eq(true) }
-    end
-
-    describe '#tags' do
-      subject { super().tags }
-      it { should eql tags }
-    end
+    its(:tags?) { is_expected.to be_truthy }
+    its(:tags) { is_expected.to eql tags }
   end
-
-
 end

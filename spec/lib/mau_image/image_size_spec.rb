@@ -1,8 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
-
 describe MauImage::ImageSize do
-
   describe '#all' do
     let(:all) { MauImage::ImageSize.all }
 
@@ -58,8 +57,8 @@ describe MauImage::ImageSize do
     end
     it 'returns thumb for thumbnail & thumb' do
       %w(thumb thumbnail).each do |sz|
-        expect(MauImage::ImageSize.send(:keymap, sz )).to eql :thumb
-        expect(MauImage::ImageSize.send(:keymap, sz.to_sym )).to eql :thumb
+        expect(MauImage::ImageSize.send(:keymap, sz)).to eql :thumb
+        expect(MauImage::ImageSize.send(:keymap, sz.to_sym)).to eql :thumb
       end
     end
     it 'returns small for s or sm' do
@@ -69,8 +68,8 @@ describe MauImage::ImageSize do
       end
     end
     it 'returns large for l' do
-      expect(MauImage::ImageSize.send(:keymap, 'l' )).to eql :large
-      expect(MauImage::ImageSize.send(:keymap, :l )).to eql :large
+      expect(MauImage::ImageSize.send(:keymap, 'l')).to eql :large
+      expect(MauImage::ImageSize.send(:keymap, :l)).to eql :large
     end
     it 'returns medium for m, med, standard, std or medium' do
       %w(m med standard std medium).each do |sz|

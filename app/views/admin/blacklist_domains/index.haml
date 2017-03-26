@@ -3,7 +3,7 @@
     %h1
       Blacklisted Domains
       .admin-table__controls
-        - if current_user.is_admin?
+        - if current_user.admin?
           = link_to new_admin_blacklist_domain_path, title: 'add blacklisted domain' do
             = fa_icon "plus-circle"
     %p.help

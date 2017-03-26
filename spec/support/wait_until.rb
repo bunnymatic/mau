@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 module WaitUntil
-  def wait_until(t = 1, &block)
+  def wait_until(t = 1)
     Timeout.timeout(t) do
       loop do
-        break if block.call
+        break if yield
         sleep 0.01
       end
     end

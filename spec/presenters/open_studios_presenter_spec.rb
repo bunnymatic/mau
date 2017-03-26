@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe OpenStudiosPresenter do
@@ -11,12 +12,15 @@ describe OpenStudiosPresenter do
   subject(:presenter) { described_class.new }
 
   before do
-    [studio, studio2].each do |s|
-      s.update_attribute :lat, 37.75
-      s.update_attribute :lng, -122.41
+    [studio, studio2].each do |stdio|
+      stdio.attributes = { lat: 37.75, lng: -122.41 }
+      stdio.save(validate: false)
     end
-    indy_artist.artist_info.update_attribute :lat, 37.75
-    indy_artist.artist_info.update_attribute :lng, -122.41
+    indy_artist.artist_info.attributes = {
+      lat: 37.75,
+      lng: -122.41
+    }
+    indy_artist.artist_info.save validate: false
 
     FactoryGirl.create(:cms_document,
                        page: :main_openstudios,
@@ -31,7 +35,6 @@ describe OpenStudiosPresenter do
   end
 
   describe '#participating_studios' do
-
     it 'has 2 studios' do
       expect(presenter.participating_studios.size).to eq(2)
     end
@@ -55,32 +58,32 @@ describe OpenStudiosPresenter do
 
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
-    it { should have_key 'data-cmsid'}
+    it { should have_key 'data-cmsid' }
   end
 
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
-    it { should have_key 'data-page'}
+    it { should have_key 'data-page' }
   end
 
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
-    it { should have_key 'data-section'}
+    it { should have_key 'data-section' }
   end
 
   describe '#summary_data' do
     subject { super().summary_data }
-    it { should have_key 'data-cmsid'}
+    it { should have_key 'data-cmsid' }
   end
 
   describe '#summary_data' do
     subject { super().summary_data }
-    it { should have_key 'data-page'}
+    it { should have_key 'data-page' }
   end
 
   describe '#summary_data' do
     subject { super().summary_data }
-    it { should have_key 'data-section'}
+    it { should have_key 'data-section' }
   end
 
   it 'participating studios by name' do
@@ -90,5 +93,4 @@ describe OpenStudiosPresenter do
   it 'participating indys by artist last name' do
     expect(subject.participating_indies.map(&:lastname).map(&:downcase)).to be_monotonically_increasing
   end
-
 end

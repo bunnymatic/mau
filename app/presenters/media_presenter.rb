@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class MediaPresenter
-
   include ArtistOrPiece
 
   attr_reader :medium
@@ -19,7 +19,7 @@ class MediaPresenter
         else
           raw_art_pieces
         end
-      end.map{|a| ArtPiecePresenter.new(a)}
+      end.map { |a| ArtPiecePresenter.new(a) }
   end
 
   def art_pieces_by_artist
@@ -27,9 +27,9 @@ class MediaPresenter
       begin
         {}.tap do |bucket|
           raw_art_pieces.each do |piece|
-            bucket[piece.artist_id] = piece unless bucket.has_key? piece.artist_id
+            bucket[piece.artist_id] = piece unless bucket.key? piece.artist_id
           end
-        end.values.sort_by { |p| p.updated_at }.reverse
+        end.values.sort_by(&:updated_at).reverse
       end
   end
 
@@ -38,8 +38,8 @@ class MediaPresenter
   end
 
   private
+
   def raw_art_pieces
     @raw_art_pieces ||= @medium.art_pieces.joins(:artist).where(users: { state: :active }).order('updated_at').reverse
   end
-
 end

@@ -1,5 +1,6 @@
-require_relative "../../spec/support/test_es_server"
-require_relative "./webmock"
+# frozen_string_literal: true
+require_relative '../../spec/support/test_es_server'
+require_relative './webmock'
 
 AfterConfiguration do
   TestEsServer.start

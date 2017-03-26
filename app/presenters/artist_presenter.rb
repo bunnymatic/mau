@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 # This presenter adds helpful display/view related methods
 # to make it easy to draw artist data on a page
 
 class ArtistPresenter < UserPresenter
-
   include ApplicationHelper
 
   ALLOWED_LINKS = User.stored_attributes[:links]
@@ -10,7 +10,7 @@ class ArtistPresenter < UserPresenter
   attr_accessor :model
 
   delegate :doing_open_studios?, :os_participation, :studio, :studio_id,
-           :artist_info, :at_art_piece_limit?,:get_share_link, :studionumber,
+           :artist_info, :at_art_piece_limit?, :studionumber,
            :max_pieces, :pending?, :active?, :updated_at,
            to: :artist, allow_nil: true
 
@@ -26,8 +26,13 @@ class ArtistPresenter < UserPresenter
     model.get_name
   end
 
-  def has_media?
+  def media?
     media.present?
+  end
+
+  def get_share_link(urlsafe = false, options = {})
+    link = artist_url(model, options)
+    urlsafe ? CGI.escape(link) : link
   end
 
   def primary_medium
@@ -57,11 +62,11 @@ class ArtistPresenter < UserPresenter
     (media + tags).map(&:name).flatten.compact.uniq
   end
 
-  def has_bio?
-    !(model.bio.blank?)
+  def bio?
+    !model.bio.blank?
   end
 
-  def has_art?
+  def art?
     artist? && art_pieces.present?
   end
 
@@ -70,13 +75,13 @@ class ArtistPresenter < UserPresenter
     @art_pieces ||=
       begin
         num = (artist.max_pieces || 20) - 1
-        artist.art_pieces.select(&:persisted?)[0..num].compact.map{|piece| ArtPiecePresenter.new(piece)}
+        artist.art_pieces.select(&:persisted?)[0..num].compact.map { |piece| ArtPiecePresenter.new(piece) }
       end
   end
 
   def favorites_count
     @favorites_count ||= who_favorites_me.count
-    @favorites_count if @favorites_count > 0
+    @favorites_count if @favorites_count.positive?
   end
 
   def studio_name
@@ -88,13 +93,9 @@ class ArtistPresenter < UserPresenter
     number.present? ? ('#' + number) : ''
   end
 
-  def has_address?
-    model.has_address?
-  end
+  delegate :address?, to: :model
 
-  def in_the_mission?
-    model.in_the_mission?
-  end
+  delegate :in_the_mission?, to: :model
 
   def map_url
     if model.studio
@@ -104,7 +105,7 @@ class ArtistPresenter < UserPresenter
     end
   end
 
-  def get_map_info
+  def map_info
     content_tag('div', map_info_contents, class: 'map__info-window')
   end
 
@@ -134,21 +135,16 @@ class ArtistPresenter < UserPresenter
 
   def map_info_contents
     thumb = content_tag('div', linked_thumb, class: 'map__info-window-art')
-    [thumb, map_info_name_address].compact.join.html_safe
+    safe_join([thumb, map_info_name_address].compact)
   end
 
   def map_info_name_address
     content_tag 'div', class: 'map__info-window-text' do
       name = content_tag 'a', get_name, href: url_helpers.artist_path(model)
       html = [name]
-      street = address.street
-      if artist.studio
-        html << content_tag('div', artist.try(:studio).try(:name), class: 'studio')
-        html << content_tag('div', street)
-      else
-        html << content_tag('div', street)
-      end
-      html.map(&:html_safe).join.html_safe
+      html << content_tag('div', artist.try(:studio).try(:name), class: 'studio') if artist.studio
+      html << content_tag('div', address.street)
+      safe_join(html)
     end
   end
 
@@ -194,10 +190,14 @@ class ArtistPresenter < UserPresenter
     model.links[:artspan]
   end
 
+  def self.keyed_links
+    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
+  end
+
   private
 
   def map_thumb
-    @representative_thumb ||= representative_piece.get_path('thumb')
+    @representative_thumb ||= representative_piece.path('thumb')
   end
 
   def map_thumb_image
@@ -205,12 +205,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def linked_thumb
-    if representative_piece
-      @linked_thumb ||= content_tag('a', map_thumb_image, href: url_helpers.artist_path(model))
-    end
-  end
-
-  def self.keyed_links
-    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
+    return unless representative_piece
+    @linked_thumb ||= content_tag('a', map_thumb_image, href: url_helpers.artist_path(model))
   end
 end

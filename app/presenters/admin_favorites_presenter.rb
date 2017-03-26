@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class AdminFavoritesPresenter
-
   include Enumerable
 
   def initialize(favorites)
@@ -13,7 +13,7 @@ class AdminFavoritesPresenter
         @plain_favorites.each do |f|
           tally_favorites(processed, f)
         end
-        Hash[ processed.map{|key, entry| [key, OpenStruct.new(entry)] } ]
+        Hash[processed.map { |key, entry| [key, OpenStruct.new(entry)] }]
       end
   end
 
@@ -34,31 +34,30 @@ class AdminFavoritesPresenter
   end
 
   private
+
   def user_key(fav)
     User.find(fav.user_id)
   end
 
   def increment(type, entry)
     k = type.tableize.to_sym
-    entry[k] += 1 if entry.has_key? k
+    entry[k] += 1 if entry.key? k
   end
 
   def tally_favorites(tally, fav)
     key = user_key(fav)
-    tally[key] ||= {:artists => 0, :art_pieces => 0, :favorited => 0}
+    tally[key] ||= { artists: 0, art_pieces: 0, favorited: 0 }
     increment(fav.favoritable_type, tally[key])
 
     # favorited
-    if fav.favoritable_type == 'Artist'
-      key = User.find(fav.favoritable_id)
-      tally[key] ||= {:artists => 0, :art_pieces => 0, :favorited => 0}
-      tally[key][:favorited] += 1
-    end
+    return unless fav.favoritable_type == 'Artist'
+
+    key = User.find(fav.favoritable_id)
+    tally[key] ||= { artists: 0, art_pieces: 0, favorited: 0 }
+    tally[key][:favorited] += 1
   end
 
-  private
   def sum_column(col_name)
-    favorites.values.map{|v| v[col_name].to_i}.sum
+    favorites.values.map { |v| v[col_name].to_i }.sum
   end
-
 end

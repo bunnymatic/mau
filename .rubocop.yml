@@ -1,0 +1,103 @@
+inherit_from: .rubocop_todo.yml
+AllCops:
+  # Only runs checks on specific directories. Could be expanded to
+  # include more directories.
+  TargetRubyVersion: 2.3
+
+  Include:
+    - app/**
+    - spec/**
+    - features/**
+  Exclude:
+    - '**/*.sh'
+    - '**/*.bash'
+    - '**/*.yml'
+    - '**/*.txt'
+    - '**/*.md'
+    - 'bin/spring'
+    - db/schema.rb
+    - db/migrate/**/*
+    - spec/*.opts
+    - tmp/**/*
+    - vendor/**/*
+    - log/**/*
+    - app/lib/app_config.rb
+    - config/initializers/setup_email_lists.rb
+    - features/step_definitions/factory_steps.rb
+
+Rails:
+  Enabled: true
+
+Lint/HandleExceptions:
+  Exclude:
+    - app/services/search/indexer.rb
+
+Metrics/AbcSize:
+  Max: 38
+
+Metrics/BlockLength:
+  Max: 151
+
+Metrics/ClassLength:
+  Max: 300
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/LineLength:
+  Max: 150
+
+Metrics/MethodLength:
+  Max: 50
+
+Metrics/PerceivedComplexity:
+  Max: 9
+
+Rails/FilePath:
+  Exclude:
+    - config/environments/test.rb
+
+Rails/OutputSafety:
+  Enabled: false
+
+Rails/TimeZone:
+  Exclude:
+    - tztest.rb
+
+Rails/DynamicFindBy:
+  Exclude:
+    - 'app/models/user_session.rb'
+
+Style/AccessorMethodName:
+  Exclude:
+    - app/models/concerns/address_mixin.rb
+
+Style/ConstantName:
+  Exclude:
+    - 'config/application.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/FormatString:
+  EnforcedStyle: sprintf
+  SupportedStyles:
+    - sprintf
+    - format
+
+Style/RegexpLiteral:
+  EnforcedStyle: slashes
+  SupportedStyles:
+    - slashes
+    - percent_r
+  AllowInnerSlashes: false
+
+Style/StructInheritance:
+  Exclude:
+    - 'app/models/independent_studio.rb'
+
+Style/PerlBackrefs:
+  Enabled: false

@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class SuspendArtistService
-
   def initialize(artist)
     @artist = artist
   end
@@ -14,5 +14,4 @@ class SuspendArtistService
   def remove_from_search_index
     Search::Indexer.remove(@artist)
   end
-
 end

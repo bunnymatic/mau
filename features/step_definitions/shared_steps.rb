@@ -1,16 +1,15 @@
+# frozen_string_literal: true
 require_relative '../../spec/support/mobile_setup'
 
 def fill_in_login_form(login, pass)
   flash = all('.flash__close')
-  if flash.any?
-    flash.map(&:click)
-  end
-  fill_in("Login", :with => login)
-  fill_in("Password", :with => pass)
+  flash.map(&:click) if flash.any?
+  fill_in('Login', with: login)
+  fill_in('Password', with: pass)
 end
 
 def path_from_title(titleized_path_name)
-  clean_path_name = titleized_path_name.downcase.gsub(/ /, '_')
+  clean_path_name = titleized_path_name.downcase.tr(' ', '_')
   path_helper_name = "#{clean_path_name}_path".to_sym
   send(path_helper_name)
 end
@@ -27,8 +26,8 @@ end
 # so invisible buttons that may become visible because of animation
 # will cause issues - use click_on instead
 def all_links_or_buttons_with_title(title)
-  all('a').select{|a| a["title"] == title } ||
-    all('button').select{|b| b.value == title }
+  all('a').select { |a| a['title'] == title } ||
+    all('button').select { |b| b.value == title }
 end
 
 def find_links_or_buttons(locator)
@@ -48,7 +47,7 @@ Given /^Mailchimp is hooked up$/ do
 end
 
 When /I'm on my smart phone/ do
-  current_session.header("User-Agent", IPHONE_USER_AGENT)
+  current_session.header('User-Agent', IPHONE_USER_AGENT)
 end
 
 Then /^show me the page$/ do
@@ -59,7 +58,7 @@ Then /^I (save and\s+)?open the page$/ do |_|
   save_and_open_page
 end
 
-Then /^I (save|take) a screenshot$/ do |dummy|
+Then /^I (save|take) a screenshot$/ do |_dummy|
   f = File.expand_path("./tmp/capybara-screenshot-#{Time.now.to_f}.png")
   begin
     save_and_open_screenshot(f)
@@ -89,29 +88,29 @@ end
 When /I sign in with password "(.*?)"/ do |pass|
   visit login_path
   fill_in_login_form @artist.login, pass
-  click_on "Sign In"
+  click_on 'Sign In'
 end
 
 When /I am signed in as an artist/ do
-  steps %Q{
+  steps %(
     Given an account has been created
     Given I visit the login page
     When I fill in valid credentials
     And I click "Sign In"
-  }
+  )
 end
 
 Then /^I see "(.*?)" on the page$/ do |content|
   expect(page).to have_content content
 end
 
-When /^I (log|sign)\s?out$/ do |dummy|
+When /^I (log|sign)\s?out$/ do |_dummy|
   visit logout_path
   expect(page).to have_flash :notice, /make some art/
 end
 
 Then /^I see that I'm signed in$/ do
-  expect(page).to have_content "MY PROFILE"
+  expect(page).to have_content 'MY PROFILE'
 end
 
 When(/^I change "(.*?)" to "(.*?)" in the "(.*?)" form$/) do |form_field_label, value, form_selector|
@@ -145,7 +144,7 @@ Then(/^I do not see an error message$/) do
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  wait_until { all(".error-msg").any? }
+  wait_until { all('.error-msg').any? }
   expect(page).to have_selector '.error-msg', text: msg
 end
 
@@ -166,7 +165,7 @@ Then(/^I close the notice$/) do
 end
 
 Then(/^I close the flash$/) do
-  all('.flash .js-flash__close').each {|f| f.click}
+  all('.flash .js-flash__close').each(&:click)
 end
 
 When(/^I visit the "(.*?)" page$/) do |titleized_path_name|
@@ -192,23 +191,23 @@ When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
 end
 
 When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
-  #page.driver.browser.mouse.move_to(page.driver.browser.find_element(:id=>"admin_nav")) if running_js?
-  step %Q|I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav"|
+  # page.driver.browser.mouse.move_to(page.driver.browser.find_element(:id=>"admin_nav")) if running_js?
+  step %(I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav")
 end
 
 When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
-  step %Q|I click on "#{link_title}" in the ".nav.nav-tabs"|
+  step %(I click on "#{link_title}" in the ".nav.nav-tabs")
 end
 
 When(/^I click on the first "([^"]*?)"$/) do |button_text|
   find_first_link_or_button(button_text).click
 end
 
-When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
+When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, _dummy|
   find_first_link_or_button(button_text).click
 end
 
-When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, dummy|
+When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, _dummy|
   find_last_link_or_button(button_text).click
 end
 
@@ -270,7 +269,7 @@ When /^I uncheck "([^"]*?)"$/ do |cb|
 end
 
 Then(/^I click on the "([^"]*)" icon$/) do |icon_class|
-  all(".fa.fa-#{icon_class}").first.click
+  first(".fa.fa-#{icon_class}").click
 end
 
 Then(/^I see "([^"]*)" in the "([^"]*)"$/) do |text, container|

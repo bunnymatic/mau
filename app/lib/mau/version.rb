@@ -1,16 +1,16 @@
+# frozen_string_literal: true
 module Mau
   class Version
-
     VERSION = {
       name: 'Challenger',
       major: '7',
       minor: '0',
       rev: '1',
       build: 'unk'
-    }
+    }.freeze
 
     def number
-      VERSION.values_at(:major, :minor, :rev).join(".")
+      VERSION.values_at(:major, :minor, :rev).join('.')
     end
 
     def name
@@ -24,6 +24,5 @@ module Mau
     def build
       VERSION[:build]
     end
-
   end
 end

@@ -1,22 +1,22 @@
+# frozen_string_literal: true
 require 'csv'
 require 'xmlrpc/client'
 
-Mime::Type.register "image/png", :png
+Mime::Type.register 'image/png', :png
 
 class ArtistsController < ApplicationController
-
   # Be sure to include AuthenticationSystem in Application Controller instead
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_action :user_required, only: [ :edit, :update, :manage_art, :delete_art,
-                                        :destroyart, :setarrangement, :arrange_art ]
+  before_action :user_required, only: [:edit, :update, :manage_art, :delete_art,
+                                       :destroyart, :setarrangement, :arrange_art]
 
   def index
     respond_to do |format|
-      format.html {
+      format.html do
         # collect query args to build links
-        @os_only = is_os_only(params[:o])
+        @os_only = os_only?(params[:o])
         cur_page = (params[:p] || 0).to_i
         cur_sort = params[:s] || :lastname
         @letters = ArtistsGallery.letters(cur_sort)
@@ -24,24 +24,24 @@ class ArtistsController < ApplicationController
 
         # build alphabetical list keyed by first letter
         @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_sort, cur_page)
-        @page_title = PageInfoService.title("Artists")
+        @page_title = PageInfoService.title('Artists')
         if request.xhr?
           render partial: 'artist_list', locals: { gallery: @gallery }
         else
           render action: 'index'
         end
-      }
-      format.json {
+      end
+      format.json do
         head(403)
-      }
+      end
     end
   end
 
   def edit
-    redirect_to edit_user_path(current_user) and return unless current_user.is_artist?
+    redirect_to(edit_user_path(current_user)) && return unless current_user.artist?
     @user = ArtistPresenter.new(current_artist)
     @studios = StudioService.all
-    @artist_info = current_artist.artist_info || ArtistInfo.new({ id: current_artist.id })
+    @artist_info = current_artist.artist_info || ArtistInfo.new(id: current_artist.id)
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
   end
 
@@ -51,14 +51,13 @@ class ArtistsController < ApplicationController
     @artist = ArtistPresenter.new(current_artist)
   end
 
-
   def roster
     # collect query args to build links
-    @os_only = is_os_only(params[:o])
+    @os_only = os_only?(params[:o])
 
     @roster = ArtistsRoster.new(@os_only)
 
-    @page_title = PageInfoService.title("Artists")
+    @page_title = PageInfoService.title('Artists')
 
     render action: 'roster'
   end
@@ -69,19 +68,17 @@ class ArtistsController < ApplicationController
     inp = (params[:input] || params[:q]).try(:downcase)
     if inp
       # filter with input prefix
-      names = (inp.present? ? names.select{|name| %r|#{inp}|i =~ name['value']} : [])
+      names = (inp.present? ? names.select { |name| /#{inp}/i =~ name['value'] } : [])
     end
     render json: names, adapter: :json_api
   end
 
   def destroyart
     # receives post from delete art form
-    unless destroy_art_params
-      redirect_to(artist_path(current_user)) and return
-    end
-    ids = destroy_art_params.select { |kk,vv| vv != "0" }.keys
+    redirect_to(artist_path(current_user)) && return unless destroy_art_params
+    ids = destroy_art_params.select { |_kk, vv| vv != '0' }.keys
     ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
-    Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", "deleted art pieces"
+    Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", 'deleted art pieces'
     redirect_to(artist_path(current_user))
   end
 
@@ -90,21 +87,21 @@ class ArtistsController < ApplicationController
   end
 
   def setarrangement
-    if params.has_key? :neworder
+    if params.key? :neworder
       # new endpoint for rearranging - more than just setting representative
       neworder = params[:neworder].split(',')
       neworder.each_with_index do |apid, idx|
         a = ArtPiece.where(id: apid, artist_id: current_user.id).first
-        a.update_attribute(:position, idx) if a
+        a&.update_attribute(:position, idx)
       end
-      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", "reordered art pieces"
+      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", 'reordered art pieces'
     else
-      flash[:error] ="There was a problem interpreting the input parameters.  Please try again."
+      flash[:error] = 'There was a problem interpreting the input parameters.  Please try again.'
     end
     if request.xhr?
       render json: true
     else
-      flash[:notice] = "Your images have been reordered."
+      flash[:notice] = 'Your images have been reordered.'
       redirect_to artist_path(current_user)
     end
   end
@@ -114,25 +111,25 @@ class ArtistsController < ApplicationController
   end
 
   def show
-    @artist = get_active_artist_from_params
+    @artist = active_artist_from_params
     respond_to do |format|
-      format.html {
+      format.html do
         if !@artist
           redirect_to artists_path, error: 'We were unable to find the artist you were looking for.'
         else
-          @artist = ArtistPresenter.new( @artist)
+          @artist = ArtistPresenter.new(@artist)
           set_artist_meta
         end
-      }
-      format.json  {
+      end
+      format.json do
         render json: @artist
-      }
+      end
     end
   end
 
   # TODO: use paperclip to save the qr code
   # def qrcode
-  #   @artist = get_active_artist_from_params
+  #   @artist = active_artist_from_params
   #   if @artist
   #     qrcode_system_path = @artist.qrcode
   #     respond_to do |fmt|
@@ -152,15 +149,15 @@ class ArtistsController < ApplicationController
   def update
     if request.xhr?
       os_status = UpdateArtistService.new(current_artist, artist_params).update_os_status
-      render json: {success: true, os_status: os_status, current_os: OpenStudiosEventService.current}
+      render json: { success: true, os_status: os_status, current_os: OpenStudiosEventService.current }
     else
       if commit_is_cancel
         redirect_to user_path(current_user)
         return
       end
       if UpdateArtistService.new(current_artist, artist_params).update
-        Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
-        flash[:notice] = "Your profile has been updated"
+        Messager.new.publish "/artists/#{current_artist.id}/update", 'updated artist info'
+        flash[:notice] = 'Your profile has been updated'
         redirect_to edit_artist_url(current_user)
       else
         @user = ArtistPresenter.new(current_artist.reload)
@@ -171,23 +168,22 @@ class ArtistsController < ApplicationController
   end
 
   protected
+
   def safe_find_artist(id)
-    begin
-      Artist.friendly.find id
-    rescue ActiveRecord::RecordNotFound
-      nil
-    end
+    Artist.friendly.find id
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   def set_artist_meta
-    return if !@artist
-    @page_title = PageInfoService.title("Artist: %s" % @artist.get_name)
-    @page_image = @artist.get_profile_image(:large) if @artist.has_profile_image?
+    return unless @artist
+    @page_title = PageInfoService.title(sprintf('Artist: %s', @artist.get_name))
+    @page_image = @artist.get_profile_image(:large) if @artist.profile_image?
     @page_description = build_page_description @artist
     @page_keywords += @artist.media_and_tags + (@page_keywords || [])
   end
 
-  def get_active_artist_from_params
+  def active_artist_from_params
     artist = safe_find_artist(params[:id])
     if artist && !artist.active?
       flash.now[:error] = "The artist '" + artist.get_name(true) + "' is no longer with us."
@@ -196,8 +192,8 @@ class ArtistsController < ApplicationController
     artist
   end
 
-  def build_page_description artist
-    if (artist)
+  def build_page_description(artist)
+    if artist
       trim_bio = (artist.bio || '').truncate(500)
       if trim_bio.present?
         return "Mission Artists Artist : #{artist.get_name(true)} : " + trim_bio
@@ -207,12 +203,13 @@ class ArtistsController < ApplicationController
   end
 
   private
+
   def artist_info_permitted_attributes
-    %i|bio street city addr_state zip studionumber|
+    %i(bio street city addr_state zip studionumber)
   end
 
   def destroy_art_params
-    if params.has_key? :art
+    if params.key? :art
       params.require(:art).permit!
     else
       params
@@ -220,26 +217,19 @@ class ArtistsController < ApplicationController
   end
 
   def artist_params
-    if params[:emailsettings]
-      em = params[:emailsettings]
-      em = Hash[em.map{|k,v| [k, !!v.to_i]}]
-      params[:artist][:email_attrs] = em.to_json
+    if params[:artist].key?('studio') && params[:artist]['studio'].blank?
+      params[:artist]['studio_id'] = nil
+      params[:artist].delete('studio')
     end
 
-    if params[:artist].has_key?("studio") && params[:artist]["studio"].blank?
-      params[:artist]["studio_id"] = nil
-      params[:artist].delete("studio")
-    end
-
-    permitted = [:studio, :login, :email, :email_attrs,
+    permitted = [:studio, :login, :email,
                  :password, :password_confirmation, :photo, :os_participation,
-                 :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume ] + User.stored_attributes[:links]
-    params.require(:artist).permit(*permitted, :artist_info_attributes => artist_info_permitted_attributes)
-
+                 :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume] + User.stored_attributes[:links]
+    params.require(:artist).permit(*permitted, artist_info_attributes: artist_info_permitted_attributes)
   end
 
-  def is_os_only(osonly)
-    [true, "1",1,"on","true"].include? osonly
+  def os_only?(osonly)
+    [true, '1', 1, 'on', 'true'].include? osonly
   end
 
   def fetch_artists_for_autosuggest
@@ -255,5 +245,4 @@ class ArtistsController < ApplicationController
     end
     artist_names
   end
-
 end

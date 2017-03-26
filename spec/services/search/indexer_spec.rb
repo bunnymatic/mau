@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Search::Indexer, elasticsearch: :stub do
-
   subject(:service) { Search::Indexer }
   let(:artist) { create :artist, :with_art }
   let(:art_piece) { artist.art_pieces.first }
@@ -103,7 +103,6 @@ describe Search::Indexer, elasticsearch: :stub do
         service.remove(object)
       end
     end
-
   end
 
   describe 'an studio' do
@@ -136,15 +135,13 @@ describe Search::Indexer, elasticsearch: :stub do
   end
 
   describe Search::Indexer::ObjectSearchService, elasticsearch: true do
-
     let(:model) { create :artist }
     subject(:service) { described_class.new(model) }
 
-    it "reindexes successfully even if the item is not in the bucket" do
-      expect {
+    it 'reindexes successfully even if the item is not in the bucket' do
+      expect do
         subject.reindex
-      }.not_to raise_error
+      end.not_to raise_error
     end
   end
-
 end

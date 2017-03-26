@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 require_relative '../support/test_users_helper'
 
 FactoryGirl.define do
-
-  sequence(:login) {|n| "#{Faker::Internet.user_name}%04d" % n }
+  sequence(:login) { |n| sprintf("#{Faker::Internet.user_name}%04d", n) }
   factory :user do
     login
     email { "#{login}@example.com" }
@@ -11,11 +11,17 @@ FactoryGirl.define do
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.first_name }
     nomdeplume { Faker::Company.name }
-    profile_image { Faker::Files.file }
     website { Faker::Internet.url }
     trait :pending do
       state :pending
       activation_code 'factory_activation_code'
+    end
+
+    trait :with_photo do
+      photo_file_name    'new-profile.jpg'
+      photo_content_type 'image/jpeg'
+      photo_file_size    134
+      photo_updated_at   2.days.ago
     end
 
     trait :active do
@@ -26,32 +32,30 @@ FactoryGirl.define do
 
     trait :manager do
       after(:create) do |u|
-        u.roles << (Role.find_by_role(:manager) || FactoryGirl.create(:role, role: :manager))
+        u.roles << (Role.find_by(role: :manager) || FactoryGirl.create(:role, role: :manager))
         u.save!
       end
     end
 
     trait :editor do
       after(:create) do |u|
-        u.roles << (Role.find_by_role(:editor) || FactoryGirl.create(:role, role: :editor))
+        u.roles << (Role.find_by(role: :editor) || FactoryGirl.create(:role, role: :editor))
         u.save!
       end
     end
 
     trait :admin do
       after(:create) do |u|
-        u.roles << (Role.find_by_role(:admin) || FactoryGirl.create(:role, role: :admin))
+        u.roles << (Role.find_by(role: :admin) || FactoryGirl.create(:role, role: :admin))
         u.save!
       end
     end
-
   end
 
   factory :mau_fan, parent: :user, class: 'MauFan', aliases: [:fan] do
     type { 'MauFan' }
     active
   end
-
 
   factory :artist, parent: :user, class: 'Artist' do
     type { 'Artist' }
@@ -65,7 +69,7 @@ FactoryGirl.define do
 
     transient do
       max_pieces 10
-      number_of_art_pieces 3
+      number_of_art_pieces 2
       doing_open_studios nil
     end
 
@@ -101,8 +105,7 @@ FactoryGirl.define do
     trait :with_art do
       active
       after(:create) do |artist, ctx|
-        num = ctx.number_of_art_pieces
-        num.times.each do |idx|
+        ctx.number_of_art_pieces.times.each do |idx|
           FactoryGirl.create(:art_piece, artist: artist, created_at: idx.weeks.ago)
         end
         artist.reload
@@ -113,10 +116,8 @@ FactoryGirl.define do
       active
       after(:create) do |artist|
         studio = Studio.first || FactoryGirl.create(:studio)
-        artist.update_attribute :studio, studio
+        artist.update_attributes studio: studio
       end
     end
-
   end
-
 end

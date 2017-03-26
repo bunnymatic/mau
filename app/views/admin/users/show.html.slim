@@ -53,7 +53,7 @@
   - if @user.artist?
     .pure-u-1-2.padded-content
       .info-block
-        - if @user.has_art?
+        - if @user.art?
           h4
             = "Representative piece: " + @user.representative_piece.title
           - url = @user.representative_piece.photo(:original)

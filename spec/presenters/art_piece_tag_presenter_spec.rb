@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPieceTagPresenter do
-
   include PresenterSpecHelpers
 
   let(:artist) { FactoryGirl.create :artist, :active, :with_tagged_art, number_of_art_pieces: 4 }
@@ -17,7 +17,7 @@ describe ArtPieceTagPresenter do
   let(:art) { tag.art_piece }
   let(:mode) { 'p' }
 
-  subject(:presenter) { ArtPieceTagPresenter.new(tag,mode) }
+  subject(:presenter) { ArtPieceTagPresenter.new(tag, mode) }
 
   describe '#art_pieces' do
     it 'has 5 art_pieces' do
@@ -25,7 +25,7 @@ describe ArtPieceTagPresenter do
     end
   end
   it 'sorts by updated at' do
-    expect(subject.art_pieces.map{|p| p.art_piece.updated_at.to_i}).to be_monotonically_decreasing
+    expect(subject.art_pieces.map { |p| p.updated_at.to_i }).to be_monotonically_decreasing
   end
 
   context 'when showing only by artist' do
@@ -46,15 +46,4 @@ describe ArtPieceTagPresenter do
       expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
     end
   end
-
-  context 'when there is art without and owner' do
-    before do
-      ArtPiece.limit(2).each { |a| a.update_attribute :artist_id, nil }
-    end
-    it 'shows art only from active artists' do
-      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
-    end
-  end
-
-
 end

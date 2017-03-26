@@ -2,7 +2,7 @@
 .pure-g
   .pure-u-1-1.studio-profile
     section.studio__image
-      .image style=background_image_style(studio.get_profile_image(:medium))
+      .image style=background_image_style(studio.image)
     section.studio__studio
       .body
         .studio-name
@@ -16,7 +16,7 @@
               .studio--cross-street @ #{studio.cross_street}
 
             .studio-city #{studio.city}
-            - if studio.has_phone?
+            - if studio.phone?
               .studio-phone #{studio.formatted_phone}
         .info
           .studio__website
@@ -25,7 +25,7 @@
             = studio.artists_count_label
           .os_population
             = studio.open_studios_artists_count_label
-    - if studio.has_open_studios_artists?
+    - if studio.open_studios_artists?
       section.studio__open-studios-banner
         = link_to open_studios_path do
           .os-violator.with-image

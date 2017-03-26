@@ -1,9 +1,9 @@
-/ expects art_piece_favorite as art_piece_favorite_presenter and  is_current_user
-- is_current_user ||= false
+/ expects art_piece_favorite as art_piece_favorite_presenter and owner_is_current_user
+- owner_is_current_user ||= false
 - class_overrides ||= %w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4).join(" ")
 - art_piece = art_piece_favorite.art_piece
 .art-card class=class_overrides
-  - if logged_in? && is_current_user
+  - if logged_in? && owner_is_current_user
     .card__controls
       .art-card__remove-favorite
         = link_to user_favorite_path(current_user, art_piece_favorite.favorite), title: "Remove Favorite", method: :delete do
@@ -11,7 +11,7 @@
   = link_to art_piece_path(art_piece) do
     - if art_piece.artist.doing_open_studios?
       .os-violator title="Open Studios Participant!"
-    .image style=background_image_style(art_piece.get_path(:medium))
+    .image style=background_image_style(art_piece.path)
     .desc
       .name
         = art_piece.title

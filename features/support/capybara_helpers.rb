@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module CapybaraHelpers
   ##
   #
@@ -6,7 +7,7 @@ module CapybaraHelpers
   #
   # @param [String] locator      Text, id or value of link or button
   #
-  def click_on_first(locator, options={})
+  def click_on_first(locator, options = {})
     links = nil
     wait_until do
       links = all(:link_or_button, locator, options)
@@ -23,10 +24,10 @@ module CapybaraHelpers
     Capybara.current_driver == Capybara.javascript_driver
   end
 
-  def wait_until(time = Capybara.default_max_wait_time, &block)
+  def wait_until(time = Capybara.default_max_wait_time)
     Timeout.timeout(time) do
       loop do
-        break if block.call
+        break if yield
         sleep 0.01
       end
     end
@@ -40,7 +41,7 @@ module CapybaraHelpers
     match.first
   end
 
-  def fill_in_selectize(field, with: )
+  def fill_in_selectize(field, with:)
     if with.is_a? Array
       with.each do |val|
         fill_in field, with: val
@@ -49,7 +50,6 @@ module CapybaraHelpers
       fill_in field, with: with
     end
   end
-
 end
 
 World CapybaraHelpers

@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 require 'rails_helper'
 describe Admin::CmsDocumentsController do
-
   let(:editor) { FactoryGirl.create(:artist, :editor) }
   let(:cms_document) { FactoryGirl.create(:cms_document, article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption") }
 
@@ -9,7 +9,7 @@ describe Admin::CmsDocumentsController do
       before do
         get meth, params: { id: 'whatever' }
       end
-      it_should_behave_like "not authorized"
+      it_should_behave_like 'not authorized'
     end
   end
 
@@ -52,15 +52,15 @@ describe Admin::CmsDocumentsController do
         login_as editor
       end
       it 'creates a new cms document' do
-        expect{
+        expect do
           post :create, params: { cms_document: FactoryGirl.attributes_for(:cms_document) }
-        }.to change(CmsDocument,:count).by(1)
+        end.to change(CmsDocument, :count).by(1)
       end
       it 'renders new on failure' do
-        expect{
-          post :create, params: { cms_document: { page: '', section: '', article: ''} }
+        expect do
+          post :create, params: { cms_document: { page: '', section: '', article: '' } }
           expect(assigns(:cms_document).errors.size).to be >= 2
-        }.to change(CmsDocument,:count).by(0)
+        end.to change(CmsDocument, :count).by(0)
       end
       it 'sets a notification' do
         post :create, params: { cms_document: FactoryGirl.attributes_for(:cms_document) }
@@ -77,7 +77,7 @@ describe Admin::CmsDocumentsController do
         expect(CmsDocument.find(cms_document.id).section).to eql 'new_section'
       end
       it 'sets a notification' do
-        put :update, params: {  id: cms_document.id, cms_document: { section: 'this place' } }
+        put :update, params: { id: cms_document.id, cms_document: { section: 'this place' } }
         expect(flash[:notice]).to be_present
       end
       it 'renders edit on failure' do
@@ -85,8 +85,5 @@ describe Admin::CmsDocumentsController do
         expect(assigns(:cms_document).errors).to be_present
       end
     end
-
-
   end
-
 end

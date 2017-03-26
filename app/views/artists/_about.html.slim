@@ -27,7 +27,7 @@
                 = link_to artist.studio_name, artist.studio
               .studio-address
                 | #{artist.address.street} #{artist.studio_number}
-                - if artist.has_address?
+                - if artist.address?
                   = link_to artist.map_url, title: :map, class: 'map-link' do
                     i.fa.fa-map-marker
                 .studio-city #{artist.studio.city}
@@ -35,7 +35,7 @@
               .studio-name #{IndependentStudio.new.name.singularize}
               .studio-address
                 | #{artist.address.street}
-                - if artist.has_address?
+                - if artist.address?
                   = link_to artist.map_url, title: :map, class: 'map-link' do
                     i.fa.fa-map-marker
                   .studio-city #{artist.address.city}
@@ -49,9 +49,9 @@
             = link_to edit_artist_path(artist, anchor: 'bio'), title: 'edit this profile' do
               .fa.fa-icon.fa-edit
       .header Artist's Statement
-      .bio-container(class=(artist.has_bio? ? '' : 'empty'))
+      .bio-container(class=(artist.bio? ? '' : 'empty'))
         = artist.bio_html
-    - if artist.has_bio?
+    - if artist.bio?
       .artist__bio-read-more.js-read-more(title='read more')
         .read-more-fade-out
         = link_to '#' do
@@ -63,7 +63,7 @@
         - artist.media.each do |m|
           li
             = link_to(m.name, m, class: "")
-    - if artist.has_links?
+    - if artist.links?
       section.links
         .header Links
         .artist__links

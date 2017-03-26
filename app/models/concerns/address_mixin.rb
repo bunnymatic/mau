@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 module AddressMixin
   # for models with street, city, zip, lat, lng and either state or addr_state
 
-  def has_address?
+  def address?
     address.present? && address.geocoded?
   end
 
@@ -14,34 +15,32 @@ module AddressMixin
   end
 
   def map_link
-    "http://maps.google.com/maps?q=%s" % URI.escape(self.full_address) if self.full_address
+    sprintf('http://maps.google.com/maps?q=%s', URI.escape(full_address)) if full_address
   end
 
   protected
+
   def get_state
-    (self.respond_to? :addr_state) ? self.addr_state : self.state
+    respond_to?(:addr_state) ? addr_state : state
   end
 
   def compute_geocode(force = false)
+    return unless (should_recompute? || force) && address.present?
     begin
       if address.present? && (should_recompute? || force)
         result = Geokit::Geocoders::MultiGeocoder.geocode(address.to_s(true))
         if result.try(:success)
           self.lat = result.lat
           self.lng = result.lng
-          [self.lat, self.lng]
-        else
-          #errors.add(:street, "Unable to Geocode your address.")
+          [lat, lng]
         end
-      else
-        # puts "No Adddress - skip geocoding"
       end
-    rescue Exception => ex
+    rescue Geocoder::Error
+      logger.warn("Failed to Geocode: #{address.to_s(true)} for #{inspect}")
     end
   end
 
   def should_recompute?
-    (self.changes.keys & ["street", "city", "addr_state", "zip"]).present?
+    (changes.keys & %w(street city addr_state zip)).present?
   end
-
 end

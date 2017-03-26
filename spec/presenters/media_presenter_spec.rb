@@ -1,14 +1,14 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe MediaPresenter do
-
   include PresenterSpecHelpers
 
   let(:media) { FactoryGirl.create_list(:medium, 4) }
   let(:artists) { FactoryGirl.create_list(:artist, 5, :with_art) }
   let!(:art_pieces) do
     pieces = artists.map(&:art_pieces).flatten
-    pieces.each { |ap| ap.update_attribute :medium_id, select_medium.id }
+    pieces.each { |ap| ap.update_attributes(medium: select_medium) }
   end
 
   let(:page) { 1 }
@@ -38,8 +38,8 @@ describe MediaPresenter do
     subject { super().paginator }
     describe '#items' do
       it 'has 2 items' do
-      expect(subject.items.size).to eq(2)
-    end
+        expect(subject.items.size).to eq(2)
+      end
     end
   end
 

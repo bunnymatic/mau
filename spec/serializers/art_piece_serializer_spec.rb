@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ArtPieceSerializer do
@@ -21,7 +22,7 @@ describe ArtPieceSerializer do
     end
 
     it 'includes paths to the images' do
-      sizes = %w| large medium original small thumb |
+      sizes = %w(large medium original small thumb)
       files = @ap['image_urls']
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|
@@ -42,6 +43,5 @@ describe ArtPieceSerializer do
     it 'includes the medium' do
       expect(@ap['medium']['name']).to eql art_piece.medium.name
     end
-
   end
 end

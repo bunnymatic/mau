@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 class OpenStudiosPresenter
-
   PAGE = 'main_openstudios'
 
   def packaged_summary
     section = 'summary'
-    @summary ||= CmsDocument.packaged(PAGE,section)
+    @summary ||= CmsDocument.packaged(PAGE, section)
   end
 
   def summary_data
@@ -37,20 +37,20 @@ class OpenStudiosPresenter
   end
 
   def participating_indies
-    @participating_indies ||= sort_artists_by_name(os_participants.reject{|a| a.studio || a.address.blank? })
+    @participating_indies ||= sort_artists_by_name(os_participants.reject { |a| a.studio || a.address.blank? })
   end
 
   def sort_studios_by_name(studios)
-    studios.compact.uniq.sort &Studio::SORT_BY_NAME
+    studios.compact.uniq.sort(&Studio::SORT_BY_NAME)
   end
 
   def sort_artists_by_name(artists)
-    artists.compact.uniq.sort &Artist::SORT_BY_LASTNAME
+    artists.compact.uniq.sort(&Artist::SORT_BY_LASTNAME)
   end
 
   private
-  def editable_content_data(packaged_data)
-    Hash[packaged_data.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
-  end
 
+  def editable_content_data(packaged_data)
+    Hash[packaged_data.select { |k, _v| k != :content }.map { |item| ["data-#{item[0]}", item[1]] }]
+  end
 end

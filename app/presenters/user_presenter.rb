@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 # This presenter adds helpful display/view related methods
 # to make it easy to draw user data on a page
 
 class UserPresenter < ViewPresenter
-
   ALLOWED_FAVORITE_CLASSES = [Artist, MauFan, User].map(&:name)
-  ALLOWED_LINKS = [:website]
+  ALLOWED_LINKS = [:website].freeze
   attr_accessor :model
 
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
@@ -21,10 +21,10 @@ class UserPresenter < ViewPresenter
 
   def icon_for_state
     icon_class = {
-      active: "check-circle-o",
-      pending: "clock-o",
-      deleted: "times-circle-o",
-      suspended: "thumbs-o-down"
+      active: 'check-circle-o',
+      pending: 'clock-o',
+      deleted: 'times-circle-o',
+      suspended: 'thumbs-o-down'
     }[state.to_sym]
     "fa fa-#{icon_class}" if icon_class
   end
@@ -34,15 +34,15 @@ class UserPresenter < ViewPresenter
   end
 
   def member_since
-    member_since_date.strftime "%b %Y"
+    member_since_date.strftime '%b %Y'
   end
 
   def last_login
-    model.last_login_at.try(:to_formatted_s,:admin)
+    model.last_login_at.try(:to_formatted_s, :admin)
   end
 
   def activation_date
-    model.activated_at.try(:to_formatted_s,:admin_date_only)
+    model.activated_at.try(:to_formatted_s, :admin_date_only)
   end
 
   def doing_open_studios?
@@ -51,7 +51,7 @@ class UserPresenter < ViewPresenter
 
   def who_i_favorite
     # collect artist and art piece stuff
-    @who_i_favorite ||= [ my_favorite_users, my_favorite_art ].flatten.compact.uniq
+    @who_i_favorite ||= [my_favorite_users, my_favorite_art].flatten.compact.uniq
   end
 
   def who_favorites_me
@@ -78,7 +78,7 @@ class UserPresenter < ViewPresenter
   def facebook_handle
     @facebook_handle ||=
       begin
-        match = /facebook.com\/(.*)/.match(model.facebook.to_s)
+        match = %r{facebook.com/(.*)}.match(model.facebook.to_s)
         match.captures.first if match
       end
   end
@@ -86,7 +86,7 @@ class UserPresenter < ViewPresenter
   def instagram_handle
     @instagram_handle ||=
       begin
-        match = /instagram.com\/(.*)/.match(model.instagram.to_s)
+        match = %r{instagram.com/(.*)}.match(model.instagram.to_s)
         match.captures.first if match
       end
   end
@@ -94,13 +94,13 @@ class UserPresenter < ViewPresenter
   def twitter_handle
     @twitter_handle ||=
       begin
-        match = /twitter.com\/(.*)/.match(model.twitter.to_s)
+        match = %r{twitter.com/(.*)}.match(model.twitter.to_s)
         match.captures.first if match
       end
   end
 
   def favorites_of_me
-    @favorites_of_me ||= Favorite.users.where(favoritable_id: self.id).order('created_at desc')
+    @favorites_of_me ||= Favorite.users.where(favoritable_id: id).order('created_at desc')
   end
 
   def valid?
@@ -108,18 +108,18 @@ class UserPresenter < ViewPresenter
   end
 
   def created_at
-    model.created_at.strftime("%m/%d/%y")
+    model.created_at.strftime('%m/%d/%y')
   end
 
   def activation_state
-    model.activated_at ? model.activated_at.strftime("%m/%d/%y") : model.state
+    model.activated_at ? model.activated_at.strftime('%m/%d/%y') : model.state
   end
 
-  def has_activation_code?
+  def activation_code?
     model.state != 'active' && model.activation_code.present?
   end
 
-  def has_reset_code?
+  def reset_code?
     model.reset_code.present?
   end
 
@@ -128,56 +128,60 @@ class UserPresenter < ViewPresenter
   end
 
   def reset_password_link
-    url_helpers.reset_url(model.reset_code )
+    url_helpers.reset_url(model.reset_code)
   end
 
-  def has_links?
-    @has_links ||= links.any?
+  def links?
+    links.any?
   end
 
   def links
     @links ||= self.class.keyed_links.map do |kk|
-      v = @model.send(kk)
+      @model.send(kk)
     end.compact
   end
 
   def links_html
-  self.class.keyed_links.map do |key|
+    self.class.keyed_links.map do |key|
       site = @model.send(key)
-      if site.present?
-        formatted_site = format_link(site)
-        site_display = format_link_for_display(site)
-        link_icon_class = icon_link_class(key, site)
-        content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
-           content_tag(:i,'', class: link_icon_class) +
-              content_tag(:span,site_display)
-        end
+      next unless site.present?
+      formatted_site = format_link(site)
+      site_display = format_link_for_display(site)
+      link_icon_class = icon_link_class(key, site)
+      content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
+        content_tag(:i, '', class: link_icon_class) +
+          content_tag(:span, site_display)
       end
     end.compact
   end
 
-  def has_profile_image?
-    model.photo? || model.profile_image.present?
+  def profile_image?
+    model.photo?
   end
 
   def profile_image(size = small)
-    model.photo? ? model.photo(size) : (model.profile_image.present? ? model.get_profile_image(size) : nil)
+    model.photo(size) if model.photo?
   end
 
   def website
     model.links[:website].presence || model.url
   end
 
-  alias_method :get_profile_image, :profile_image
+  alias get_profile_image profile_image
+
+  def self.keyed_links
+    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
+  end
 
   private
+
   def my_favorites
     if !@user_favorites || !@art_piece_favorites
       @user_favorites, @art_piece_favorites = model.favorites.partition do |fav|
         ALLOWED_FAVORITE_CLASSES.include? fav.favoritable_type
       end
     end
-    {users: @user_favorites, art_pieces: @art_piece_favorites}
+    { users: @user_favorites, art_pieces: @art_piece_favorites }
   end
 
   def my_favorite_users
@@ -185,7 +189,7 @@ class UserPresenter < ViewPresenter
   end
 
   def my_favorite_art
-    ArtPiece.includes(:artist).owned.where(id: my_favorites[:art_pieces].map(&:favoritable_id) ).map(&:artist)
+    ArtPiece.includes(:artist).owned.where(id: my_favorites[:art_pieces].map(&:favoritable_id)).map(&:artist)
   end
 
   def format_link_for_display(link)
@@ -193,23 +197,21 @@ class UserPresenter < ViewPresenter
   end
 
   def format_link(link)
-    if link.present?
-      (/^https?:\/\//.match(link) ? link : "http://#{link}")
-    end
+    (link =~ %r{^https?://} ? link : "http://#{link}") if link.present?
   end
 
   def icon_link_class(key, site)
     site = strip_http_from_link(site)
-    clz = [:ico, "ico-invert", "ico-#{key}"]
+    clz = [:ico, 'ico-invert', "ico-#{key}"]
     icon_chooser = begin
                      if site =~ /\.tumblr\./
-                       "ico-tumblr"
+                       'ico-tumblr'
                      elsif key.to_sym == :blog
                        if site =~ /\.blogger\./
-                         "ico-blogger"
+                         'ico-blogger'
                        else
-                         site_bits = site.split(".")
-                         "ico-" + ((site_bits.length > 2) ? site_bits[-3] : site_bits[0])
+                         site_bits = site.split('.')
+                         'ico-' + (site_bits.length > 2 ? site_bits[-3] : site_bits[0])
                        end
                      end
                    end
@@ -217,12 +219,6 @@ class UserPresenter < ViewPresenter
   end
 
   def strip_http_from_link(link)
-    link.gsub /^https?:\/\//, ''
+    link.gsub %r{^https?:\/\/}, ''
   end
-
-  def self.keyed_links
-    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
-  end
-
-
 end

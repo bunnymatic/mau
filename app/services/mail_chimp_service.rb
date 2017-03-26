@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class MailChimpService
-
   API_KEY = Conf.mailchimp_api_key
   FAN_LIST_ID = Conf.mailchimp_fan_list_id
   ARTIST_LIST_ID = Conf.mailchimp_artist_list_id
@@ -9,20 +9,20 @@ class MailChimpService
   end
 
   def subscribe_and_welcome
-    raise "Conf:mailchimp_api_key not set" if API_KEY.blank?
+    raise 'Conf:mailchimp_api_key not set' if API_KEY.blank?
+    return unless @user.mailchimp_subscribed_at.nil?
     subscribe
-    @user.update_attribute(:mailchimp_subscribed_at, Time.zone.now)
+    @user.update_attributes(mailchimp_subscribed_at: Time.zone.now)
   end
 
   ATTRIBUTE_CONVERSIONS = {
-    'firstname'              => 'FNAME',
-    'lastname'             => 'LNAME'
-  }
+    'firstname' => 'FNAME',
+    'lastname' => 'LNAME'
+  }.freeze
 
   def mailchimp_additional_data
-    @user.attributes.slice(*ATTRIBUTE_CONVERSIONS.keys).inject({}) do |memo,(k,v)|
+    @user.attributes.slice(*ATTRIBUTE_CONVERSIONS.keys).each_with_object({}) do |(k, v), memo|
       memo[ATTRIBUTE_CONVERSIONS[k]] = v
-      memo
     end
   end
 
@@ -37,11 +37,11 @@ class MailChimpService
   end
 
   def list_id
-    @list_id ||= (@user.class == Artist) ? ARTIST_LIST_ID : FAN_LIST_ID
+    @list_id ||= @user.class == Artist ? ARTIST_LIST_ID : FAN_LIST_ID
   end
 
   def subscribe
-    response = list.members.create(
+    list.members.create(
       body: {
         email_address: @user.email,
         status: 'subscribed',

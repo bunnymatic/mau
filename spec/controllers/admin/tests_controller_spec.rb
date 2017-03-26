@@ -1,11 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Admin::TestsController do
-
   let(:admin) { FactoryGirl.create(:artist, :admin) }
 
   context 'unauthorized' do
-    [:social_icons, :qr, :flash_test, :custom_map].map(&:to_s).each do |endpoint|
+    %w(social_icons qr flash_test custom_map).each do |endpoint|
       it "#{endpoint} returns error if you're not logged in" do
         get endpoint
         expect(response).to redirect_to '/error'
@@ -30,7 +30,7 @@ describe Admin::TestsController do
       before do
         @t = Time.zone.now
         Timecop.freeze(@t)
-        expect(FileUtils).to receive(:mkdir_p).with %r|/public/images/tmp$|
+        expect(FileUtils).to receive(:mkdir_p).with %r{/public/images/tmp$}
         allow(Qr4r).to receive(:encode)
       end
       it 'builds a qr image' do
@@ -38,7 +38,5 @@ describe Admin::TestsController do
         expect(assigns(:qrfile)).to eql "/images/tmp/qrtest_#{@t.to_i}.png"
       end
     end
-
   end
-
 end

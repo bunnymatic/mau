@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 def get_email_directive_selector(type)
-  list = EmailList.where(type: type + "MailerList").first
-  email_directive_selector = "email-list-manager[list-id=\"#{list.id}\"]"
+  list = EmailList.where(type: type + 'MailerList').first
+  "email-list-manager[list-id=\"#{list.id}\"]"
 end
 
 def get_email_directive(type)
@@ -44,7 +45,7 @@ end
 Then(/^I click to remove "([^"]*)" from the "(.*?)" list$/) do |email, list_name|
   within get_email_directive(list_name) do
     link_title = "remove #{email} from the list"
-    all(".del-btn a").select{|t| t['title'] == link_title}.first.click
+    all('.del-btn a').select { |t| t['title'] == link_title }.first.click
   end
 end
 

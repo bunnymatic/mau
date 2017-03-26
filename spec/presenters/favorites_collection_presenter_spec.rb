@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FavoritesCollectionPresenter do
@@ -9,13 +10,13 @@ describe FavoritesCollectionPresenter do
 
   context 'with favorites' do
     before do
-      create_favorite( artist, artists[1])
-      create_favorite( artist, artists[2])
-      create_favorite( artist, artists.last)
+      create_favorite(artist, artists[1])
+      create_favorite(artist, artists[2])
+      create_favorite(artist, artists.last)
 
-      create_favorite( artist, artists[2].art_pieces.first)
-      create_favorite( artist, artists[3].art_pieces.first)
-      create_favorite( artist, art_piece_without_artist)
+      create_favorite(artist, artists[2].art_pieces.first)
+      create_favorite(artist, artists[3].art_pieces.first)
+      create_favorite(artist, art_piece_without_artist)
       art_piece_without_artist.artist.suspend!
     end
 
@@ -42,8 +43,6 @@ describe FavoritesCollectionPresenter do
         end
       end
     end
-
-
   end
 
   context 'when the artist has no favorites' do
@@ -59,7 +58,7 @@ describe FavoritesCollectionPresenter do
 
     describe '#empty_message' do
       subject { super().empty_message }
-      it { should match /not favorited anything/ }
+      it { should match(/not favorited anything/) }
     end
   end
 
@@ -68,9 +67,8 @@ describe FavoritesCollectionPresenter do
     context 'and the artist has no favorites' do
       describe '#empty_message' do
         subject { super().empty_message }
-        it { should match /Go find an artist/ }
+        it { should match(/Go find an artist/) }
       end
     end
   end
-
 end

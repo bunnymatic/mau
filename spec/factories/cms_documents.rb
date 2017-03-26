@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :cms_document do
     page { "page_#{Faker::Files.dir}" }

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FavoritesController < ApplicationController
   before_action :user_required, only: [:create, :destroy]
   before_action :user_must_be_you, only: [:create, :destroy]
@@ -9,7 +10,7 @@ class FavoritesController < ApplicationController
               nil
             end
     if @user.nil? || !@user.active?
-      flash[:error] = "The account you were looking for was not found."
+      flash[:error] = 'The account you were looking for was not found.'
       redirect_back_or_default(artists_path)
       return
     end
@@ -19,36 +20,32 @@ class FavoritesController < ApplicationController
 
   def create
     type = favorite_params[:type]
-    _id = favorite_params[:id]
+    id = favorite_params[:id]
     begin
-      obj = FavoritesService.get_object(type, _id)
+      obj = FavoritesService.get_object(type, id)
       result = FavoritesService.add(current_user, obj)
       msg = "#{obj.get_name(true)} has been added to your favorites."
-      if !result
-        msg = "We love you too, but you can't favorite yourself."
-      end
-      render json: { message: msg } and return
+      msg = "We love you too, but you can't favorite yourself." unless result
+      render(json: { message: msg }) && return
     rescue InvalidFavoriteTypeError, NameError
-      render_not_found({message: "You can't favorite that type of object" }) and return
+      render_not_found(message: "You can't favorite that type of object") && (return)
     end
     head(404)
   end
 
   def destroy
-    begin
-      fav = Favorite.find(params[:id])
-      obj = fav.to_obj
-      fav.destroy
-      if request.xhr?
-        render json: {message: 'Removed a favorite'}
-        return
-      else
-        flash[:notice] = "#{obj.get_name true} has been removed from your favorites.".html_safe
-        redirect_to(request.referrer || user_path(obj))
-      end
-    rescue InvalidFavoriteTypeError => ex
-      render_not_found({message: ex.message })
+    fav = Favorite.find(params[:id])
+    obj = fav.to_obj
+    fav.destroy
+    if request.xhr?
+      render json: { message: 'Removed a favorite' }
+      return
+    else
+      flash[:notice] = "#{obj.get_name(true)} has been removed from your favorites."
+      redirect_to(request.referer || user_path(obj))
     end
+  rescue InvalidFavoriteTypeError => ex
+    render_not_found(message: ex.message)
   end
 
   def favorite_params

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Then(/^I see the admin studios list$/) do
   s = Studio.last
   expect(page).to have_content s.name
@@ -18,7 +19,7 @@ When(/^I edit the first studio$/) do
 end
 
 When(/^I change the street address to "(.*?)"$/) do |street_address|
-  fill_in "Street", with: street_address
+  fill_in 'Street', with: street_address
   click_on 'Update Studio'
 end
 
@@ -49,7 +50,7 @@ Then /^I see that some studios are participating in open studios$/ do
 end
 
 When /^I click on the first studio card$/ do
-  all('.studio-card').first.click()
+  first('.studio-card').click
 end
 
 Then(/^I fill in the filter search box with "(.*?)"$/) do |studio|
