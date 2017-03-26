@@ -8,15 +8,26 @@ class OpenStudiosEventService
   def self.for_display(os_key, reverse = false)
     os = OpenStudiosEvent.find_by(key: os_key)
     return os.for_display(reverse) if os
-    if os_key
-      os_key = os_key.to_s
-      yr = os_key[0..3]
-      mo = os_key[4..-1]
-      seas = mo == '10' ? 'Oct' : 'Apr'
-      (reverse ? [seas, yr] : [yr, seas]).join(' ')
-    else
-      'n/a'
-    end
+    parse_key(os_key, reverse) || 'n/a'
+  end
+
+  def self.date(os_key)
+    os = OpenStudiosEvent.find_by(key: os_key)
+    return os.start_date if os
+    parsed = parse_key(os_key, true)
+    return Time.zone.parse(parsed) if parsed
+    # fallback
+    Time.zone.now - 10.years
+  end
+
+  def self.parse_key(os_key, reverse = false)
+    return nil unless os_key.present?
+
+    os_key = os_key.to_s
+    yr = os_key[0..3]
+    mo = os_key[4..-1]
+    seas = mo == '10' ? 'Oct' : 'Apr'
+    (reverse ? [seas, yr] : [yr, seas]).join(' ')
   end
 
   def self.all

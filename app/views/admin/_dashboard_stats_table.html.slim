@@ -5,7 +5,7 @@
   h4 = title
   table
     tbody
-      - stats.sort{|a,b| a.to_s <=> b.to_s }.each do |k,v|
+      - stats.each do |k,v|
         tr
           td = k.to_s.titleize
           td.count = v

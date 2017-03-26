@@ -6,8 +6,8 @@
       %thead
         %tr
           %th name
-          - @keys.each do |key|
-            %th #{OpenStudiosEvent.for_display(key)}
+          - @keys.sort_by { |k| OpenStudiosEventService.date(k) }.reverse.each do |key|
+            %th #{OpenStudiosEventService.for_display(key)}
       %tbody
         - @os.each_with_index do |a,idx|
           %tr
@@ -22,4 +22,3 @@
           %td Totals:
           - @keys.each do |key|
             %td.tf #{@totals[key]}
-

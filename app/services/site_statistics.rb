@@ -10,7 +10,7 @@ class SiteStatistics
 
   def open_studios
     {}.tap do |os_stats|
-      available_open_studios_keys.sort.reverse.each do |ostag|
+      available_open_studios_keys.sort_by { |k| OpenStudiosEventService.date(k) }.reverse.each do |ostag|
         key = display_key(ostag)
         os_stats[key] = Artist.active.open_studios_participants(ostag).count
       end
@@ -84,7 +84,7 @@ class SiteStatistics
 
   def compute_totals
     @totals ||= {}.tap do |tally|
-      %w(art_pieces_stats favorites_stats studios_stats artists_stats other_users_stats login_stats).each do |m|
+      %w(art_pieces_stats artists_stats other_users_stats login_stats favorites_stats studios_stats).each do |m|
         tally.merge!(send(m))
       end
     end
@@ -108,7 +108,7 @@ class SiteStatistics
 
   def artists_stats
     artist_states = Artist.select(:state).group(:state).count
-    { activated_artists: artist_states.fetch('active', 'n/a'),
+    { artists_activated: artist_states.fetch('active', 'n/a'),
       artists_pending: artist_states.fetch('pending', 'n/a'),
       artists_without_art: Artist.without_art.count,
       artists_no_profile_image: Artist.active.where('profile_image is not null').count,
