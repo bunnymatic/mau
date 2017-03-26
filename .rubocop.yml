@@ -28,21 +28,53 @@ AllCops:
 Rails:
   Enabled: true
 
-Rails/DynamicFindBy:
+Lint/HandleExceptions:
   Exclude:
-    - 'app/models/user_session.rb'
+    - app/services/search/indexer.rb
 
 Metrics/AbcSize:
   Max: 38
 
-Metrics/LineLength:
-  Max: 150
+Metrics/BlockLength:
+  Max: 151
 
 Metrics/ClassLength:
   Max: 300
 
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/LineLength:
+  Max: 150
+
 Metrics/MethodLength:
   Max: 50
+
+Metrics/PerceivedComplexity:
+  Max: 9
+
+Rails/FilePath:
+  Exclude:
+    - config/environments/test.rb
+
+Rails/OutputSafety:
+  Enabled: false
+
+Rails/TimeZone:
+  Exclude:
+    - tztest.rb
+
+Rails/DynamicFindBy:
+  Exclude:
+    - 'app/models/user_session.rb'
+
+Style/AccessorMethodName:
+  Exclude:
+    - app/models/concerns/address_mixin.rb
+
+Style/ConstantName:
+  Exclude:
+    - 'config/application.rb'
 
 Style/Documentation:
   Enabled: false
@@ -56,10 +88,6 @@ Style/FormatString:
     - sprintf
     - format
 
-Lint/HandleExceptions:
-  Exclude:
-    - app/services/search/indexer.rb
-
 Style/RegexpLiteral:
   EnforcedStyle: slashes
   SupportedStyles:
@@ -67,24 +95,9 @@ Style/RegexpLiteral:
     - percent_r
   AllowInnerSlashes: false
 
-Metrics/CyclomaticComplexity:
-  Max: 10
-
-Rails/FilePath:
+Style/StructInheritance:
   Exclude:
-    - config/environments/test.rb
-
-Rails/OutputSafety:
-  Exclude:
-    - app/services/markdown_service.rb
-
-Rails/TimeZone:
-  Exclude:
-    - tztest.rb
-
-Style/AccessorMethodName:
-  Exclude:
-    - app/models/concerns/address_mixin.rb
+    - 'app/models/independent_studio.rb'
 
 Style/PerlBackrefs:
   Enabled: false

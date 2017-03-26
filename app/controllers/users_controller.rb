@@ -206,7 +206,7 @@ class UsersController < ApplicationController
       [@user.errors[:base]],
       ' Please correct these issues or contact the webmaster (link below), if you continue to have problems.'
     ].flatten.join('<br/>')
-    flash.now[:error] = safe_join(msg)
+    flash.now[:error] = msg
     @studios = StudioService.all
     @user.valid?
     render action: 'new'

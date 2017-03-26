@@ -104,7 +104,7 @@ class Pagination < ViewPresenter
   end
 
   def previous_label
-    safe_join([@previous_label || '&lt;prev'])
+    raw(@previous_label || '&lt;prev')
   end
 
   def next_title
@@ -112,6 +112,6 @@ class Pagination < ViewPresenter
   end
 
   def next_label
-    safe_join([@next_label || 'next&gt;'])
+    raw(@next_label || 'next&gt;')
   end
 end

@@ -30,5 +30,4 @@ describe ThumbnailBrowserPresenter do
   its(:prev_img) { is_expected.to eql(artist.art_pieces[0].id) }
 
   its(:current_index) { is_expected.to eql(1) }
-
 end
