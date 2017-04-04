@@ -42,7 +42,7 @@ end
 Then /I see the open studios page$/ do
   expect(page).to have_selector 'h2', text: /Open Studios/
   tabs = page.all('.open-studios-content-tabs a[data-toggle="tab"]').map(&:text)
-  expect(tabs).to match_array %w( about participants map )
+  expect(tabs).to match_array %w(about participants map)
   expect(current_path).to eq open_studios_path
 end
 
