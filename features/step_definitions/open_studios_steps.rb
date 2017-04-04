@@ -33,9 +33,17 @@ Then(/^I see the open studios content is editable/) do
   expect(page).to have_selector '.open_studios .section.markdown.editable'
 end
 
+When /I click on the open studios page "([^"]*)" tab/ do |tab|
+  within '.open-studios-content-tabs' do
+    click_on tab
+  end
+end
+
 Then /I see the open studios page$/ do
-  expect(current_path).to eq open_studios_path
   expect(page).to have_selector 'h2', text: /Open Studios/
+  tabs = page.all('.open-studios-content-tabs a[data-toggle="tab"]').map(&:text)
+  expect(tabs).to match_array %w( about participants map )
+  expect(current_path).to eq open_studios_path
 end
 
 Then(/^I see the open studios events$/) do
@@ -107,5 +115,17 @@ Then(/^I see the open studios participants$/) do
 end
 
 Then(/^I see a map of open studios participants$/) do
+  expect(page).to have_css '#map-canvas'
+end
+
+Then(/^I see only artist cards from artists that are doing open studios$/) do
+  expect(page).to have_css '.artist-card .os-violator'
+end
+
+Then(/^I see a list of artists doing open studios with their studio addresses$/) do
+  expect(page).to have_css '.map__list-of-artists .tenants'
+end
+
+Then(/^I see a map of the open studios$/) do
   expect(page).to have_css '#map-canvas'
 end
