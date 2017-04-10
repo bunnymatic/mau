@@ -6,10 +6,35 @@ describe UserPresenter do
 
   let(:created) { 1.year.ago }
   let(:activated) { nil }
-  let(:user) { create :artist, created_at: created, activated_at: activated }
+  let(:last_login_at) { 1.day.ago }
+  let(:last_request_at) { 1.minute.ago }
+  let(:current_login_at) { 1.hour.ago }
+  let(:user) {
+    create :artist,
+           created_at: created,
+           activated_at: activated,
+           last_request_at: last_request_at,
+           last_login_at: last_login_at,
+           current_login_at: current_login_at
+  }
   subject(:presenter) { described_class.new(user) }
 
   its(:member_since) { is_expected.to eql created.strftime('%b %Y') }
+
+
+  describe '#last_login' do
+    its(:last_login) { is_expected.to eql user.last_request_at.to_formatted_s(:admin) }
+    context 'when last_request_at is not present' do
+      let(:last_request_at) { nil }
+      its(:last_login) { is_expected.to eql user.current_login_at.to_formatted_s(:admin) }
+    end
+    context 'when last_request_at and current_login are not present' do
+      let(:last_request_at) { nil }
+      let(:current_login_at) { nil }
+      its(:last_login) { is_expected.to eql user.last_login_at.to_formatted_s(:admin) }
+    end
+  end
+
 
   describe '#member_since_date' do
     context 'when activated_at is unset' do

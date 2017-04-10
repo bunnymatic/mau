@@ -38,7 +38,7 @@ class UserPresenter < ViewPresenter
   end
 
   def last_login
-    model.last_login_at.try(:to_formatted_s, :admin)
+    (model.last_request_at || model.current_login_at || model.last_login_at).try(:to_formatted_s, :admin)
   end
 
   def activation_date
