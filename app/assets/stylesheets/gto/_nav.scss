@@ -199,6 +199,7 @@
       }
       &.signout__links,
       &.signin__links {
+        overflow: hidden;
         .nav-mobile__title {
           font-weight: $font-weight-normal;
         }
