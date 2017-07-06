@@ -4,7 +4,7 @@ require_relative '../../spec/support/mobile_setup'
 def fill_in_login_form(login, pass)
   flash = all('.flash__close')
   flash.map(&:click) if flash.any?
-  fill_in('Login', with: login)
+  fill_in('Username/Email', with: login)
   fill_in('Password', with: pass)
 end
 
