@@ -44,6 +44,9 @@ tr.error-msg {
   a + a, .pure-button + .pure-button {
     margin-left: 5px;
   }
+  ::placeholder { /* WebKit, Blink, Edge */
+    color: $light-gray;
+  }
 }
 .inputs textarea {
   width: 90%;
@@ -53,6 +56,7 @@ tr.error-msg {
     border: none;
     color: $gto_red;
     margin-left: 3px;
+    text-decoration: none;
   }
 }
 .inputs {
