@@ -12,7 +12,7 @@ Background:
   | whoever |
 
   And there are application events in the system
-  And I login as "billybob"
+  When I login as "billybob"
 
 Scenario: Checking on application events
   When I click on "app events" in the admin menu
@@ -20,12 +20,10 @@ Scenario: Checking on application events
 
 Scenario: Getting notified about user email changes
   Given I logout
-  When I visit the login page
   When I login as "whoever"
   And I change my email to "new_email_address@example.com"
 
   Given I logout
-  When I visit the login page
   When I login as "billybob"
   When I click on "app events" in the admin menu
   When I visit the home page

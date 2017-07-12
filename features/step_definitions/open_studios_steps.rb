@@ -92,15 +92,6 @@ Then /I see the updated open studios event/ do
   expect(@os_event.key).to eql @start_date.strftime('%Y%m')
 end
 
-Then /^I fill in the open studios event form for next weekend without a key$/ do
-  @start_date = Time.zone.now.beginning_of_week + 11.days
-  @end_date = Time.zone.now.beginning_of_week + 11.days
-  set_start_end_date_on_open_studios_form(@start_date, @end_date)
-  # fill_in "Start date", with: @start_date
-  # fill_in "End date", with: @end_date
-  click_on 'Create'
-end
-
 Then /^I fill in the open studios event form for next weekend$/ do
   dt = Time.zone.now.beginning_of_week + 11.days
   @os_title = 'Fall OS'
@@ -110,6 +101,7 @@ Then /^I fill in the open studios event form for next weekend$/ do
   set_start_end_date_on_open_studios_form(@start_date, @end_date)
   # fill_in "Start date", with: @start_date
   # fill_in "End date", with: @end_date
+  expect(find('#open_studios_event_key').value).to eql @start_date.strftime("%Y%m")
   attach_file 'Logo', Rails.root.join('spec', 'fixtures', 'files', 'open_studios_event.png')
   click_on 'Create'
 end

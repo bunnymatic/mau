@@ -1,13 +1,13 @@
 # MySQL
 # You need at least 20 items in the pool for EM for production
 # From here:  https://github.com/eatenbyagrue/momentarily/blob/master/README.textile
-# 
-#   By default, EventMachine maintains a pool of 20 available threads. You may have 
+#
+#   By default, EventMachine maintains a pool of 20 available threads. You may have
 #   to tune this to your processing environment.
 #
 #   Similarly, ActiveRecord keeps a pool of connections available, and the default
-#   is too low – each thread explicitly claims (then releases) one of these connections 
-#   while working. You can add “pool: 30” or similar to your database.yml file to increase 
+#   is too low – each thread explicitly claims (then releases) one of these connections
+#   while working. You can add “pool: 30” or similar to your database.yml file to increase
 #   it. Again, you’ll have to tune this number to your processing environment.
 
 default: &default
@@ -16,7 +16,7 @@ default: &default
   username: root
   password:
   host: 127.0.0.1
-  
+
 development: &dev
   <<: *default
   database: mau_dev
@@ -26,10 +26,10 @@ test: &test
   database: mau_test
   pool: 5
 
-acceptance: 
+acceptance:
   <<: *dev
 
-design: 
+design:
   <<: *dev
 
 cucumber:

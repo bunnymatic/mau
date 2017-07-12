@@ -3,7 +3,9 @@
 require 'capybara/poltergeist'
 
 Capybara.register_driver :chrome do |app|
-    Capybara::Selenium::Driver.new(app, browser: :chrome)
+  Capybara::Selenium::Driver.new(app,
+                                 browser: :chrome,
+                                 args: ['--window-size=1200,1200'])
 end
 
 # Capybara.javascript_driver = :poltergeist
