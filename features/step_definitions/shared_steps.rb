@@ -187,7 +187,7 @@ end
 
 When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
   within container do
-    click_on_first link
+    click_on_first link, visible: false
   end
 end
 
