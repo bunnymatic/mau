@@ -3,7 +3,7 @@ class ApiAuthorizor
   def self.authorize(request)
     auth_key = request.headers['HTTP_AUTHORIZATION']
     referrer = URI.parse(request.env["HTTP_REFERER"].to_s)
-    check_authorization_key(auth_key) && is_internal_request?(referrer)
+    check_authorization_key(auth_key) || is_internal_request?(referrer)
   end
 
   def self.check_authorization_key(auth_key)
