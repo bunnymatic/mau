@@ -186,7 +186,6 @@
   }
 }
 .art-card {
-  border: 1px solid blue;
   &:hover {
     .desc {
       @include opacity(1);

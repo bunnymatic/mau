@@ -134,7 +134,3 @@ end
 Then(/^I see a list of artists doing open studios with their studio addresses$/) do
   expect(page).to have_css '.map__list-of-artists .tenants'
 end
-
-Then(/^I see a map of the open studios$/) do
-  expect(page).to have_css '#map-canvas'
-end

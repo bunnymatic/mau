@@ -205,11 +205,11 @@ When(/^I click on an art card$/) do
     art_card.click
   end
 
-  @art_piece = @artist.art_pieces.first
-  puts ".art-card a[href=#{art_piece_path(@art_piece)}]"
-  find(:link_href, art_piece_path(@art_piece)).click
+  # @art_piece = @artist.art_pieces.first
+  # puts ".art-card a[href=#{art_piece_path(@art_piece)}]"
+  # find(:link_href, art_piece_path(@art_piece)).click
   expect(page).to have_css('.art_pieces.show')
-  puts @art_piece.tags.count
+  # puts @art_piece.tags.count
 end
 
 Then(/^I see that art piece detail page$/) do
