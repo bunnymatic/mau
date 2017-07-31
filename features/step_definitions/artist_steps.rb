@@ -4,7 +4,7 @@ When(/^I visit my home page$/) do
   visit artist_path(@artist)
 end
 
-When(/^I visit my artist profile edit page$/) do
+When(/^I visit my\s+(artist\s+)?(profile\s+)?edit page$/) do |_dummy, _dummy2|
   visit edit_artist_path(@artist)
 end
 
