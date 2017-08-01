@@ -68,9 +68,9 @@ Then /^I see a new open studios form$/ do
   expect(page).to have_selector '#open_studios_event_end_date.js-datepicker'
 end
 
-def set_start_end_date_on_open_studios_form(start_date, end_date)
-  page.execute_script("$('#open_studios_event_start_date').val('#{@start_date.to_date.to_s}');")
-  page.execute_script("$('#open_studios_event_end_date').val('#{@end_date.to_date.to_s}');")
+def set_start_end_date_on_open_studios_form(_start_date, _end_date)
+  page.execute_script("$('#open_studios_event_start_date').val('#{@start_date.to_date}');")
+  page.execute_script("$('#open_studios_event_end_date').val('#{@end_date.to_date}');")
   page.execute_script("$('#open_studios_event_start_date').trigger('change');")
 end
 
@@ -87,13 +87,13 @@ end
 
 Then /I see the open studios event with the title \"(.*)\"$/ do |title|
   within table_row_matching(title) do
-    expect(page).to have_content @start_date.strftime("%Y%m")
+    expect(page).to have_content @start_date.strftime('%Y%m')
   end
 end
 
 When(/^I click delete on the "([^"]*)" titled open studios event$/) do |title|
   within table_row_matching(title) do
-    click_on "Delete"
+    click_on 'Delete'
   end
 end
 
@@ -106,7 +106,7 @@ Then /^I fill in the open studios event form for next weekend with the title \"(
   set_start_end_date_on_open_studios_form(@start_date, @end_date)
   # fill_in "Start date", with: @start_date
   # fill_in "End date", with: @end_date
-  expect(find('#open_studios_event_key').value).to eql @start_date.strftime("%Y%m")
+  expect(find('#open_studios_event_key').value).to eql @start_date.strftime('%Y%m')
   attach_file 'Logo', Rails.root.join('spec', 'fixtures', 'files', 'open_studios_event.png')
   click_on 'Create'
 end

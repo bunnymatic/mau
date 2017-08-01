@@ -16,7 +16,7 @@ end
 
 When(/^I add a user to the "(.*)" role$/) do |role|
   step %(I click on the manage link for #{role}s)
-  step %(I choose the last user in the user list)
+  step %(I click on "add users to role")
   step %(I click "add user")
 end
 
@@ -46,9 +46,8 @@ When(/^I click on the manage link for (.*)s$/) do |role|
 end
 
 When(/^I choose the last user in the user list$/) do
-  users = all('select#user option')
-  @new_editor = User.find(users.last['value'])
-  select @new_editor.full_name, from: 'user'
+  @new_editor = User.all.last
+  selectize_single_select('user', @new_editor.full_name)
 end
 
 Then(/^I expect to see the last user is now an editor$/) do
