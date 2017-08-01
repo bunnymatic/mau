@@ -19,7 +19,7 @@ class ArtSampler
   def fetch_pieces
     result = []
     result += new_pieces if offset < NUM_NEW_ART_PIECES
-    result + random_pieces - new_pieces
+    result + (random_pieces - new_pieces)
   end
 
   def random_pieces
@@ -31,11 +31,11 @@ class ArtSampler
   end
 
   def new_pieces
-    @new_pieces ||= ArtPiece.includes(:artist)
-                            .where(users: { state: :active })
-                            .order('art_pieces.created_at desc')
-                            .limit(Artist::MAX_PIECES * NUM_NEW_ART_PIECES)
-                            .uniq_by(&:artist_id)
-                            .first(NUM_NEW_ART_PIECES)
+    @new_pieces ||= ArtPiece.includes(:artist).
+                            where(users: { state: :active }).
+                            order('art_pieces.created_at desc').
+                            limit(Artist::MAX_PIECES * NUM_NEW_ART_PIECES).
+                            uniq_by(&:artist_id).
+                            first(NUM_NEW_ART_PIECES)
   end
 end
