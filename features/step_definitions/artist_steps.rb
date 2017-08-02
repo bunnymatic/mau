@@ -215,6 +215,8 @@ end
 Then(/^I see that art piece detail page$/) do
   expect(page).to have_css('art-pieces-browser')
   expect(page).to have_css '.art-piece__byline', text: @artist.full_name
+  page.current_path =~ %r{art_pieces/(\d+).*}
+  @art_piece = ArtPiece.find_by(id: $1)
 end
 
 When(/^I submit a new profile picture$/) do
@@ -249,7 +251,7 @@ When(/^the meta description includes that art piece's title$/) do
 end
 
 When(/^the meta keywords includes that art piece's tags and medium$/) do
-  @art_piece.tags.each do |_tag|
+  @art_piece.tags.each do |tag|
     steps %(Then the page meta name "keywords" includes "#{tag.name}")
   end
   steps %(Then the page meta name "keywords" includes "#{@art_piece.medium.name}") if @art_piece.medium
