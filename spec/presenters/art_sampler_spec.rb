@@ -45,7 +45,7 @@ describe ArtSampler do
       expect(sampler.pieces[0..1].map(&:model)).to eq art_pieces.last(2).reverse
     end
 
-    it 'returns the most recent pieces always' do
+    it 'returns the other art pieces randomly' do
       expect(sampler.pieces[2..-1].map(&:model)).to match_array art_pieces.first(3)
     end
   end
