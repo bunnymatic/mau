@@ -40,7 +40,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def primary_medium_hashtag
-    (_primary_medium ? MediumPresenter.new(_primary_medium).hashtag : '')
+    (_primary_medium ? _primary_medium.hashtag : '')
   end
 
   def _primary_medium

@@ -13,7 +13,27 @@ describe Medium do
     end
   end
 
-  describe '#frequency' do
+  describe '#hashtag' do
+    let(:name) { 'medium name' }
+    subject(:medium) { build(:medium, name: name) }
+    its(:hashtag) { is_expected.to eql medium.name.parameterize.underscore }
+
+    context 'for Painting - Oil' do
+      let(:name) { 'Painting - Oil' }
+      it 'makes returns oilpainting' do
+        expect(subject.hashtag).to eql 'oilpainting'
+      end
+    end
+
+    context 'for Glass/Ceramics' do
+      let(:name) { 'Glass/Ceramics' }
+      it 'makes returns glass_ceramics' do
+        expect(subject.hashtag).to eql 'glass_ceramics'
+      end
+    end
+  end
+
+  describe '.frequency' do
     it 'tries the cache on the first hit' do
       expect(SafeCache).to receive(:read).with([:medfreq, true]).and_return(nil)
       expect(SafeCache).to receive(:write)

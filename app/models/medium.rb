@@ -15,6 +15,15 @@ class Medium < ApplicationRecord
 
   scope :alpha, -> { order(:name) }
 
+  def hashtag
+    if /^painting/i =~ name
+      _name = name.split('-').map(&:strip).reverse.join('')
+    else
+      _name = name
+    end
+    _name.parameterize.underscore
+  end
+
   def self.options_for_select
     [['None', 0]] + Medium.all.map { |u| [u.name, u.id] }
   end
