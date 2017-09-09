@@ -6,25 +6,6 @@ alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
 namespace :mau do
 
-  desc "populate media"
-  task populate_media: [:environment] do
-    ['Drawing',
-     'Mixed-Media',
-     'Photography',
-     'Glass/Ceramics',
-     'Printmaking',
-     'Painting - Oil',
-     'Painting - Acrylic',
-     'Painting - Watercolor',
-     'Sculpture',
-     'Jewelry',
-     'Fiber/Textile',
-     'Furniture',
-     'Books'].each do |name|
-      Medium.where(name: name).first_or_create
-    end
-  end
-
   desc 'show social link counts'
   task show_social_link_type_counts: [:environment] do
     link_count = Artist.active.all.map(&:links).inject({}) do |memo, links|
