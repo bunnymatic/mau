@@ -14,7 +14,7 @@ describe OpenStudiosController do
     it 'sends you to sign in and stores your edit page for return if you are not signed in' do
       get :register
       expect(response).to redirect_to sign_in_path
-      expect(session[:return_to]).to eql profile_artists_path
+      expect(session[:return_to]).to eql my_profile_artists_path
     end
   end
 end

@@ -60,7 +60,7 @@ describe ArtistsController, elasticsearch: true do
 
     it "redirects to your edit page if you're logged in" do
       get :my_profile
-      expect(response).to redirect_to sign_in_path
+      expect(response).to redirect_to new_user_session_path
     end
   end
 
