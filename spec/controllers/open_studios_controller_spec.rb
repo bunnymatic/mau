@@ -8,7 +8,7 @@ describe OpenStudiosController do
     it 'sends you to your edit page if you are logged in' do
       login_as artist
       get :register
-      expect(response).to redirect_to edit_artist_path(artist)
+      expect(response).to redirect_to edit_artist_path(artist, anchor: "events")
     end
 
     it 'sends you to sign in and stores your edit page for return if you are not signed in' do
