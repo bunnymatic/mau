@@ -9,25 +9,25 @@
 #   end
 # end
 [
- "Book Arts",
- "Ceramic",
- "Drawing",
- "Digital Art",
- "Fiber/Textile",
- "Furniture",
- "Glass",
- "Glass/Ceramics",
- "Gouache",
- "Jewelry",
- "Mixed-Media",
- "Painting - Acrylic",
- "Painting - Encaustic",
- "Painting - Oil",
- "Painting - Watercolor",
- "Pastels",
- "Photography",
- "Printmaking",
- "Sculpture"
+  'Book Arts',
+  'Ceramic',
+  'Drawing',
+  'Digital Art',
+  'Fiber/Textile',
+  'Furniture',
+  'Glass',
+  'Glass/Ceramics',
+  'Gouache',
+  'Jewelry',
+  'Mixed-Media',
+  'Painting - Acrylic',
+  'Painting - Encaustic',
+  'Painting - Oil',
+  'Painting - Watercolor',
+  'Pastels',
+  'Photography',
+  'Printmaking',
+  'Sculpture'
 ].each do |name|
   Medium.find_or_create_by(name: name)
 end

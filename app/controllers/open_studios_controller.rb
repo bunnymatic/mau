@@ -19,7 +19,7 @@ class OpenStudiosController < ApplicationController
     if current_user
       redirect_to edit_artist_path(current_user)
     else
-      store_location( my_profile_artists_path )
+      store_location(my_profile_artists_path)
       redirect_to sign_in_path
     end
   end

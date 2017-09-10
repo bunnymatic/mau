@@ -57,16 +57,20 @@ Rails/FilePath:
   Exclude:
     - config/environments/test.rb
 
+Rails/DynamicFindBy:
+  Exclude:
+    - 'app/models/user_session.rb'
+
+Rails/Output:
+  Exclude:
+    - 'db/sample_data/**/*'
+
 Rails/OutputSafety:
   Enabled: false
 
 Rails/TimeZone:
   Exclude:
     - tztest.rb
-
-Rails/DynamicFindBy:
-  Exclude:
-    - 'app/models/user_session.rb'
 
 Style/AccessorMethodName:
   Exclude:
