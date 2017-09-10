@@ -37,6 +37,8 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Max: 151
+  Exclude:
+    - config/routes.rb
 
 Metrics/ClassLength:
   Max: 300
@@ -56,6 +58,15 @@ Metrics/PerceivedComplexity:
 Rails/FilePath:
   Exclude:
     - config/environments/test.rb
+
+Rails/DynamicFindBy:
+  Exclude:
+    - 'app/models/user_session.rb'
+
+Rails/Output:
+  Exclude:
+    - 'db/sample_data.rb'
+    - 'db/sample_data/**/*'
 
 Rails/OutputSafety:
   Enabled: false
