@@ -24,7 +24,7 @@ When(/^I add a photo to upload$/) do
   attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'profile.png')
 end
 
-When(/^I fill in the login form with "([^\/]*)\/([^\"]*)"/) do |login, pass|
+When(%r{^I fill in the login form with "([^\/]*)\/([^\"]*)"}) do |login, pass|
   fill_in_login_form login, pass
 end
 
@@ -68,8 +68,8 @@ When(/^I fill in my email/) do
 end
 
 Then(/^I see the login page$/) do
-  expect(page).to have_content "Sign In"
-  expect(page).to have_css("form.user_session")
+  expect(page).to have_content 'Sign In'
+  expect(page).to have_css('form.user_session')
 end
 
 When(/^I login$/) do

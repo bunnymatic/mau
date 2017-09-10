@@ -38,7 +38,7 @@ class ArtistsController < ApplicationController
   end
 
   def my_profile
-    redirect_to edit_artist_path(current_user, anchor: "events")
+    redirect_to edit_artist_path(current_user, anchor: 'events')
   end
 
   def edit
