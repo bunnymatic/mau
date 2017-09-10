@@ -37,6 +37,8 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Max: 151
+  Exclude:
+    - config/routes.rb
 
 Metrics/ClassLength:
   Max: 300
@@ -63,6 +65,7 @@ Rails/DynamicFindBy:
 
 Rails/Output:
   Exclude:
+    - 'db/sample_data.rb'
     - 'db/sample_data/**/*'
 
 Rails/OutputSafety:
