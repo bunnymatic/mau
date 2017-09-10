@@ -24,13 +24,14 @@ class ApplicationController < ActionController::Base
     append_view_path 'app/views/common'
   end
 
-  def store_location
+  def store_location(location = nil)
     return unless request.format == 'text/html'
-    session[:return_to] = if request.post? || request.xhr?
-                            request.referer
-                          else
-                            request.fullpath
-                          end
+    session[:return_to] =
+      begin
+        location.presence ||
+          (request.post? || request.xhr? && request.referer) ||
+          request.fullpath
+      end
   end
 
   def logged_in?

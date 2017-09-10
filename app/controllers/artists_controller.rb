@@ -9,7 +9,7 @@ class ArtistsController < ApplicationController
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_action :user_required, only: [:edit, :update, :manage_art, :delete_art,
+  before_action :user_required, only: [:my_profile, :edit, :update, :manage_art, :delete_art,
                                        :destroyart, :setarrangement, :arrange_art]
 
   def index
@@ -35,6 +35,10 @@ class ArtistsController < ApplicationController
         head(403)
       end
     end
+  end
+
+  def my_profile
+    redirect_to edit_artist_path(current_user)
   end
 
   def edit
