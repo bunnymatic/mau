@@ -55,7 +55,7 @@ describe ArtistsController, elasticsearch: true do
     it "redirects to your edit page if you're logged in" do
       login_as artist
       get :my_profile
-      expect(response).to redirect_to edit_artist_path(artist, anchor: "events")
+      expect(response).to redirect_to edit_artist_path(artist, anchor: 'events')
     end
 
     it "redirects to your edit page if you're logged in" do
