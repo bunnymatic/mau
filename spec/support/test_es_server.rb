@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 require 'elasticsearch/extensions/test/cluster'
 class TestEsServer
-
-  DEFAULT_TEST_ARGS = { number_of_nodes: 1, clear_cluster: true }
+  DEFAULT_TEST_ARGS = { number_of_nodes: 1, clear_cluster: true }.freeze
 
   def self.cluster
     Elasticsearch::Extensions::Test::Cluster
