@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
-ruby '2.3.3'
+ruby '2.4.1'
 
 gem 'racc'
-gem 'rails', '5.0.1'
+gem 'rails', '5.0.5'
 gem 'active_model_serializers'
 gem 'responders'
 gem 'lograge'
@@ -31,6 +31,7 @@ gem 'gibbon' # mailchimp connect
 gem 'rosie'
 
 gem 'mime-types'
+gem 'xmlrpc' # after ruby 2.4 upgrade
 gem 'qr4r'
 gem 'rack-cors', require: 'rack/cors'
 gem 'recaptcha', require: 'recaptcha/rails'
