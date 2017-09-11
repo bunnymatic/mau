@@ -10,12 +10,7 @@ Mau::Application.routes.draw do
 
   resources :studios, only: [:index, :show]
 
-  resource :open_studios, only: [:show] do
-    collection do
-      get :register
-    end
-  end
-
+  resource :open_studios, only: [:show]
   resource :catalog, only: [:show] do
     member do
       get :social
@@ -68,7 +63,6 @@ Mau::Application.routes.draw do
       post :destroyart
       get :suggest
       post :setarrangement
-      get :my_profile
       # get :map_page, as: :map
     end
     member do

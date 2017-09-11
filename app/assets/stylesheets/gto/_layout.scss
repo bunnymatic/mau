@@ -123,30 +123,6 @@ body {
 }
 .pure-g {
   .header {
-    &.bordered-header {
-      border-bottom: 1px solid $xlightgray;
-      margin: 1em 0 0.83em;
-      padding-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-
-      @media screen and (max-width: $screen-sm-max) {
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        .action-button {
-          margin-top: 10px;
-        }
-      }
-
-      .title {
-        border: none;
-        margin: 0;
-        padding: 0;
-      }
-
-    }
     .title {
       font-weight: $font-weight-light;
       border-bottom: 1px solid $xlightgray;

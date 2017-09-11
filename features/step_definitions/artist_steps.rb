@@ -122,8 +122,7 @@ Then(/^I see that my art was deleted$/) do
 end
 
 Then(/^I see my profile edit form$/) do
-  expect(page).to have_css '.panel-heading'
-  expect(all('.panel-heading')).to have_at_least(7).panels
+  expect(page).to have_css '.panel-heading', count: 8
 end
 
 When(/^I update my personal information with:$/) do |table|
@@ -164,7 +163,6 @@ end
 
 When(/^I click on the first artist's card$/) do
   @artist = Artist.active.all.detect { |a| a.representative_piece.present? }
-  expect(page).to have_css('.sampler__thumb')
   click_on_first @artist.full_name
   expect(page).to have_css('.artists.show')
 end
@@ -187,10 +185,6 @@ Then(/^I see that artist's profile page$/) do
   expect(page).to have_content @artist.facebook
   expect(page).to have_content @artist.art_pieces.first.medium.name
   expect(current_path).to eql artist_path(@artist)
-end
-
-Then(/^I see the "([^"]*)" profile panel is open/) do |panel_id|
-  expect(page).to have_css("##{panel_id}.panel-collapse.in")
 end
 
 When(/^I click on an art card$/) do

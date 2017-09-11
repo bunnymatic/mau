@@ -90,8 +90,11 @@ source 'https://rails-assets.org' do
 end
 
 group :test do
+  gem 'faker'
   gem 'webmock'
   gem 'vcr'
+  gem 'factory_girl', require: false
+  gem 'factory_girl_rails', require: false
   gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'poltergeist'
@@ -113,9 +116,6 @@ end
 
 group :test, :development do
   gem 'byebug'
-  gem 'factory_girl', require: false
-  gem 'factory_girl_rails', require: false
-  gem 'faker'
   gem 'rspec-its'
   gem 'rspec-collection_matchers'
   gem 'rails-controller-testing'
