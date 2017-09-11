@@ -105,7 +105,7 @@ FactoryGirl.define do
     trait :with_art do
       active
       after(:create) do |artist, ctx|
-        ctx.number_of_art_pieces.times.each do |idx|
+        ctx.number_of_art_pieces.to_i.times.each do |idx|
           FactoryGirl.create(:art_piece, artist: artist, created_at: idx.weeks.ago)
         end
         artist.reload

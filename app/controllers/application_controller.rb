@@ -24,13 +24,13 @@ class ApplicationController < ActionController::Base
     append_view_path 'app/views/common'
   end
 
-  def store_location
+  def store_location(location = nil)
     return unless request.format == 'text/html'
-    session[:return_to] = if request.post? || request.xhr?
-                            request.referer
-                          else
-                            request.fullpath
-                          end
+    return_to = location.presence ||
+                (request.post? || request.xhr? && request.referer) ||
+                request.fullpath
+    logger.debug("Storing return_to location : #{return_to}")
+    session[:return_to] = return_to
   end
 
   def logged_in?
@@ -59,7 +59,6 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default = nil)
     path = session.delete(:return_to) || default || root_path
     redirect_to path
-    session[:return_to] = nil
   end
 
   def user_must_be_you

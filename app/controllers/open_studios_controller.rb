@@ -14,4 +14,13 @@ class OpenStudiosController < ApplicationController
       render
     end
   end
+
+  def register
+    if current_user
+      redirect_to edit_artist_path(current_user, anchor: 'events')
+    else
+      store_location(my_profile_artists_path(current_user))
+      redirect_to sign_in_path
+    end
+  end
 end

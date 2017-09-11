@@ -50,6 +50,20 @@ describe ArtistsController, elasticsearch: true do
       end
     end
   end
+
+  describe '#my_profile' do
+    it "redirects to your edit page if you're logged in" do
+      login_as artist
+      get :my_profile
+      expect(response).to redirect_to edit_artist_path(artist, anchor: 'events')
+    end
+
+    it "redirects to your edit page if you're logged in" do
+      get :my_profile
+      expect(response).to redirect_to new_user_session_path
+    end
+  end
+
   describe '#update' do
     before do
       artist_info.update_attributes(open_studios_participation: '')
