@@ -12,6 +12,12 @@ describe UpdateArtistService do
       stub_search_service!
     end
 
+    describe 'without an artist' do
+      it 'raises an error' do
+        expect { described_class.new(nil, params) }.to raise_error UpdateArtistService::Error
+      end
+    end
+
     describe 'with user attributes' do
       let(:params) do
         { firstname: 'BillyBob' }

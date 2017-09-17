@@ -2,9 +2,12 @@
 class UpdateArtistService
   include OpenStudiosEventShim
 
+  class Error < StandardError; end
+
   def initialize(artist, params)
     @artist = artist
     @params = params
+    raise UpdateArtistService::Error, 'artist cannot be nil' unless artist
   end
 
   def update

@@ -9,7 +9,8 @@ class ArtistsController < ApplicationController
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_action :user_required, only: [:edit, :update, :manage_art, :delete_art,
+  before_action :user_required, only: [:register_for_current_open_studios, :my_profile,
+                                       :edit, :update, :manage_art, :delete_art,
                                        :destroyart, :setarrangement, :arrange_art]
 
   def index
@@ -35,6 +36,16 @@ class ArtistsController < ApplicationController
         head(403)
       end
     end
+  end
+
+  def register_for_current_open_studios
+    UpdateArtistService.new(current_artist, os_participation: 1).update_os_status
+    redirect_to edit_artist_path(current_user, anchor: 'events'),
+                flash: { notice: 'You are now registered for Open Studios!' }
+  end
+
+  def my_profile
+    redirect_to edit_artist_path(current_user, anchor: 'events')
   end
 
   def edit
