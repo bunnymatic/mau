@@ -63,7 +63,8 @@ Mau::Application.routes.draw do
       post :destroyart
       get :suggest
       post :setarrangement
-      # get :map_page, as: :map
+      get :my_profile
+      get :register_for_current_open_studios
     end
     member do
       resources :favorites, only: [:index]
