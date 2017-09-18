@@ -188,6 +188,10 @@ Then(/^I see that artist's profile page$/) do
   expect(current_path).to eql artist_path(@artist)
 end
 
+Then(/^I see the "([^"]*)" profile panel is open/) do |panel_id|
+  expect(page).to have_css("##{panel_id}.panel-collapse.in")
+end
+
 When(/^I click on an art card$/) do
   art_card = first('.art-card a .image')
   if running_js?
