@@ -10,7 +10,12 @@ Mau::Application.routes.draw do
 
   resources :studios, only: [:index, :show]
 
-  resource :open_studios, only: [:show]
+  resource :open_studios, only: [:show] do
+    collection do
+      get :register
+    end
+  end
+
   resource :catalog, only: [:show] do
     member do
       get :social
