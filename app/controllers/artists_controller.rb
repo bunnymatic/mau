@@ -39,9 +39,15 @@ class ArtistsController < ApplicationController
   end
 
   def register_for_current_open_studios
-    UpdateArtistService.new(current_artist, os_participation: 1).update_os_status
-    redirect_to edit_artist_path(current_user, anchor: 'events'),
-                flash: { notice: 'You are now registered for Open Studios!' }
+    msg = { notice: 'You are now registered for Open Studios!' }
+    success = UpdateArtistService.new(current_artist, os_participation: 1).update_os_status
+    if !success
+      msg = {
+        error: "You're account needs more info before you can register for Open Studios (probably an address or studio)."
+      }
+    end
+    redirect_to(edit_artist_path(current_user, anchor: 'events'),
+                flash: msg)
   end
 
   def my_profile
@@ -53,7 +59,7 @@ class ArtistsController < ApplicationController
     @user = ArtistPresenter.new(current_artist)
     @studios = StudioService.all
     @artist_info = current_artist.artist_info || ArtistInfo.new(id: current_artist.id)
-    @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
+    @open_studios_event = OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
   end
 
   def manage_art

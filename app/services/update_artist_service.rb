@@ -29,14 +29,12 @@ class UpdateArtistService
   def update_os_status
     participating = (@params[:os_participation].to_i != 0)
 
-    if participating != @artist.doing_open_studios?
-      unless @artist.address.blank?
-        @artist.update_os_participation(OpenStudiosEventService.current, participating)
-        trigger_os_signup_event(participating)
-        refresh_in_search_index
-      end
+    if (participating != @artist.doing_open_studios?) && @artist.can_register_for_open_studios?
+      @artist.update_os_participation(OpenStudiosEventService.current, participating)
+      trigger_os_signup_event(participating)
+      refresh_in_search_index
     end
-    participating
+    @artist.can_register_for_open_studios? && participating
   end
 
   private

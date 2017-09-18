@@ -97,6 +97,10 @@ class Artist < User
     Hash[images]
   end
 
+  def can_register_for_open_studios?
+    studio.present? || address.present?
+  end
+
   def in_the_mission?
     return false unless address?
     within_bounds?(address.lat, address.lng)

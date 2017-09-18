@@ -1,21 +1,22 @@
 .panel-heading
   h4.panel-title
-    = link_to "Open Studios #{OpenStudiosEvent.current.for_display(true)}", '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
+    = link_to "Open Studios #{@open_studios_event.link_text}", '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
     .fa.fa-icon.panel-opener
 .panel-collapse.collapse#events role="tabpanel"
   .panel-body
-    - if !current_user.address.present?
+    - if !current_user.can_register_for_open_studios?
       p You need to specify an address or studio affiliation to sign up for Open Studios!
       p
         | Check the
+        '
         em Address/Studio Info
+        '
         | section below.
     - else
       p
         | Will you be opening your doors for Open Studios
-        = OpenStudiosEvent.current.start_date.to_formatted_s(:os_day)
-        = "-"
-        = OpenStudiosEvent.current.end_date.to_formatted_s(:os_day)
+        '
+        = @open_studios_event.date_range
       .toggle-button
         = check_box_tag :doing_open_studios, 1, current_user.doing_open_studios?, class: 'toggle-button__checkbox toggle-button__round-flat'
         label for="doing_open_studios"

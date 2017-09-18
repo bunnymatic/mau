@@ -9,6 +9,7 @@ def ensure_user(login, *factory_args)
 end
 
 ensure_user('artist', :artist, :active, :with_art)
+ensure_user('no_address', :artist, :active, :without_address)
 ensure_user('pending', :artist, :pending)
 ensure_user('suspended', :artist, state: :suspended)
 ensure_user('administrator', :artist, :admin, :with_art)

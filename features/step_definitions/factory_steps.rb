@@ -42,6 +42,15 @@ Given /the following artists with art are in the system:/ do |table|
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
+Given /the following artists who aren't ready to sign up for os are in the system:/ do |table|
+  @artists = []
+  table.hashes.each do |artist_params|
+    args = {number_of_art_pieces: 5}.merge artist_params
+    @artists << FactoryGirl.create(:artist, :active, :without_address, args)
+  end
+  @art_pieces = @artists.map(&:art_pieces).flatten
+end
+
 Given /the following admins are in the system:/ do |table|
   table.hashes.each do |user_params|
     FactoryGirl.create(:artist, :admin, :active, user_params)
