@@ -6,9 +6,9 @@ def ensure_open_studios_event(start_date)
   puts "--> Added Open Studios Event for #{start_date}"
 end
 
-ensure_open_studios_event(Time.new(2016, 4, 1))
-ensure_open_studios_event(Time.new(2016, 11, 1))
-ensure_open_studios_event(Time.new(2017, 4, 1))
+ensure_open_studios_event(Time.local(2016, 4, 1))
+ensure_open_studios_event(Time.local(2016, 11, 1))
+ensure_open_studios_event(Time.local(2017, 4, 1))
 
 OpenStudiosEvent.all.each do |os_event|
   Artist.active.each do |artist|

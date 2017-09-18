@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 def ensure_studio(name, *factory_args)
-  unless User.find_by(name: name)
-    traits, opts = factory_args.partition { |arg| !arg.is_a? Hash }
-    options = opts.reduce({}, :merge)
-    FactoryGirl.create(*traits, options)
-    puts "--> Created studio #{name}"
-  end
+  return if Studio.find_by(name: name)
+
+  traits, opts = factory_args.partition { |arg| !arg.is_a? Hash }
+  options = opts.reduce({}, :merge)
+  FactoryGirl.create(*traits, options)
+  puts "--> Created studio #{name}"
 end
 
 ensure_studio('1890 Bryant', :studio)

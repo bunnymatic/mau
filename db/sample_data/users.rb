@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 def ensure_user(login, *factory_args)
-  unless User.find_by(login: login)
-    traits, opts = factory_args.partition { |arg| !arg.is_a? Hash }
-    options = opts.reduce({}, :merge).merge(login: login, email: "#{login}@example.com")
-    user = FactoryGirl.create(*traits, options)
-    puts "--> Created account for #{user.login} <#{user.email}>"
-  end
+  return if User.find_by(login: login)
+
+  traits, opts = factory_args.partition { |arg| !arg.is_a? Hash }
+  options = opts.reduce({}, :merge).merge(login: login, email: "#{login}@example.com")
+  user = FactoryGirl.create(*traits, options)
+  puts "--> Created account for #{user.login} <#{user.email}>"
 end
 
 ensure_user('artist', :artist, :active, :with_art)
