@@ -6,9 +6,12 @@ Feature:
 Background:
   Given there is a scheduled Open Studios event
   Given the following artists with art are in the system:
-    | login  | email              | number_of_art_pieces |
-    | artist | artist@example.com |                    1 |
-  Given I'm logged out
+    | login      | email              | number_of_art_pieces |
+    | artist     | artist@example.com |                    1 |
+  Given the following artists who aren't ready to sign up for os are in the system:
+    | login      | email                  | number_of_art_pieces |
+    | no_address | no_address@example.com |                    1 |
+ Given I'm logged out
 
 Scenario: "when I'm not logged in"
   When I visit the open studios page
@@ -30,3 +33,13 @@ Scenario: "when I'm logged in"
   Then I see my profile edit form
   And I see a flash notice "You are now registered for Open Studios!"
   And I see the "events" profile panel is open
+
+Scenario: "when I auto register but i'm not allowed (no address)"
+  When I login as "no_address"
+  And I visit the open studios page
+  And I click on "Register to Participate"
+
+  Then I see my profile edit form
+  And I see the "events" profile panel is open
+  And I see "Check the Address" on the page
+  And I see a flash error "You're account needs more info before you can register for Open Studios."

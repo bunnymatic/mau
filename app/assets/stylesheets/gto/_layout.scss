@@ -128,15 +128,20 @@ body {
       margin: 1em 0 0.83em;
       padding-bottom: 10px;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      justify-content: flex-start;
+      align-items: center;
 
+      .action-button {
+        margin-left: 50px;
+        margin0-top: 0;
+      }
       @media screen and (max-width: $screen-sm-max) {
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
         .action-button {
           margin-top: 10px;
+          margin-left: 0px;
         }
       }
 
