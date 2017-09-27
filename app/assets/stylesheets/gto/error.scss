@@ -1,19 +1,30 @@
 /* error pages */
 @import 'mau-mixins';
 .f404 {
+  display: flex !important;
+  flex-direction: column;
   padding: 40px;
   font-size: 14px;
   text-align: left;
-  p {
-    width: 70%;
-    margin:20px auto;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .oops {
+    margin-top: 10%;
     font-family: helvetica, verdana, arial, sans-serif;
     text-align: center;
     color: $gto_red;
     font-size: 13vw;
-    height: 13.1vw;
+  }
+}
+.f404-container {
+
+  width: 95%;
+  @media screen and (min-width: $screen-xs-max) {
+    width: 70%;
+  }
+  p {
+    margin:20px auto;
   }
   .error-msg {
     border: 0;

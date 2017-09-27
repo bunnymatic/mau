@@ -3,13 +3,10 @@
   .pure-u-1-1.artist-profile
     .pure-g
       .pure-u-1-1
-        %section.artist__image
+        section.artist__image
           = render '/artist_profile_image', artist: user
-        %section.links
+        section.links
           .header Links
           .artist__links
             - user.links_html.each do |anchor|
-              .link
-                = anchor
-
-
+              .link = anchor

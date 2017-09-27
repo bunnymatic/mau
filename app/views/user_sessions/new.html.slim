@@ -1,7 +1,7 @@
 .pure-g
   .pure-u-1-1.pure-u-sm-1-2.signin-block
     .header
-      %h2.title Sign In
+      h2.title Sign In
     = semantic_form_for @user_session, name: "Sign In", url: user_session_path do |f|
       = render '/form_errors', form: f
       = f.inputs do
@@ -10,10 +10,10 @@
       = f.actions do
         = f.submit "Sign In", class: 'pure-button-primary pure-button button-large'
       .input-help
-        %a{href: forgot_users_path} Can't log in?  Forgot your password?
+        = link_to "Can't log in?  Forgot your password?", forgot_users_path
   .pure-u-1-1.pure-u-sm-1-2.signin-block
     .header
-      %h2.title Not Yet A Mau Member?
+      h2.title Not Yet A Mau Member?
     = render_cms_content(@cms_content) do
       = link_to signup_path do
-        %button.button-secondary.pure-button.button-large Sign Up Now
+        button.button-secondary.pure-button.button-large Sign Up Now
