@@ -8,7 +8,6 @@ class AdminNavigation < ViewPresenter
 
   def admin_links
     pr_links = [
-      [:events, {}],
       [:favorites, {}],
       [:catalog, { link: '/catalog' }],
       [:cms_documents, { display: 'cms', link: url_helpers.admin_cms_documents_path }]
