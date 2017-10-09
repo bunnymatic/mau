@@ -76,6 +76,15 @@
 }
 
 
+.sticky-gallery-paginator {
+  @media(min-width: $screen-sm-max) {
+    position: sticky;
+    top: 90px;
+    z-index: 1;
+    background-color: $white;
+  }
+}
+
 .favorites.index,
 .users.show, .search-results, .artists, .artists.index, .artists.show, .art_pieces.show, .art_pieces.create {
 
