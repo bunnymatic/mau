@@ -41,7 +41,7 @@ class ArtistsController < ApplicationController
   def register_for_current_open_studios
     msg = { notice: 'You are now registered for Open Studios!' }
     success = UpdateArtistService.new(current_artist, os_participation: 1).update_os_status
-    if !success
+    unless success
       msg = {
         error: "You're account needs more info before you can register for Open Studios (probably an address or studio)."
       }
