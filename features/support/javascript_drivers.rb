@@ -31,3 +31,7 @@ module JavascriptDriverChecker
 end
 
 World JavascriptDriverChecker
+
+After do |_scenario|
+  Capybara.reset_sessions!
+end
