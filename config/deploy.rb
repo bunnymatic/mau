@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-lock '3.7.1'
+lock '3.9.1'
 
 set :stages, %w(production acceptance)
 
