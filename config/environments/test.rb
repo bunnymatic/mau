@@ -45,7 +45,7 @@ Rails.application.configure do
     host: 'test.host'
   }
 
-  config.elasticsearch_url = 'http://localhost:9220'
+  config.elasticsearch_url = 'http://localhost:9250'
 
   Paperclip::Attachment.default_options[:path] = "#{Rails.root}/tmp/paperclip_test/:class/:id_partition/:style.:extension"
 end
