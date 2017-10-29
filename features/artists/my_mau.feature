@@ -39,10 +39,13 @@ Scenario: I can edit my profile
   | artist_firstname  |
   | mr joe            |
 
-  When I click on "Profile Picture"
+  When I open the "Profile Picture" profile section
   And I submit a new profile picture
   And I click "Save Changes"
-  And I click on "Profile Picture"
+  And I see a flash notice including "has been updated"
+
+  And show me the page
+  When I open the "Profile Picture" profile section
   Then I see that I have a new profile picture
 
 Scenario: I can update my os status

@@ -19,6 +19,7 @@ public/stylesheets/*.css
 .sass-cache
 public/studiodata
 public/artistdata
+public/assets
 log
 coverage/*
 cucumber_reports/*
@@ -33,3 +34,5 @@ node_modules/*
 *.mysql
 *.psql
 .byebug_history
+
+node_modules/

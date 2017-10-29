@@ -52,7 +52,6 @@ Rails.application.configure do
 
   config.middleware.use DisableAnimations
 
-  Paperclip::Attachment.default_options[:path] = "#{Rails.root}/tmp/paperclip_test/:class/:id_partition/:style.:extension"
 end
 
 Rails.application.routes.default_url_options[:host] = 'test.host'

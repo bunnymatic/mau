@@ -219,9 +219,14 @@ Then(/^I see that art piece detail page$/) do
   @art_piece = ArtPiece.find_by(id: $1)
 end
 
+When(/^I open the "([^"]*)" profile section/) do |title|
+  trigger = all('.panel-title a').detect { |h4| h4.text.include?(title) }
+  trigger.click()
+end
+
 When(/^I submit a new profile picture$/) do
   find('.file.input')
-  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'art.png')
+  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'user.png')
 end
 
 Then(/^I see that I have a new profile picture$/) do
