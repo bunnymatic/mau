@@ -16,12 +16,8 @@ class Medium < ApplicationRecord
   scope :alpha, -> { order(:name) }
 
   def hashtag
-    if /^painting/i =~ name
-      _name = name.split('-').map(&:strip).reverse.join('')
-    else
-      _name = name
-    end
-    _name.parameterize.underscore
+    return name.parameterize.underscore unless /^painting/i =~ name
+    name.split('-').map(&:strip).reverse.join('').downcase
   end
 
   def self.options_for_select

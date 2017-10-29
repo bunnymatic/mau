@@ -221,7 +221,7 @@ end
 
 When(/^I open the "([^"]*)" profile section/) do |title|
   trigger = all('.panel-title a').detect { |h4| h4.text.include?(title) }
-  trigger.click()
+  trigger.click
 end
 
 When(/^I submit a new profile picture$/) do
