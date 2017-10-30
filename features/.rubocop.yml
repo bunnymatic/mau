@@ -7,3 +7,11 @@ Lint/Debugger:
 Lint/AmbiguousRegexpLiteral:
   Exclude:
     - 'step_definitions/**/*'
+
+Lint/HandleExceptions:
+  Exclude:
+    - 'support/**/*'
+
+Lint/RescueException:
+  Exclude:
+    - 'support/**/*'

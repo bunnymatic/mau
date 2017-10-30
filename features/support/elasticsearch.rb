@@ -8,5 +8,9 @@ AfterConfiguration do
 end
 
 at_exit do
-  TestEsServer.stop unless ENV['CI']
+  begin
+    TestEsServer.stop unless ENV['CI']
+  rescue Exception => ex
+    puts "Failed to stop Elasticsearch: #{ex}"
+  end
 end
