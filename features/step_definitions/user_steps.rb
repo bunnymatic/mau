@@ -86,6 +86,7 @@ When(/^I login$/) do
   # if we're already logged in we'll be somewhere else
   fill_in_login_form (@artist || @user).login, '8characters'
   steps %(And I click "Sign In")
+  expect(page).to have_content "SIGN OUT"
 end
 
 When(/^I login as an artist$/) do
