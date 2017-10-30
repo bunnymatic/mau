@@ -44,7 +44,6 @@ Scenario: I can edit my profile
   And I click "Save Changes"
   And I see a flash notice including "has been updated"
 
-  And show me the page
   When I open the "Profile Picture" profile section
   Then I see that I have a new profile picture
 
