@@ -8,12 +8,12 @@ describe AdminEmailList do
   let(:emails) { email_list.emails }
 
   before do
-    FactoryGirl.create(:open_studios_event, :future)
-    artists = FactoryGirl.create_list(:artist, 2, :active, :with_art) + FactoryGirl.create_list(:artist, 1, :active)
+    FactoryBot.create(:open_studios_event, :future)
+    artists = FactoryBot.create_list(:artist, 2, :active, :with_art) + FactoryBot.create_list(:artist, 1, :active)
 
-    FactoryGirl.create_list(:artist, 2)
-    FactoryGirl.create_list(:artist, 1, :pending)
-    FactoryGirl.create_list(:fan, 1, :active)
+    FactoryBot.create_list(:artist, 2)
+    FactoryBot.create_list(:artist, 1, :pending)
+    FactoryBot.create_list(:fan, 1, :active)
     artists.each do |artist|
       artist.artist_info.update_os_participation current.key, true
     end

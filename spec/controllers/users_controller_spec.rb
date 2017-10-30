@@ -3,22 +3,22 @@
 require 'rails_helper'
 
 describe UsersController do
-  let(:fan) { FactoryGirl.create(:fan) }
-  let(:quentin) { FactoryGirl.create :artist }
-  let(:admin) { FactoryGirl.create :user, :admin, :active }
+  let(:fan) { FactoryBot.create(:fan) }
+  let(:quentin) { FactoryBot.create :artist }
+  let(:admin) { FactoryBot.create :user, :admin, :active }
   let(:jesse) { quentin }
-  let(:joe) { FactoryGirl.create :artist, :active }
-  let(:artist) { FactoryGirl.create :artist, :active }
-  let(:pending) { FactoryGirl.create :artist, :pending }
-  let(:pending_fan) { FactoryGirl.create :fan, :pending }
+  let(:joe) { FactoryBot.create :artist, :active }
+  let(:artist) { FactoryBot.create :artist, :active }
+  let(:pending) { FactoryBot.create :artist, :pending }
+  let(:pending_fan) { FactoryBot.create :fan, :pending }
   let(:art_pieces) do
-    FactoryGirl.create_list :art_piece, 4, :with_tag, artist: artist
+    FactoryBot.create_list :art_piece, 4, :with_tag, artist: artist
   end
   let(:art_piece) do
     art_pieces.first
   end
 
-  let(:scammer) { FactoryGirl.create :scammer }
+  let(:scammer) { FactoryBot.create :scammer }
 
   def params_with_secret(opts)
     {
@@ -70,7 +70,7 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        FactoryGirl.create(:blacklist_domain, domain: 'blacklist.com')
+        FactoryBot.create(:blacklist_domain, domain: 'blacklist.com')
         # allow(@controller).to receive(:sweep)
         allow(@controller).to receive(:verify_recaptcha).and_return(true)
         expect(@controller).to receive(:verify_secret_word).and_return(true)
@@ -569,7 +569,7 @@ describe UsersController do
       expect(/find an artist with that activation code/.match(flash[:error])).not_to be []
     end
     it 'does not blow away all activation codes' do
-      FactoryGirl.create_list(:artist, 2)
+      FactoryBot.create_list(:artist, 2)
       make_activate_call
       expect(User.all.map(&:activation_code).select(&:present?).count).to be > 0
     end

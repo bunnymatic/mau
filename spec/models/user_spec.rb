@@ -3,21 +3,21 @@
 require 'rails_helper'
 
 describe User do
-  let(:simple_artist) { FactoryGirl.build(:artist) }
-  let(:maufan) { FactoryGirl.create(:fan, :active) }
-  let(:artist) { FactoryGirl.create(:artist, :with_art, profile_image: 'profile.jpg') }
+  let(:simple_artist) { FactoryBot.build(:artist) }
+  let(:maufan) { FactoryBot.create(:fan, :active) }
+  let(:artist) { FactoryBot.create(:artist, :with_art, profile_image: 'profile.jpg') }
   let(:art_piece) { artist.art_pieces.first }
-  let(:admin) { FactoryGirl.create(:artist, :admin, :with_art) }
-  let(:manager) { FactoryGirl.create(:artist, :manager, :with_studio) }
-  let(:editor) { FactoryGirl.create(:artist, :editor) }
-  let(:managing_editor) { FactoryGirl.create(:artist, :manager, :editor) }
+  let(:admin) { FactoryBot.create(:artist, :admin, :with_art) }
+  let(:manager) { FactoryBot.create(:artist, :manager, :with_studio) }
+  let(:editor) { FactoryBot.create(:artist, :editor) }
+  let(:managing_editor) { FactoryBot.create(:artist, :manager, :editor) }
   let!(:roles) do
-    FactoryGirl.create :role, :admin
-    FactoryGirl.create :role, :editor
-    FactoryGirl.create :role, :manager
+    FactoryBot.create :role, :admin
+    FactoryBot.create :role, :editor
+    FactoryBot.create :role, :manager
   end
 
-  subject(:user) { FactoryGirl.build(:user, :active) }
+  subject(:user) { FactoryBot.build(:user, :active) }
 
   before do
     Timecop.freeze
@@ -71,17 +71,17 @@ describe User do
 
   context 'make sure our factories work' do
     it 'creates an editor' do
-      expect(FactoryGirl.create(:user, :editor, :active).editor?).to eq(true)
+      expect(FactoryBot.create(:user, :editor, :active).editor?).to eq(true)
     end
     it 'creates an admin' do
-      expect(FactoryGirl.create(:user, :admin, :active).admin?).to eq(true)
+      expect(FactoryBot.create(:user, :admin, :active).admin?).to eq(true)
     end
   end
 
   describe '#sortable_name' do
-    let(:user1) { FactoryGirl.create(:user, :active, firstname: nil, lastname: nil, login: 'zzzzza') }
-    let(:user2) { FactoryGirl.create(:user, :active, firstname: nil, lastname: nil, login: 'bbbbbb') }
-    let(:user3) { FactoryGirl.create(:user, :active, firstname: nil, lastname: nil, login: 'aaaaaa') }
+    let(:user1) { FactoryBot.create(:user, :active, firstname: nil, lastname: nil, login: 'zzzzza') }
+    let(:user2) { FactoryBot.create(:user, :active, firstname: nil, lastname: nil, login: 'bbbbbb') }
+    let(:user3) { FactoryBot.create(:user, :active, firstname: nil, lastname: nil, login: 'aaaaaa') }
     let(:artists) { [user1, user2, user3] }
     let(:sorted_artists) do
       artists.sort_by(&:sortable_name)
@@ -96,7 +96,7 @@ describe User do
     end
 
     context 'when the artists last name is punctuation' do
-      let(:user1) { FactoryGirl.create(:user, :active, firstname: 'RUBYSPAM', lastname: '*', login: 'aaabbb') }
+      let(:user1) { FactoryBot.create(:user, :active, firstname: 'RUBYSPAM', lastname: '*', login: 'aaabbb') }
       it 'should sort the artists by their login name' do
         expect(sorted_artists.first.login).to eql user3.login
         expect(sorted_artists[1].login).to eql user2.login
@@ -105,9 +105,9 @@ describe User do
     end
 
     context 'when some artists have empty last names' do
-      let(:user1) { FactoryGirl.create(:user, :active, firstname: 'bob', lastname: 'kabob', login: 'zzzzza') }
-      let(:user2) { FactoryGirl.create(:user, :active, firstname: 'Bob', lastname: ' ', login: 'bbbbbb') }
-      let(:user3) { FactoryGirl.create(:user, :active, firstname: 'faern', lastname: '', login: 'cccccc') }
+      let(:user1) { FactoryBot.create(:user, :active, firstname: 'bob', lastname: 'kabob', login: 'zzzzza') }
+      let(:user2) { FactoryBot.create(:user, :active, firstname: 'Bob', lastname: ' ', login: 'bbbbbb') }
+      let(:user3) { FactoryBot.create(:user, :active, firstname: 'faern', lastname: '', login: 'cccccc') }
       it 'should sort the artists properly' do
         expect(sorted_artists.first.login).to eql user2.login
         expect(sorted_artists[1].login).to eql user3.login
@@ -118,15 +118,15 @@ describe User do
   describe '#full_name' do
     context 'an artist with a login but no names' do
       it 'returns login for full name' do
-        u = FactoryGirl.build(:user, firstname: nil, lastname: nil, nomdeplume: nil)
+        u = FactoryBot.build(:user, firstname: nil, lastname: nil, nomdeplume: nil)
         expect(u.full_name).to eql u.login
       end
       it 'returns first/last name for full name' do
-        u = FactoryGirl.build(:user, firstname: 'yo', lastname: 'tHere', nomdeplume: nil)
+        u = FactoryBot.build(:user, firstname: 'yo', lastname: 'tHere', nomdeplume: nil)
         expect(u.full_name).to eql [u.firstname, u.lastname].join(' ')
       end
       it 'returns nom de plume if it\'s available' do
-        u = FactoryGirl.build(:user, firstname: 'yo', lastname: 'tHere', nomdeplume: "I'm So Famous")
+        u = FactoryBot.build(:user, firstname: 'yo', lastname: 'tHere', nomdeplume: "I'm So Famous")
         expect(u.full_name).to eql u.nomdeplume
       end
     end
@@ -138,18 +138,18 @@ describe User do
 
     context 'with a bad email' do
       it "should not allow 'bogus email' for email address" do
-        user = FactoryGirl.build(:user, email: 'bogus email')
+        user = FactoryBot.build(:user, email: 'bogus email')
         expect(user).not_to be_valid
         expect(user).to have_at_least(1).error_on(:email)
       end
 
       it "should not allow '   ' for email" do
-        user = FactoryGirl.build(:user, email: '  ')
+        user = FactoryBot.build(:user, email: '  ')
         expect(user).not_to be_valid
         expect(user).to have_at_least(1).error_on(:email)
       end
       it 'should not allow blow@ for email' do
-        user = FactoryGirl.build(:user, email: 'blow@')
+        user = FactoryBot.build(:user, email: 'blow@')
         expect(user).not_to be_valid
         expect(user).to have_at_least(1).error_on(:email)
       end
@@ -170,19 +170,19 @@ describe User do
 
   describe 'get_name' do
     it 'returns nom de plume if defined' do
-      user = FactoryGirl.build(:user, nomdeplume: 'blurp')
+      user = FactoryBot.build(:user, nomdeplume: 'blurp')
       expect(user.get_name).to eql 'blurp'
     end
     it 'returns first + last if defined' do
-      user = FactoryGirl.build(:user, nomdeplume: nil)
+      user = FactoryBot.build(:user, nomdeplume: nil)
       expect(user.get_name).to eql([user.firstname, user.lastname].join(' '))
     end
     it 'returns login if nom, and firstname are not defined' do
-      user = FactoryGirl.build(:user, nomdeplume: '', firstname: '')
+      user = FactoryBot.build(:user, nomdeplume: '', firstname: '')
       expect(user.get_name).to eql user.login
     end
     it 'returns login if nom, and lastname are not defined' do
-      user = FactoryGirl.build(:user, nomdeplume: '', lastname: '')
+      user = FactoryBot.build(:user, nomdeplume: '', lastname: '')
       expect(user.get_name).to eql user.login
     end
   end

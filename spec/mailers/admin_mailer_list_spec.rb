@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe AdminMailerList do
   before do
-    FactoryGirl.create(:admin_email_list, :with_member)
+    FactoryBot.create(:admin_email_list, :with_member)
   end
 
   it 'returns the right count for AdminMailerList' do

@@ -2,13 +2,13 @@
 require 'rails_helper'
 
 describe Admin::ArtistsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:pending) { FactoryGirl.create(:artist, :pending, activation_code: 'ACTIVATEME') }
-  let(:password_reset) { FactoryGirl.create(:artist, :active, reset_code: 'RESET') }
-  let!(:artist) { FactoryGirl.create(:artist, :with_studio) }
-  let(:artist2) { FactoryGirl.create(:artist, :active) }
-  let(:manager) { FactoryGirl.create(:artist, :active, :with_studio, :manager) }
-  let(:current_os) { FactoryGirl.create(:open_studios_event, :future) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:pending) { FactoryBot.create(:artist, :pending, activation_code: 'ACTIVATEME') }
+  let(:password_reset) { FactoryBot.create(:artist, :active, reset_code: 'RESET') }
+  let!(:artist) { FactoryBot.create(:artist, :with_studio) }
+  let(:artist2) { FactoryBot.create(:artist, :active) }
+  let(:manager) { FactoryBot.create(:artist, :active, :with_studio, :manager) }
+  let(:current_os) { FactoryBot.create(:open_studios_event, :future) }
 
   describe '#index' do
     context 'while not logged in' do

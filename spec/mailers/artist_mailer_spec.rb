@@ -2,9 +2,9 @@
 require 'rails_helper'
 
 describe ArtistMailer do
-  let(:artist) { FactoryGirl.create(:artist, :active) }
-  let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:pending_artist) { FactoryGirl.create(:artist, :pending) }
+  let(:artist) { FactoryBot.create(:artist, :active) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
+  let(:pending_artist) { FactoryBot.create(:artist, :pending) }
 
   describe 'notification mail for a new signup' do
     before do

@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe Admin::OpenStudiosEventsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
 
   before do
     login_as admin

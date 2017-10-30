@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-FactoryGirl.define do
+FactoryBot.define do
   factory :scammer do
     email { Faker::Internet.email }
     name { Faker::Name.name }

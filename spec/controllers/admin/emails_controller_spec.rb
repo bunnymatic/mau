@@ -2,12 +2,12 @@
 require 'rails_helper'
 
 describe Admin::EmailsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:feedback_email_list) { FactoryGirl.create(:feedback_email_list) }
-  let(:admin_email_list) { FactoryGirl.create(:admin_email_list) }
-  let(:email_attrs) { FactoryGirl.attributes_for(:email) }
-  let(:feedback_email_list) { FactoryGirl.create(:feedback_email_list) }
-  let(:admin_email_list) { FactoryGirl.create(:admin_email_list) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:feedback_email_list) { FactoryBot.create(:feedback_email_list) }
+  let(:admin_email_list) { FactoryBot.create(:admin_email_list) }
+  let(:email_attrs) { FactoryBot.attributes_for(:email) }
+  let(:feedback_email_list) { FactoryBot.create(:feedback_email_list) }
+  let(:admin_email_list) { FactoryBot.create(:admin_email_list) }
   let!(:lists) { [feedback_email_list, admin_email_list] }
 
   describe 'POST#create' do
@@ -38,7 +38,7 @@ describe Admin::EmailsController do
     end
 
     let(:first_email) do
-      email = FactoryGirl.create(:email)
+      email = FactoryBot.create(:email)
       FeedbackMailerList.first.update_attributes(emails: [email])
       email
     end

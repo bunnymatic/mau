@@ -6,9 +6,9 @@ describe TagCloudPresenter, type: :controller do
 
   let(:mode) { 'a' }
   let(:clz) { ArtPieceTag }
-  let(:artist) { FactoryGirl.create :artist, :with_art, number_of_art_pieces: 7 }
+  let(:artist) { FactoryBot.create :artist, :with_art, number_of_art_pieces: 7 }
   let(:tags) do
-    tags = FactoryGirl.create_list(:art_piece_tag, 3)
+    tags = FactoryBot.create_list(:art_piece_tag, 3)
     artist.art_pieces.reverse.each_with_index do |ap, idx|
       ap.tags = ap.tags + [tags.first]
       ap.tags = ap.tags + [tags.last] if (idx % 3) == 0

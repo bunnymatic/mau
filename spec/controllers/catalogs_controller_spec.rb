@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 describe CatalogsController do
-  let(:jesse) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
-  let(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
+  let(:jesse) { FactoryBot.create(:artist, :active, :with_studio, :with_art, :with_links) }
+  let(:artist) { FactoryBot.create(:artist, :active, :with_studio, :with_art, :with_links) }
 
-  let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
+  let(:open_studios_event) { FactoryBot.create(:open_studios_event) }
 
   before do
     Rails.cache.clear

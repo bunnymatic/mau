@@ -114,8 +114,8 @@ end
 
 group :test, :development do
   gem 'byebug'
-  gem 'factory_girl', require: false
-  gem 'factory_girl_rails', require: false
+  gem 'factory_bot', require: false
+  gem 'factory_bot_rails', require: false
   gem 'faker'
   gem 'rspec-its'
   gem 'rspec-collection_matchers'

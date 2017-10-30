@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 describe StudiosController do
-  let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:manager) { FactoryGirl.create(:artist, :with_studio, :manager) }
-  let(:indy_artist) { FactoryGirl.create(:artist, :active) }
-  let(:artist) { FactoryGirl.create(:artist, :with_studio, :active) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
+  let(:manager) { FactoryBot.create(:artist, :with_studio, :manager) }
+  let(:indy_artist) { FactoryBot.create(:artist, :active) }
+  let(:artist) { FactoryBot.create(:artist, :with_studio, :active) }
   let(:manager_studio) { manager.studio }
   let(:studio) { manager.studio }
 

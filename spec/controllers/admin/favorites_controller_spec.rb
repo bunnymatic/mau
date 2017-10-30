@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 describe Admin::FavoritesController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:jesse) { FactoryGirl.create(:artist, :active, :with_art) }
-  let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
+  let(:jesse) { FactoryBot.create(:artist, :active, :with_art) }
+  let(:artist) { FactoryBot.create(:artist, :active, :with_art) }
   let(:art_pieces) { artist.art_pieces }
 
   describe '#index' do

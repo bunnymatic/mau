@@ -6,7 +6,7 @@ describe ArtistsPagination, type: :controller do
 
   let(:current_page) { 1 }
   let(:per_page) { 2 }
-  let(:artists) { FactoryGirl.build_list(:user, 9) }
+  let(:artists) { FactoryBot.build_list(:user, 9) }
 
   subject(:paginator) { ArtistsPagination.new(artists, current_page, per_page) }
 

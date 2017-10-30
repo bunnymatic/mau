@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe ArtPieceTagPagination do
   include PresenterSpecHelpers
-  let(:artist) { FactoryGirl.create :artist, :with_tagged_art }
+  let(:artist) { FactoryBot.create :artist, :with_tagged_art }
   let(:art_pieces) { artist.art_pieces }
   let!(:tags) { artist.art_pieces.map(&:tags).flatten }
   let(:num_items) { 8 }

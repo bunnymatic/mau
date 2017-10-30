@@ -5,7 +5,7 @@ describe ArtistsPresenter do
   include PresenterSpecHelpers
 
   let(:os_only) { false }
-  let(:artists) { FactoryGirl.create_list :artist, 4, :with_art, :in_the_mission }
+  let(:artists) { FactoryBot.create_list :artist, 4, :with_art, :in_the_mission }
 
   subject(:presenter) { ArtistsPresenter.new(os_only) }
 

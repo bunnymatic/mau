@@ -2,8 +2,8 @@
 require 'rails_helper'
 
 describe Admin::BlacklistDomainsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
 
   context 'authorization' do
     describe 'not logged in' do
@@ -26,7 +26,7 @@ describe Admin::BlacklistDomainsController do
   end
 
   context 'authorized' do
-    let(:domain) { FactoryGirl.create(:blacklist_domain) }
+    let(:domain) { FactoryBot.create(:blacklist_domain) }
 
     describe '#new' do
       before do

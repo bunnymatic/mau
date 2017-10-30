@@ -2,16 +2,16 @@
 require 'rails_helper'
 
 describe ArtPiecesController do
-  let(:medium) { FactoryGirl.create(:medium) }
-  let(:existing_tag) { FactoryGirl.create(:art_piece_tag) }
+  let(:medium) { FactoryBot.create(:medium) }
+  let(:existing_tag) { FactoryBot.create(:art_piece_tag) }
   let(:tags) { nil }
   let(:art_piece_attributes) do
-    FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id, photo: fixture_file_upload('/files/art.png', 'image/jpeg'))
+    FactoryBot.attributes_for(:art_piece, artist: nil, medium_id: medium.id, photo: fixture_file_upload('/files/art.png', 'image/jpeg'))
   end
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
-  let(:artist2) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art, number_of_art_pieces: 1) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
+  let(:artist) { FactoryBot.create(:artist, :with_studio, :with_tagged_art) }
+  let(:artist2) { FactoryBot.create(:artist, :with_studio, :with_tagged_art, number_of_art_pieces: 1) }
   let(:art_pieces) { artist.reload.art_pieces }
   let(:art_piece) { art_pieces.first.reload }
 

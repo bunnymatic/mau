@@ -2,13 +2,13 @@
 require 'rails_helper'
 
 describe FavoritesController do
-  let(:fan) { FactoryGirl.create(:fan) }
-  let(:artist) { FactoryGirl.create :artist }
-  let(:admin) { FactoryGirl.create :user, :admin, :active }
-  let(:joe) { FactoryGirl.create :artist, :active }
-  let(:artist) { FactoryGirl.create :artist, :active, :with_art }
-  let(:pending) { FactoryGirl.create :artist, :pending }
-  let(:pending_fan) { FactoryGirl.create :fan, :pending }
+  let(:fan) { FactoryBot.create(:fan) }
+  let(:artist) { FactoryBot.create :artist }
+  let(:admin) { FactoryBot.create :user, :admin, :active }
+  let(:joe) { FactoryBot.create :artist, :active }
+  let(:artist) { FactoryBot.create :artist, :active, :with_art }
+  let(:pending) { FactoryBot.create :artist, :pending }
+  let(:pending_fan) { FactoryBot.create :fan, :pending }
   let(:art_pieces) { artist.art_pieces }
   let(:art_piece) { art_pieces.first }
 

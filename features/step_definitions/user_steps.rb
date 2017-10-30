@@ -92,15 +92,15 @@ When(/^I login as a fan$/) do
 end
 
 When(/^I login as an editor$/) do
-  @editor = FactoryGirl.create(:user, :editor, :active)
+  @editor = FactoryBot.create(:user, :editor, :active)
   steps %(When I visit the login page)
   fill_in_login_form @editor.login, '8characters'
   steps %(And I click "Sign In")
 end
 
 When(/^I login as a manager$/) do
-  studios = FactoryGirl.create_list(:studio, 2)
-  @manager = FactoryGirl.create(:user, :manager, :active, studio: studios.first)
+  studios = FactoryBot.create_list(:studio, 2)
+  @manager = FactoryBot.create(:user, :manager, :active, studio: studios.first)
   steps %(When I visit the login page)
   fill_in_login_form @manager.login, '8characters'
   steps %(And I click "Sign In")

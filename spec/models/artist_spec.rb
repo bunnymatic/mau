@@ -3,14 +3,14 @@ require 'rails_helper'
 
 describe Artist do
   let(:max_pieces) { 10 }
-  subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, max_pieces: max_pieces, firstname: 'Joe', lastname: 'Blow') }
-  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
-  let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
-  let(:nobody) { FactoryGirl.create(:artist, :active, :without_address) }
-  let(:artist_without_studio) { FactoryGirl.create(:artist, :active, :with_art, :in_the_mission) }
+  subject(:artist) { FactoryBot.create(:artist, :active, :with_studio, :with_art, max_pieces: max_pieces, firstname: 'Joe', lastname: 'Blow') }
+  let!(:open_studios_event) { FactoryBot.create(:open_studios_event) }
+  let(:wayout_artist) { FactoryBot.create(:artist, :active, :out_of_the_mission) }
+  let(:nobody) { FactoryBot.create(:artist, :active, :without_address) }
+  let(:artist_without_studio) { FactoryBot.create(:artist, :active, :with_art, :in_the_mission) }
   let(:artist_info) { artist.artist_info }
   let(:studio) { artist.studio }
-  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
+  let!(:open_studios_event) { FactoryBot.create(:open_studios_event) }
 
   describe '#at_art_piece_limit?' do
     subject { super().at_art_piece_limit? }
@@ -33,7 +33,7 @@ describe Artist do
   context 'make sure our factories work' do
     it 'creates an artist info with each artist' do
       expect do
-        FactoryGirl.create(:artist, :active)
+        FactoryBot.create(:artist, :active)
       end.to change(ArtistInfo, :count).by 1
     end
   end
@@ -41,7 +41,7 @@ describe Artist do
   describe 'create' do
     describe 'auth helpers' do
       describe 'make activation token ' do
-        let(:new_artist) { FactoryGirl.create(:artist) }
+        let(:new_artist) { FactoryBot.create(:artist) }
         let(:token) { new_artist.make_activation_code }
         it 'returns a string greater than 20 chars' do
           expect(token.length).to be > 20
@@ -120,7 +120,7 @@ describe Artist do
     end
     context 'for artist not in the mission but in a studio in the mission' do
       before do
-        studio = FactoryGirl.create(:studio)
+        studio = FactoryBot.create(:studio)
         wayout_artist.update_attributes studio: studio
         wayout_artist.reload
         allow(wayout_artist.studio).to receive(:lat).and_return(37.75)

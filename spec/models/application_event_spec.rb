@@ -12,9 +12,9 @@ describe ApplicationEvent do
   describe '#scopes' do
     before do
       4.times.each do |x|
-        FactoryGirl.create(:generic_event, created_at: x.days.ago, data: { user: 'artist' })
+        FactoryBot.create(:generic_event, created_at: x.days.ago, data: { user: 'artist' })
       end
-      FactoryGirl.create(:open_studios_signup_event, created_at: 5.days.ago, data: { user: 'artist' })
+      FactoryBot.create(:open_studios_signup_event, created_at: 5.days.ago, data: { user: 'artist' })
     end
 
     describe 'by_recency' do

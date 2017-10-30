@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe Studio do
-  subject(:studio) { FactoryGirl.build(:studio) }
+  subject(:studio) { FactoryBot.build(:studio) }
 
   it_should_behave_like AddressMixin
 
@@ -25,15 +25,15 @@ describe Studio do
   end
 
   describe 'create' do
-    let(:studio) { FactoryGirl.build(:studio) }
+    let(:studio) { FactoryBot.build(:studio) }
     before do
-      @s = Studio.new(FactoryGirl.attributes_for(:studio))
+      @s = Studio.new(FactoryBot.attributes_for(:studio))
     end
     it 'studio is valid' do
       expect(@s).to be_valid
     end
     it 'save triggers geocode' do
-      s = Studio.new(FactoryGirl.attributes_for(:studio))
+      s = Studio.new(FactoryBot.attributes_for(:studio))
       expect(s).to receive(:compute_geocode).at_least(:once).and_return([-37, 122])
       s.save!
     end

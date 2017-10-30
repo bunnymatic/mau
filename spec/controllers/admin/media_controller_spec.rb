@@ -2,8 +2,8 @@
 require 'rails_helper'
 
 describe Admin::MediaController do
-  let(:admin) { FactoryGirl.create(:artist, :admin, :active) }
-  let!(:media) { FactoryGirl.create_list(:medium, 3) }
+  let(:admin) { FactoryBot.create(:artist, :admin, :active) }
+  let!(:media) { FactoryBot.create_list(:medium, 3) }
   let(:medium) { media.first }
 
   describe '#index' do

@@ -2,17 +2,17 @@
 require 'rails_helper'
 
 describe Admin::EmailListsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
 
   let(:test_email) { 'mr_new@example.com' }
 
-  let(:feedback_email_list) { FactoryGirl.create(:feedback_email_list) }
-  let(:admin_email_list) { FactoryGirl.create(:admin_email_list) }
+  let(:feedback_email_list) { FactoryBot.create(:feedback_email_list) }
+  let(:admin_email_list) { FactoryBot.create(:admin_email_list) }
   let!(:lists) { [feedback_email_list, admin_email_list] }
 
   before do
-    AdminMailerList.first.update_attributes(emails: [FactoryGirl.create(:email, email: test_email)])
+    AdminMailerList.first.update_attributes(emails: [FactoryBot.create(:email, email: test_email)])
   end
 
   describe 'not logged in' do
@@ -44,7 +44,7 @@ describe Admin::EmailListsController do
     end
     describe 'GET' do
       before do
-        emails = FactoryGirl.build_list(:email, 5)
+        emails = FactoryBot.build_list(:email, 5)
         AdminMailerList.first.update_attributes(emails: emails.sample(2))
         FeedbackMailerList.first.update_attributes(emails: emails.sample(2))
 

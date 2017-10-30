@@ -4,8 +4,8 @@ require 'rails_helper'
 describe ArtistInfo do
   it_should_behave_like AddressMixin
 
-  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
-  let(:artist_info) { FactoryGirl.create(:artist).artist_info }
+  let!(:open_studios_event) { FactoryBot.create(:open_studios_event) }
+  let(:artist_info) { FactoryBot.create(:artist).artist_info }
 
   describe 'address mixin' do
     it 'responds to address' do
