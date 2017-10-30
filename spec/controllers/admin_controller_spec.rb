@@ -2,12 +2,12 @@
 require 'rails_helper'
 
 describe AdminController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }
-  let(:artist) { FactoryGirl.create(:artist, :with_studio) }
-  let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:editor) { FactoryGirl.create(:artist, :editor) }
-  let(:manager) { FactoryGirl.create(:artist, :manager, :with_studio) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:pending_artist) { FactoryBot.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }
+  let(:artist) { FactoryBot.create(:artist, :with_studio) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
+  let(:editor) { FactoryBot.create(:artist, :editor) }
+  let(:manager) { FactoryBot.create(:artist, :manager, :with_studio) }
   let(:artist2) { manager }
 
   include OpenStudiosEventShim

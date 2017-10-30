@@ -4,20 +4,20 @@ require 'htmlentities'
 
 describe ArtistsController, elasticsearch: true do
   let(:studio) { create :studio }
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
   let(:artist) do
-    FactoryGirl.create(:artist, :with_art,
-                       studio: studio,
-                       number_of_art_pieces: 3,
-                       nomdeplume: nil, firstname: 'joe', lastname: 'ablow')
+    FactoryBot.create(:artist, :with_art,
+                      studio: studio,
+                      number_of_art_pieces: 3,
+                      nomdeplume: nil, firstname: 'joe', lastname: 'ablow')
   end
-  let(:artist2) { FactoryGirl.create(:artist, :active, studio: studio) }
-  let(:without_address) { FactoryGirl.create(:artist, :active, :without_address) }
+  let(:artist2) { FactoryBot.create(:artist, :active, studio: studio) }
+  let(:without_address) { FactoryBot.create(:artist, :active, :without_address) }
   let(:artists) do
-    [artist] + FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, number_of_art_pieces: 1)
+    [artist] + FactoryBot.create_list(:artist, 3, :with_studio, :with_tagged_art, number_of_art_pieces: 1)
   end
   let!(:open_studios_event) { create(:open_studios_event) }
-  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
   let(:artist_info) { artist.artist_info }
   let(:ne_bounds) { Artist::BOUNDS['NE'] }
   let(:sw_bounds) { Artist::BOUNDS['SW'] }

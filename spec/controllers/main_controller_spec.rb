@@ -13,18 +13,18 @@ shared_examples_for 'has some invalid params' do
 end
 
 describe MainController do
-  let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:editor) { FactoryGirl.create(:artist, :active, :editor) }
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
-  let(:prolific_artist) { FactoryGirl.create(:artist, :active, :with_art, number_of_art_pieces: 15) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
+  let(:editor) { FactoryBot.create(:artist, :active, :editor) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:artist) { FactoryBot.create(:artist, :active, :with_art) }
+  let(:prolific_artist) { FactoryBot.create(:artist, :active, :with_art, number_of_art_pieces: 15) }
 
   before do
     # seems like we have leaky database records
     fix_leaky_fixtures
     artist
     prolific_artist
-    FactoryGirl.create(:open_studios_event, :future)
+    FactoryBot.create(:open_studios_event, :future)
   end
 
   describe '#index' do
@@ -46,7 +46,7 @@ describe MainController do
   describe '#about' do
     context 'while not logged in' do
       before do
-        FactoryGirl.create(:cms_document, page: :main, section: :about)
+        FactoryBot.create(:cms_document, page: :main, section: :about)
         get :about
       end
       it { expect(response).to be_success }
@@ -80,10 +80,10 @@ describe MainController do
     end
     context 'logged in as admin' do
       let(:venue_doc) do
-        FactoryGirl.create(:cms_document,
-                           page: :venues,
-                           section: :all,
-                           article: "# these \n\n## are \n\n### venues \n\n* one\n* two\n* three")
+        FactoryBot.create(:cms_document,
+                          page: :venues,
+                          section: :all,
+                          article: "# these \n\n## are \n\n### venues \n\n* one\n* two\n* three")
       end
       before do
         venue_doc

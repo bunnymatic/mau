@@ -8,7 +8,7 @@ describe BlacklistDomain do
   end
 
   it 'should create a new instance given valid attributes' do
-    BlacklistDomain.create! FactoryGirl.attributes_for(:blacklist_domain)
+    BlacklistDomain.create! FactoryBot.attributes_for(:blacklist_domain)
   end
 
   %w(valid.com a.valid.domain.biz).each do |domain|
@@ -25,7 +25,7 @@ describe BlacklistDomain do
 
   describe '#allowed?' do
     before do
-      FactoryGirl.create(:blacklist_domain, domain: 'blacklist.com')
+      FactoryBot.create(:blacklist_domain, domain: 'blacklist.com')
     end
     it 'finds blacklist domains in email' do
       expect(BlacklistDomain.allowed?('jon@blacklist.com')).to eq false

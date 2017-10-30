@@ -1,7 +1,7 @@
 Given(/^an account has been created/) do
   @artist = Artist.where(login: TestUsersHelper::DEFAULT_LOGIN).first
   if !@artist
-    @artist = FactoryGirl.create(:artist, :active, :with_art, :in_the_mission, login: TestUsersHelper::DEFAULT_LOGIN)
+    @artist = FactoryBot.create(:artist, :active, :with_art, :in_the_mission, login: TestUsersHelper::DEFAULT_LOGIN)
   end
   @artist.password = TestUsersHelper::DEFAULT_PASSWORD
   @artist.password_confirmation = TestUsersHelper::DEFAULT_PASSWORD
@@ -9,35 +9,35 @@ Given(/^an account has been created/) do
 end
 
 Given(/^an? "(.*?)" account has been created/) do |role|
-  @artist = FactoryGirl.create(:artist, :active, :with_art, role.to_sym )
+  @artist = FactoryBot.create(:artist, :active, :with_art, role.to_sym )
   @artist.password = TestUsersHelper::DEFAULT_PASSWORD
   @artist.password_confirmation = TestUsersHelper::DEFAULT_PASSWORD
   @artist.save!
 end
 
 Given /^there is a studio named "(.*)"$/ do |studio|
-  @studio = FactoryGirl.create(:studio, name: studio)
+  @studio = FactoryBot.create(:studio, name: studio)
 end
 
 Given /^there is a studio named "(.*)" with artists$/ do |studio|
-  @studio = FactoryGirl.create(:studio, :with_artists, name: studio, artist_count: 3)
+  @studio = FactoryBot.create(:studio, :with_artists, name: studio, artist_count: 3)
 end
 
 Given /there are artists with art in the system$/ do
-  @artists = FactoryGirl.create_list(:artist, 3, :with_art, :with_studio, number_of_art_pieces: 5)
+  @artists = FactoryBot.create_list(:artist, 3, :with_art, :with_studio, number_of_art_pieces: 5)
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
 Given /there are artists with art in my studio$/ do
   studio = (@manager || @artist || @user).studio
-  FactoryGirl.create_list(:artist, 2, :with_art, studio: studio, number_of_art_pieces: 1)
+  FactoryBot.create_list(:artist, 2, :with_art, studio: studio, number_of_art_pieces: 1)
 end
 
 Given /the following artists with art are in the system:/ do |table|
   @artists = []
   table.hashes.each do |artist_params|
     args = {number_of_art_pieces: 5}.merge artist_params
-    @artists << FactoryGirl.create(:artist, :with_art, :with_studio, args)
+    @artists << FactoryBot.create(:artist, :with_art, :with_studio, args)
   end
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
@@ -46,27 +46,27 @@ Given /the following artists who aren't ready to sign up for os are in the syste
   @artists = []
   table.hashes.each do |artist_params|
     args = {number_of_art_pieces: 5}.merge artist_params
-    @artists << FactoryGirl.create(:artist, :active, :without_address, args)
+    @artists << FactoryBot.create(:artist, :active, :without_address, args)
   end
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
 Given /the following admins are in the system:/ do |table|
   table.hashes.each do |user_params|
-    FactoryGirl.create(:artist, :admin, :active, user_params)
+    FactoryBot.create(:artist, :admin, :active, user_params)
   end
 end
 
 Given /there are application events in the system/ do
   ApplicationEvent.destroy_all
   @application_events = [
-                         FactoryGirl.create(:open_studios_signup_event),
-                         FactoryGirl.create(:generic_event)
+                         FactoryBot.create(:open_studios_signup_event),
+                         FactoryBot.create(:generic_event)
                         ]
 end
 
 Given /there is a scheduled Open Studios event/ do
-  FactoryGirl.create(:open_studios_event)
+  FactoryBot.create(:open_studios_event)
 end
 
 Given /there are open studios artists with art in the system/ do
@@ -88,19 +88,19 @@ end
 Given /there is open studios cms content in the system/ do
 
   args = {page: :main_openstudios, section: :preview_reception}
-  @os_reception_content ||= (CmsDocument.where(args).first || FactoryGirl.create(:cms_document, args))
+  @os_reception_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
 
   args = {page: :main_openstudios, section: :summary}
-  @os_summary_content ||= (CmsDocument.where(args).first || FactoryGirl.create(:cms_document, args))
+  @os_summary_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
 
 end
 
 Given /there are users in the system/ do
-  @users = FactoryGirl.create_list(:fan, 4)
+  @users = FactoryBot.create_list(:fan, 4)
 end
 
 Given /there are tags on the art/ do
-  @art_piece_tags = FactoryGirl.create_list(:art_piece_tag, 10)
+  @art_piece_tags = FactoryBot.create_list(:art_piece_tag, 10)
   @art_pieces.each_with_index do |art, idx|
     art.tags = @art_piece_tags[0..(idx % 10)]
     art.save!
@@ -108,11 +108,11 @@ Given /there are tags on the art/ do
 end
 
 Given /there are past open studios events/ do
-  (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, start_date: 3.months.ago)
+  (@open_studios_events ||= []) << FactoryBot.create(:open_studios_event, start_date: 3.months.ago)
 end
 
 Given /there are future open studios events/ do
-  (@open_studios_events ||= []) << (OpenStudiosEventService.current || FactoryGirl.create(:open_studios_event, start_date: 3.months.since))
+  (@open_studios_events ||= []) << (OpenStudiosEventService.current || FactoryBot.create(:open_studios_event, start_date: 3.months.since))
 end
 
 Given(/^there are artists and art pieces with favorites$/) do

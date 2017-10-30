@@ -2,8 +2,8 @@
 require 'rails_helper'
 
 describe FeedbackMail do
-  let(:feedback_params) { FactoryGirl.attributes_for(:feedback_mail) }
-  subject(:feedback_mail) { FactoryGirl.build(:feedback_mail) }
+  let(:feedback_params) { FactoryBot.attributes_for(:feedback_mail) }
+  subject(:feedback_mail) { FactoryBot.build(:feedback_mail) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :email_confirm }
@@ -12,9 +12,9 @@ describe FeedbackMail do
 
   context "if emails don't match (and are required" do
     subject(:feedback_mail) do
-      FactoryGirl.build(:feedback_mail,
-                        email: 'jon@here.com',
-                        email_confirm: 'joe@here.com')
+      FactoryBot.build(:feedback_mail,
+                       email: 'jon@here.com',
+                       email_confirm: 'joe@here.com')
     end
     it { should_not be_valid }
     it 'includes the errors on base' do
@@ -24,7 +24,7 @@ describe FeedbackMail do
   end
 
   context "if it's an inquiry" do
-    subject(:feedback_mail) { FactoryGirl.build(:feedback_mail, note_type: 'inquiry') }
+    subject(:feedback_mail) { FactoryBot.build(:feedback_mail, note_type: 'inquiry') }
     it { should validate_presence_of :inquiry }
   end
 

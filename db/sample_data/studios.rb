@@ -4,7 +4,7 @@ def ensure_studio(name, *factory_args)
 
   traits, opts = factory_args.partition { |arg| !arg.is_a? Hash }
   options = opts.reduce({}, :merge)
-  FactoryGirl.create(*traits, options)
+  FactoryBot.create(*traits, options)
   puts "--> Created studio #{name}"
 end
 

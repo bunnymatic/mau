@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 gem 'racc'
-gem 'rails', '5.0.5'
+gem 'rails', '5.0.6'
 gem 'active_model_serializers'
 gem 'responders'
 gem 'lograge'
@@ -41,7 +41,7 @@ gem 'geokit-rails'
 gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'paperclip'
-gem 'aws-sdk'
+gem 'aws-sdk', "~> 2.4.x"
 
 gem 'ngannotate-rails'
 gem 'angular-rails-templates'
@@ -114,8 +114,8 @@ end
 
 group :test, :development do
   gem 'byebug'
-  gem 'factory_girl', require: false
-  gem 'factory_girl_rails', require: false
+  gem 'factory_bot', require: false
+  gem 'factory_bot_rails', require: false
   gem 'faker'
   gem 'rspec-its'
   gem 'rspec-collection_matchers'

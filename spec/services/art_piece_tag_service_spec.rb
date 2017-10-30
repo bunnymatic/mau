@@ -4,7 +4,7 @@ require 'rails_helper'
 describe ArtPieceTagService do
   let(:service) { described_class }
   let!(:art_pieces) { create_list :art_piece, 6, :with_tags }
-  let!(:tags) { FactoryGirl.create_list :art_piece_tag, 5 }
+  let!(:tags) { FactoryBot.create_list :art_piece_tag, 5 }
 
   before do
     Rails.cache.clear

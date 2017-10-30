@@ -6,18 +6,18 @@ describe SiteStatistics do
   let!(:models) do
     Timecop.freeze
 
-    FactoryGirl.create_list(:studio, 2)
+    FactoryBot.create_list(:studio, 2)
 
     Timecop.travel(16.hours.ago)
-    FactoryGirl.create(:artist, :active)
+    FactoryBot.create(:artist, :active)
 
     Timecop.travel(4.days.ago)
-    FactoryGirl.create_list(:artist, 2, :active, :with_art, :with_links)
-    FactoryGirl.create_list(:artist, 3)
+    FactoryBot.create_list(:artist, 2, :active, :with_art, :with_links)
+    FactoryBot.create_list(:artist, 3)
 
     Timecop.travel(10.days.ago)
-    FactoryGirl.create_list(:artist, 2, :active)
-    FactoryGirl.create_list(:artist, 3)
+    FactoryBot.create_list(:artist, 2, :active)
+    FactoryBot.create_list(:artist, 3)
 
     Timecop.return
 

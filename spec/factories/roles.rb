@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-FactoryGirl.define do
+FactoryBot.define do
   factory :role do
     role 'a_role'
     initialize_with { Role.find_or_create_by(role: role) }

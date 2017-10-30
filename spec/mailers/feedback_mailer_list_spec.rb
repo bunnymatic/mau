@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe FeedbackMailerList do
   before do
-    FactoryGirl.create(:feedback_email_list, :with_member)
+    FactoryBot.create(:feedback_email_list, :with_member)
   end
 
   it 'returns the right count for AdminMailerList' do

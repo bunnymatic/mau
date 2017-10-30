@@ -2,9 +2,9 @@
 require 'rails_helper'
 
 describe FeedbackMailer do
-  let(:fb) { FactoryGirl.create(:feedback) }
+  let(:fb) { FactoryBot.create(:feedback) }
   before do
-    FactoryGirl.create(:feedback_email_list, :with_member)
+    FactoryBot.create(:feedback_email_list, :with_member)
   end
 
   it 'sets up the right "to" addresses' do

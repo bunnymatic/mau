@@ -6,10 +6,10 @@ describe AdminArtistList do
   include PresenterSpecHelpers
 
   let!(:artists) do
-    FactoryGirl.create(:artist, :active)
-    FactoryGirl.create(:artist, :with_studio)
-    FactoryGirl.create(:artist, :with_art)
-    FactoryGirl.create(:artist, :pending)
+    FactoryBot.create(:artist, :active)
+    FactoryBot.create(:artist, :with_studio)
+    FactoryBot.create(:artist, :with_art)
+    FactoryBot.create(:artist, :pending)
   end
 
   let(:parsed) { CSV.parse(list.csv, headers: true) }

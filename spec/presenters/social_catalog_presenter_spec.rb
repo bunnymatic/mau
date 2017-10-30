@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe SocialCatalogPresenter, type: :view do
-  let(:open_studios_event) { FactoryGirl.create :open_studios_event }
+  let(:open_studios_event) { FactoryBot.create :open_studios_event }
   let(:studio) { create(:studio) }
   let(:studio2) { create(:studio) }
   let(:unlisted_because_not_os) do

@@ -4,9 +4,9 @@ require 'rails_helper'
 describe ArtPieceTagPresenter do
   include PresenterSpecHelpers
 
-  let(:artist) { FactoryGirl.create :artist, :active, :with_tagged_art, number_of_art_pieces: 4 }
+  let(:artist) { FactoryBot.create :artist, :active, :with_tagged_art, number_of_art_pieces: 4 }
   let(:artist2) do
-    a = FactoryGirl.create :artist, :active, :with_art, number_of_art_pieces: 4
+    a = FactoryBot.create :artist, :active, :with_art, number_of_art_pieces: 4
     a.art_pieces.each do |ap|
       ap.tags = ap.tags + artist.art_pieces.map(&:tags).compact.uniq.first
       ap.save

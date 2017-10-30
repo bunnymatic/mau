@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe AdminMailer do
   before do
-    FactoryGirl.create(:admin_email_list, :with_member)
+    FactoryBot.create(:admin_email_list, :with_member)
   end
 
   context '#spammer' do

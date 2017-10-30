@@ -32,7 +32,7 @@ describe FeedbacksController do
       before do
         expect(FeedbackMailer).to receive(:feedback).and_return(double(deliver_later: true))
         expect do
-          attrs = FactoryGirl.attributes_for(:feedback)
+          attrs = FactoryBot.attributes_for(:feedback)
           get :create, params: {
             feedback: attrs
           }

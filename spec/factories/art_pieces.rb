@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-FactoryGirl.define do
+FactoryBot.define do
   factory :art_piece do
     title { Faker::Company.name }
     photo_file_name    'new-art-piece.jpg'
@@ -9,21 +9,21 @@ FactoryGirl.define do
     dimensions { '10 x 10' }
     year { (Time.zone.now - Random.rand(5).years).year }
     artist do
-      FactoryGirl.create(:artist, :active)
+      FactoryBot.create(:artist, :active)
     end
     after(:build) do |art_piece|
-      art_piece.medium = FactoryGirl.create(:medium)
+      art_piece.medium = FactoryBot.create(:medium)
     end
 
     trait :with_tag do
       after(:create) do |art_piece|
-        art_piece.update_attributes tags: [FactoryGirl.create(:art_piece_tag)]
+        art_piece.update_attributes tags: [FactoryBot.create(:art_piece_tag)]
       end
     end
 
     trait :with_tags do
       after(:create) do |art_piece|
-        art_piece.update_attributes tags: FactoryGirl.create_list(:art_piece_tag, 2)
+        art_piece.update_attributes tags: FactoryBot.create_list(:art_piece_tag, 2)
       end
     end
   end

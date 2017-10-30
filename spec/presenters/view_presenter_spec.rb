@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe ViewPresenter do
-  let(:simple_artist) { FactoryGirl.build(:artist) }
+  let(:simple_artist) { FactoryBot.build(:artist) }
   subject(:presenter) { ViewPresenter.new }
 
   describe 'csv_safe' do

@@ -2,13 +2,13 @@
 require 'rails_helper'
 
 describe CatalogPresenter do
-  let!(:open_studios_event) { FactoryGirl.create :open_studios_event }
-  let!(:artists) { FactoryGirl.create_list :artist, 4, :with_studio }
+  let!(:open_studios_event) { FactoryBot.create :open_studios_event }
+  let!(:artists) { FactoryBot.create_list :artist, 4, :with_studio }
   let(:reception_doc) do
-    FactoryGirl.create(:cms_document,
-                       page: 'main_openstudios',
-                       section: 'preview_reception',
-                       article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
+    FactoryBot.create(:cms_document,
+                      page: 'main_openstudios',
+                      section: 'preview_reception',
+                      article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
   end
 
   before do

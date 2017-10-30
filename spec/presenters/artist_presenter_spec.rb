@@ -4,8 +4,8 @@ require 'rails_helper'
 describe ArtistPresenter do
   include PresenterSpecHelpers
 
-  let(:viewer) { FactoryGirl.build(:artist, :active) }
-  let(:artist) { FactoryGirl.create(:artist, :active, :with_art, :with_studio) }
+  let(:viewer) { FactoryBot.build(:artist, :active) }
+  let(:artist) { FactoryBot.create(:artist, :active, :with_art, :with_studio) }
   subject(:presenter) { ArtistPresenter.new(artist) }
 
   context 'when the subject is an artist' do
@@ -45,7 +45,7 @@ describe ArtistPresenter do
     end
 
     context 'without studio' do
-      let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
+      let(:artist) { FactoryBot.create(:artist, :active, :with_art) }
       it 'has a good map div for google maps' do
         map_info = subject.map_info
         html = Capybara::Node::Simple.new(map_info)
@@ -86,7 +86,7 @@ describe ArtistPresenter do
     end
 
     context 'without art' do
-      let(:artist) { FactoryGirl.create(:artist, :active) }
+      let(:artist) { FactoryBot.create(:artist, :active) }
 
       describe '#art_pieces' do
         subject { super().art_pieces }
@@ -101,7 +101,7 @@ describe ArtistPresenter do
   end
 
   context 'when the subject is a fan' do
-    let(:artist) { FactoryGirl.create(:mau_fan, :active) }
+    let(:artist) { FactoryBot.create(:mau_fan, :active) }
     describe 'artist?' do
       its(:artist?) { is_expected.to eq false }
     end

@@ -2,9 +2,9 @@
 require 'rails_helper'
 
 describe StudioArtist do
-  let(:studios) { FactoryGirl.create_list :studio, 2 }
+  let(:studios) { FactoryBot.create_list :studio, 2 }
   let(:studio) { studios.first }
-  let(:artist) { FactoryGirl.create(:artist, :active, :manager, studio: studio) }
+  let(:artist) { FactoryBot.create(:artist, :active, :manager, studio: studio) }
 
   subject(:studio_artist) { StudioArtist.new(studio, artist) }
 
@@ -40,7 +40,7 @@ describe StudioArtist do
     end
 
     context 'artist is not in the studio' do
-      let(:artist) { FactoryGirl.create(:artist, :active, studio: studios.first) }
+      let(:artist) { FactoryBot.create(:artist, :active, studio: studios.first) }
       subject(:studio_artist) { StudioArtist.new(studios.last, artist) }
 
       it 'returns false' do

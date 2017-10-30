@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 require 'rails_helper'
 describe Admin::ArtPieceTagsController do
-  let(:user) { FactoryGirl.create(:user, :active) }
-  let(:admin) { FactoryGirl.create(:user, :admin, :active) }
-  let!(:artist) { FactoryGirl.create(:artist, :with_tagged_art) }
-  let!(:tags) { FactoryGirl.create_list(:art_piece_tag, 2) }
+  let(:user) { FactoryBot.create(:user, :active) }
+  let(:admin) { FactoryBot.create(:user, :admin, :active) }
+  let!(:artist) { FactoryBot.create(:artist, :with_tagged_art) }
+  let!(:tags) { FactoryBot.create_list(:art_piece_tag, 2) }
 
   describe 'not logged in' do
     describe '#index' do

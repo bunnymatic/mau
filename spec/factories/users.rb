@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative '../support/test_users_helper'
 
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:login) { |n| sprintf("#{Faker::Internet.user_name}%04d", n) }
   factory :user do
     login
@@ -32,21 +32,21 @@ FactoryGirl.define do
 
     trait :manager do
       after(:create) do |u|
-        u.roles << (Role.find_by(role: :manager) || FactoryGirl.create(:role, role: :manager))
+        u.roles << (Role.find_by(role: :manager) || FactoryBot.create(:role, role: :manager))
         u.save!
       end
     end
 
     trait :editor do
       after(:create) do |u|
-        u.roles << (Role.find_by(role: :editor) || FactoryGirl.create(:role, role: :editor))
+        u.roles << (Role.find_by(role: :editor) || FactoryBot.create(:role, role: :editor))
         u.save!
       end
     end
 
     trait :admin do
       after(:create) do |u|
-        u.roles << (Role.find_by(role: :admin) || FactoryGirl.create(:role, role: :admin))
+        u.roles << (Role.find_by(role: :admin) || FactoryBot.create(:role, role: :admin))
         u.save!
       end
     end
@@ -61,7 +61,7 @@ FactoryGirl.define do
     type { 'Artist' }
 
     after(:create) do |artist, context|
-      FactoryGirl.create(:artist_info, artist: artist, max_pieces: context.max_pieces)
+      FactoryBot.create(:artist_info, artist: artist, max_pieces: context.max_pieces)
       if context.doing_open_studios
         artist.update_os_participation context.doing_open_studios, true
       end
@@ -99,14 +99,14 @@ FactoryGirl.define do
     trait :with_tagged_art do
       active
       after(:create) do |artist, ctx|
-        FactoryGirl.create_list(:art_piece, ctx.number_of_art_pieces, :with_tag, artist: artist)
+        FactoryBot.create_list(:art_piece, ctx.number_of_art_pieces, :with_tag, artist: artist)
       end
     end
     trait :with_art do
       active
       after(:create) do |artist, ctx|
         ctx.number_of_art_pieces.to_i.times.each do |idx|
-          FactoryGirl.create(:art_piece, artist: artist, created_at: idx.weeks.ago)
+          FactoryBot.create(:art_piece, artist: artist, created_at: idx.weeks.ago)
         end
         artist.reload
       end
@@ -115,7 +115,7 @@ FactoryGirl.define do
     trait :with_studio do
       active
       after(:create) do |artist|
-        studio = Studio.first || FactoryGirl.create(:studio)
+        studio = Studio.first || FactoryBot.create(:studio)
         artist.update_attributes studio: studio
       end
     end

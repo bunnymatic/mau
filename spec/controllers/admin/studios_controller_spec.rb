@@ -6,10 +6,10 @@ describe Admin::StudiosController do
   let(:studios) { create_list :studio, 3, :with_artists }
   let(:studio) { studios.first }
   let(:studio2) { studios.last }
-  let(:manager) { FactoryGirl.create(:artist, :manager, :active, studio: studio) }
+  let(:manager) { FactoryBot.create(:artist, :manager, :active, studio: studio) }
   let(:manager_studio) { manager.studio }
-  let(:editor) { FactoryGirl.create(:artist, :editor, :active, studio: studio) }
-  let(:admin) { FactoryGirl.create(:artist, :admin, :active, studio: studio) }
+  let(:editor) { FactoryBot.create(:artist, :editor, :active, studio: studio) }
+  let(:admin) { FactoryBot.create(:artist, :admin, :active, studio: studio) }
 
   context 'as an admin' do
     before do
@@ -25,7 +25,7 @@ describe Admin::StudiosController do
     end
 
     describe '#create' do
-      let(:studio_attrs) { FactoryGirl.attributes_for(:studio, photo: fixture_file_upload('/files/art.png', 'image/png')) }
+      let(:studio_attrs) { FactoryBot.attributes_for(:studio, photo: fixture_file_upload('/files/art.png', 'image/png')) }
       it 'setups up a new studio' do
         expect do
           put :create, params: { studio: studio_attrs }

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:subject) { |n| "Subject of Feedback #{n}" }
   factory :feedback do
     subject
@@ -13,7 +13,7 @@ FactoryGirl.define do
   end
 end
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :feedback_mail do
     note_type { 'help' }
     email { 'jon@wherever.com' }

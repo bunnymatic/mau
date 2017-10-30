@@ -2,14 +2,14 @@
 require 'rails_helper'
 
 describe Admin::ApplicationEventsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
   let(:generic_event) { events.detect { |e| e.is_a? GenericEvent } }
   let(:os_event) { events.detect { |e| e.is_a? OpenStudiosSignupEvent } }
   let!(:events) do
     Array.new(3) do |x|
       [
-        FactoryGirl.create(:open_studios_signup_event, created_at: x.weeks.ago, data: { user: 'artist' }),
-        FactoryGirl.create(:generic_event, created_at: x.weeks.ago, data: { user: 'artist' })
+        FactoryBot.create(:open_studios_signup_event, created_at: x.weeks.ago, data: { user: 'artist' }),
+        FactoryBot.create(:generic_event, created_at: x.weeks.ago, data: { user: 'artist' })
       ]
     end.flatten
   end

@@ -2,8 +2,8 @@
 require 'rails_helper'
 
 describe UserMailer do
-  let(:fan) { FactoryGirl.create(:fan) }
-  let(:pending) { FactoryGirl.create(:artist, :pending) }
+  let(:fan) { FactoryBot.create(:fan) }
+  let(:pending) { FactoryBot.create(:artist, :pending) }
 
   describe 'email for a new member' do
     before do

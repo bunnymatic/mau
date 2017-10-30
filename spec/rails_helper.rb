@@ -10,7 +10,7 @@ require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
-require 'factory_girl'
+require 'factory_bot'
 
 SHARED_REFERER = '/a_referrer_specified_in/spec_helper' unless defined? SHARED_REFERER
 

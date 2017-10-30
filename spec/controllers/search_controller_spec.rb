@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 describe SearchController, elasticsearch: true do
-  let!(:studios) { FactoryGirl.create_list :studio, 4 }
+  let!(:studios) { FactoryBot.create_list :studio, 4 }
   let!(:artists) do
-    FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.first) +
-      FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.last)
+    FactoryBot.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.first) +
+      FactoryBot.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.last)
   end
   let(:media_search) { artists.map { |a| a.art_pieces.map(&:medium) }.flatten.compact[0..1] }
   let(:studios_search) { studios[0..1] }

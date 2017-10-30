@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 require 'rails_helper'
 describe Admin::StatsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:artist) { FactoryGirl.create(:artist, :active) }
-  let(:artist2) { FactoryGirl.create(:artist, :active) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
+  let(:artist) { FactoryBot.create(:artist, :active) }
+  let(:artist2) { FactoryBot.create(:artist, :active) }
   before do
     login_as admin
   end
@@ -25,10 +25,10 @@ describe Admin::StatsController do
     let(:artists_per_day) { Admin::StatsController.new.send(:compute_artists_per_day) }
     before do
       Timecop.freeze
-      FactoryGirl.create(:artist, :active, :with_art)
+      FactoryBot.create(:artist, :active, :with_art)
       3.times.each do |n|
         Timecop.travel((1 + n).days.ago)
-        FactoryGirl.create(:artist, :active, :with_art)
+        FactoryBot.create(:artist, :active, :with_art)
       end
       artists_per_day
       art_pieces_per_day

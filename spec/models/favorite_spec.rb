@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 describe Favorite, 'named scopes' do
-  let(:fan) { FactoryGirl.create(:fan, :active) }
-  let!(:jesse) { FactoryGirl.create(:artist, :with_studio, :with_art) }
-  let(:anna) { FactoryGirl.create(:artist, :with_studio, :with_art) }
-  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
+  let!(:jesse) { FactoryBot.create(:artist, :with_studio, :with_art) }
+  let(:anna) { FactoryBot.create(:artist, :with_studio, :with_art) }
+  let(:artist) { FactoryBot.create(:artist, :with_studio, :with_art) }
 
   let(:favorite_art_pieces) { Favorite.art_pieces }
   let(:favorite_artists) { Favorite.artists }

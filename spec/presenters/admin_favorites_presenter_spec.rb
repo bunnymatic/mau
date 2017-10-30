@@ -2,14 +2,14 @@
 require 'rails_helper'
 
 describe AdminFavoritesPresenter do
-  let!(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
-  let(:prolific_artist) { FactoryGirl.create(:artist, :active, :with_art, number_of_art_pieces: 15) }
+  let!(:artist) { FactoryBot.create(:artist, :active, :with_art) }
+  let(:prolific_artist) { FactoryBot.create(:artist, :active, :with_art, number_of_art_pieces: 15) }
 
   let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
   let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
 
-  let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:artist2) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:fan) { FactoryBot.create(:fan, :active) }
+  let(:artist2) { FactoryBot.create(:artist, :active, :with_art) }
 
   let(:art_pieces) { [ArtPiece.first, ArtPiece.last] }
 

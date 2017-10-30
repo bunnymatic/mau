@@ -2,8 +2,8 @@
 require 'rails_helper'
 
 describe Admin::MemberEmailsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:pending_artist) { FactoryBot.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }
 
   include OpenStudiosEventShim
 

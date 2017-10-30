@@ -4,10 +4,10 @@ require 'rails_helper'
 describe ArtPiecePresenter do
   include PresenterSpecHelpers
 
-  let(:artist) { FactoryGirl.create(:artist, :with_art, :active) }
+  let(:artist) { FactoryBot.create(:artist, :with_art, :active) }
   let(:art_piece) { artist.art_pieces.first }
-  let(:tags) { FactoryGirl.create_list(:art_piece_tag, 2) }
-  let(:tag) { FactoryGirl.build(:art_piece_tag) }
+  let(:tags) { FactoryBot.create_list(:art_piece_tag, 2) }
+  let(:tag) { FactoryBot.build(:art_piece_tag) }
   subject(:presenter) { ArtPiecePresenter.new(art_piece) }
 
   its(:favorites_count) { is_expected.to be_nil }

@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe Email do
-  let(:email_list) { FactoryGirl.create(:feedback_email_list) }
+  let(:email_list) { FactoryBot.create(:feedback_email_list) }
 
   context 'validations' do
     describe 'email' do

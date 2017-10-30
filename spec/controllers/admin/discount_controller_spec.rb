@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe Admin::DiscountController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
 
   describe 'unauthorized' do
     before do

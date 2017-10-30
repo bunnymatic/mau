@@ -4,8 +4,8 @@ require 'rails_helper'
 describe MediaPresenter do
   include PresenterSpecHelpers
 
-  let(:media) { FactoryGirl.create_list(:medium, 4) }
-  let(:artists) { FactoryGirl.create_list(:artist, 5, :with_art) }
+  let(:media) { FactoryBot.create_list(:medium, 4) }
+  let(:artists) { FactoryBot.create_list(:artist, 5, :with_art) }
   let!(:art_pieces) do
     pieces = artists.map(&:art_pieces).flatten
     pieces.each { |ap| ap.update_attributes(medium: select_medium) }

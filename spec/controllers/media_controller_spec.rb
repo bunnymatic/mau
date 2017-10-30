@@ -2,10 +2,10 @@
 require 'rails_helper'
 
 describe MediaController do
-  let(:media) { FactoryGirl.create_list(:medium, 4) }
-  let(:artists) { FactoryGirl.create_list(:artist, 2, :active) }
+  let(:media) { FactoryBot.create_list(:medium, 4) }
+  let(:artists) { FactoryBot.create_list(:artist, 2, :active) }
   let(:art_pieces) do
-    Array.new(10) { FactoryGirl.create(:art_piece, medium_id: media.sample.id, artist: artists.sample) }
+    Array.new(10) { FactoryBot.create(:art_piece, medium_id: media.sample.id, artist: artists.sample) }
   end
 
   before do

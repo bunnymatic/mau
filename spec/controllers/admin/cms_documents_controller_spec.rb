@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'rails_helper'
 describe Admin::CmsDocumentsController do
-  let(:editor) { FactoryGirl.create(:artist, :editor) }
-  let(:cms_document) { FactoryGirl.create(:cms_document, article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption") }
+  let(:editor) { FactoryBot.create(:artist, :editor) }
+  let(:cms_document) { FactoryBot.create(:cms_document, article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption") }
 
   context 'not authorized' do
     [:index, :show, :edit, :update].each do |meth|
@@ -53,7 +53,7 @@ describe Admin::CmsDocumentsController do
       end
       it 'creates a new cms document' do
         expect do
-          post :create, params: { cms_document: FactoryGirl.attributes_for(:cms_document) }
+          post :create, params: { cms_document: FactoryBot.attributes_for(:cms_document) }
         end.to change(CmsDocument, :count).by(1)
       end
       it 'renders new on failure' do
@@ -63,7 +63,7 @@ describe Admin::CmsDocumentsController do
         end.to change(CmsDocument, :count).by(0)
       end
       it 'sets a notification' do
-        post :create, params: { cms_document: FactoryGirl.attributes_for(:cms_document) }
+        post :create, params: { cms_document: FactoryBot.attributes_for(:cms_document) }
         expect(flash[:notice]).to be_present
       end
     end

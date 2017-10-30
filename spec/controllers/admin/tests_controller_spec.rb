@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe Admin::TestsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
 
   context 'unauthorized' do
     %w(social_icons qr flash_test custom_map).each do |endpoint|

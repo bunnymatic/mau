@@ -5,8 +5,8 @@ describe Admin::MauFansController do
   let(:admin) { create :artist, :admin }
   describe '#index' do
     before do
-      FactoryGirl.create_list(:artist, 2, :active)
-      FactoryGirl.create_list(:mau_fan, 2, :active)
+      FactoryBot.create_list(:artist, 2, :active)
+      FactoryBot.create_list(:mau_fan, 2, :active)
       login_as admin
       get :index
     end

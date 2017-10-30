@@ -4,7 +4,7 @@ require 'rails_helper'
 describe MediumPagination, type: :controller do
   include PresenterSpecHelpers
 
-  let(:artist) { FactoryGirl.create :artist, :with_tagged_art }
+  let(:artist) { FactoryBot.create :artist, :with_tagged_art }
   let(:art_pieces) { artist.art_pieces }
   let!(:media) { artist.art_pieces.map(&:medium) }
   let(:num_items) { 8 }

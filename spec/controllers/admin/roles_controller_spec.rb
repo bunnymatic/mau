@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 require 'rails_helper'
 describe Admin::RolesController do
-  let(:editor) { FactoryGirl.create(:artist, :editor, :active) }
-  let(:manager) { FactoryGirl.create(:artist, :manager, :active) }
-  let(:admin) { FactoryGirl.create(:artist, :admin, :active) }
-  let(:artist) { FactoryGirl.create(:artist, :active) }
+  let(:editor) { FactoryBot.create(:artist, :editor, :active) }
+  let(:manager) { FactoryBot.create(:artist, :manager, :active) }
+  let(:admin) { FactoryBot.create(:artist, :admin, :active) }
+  let(:artist) { FactoryBot.create(:artist, :active) }
 
   let!(:users) { [editor, manager, admin] }
   let(:manager_role) { manager.roles.first }
