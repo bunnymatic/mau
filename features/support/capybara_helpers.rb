@@ -52,6 +52,25 @@ module CapybaraHelpers
       fill_in field, with: with
     end
   end
+
+  def scroll_to_position(x,y)
+    script = <<-JS
+      window.scrollTo(#{x},#{y});
+    JS
+
+    Capybara.current_session.driver.browser.execute_script(script)
+  end
+
+  def scroll_to_element(locator)
+    return unless running_js?
+    element = locator.is_a?(String) ? find(locator, visible: false) : locator
+
+    script = <<-JS
+      arguments[0].scrollIntoView(true);
+    JS
+
+    Capybara.current_session.driver.browser.execute_script(script, element.native)
+  end
 end
 
 World CapybaraHelpers

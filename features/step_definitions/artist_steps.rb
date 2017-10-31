@@ -150,7 +150,8 @@ When /^that artist is doing open studios$/ do
 end
 
 When /^I click on the current open studios edit section$/ do
-  click_on "Open Studios #{OpenStudiosEventService.current.for_display(true)}"
+  link_text = OpenStudiosEventPresenter.new(OpenStudiosEventService.current).link_text
+  click_on "Open Studios #{link_text}"
 end
 
 Then(/^I see that I've successfully signed up for Open Studios$/) do
