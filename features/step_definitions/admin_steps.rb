@@ -10,7 +10,7 @@ When /^I set all artists to do open studios$/ do
       check cb['id']
     end
   end
-  scroll_to_position(0,0) #('.admin-table__controls .update-artists')
+  scroll_to_position(0, 0) # ('.admin-table__controls .update-artists')
   click_on_first 'update os status'
 end
 
@@ -38,7 +38,7 @@ When(/^I uncheck the box for the first participating artist/) do
   cb = first('#good table input[checked=checked]')
   id = cb['id']
   uncheck cb['id']
-  scroll_to_position(0,0) #('.admin-table__controls .update-artists')
+  scroll_to_position(0, 0) # ('.admin-table__controls .update-artists')
   click_on_first 'update os status'
   @participating_artist = Artist.find(id.split('_').last)
 end
