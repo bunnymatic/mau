@@ -1,3 +1,4 @@
+t- date_range = @social_artists.os.date_range(separator: " & ") + ", #{@social_artists.os.year}"
 #catalog
   - @social_artists.artists.each do |artist|
     .catalog-entry
@@ -11,7 +12,7 @@
           '
           = artist.studio.try(:name)
           '
-          = "Apr 1 & 2, 2017"
+          = date_range
           '
           = artist.representative_piece_tags.map {|tag| "##{tag}" }.join(" ")
           '

@@ -41,6 +41,10 @@ class SocialCatalogPresenter < ArtistsPresenter
     @csv_filename ||= (['mau_social_artists', current_open_studios_key].compact.join('_') + '.csv')
   end
 
+  def os
+    @os ||= OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
+  end
+
   private
 
   def artists_by_studio
