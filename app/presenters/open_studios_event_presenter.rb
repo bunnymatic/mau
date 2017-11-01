@@ -2,7 +2,7 @@
 class OpenStudiosEventPresenter < ViewPresenter
   attr_reader :model
 
-  delegate :key, :logo, :logo?, :to_param, to: :model
+  delegate :year, :key, :logo, :logo?, :to_param, to: :model
 
   include OpenStudiosEventShim
 
@@ -18,19 +18,24 @@ class OpenStudiosEventPresenter < ViewPresenter
     date_range + ' ' + model.start_date.strftime('%Y')
   end
 
-  def date_range
-    same_month = model.start_date.month == model.end_date.month
-    same_day = model.start_date.day == model.end_date.day
-    return model.start_date.strftime('%b %d') if same_day
+  def date_range(separator: '-')
+    return model.start_date.strftime('%b %-d') if same_day
 
     if same_month
-      [
-        model.start_date.strftime('%b'),
-        model.start_date.strftime('%d') + '-' + model.end_date.strftime('%d')
-      ].join(' ')
+      model.start_date.strftime('%b') +
+        ' ' +
+        model.start_date.strftime('%-d') + separator + model.end_date.strftime('%-d')
     else
-      model.start_date.strftime('%b %d') + '-' + model.end_date.strftime('%b %d')
+      model.start_date.strftime('%b %-d') + separator + model.end_date.strftime('%b %-d')
     end
+  end
+
+  def same_month
+    @same_month ||= model.start_date.month == model.end_date.month
+  end
+
+  def same_day
+    @same_day ||= model.start_date.day == model.end_date.day
   end
 
   def for_display
@@ -47,6 +52,10 @@ class OpenStudiosEventPresenter < ViewPresenter
     else
       image_path('mau-nextos.png')
     end
+  end
+
+  def year
+    model.start_date.year
   end
 
   def available?
