@@ -21,7 +21,7 @@
           ul
             li = "Last update: #{artist.model.updated_at.try(:to_formatted_s,:admin_date_only)}"
             li = "Last seen: #{artist.model.last_login_at.try(:to_formatted_s,:admin_date_only)}"
-            li = "Last representative piecet update: #{artist.representative_piece.updated_at.try(:to_formatted_s,:admin_date_only)}"
+            li = "Last representative piece update: #{artist.representative_piece.updated_at.try(:to_formatted_s,:admin_date_only)}"
 css:
   .catalog-entry {
     border-top: 1px solid #ddc;
