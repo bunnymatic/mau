@@ -107,6 +107,7 @@ end
 
 When /^I (log|sign)\s?out$/ do |_dummy|
   visit logout_path
+  expect(page).to have_content /sign in/i
   expect(page).to have_flash :notice, /make some art/
 end
 

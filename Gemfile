@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 source 'https://rubygems.org'
 ruby '2.5.1'
 
@@ -68,21 +67,24 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-angular-sanitize', '=1.3.16'
   gem 'rails-assets-angular-ui-utils', '~> 0.2.3'
   gem 'rails-assets-c3'
+  gem 'rails-assets-datatables'
   gem 'rails-assets-lodash'
   gem 'rails-assets-moment'
   gem 'rails-assets-ng-device-detector'
   gem 'rails-assets-ngDialog'
   gem 'rails-assets-pure'
   gem 'rails-assets-re-tree' # required for device-detector
+  gem 'rails-assets-spinjs'
 end
 
 group :test do
   gem 'capybara'
   gem 'capybara-email'
+  gem 'capybara-screenshot'
+  gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'poltergeist'
-  gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'vcr'
   gem 'webmock'
@@ -95,7 +97,6 @@ group :development do
   gem 'capistrano3-unicorn'
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'spring-commands-teaspoon'
   gem 'unicorn-rails'
 
   gem 'rails_best_practices'
@@ -109,14 +110,16 @@ group :test, :development do
   gem 'factory_bot', require: false
   gem 'factory_bot_rails', require: false
   gem 'faker'
+  gem 'guard-rspec'
   gem 'jslint_on_rails'
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop', require: false
-  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
+  gem 'shoulda-matchers'
   gem 'simplecov'
+  gem 'spring-commands-teaspoon'
   gem 'teaspoon-jasmine'
   gem 'timecop'
 end
