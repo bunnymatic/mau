@@ -5,18 +5,25 @@
     table.js-data-tables#fans_index.pure-table.pure-table-striped
       thead
         tr
-          th name
-          th username
-          th email
-          th website
-          th favorites
+          th Username
+          th Name
+          th Since
+          th Last seen
+          th Email
+          th Website
+          th Favorites
       tbody
         - @fans.each do |fan|
           tr
             td
+              = link_to fan.login, user_path(fan)
+            td
               = link_to fan.get_name, user_path(fan)
-            td #{fan.login}
-            td #{fan.email}
-            td #{fan.url}
+            td.date-field data-order=fan.member_since_date.to_i
+              = fan.member_since_date.to_formatted_s(:admin_date_only)
+            td.date-field
+              = fan.last_login
+            td = fan.email
+            td = fan.website
             td.favorites
-              = fan.favorites.count
+              = fan.model.favorites.count.to_i
