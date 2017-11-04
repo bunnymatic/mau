@@ -13,6 +13,7 @@ describe Admin::MauFansController do
     it { expect(response).to be_success }
     it 'assigns fans' do
       expect(assigns(:fans)).to have(2).fans
+      expect(assigns(:fans).first).to be_a_kind_of UserPresenter
     end
   end
 end
