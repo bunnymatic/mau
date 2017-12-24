@@ -11,7 +11,11 @@ describe ArtPieceSerializer do
       @ap = JSON.parse(serializer.to_json)['art_piece']
     end
     it 'includes the fields we care about' do
+<<<<<<< HEAD
       %w[ id title artist_id
+=======
+      %w( id title artist_id
+>>>>>>> Remove unused filename from art piece
           year tags medium
           image_urls artist_name ].each do |expected|
         expect(@ap).to have_key expected
