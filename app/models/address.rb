@@ -27,7 +27,7 @@ class Address
   end
 
   def to_s(full = nil)
-    return '' if blank?
+    return '' if empty?
     full ? [street, city, state, zip].join(', ') : [street, zip].join(' ')
   end
 

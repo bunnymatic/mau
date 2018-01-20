@@ -73,7 +73,7 @@ class User < ApplicationRecord
     a.lastname.downcase <=> b.lastname.downcase
   end
 
-  has_many :favorites, dependent: :destroy, class_name: 'Favorite' do
+  has_many :favorites, dependent: :destroy, inverse_of: :favorite, class_name: 'Favorite' do
     def to_obj
       proxy_association.owner.favorites.map(&:to_obj).reject(&:nil?)
     end

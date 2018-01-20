@@ -58,7 +58,7 @@ class AdminNavigation < ViewPresenter
             elsif current_user.manager?
               [[nil, manager_links]]
             end
-    links.each do |_sxn, entries|
+    links.each_value do |entries|
       entries.each do |key, entry|
         entry[:display] = (entry[:display] || key.to_s).tr('_', ' ')
         entry[:link] = entry[:link] || "/admin/#{key}"

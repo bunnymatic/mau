@@ -21,7 +21,7 @@ class SearchController < ApplicationController
 
   def json_results
     [].tap do |results|
-      search_results.each do |_model, hits|
+      search_results.each_value do |hits|
         hits.each do |hit|
           results << hit.to_h.slice(:_type, :_score, :_id, :_source)
         end

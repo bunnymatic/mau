@@ -7,7 +7,7 @@ class SearchQuery
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  attr_accessor :mediums, :studios, :keywords, :studios, :os_flag, :page, :mode, :per_page, :limit
+  attr_accessor :mediums, :studios, :keywords, :os_flag, :page, :mode, :per_page, :limit
 
   def initialize(attributes = {})
     self.studios = studios_from_attrs(attributes[:studios]) || []

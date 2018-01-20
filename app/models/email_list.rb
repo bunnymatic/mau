@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EmailList < ApplicationRecord
-  has_many :email_list_memberships
+  has_many :email_list_memberships, dependent: :destroy
   has_many :emails, through: :email_list_memberships
 
   def formatted_emails
