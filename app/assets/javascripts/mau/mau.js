@@ -57,7 +57,8 @@ var MAU = window.MAU = window.MAU || {};
 jQuery(function() {
   var flashNotice = ".notice, .flash, .flash__notice, .flash__error";
   $('body').on('click', flashNotice, function(ev) {
-    $(this).fadeOut();
+    var $_that = $(this);
+    $_that.fadeOut( { complete: function() { $_that.remove(); } } );
   });
   jQuery(flashNotice).not(".flash__error").each( function() {
     var _that = this;
