@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class ArtPieceTagService
   class TagWithFrequency
-    FIELDS = [:tag, :frequency].freeze
+    FIELDS = %i[tag frequency].freeze
     attr_accessor(*FIELDS)
     def initialize(tag, count)
       @tag = tag

@@ -1,4 +1,6 @@
 #!/usr/local/rvm/rubies/ruby-1.8.7-p334/bin/ruby
+# frozen_string_literal: true
+
 #
 # You may specify the path to the FastCGI crash log (a log of unhandled
 # exceptions which forced the FastCGI instance to exit, great for debugging)
@@ -20,8 +22,7 @@
 #
 #
 
-
-require File.dirname(__FILE__) + "/../config/environment"
+require File.dirname(__FILE__) + '/../config/environment'
 require 'fcgi_handler'
 
 RailsFCGIHandler.process! '/usr/local/apache/logs/railsfcgi_crash.log'

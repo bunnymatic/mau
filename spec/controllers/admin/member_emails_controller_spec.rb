@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Admin::MemberEmailsController do
@@ -33,11 +34,11 @@ describe Admin::MemberEmailsController do
           get :show, params: { '201004' => 'on', '201010' => 'on' }
         end
         it 'sets up the correct list name' do
-          expect(assigns(:email_list).list_names).to eql(%w(201004 201010))
+          expect(assigns(:email_list).list_names).to eql(%w[201004 201010])
         end
       end
 
-      [:all, :active, :pending, :no_images, :no_profile].each do |list_name|
+      %i[all active pending no_images no_profile].each do |list_name|
         describe "list name = #{list_name}" do
           before do
             get :show, params: { listname: list_name }
@@ -59,7 +60,7 @@ describe Admin::MemberEmailsController do
       it { expect(response).to be_success }
       it { expect(response).to be_csv_type }
       it 'includes the right headers' do
-        past_os_event_keys = %w(201004 201010 201104 201110 201204 201210 201304 201310 201404)
+        past_os_event_keys = %w[201004 201010 201104 201110 201204 201210 201304 201310 201404]
         expected_headers = ['First Name', 'Last Name', 'Full Name', 'Email Address', 'Group Site Name']
         expected_headers += past_os_event_keys
         expect(parsed.headers).to eq(expected_headers)

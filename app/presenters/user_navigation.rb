@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class UserNavigation < Navigation
   attr_reader :current_user
 

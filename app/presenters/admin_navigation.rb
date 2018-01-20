@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AdminNavigation < ViewPresenter
   attr_reader :current_user
 

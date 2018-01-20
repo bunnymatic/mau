@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class InvalidFavoriteTypeError < StandardError; end
 
 class FavoritesService
@@ -8,18 +9,14 @@ class FavoritesService
 
   def self.add(user, obj)
     type, id = unpack_object(obj)
-    unless Favorite::FAVORITABLE_TYPES.include? type
-      raise InvalidFavoriteTypeError, "You can't favorite that type of object"
-    end
+    raise InvalidFavoriteTypeError, "You can't favorite that type of object" unless Favorite::FAVORITABLE_TYPES.include? type
     obj = type.constantize.find(id)
     obj ? add_favorite(user, obj) : nil
   end
 
   def self.remove(user, obj)
     type, id = unpack_object(obj)
-    unless Favorite::FAVORITABLE_TYPES.include? type
-      raise InvalidFavoriteTypeError, "You can't unfavorite that type of object"
-    end
+    raise InvalidFavoriteTypeError, "You can't unfavorite that type of object" unless Favorite::FAVORITABLE_TYPES.include? type
     obj = type.constantize.find(id)
     (obj ? remove_favorite(user, obj) : nil)
   end

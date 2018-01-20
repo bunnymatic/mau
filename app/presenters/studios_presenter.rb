@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class StudiosPresenter
   include Enumerable
   attr_reader :view_mode

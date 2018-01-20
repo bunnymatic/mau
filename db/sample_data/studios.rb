@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 def ensure_studio(name, *factory_args)
   return if Studio.find_by(name: name)
 

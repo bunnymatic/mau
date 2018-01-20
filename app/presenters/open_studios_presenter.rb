@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class OpenStudiosPresenter
   PAGE = 'main_openstudios'
 
@@ -51,6 +52,6 @@ class OpenStudiosPresenter
   private
 
   def editable_content_data(packaged_data)
-    Hash[packaged_data.select { |k, _v| k != :content }.map { |item| ["data-#{item[0]}", item[1]] }]
+    Hash[packaged_data.reject { |k, _v| k == :content }.map { |item| ["data-#{item[0]}", item[1]] }]
   end
 end

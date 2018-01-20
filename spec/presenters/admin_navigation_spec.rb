@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe AdminNavigation do
@@ -8,7 +9,7 @@ describe AdminNavigation do
   let(:studio) { FactoryBot.create(:studio) }
   subject(:nav) { AdminNavigation.new(user) }
 
-  it { expect(subject.links.map(&:first)).to eq [:models, :pr, :admin, :internal] }
+  it { expect(subject.links.map(&:first)).to eq %i[models pr admin internal] }
 
   describe 'as a manager' do
     let(:user) { FactoryBot.create(:user, :manager, :active, studio: studio) }
@@ -17,6 +18,6 @@ describe AdminNavigation do
 
   describe 'as an editor' do
     let(:user) { FactoryBot.create(:user, :editor, :active) }
-    it { expect(subject.links.last.last.map(&:first)).to eq [:events, :cms_documents] }
+    it { expect(subject.links.last.last.map(&:first)).to eq %i[events cms_documents] }
   end
 end

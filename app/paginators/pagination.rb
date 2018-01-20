@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PaginationError < StandardError; end
 
 class Pagination < ViewPresenter
@@ -85,16 +86,12 @@ class Pagination < ViewPresenter
   end
 
   def link_to_page(page)
-    unless respond_to? :page_link
-      raise PaginationError, 'link_to_page requires page_link to be defined!'
-    end
+    raise PaginationError, 'link_to_page requires page_link to be defined!' unless respond_to? :page_link
     link_to page + 1, page_link(page), title: page + 1
   end
 
   def link_to_previous
-    unless respond_to? :previous_link
-      raise PaginationError, 'link_to_previous requires previous_link to be defined!'
-    end
+    raise PaginationError, 'link_to_previous requires previous_link to be defined!' unless respond_to? :previous_link
     link_to previous_label, previous_link, title: previous_title
   end
 

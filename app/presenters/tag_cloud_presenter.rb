@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TagCloudPresenter < ViewPresenter
   include Enumerable
   include TagsHelper

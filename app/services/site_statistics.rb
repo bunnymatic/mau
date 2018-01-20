@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class SiteStatistics
   attr_accessor :last_30_days, :last_week, :yesterday, :totals
 
@@ -20,7 +21,7 @@ class SiteStatistics
   def social_links
     StatsCalculator::Histogram.new.tap do |social|
       Artist.active.pluck(:links).map(&:compact).each do |links|
-        links.keys.each do |site, _|
+        s links.each_key do |site|
           social.add(site)
         end
       end
@@ -34,7 +35,7 @@ class SiteStatistics
   end
 
   def compute
-    queries.keys.each do |k|
+    queries.each_key do |k|
       compute_for_section(k)
     end
     compute_totals
@@ -84,7 +85,7 @@ class SiteStatistics
 
   def compute_totals
     @totals ||= {}.tap do |tally|
-      %w(art_pieces_stats artists_stats other_users_stats login_stats favorites_stats studios_stats).each do |m|
+      %w[art_pieces_stats artists_stats other_users_stats login_stats favorites_stats studios_stats].each do |m|
         tally.merge!(send(m))
       end
     end

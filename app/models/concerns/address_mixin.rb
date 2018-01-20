@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module AddressMixin
   # for models with street, city, zip, lat, lng and either state or addr_state
 
@@ -15,7 +16,7 @@ module AddressMixin
   end
 
   def map_link
-    sprintf('http://maps.google.com/maps?q=%s', URI.escape(full_address)) if full_address
+    sprintf('http://maps.google.com/maps?q=%s', CGI.escape(full_address)) if full_address
   end
 
   protected
@@ -41,6 +42,6 @@ module AddressMixin
   end
 
   def should_recompute?
-    (changes.keys & %w(street city addr_state zip)).present?
+    (changes.keys & %w[street city addr_state zip]).present?
   end
 end

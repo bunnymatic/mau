@@ -9,11 +9,17 @@ AllCops:
     - spec/**
     - features/**
   Exclude:
+    - Capfile
+    - Gemfile
+    - Guardfile
+    - Rakefile
     - '**/*.sh'
     - '**/*.bash'
     - '**/*.yml'
     - '**/*.txt'
     - '**/*.md'
+    - 'bin/setup'
+    - 'bin/update'
     - 'bin/spring'
     - db/schema.rb
     - db/migrate/**/*
@@ -21,6 +27,8 @@ AllCops:
     - tmp/**/*
     - vendor/**/*
     - log/**/*
+    - lib/tasks/mau.rake
+    - lib/tasks/debug.rake
     - app/lib/app_config.rb
     - config/initializers/setup_email_lists.rb
     - features/step_definitions/factory_steps.rb
@@ -55,6 +63,14 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Max: 9
 
+Naming/AccessorMethodName:
+  Exclude:
+    - app/models/concerns/address_mixin.rb
+
+Naming/ConstantName:
+  Exclude:
+    - 'config/application.rb'
+
 Rails/FilePath:
   Exclude:
     - config/environments/test.rb
@@ -79,18 +95,13 @@ Rails/DynamicFindBy:
   Exclude:
     - 'app/models/user_session.rb'
 
-Style/AccessorMethodName:
-  Exclude:
-    - app/models/concerns/address_mixin.rb
-
-Style/ConstantName:
-  Exclude:
-    - 'config/application.rb'
-
 Style/Documentation:
   Enabled: false
 
 Style/DoubleNegation:
+  Enabled: false
+
+Style/FormatStringToken:
   Enabled: false
 
 Style/FormatString:

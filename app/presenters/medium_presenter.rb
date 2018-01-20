@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class MediumPresenter < DelegatingPresenter
   def initialize(medium)
     super(medium)

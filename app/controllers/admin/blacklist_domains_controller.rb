@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 module Admin
   class BlacklistDomainsController < ::BaseAdminController
     before_action :admin_required
-    before_action :load_blacklist_domain, only: [:edit, :destroy, :update, :show]
+    before_action :load_blacklist_domain, only: %i[edit destroy update]
 
     def index
       @domains = BlacklistDomain.all

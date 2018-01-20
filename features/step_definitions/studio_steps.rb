@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Then(/^I see the admin studios list$/) do
   s = Studio.last
   expect(page).to have_content s.name

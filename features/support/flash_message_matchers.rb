@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec::Matchers.define :have_flash do |kind, msg|
   def flash_class(kind)
     ".flash.flash__#{kind}"

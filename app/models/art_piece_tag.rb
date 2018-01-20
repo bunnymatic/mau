@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ArtPieceTag < ApplicationRecord
   has_many :art_pieces_tags
   has_many :art_pieces, through: :art_pieces_tags

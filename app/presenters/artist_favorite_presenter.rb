@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ArtistFavoritePresenter
   attr_reader :artist, :favorite
 

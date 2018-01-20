@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 module Admin
   class RolesController < ::BaseAdminController
     before_action :admin_required
-    before_action :load_role, only: [:show, :edit, :update, :destroy]
+    before_action :load_role, only: %i[show edit update destroy]
 
     def index
       @roles = Role.all

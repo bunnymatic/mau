@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe AdminEmailList do
@@ -24,7 +25,7 @@ describe AdminEmailList do
   its(:csv_filename) { is_expected.to eql 'email_active.csv' }
 
   it 'includes the normal lists' do
-    %w(all active pending fans no_profile no_images).each do |k|
+    %w[all active pending fans no_profile no_images].each do |k|
       expect(Hash[email_list.lists].keys).to include k
     end
   end
@@ -76,7 +77,7 @@ describe AdminEmailList do
     let(:listname) { ostag }
 
     it 'assigns a list of os artists' do
-      expect(emails.length).to eql Artist.active.all.count { |a| a.os_participation[ostag] }
+      expect(emails.length).to eql(Artist.active.all.count { |a| a.os_participation[ostag] })
     end
 
     it 'shows the title and list size and correct emails' do

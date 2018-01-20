@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module MauImage
   class Paperclip
     STANDARD_STYLES = {

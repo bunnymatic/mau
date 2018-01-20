@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class StatsCalculator
   class Histogram < Hash
     class ValueError < StandardError; end
@@ -9,7 +10,7 @@ class StatsCalculator
     end
 
     def add(val)
-      raise ValueError, "#{val.inspect} is not a valid histogram element" unless val.present?
+      raise ValueError, "#{val.inspect} is not a valid histogram element" if val.blank?
       self[val] = (self[val] || 0) + 1
     end
 

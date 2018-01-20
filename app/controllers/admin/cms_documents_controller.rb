@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 module Admin
   class CmsDocumentsController < ::BaseAdminController
     before_action :editor_required
-    before_action :load_document, only: [:edit, :destroy, :update, :show]
+    before_action :load_document, only: %i[edit destroy update show]
 
     def index
       @cms_documents = CmsDocument.all

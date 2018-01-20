@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # shim to handle migration between oskey/oslive from conf and OpenStudiosEvent.current
 module OpenStudiosEventShim
   extend ActiveSupport::Concern
@@ -12,7 +13,7 @@ module OpenStudiosEventShim
   end
 
   module ClassMethods
-    PAST_OS_EVENT_KEYS = %w(201004 201010 201104 201110 201204 201210 201304 201310 201404).freeze
+    PAST_OS_EVENT_KEYS = %w[201004 201010 201104 201110 201204 201210 201304 201310 201404].freeze
 
     def available_open_studios_keys
       (PAST_OS_EVENT_KEYS + OpenStudiosEvent.pluck(:key)).compact.map(&:to_s).uniq.sort.select(&:present?)
@@ -31,7 +32,7 @@ module OpenStudiosEventShim
     # delegate to OpenStudiosEvent.current if there is one
     def _open_studios_shim_delegate(method, fallback)
       v = _open_studios_shim_event.send(method) if _open_studios_shim_from_db?
-      v.present? ? v : fallback
+      v.presence || fallback
     end
 
     def _open_studios_shim_from_db?

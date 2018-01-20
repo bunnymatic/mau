@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 class MarkdownService
-  DEFAULT_MARKDOWN_OPTS = [:smart, :filter_styles, :safelink, :no_pseudo_protocols].freeze
+  DEFAULT_MARKDOWN_OPTS = %i[smart filter_styles safelink no_pseudo_protocols].freeze
 
   def self.markdown(discount, markdown_opts = nil)
     markdown_opts ||= DEFAULT_MARKDOWN_OPTS

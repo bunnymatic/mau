@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'csv'
 
 class SocialCatalogPresenter < ArtistsPresenter
@@ -55,7 +56,7 @@ class SocialCatalogPresenter < ArtistsPresenter
         artists[a.studio] = [] unless artists[a.studio]
         artists[a.studio] << a
       end
-      artists.values.each do |artist_list|
+      artists.each_value do |artist_list|
         artist_list.sort!(&Artist::SORT_BY_LASTNAME)
       end
       artists

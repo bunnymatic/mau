@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Admin
   class MemberEmailsController < ::BaseAdminController
     def show
@@ -16,7 +17,7 @@ module Admin
 
     def build_list_names_from_params
       list_names = [params[:listname], (params.keys & available_open_studios_keys)].flatten.compact.uniq
-      list_names.blank? ? ['active'] : list_names
+      list_names.presence || ['active']
     end
   end
 end

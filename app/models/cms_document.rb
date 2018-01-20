@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CmsDocument < ApplicationRecord
   before_save :clean_newlines
 

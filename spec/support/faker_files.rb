@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 module Faker
   class Files
-    FILE_EXTENSIONS = %w(.jpg .csv .txt .whatever).freeze
+    FILE_EXTENSIONS = %w[.jpg .csv .txt .whatever].freeze
     class << self
       def file
         Faker::Lorem.word + FILE_EXTENSIONS.sample
@@ -12,7 +13,7 @@ module Faker
       end
 
       def dir(depth = nil)
-        depth ||= 1 + rand(2)
+        depth ||= rand(1..2)
         Array.new(depth) { Faker::Lorem.word }.join('/')
       end
     end

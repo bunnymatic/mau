@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ApplicationEvent < ApplicationRecord
   # do not use this class directly, but use one of its derivations
   validates :type, presence: true

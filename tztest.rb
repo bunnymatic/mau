@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 puts "Server Timezone: #{Rails.configuration.time_zone}"
 # try with ruby 1.8.7/1.9.2
 # try with different rails apps timezones

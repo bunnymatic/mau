@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 When(/^I click to add this as a favorite$/) do
   find('favorite-this').find('a').click
 end

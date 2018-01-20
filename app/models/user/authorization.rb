@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Roles and User Authorization mixin
 class User
   module Authorization

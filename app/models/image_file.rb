@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'pathname'
 
 class ImageFile
@@ -14,7 +15,7 @@ class ImageFile
 
   def image_paths(image_info)
     file_match = Regexp.new(destfile + '$')
-    Hash[[:large, :medium, :small, :thumb].map do |sz|
+    Hash[%i[large medium small thumb].map do |sz|
            [sz, image_info.path.gsub(file_match, MauImage::ImageSize.find(sz).prefix + destfile)]
          end]
   end

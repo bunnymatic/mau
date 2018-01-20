@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe MauImage::ImageSize do
@@ -56,13 +57,13 @@ describe MauImage::ImageSize do
       expect(MauImage::ImageSize.send(:keymap, 'orig')).to eql :original
     end
     it 'returns thumb for thumbnail & thumb' do
-      %w(thumb thumbnail).each do |sz|
+      %w[thumb thumbnail].each do |sz|
         expect(MauImage::ImageSize.send(:keymap, sz)).to eql :thumb
         expect(MauImage::ImageSize.send(:keymap, sz.to_sym)).to eql :thumb
       end
     end
     it 'returns small for s or sm' do
-      %w(s sm).each do |sz|
+      %w[s sm].each do |sz|
         expect(MauImage::ImageSize.send(:keymap, sz)).to eql :small
         expect(MauImage::ImageSize.send(:keymap, sz.to_sym)).to eql :small
       end
@@ -72,7 +73,7 @@ describe MauImage::ImageSize do
       expect(MauImage::ImageSize.send(:keymap, :l)).to eql :large
     end
     it 'returns medium for m, med, standard, std or medium' do
-      %w(m med standard std medium).each do |sz|
+      %w[m med standard std medium].each do |sz|
         expect(MauImage::ImageSize.send(:keymap, sz)).to eql :medium
       end
     end

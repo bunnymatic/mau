@@ -1,16 +1,16 @@
-# -*- coding: utf-8 -*-
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Scammer do
   before do
-    test_data = <<EOM
-"id"|"email"|"name_used"
-"7445"|"gatecharles73@gmail.com"|"Charles Gate"
-"7441"|"i.artguide@yahoo.com"|"International Art Guide"
-"7439"|"yulet@elanexpo.net"|"Yulet T<FC>ren"
-"7437"|"laurynsley@gmail.com"|"Lauryn Masley"
-EOM
+    test_data = <<~TABLE
+      "id"|"email"|"name_used"
+      "7445"|"gatecharles73@gmail.com"|"Charles Gate"
+      "7441"|"i.artguide@yahoo.com"|"International Art Guide"
+      "7439"|"yulet@elanexpo.net"|"Yulet T<FC>ren"
+      "7437"|"laurynsley@gmail.com"|"Lauryn Masley"
+    TABLE
 
     stub_request(:get, Regexp.new("https:\/\/api.faso.com\/1\/scammers*"))
       .to_return(status: 200, body: test_data)

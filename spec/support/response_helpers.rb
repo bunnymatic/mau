@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ResponseMatchers
   RSpec::Matchers.define :be_4xx do
     match do |actual|

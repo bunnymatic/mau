@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'csv'
 require 'xmlrpc/client'
 
@@ -9,9 +10,9 @@ class ArtistsController < ApplicationController
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_action :user_required, only: [:register_for_current_open_studios, :my_profile,
-                                       :edit, :update, :manage_art, :delete_art,
-                                       :destroyart, :setarrangement, :arrange_art]
+  before_action :user_required, only: %i[register_for_current_open_studios my_profile
+                                         edit update manage_art delete_art
+                                         destroyart setarrangement arrange_art]
 
   def index
     respond_to do |format|
@@ -93,7 +94,7 @@ class ArtistsController < ApplicationController
   def destroyart
     # receives post from delete art form
     redirect_to(artist_path(current_user)) && return unless destroy_art_params
-    ids = destroy_art_params.select { |_kk, vv| vv != '0' }.keys
+    ids = destroy_art_params.reject { |_kk, vv| vv == '0' }.keys
     ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
     Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", 'deleted art pieces'
     redirect_to(artist_path(current_user))
@@ -212,9 +213,7 @@ class ArtistsController < ApplicationController
   def build_page_description(artist)
     if artist
       trim_bio = (artist.bio || '').truncate(500)
-      if trim_bio.present?
-        return "Mission Artists Artist : #{artist.get_name(true)} : " + trim_bio
-      end
+      return "Mission Artists Artist : #{artist.get_name(true)} : " + trim_bio if trim_bio.present?
     end
     @page_description
   end
@@ -222,7 +221,7 @@ class ArtistsController < ApplicationController
   private
 
   def artist_info_permitted_attributes
-    %i(bio street city addr_state zip studionumber)
+    %i[bio street city addr_state zip studionumber]
   end
 
   def destroy_art_params
@@ -239,9 +238,9 @@ class ArtistsController < ApplicationController
       params[:artist].delete('studio')
     end
 
-    permitted = [:studio, :login, :email,
-                 :password, :password_confirmation, :photo, :os_participation,
-                 :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume] + User.stored_attributes[:links]
+    permitted = %i[studio login email
+                   password password_confirmation photo os_participation
+                   firstname lastname url studio_id studio nomdeplume] + User.stored_attributes[:links]
     params.require(:artist).permit(*permitted, artist_info_attributes: artist_info_permitted_attributes)
   end
 
@@ -256,9 +255,7 @@ class ArtistsController < ApplicationController
         name = a.get_name(true)
         { 'value' => a.get_name(true), 'info' => a.id } if name.present?
       end.compact
-      if artist_names.present?
-        SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, expires_in: AUTOSUGGEST_CACHE_EXPIRY)
-      end
+      SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, expires_in: AUTOSUGGEST_CACHE_EXPIRY) if artist_names.present?
     end
     artist_names
   end

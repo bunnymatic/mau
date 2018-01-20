@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Mau
   class Regex
     LOGIN = /\A\w[\w\.\-_@]+\z/ # ASCII, strict

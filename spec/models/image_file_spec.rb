@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ImageFile do
-  %w(original orig).each do |size|
+  %w[original orig].each do |size|
     it "get_path for #{size} returns a file name with no prefix" do
       fname = ImageFile.get_path('dir', size, 'myfile.jpg')
       expect(fname).to match(%r{dir\/myfile\.jpg$})
@@ -14,13 +15,13 @@ describe ImageFile do
       expect(fname).to match(%r{dir/l_myfile\.jpg$})
     end
   end
-  %w(medium standard).each do |size|
+  %w[medium standard].each do |size|
     it "get_path for #{size} returns a file name with m_ as a prefix" do
       fname = ImageFile.get_path('dir', size, 'myfile.jpg')
       expect(fname).to match(%r{dir/m_myfile\.jpg$})
     end
   end
-  %w(thumb thumbnail).each do |size|
+  %w[thumb thumbnail].each do |size|
     it "get_path for #{size} returns a file name with m_ as a prefix" do
       fname = ImageFile.get_path('dir', size, 'myfile.jpg')
       expect(fname).to match(%r{dir/t_myfile\.jpg$})

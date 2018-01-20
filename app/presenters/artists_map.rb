@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ArtistsMap < ArtistsPresenter
   def with_addresses
     @addresses ||= grouped_by_address.values.flatten.compact
@@ -26,7 +27,7 @@ class ArtistsMap < ArtistsPresenter
   end
 
   def bounds
-    MissionBoundaries::BOUNDS.values.map { |bound| Hash[[:lat, :lng].zip(bound)] }.to_json
+    MissionBoundaries::BOUNDS.values.map { |bound| Hash[%i[lat lng].zip(bound)] }.to_json
   end
 
   def map_data

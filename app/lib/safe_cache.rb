@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class SafeCache
   def self.read(k)
     Rails.cache.read(k)

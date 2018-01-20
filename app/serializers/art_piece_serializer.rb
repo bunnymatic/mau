@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ArtPieceSerializer < MauSerializer
   attributes :id, :artist, :medium, :tags, :artist_name, :favorites_count,
              :year, :dimensions, :title, :artist_id, :image_urls
@@ -33,7 +34,7 @@ class ArtPieceSerializer < MauSerializer
   def tags
     @tags ||=
       begin
-        return unless object.tags.present?
+        return if object.tags.blank?
         tag_attrs = object.tags.map(&:attributes)
         tag_attrs.each { |t| t['name'] = HtmlEncoder.encode t['name'] }
         tag_attrs

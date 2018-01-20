@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'digest/sha1'
 require 'json'
 
@@ -15,7 +16,7 @@ class User < ApplicationRecord
   validates       :firstname, length: { maximum: 100, allow_nil: true }
   validates       :lastname, length: { maximum: 100, allow_nil: true }
 
-  store :links, accessors: %i(website facebook twitter blog pinterest myspace flickr instagram artspan)
+  store :links, accessors: %i[website facebook twitter blog pinterest myspace flickr instagram artspan]
 
   extend FriendlyId
   friendly_id :login, use: [:slugged]
@@ -64,7 +65,7 @@ class User < ApplicationRecord
     Favorite.artists.where(favoritable_id: id).delete_all
   end
 
-  [:studionumber, :studionumber=].each do |delegat|
+  %i[studionumber studionumber=].each do |delegat|
     delegate delegat, to: :artist_info, allow_nil: true
   end
 
@@ -101,9 +102,7 @@ class User < ApplicationRecord
 
   def full_name
     full_name = nomdeplume if nomdeplume.present?
-    if !full_name && firstname.present? && lastname.present?
-      full_name = [firstname, lastname].join(' ')
-    end
+    full_name = [firstname, lastname].join(' ') if !full_name && firstname.present? && lastname.present?
     full_name || login
   end
 
@@ -192,7 +191,7 @@ class User < ApplicationRecord
   protected
 
   def cleanup_fields
-    [:firstname, :lastname, :nomdeplume, :email].each do |fld|
+    %i[firstname lastname nomdeplume email].each do |fld|
       v = send(fld)
       send("#{fld}=", v.strip) if v.present? && v.respond_to?('strip')
     end
@@ -212,15 +211,13 @@ class User < ApplicationRecord
   def notify_user_about_state_change
     mailer_class = artist? ? ArtistMailer : UserMailer
     reload
-    if recently_activated? && mailchimp_subscribed_at.nil?
-      mailer_class.activation(self).deliver_later
-    end
+    mailer_class.activation(self).deliver_later if recently_activated? && mailchimp_subscribed_at.nil?
     mailer_class.reset_notification(self).deliver_later if recently_reset?
     mailer_class.resend_activation(self).deliver_later if resent_activation?
   end
 
   def _add_http_to_link(link)
-    return unless link.present?
+    return if link.blank?
     %r{^https?:\/\/} =~ link ? link : ('http://' + link)
   end
 

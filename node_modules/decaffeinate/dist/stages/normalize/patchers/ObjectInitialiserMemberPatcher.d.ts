@@ -1,0 +1,8 @@
+import NodePatcher from '../../../patchers/NodePatcher';
+import PassthroughPatcher from '../../../patchers/PassthroughPatcher';
+import { PatcherContext } from '../../../patchers/types';
+export default class ObjectInitialiserMemberPatcher extends PassthroughPatcher {
+    key: NodePatcher;
+    expression: NodePatcher | null;
+    constructor(patcherContext: PatcherContext, key: NodePatcher, expression: NodePatcher);
+}

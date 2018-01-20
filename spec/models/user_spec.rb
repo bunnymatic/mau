@@ -1,5 +1,5 @@
-# coding: utf-8
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe User do
@@ -247,7 +247,7 @@ describe User do
   end
   describe 'unavailable methods' do
     it "doesn't reply to old artists attributes" do
-      [:lat, :lng, :bio, :street, :city, :zip].each do |method|
+      %i[lat lng bio street city zip].each do |method|
         expect(maufan).not_to respond_to method
       end
     end

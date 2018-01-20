@@ -1,14 +1,15 @@
 # frozen_string_literal: true
-Mau::Application.routes.draw do
-  resources :media, only: [:index, :show]
 
-  resource :user_session, only: [:new, :create, :destroy]
+Mau::Application.routes.draw do
+  resources :media, only: %i[index show]
+
+  resource :user_session, only: %i[new create destroy]
   get '/logout' => 'user_sessions#destroy', as: :logout
   get '/login' => 'user_sessions#new', as: :login
   get '/sign_out' => 'user_sessions#destroy'
   get '/sign_in' => 'user_sessions#new'
 
-  resources :studios, only: [:index, :show]
+  resources :studios, only: %i[index show]
 
   resource :open_studios, only: [:show] do
     collection do
@@ -22,26 +23,26 @@ Mau::Application.routes.draw do
     end
   end
 
-  resources :art_piece_tags, only: [:index, :show] do
+  resources :art_piece_tags, only: %i[index show] do
     collection do
       post :autosuggest
     end
   end
 
-  resources :feedbacks, only: [:new, :create]
+  resources :feedbacks, only: %i[new create]
 
   namespace :search do
-    match '/', action: 'index', via: [:get, :post]
+    match '/', action: 'index', via: %i[get post]
   end
 
   get '/register' => 'users#create', as: :register
   get '/signup' => 'users#new', as: :signup
   get '/activate/:activation_code' => 'users#activate', as: :activate
-  match 'reset/:reset_code' => 'users#reset', as: :reset, via: [:get, :post]
+  match 'reset/:reset_code' => 'users#reset', as: :reset, via: %i[get post]
   match 'reset' => 'users#reset', as: :submit_reset, via: [:post]
 
   resources :users do
-    resources :favorites, only: [:index, :create, :destroy]
+    resources :favorites, only: %i[index create destroy]
     resources :roles, only: [:destroy]
     collection do
       get :resend_activation
@@ -52,7 +53,6 @@ Mau::Application.routes.draw do
       get :whoami
     end
     member do
-      put :suspend
       put :change_password_update
       patch :change_password_update
     end
@@ -60,9 +60,9 @@ Mau::Application.routes.draw do
 
   get '/mau_fans/:slug', to: redirect('/users/%{slug}'), as: :mau_fan
 
-  resources :art_pieces, only: [:show, :edit, :update, :destroy]
-  resources :artists, except: [:new, :create] do
-    resources :art_pieces, except: [:index, :new, :destroy, :edit, :update]
+  resources :art_pieces, only: %i[show edit update destroy]
+  resources :artists, except: %i[new create] do
+    resources :art_pieces, except: %i[index destroy edit update]
     collection do
       get :roster
       post :destroyart
@@ -123,23 +123,23 @@ Mau::Application.routes.draw do
       get :os_signups
     end
 
-    match '/discount/markup' => 'discount#markup', as: :discount_processor, via: [:get, :post]
+    match '/discount/markup' => 'discount#markup', as: :discount_processor, via: %i[get post]
 
     resources :roles
     resources :cms_documents
     resources :blacklist_domains, except: [:show]
-    resources :open_studios_events, only: [:index, :edit, :new, :create, :update, :destroy] do
+    resources :open_studios_events, only: %i[index edit new create update destroy] do
       collection do
         get :clear_cache
       end
     end
     resources :email_lists, only: [:index] do
-      resources :emails, only: [:index, :create, :new, :destroy]
+      resources :emails, only: %i[index create new destroy]
     end
     resources :application_events, only: [:index]
     resources :favorites, only: [:index]
-    resources :media, only: [:index, :create, :new, :edit, :update, :destroy]
-    resources :artists, only: [:index, :edit, :update] do
+    resources :media, only: %i[index create new edit update destroy]
+    resources :artists, only: %i[index edit update] do
       collection do
         post :bulk_update, as: :bulk_update
         get :purge
@@ -150,13 +150,13 @@ Mau::Application.routes.draw do
     end
     resources :users, only: [:show]
 
-    resources :art_piece_tags, only: [:index, :destroy] do
+    resources :art_piece_tags, only: %i[index destroy] do
       collection do
         get :cleanup
       end
     end
 
-    resources :studios, only: [:index, :new, :edit, :create, :update, :destroy] do
+    resources :studios, only: %i[index new edit create update destroy] do
       collection do
         post :reorder
       end
@@ -169,10 +169,10 @@ Mau::Application.routes.draw do
   namespace :api do
     namespace :v2 do
       resources :studios, only: [:show]
-      resources :artists, only: [:index, :show] do
-        resources :art_pieces, only: [:index, :show], shallow: true
+      resources :artists, only: %i[index show] do
+        resources :art_pieces, only: %i[index show], shallow: true
       end
-      resources :media, only: [:index, :show]
+      resources :media, only: %i[index show]
     end
   end
 

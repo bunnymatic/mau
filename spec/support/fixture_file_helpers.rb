@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module FixtureFileHelpers
   FIXTURES_DIRECTORY = Rails.root.join('spec', 'fixtures')
 

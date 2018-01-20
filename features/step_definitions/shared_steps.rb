@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../spec/support/mobile_setup'
 
 def fill_in_login_form(login, pass)
@@ -32,9 +33,9 @@ end
 
 def find_links_or_buttons(locator)
   result = all("##{locator}") if /^-_[A-z][0-9]*$/ =~ locator
-  return result unless result.blank?
+  return result if result.present?
   result = all('a,button', text: locator)
-  return result unless result.blank?
+  return result if result.present?
   all_links_or_buttons_with_title(locator)
 end
 
@@ -59,7 +60,7 @@ Then /^I (save and\s+)?open the page$/ do |_|
 end
 
 Then /^I (save|take) a screenshot$/ do |_dummy|
-  f = File.expand_path("./tmp/capybara-screenshot-#{Time.now.to_f}.png")
+  f = File.expand_path("./tmp/capybara-screenshot-#{Time.current.to_f}.png")
   begin
     save_and_open_screenshot(f)
   rescue Capybara::NotSupportedByDriverError

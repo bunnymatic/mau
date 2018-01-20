@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class OpenStudiosEventPresenter < ViewPresenter
   attr_reader :model
 

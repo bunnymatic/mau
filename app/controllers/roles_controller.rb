@@ -1,9 +1,8 @@
 # frozen_string_literal: true
+
 class RolesController < ::BaseAdminController
   def destroy
-    if params[:id] && params[:user_id]
-      remove_role_from_user params[:id], params[:user_id]
-    end
+    remove_role_from_user params[:id], params[:user_id] if params[:id] && params[:user_id]
     redirect_to admin_role_path(params[:id])
   end
 

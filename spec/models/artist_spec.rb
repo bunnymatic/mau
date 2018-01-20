@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Artist do
@@ -69,7 +70,7 @@ describe Artist do
 
   describe 'address methods' do
     before do
-      @address_methods = [:address, :full_address]
+      @address_methods = %i[address full_address]
     end
     describe 'artist info only' do
       it 'delegates address to artist info' do

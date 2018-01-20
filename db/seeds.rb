@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # add old open studios events to the system
 
 # [2010,2011,2012,2013,2014].each do |year|

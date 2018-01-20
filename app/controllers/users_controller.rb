@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :logged_out_required, only: [:new]
   before_action :admin_required, only: [:destroy]
-  before_action :user_required, only: [:edit, :update, :suspend, :deactivate,
-                                       :change_password_update]
+  before_action :user_required, only: %i[edit update deactivate
+                                         change_password_update]
 
   DEFAULT_ACCOUNT_TYPE = 'MauFan'
 
@@ -28,7 +29,7 @@ class UsersController < ApplicationController
 
   def show
     @fan = safe_find_user(params[:id])
-    unless @fan && @fan.active?
+    unless @fan&.active?
       flash.now[:error] = 'The account you were looking for was not found.'
       redirect_to(artists_path) && return
     end
@@ -45,7 +46,7 @@ class UsersController < ApplicationController
     fan = MauFan.new
     @studios = StudioService.all
     type = params[:type] || user_attrs[:type]
-    @type = %w(Artist MauFan).include?(type) ? type : 'Artist'
+    @type = %w[Artist MauFan].include?(type) ? type : 'Artist'
     @user = @type == 'MauFan' ? fan : artist
   end
 
@@ -252,7 +253,7 @@ class UsersController < ApplicationController
   def basic_note_info_from_params
     # TODO: use strong params
     {}.tap do |info|
-      %w(comment login email page name).each do |k|
+      %w[comment login email page name].each do |k|
         info[k] = params[k] if params.include? k
       end
     end
@@ -296,7 +297,7 @@ class UsersController < ApplicationController
   end
 
   def user_params_key
-    [:artist, :mau_fan, :user].detect { |k| params.key? k }
+    %i[artist mau_fan user].detect { |k| params.key? k }
   end
 
   def destroy_params
@@ -313,9 +314,9 @@ class UsersController < ApplicationController
 
   def user_params
     key = user_params_key
-    permitted = [:login, :email, :firstname, :lastname, :type,
-                 :password, :password_confirmation,
-                 :studio, :studio_id, :nomdeplume, :photo] + User.stored_attributes[:links]
+    permitted = %i[login email firstname lastname type
+                   password password_confirmation
+                   studio studio_id nomdeplume photo] + User.stored_attributes[:links]
     params.require(key).permit(*permitted)
   end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SelectizeSelect
   def find_selectized_control_js(key)
     %{ $('##{key}.selectized').next('.selectize-control') }

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Favorite < ApplicationRecord
   belongs_to :user
   belongs_to :favorite, polymorphic: true
@@ -9,7 +10,7 @@ class Favorite < ApplicationRecord
   scope :users, -> { where(favoritable_type: [Artist.name, User.name]) }
   scope :artists, -> { where(favoritable_type: Artist.name) }
 
-  FAVORITABLE_TYPES = %w(Artist ArtPiece).freeze
+  FAVORITABLE_TYPES = %w[Artist ArtPiece].freeze
 
   def uniqueness_of_user_and_item
     duplicate = self.class.find_by(user: user, favoritable_type: favoritable_type, favoritable_id: favoritable_id)

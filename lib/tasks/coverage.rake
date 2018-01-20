@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 begin
   namespace :spec do
     task :enable_coverage do
@@ -13,9 +15,8 @@ begin
     desc 'Runs all rspec specs'
     RSpec::Core::RakeTask.new(:all)
   end
-
 rescue LoadError
   task :spec do
-    puts "Failed to load rspec"
+    puts 'Failed to load rspec'
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Then(/^I see the cms content page$/) do
   expect(page.current_path).to eql admin_cms_documents_path
   expect(page).to have_css 'h1', text: 'CMS Content'

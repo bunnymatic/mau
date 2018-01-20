@@ -1,4 +1,6 @@
+# frozen_string_literal: true
+
 # Rails.root/config.ru
-require ::File.expand_path('../config/environment',  __FILE__)
+require ::File.expand_path('../config/environment', __FILE__)
 
 run Mau::Application

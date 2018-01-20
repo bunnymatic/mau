@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RolesUser < ApplicationRecord
   validates :user_id, uniqueness: { scope: :role_id }
   belongs_to :user

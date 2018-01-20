@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Simple Role Syntax
 # ==================
 # Supports bulk-adding hosts to roles, the primary
@@ -17,7 +18,7 @@
 # extended properties on the server.
 server 'www.missionartists.org',
        user: 'deploy',
-       roles: %w(web app db),
+       roles: %w[web app db],
        ssh_options: {
          user: 'deploy',
          forward_agent: true

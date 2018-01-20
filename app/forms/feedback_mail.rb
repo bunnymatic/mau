@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'active_model'
 
 class FeedbackMail
@@ -9,7 +10,7 @@ class FeedbackMail
   attr_accessor :note_type, :email, :email_confirm,
                 :inquiry, :current_user, :operating_system, :browser, :device
 
-  VALID_NOTE_TYPES = %w(help inquiry).freeze
+  VALID_NOTE_TYPES = %w[help inquiry].freeze
 
   validates :note_type, presence: true, inclusion: { in: VALID_NOTE_TYPES,
                                                      message: '%{value} is not a valid note type' }

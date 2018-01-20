@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 When(/^I change my password to "(.*?)"$/) do |new_pass|
   visit edit_artist_path(@artist)
   fill_in('Old Password', with: '8characters')

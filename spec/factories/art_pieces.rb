@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryBot.define do
   factory :art_piece do
     title { "O'" + Faker::Company.name }

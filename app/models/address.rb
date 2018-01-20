@@ -1,11 +1,10 @@
 # frozen_string_literal: true
+
 class Address
   attr_reader :lat, :lng, :street, :city, :state, :zip
 
   def initialize(model)
-    if model.respond_to?(:studio_id) && model.studio_id.presence.to_i.positive? && model.studio
-      model = model.studio
-    end
+    model = with_studio?(model) ? model.studio : model
 
     @lat = model.lat
     @lng = model.lng
@@ -13,17 +12,14 @@ class Address
     @city = fetch_with_default('San Francisco') { model.city }
     @state = fetch_with_default('CA') { get_state(model) }
     @zip = fetch_with_default('94110') { model.zip }
-
   rescue NoMethodError
     raise ArgumentError, 'the model does not appear to have address like attributes'
   end
 
-  def present?
-    !street.blank?
-  end
+  delegate :present?, to: :street
 
   def empty?
-    !present?
+    street.blank?
   end
 
   def geocoded?
@@ -31,7 +27,7 @@ class Address
   end
 
   def to_s(full = nil)
-    return '' unless present?
+    return '' if blank?
     full ? [street, city, state, zip].join(', ') : [street, zip].join(' ')
   end
 
@@ -46,6 +42,10 @@ class Address
   end
 
   private
+
+  def with_studio?(model)
+    model.respond_to?(:studio_id) && model.studio
+  end
 
   def get_state(model)
     return model.addr_state if model.respond_to?(:addr_state)

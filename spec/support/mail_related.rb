@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module MailRelated
   def stub_signup_notification
     mailer_double = double('ArtistMailer::SignupNotificationEmail', deliver_later: true, deliver_now: true)

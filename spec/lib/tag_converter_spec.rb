@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe TagConverter do
   let(:existing_tags) { FactoryBot.create_list :art_piece_tag, 2 }
 
-  let(:tag_string) { (%w(gobbledy goopers) + [existing_tags.first.name]).join(',') }
+  let(:tag_string) { (%w[gobbledy goopers] + [existing_tags.first.name]).join(',') }
   subject(:converter) { TagConverter.new(tag_string) }
   let(:converted) { converter.convert }
 

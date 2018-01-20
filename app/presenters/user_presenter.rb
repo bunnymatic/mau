@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This presenter adds helpful display/view related methods
 # to make it easy to draw user data on a page
 
@@ -79,7 +80,7 @@ class UserPresenter < ViewPresenter
     @facebook_handle ||=
       begin
         match = %r{facebook.com/(.*)}.match(model.facebook.to_s)
-        match.captures.first if match
+        match&.captures&.first
       end
   end
 
@@ -87,7 +88,7 @@ class UserPresenter < ViewPresenter
     @instagram_handle ||=
       begin
         match = %r{instagram.com/(.*)}.match(model.instagram.to_s)
-        match.captures.first if match
+        match&.captures&.first
       end
   end
 
@@ -95,7 +96,7 @@ class UserPresenter < ViewPresenter
     @twitter_handle ||=
       begin
         match = %r{twitter.com/(.*)}.match(model.twitter.to_s)
-        match.captures.first if match
+        match&.captures&.first
       end
   end
 
@@ -144,7 +145,7 @@ class UserPresenter < ViewPresenter
   def links_html
     self.class.keyed_links.map do |key|
       site = @model.send(key)
-      next unless site.present?
+      next if site.blank?
       formatted_site = format_link(site)
       site_display = format_link_for_display(site)
       link_icon_class = icon_link_class(key, site)

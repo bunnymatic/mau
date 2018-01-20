@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Admin
   class UsersController < ::BaseAdminController
     before_action :set_user, only: [:show]

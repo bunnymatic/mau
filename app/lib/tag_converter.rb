@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TagConverter
   def initialize(tagstr)
     @tag_string = tagstr
@@ -10,7 +11,7 @@ class TagConverter
 
   def convert
     # split up @tag_string into array of tags
-    return [] unless @tag_string.present?
+    return [] if @tag_string.blank?
 
     found_tags = ArtPieceTag.where(name: tag_names)
     new_tags =
