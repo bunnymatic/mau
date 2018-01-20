@@ -1,6 +1,6 @@
 MAU = window.MAU = window.MAU || {}
 
-MAU.Flash = class Flash
+class Flash
 
   wrapper: 'jsFlash'
 
@@ -12,22 +12,26 @@ MAU.Flash = class Flash
     @clear()
     $w = @construct(options);
     return unless $w
-    container ||= '.js-main-container'
+    container ||= 'body, .js-main-container'
     c = jQuery(container).first();
     if (!c.length)
       c = document.body;
     jQuery(c).prepend($w);
-    $w.find('.close-btn').bind 'click', (ev) ->
+    $w.find('.flash__close').bind 'click', (ev) ->
       ev.preventDefault()
       $w.hide()
-    setTimeout () ->
-      $w.hide()
-    ,
-      @timeout
+    if @timeout
+      setTimeout () ->
+        $w.hide()
+      ,
+        @timeout
     $w.show();
 
   construct: (options) ->
-    @timeout = options.timeout || 10000
+    if options.timeout < 0
+      @timeout = null
+    else
+      @timeout = options.timeout || 10000
     contents = jQuery('<div>')
     $close = jQuery('<i>', {'class':'flash__close fa fa-icon fa-times-circle-o'})
     for k in ['error','notice']
@@ -36,7 +40,7 @@ MAU.Flash = class Flash
         clzs = ["flash"];
         clzs.push "flash__error" if k == 'error'
         clzs.push "flash__notice" if k == 'notice'
-        contents.append(jQuery('<div>', {'class': clzs.join(" ")}).html(msg).prepend($close));
+        contents = jQuery('<div>', {'class': clzs.join(" ")}).html(msg).prepend($close)
 
 
     if (contents.html().length)
@@ -45,3 +49,5 @@ MAU.Flash = class Flash
       $flash
     else
       null
+
+MAU.Flash = Flash

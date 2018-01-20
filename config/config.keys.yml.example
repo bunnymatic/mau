@@ -7,12 +7,13 @@ common:
    recaptcha_private_key: private recaptcha key
    ga_key: google analytics key
    ga_server_api_key: ga server key - for Geokit
-
+   API_CONSUMER_KEY: key for consumers
 acceptance:
    mailchimp_api_key: override as necessary
    POSTMARK_API_KEY: postmark api
    AWS_ACCESS_KEY_ID: aws access key 
    AWS_SECRET_ACCESS_KEY: aws secret
+   
 
 production:
    POSTMARK_API_KEY: postmark api
