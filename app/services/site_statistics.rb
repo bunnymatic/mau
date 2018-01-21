@@ -21,7 +21,7 @@ class SiteStatistics
   def social_links
     StatsCalculator::Histogram.new.tap do |social|
       Artist.active.pluck(:links).map(&:compact).each do |links|
-        s links.each_key do |site|
+        links.each_key do |site|
           social.add(site)
         end
       end

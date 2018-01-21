@@ -18,7 +18,7 @@
           = render '/artists/edit/studio_info', form: form, studios: @studios
         - if OpenStudiosEvent.current
           .panel.panel-default
-            = render '/artists/edit/open_studios_status', form: form
+            = render '/artists/edit/open_studios_status', form: form, open_studios_event: @open_studios_event
         .panel.panel-default
           = render '/users/edit/links', form: form
         .panel.panel-default
