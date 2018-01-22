@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+
+  class UserNotFoundError < StandardError; end
+
   before_action :logged_out_required, only: [:new]
   before_action :admin_required, only: [:destroy]
   before_action :user_required, only: %i[edit update deactivate
@@ -101,7 +104,7 @@ class UsersController < ApplicationController
 
     if @user.nil?
       flash[:error] = 'Are you sure you got the right link -- maybe you should double check your email?'
-      render_not_found Exception.new('failed to find user with reset code')
+      render_not_found UserNotFoundError.new('failed to find user with reset code')
       return
     end
     render && return unless request.post? && user_params

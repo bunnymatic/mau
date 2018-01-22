@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ArtPieceTagsController < ApplicationController
+  class NoTagsError < StandardError; end
+
   before_action :admin_required, except: %i[index show autosuggest]
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
@@ -61,7 +63,7 @@ class ArtPieceTagsController < ApplicationController
   def redirect_to_most_popular_tag(redirect_opts = {})
     popular_tag = ArtPieceTagService.most_popular_tag
     if popular_tag.nil?
-      render_not_found Exception.new('No tags in the system')
+      render_not_found NoTagsError.new('No tags in the system')
     else
       redirect_to art_piece_tag_path(popular_tag, show_tag_params), redirect_opts
     end
