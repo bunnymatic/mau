@@ -30,7 +30,7 @@ class ArtistsController < ApplicationController
         if request.xhr?
           render partial: 'artist_list', locals: { gallery: @gallery }
         else
-          render action: 'index'
+          render 'index'
         end
       end
       format.json do
@@ -77,7 +77,7 @@ class ArtistsController < ApplicationController
 
     @page_title = PageInfoService.title('Artists')
 
-    render action: 'roster'
+    render 'roster'
   end
 
   def suggest

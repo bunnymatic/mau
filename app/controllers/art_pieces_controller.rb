@@ -20,7 +20,7 @@ class ArtPiecesController < ApplicationController
       format.html do
         set_page_info_from_art_piece
         @art_piece = ArtPieceHtmlPresenter.new(@art_piece)
-        render action: 'show'
+        render 'show'
       end
       format.json do
         redirect_to api_v2_art_piece_path(@art_piece, format: :json)
@@ -44,7 +44,7 @@ class ArtPiecesController < ApplicationController
     else
       @art_piece = art_piece
       @artist = ArtistPresenter.new(current_artist)
-      render template: 'artists/manage_art'
+      render 'artists/manage_art'
     end
   end
 
@@ -58,7 +58,7 @@ class ArtPiecesController < ApplicationController
       Messager.new.publish "/artists/#{current_artist.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
       redirect_to art_piece_path(@art_piece)
     else
-      render action: 'edit'
+      render 'edit'
     end
   end
 

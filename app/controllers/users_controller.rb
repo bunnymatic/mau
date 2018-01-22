@@ -210,7 +210,7 @@ class UsersController < ApplicationController
     flash.now[:error] = msg
     @studios = StudioService.all
     @user.valid?
-    render action: 'new'
+    render 'new'
   end
 
   def redirect_after_create
