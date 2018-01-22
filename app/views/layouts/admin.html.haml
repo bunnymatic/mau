@@ -11,7 +11,7 @@
     = csrf_meta_tags
   %body.admin{:class => ([@browser_as_class, application_body_class].join " ")}
     #layout{"ng-app" => 'MauAdminApp'}
-      = render '/admin/admin_nav'
+      = render '/admin/admin_nav', revision: @revision
       = yield
   = javascript_include_tag 'application.js'
   = javascript_include_tag '//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js'

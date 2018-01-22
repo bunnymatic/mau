@@ -11,7 +11,7 @@ class MailChimpService
 
   def subscribe_and_welcome
     raise 'Conf:mailchimp_api_key not set' if API_KEY.blank?
-    return unless @user.mailchimp_subscribed_at.nil?
+    return unless @user.mailchimp_subscribed?
     subscribe
     @user.update(mailchimp_subscribed_at: Time.zone.now)
   end

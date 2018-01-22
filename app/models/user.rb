@@ -47,14 +47,16 @@ class User < ApplicationRecord
   scope :pending, -> { where(state: 'pending') }
   scope :suspended, -> { where(state: 'suspended') }
   scope :deleted, -> { where(state: 'deleted') }
+  scope :admin, -> { joins(:roles_users).where(roles_users: { role: Role.admin }) }
 
   before_validation :normalize_attributes
   before_validation :add_http_to_links
   before_validation :cleanup_fields
   before_destroy :delete_favorites
 
-  def self.admin
-    joins(:roles_users).where(roles_users: { role: Role.admin })
+
+  def mailchimp_subscribed?
+    !!mailchimp_subscribed_at
   end
 
   def self.login_or_email_finder(login)
