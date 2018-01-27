@@ -8,8 +8,8 @@ class OpenStudiosEvent < ApplicationRecord
   validate :end_date_is_after_start_date
 
   has_attached_file :logo, styles: { square: '240x240#' }, default_url: ''
-  validates_attachment_presence :logo
   validates_attachment_content_type :logo, content_type: %r{\Aimage\/.*\Z}
+  # validates_attachment_presence :logo
 
   def for_display(reverse = false)
     if !reverse

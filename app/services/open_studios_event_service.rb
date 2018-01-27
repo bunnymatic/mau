@@ -36,7 +36,7 @@ class OpenStudiosEventService
 
   def self.update(open_studios_event, attributes)
     clear_cache(open_studios_event.id)
-    open_studios_event.update_attributes(attributes)
+    open_studios_event.update(attributes)
   end
 
   def self.save(open_studios_event)
