@@ -7,7 +7,7 @@ class User
 
     def activate!
       mailer_class.activation(self).deliver_later
-      update_attributes(state: 'active', activated_at: Time.zone.now)
+      update(state: 'active', activated_at: Time.zone.now)
     end
   end
 end

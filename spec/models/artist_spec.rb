@@ -121,7 +121,7 @@ describe Artist do
     context 'for artist not in the mission but in a studio in the mission' do
       before do
         studio = FactoryBot.create(:studio)
-        wayout_artist.update_attributes studio: studio
+        wayout_artist.update studio: studio
         wayout_artist.reload
         allow(wayout_artist.studio).to receive(:lat).and_return(37.75)
         allow(wayout_artist.studio).to receive(:lng).and_return(-122.41)
@@ -273,7 +273,7 @@ describe Artist do
 
     it 'returns art_pieces in by created at, then order if there is order' do
       artist.art_pieces.reverse.each_with_index do |ap, idx|
-        ap.update_attributes(position: idx)
+        ap.update(position: idx)
       end
       expect(artist.art_pieces.map(&:position)).to be_strictly_decreasing
     end

@@ -20,7 +20,7 @@ module Admin
     end
 
     def update
-      if @cms_document.update_attributes(cms_document_params)
+      if @cms_document.update(cms_document_params)
         redirect_to [:admin, @cms_document], notice: 'CmsDocument was successfully updated.'
       else
         render 'edit'

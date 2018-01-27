@@ -45,7 +45,7 @@ describe ArtPiecesController do
 
       context 'when the artist is not active' do
         it 'reports a missing art piece' do
-          artist.update_attributes!(state: :pending)
+          artist.update!(state: :pending)
           get :show, params: { id: artist.representative_piece.id }
           expect(response).to redirect_to '/error'
         end

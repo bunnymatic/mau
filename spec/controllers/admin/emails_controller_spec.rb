@@ -39,7 +39,7 @@ describe Admin::EmailsController do
 
     let(:first_email) do
       email = FactoryBot.create(:email)
-      FeedbackMailerList.first.update_attributes(emails: [email])
+      FeedbackMailerList.first.update(emails: [email])
       email
     end
     before do

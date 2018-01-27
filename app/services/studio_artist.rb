@@ -11,7 +11,7 @@ class StudioArtist
 
   def unaffiliate
     if artist_is_in_studio?
-      removed = @artist.update_attributes(studio: nil)
+      removed = @artist.update(studio: nil)
       artist_roles.where(role: Role.manager).destroy_all
       removed
     else

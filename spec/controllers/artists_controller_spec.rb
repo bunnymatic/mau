@@ -80,7 +80,7 @@ describe ArtistsController, elasticsearch: true do
 
   describe '#update' do
     before do
-      artist_info.update_attributes(open_studios_participation: '')
+      artist_info.update(open_studios_participation: '')
     end
     context 'while not logged in' do
       context 'with invalid params' do
@@ -164,7 +164,7 @@ describe ArtistsController, elasticsearch: true do
         end
 
         it 'sets false if artist has no address' do
-          without_address.artist_info.update_attributes(open_studios_participation: '')
+          without_address.artist_info.update(open_studios_participation: '')
           put :update, xhr: true, params: { id: without_address, commit: 'submit', artist: { 'os_participation' => '1' } }
           expect(without_address.reload.os_participation[OpenStudiosEvent.current.key]).to be_nil
         end
@@ -206,7 +206,7 @@ describe ArtistsController, elasticsearch: true do
 
     context 'while logged in' do
       before do
-        artist.update_attributes(facebook: 'example.com/facebooklink', blog: 'example.com/bloglink')
+        artist.update(facebook: 'example.com/facebooklink', blog: 'example.com/bloglink')
         login_as artist
         get :edit, params: { id: artist.to_param }
       end
@@ -216,7 +216,7 @@ describe ArtistsController, elasticsearch: true do
 
   describe '#show' do
     it 'cant see a suspended artist' do
-      artist.update_attributes(state: :suspended)
+      artist.update(state: :suspended)
       get :show, params: { id: artist.id }
       expect(flash[:error]).to be_present
       expect(response).to redirect_to artists_path
