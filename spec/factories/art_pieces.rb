@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 FactoryBot.define do
   factory :art_piece do
-    title { Faker::Company.name }
+    title { "O'" + Faker::Company.name }
     photo_file_name    'new-art-piece.jpg'
     photo_content_type 'image/jpeg'
     photo_file_size    1234
@@ -17,13 +17,13 @@ FactoryBot.define do
 
     trait :with_tag do
       after(:create) do |art_piece|
-        art_piece.update_attributes tags: [FactoryBot.create(:art_piece_tag)]
+        art_piece.update tags: [FactoryBot.create(:art_piece_tag)]
       end
     end
 
     trait :with_tags do
       after(:create) do |art_piece|
-        art_piece.update_attributes tags: FactoryBot.create_list(:art_piece_tag, 2)
+        art_piece.update tags: FactoryBot.create_list(:art_piece_tag, 2)
       end
     end
   end

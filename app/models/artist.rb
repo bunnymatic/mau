@@ -143,7 +143,7 @@ class Artist < User
 
       o = OpenStudiosTally.find_by(recorded_on: today)
       if o
-        o.update_attributes(oskey: current_open_studios_key, count: count)
+        o.update(oskey: current_open_studios_key, count: count)
       else
         OpenStudiosTally.create!(oskey: current_open_studios_key, count: count, recorded_on: today)
       end

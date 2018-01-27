@@ -26,7 +26,7 @@ module Admin
     def update
       @domain = BlacklistDomain.find(params[:id])
 
-      if @domain.update_attributes(blacklist_domain_params)
+      if @domain.update(blacklist_domain_params)
         redirect_to admin_blacklist_domains_path, notice: "Updated entry for #{@domain.domain}"
       else
         render 'edit'

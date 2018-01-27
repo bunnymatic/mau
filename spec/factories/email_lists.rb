@@ -3,7 +3,7 @@ FactoryBot.define do
   factory :email_list do
     trait :with_member do
       after(:create) do |list|
-        list.update_attributes(emails: [FactoryBot.create(:email)])
+        list.update(emails: [FactoryBot.create(:email)])
       end
     end
   end

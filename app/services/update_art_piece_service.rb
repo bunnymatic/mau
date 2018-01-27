@@ -11,7 +11,7 @@ class UpdateArtPieceService
 
   def update_art_piece
     prepare_tags_params
-    art_piece.update_attributes(params)
+    art_piece.update(params)
     art_piece
   end
 end
