@@ -80,6 +80,8 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.3)
       debug_inspector (>= 0.0.1)
+    bootsnap (1.1.5)
+      msgpack (~> 1.0)
     browser (2.5.2)
     builder (3.2.3)
     byebug (9.1.0)
@@ -273,6 +275,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.10.3)
     mojo_magick (0.5.6)
+    msgpack (1.1.0)
     multi_json (1.12.2)
     multi_test (0.1.2)
     multipart-post (2.0.0)
@@ -545,6 +548,7 @@ DEPENDENCIES
   aws-sdk (~> 2.4.x)
   better_errors
   binding_of_caller
+  bootsnap
   browser
   byebug
   capistrano
@@ -645,4 +649,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.4
+   1.16.1
