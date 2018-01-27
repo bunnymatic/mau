@@ -34,6 +34,6 @@
 end
 
 # Not including RecruitingMailerList
-["FeedbackMailerList", "AdminMailerList"].each do |type|
+%w[FeedbackMailerList AdminMailerList].each do |type|
   EmailList.find_or_create_by(type: type)
 end

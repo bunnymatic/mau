@@ -54,7 +54,6 @@ class User < ApplicationRecord
   before_validation :cleanup_fields
   before_destroy :delete_favorites
 
-
   def mailchimp_subscribed?
     !!mailchimp_subscribed_at
   end

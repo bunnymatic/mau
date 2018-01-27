@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-
   class UserNotFoundError < StandardError; end
 
   before_action :logged_out_required, only: [:new]
