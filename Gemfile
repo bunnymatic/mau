@@ -20,7 +20,7 @@ gem 'mojo_magick'
 gem 'mysql2', '~> 0.4.x'
 gem 'nokogiri'
 gem 'racc'
-gem 'rails', '5.0.6'
+gem 'rails', '5.1.3'
 gem 'rdiscount' # markdown processor
 gem 'responders'
 gem 'slim-rails'
@@ -110,6 +110,8 @@ group :development do
   gem 'binding_of_caller'
   gem 'capistrano3-unicorn'
   gem 'spring'
+  gem 'spring-commands-teaspoon'
+  gem 'spring-commands-rspec'
   gem 'unicorn-rails'
 
   gem 'rails_best_practices'
@@ -118,24 +120,18 @@ end
 group :test, :development do
   gem 'byebug'
   gem 'database_cleaner'
+  gem 'elasticsearch-extensions', require: nil
   gem 'factory_bot', require: false
   gem 'factory_bot_rails', require: false
   gem 'faker'
+  gem 'jslint_on_rails'
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails'
-  gem 'shoulda-matchers'
-  gem 'timecop'
-
-  gem 'spring-commands-teaspoon'
-  gem 'teaspoon-jasmine'
-
-  gem 'elasticsearch-extensions', require: nil
-
   gem 'rubocop', require: false
   gem 'simplecov'
-
-  gem 'guard-rspec'
-  gem 'jslint_on_rails'
+  gem 'shoulda-matchers'
+  gem 'teaspoon-jasmine'
+  gem 'timecop'
 end
