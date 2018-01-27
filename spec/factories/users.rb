@@ -9,8 +9,8 @@ FactoryBot.define do
     password { TestUsersHelper::DEFAULT_PASSWORD }
     password_confirmation { TestUsersHelper::DEFAULT_PASSWORD }
     firstname { Faker::Name.first_name }
-    lastname { Faker::Name.first_name }
-    nomdeplume { Faker::Company.name }
+    lastname { "O'" + Faker::Name.first_name }
+    nomdeplume { "O'" + Faker::Company.name }
     website { Faker::Internet.url }
     trait :pending do
       state :pending
@@ -81,19 +81,19 @@ FactoryBot.define do
 
     trait :in_the_mission do
       after(:create) do |artist|
-        artist.artist_info.update_attributes(street: '1890 bryant st', city: 'sf', addr_state: 'ca', zip: '94110', lat: 37.763232, lng: -122.410636)
+        artist.artist_info.update(street: '1890 bryant st', city: 'sf', addr_state: 'ca', zip: '94110', lat: 37.763232, lng: -122.410636)
       end
     end
 
     trait :out_of_the_mission do
       after(:create) do |artist|
-        artist.artist_info.update_attributes(street: '100 main', city: 'nyc', addr_state: 'ny', zip: '10011', lat: 20, lng: 20)
+        artist.artist_info.update(street: '100 main', city: 'nyc', addr_state: 'ny', zip: '10011', lat: 20, lng: 20)
       end
     end
 
     trait :without_address do
       after(:create) do |artist|
-        artist.artist_info.update_attributes(street: nil, city: nil, addr_state: nil, zip: nil, lat: nil, lng: nil)
+        artist.artist_info.update(street: nil, city: nil, addr_state: nil, zip: nil, lat: nil, lng: nil)
       end
     end
     trait :with_tagged_art do
@@ -116,7 +116,7 @@ FactoryBot.define do
       active
       after(:create) do |artist|
         studio = Studio.first || FactoryBot.create(:studio)
-        artist.update_attributes studio: studio
+        artist.update studio: studio
       end
     end
   end

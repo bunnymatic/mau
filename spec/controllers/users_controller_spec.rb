@@ -413,7 +413,7 @@ describe UsersController do
     context 'get' do
       before do
         expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
-        fan.update_attributes(reset_code: reset_code)
+        fan.update(reset_code: reset_code)
         get :reset, params: { reset_code: reset_code }
       end
       it { expect(response).to be_success }

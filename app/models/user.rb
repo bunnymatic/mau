@@ -153,11 +153,11 @@ class User < ApplicationRecord
   end
 
   def delete!
-    update_attributes(state: 'deleted')
+    update(state: 'deleted')
   end
 
   def suspend!
-    update_attributes(state: 'suspended')
+    update(state: 'suspended')
   end
 
   def suspended?

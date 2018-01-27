@@ -16,7 +16,7 @@ module Admin
     def edit; end
 
     def update
-      if @artist.update_attributes(artist_params)
+      if @artist.update(artist_params)
         redirect_to admin_user_path(@artist), notice: "#{@artist.get_name} has been updated"
       else
         render :edit, warning: 'There were problems updating the artist'

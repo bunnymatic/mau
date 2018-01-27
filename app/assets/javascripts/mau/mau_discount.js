@@ -6,8 +6,7 @@ jQuery(function() {
     var markdown = $(textarea);
     var txt = markdown.val() || '## no markdown to process';
     var params = {
-      markdown: txt,
-      authenticity_token:unescape(authenticityToken)
+      markdown: txt
     };
     jQuery(output).load('/admin/discount/markup', params)
   };

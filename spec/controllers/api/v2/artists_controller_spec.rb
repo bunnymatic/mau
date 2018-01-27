@@ -6,7 +6,7 @@ describe Api::V2::ArtistsController do
   let(:headers) { {} }
   before do
     studio
-    studio.artists.last.update_attributes(state: :susspended)
+    studio.artists.last.update(state: :susspended)
   end
 
   describe '#index' do

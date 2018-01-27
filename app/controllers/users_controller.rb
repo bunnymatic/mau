@@ -55,7 +55,7 @@ class UsersController < ApplicationController
       return
     end
     msg = {}
-    if current_user.update_attributes(user_params)
+    if current_user.update(user_params)
       Messager.new.publish "/artists/#{current_user.id}/update", 'updated artist info'
       msg['notice'] = 'Your profile has been updated'
     else
@@ -84,7 +84,7 @@ class UsersController < ApplicationController
   def change_password_update
     msg = {}
     if current_user.valid_password? user_attrs['old_password']
-      if current_user.update_attributes(password_params)
+      if current_user.update(password_params)
         msg[:notice] = 'Your password has been updated'
       else
         msg[:error] = current_user.errors.full_messages.to_sentence
@@ -105,7 +105,7 @@ class UsersController < ApplicationController
     end
     render && return unless request.post? && user_params
 
-    if @user.update_attributes(user_params.slice(:password, :password_confirmation))
+    if @user.update(user_params.slice(:password, :password_confirmation))
       @user.delete_reset_code
       flash[:notice] = "Password reset successfully for #{@user.email}.  Please log in."
       logout

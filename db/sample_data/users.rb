@@ -17,7 +17,7 @@ ensure_user('suspended', :artist, state: :suspended)
 admin = ensure_user('administrator', :artist, :admin, :with_art)
 fan = ensure_user('artfan', :fan)
 
-puts "--> Adding favorites"
+puts '--> Adding favorites'
 FavoritesService.add(fan, artist.art_pieces.first)
 FavoritesService.add(fan, artist)
 FavoritesService.add(addressless, artist)

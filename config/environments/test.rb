@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+
+require_relative '../../lib/middleware/disable_animations.rb'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -46,6 +49,8 @@ Rails.application.configure do
   }
 
   config.elasticsearch_url = 'http://localhost:9250'
+
+  config.middleware.use DisableAnimations
 
   Paperclip::Attachment.default_options[:path] = "#{Rails.root}/tmp/paperclip_test/:class/:id_partition/:style.:extension"
 end

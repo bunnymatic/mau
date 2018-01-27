@@ -31,7 +31,7 @@ module Admin
     def update
       @medium = Medium.find(params[:id])
 
-      if @medium.update_attributes(medium_params)
+      if @medium.update(medium_params)
         Medium.flush_cache
         flash[:notice] = 'Medium was successfully updated.'
         redirect_to admin_media_path

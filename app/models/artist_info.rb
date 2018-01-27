@@ -39,7 +39,7 @@ class ArtistInfo < ApplicationRecord
     current = parse_open_studios_participation(open_studios_participation)
     current.merge!(os)
     current.delete_if { |_k, v| !(v == 'true' || v == true || v == 'on' || v == '1' || v == 1) }
-    update_attributes(open_studios_participation: current.keys.join('|'))
+    update(open_studios_participation: current.keys.join('|'))
   end
 
   def parse_open_studios_participation(os)

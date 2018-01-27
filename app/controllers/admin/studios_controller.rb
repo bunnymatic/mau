@@ -38,7 +38,7 @@ module Admin
       end
       ActiveRecord::Base.transaction do
         studio_slugs.each_with_index do |slug, idx|
-          studios_lut[slug].update_attributes!(position: idx)
+          studios_lut[slug].update!(position: idx)
         end
       end
       render json: { status: :ok }
@@ -46,7 +46,7 @@ module Admin
 
     # PUT /studios/1
     def update
-      if @studio.update_attributes(studio_params)
+      if @studio.update(studio_params)
         flash[:notice] = "That's great that we're keeping studio data current.  Keep up the good work."
         redirect_to(@studio) && return
       else
