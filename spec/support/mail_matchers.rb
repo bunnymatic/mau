@@ -13,15 +13,14 @@ class HaveBodyText
   end
 
   def matches?(email)
-    [email.html_part.to_s, email.text_part.to_s].all? do |body|
-      if @expected_text.is_a?(String)
-        @given_text = body.to_s.gsub(/\s+/, ' ')
-        @expected_text = @expected_text.gsub(/\s+/, ' ')
-        @given_text.include?(@expected_text)
-      else
-        @given_text = body.to_s
-        !!(@given_text =~ @expected_text)
-      end
+    body = CGI.unescapeHTML(email.html_part.to_s)
+    if @expected_text.is_a?(String)
+      @given_text = body.gsub(/\s+/, ' ')
+      @expected_text = @expected_text.gsub(/\s+/, ' ')
+      @given_text.include?(@expected_text)
+    else
+      @given_text = body
+      !!(@given_text =~ @expected_text)
     end
   end
 
