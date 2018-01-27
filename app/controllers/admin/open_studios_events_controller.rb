@@ -13,7 +13,7 @@ module Admin
 
     def create
       @os_event = OpenStudiosEvent.new(open_studios_event_params)
-      if @os_event.save
+      if OpenStudiosEventService.save(@os_event)
         redirect_to admin_open_studios_events_path, flash: { notice: 'Successfully added a new Open Studios Event' }
       else
         render :new
