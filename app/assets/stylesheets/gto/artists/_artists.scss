@@ -148,6 +148,9 @@
   }
   .desc {
     padding: 0.1rem;
+    /* this helps tests see the content in here */
+    min-width: 50px;
+    min-height: 10px;
   }
   .name, .media, .tags {
     height: 1.2rem;
