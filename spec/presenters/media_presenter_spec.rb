@@ -30,7 +30,9 @@ describe MediaPresenter do
 
   describe '#paginator' do
     subject { super().paginator }
-    it 'has 2 items' { expect(subject.items).to have(2).items }
+    it 'has 2 items' do
+      expect(subject.items).to have(2).items
+    end
     it { is_expected.to be_a_kind_of MediumPagination }
     its(:per_page) { is_expected.to eql per_page }
     its(:current_page) { is_expected.to eql page }
