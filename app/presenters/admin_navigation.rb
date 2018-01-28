@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AdminNavigation < ViewPresenter
   attr_reader :current_user
 
@@ -57,7 +58,7 @@ class AdminNavigation < ViewPresenter
             elsif current_user.manager?
               [[nil, manager_links]]
             end
-    links.each do |_sxn, entries|
+    links.each do |(_sxn, entries)|
       entries.each do |key, entry|
         entry[:display] = (entry[:display] || key.to_s).tr('_', ' ')
         entry[:link] = entry[:link] || "/admin/#{key}"

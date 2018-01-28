@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 def get_email_directive_selector(type)
   list = EmailList.where(type: type + 'MailerList').first
   "email-list-manager[list-id=\"#{list.id}\"]"

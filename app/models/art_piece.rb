@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 class ArtPiece < ApplicationRecord
   belongs_to :artist
 
   has_many :art_pieces_tags
-  has_many :tags, through: :art_pieces_tags, source: :art_piece_tag
+  has_many :tags, through: :art_pieces_tags, source: :art_piece_tag, dependent: :destroy
 
   belongs_to :medium
 
@@ -57,9 +58,9 @@ class ArtPiece < ApplicationRecord
   validates :title, length: { within: 2..80 }
 
   def as_indexed_json(_opts = {})
-    return {} unless artist && artist.active?
+    return {} unless artist&.active?
 
-    idxd = as_json(only: [:title, :year])
+    idxd = as_json(only: %i[title year])
     extras = {}
     extras['medium'] = medium.try(:name)
     extras['tags'] = tags.map(&:name).join(', ')

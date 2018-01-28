@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Load DSL and Setup Up Stages
 require 'capistrano/setup'
 
@@ -5,7 +7,7 @@ require 'capistrano/setup'
 require 'capistrano/deploy'
 require 'capistrano/rbenv'
 require 'capistrano/rails'
-require "capistrano/scm/git"
+require 'capistrano/scm/git'
 require 'capistrano3/unicorn'
 
 install_plugin Capistrano::SCM::Git

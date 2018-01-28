@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SearchServerIndexer
   def reindex_search_server
     [Artist, Studio, ArtPiece].each { |clz| clz.import force: true }

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Search
   class QueryRunner
     def initialize(query = nil, _include_highlight = true)
@@ -6,7 +7,7 @@ module Search
     end
 
     def search
-      return [] unless @query.present?
+      return [] if @query.blank?
       results = multi_index_search
       package_results(results)
     end
@@ -34,7 +35,7 @@ module Search
         }
       }
       EsClient.client.search(
-        index: [:art_pieces, :studios, :artists].join(','),
+        index: %i[art_pieces studios artists].join(','),
         body: query_body
       )
     end

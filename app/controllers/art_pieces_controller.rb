@@ -1,13 +1,14 @@
 # frozen_string_literal: true
+
 class ArtPiecesController < ApplicationController
   include TagsHelper
 
-  before_action :user_required, only: [:new, :edit, :update, :create, :destroy]
-  before_action :artist_required, only: [:new, :edit, :update, :create, :destroy]
-  before_action :load_art_piece, only: [:show, :destroy, :edit, :update]
-  before_action :load_media, only: [:new, :edit, :create, :update]
+  before_action :user_required, only: %i[edit update create destroy]
+  before_action :artist_required, only: %i[edit update create destroy]
+  before_action :load_art_piece, only: %i[show destroy edit update]
+  before_action :load_media, only: %i[edit create update]
 
-  after_action :flush_cache, only: [:create, :update, :destroy]
+  after_action :flush_cache, only: %i[create update destroy]
 
   def flush_cache
     Medium.flush_cache
@@ -19,7 +20,7 @@ class ArtPiecesController < ApplicationController
       format.html do
         set_page_info_from_art_piece
         @art_piece = ArtPieceHtmlPresenter.new(@art_piece)
-        render action: 'show'
+        render 'show'
       end
       format.json do
         redirect_to api_v2_art_piece_path(@art_piece, format: :json)
@@ -43,7 +44,7 @@ class ArtPiecesController < ApplicationController
     else
       @art_piece = art_piece
       @artist = ArtistPresenter.new(current_artist)
-      render template: 'artists/manage_art'
+      render 'artists/manage_art'
     end
   end
 
@@ -57,7 +58,7 @@ class ArtPiecesController < ApplicationController
       Messager.new.publish "/artists/#{current_artist.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
       redirect_to art_piece_path(@art_piece)
     else
-      render action: 'edit'
+      render 'edit'
     end
   end
 
@@ -91,7 +92,7 @@ class ArtPiecesController < ApplicationController
 
   def load_art_piece
     @art_piece = safe_find_art_piece(params[:id])
-    return if @art_piece && @art_piece.artist && @art_piece.artist.active?
+    return if @art_piece&.artist && @art_piece.artist.active?
     flash[:error] = "We couldn't find that art piece."
     redirect_to '/error'
   end

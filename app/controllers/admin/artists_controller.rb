@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 module Admin
   class ArtistsController < ::BaseAdminController
-    before_action :admin_required, only: [:suspend, :index, :edit, :update]
-    before_action :set_artist, only: [:edit, :suspend, :update]
+    before_action :admin_required, only: %i[suspend index edit update]
+    before_action :set_artist, only: %i[edit suspend update]
 
     def index
       @artist_list = AdminArtistList.new
@@ -46,9 +47,7 @@ module Admin
           end
         end
         msg = "Updated setting for #{@updated_count} artists"
-        if @skipped_count.positive?
-          msg += sprintf(' and skipped %d artists who are not in the mission or have an invalid address', @skipped_count)
-        end
+        msg += sprintf(' and skipped %d artists who are not in the mission or have an invalid address', @skipped_count) if @skipped_count.positive?
         flash[:notice] = msg
       end
       redirect_to(admin_artists_url)
@@ -78,7 +77,7 @@ module Admin
                                      :email, :nomdeplume,
                                      :studio_id,
                                      links: allowed_links,
-                                     artist_info_attributes: [:studionumber, :street, :bio])
+                                     artist_info_attributes: %i[studionumber street bio])
     end
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ArtistsMap do
@@ -21,7 +22,7 @@ describe ArtistsMap do
       subject { super().with_addresses }
       describe '#count' do
         subject { super().count }
-        it { should eql map.artists.select(&:has_address?).count }
+        it { is_expected.to eql map.artists.select(&:has_address?).count }
       end
     end
 

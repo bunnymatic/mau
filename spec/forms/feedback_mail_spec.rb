@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
-describe FeedbackMail do
+describe FeedbackMail, type: :model do
   let(:feedback_params) { FactoryBot.attributes_for(:feedback_mail) }
   subject(:feedback_mail) { FactoryBot.build(:feedback_mail) }
 

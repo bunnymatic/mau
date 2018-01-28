@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module PresenterSpecHelpers
   class MockViewContext
     include ActionView::Helpers::UrlHelper

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 When(/^I visit my home page$/) do
   visit artist_path(@artist)
 end
@@ -52,7 +53,7 @@ When(/^I fill out the add art form$/) do
   fill_in 'Dimensions', with: '4 x 3'
   fill_in 'Year', with: '1515'
   selectize_single_select 'art_piece_medium_id', @medium.name
-  selectize_multi_select 'art_piece_tag_ids', %w(superfragile complimicated)
+  selectize_multi_select 'art_piece_tag_ids', %w[superfragile complimicated]
 end
 
 Then /^I see that my art was added$/ do
@@ -244,7 +245,5 @@ When(/^the meta keywords includes that art piece's tags and medium$/) do
   @art_piece.tags.each do |_tag|
     steps %(Then the page meta name "keywords" includes "#{tag.name}")
   end
-  if @art_piece.medium
-    steps %(Then the page meta name "keywords" includes "#{@art_piece.medium.name}")
-  end
+  steps %(Then the page meta name "keywords" includes "#{@art_piece.medium.name}") if @art_piece.medium
 end

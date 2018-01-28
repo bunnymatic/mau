@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Admin
   class MediaController < ::BaseAdminController
     def index
@@ -36,7 +37,7 @@ module Admin
         flash[:notice] = 'Medium was successfully updated.'
         redirect_to admin_media_path
       else
-        render action: 'edit'
+        render 'edit'
       end
     end
 

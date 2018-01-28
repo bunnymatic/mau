@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require 'htmlentities'
 
@@ -82,7 +83,7 @@ describe Admin::StudiosController do
       end
       it_should_behave_like 'not authorized'
     end
-    [:editor, :manager].each do |u|
+    %i[editor manager].each do |u|
       describe "as #{u}" do
         before do
           # login_as self.send(u)
@@ -112,7 +113,7 @@ describe Admin::StudiosController do
   end
 
   # studio manager required endpoints
-  [:edit, :unaffiliate_artist].each do |endpoint|
+  %i[edit unaffiliate_artist].each do |endpoint|
     describe endpoint.to_s do
       describe 'unauthorized' do
         before do

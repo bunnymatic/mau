@@ -1,5 +1,5 @@
-# coding: utf-8
 # frozen_string_literal: true
+
 class ArtistMailer < MauMailer
   def favorite_notification(artist, fan)
     setup_email(artist)

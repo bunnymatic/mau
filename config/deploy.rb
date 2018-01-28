@@ -1,12 +1,13 @@
 # frozen_string_literal: true
+
 lock '3.10.0'
 
-set :stages, %w(production acceptance)
+set :stages, %w[production acceptance]
 
 set :rbenv_type, :user # or :system, depends on your rbenv setup
 set :rbenv_ruby, '2.4.1'
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-set :rbenv_map_bins, %w(rake gem bundle ruby rails)
+set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all # default value
 
 set :application, 'MAU'
@@ -14,7 +15,7 @@ set :repo_url, 'git@github.com:bunnymatic/mau.git'
 
 # set :rails_env, 'production'                  # If the environment differs from the stage name
 # set :migration_role, 'migrator'            # Defaults to 'db'
-set :assets_roles, [:web, :app] # Defaults to [:web]
+set :assets_roles, %i[web app] # Defaults to [:web]
 # set :assets_prefix, 'prepackaged-assets'   # Defaults to 'assets' this should match config.assets.prefix in your rails config/application.rb
 
 # Default branch is :master
@@ -42,10 +43,10 @@ set :assets_roles, [:web, :app] # Defaults to [:web]
 # set :keep_releases, 5
 
 # Default value for :linked_files is []
-set :linked_files, %w(config/database.yml config/config.keys.yml config/secrets.yml)
+set :linked_files, %w[config/database.yml config/config.keys.yml config/secrets.yml]
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w(log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system)
+set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system]
 
 set :rails_env, (fetch(:rails_env) || fetch(:stage))
 

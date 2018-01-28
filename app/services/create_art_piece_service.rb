@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateArtPieceService
   attr_reader :params, :artist
 

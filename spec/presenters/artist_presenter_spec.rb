@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ArtistPresenter do
@@ -19,7 +20,7 @@ describe ArtistPresenter do
     its(:favorites_count) { is_expected.to be_nil }
     its(:studio_name) { is_expected.to eql artist.studio.name }
     its(:art?) { is_expected.to eql true }
-    it { should be_valid }
+    it { is_expected.to be_valid }
 
     describe '#get_share_link' do
       it 'returns the artists link' do
@@ -41,7 +42,7 @@ describe ArtistPresenter do
 
     context 'when we wrap a nil artist' do
       let(:artist) { nil }
-      it { should_not be_valid }
+      it { is_expected.to_not be_valid }
     end
 
     context 'without studio' do
@@ -69,7 +70,7 @@ describe ArtistPresenter do
 
       describe '#bio?' do
         subject { super().bio? }
-        it { should eq false }
+        it { is_expected.to eq false }
       end
     end
 
@@ -90,12 +91,12 @@ describe ArtistPresenter do
 
       describe '#art_pieces' do
         subject { super().art_pieces }
-        it { should be_empty }
+        it { is_expected.to be_empty }
       end
 
       describe '#art?' do
         subject { super().art? }
-        it { should eq false }
+        it { is_expected.to eq false }
       end
     end
   end

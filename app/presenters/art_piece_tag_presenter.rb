@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ArtPieceTagPresenter
   attr_reader :tag
 
@@ -38,9 +39,7 @@ class ArtPieceTagPresenter
         {}.tap do |artists_works|
           tagged_art_pieces.each do |art|
             artist = art.try(:artist)
-            if artist && artist.active? && !artists_works.key?(artist)
-              artists_works[artist] = art
-            end
+            artists_works[artist] = art if artist&.active? && !artists_works.key?(artist)
           end
         end.values
       end

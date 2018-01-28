@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module LeakyFixtures
   def fix_leaky_fixtures
     # hopefully we can get around this but until we see what's up

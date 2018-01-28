@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Artist do
@@ -69,7 +70,7 @@ describe Artist do
 
   describe 'address methods' do
     before do
-      @address_methods = [:address, :full_address]
+      @address_methods = %i[address full_address]
     end
     describe 'artist info only' do
       it 'delegates address to artist info' do
@@ -283,6 +284,7 @@ describe Artist do
     before do
       artist
       wayout_artist
+      create(:artist, studio_id: 10_000_000)
     end
     describe '.without_art' do
       it 'does not include fans' do
@@ -311,6 +313,16 @@ describe Artist do
       it 'returns 1 artist(s) for the current open studios' do
         artists = Artist.open_studios_participants
         expect(artists.size).to eq(1)
+      end
+    end
+    describe '.in_a_group_studio' do
+      it 'returns only artists with a valid studio' do
+        expect(Artist.in_a_group_studio).to match_array [artist]
+      end
+    end
+    describe '.independent_studio' do
+      it 'returns only artists with a valid studio' do
+        expect(Artist.independent_studio).to match_array [wayout_artist]
       end
     end
   end

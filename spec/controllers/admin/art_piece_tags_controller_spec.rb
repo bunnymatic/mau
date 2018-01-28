@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 describe Admin::ArtPieceTagsController do
   let(:user) { FactoryBot.create(:user, :active) }

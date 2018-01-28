@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ArtPieceSerializer do
@@ -9,20 +10,16 @@ describe ArtPieceSerializer do
     before do
       @ap = JSON.parse(serializer.to_json)['art_piece']
     end
-    it 'includes the filename' do
-      expect(@ap.keys).to include 'filename'
-    end
-
     it 'includes the fields we care about' do
-      %w( id filename title artist_id
+      %w[ id title artist_id
           year tags medium
-          image_urls artist_name ).each do |expected|
+          image_urls artist_name ].each do |expected|
         expect(@ap).to have_key expected
       end
     end
 
     it 'includes paths to the images' do
-      sizes = %w(large medium original small thumb)
+      sizes = %w[large medium original small thumb]
       files = @ap['image_urls']
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|

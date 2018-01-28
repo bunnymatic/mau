@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FeedbacksController < ApplicationController
   layout false
 
@@ -27,7 +28,7 @@ class FeedbacksController < ApplicationController
       # without worrying about the javascript.
       @title = _get_title
       @section = @feedback.subject.to_s
-      render action: 'new', status: :unprocessable_entity
+      render 'new', status: :unprocessable_entity
     end
   end
 

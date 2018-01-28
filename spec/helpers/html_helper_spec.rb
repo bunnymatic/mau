@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe HtmlHelper do
   describe '.print_html_list' do
-    let(:links) { %w(one two three) }
+    let(:links) { %w[one two three] }
     let(:list) { helper.print_html_list('mylist', links).to_s }
     let(:html_list) { Capybara::Node::Simple.new(list) }
     it 'lists all the links as a list' do

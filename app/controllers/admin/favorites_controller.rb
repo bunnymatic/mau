@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Admin
   class FavoritesController < ::BaseAdminController
     before_action :admin_required

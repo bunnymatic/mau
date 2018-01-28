@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 describe Admin::CmsDocumentsController do
   let(:editor) { FactoryBot.create(:artist, :editor) }
   let(:cms_document) { FactoryBot.create(:cms_document, article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption") }
 
   context 'not authorized' do
-    [:index, :show, :edit, :update].each do |meth|
+    %i[index show edit update].each do |meth|
       before do
         get meth, params: { id: 'whatever' }
       end

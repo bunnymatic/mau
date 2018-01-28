@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 root = '/home/deploy/deployed/mau/current'
 working_directory root
 pid "#{root}/tmp/pids/unicorn.pid"

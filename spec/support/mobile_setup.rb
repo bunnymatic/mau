@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 unless defined? IPHONE_USER_AGENT
   IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; U; XXXXX like Mac OS X; en)'\
                       ' AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A477c'\

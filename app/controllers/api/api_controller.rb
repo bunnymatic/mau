@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Api
   class ApiController < ActionController::Base
     before_action :require_authorization
@@ -14,7 +15,7 @@ module Api
     def internal_request?
       server = Rails.application.config.action_mailer.default_url_options[:host]
       referrer = URI.parse(request.env['HTTP_REFERER'].to_s)
-      referrer && referrer.host && (server.include?(referrer.host) || %r{^https?://127\.0\.0\.1/})
+      referrer&.host && (server.include?(referrer.host) || %r{^https?://127\.0\.0\.1/})
     rescue URI::Error
       false
     end

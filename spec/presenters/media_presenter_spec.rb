@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe MediaPresenter do
@@ -18,15 +19,8 @@ describe MediaPresenter do
 
   subject(:presenter) { MediaPresenter.new(select_medium, page, mode, per_page) }
 
-  describe '#by_artists?' do
-    subject { super().by_artists? }
-    it { should eq false }
-  end
-
-  describe '#by_pieces?' do
-    subject { super().by_pieces? }
-    it { should eq(true) }
-  end
+  its(:by_artists?) { is_expected.to eql false }
+  its(:by_pieces?) { is_expected.to eql true }
 
   describe '#all_art_pieces' do
     it 'has select_medium.art_pieces.count art_pieces' do
@@ -36,32 +30,12 @@ describe MediaPresenter do
 
   describe '#paginator' do
     subject { super().paginator }
-    describe '#items' do
-      it 'has 2 items' do
-        expect(subject.items.size).to eq(2)
-      end
+    it 'has 2 items' do
+      expect(subject.items).to have(2).items
     end
-  end
-
-  describe '#paginator' do
-    subject { super().paginator }
-    it { should be_a_kind_of MediumPagination }
-  end
-
-  describe '#paginator' do
-    subject { super().paginator }
-    describe '#per_page' do
-      subject { super().per_page }
-      it { should eql per_page }
-    end
-  end
-
-  describe '#paginator' do
-    subject { super().paginator }
-    describe '#current_page' do
-      subject { super().current_page }
-      it { should eql page }
-    end
+    it { is_expected.to be_a_kind_of MediumPagination }
+    its(:per_page) { is_expected.to eql per_page }
+    its(:current_page) { is_expected.to eql page }
   end
 
   context 'with inactive artists in the system' do
@@ -69,7 +43,7 @@ describe MediaPresenter do
       artists.first.suspend!
     end
     it 'shows art only from active artists' do
-      expect(art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
+      expect(presenter.all_art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
     end
   end
 end

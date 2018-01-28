@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ArtistInfo < ApplicationRecord
   belongs_to :artist
 

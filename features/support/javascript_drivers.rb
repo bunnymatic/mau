@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'capybara/poltergeist'
 
 Capybara.register_driver :poltergeist do |app|
@@ -26,7 +27,7 @@ end
 
 module JavascriptDriverChecker
   def running_js?
-    [:selenium, :webkit, :chrome, :poltergeist].include?(Capybara.current_driver)
+    %i[selenium webkit chrome poltergeist].include?(Capybara.current_driver)
   end
 end
 

@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Admin::TestsController do
   let(:admin) { FactoryBot.create(:artist, :admin) }
 
   context 'unauthorized' do
-    %w(social_icons qr flash_test custom_map).each do |endpoint|
+    %w[social_icons qr flash_test custom_map].each do |endpoint|
       it "#{endpoint} returns error if you're not logged in" do
         get endpoint
         expect(response).to redirect_to '/error'

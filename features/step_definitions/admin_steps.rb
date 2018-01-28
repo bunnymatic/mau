@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 def find_admin_user_show_row(title)
   page.all('.admin-user__profile-table-row').detect { |row| row.text.include? title }
 end

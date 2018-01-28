@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class StudioSerializer < MauSerializer
   attributes :id, :name, :street_address, :city, :map_url, :url, :artists, :slug
 
@@ -6,7 +7,7 @@ class StudioSerializer < MauSerializer
   include ActionView::Helpers::UrlHelper
 
   def artists
-    object.artists.active.map { |a| Hash[[:id, :slug, :full_name, :firstname, :lastname].map { |k| [k, a.send(k)] }] }
+    object.artists.active.map { |a| Hash[%i[id slug full_name firstname lastname].map { |k| [k, a.send(k)] }] }
   end
 
   def url

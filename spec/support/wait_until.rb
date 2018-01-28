@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module WaitUntil
   def wait_until(t = 1)
     Timeout.timeout(t) do

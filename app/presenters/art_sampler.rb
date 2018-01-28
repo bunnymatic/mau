@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ArtSampler
   attr_reader :seed, :offset
 

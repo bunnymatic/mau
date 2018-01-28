@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ApplicationEventsHelper
   def link_to_user(ev)
     user = (ev.data || {})['user']

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'digest/sha1'
 require 'json'
 
@@ -15,7 +16,7 @@ class User < ApplicationRecord
   validates       :firstname, length: { maximum: 100, allow_nil: true }
   validates       :lastname, length: { maximum: 100, allow_nil: true }
 
-  store :links, accessors: %i(website facebook twitter blog pinterest myspace flickr instagram artspan)
+  store :links, accessors: %i[website facebook twitter blog pinterest myspace flickr instagram artspan]
 
   extend FriendlyId
   friendly_id :login, use: [:slugged]
@@ -46,14 +47,15 @@ class User < ApplicationRecord
   scope :pending, -> { where(state: 'pending') }
   scope :suspended, -> { where(state: 'suspended') }
   scope :deleted, -> { where(state: 'deleted') }
+  scope :admin, -> { joins(:roles_users).where(roles_users: { role: Role.admin }) }
 
   before_validation :normalize_attributes
   before_validation :add_http_to_links
   before_validation :cleanup_fields
   before_destroy :delete_favorites
 
-  def self.admin
-    joins(:roles_users).where(roles_users: { role: Role.admin })
+  def mailchimp_subscribed?
+    !!mailchimp_subscribed_at
   end
 
   def self.login_or_email_finder(login)
@@ -64,7 +66,7 @@ class User < ApplicationRecord
     Favorite.artists.where(favoritable_id: id).delete_all
   end
 
-  [:studionumber, :studionumber=].each do |delegat|
+  %i[studionumber studionumber=].each do |delegat|
     delegate delegat, to: :artist_info, allow_nil: true
   end
 
@@ -72,15 +74,15 @@ class User < ApplicationRecord
     a.lastname.downcase <=> b.lastname.downcase
   end
 
-  has_many :favorites, dependent: :destroy, class_name: 'Favorite' do
+  has_many :favorites, dependent: :destroy, inverse_of: :favorite, class_name: 'Favorite' do
     def to_obj
       proxy_association.owner.favorites.map(&:to_obj).reject(&:nil?)
     end
   end
 
   belongs_to :studio
-  has_many :roles_users, dependent: :destroy
-  has_many :roles, through: :roles_users
+  has_many :roles_users
+  has_many :roles, through: :roles_users, dependent: :destroy
 
   acts_as_authentic do |c|
     c.act_like_restful_authentication = true
@@ -101,9 +103,7 @@ class User < ApplicationRecord
 
   def full_name
     full_name = nomdeplume if nomdeplume.present?
-    if !full_name && firstname.present? && lastname.present?
-      full_name = [firstname, lastname].join(' ')
-    end
+    full_name = [firstname, lastname].join(' ') if !full_name && firstname.present? && lastname.present?
     full_name || login
   end
 
@@ -192,7 +192,7 @@ class User < ApplicationRecord
   protected
 
   def cleanup_fields
-    [:firstname, :lastname, :nomdeplume, :email].each do |fld|
+    %i[firstname lastname nomdeplume email].each do |fld|
       v = send(fld)
       send("#{fld}=", v.strip) if v.present? && v.respond_to?('strip')
     end
@@ -212,15 +212,13 @@ class User < ApplicationRecord
   def notify_user_about_state_change
     mailer_class = artist? ? ArtistMailer : UserMailer
     reload
-    if recently_activated? && mailchimp_subscribed_at.nil?
-      mailer_class.activation(self).deliver_later
-    end
+    mailer_class.activation(self).deliver_later if recently_activated? && mailchimp_subscribed_at.nil?
     mailer_class.reset_notification(self).deliver_later if recently_reset?
     mailer_class.resend_activation(self).deliver_later if resent_activation?
   end
 
   def _add_http_to_link(link)
-    return unless link.present?
+    return if link.blank?
     %r{^https?:\/\/} =~ link ? link : ('http://' + link)
   end
 

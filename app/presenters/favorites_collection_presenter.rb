@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FavoritesCollectionPresenter < ViewPresenter
   attr_reader :user, :collection, :current_user
 
@@ -24,13 +25,13 @@ class FavoritesCollectionPresenter < ViewPresenter
 
   def empty_message
     if current_user_is_user?
-      msg = <<-EOS
+      msg = <<-MSG
         It looks like you don't have any favorites yet.
         Go find an artist or some artwork that you like.
         You'll see this
         <span class='fa fa-heart'></span>
         around the site.  Click on it to favorite art or artists.
-      EOS
+      MSG
       safe_join([content_tag('p', msg), content_tag('p', 'Start your search below.')])
     else
       '<p>This user has not favorited anything yet.</p>'

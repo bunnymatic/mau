@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AdminMailer < MauMailer
   def spammer(inf)
     from        = 'info@missionartists.org'

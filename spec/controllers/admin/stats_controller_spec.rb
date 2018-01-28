@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 describe Admin::StatsController do
   let(:admin) { FactoryBot.create(:artist, :admin) }
@@ -10,7 +11,7 @@ describe Admin::StatsController do
   end
 
   describe 'json endpoints' do
-    [:art_pieces_count_histogram, :user_visits_per_day, :artists_per_day, :favorites_per_day, :art_pieces_per_day, :os_signups].each do |endpoint|
+    %i[art_pieces_count_histogram user_visits_per_day artists_per_day favorites_per_day art_pieces_per_day os_signups].each do |endpoint|
       describe endpoint.to_s do
         before do
           get endpoint, xhr: true

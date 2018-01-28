@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 module Admin
   class StudiosController < ::BaseAdminController
     before_action :manager_required
-    before_action :admin_required, only: [:new, :create, :destroy]
-    before_action :studio_manager_required, only: [:edit, :update,
-                                                   :unaffiliate_artist]
-    before_action :load_studio, except: [:new, :index, :create, :reorder]
+    before_action :admin_required, only: %i[new create destroy]
+    before_action :studio_manager_required, only: %i[edit update
+                                                     unaffiliate_artist]
+    before_action :load_studio, except: %i[new index create reorder]
     skip_before_action :verify_authenticity_token, only: [:unaffiliate_artist]
 
     def index
@@ -55,19 +56,14 @@ module Admin
     end
 
     def destroy
-      if @studio
-        @studio.artists.each { |artist| StudioArtist.new(@studio, artist).unaffiliate }
-        @studio.destroy
-      end
+      @studio&.destroy
 
       redirect_to(studios_url, notice: 'Sad to see them go.  But there are probably more right around the bend.')
     end
 
     def unaffiliate_artist
       artist = Artist.find(params[:artist_id])
-      if artist == current_artist
-        redirect_to_edit(error: 'You cannot unaffiliate yourself') && return
-      end
+      redirect_to_edit(error: 'You cannot unaffiliate yourself') && return if artist == current_artist
       msg = if StudioArtist.new(@studio, artist).unaffiliate
               { notice: "#{artist.full_name} is no longer associated with #{@studio.name}." }
             else

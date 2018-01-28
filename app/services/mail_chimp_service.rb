@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class MailChimpService
   API_KEY = Conf.mailchimp_api_key
   FAN_LIST_ID = Conf.mailchimp_fan_list_id
@@ -10,7 +11,7 @@ class MailChimpService
 
   def subscribe_and_welcome
     raise 'Conf:mailchimp_api_key not set' if API_KEY.blank?
-    return unless @user.mailchimp_subscribed_at.nil?
+    return if @user.mailchimp_subscribed?
     subscribe
     @user.update(mailchimp_subscribed_at: Time.zone.now)
   end

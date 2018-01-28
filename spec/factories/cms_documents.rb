@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryBot.define do
   factory :cms_document do
     page { "page_#{Faker::Files.dir}" }

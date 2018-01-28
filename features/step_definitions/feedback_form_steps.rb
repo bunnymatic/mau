@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 When(/^I fill in the inquiry form$/) do
   within '.ngdialog-content' do
     fill_in_field_with_value 'Email', 'joe@example.com'

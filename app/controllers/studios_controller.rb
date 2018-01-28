@@ -1,9 +1,9 @@
 # frozen_string_literal: true
+
 require 'studio'
 class StudiosController < ApplicationController
-  before_action :load_studio_list, only: [:index, :show]
-  before_action :load_studio, only: [:edit, :update, :destroy, :show,
-                                     :unaffiliate_artist, :upload_profile, :add_profile]
+  before_action :load_studio_list, only: %i[index show]
+  before_action :load_studio, only: %i[show]
 
   def index
     respond_to do |format|

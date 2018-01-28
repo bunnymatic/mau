@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ArtPieceServiceTagsHandler
   def prepare_tags_params
     key = :tags if @params.key? :tags

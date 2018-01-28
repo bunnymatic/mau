@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 class MediaController < ApplicationController
   # GET /media
   # GET /media.xml
-  before_action :admin_required, except: [:index, :show]
+  before_action :admin_required, except: %i[index show]
   before_action :load_media, only: [:show]
-  before_action :load_media_frequency, only: [:index, :show]
+  before_action :load_media_frequency, only: %i[index show]
 
   def index
     xtra_params = params.permit(:m)

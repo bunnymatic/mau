@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'csv'
 
 class CatalogPresenter < ViewPresenter
@@ -25,7 +26,7 @@ class CatalogPresenter < ViewPresenter
   end
 
   def indy_artists
-    @indy_artists ||= all_artists.reject(&:in_a_group_studio?)
+    @indy_artists ||= all_artists.independent_studio
   end
 
   def indy_artists_count
@@ -33,7 +34,7 @@ class CatalogPresenter < ViewPresenter
   end
 
   def group_studio_artists
-    @group_studio_artists ||= all_artists.select(&:in_a_group_studio?)
+    @group_studio_artists ||= all_artists.in_a_group_studio
   end
 
   def artists_by_studio
@@ -44,7 +45,7 @@ class CatalogPresenter < ViewPresenter
         artists[a.studio] = [] unless artists[a.studio]
         artists[a.studio] << a
       end
-      artists.values.each do |artist_list|
+      artists.each_value do |artist_list|
         artist_list.sort!(&Artist::SORT_BY_LASTNAME)
       end
       artists
@@ -80,7 +81,7 @@ class CatalogPresenter < ViewPresenter
     [
       csv_safe(a.firstname),
       csv_safe(a.lastname),
-      a.get_name(true),
+      a.get_name,
       a.email,
       a.studio.try(:name).to_s,
       a.address.street,

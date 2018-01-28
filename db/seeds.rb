@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # add old open studios events to the system
 
 # [2010,2011,2012,2013,2014].each do |year|
@@ -30,4 +31,9 @@
   'Sculpture'
 ].each do |name|
   Medium.find_or_create_by(name: name)
+end
+
+# Not including RecruitingMailerList
+%w[FeedbackMailerList AdminMailerList].each do |type|
+  EmailList.find_or_create_by(type: type)
 end

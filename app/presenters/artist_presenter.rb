@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This presenter adds helpful display/view related methods
 # to make it easy to draw artist data on a page
 
@@ -63,7 +64,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def bio?
-    !model.bio.blank?
+    model.bio.present?
   end
 
   def art?

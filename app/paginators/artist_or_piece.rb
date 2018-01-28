@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ArtistOrPiece
   def page_args
     @mode_string ? { m: @mode_string } : {}

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe OpenStudiosPresenter do
@@ -48,42 +49,42 @@ describe OpenStudiosPresenter do
 
   describe '#preview_reception' do
     subject { super().preview_reception }
-    it { should include 'pr header' }
+    it { is_expected.to include 'pr header' }
   end
 
   describe '#summary' do
     subject { super().summary }
-    it { should include 'spring 2004' }
+    it { is_expected.to include 'spring 2004' }
   end
 
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
-    it { should have_key 'data-cmsid' }
+    it { is_expected.to have_key 'data-cmsid' }
   end
 
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
-    it { should have_key 'data-page' }
+    it { is_expected.to have_key 'data-page' }
   end
 
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
-    it { should have_key 'data-section' }
+    it { is_expected.to have_key 'data-section' }
   end
 
   describe '#summary_data' do
     subject { super().summary_data }
-    it { should have_key 'data-cmsid' }
+    it { is_expected.to have_key 'data-cmsid' }
   end
 
   describe '#summary_data' do
     subject { super().summary_data }
-    it { should have_key 'data-page' }
+    it { is_expected.to have_key 'data-page' }
   end
 
   describe '#summary_data' do
     subject { super().summary_data }
-    it { should have_key 'data-section' }
+    it { is_expected.to have_key 'data-section' }
   end
 
   it 'participating studios by name' do

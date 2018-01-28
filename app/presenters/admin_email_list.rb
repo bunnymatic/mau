@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'csv'
 class AdminEmailList < ViewPresenter
   include OpenStudiosEventShim
@@ -91,10 +92,10 @@ class AdminEmailList < ViewPresenter
           [ostag, OpenStudiosEventService.for_display(ostag)]
         end
 
-        [%w(all Artists),
-         %w(active Activated),
-         %w(pending Pending),
-         %w(fans Fans),
+        [%w[all Artists],
+         %w[active Activated],
+         %w[pending Pending],
+         %w[fans Fans],
          ['no_profile', 'Active with no profile image'],
          ['no_images', 'Active with no art']] + os_lists
       end

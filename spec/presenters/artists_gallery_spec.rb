@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ArtistsGallery do
@@ -31,17 +32,17 @@ describe ArtistsGallery do
 
   describe '#current_page' do
     subject { super().current_page }
-    it { should eql current_page }
+    it { is_expected.to eql current_page }
   end
 
   describe '#per_page' do
     subject { super().per_page }
-    it { should eql per_page }
+    it { is_expected.to eql per_page }
   end
 
   describe '#empty_message' do
     subject { super().empty_message }
-    it { should include "couldn't find any artists" }
+    it { is_expected.to include "couldn't find any artists" }
   end
 
   it 'shows no artists without a representative piece' do
@@ -60,7 +61,7 @@ describe ArtistsGallery do
 
     describe '#empty_message' do
       subject { super().empty_message }
-      it { should include 'no one with that name has signed up' }
+      it { is_expected.to include 'no one with that name has signed up' }
     end
   end
 

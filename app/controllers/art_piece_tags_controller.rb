@@ -1,6 +1,9 @@
 # frozen_string_literal: true
+
 class ArtPieceTagsController < ApplicationController
-  before_action :admin_required, except: [:index, :show, :autosuggest]
+  class NoTagsError < StandardError; end
+
+  before_action :admin_required, except: %i[index show autosuggest]
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
@@ -52,9 +55,7 @@ class ArtPieceTagsController < ApplicationController
     tags = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless tags
       tags = ArtPieceTag.all.map { |t| { 'text' => t.name, 'id' => t.id } }
-      if tags.present?
-        SafeCache.write(AUTOSUGGEST_CACHE_KEY, tags, expires_in: AUTOSUGGEST_CACHE_EXPIRY)
-      end
+      SafeCache.write(AUTOSUGGEST_CACHE_KEY, tags, expires_in: AUTOSUGGEST_CACHE_EXPIRY) if tags.present?
     end
     tags
   end
@@ -62,7 +63,7 @@ class ArtPieceTagsController < ApplicationController
   def redirect_to_most_popular_tag(redirect_opts = {})
     popular_tag = ArtPieceTagService.most_popular_tag
     if popular_tag.nil?
-      render_not_found Exception.new('No tags in the system')
+      render_not_found NoTagsError.new('No tags in the system')
     else
       redirect_to art_piece_tag_path(popular_tag, show_tag_params), redirect_opts
     end

@@ -1,5 +1,5 @@
-# coding: utf-8
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe User do
@@ -39,14 +39,14 @@ describe User do
     expect(user).to have_at_least(1).error_on(:password_confirmation)
   end
 
-  it { should validate_presence_of(:login) }
-  it { should validate_length_of(:login).is_at_least(5).is_at_most(40) }
+  it { is_expected.to validate_presence_of(:login) }
+  it { is_expected.to validate_length_of(:login).is_at_least(5).is_at_most(40) }
 
-  it { should validate_presence_of(:email) }
-  it { should validate_length_of(:email).is_at_least(6).is_at_most(100) }
+  it { is_expected.to validate_presence_of(:email) }
+  it { is_expected.to validate_length_of(:email).is_at_least(6).is_at_most(100) }
 
-  it { should validate_length_of(:firstname).is_at_most(100) }
-  it { should validate_length_of(:lastname).is_at_most(100) }
+  it { is_expected.to validate_length_of(:firstname).is_at_most(100) }
+  it { is_expected.to validate_length_of(:lastname).is_at_most(100) }
 
   context '.login_or_email_finder' do
     let!(:artist) { create :artist, login: 'whatever_yo', email: 'yo_whatever@example.com' }
@@ -65,8 +65,8 @@ describe User do
     before do
       stub_signup_notification
     end
-    it { should validate_uniqueness_of(:login) }
-    it { should validate_uniqueness_of(:email) }
+    it { is_expected.to validate_uniqueness_of(:login).case_insensitive }
+    it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   end
 
   context 'make sure our factories work' do
@@ -247,7 +247,7 @@ describe User do
   end
   describe 'unavailable methods' do
     it "doesn't reply to old artists attributes" do
-      [:lat, :lng, :bio, :street, :city, :zip].each do |method|
+      %i[lat lng bio street city zip].each do |method|
         expect(maufan).not_to respond_to method
       end
     end

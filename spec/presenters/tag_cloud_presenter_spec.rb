@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe TagCloudPresenter, type: :controller do
@@ -38,7 +39,7 @@ describe TagCloudPresenter, type: :controller do
   describe '#frequency' do
     it do
       expect(presenter.frequency.map { |tf| [tf.tag, tf.frequency] })
-        .to eql expected_frequency.map { |tf| [tf.tag, tf.frequency] }
+        .to eql(expected_frequency.map { |tf| [tf.tag, tf.frequency] })
     end
   end
 

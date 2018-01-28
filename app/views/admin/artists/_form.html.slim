@@ -1,4 +1,4 @@
-  = semantic_form_for [:admin, @artist] do |f|
+  = semantic_form_for [:admin, artist] do |f|
     - link_info = ((f.object.is_a? Artist) ? ArtistPresenter : UserPresenter)::keyed_links
     = f.inputs do
       .pure-g
@@ -14,7 +14,7 @@
               = artist_info.input :street
               = artist_info.input :bio
         .pure-u-1-1.pure-u-md-1-2.padded-content
-          = f.semantic_fields_for :links, OpenStruct.new(@artist.links) do |links|
+          = f.semantic_fields_for :links, OpenStruct.new(artist.links) do |links|
             = links.inputs do
               - link_info.each do |key|
                 = links.input key

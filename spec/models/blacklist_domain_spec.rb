@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe BlacklistDomain do
@@ -11,13 +12,13 @@ describe BlacklistDomain do
     BlacklistDomain.create! FactoryBot.attributes_for(:blacklist_domain)
   end
 
-  %w(valid.com a.valid.domain.biz).each do |domain|
+  %w[valid.com a.valid.domain.biz].each do |domain|
     it "validates #{domain} as valid" do
       expect(BlacklistDomain.new(domain: domain)).to be_valid
     end
   end
 
-  %w(invalid whover.superlongtld a.b.c.e.f.g.h).each do |domain|
+  %w[invalid whover.superlongtld a.b.c.e.f.g.h].each do |domain|
     it "validates #{domain} as invalid" do
       expect(BlacklistDomain.new(domain: domain)).not_to be_valid
     end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class OpenStudiosController < ApplicationController
   def show
     @page_title = PageInfoService.title('Open Studios')

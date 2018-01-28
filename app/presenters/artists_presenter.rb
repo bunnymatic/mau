@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This presenter fetches a list of artists
 # and makes them easily accessible as ArtistPresenter objects
 class ArtistsPresenter < ViewPresenter

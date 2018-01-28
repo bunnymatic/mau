@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ArtistsGallery < ArtistsPresenter
   include Rails.application.routes.url_helpers
 
@@ -12,7 +13,7 @@ class ArtistsGallery < ArtistsPresenter
   def initialize(os_only, letter, ordering, current_page, per_page = PER_PAGE)
     super os_only
     @letter = letter.try(:downcase)
-    @ordering = [:lastname, :firstname].include?(ordering.try(:to_sym)) ? ordering.to_sym : :lastname
+    @ordering = %i[lastname firstname].include?(ordering.try(:to_sym)) ? ordering.to_sym : :lastname
     @per_page = per_page
     @current_page = current_page.to_i
     @pagination = ArtistsPagination.new(artists, @current_page, @per_page)
@@ -23,7 +24,7 @@ class ArtistsGallery < ArtistsPresenter
   end
 
   def self.letters(first_or_last)
-    name = first_or_last.to_sym if [:lastname, :firstname].include? first_or_last.to_sym
+    name = first_or_last.to_sym if %i[lastname firstname].include? first_or_last.to_sym
     return [] unless name
     letters = ArtPiece.joins(:artist).where(users: { state: 'active' }).group("lcase(left(users.#{name},1))").count.keys
     letters.select { |l| LETTERS_REGEX =~ l } + [ELLIPSIS]

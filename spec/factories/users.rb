@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../support/test_users_helper'
 
 FactoryBot.define do
@@ -62,9 +63,7 @@ FactoryBot.define do
 
     after(:create) do |artist, context|
       FactoryBot.create(:artist_info, artist: artist, max_pieces: context.max_pieces)
-      if context.doing_open_studios
-        artist.update_os_participation context.doing_open_studios, true
-      end
+      artist.update_os_participation context.doing_open_studios, true if context.doing_open_studios
     end
 
     transient do

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class OpenStudiosEvent < ApplicationRecord
   # attr_accessible :end_date, :start_date, :key, :logo, :title
 

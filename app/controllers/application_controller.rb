@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
@@ -185,11 +186,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_meta_info
-    @page_description = <<EOF
-Mission Artists is a website dedicated to the unification of artists
-in the Mission District of San Francisco.  We promote the artists and the
-community. Art is the Mission!
-EOF
+    @page_description = <<~DESC
+      Mission Artists is a website dedicated to the unification of artists
+      in the Mission District of San Francisco.  We promote the artists and the
+      community. Art is the Mission!
+    DESC
     @page_keywords = ['art is the mission', 'art', 'artists', 'san francisco']
   end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe StudioSerializer do
@@ -6,7 +7,7 @@ describe StudioSerializer do
   let(:serializer) { ActiveModelSerializers::SerializableResource.new(studio) }
   let(:parsed) { JSON.parse(serializer.to_json) }
   describe 'to_json' do
-    [:created_at, :updated_at].each do |field|
+    %i[created_at updated_at].each do |field|
       it "does not include #{field} by default" do
         expect(parsed['studio']).not_to have_key field.to_s
       end
@@ -25,7 +26,7 @@ describe StudioSerializer do
     end
 
     it 'includes trimmed version of artists' do
-      expect(parsed['studio']['artists'].map(&:keys).flatten.uniq).to match_array(%w(id firstname lastname slug full_name))
+      expect(parsed['studio']['artists'].map(&:keys).flatten.uniq).to match_array(%w[id firstname lastname slug full_name])
     end
   end
 end

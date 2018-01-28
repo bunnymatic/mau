@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'uri'
 class Studio < ApplicationRecord
   include AddressMixin
@@ -34,7 +35,7 @@ class Studio < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged]
 
-  has_many :artists
+  has_many :artists, dependent: :nullify
 
   acts_as_mappable
   before_create :compute_geocode
@@ -72,7 +73,7 @@ class Studio < ApplicationRecord
   end
 
   def as_indexed_json(_opts = {})
-    idxd = as_json(only: [:name, :slug])
+    idxd = as_json(only: %i[name slug])
     extras = {}
     extras['address'] = address.to_s
     extras['images'] = image_paths

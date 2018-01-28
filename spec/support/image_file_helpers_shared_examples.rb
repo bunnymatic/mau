@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 shared_examples_for ImageFileHelpers do
   describe 'clean_filename' do
     [['fname.jpg', 'fname.jpg'],

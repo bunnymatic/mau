@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe FavoritesCollectionPresenter do
@@ -48,17 +49,17 @@ describe FavoritesCollectionPresenter do
   context 'when the artist has no favorites' do
     describe '#art_pieces' do
       subject { super().art_pieces }
-      it { should be_empty }
+      it { is_expected.to be_empty }
     end
 
     describe '#artists' do
       subject { super().artists }
-      it { should be_empty }
+      it { is_expected.to be_empty }
     end
 
     describe '#empty_message' do
       subject { super().empty_message }
-      it { should match(/not favorited anything/) }
+      it { is_expected.to match(/not favorited anything/) }
     end
   end
 
@@ -67,7 +68,7 @@ describe FavoritesCollectionPresenter do
     context 'and the artist has no favorites' do
       describe '#empty_message' do
         subject { super().empty_message }
-        it { should match(/Go find an artist/) }
+        it { is_expected.to match(/Go find an artist/) }
       end
     end
   end

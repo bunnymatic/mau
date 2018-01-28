@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ViewPresenter
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # manage caching the list of open studios events
 class OpenStudiosEventService
   CURRENT_CACHE_KEY = :current_os_event
@@ -21,7 +22,7 @@ class OpenStudiosEventService
   end
 
   def self.parse_key(os_key, reverse = false)
-    return nil unless os_key.present?
+    return nil if os_key.blank?
 
     os_key = os_key.to_s
     yr = os_key[0..3]

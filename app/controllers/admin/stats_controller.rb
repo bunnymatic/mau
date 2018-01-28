@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Admin
   class StatsController < ::BaseAdminController
     def art_pieces_per_day
@@ -41,7 +42,7 @@ module Admin
     GRAPH_LOOKBACK = '1 YEAR'
 
     def compute_art_piece_count_histogram
-      sql = <<-EOSQL
+      sql = <<-SQL
         select bucket, count(*) as ct
         from (
            select count(*) as bucket
@@ -49,7 +50,7 @@ module Admin
            where a.state='active' and a.id=ap.artist_id
            group by ap.artist_id) as tmp
         group by bucket;
-      EOSQL
+      SQL
       results = ActiveRecord::Base.connection.execute(sql)
       results_by_num_pieces = {}
       results.each do |row|
