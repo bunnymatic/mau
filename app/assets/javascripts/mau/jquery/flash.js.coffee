@@ -34,14 +34,14 @@ class Flash
       @timeout = options.timeout || 10000
     contents = jQuery('<div>')
     $close = jQuery('<i>', {'class':'flash__close fa fa-icon fa-times-circle-o'})
-    for k in ['error','notice']
-      if (options[k])
-        msg = options[k];
-        clzs = ["flash"];
-        clzs.push "flash__error" if k == 'error'
-        clzs.push "flash__notice" if k == 'notice'
-        contents = jQuery('<div>', {'class': clzs.join(" ")}).html(msg).prepend($close)
 
+    key = _.intersection(_.keys(options), ["error", "notice"])[0]
+
+    if (options[key])
+      msg = options[key];
+      clz ="flash flash__" + key
+
+      contents = jQuery('<div>', {'class': clz}).html(msg).prepend($close)
 
     if (contents.html().length)
       $flash = jQuery('<div>', {id:@wrapper})
