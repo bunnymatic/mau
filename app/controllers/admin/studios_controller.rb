@@ -56,10 +56,7 @@ module Admin
     end
 
     def destroy
-      if @studio
-        @studio.artists.each { |artist| StudioArtist.new(@studio, artist).unaffiliate }
-        @studio.destroy
-      end
+      @studio.destroy if @studio
 
       redirect_to(studios_url, notice: 'Sad to see them go.  But there are probably more right around the bend.')
     end

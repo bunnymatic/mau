@@ -35,7 +35,7 @@ class Studio < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged]
 
-  has_many :artists, dependent: :restrict_with_exception
+  has_many :artists, dependent: :nullify
 
   acts_as_mappable
   before_create :compute_geocode
