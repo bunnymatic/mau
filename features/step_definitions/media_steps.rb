@@ -14,10 +14,12 @@ end
 
 When(/^I click on the first medium$/) do
   wait_until { page.find('medium a') }
-  medium_link = first('.art-piece__info .media a')
-  medium_path = medium_link['href']
-  @medium = Medium.find(medium_path.split('/').last)
-  medium_link.click
+
+  name = page.find('medium a').text
+  @medium = Medium.find_by(name: name)
+  within '.art-piece__info' do
+    click_on name
+  end
 end
 
 Then(/^I see that medium detail page$/) do
