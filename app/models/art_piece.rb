@@ -3,8 +3,8 @@
 class ArtPiece < ApplicationRecord
   belongs_to :artist
 
-  has_many :art_pieces_tags, dependent: :destroy
-  has_many :tags, through: :art_pieces_tags, source: :art_piece_tag
+  has_many :art_pieces_tags
+  has_many :tags, through: :art_pieces_tags, source: :art_piece_tag, dependent: :destroy
 
   belongs_to :medium
 

@@ -56,7 +56,7 @@ module Admin
     end
 
     def destroy
-      @studio.destroy if @studio
+      @studio&.destroy
 
       redirect_to(studios_url, notice: 'Sad to see them go.  But there are probably more right around the bend.')
     end

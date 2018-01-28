@@ -79,6 +79,9 @@ Rails/DynamicFindBy:
   Exclude:
     - 'app/models/user_session.rb'
 
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
 Rails/Output:
   Exclude:
     - 'db/sample_data.rb'

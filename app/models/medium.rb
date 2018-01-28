@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Medium < ApplicationRecord
-  has_many :art_pieces, dependent: :restrict_with_exception, inverse_of: :medium
+  has_many :art_pieces, dependent: :nullify, inverse_of: :medium
 
   # default_scope order('name')
   include TagMediaMixin
