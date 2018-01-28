@@ -7,6 +7,8 @@ class MauMailer < ActionMailer::Base
 
   include ActionMailer::Text
 
+  default content_type: 'multipart/alternative'
+
   def mailer_list
     Object.const_get(self.class.name + 'List').first
   end

@@ -57,6 +57,9 @@ class Artist < User
   scope :with_representative_image, -> { joins(:art_pieces).group('art_pieces.artist_id') }
   scope :by_lastname, -> { order(:lastname) }
   scope :without_art, -> { active.where('id not in (select artist_id from art_pieces)') }
+  scope :in_a_group_studio, -> { where('studio_id <> 0').joins(:studio) }
+  scope :independent_studio, -> { where('studio_id IS NULL or studio_id = 0') }
+
   scope :in_the_mission, lambda {
     # avoid sql between (in mysql) because it's not smart about floats
     def between_clause(fld)
@@ -105,10 +108,6 @@ class Artist < User
   def in_the_mission?
     return false unless address?
     within_bounds?(address.lat, address.lng)
-  end
-
-  def in_a_group_studio?
-    (studio_id.present? && studio_id != 0 && studio.present?)
   end
 
   def doing_open_studios?

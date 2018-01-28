@@ -5,12 +5,13 @@ require 'rails_helper'
 describe CatalogPresenter do
   let!(:open_studios_event) { FactoryBot.create :open_studios_event }
   let!(:artists) { FactoryBot.create_list :artist, 4, :with_studio }
-  let(:reception_doc) do
+  let!(:reception_doc) do
     FactoryBot.create(:cms_document,
                       page: 'main_openstudios',
                       section: 'preview_reception',
                       article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
   end
+  subject(:presenter) { described_class.new }
 
   before do
     artists[0..1].each do |artist|
@@ -18,52 +19,30 @@ describe CatalogPresenter do
     end
   end
 
-  describe '#csv_filename' do
-    subject { super().csv_filename }
-    it { should eql "mau_catalog_#{open_studios_event.key}.csv" }
+  its(:csv_filename) { is_expected.to eql "mau_catalog_#{open_studios_event.key}.csv" }
+
+  its(:all_artists) { is_expected.to match_array Artist.active.open_studios_participants }
+
+  its(:indy_artists) { is_expected.to match_array Artist.active.open_studios_participants.independent_studio }
+
+  its(:indy_artists_count) { is_expected.to eql Artist.active.open_studios_participants.independent_studio.count }
+
+  its(:group_studio_artists) do
+    is_expected.to match_array Artist.active.open_studios_participants.in_a_group_studio
   end
 
-  describe '#all_artists' do
-    subject { super().all_artists }
-    describe '#all' do
-      subject { super().all }
-      describe '#sort' do
-        subject { super().sort }
-        it do
-          should eql Artist.active.open_studios_participants.all.sort
-        end
-      end
-    end
+  its(:preview_reception_data) do
+    is_expected.to eql(
+      'data-page' => reception_doc.page,
+      'data-section' => reception_doc.section,
+      'data-cmsid' => reception_doc.id
+    )
   end
 
-  describe '#indy_artists' do
-    subject { super().indy_artists }
-    it { should eql Artist.active.open_studios_participants.reject(&:in_a_group_studio?) }
+  its(:preview_reception_content) do
+    is_expected.to eql MarkdownService.markdown(reception_doc.article)
   end
 
-  describe '#indy_artists_count' do
-    subject { super().indy_artists_count }
-    it { should eql Artist.active.open_studios_participants.reject(&:in_a_group_studio?).count }
-  end
-
-  describe '#group_studio_artists' do
-    subject { super().group_studio_artists }
-    it { should eql Artist.active.open_studios_participants.select(&:in_a_group_studio?) }
-  end
-
-  describe '#preview_reception_data' do
-    subject { super().preview_reception_data }
-    it do
-      should eql('data-page' => reception_doc.page,
-                 'data-section' => reception_doc.section,
-                 'data-cmsid' => reception_doc.id)
-    end
-  end
-
-  describe '#preview_reception_content' do
-    subject { super().preview_reception_content }
-    it { should eql MarkdownService.markdown(reception_doc.article) }
-  end
   it 'sorts artists by name within their studio' do
     subject.artists_by_studio.each_value do |artists|
       expect(artists.map { |a| a.lastname.downcase }).to be_monotonically_increasing

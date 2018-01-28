@@ -26,7 +26,7 @@ class CatalogPresenter < ViewPresenter
   end
 
   def indy_artists
-    @indy_artists ||= all_artists.reject(&:in_a_group_studio?)
+    @indy_artists ||= all_artists.independent_studio
   end
 
   def indy_artists_count
@@ -34,7 +34,7 @@ class CatalogPresenter < ViewPresenter
   end
 
   def group_studio_artists
-    @group_studio_artists ||= all_artists.select(&:in_a_group_studio?)
+    @group_studio_artists ||= all_artists.in_a_group_studio
   end
 
   def artists_by_studio
