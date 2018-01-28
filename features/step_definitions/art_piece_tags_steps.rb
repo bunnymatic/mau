@@ -16,8 +16,12 @@ end
 
 Then(/^I see a list of artists who have art in the most popular tag$/) do
   @first_tag = ArtPieceTagService.tags_sorted_by_frequency.first.tag
+
   expect(page).to have_css('h2.title', text: 'Tag')
-  expect(page).to have_content @first_tag.art_pieces.last.title
+
+  art_piece_names = page.all('.art-card .desc > .name:first-child').map(&:text)
+  expect(art_piece_names & @first_tag.art_pieces.map(&:title)).to be_present
+
   expect(page).to have_css('.tag__name', text: @first_tag.name)
   expect(page).to have_css '.paginator'
   expect(page).to have_content '>'
@@ -43,9 +47,10 @@ end
 
 When(/^I click on the first tag$/) do
   wait_until { page.find('art-piece-tag a') }
-  tag_link = first('.art-piece__info art-piece-tag a')
-  @tag = ArtPieceTag.find(tag_link['href'].split('/').last)
-  tag_link.click
+
+  name = page.find('art-piece-tag a').text
+  @tag = ArtPieceTag.find_by(name: name)
+  page.find('art-piece-tag a').click
 end
 
 Then(/^I see that tag detail page$/) do

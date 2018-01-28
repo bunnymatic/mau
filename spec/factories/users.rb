@@ -10,8 +10,8 @@ FactoryBot.define do
     password { TestUsersHelper::DEFAULT_PASSWORD }
     password_confirmation { TestUsersHelper::DEFAULT_PASSWORD }
     firstname { Faker::Name.first_name }
-    lastname { "O'" + Faker::Name.first_name }
-    nomdeplume { "O'" + Faker::Company.name }
+    lastname { Faker::Name.first_name }
+    nomdeplume { Faker::Company.name }
     website { Faker::Internet.url }
     trait :pending do
       state :pending

@@ -12,7 +12,8 @@ describe Api::V2::ArtistsController do
 
   describe '#index' do
     def make_request
-      get :index, params: { format: :json, studio: studio.slug }, headers: headers
+      headers.each { |k, v| header k, v }
+      get :index, params: { format: :json, studio: studio.slug }
     end
 
     context 'without proper authorization' do

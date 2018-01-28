@@ -4,7 +4,10 @@ module LeakyFixtures
   def fix_leaky_fixtures
     # hopefully we can get around this but until we see what's up
     [ArtPiece, User, Studio, ArtistInfo].each do |clz|
-      clz.destroy_all if clz.count > 0
+      if clz.count > 0
+        puts "*********** Cleaning up what looks like leaky #{clz.name} fixtures"
+        clz.destroy_all
+      end
     end
   end
 end
