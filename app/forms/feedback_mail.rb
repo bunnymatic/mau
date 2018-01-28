@@ -3,9 +3,10 @@
 require 'active_model'
 
 class FeedbackMail
-  include ActiveModel::Validations
-  include ActiveModel::Conversion
-  extend ActiveModel::Naming
+  include ActiveModel::Model
+  # include ActiveModel::Validations
+  # include ActiveModel::Conversion
+  # extend ActiveModel::Naming
 
   attr_accessor :note_type, :email, :email_confirm,
                 :inquiry, :current_user, :operating_system, :browser, :device
