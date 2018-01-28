@@ -44,7 +44,7 @@ shared_examples_for AddressMixin do
 
   describe '#map_link' do
     it 'returns a google map link' do
-      expect(with_address.map_link).to match(%r{maps\.google\.com/maps\?q=#{CGI.escape(base_attributes[:street])}})
+      expect(with_address.map_link).to match(%r{maps\.google\.com/maps\?q=#{Regexp.quote(CGI.escape(base_attributes[:street]))}})
     end
   end
 

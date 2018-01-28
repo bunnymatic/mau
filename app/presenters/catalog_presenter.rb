@@ -81,7 +81,7 @@ class CatalogPresenter < ViewPresenter
     [
       csv_safe(a.firstname),
       csv_safe(a.lastname),
-      a.get_name(true),
+      a.get_name,
       a.email,
       a.studio.try(:name).to_s,
       a.address.street,
