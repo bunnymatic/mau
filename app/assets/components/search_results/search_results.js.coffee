@@ -15,7 +15,7 @@ controller = ngInject ($scope, $attrs, $element, searchService, SearchHit) ->
     startSpinner()
     success = (data) ->
       $scope.hits = _.map(_.compact(data), (datum) -> new SearchHit(datum))
-      stopSpinner()
+      setTimeout(stopSpinner, 1000)
     error = (data) ->
       stopSpinner()
     pageSize ||= 20

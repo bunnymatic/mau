@@ -8,7 +8,8 @@ $ ->
         regexs = _.map(filters, (filter) -> new RegExp(filter, 'i'))
         $('.studio-card').each () ->
           studio = $(this)
-          show = _.some regexs, (regex) -> regex.test studio.data('name')
+          show = _.some
+          ny regexs, (regex) -> regex.test studio.data('name')
           if show && !studio.is(':visible')
             studio.fadeIn()
           else if !show && studio.is(':visible')

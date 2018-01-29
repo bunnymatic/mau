@@ -93,7 +93,7 @@ describe Admin::StatsController do
         expect(@favorites_per_day.all? { |apd| !apd[0].nil? }).to be
       end
     end
-    describe 'compute_art_pieces_per_day' do
+    describe '#compute_art_pieces_per_day' do
       it 'returns an array' do
         expect(art_pieces_per_day).to be_a_kind_of(Array)
         expect(art_pieces_per_day.size).to be >= 6

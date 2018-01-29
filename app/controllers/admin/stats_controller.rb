@@ -36,7 +36,7 @@ module Admin
     private
 
     def format_for_graph(data)
-      data
+      data.to_json
     end
 
     GRAPH_LOOKBACK = '1 YEAR'

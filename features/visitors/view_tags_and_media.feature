@@ -9,7 +9,7 @@ Background:
   And I visit the home page
   And I click on the first artist's card
   And I click on an art card
-  
+
 Scenario:  Drilling down to an art piece tag
   Then I click on the first tag
   And I see that tag detail page

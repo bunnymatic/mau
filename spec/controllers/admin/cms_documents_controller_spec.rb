@@ -27,7 +27,6 @@ describe Admin::CmsDocumentsController do
     end
 
     describe '#show' do
-      render_views
       before do
         get :show, params: { id: cms_document }
       end

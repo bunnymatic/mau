@@ -90,7 +90,6 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-ngDialog'
   gem 'rails-assets-pure'
   gem 'rails-assets-re-tree' # required for device-detector
-  gem 'rails-assets-spinjs'
 end
 
 group :test do
