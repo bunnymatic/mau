@@ -17,9 +17,8 @@
 #= require_tree ../components
 #= require angularSlideables
 #= require mau_app
-#= require jquery2
+#= require jquery
 #= require jquery_ujs
-#= require jquery_noconflict
 #= require jquery-ui-1.10.4.custom
 #= require selectize/selectize-standalone
 #= require spinjs/spin

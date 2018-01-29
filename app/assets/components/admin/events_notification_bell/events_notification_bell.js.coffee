@@ -3,7 +3,7 @@ controller = ngInject ($scope, $attrs, EmailChangedEventsService, moment) ->
   x = EmailChangedEventsService.list({since: since.format()})
   EmailChangedEventsService.list({since: since.format()}).then (data) ->
     data
-    $scope.hasNotifications = _.any(data)
+    $scope.hasNotifications = _.some(data)
 
 eventsNotificationBell = ngInject () ->
   restrict: 'E'

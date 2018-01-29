@@ -1,1 +1,0 @@
-// if (jQuery && jQuery.noConflict) { jQuery.noConflict(); }

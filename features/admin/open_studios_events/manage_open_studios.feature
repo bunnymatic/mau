@@ -18,7 +18,7 @@ Scenario: Adding a new open studios event
   When I fill in the open studios event form for next weekend
   Then I see a new open studios event
 
-  When I click on the first "Delete" button
+  When I click on the last "Delete" button
   Then I see that the new open studios event is no longer there
 
   When I click on the first "clear os dates cache" button

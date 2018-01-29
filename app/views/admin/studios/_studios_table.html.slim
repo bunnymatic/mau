@@ -2,13 +2,13 @@
 table.js-data-tables.pure-table.pure-table-striped#studios_index
   thead
     tr
-      th Logo
+      th data-orderable="false" Logo
       th Name
       th Address
       th Cross St
       th #artists (os/all)
       th Website
-      th
+      th.admin-controls data-orderable="false"
   tbody
     - studios.each do |studio|
       tr

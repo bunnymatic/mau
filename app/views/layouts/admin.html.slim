@@ -1,18 +1,18 @@
-!!! 5
-%html
-  %head
+doctype html
+html
+  head
     = render '/extra_html_head'
     = render '/title'
     = stylesheet_link_tag 'admin'
-    %script{:type => 'text/javascript'}
+    javascript:
       var authenticityToken  = encodeURIComponent("#{form_authenticity_token}");
       var MAU = window.MAU = window.MAU || {};
-      = "MAU.versionString = '#{@revision}';"
+      MAU.versionString = '#{@revision}';
     = csrf_meta_tags
-  %body.admin{:class => ([@browser_as_class, application_body_class].join " ")}
-    #layout{"ng-app" => 'MauAdminApp'}
+  body.admin class=([@browser_as_class, application_body_class].join " ")
+    #layout ng-app='MauAdminApp'
       = render '/admin/admin_nav', revision: @revision
       = yield
   = javascript_include_tag 'application.js'
-  = javascript_include_tag '//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js'
+  = javascript_include_tag '//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'
   = javascript_include_tag 'admin.js'

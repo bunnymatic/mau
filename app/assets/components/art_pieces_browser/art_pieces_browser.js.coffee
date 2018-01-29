@@ -2,7 +2,7 @@ controller = ngInject ($scope, $attrs, $location, artPiecesService, artistsServi
 
   initializeCurrent = ->
     if $scope.artPieces && $scope.initialArtPiece
-      $scope.current = _.pluck($scope.artPieces, 'id').indexOf($scope.initialArtPiece.id)
+      $scope.current = _.map($scope.artPieces, 'id').indexOf($scope.initialArtPiece.id)
 
   updateUrl = () ->
     $location.hash($scope.artPiece.id);

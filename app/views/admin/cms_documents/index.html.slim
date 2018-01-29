@@ -1,7 +1,7 @@
 .pure-g
   .pure-u-1-1.padded-content
-    %h1
-      CMS Content
+    h1
+      | CMS Content
       .admin-table__controls
         = link_to new_admin_cms_document_path, title: "Add CMS Content" do
           = fa_icon "plus-circle"
@@ -9,26 +9,26 @@
 
   .pure-u-1-1.padded-content
     = render '/flash_notice_error'
-    %table.pure-table.pure-table-striped.js-data-tables#cms_contents_index
-      %thead
-        %tr
-          %th Page
-          %th Section
-          %th Last Updated
-          %th By
-          %th
-      %tbody
+    table.pure-table.pure-table-striped.js-data-tables#cms_contents_index
+      thead
+        tr
+          th Page
+          th Section
+          th Last Updated
+          th By
+          th data-orderable="false"
+      tbody
         - @cms_documents.each do |cms_document|
-          %tr
-            %td
+          tr
+            td
               = link_to cms_document.page, [:admin,cms_document], title: 'Show'
-            %td
+            td
               = cms_document.section
-            %td
+            td
               = cms_document.updated_at.to_formatted_s(:admin)
-            %td
+            td
               = cms_document.user.try(:login)
-            %td.controls
+            td.controls
               = link_to edit_admin_cms_document_path(cms_document), title: 'Edit' do
                 = fa_icon 'edit'
               = link_to  [:admin, cms_document], title: 'Delete', alt: 'Delete', confirm: 'Are you sure?', method: :delete do

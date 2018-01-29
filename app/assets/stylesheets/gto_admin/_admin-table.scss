@@ -1,10 +1,42 @@
 @import 'colors';
+
+@mixin sorting-control {
+  padding-left: 20px;
+  font-family: 'FontAwesome';
+  color: $bluegray;
+  position: absolute;
+  top: 7px;
+  right: 5px;
+}
+
 .admin {
-  .pure-table th.sorting_asc,
-  .pure-table th.sorting_desc,
-  .pure-table th.sorting {
-    &:hover {
-      background-color: $lightbluegray;
+  .pure-table {
+    th.sorting_asc,
+    th.sorting_desc,
+    th.sorting {
+      position: relative;
+      padding-right: 1.5em;
+      &:hover {
+        background-color: $lightbluegray;
+      }
+    }
+    th.sorting {
+      &:after {
+        @include sorting-control;
+        content: "\f0dc";
+      }
+    }
+    th.sorting_desc {
+      &:after {
+        @include sorting-control;
+        content: "\f0dd";
+      }
+    }
+    th.sorting_asc {
+      &:after {
+        @include sorting-control;
+        content: "\f0de";
+      }
     }
   }
   .pure-table td {
