@@ -1,5 +1,6 @@
 controller = ngInject ($scope, $attrs, EmailChangedEventsService, moment) ->
   since = moment().subtract(7, 'days');
+  debugger
   x = EmailChangedEventsService.list({since: since.format()})
   EmailChangedEventsService.list({since: since.format()}).then (data) ->
     data
