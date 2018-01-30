@@ -1,6 +1,7 @@
 MAU = window.MAU = window.MAU || {}
 
 MAU.SpinnerOptions =
+  color: "#5a636a" # $xmediumgray from colors.scss
   lines: 13
   length: 30
   width: 14
@@ -20,13 +21,11 @@ MAU.SpinnerOptions =
 MAU.Spinner = class MAUSpinner
   constructor: (opts) ->
     @opts = opts || {}
-    @el = @opts.element || '#spinner'
-    @opts.element = null
+    @el = $(@opts.element || "#spinner")[0];
     @spinOpts = _.extend {}, MAU.SpinnerOptions, @opts
 
   spin: ->
-    jQuery(@el).spin @spinOpts
+    @spinner = new Spinner(@spinOpts) unless @spinner
+    @spinner.spin(@el)
   stop: ->
-    jQuery(@el).spin false
-
-
+    @spinner.stop() if @spinner
