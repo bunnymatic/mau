@@ -12,7 +12,7 @@ class AdminController < BaseAdminController
   def os_status
     @os = Artist.active.by_lastname
     @totals = {}
-    @keys = available_open_studios_keys.map(&:to_s)
+    @keys = available_open_studios_keys
     @keys.each do |ostag|
       @totals[ostag] = @os.select { |a| (a.os_participation || {})[ostag] }.length
     end

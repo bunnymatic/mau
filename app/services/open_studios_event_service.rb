@@ -32,7 +32,7 @@ class OpenStudiosEventService
   end
 
   def self.all
-    OpenStudiosEvent.all.order(start_date: :desc)
+    OpenStudiosEvent.order(start_date: :desc)
   end
 
   def self.update(open_studios_event, attributes)
