@@ -268,7 +268,7 @@ GEM
       execjs
       rails (>= 3.1)
     nio4r (2.2.0)
-    nokogiri (1.8.1)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     paperclip (5.2.1)
       activemodel (>= 4.2.0)
