@@ -81,7 +81,7 @@
     position: sticky;
     top: 90px;
     z-index: 1;
-    background-color: $white;
+    background-color: $base-background-color;
   }
 }
 
@@ -437,6 +437,7 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
       margin: 0.2rem;
       height: 50px;
       width: 50px;
+      box-shadow: 0 0 1px 1px #eee;
       @include background-cover;
     }
     .favorite-thumb-icon {
