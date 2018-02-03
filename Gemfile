@@ -72,7 +72,7 @@ gem 'actionmailer-text'
 
 gem 'sass-color-extractor'
 
-gem 'bootsnap', require: false
+#gem 'bootsnap', require: false
 
 source 'http://insecure.rails-assets.org' do
   gem 'rails-assets-angular', '=1.3.16'

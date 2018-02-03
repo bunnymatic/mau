@@ -21,6 +21,7 @@ AllCops:
     - 'bin/setup'
     - 'bin/update'
     - 'bin/spring'
+    - config/boot.rb
     - db/schema.rb
     - db/migrate/**/*
     - spec/*.opts
