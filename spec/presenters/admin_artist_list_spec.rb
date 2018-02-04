@@ -22,6 +22,6 @@ describe AdminArtistList, elasticsearch: :stub do
   its(:csv_filename) { is_expected.to eql 'mau_artists.csv' }
 
   it 'has correct data in the csv' do
-    expect(parsed.first['Full Name']).to eql list.artists.first.full_name
+    expect(parsed.first['Full Name']).to eql list.send(:artists).first.full_name
   end
 end
