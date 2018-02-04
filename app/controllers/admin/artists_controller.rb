@@ -9,8 +9,8 @@ module Admin
       artist_list = AdminArtistList.new
       respond_to do |format|
         format.html do
-          @active_artist_list = artist_list.good_standing_artists.map { |a| ArtistPresenter.new(a) }
-          @inactive_artist_list = artist_list.bad_standing_artists.map { |a| ArtistPresenter.new(a) }
+          @active_artist_list_count = artist_list.good_standing_artists.count
+          @inactive_artist_list_count = artist_list.bad_standing_artists.count
         end
 
         format.csv { render_csv_string(artist_list.csv, artist_list.csv_filename) }
@@ -19,12 +19,16 @@ module Admin
 
     def good_standing
       artist_list = AdminArtistList.new
-      render json: artist_list.good_standing_artists
+      render partial: 'admin_artists_table', locals: {
+        artist_list: artist_list.good_standing_artists.map { |a| ArtistPresenter.new(a) }
+      }
     end
 
     def bad_standing
       artist_list = AdminArtistList.new
-      render json: artist_list.bad_standing_artists
+      render partial: 'admin_artists_table', locals: {
+        artist_list: artist_list.bad_standing_artists.map { |a| ArtistPresenter.new(a) }
+      }
     end
 
     def edit; end

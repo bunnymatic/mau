@@ -24,7 +24,7 @@ describe AdminArtistUpdateService do
       it 'returns success with a message' do
         success, flash = run
         expect(success).to eql true
-        expect(flash[:notice]).to match 'Updated setting for 3 artists'
+        expect(flash[:notice]).to match 'Updated setting for 2 artists'
       end
 
       it 'updates requested artists' do

@@ -4,5 +4,6 @@
 = render partial: "/artists/artist", collection: gallery.pagination.items
 - if gallery.more?
   #js-scroll-load-more.scroll-load-more
-    .hint scroll down for more
-    i.fa.fa-spinner.fa-spin
+    .scroll-load-more__contents
+      = mau_spinner
+      .hint scroll down for more

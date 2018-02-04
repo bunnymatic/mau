@@ -2,10 +2,23 @@
 @import 'colors';
 @import 'gto/gto-mixins';
 
+.scroll-load-more__contents {
+  font-size: 1.5px; /* for spinner */
+}
+
+.scroll-load-more,
+#the-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include sampler-block-mixin;
+}
+
 #the-end,
 .scroll-load-more {
-  text-align:center;
-  margin:auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   z-index: -1;  /* fix issue with fa-spin screwing up zindex */
   .hint {
@@ -22,7 +35,9 @@
 }
 
 #the-end {
-  display: none;
+  &[hidden] {
+    display: none;
+  }
   .hint {
     font-size: 2rem;
     color: rgba(200,200,200,0.5);

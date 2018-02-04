@@ -1,3 +1,4 @@
+@javascript
 Feature: Update Artists OS status
 
 As an administrator, I can edit an artist's info

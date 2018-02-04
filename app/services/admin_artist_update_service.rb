@@ -45,7 +45,6 @@ class AdminArtistUpdateService
     def update_artist_os_standing(artist, current_os, doing_it)
       return nil unless artist.address?
       return false if artist.doing_open_studios? == doing_it
-
       artist.update_os_participation current_os, doing_it
       true
     end

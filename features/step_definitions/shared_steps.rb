@@ -192,8 +192,13 @@ When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
 end
 
 When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
-  # page.driver.browser.mouse.move_to(page.driver.browser.find_element(:id=>"admin_nav")) if running_js?
-  step %(I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav")
+  if running_js?
+    within('.admin #menu .pure-menu, #admin_nav') do
+      all('a', text: link_title, visible: false).first.trigger('click')
+    end
+  else
+    step %(I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav")
+  end
 end
 
 When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
