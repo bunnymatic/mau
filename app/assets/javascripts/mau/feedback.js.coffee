@@ -1,2 +1,0 @@
-$ ->
-  $('.feedback_link').feedback();

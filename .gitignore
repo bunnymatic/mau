@@ -28,6 +28,7 @@ secret/*
 config/config.keys.yml
 research
 .env.*
+node_modules/*
 
 *.mysql
 *.psql
