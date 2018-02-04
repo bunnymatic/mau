@@ -6,11 +6,12 @@ module Admin
     before_action :set_artist, only: %i[edit suspend update]
 
     def index
-      @artist_list = AdminArtistList.new
-      @active_artist_list, @inactive_artist_list = @artist_list.partition { |a| a.pending? || a.active? }
+      artist_list = AdminArtistList.new
+      @active_artist_list = artist_list.good_standing_artists
+      @inactive_artist_list = artist_list.bad_standing_artists
       respond_to do |format|
         format.html
-        format.csv { render_csv_string(@artist_list.csv, @artist_list.csv_filename) }
+        format.csv { render_csv_string(artist_list.csv, artist_list.csv_filename) }
       end
     end
 

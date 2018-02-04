@@ -6,27 +6,35 @@ class AdminArtistList < ViewPresenter
   include Enumerable
 
   def raw_artists
-    @raw_artists ||= Artist.all.includes(:artist_info, :studio, :art_pieces)
+    Artist.includes(:artist_info, :studio, :art_pieces)
+  end
+
+  def good_standing_artists
+    raw_artists.good_standing.map { |a| ArtistPresenter.new(a) }
+  end
+
+  def bad_standing_artists
+    raw_artists.bad_standing.map { |a| ArtistPresenter.new(a) }
   end
 
   def artists
     @artists ||=
       begin
-        raw_artists.map { |a| ArtistPresenter.new(a) }
+        raw_artists.all.map { |a| ArtistPresenter.new(a) }
       end
   end
 
-  def csv_headers
-    @csv_headers ||= ['Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name',
-                      'Studio Address', 'Studio Number', 'Email Address']
-  end
+  CSV_HEADERS = [
+    'Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name',
+    'Studio Address', 'Studio Number', 'Email Address'
+  ].freeze
 
   def csv
     @csv ||=
       begin
         CSV.generate(DEFAULT_CSV_OPTS) do |csv|
-          csv << csv_headers
-          raw_artists.each do |artist|
+          csv << CSV_HEADERS
+          raw_artists.all.each do |artist|
             csv << artist_as_csv_row(artist)
           end
         end

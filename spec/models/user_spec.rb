@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe User do
+describe User, elasticsearch: :stub do
   let(:simple_artist) { FactoryBot.build(:artist) }
   let(:maufan) { FactoryBot.create(:fan, :active) }
   let(:artist) { FactoryBot.create(:artist, :with_art, profile_image: 'profile.jpg') }
@@ -156,15 +156,24 @@ describe User do
     end
   end
   describe 'named scope' do
+    before do
+      create(:user, :active)
+      create(:user, :pending)
+      create(:user, :suspended)
+      create(:user, :deleted)
+      create(:user)
+    end
     it 'active returns only active users' do
-      User.active.all.each do |u|
-        expect(u.state).to eql 'active'
-      end
+      expect(User.active.pluck(:state).all? { |s| s == 'active' }).to eql true
     end
     it 'pending returns only pending users' do
-      User.pending.all.each do |u|
-        expect(u.state).to eql 'pending'
-      end
+      expect(User.pending.pluck(:state).all? { |s| s == 'pending' }).to eql true
+    end
+    it 'good_standing returns only not suspended and not deleted users' do
+      expect(User.good_standing.pluck(:state).compact.uniq).to match_array %w[active pending passive]
+    end
+    it 'bad_standing returns only suspended or deleted users' do
+      expect(User.bad_standing.pluck(:state).compact.uniq).to match_array %w[suspended deleted]
     end
   end
 

@@ -18,6 +18,14 @@ FactoryBot.define do
       activation_code 'factory_activation_code'
     end
 
+    trait :deleted do
+      state :deleted
+    end
+
+    trait :suspended do
+      state :suspended
+    end
+
     trait :with_photo do
       photo_file_name    'new-profile.jpg'
       photo_content_type 'image/jpeg'

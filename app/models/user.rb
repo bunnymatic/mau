@@ -41,13 +41,16 @@ class User < ApplicationRecord
 
   after_create :tell_user_they_signed_up
 
-  scope :fan, -> { where(:type != 'Artist') }
-  scope :active, -> { where(state: 'active') }
-  scope :not_active, -> { where("state <> 'active'") }
-  scope :pending, -> { where(state: 'pending') }
-  scope :suspended, -> { where(state: 'suspended') }
-  scope :deleted, -> { where(state: 'deleted') }
+  scope :fan, -> { where.not(type: 'Artist') }
+  scope :active, -> { where(state: :active) }
+  scope :not_active, -> { where.not(state: :active) }
+  scope :pending, -> { where(state: :pending) }
+  scope :suspended, -> { where(state: :suspended) }
+  scope :deleted, -> { where(state: :deleted) }
   scope :admin, -> { joins(:roles_users).where(roles_users: { role: Role.admin }) }
+
+  scope :good_standing, -> { where.not(state: %i[suspended deleted]) }
+  scope :bad_standing, -> { where(state: %i[suspended deleted]) }
 
   before_validation :normalize_attributes
   before_validation :add_http_to_links
