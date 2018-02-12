@@ -24,8 +24,12 @@ When(/^I wait for the artists table to be rendered/) do
 end
 
 Then(/^I see the admin artists list$/) do
-  wait_until do
-    current_path == admin_artists_path
+  if running_js?
+    wait_until do
+      all('#good table, #bad #table').count.positive?
+    end
+  else
+    wait_until { current_path == admin_artists_path }
   end
 end
 
@@ -88,7 +92,7 @@ Then /^I see everyone who is "([^"]*)"$/ do |artist_state|
 end
 
 When(/^I click on the first artist edit button that's not me$/) do
-  not_me = Artist.active.limit(2).detect { |a| a.login != (@artist.name || @user.name) }
+  not_me = Artist.active.limit(2).detect { |a| a.login != (@artist.login || @user.login) }
   cell = page.all('table tr').detect { |el| el.text.include? not_me.login }
   cell.find('.admin-artist-edit-link').click
 end

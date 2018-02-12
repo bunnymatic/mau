@@ -23,7 +23,6 @@ Scenario: Setting open studios for artists
   Then I see that all artists are doing open studios
   And I see the admin artists list
   And I close the flash
-  And I wait "1" second
 
   When I uncheck the box for the first participating artist
   Then I see that the first participating artist is no longer doing open studios
