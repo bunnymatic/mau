@@ -1,6 +1,6 @@
 GEM
   remote: https://rubygems.org/
-  remote: http://insecure.rails-assets.org/
+  remote: https://rails-assets.org/
   specs:
     actioncable (5.1.4)
       actionpack (= 5.1.4)
@@ -58,12 +58,12 @@ GEM
     ansi (1.5.0)
     arel (8.0.0)
     ast (2.3.0)
-    authlogic (3.6.1)
-      activerecord (>= 3.2, < 5.2)
-      activesupport (>= 3.2, < 5.2)
+    authlogic (3.8.0)
+      activerecord (>= 3.2, < 5.3)
+      activesupport (>= 3.2, < 5.3)
       request_store (~> 1.0)
       scrypt (>= 1.2, < 4.0)
-    autoprefixer-rails (7.2.5)
+    autoprefixer-rails (8.0.0)
       execjs
     aws-sdk (2.10.73)
       aws-sdk-resources (= 2.10.73)
@@ -191,7 +191,7 @@ GEM
       i18n (>= 0.7)
     faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.18)
+    ffi (1.9.21)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -218,7 +218,7 @@ GEM
     hashdiff (0.3.7)
     hashie (3.5.7)
     htmlentities (4.3.4)
-    i18n (0.9.3)
+    i18n (0.9.4)
       concurrent-ruby (~> 1.0)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
@@ -239,7 +239,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.1.1)
+    loofah (2.2.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.0)
@@ -261,7 +261,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (4.2.0)
     newrelic_rpm (4.7.1.340)
-    ngannotate-rails (1.0.3)
+    ngannotate-rails (1.2.2)
       execjs
       rails (>= 3.1)
     nio4r (2.2.0)
@@ -294,7 +294,7 @@ GEM
       mojo_magick
       rqrcode
     racc (1.4.14)
-    rack (2.0.3)
+    rack (2.0.4)
     rack-cors (1.0.2)
     rack-test (0.8.2)
       rack (>= 1.0, < 3)
@@ -369,7 +369,7 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     rdiscount (2.2.0.1)
-    recaptcha (4.6.3)
+    recaptcha (4.6.4)
       json
     request_store (1.4.0)
       rack (>= 1.4)
@@ -476,9 +476,9 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.8)
     timecop (0.9.1)
-    tzinfo (1.2.4)
+    tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.5)
+    uglifier (4.1.6)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.3.0)
     unicorn (5.4.0)
