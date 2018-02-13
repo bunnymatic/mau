@@ -137,12 +137,45 @@
   }
 }
 
+$sampler-thumbnail-size : 250px;
+
 @mixin sampler-block-mixin {
   @include artist-thumb-mixin;
   height: $sampler-thumbnail-size;
   min-height: inherit;
   padding: 6px;
   overflow: hidden;
+
+  width: 20%;
+  float: left;
+  @media screen and (max-width: $screen-lg-max) {
+    width: 25%;
+    &:nth-child(13) {
+      display:block;
+    }
+  }
+  @media screen and (max-width: $screen-md-max) {
+    width: 33.33%;
+    &:nth-child(13) {
+      display:none;
+    }
+  }
+  @media screen and (max-width: $screen-sm-max) {
+    width: 50%;
+    &:nth-child(13) {
+      display:block;
+    }
+  }
+  @media screen and (max-width: $screen-xs-max) {
+    &.first {
+      margin-top: 10px;
+    }
+    width: 100%;
+    .desc {
+      opacity: 1.0 !important;
+    }
+  }
+
   .os-violator {
     position: absolute;
     top: 9px;

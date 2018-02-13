@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'capybara/rspec'
 
-describe AdminArtistList do
+describe AdminArtistList, elasticsearch: :stub do
   include PresenterSpecHelpers
 
   let!(:artists) do
@@ -11,20 +11,17 @@ describe AdminArtistList do
     FactoryBot.create(:artist, :with_studio)
     FactoryBot.create(:artist, :with_art)
     FactoryBot.create(:artist, :pending)
+    FactoryBot.create(:artist, :deleted)
+    FactoryBot.create(:artist, :suspended)
   end
 
   let(:parsed) { CSV.parse(list.csv, headers: true) }
 
   subject(:list) { AdminArtistList.new }
 
-  describe '#csv_filename' do
-    its(:csv_filename) { is_expected.to eql 'mau_artists.csv' }
-  end
+  its(:csv_filename) { is_expected.to eql 'mau_artists.csv' }
 
-  describe '#csv_headers' do
-    its(:csv_headers) { is_expected.to eql parsed.headers }
-  end
   it 'has correct data in the csv' do
-    expect(parsed.first['Full Name']).to eql list.artists.first.full_name
+    expect(parsed.first['Full Name']).to eql list.send(:artists).first.full_name
   end
 end

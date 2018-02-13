@@ -5,7 +5,7 @@ def find_admin_user_show_row(title)
 end
 
 When /^I set all artists to do open studios$/ do
-  within('#good table') do
+  within('#good .js-data-tables') do
     all('[type=checkbox]').each do |cb|
       check cb['id']
     end
@@ -17,8 +17,20 @@ Then(/^I see the admin dashboard$/) do
   expect(current_path).to eql admin_path
 end
 
+When(/^I wait for the artists table to be rendered/) do
+  wait_until do
+    all('.mau-spinner').count.zero? && page.all('.admin-table').count.positive?
+  end
+end
+
 Then(/^I see the admin artists list$/) do
-  expect(current_path).to eql admin_artists_path
+  if running_js?
+    wait_until do
+      all('#good table, #bad #table').count.positive?
+    end
+  else
+    wait_until { current_path == admin_artists_path }
+  end
 end
 
 When(/^I uncheck the box for the first participating artist/) do
@@ -30,8 +42,11 @@ When(/^I uncheck the box for the first participating artist/) do
 end
 
 Then(/^I see that the first participating artist is no longer doing open studios/) do
-  @participating_artist = Artist.find(@participating_artist.id) # force reload with artist info reload
-  expect(@participating_artist.doing_open_studios?).to be_falsy
+  expect(page).to have_flash :notice, /updated setting/i
+
+  within(table_row_matching(@participating_artist.login)) do
+    expect(page).to have_field("os_#{@participating_artist.id}", checked: false)
+  end
 end
 
 Then /^I see that all artists are doing open studios$/ do
@@ -53,13 +68,19 @@ Then(/^I see that artist is no longer part of the studio list$/) do
 end
 
 When(/^I suspend the first artist$/) do
+  wait_until do
+    !all('#good .admin-table tr').empty?
+  end
   name = first('#good table tbody tr td.login a').text
   @first_artist = Artist.find_by(login: name)
   click_on_first 'Suspend artist'
 end
 
-Then(/^I see that the first artist is suspended$/) do
-  expect(@first_artist.reload).to be_suspended
+Then(/^I see the first artist in that table$/) do
+  wait_until do
+    !all('.admin-table tr').empty?
+  end
+  expect(table_row_matching(@first_artist.login)).to be_present
 end
 
 When(/^I edit my studio$/) do
@@ -71,7 +92,7 @@ Then /^I see everyone who is "([^"]*)"$/ do |artist_state|
 end
 
 When(/^I click on the first artist edit button that's not me$/) do
-  not_me = Artist.active.limit(2).detect { |a| a.login != (@artist.name || @user.name) }
+  not_me = Artist.active.limit(2).detect { |a| a.login != (@artist.login || @user.login) }
   cell = page.all('table tr').detect { |el| el.text.include? not_me.login }
   cell.find('.admin-artist-edit-link').click
 end

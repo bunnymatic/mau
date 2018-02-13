@@ -6,12 +6,29 @@ module Admin
     before_action :set_artist, only: %i[edit suspend update]
 
     def index
-      @artist_list = AdminArtistList.new
-      @active_artist_list, @inactive_artist_list = @artist_list.partition { |a| a.pending? || a.active? }
+      artist_list = AdminArtistList.new
       respond_to do |format|
-        format.html
-        format.csv { render_csv_string(@artist_list.csv, @artist_list.csv_filename) }
+        format.html do
+          @active_artist_list_count = artist_list.good_standing_artists.count
+          @inactive_artist_list_count = artist_list.bad_standing_artists.count
+        end
+
+        format.csv { render_csv_string(artist_list.csv, artist_list.csv_filename) }
       end
+    end
+
+    def good_standing
+      artist_list = AdminArtistList.new
+      render partial: 'admin_artists_table', locals: {
+        artist_list: artist_list.good_standing_artists.map { |a| ArtistPresenter.new(a) }
+      }
+    end
+
+    def bad_standing
+      artist_list = AdminArtistList.new
+      render partial: 'admin_artists_table', locals: {
+        artist_list: artist_list.bad_standing_artists.map { |a| ArtistPresenter.new(a) }
+      }
     end
 
     def edit; end
@@ -30,27 +47,9 @@ module Admin
     end
 
     def bulk_update
-      current_open_studios = OpenStudiosEventService.current
+      _success, message = AdminArtistUpdateService.bulk_update_os(os_update_params)
 
-      if current_open_studios.nil?
-        flash[:error] = "You must have an Open Studios Event in the future before you can set artists' status."
-      elsif params['os'].present?
-        @updated_count = 0
-        @skipped_count = 0
-        os_by_artist = params['os']
-        Artist.active.where(id: os_by_artist.keys).each do |artist|
-          changed = update_artist_os_standing(artist, current_open_studios, os_by_artist[artist.id.to_s] == '1')
-          if changed.nil?
-            @skipped_count += 1
-          elsif changed
-            @updated_count += 1
-          end
-        end
-        msg = "Updated setting for #{@updated_count} artists"
-        msg += sprintf(' and skipped %d artists who are not in the mission or have an invalid address', @skipped_count) if @skipped_count.positive?
-        flash[:notice] = msg
-      end
-      redirect_to(admin_artists_url)
+      redirect_to(admin_artists_url, message)
     end
 
     private
@@ -59,16 +58,8 @@ module Admin
       @artist = Artist.find(params[:id])
     end
 
-    # return ternary - nil if the artist was skipped, else true if the artist setting was changed, false if not
-    # TODO: move to UpdateArtistService?  or AdminUpdateArtistService?
-    def update_artist_os_standing(artist, current_open_studios, doing_it)
-      return nil unless artist.address?
-      if artist.doing_open_studios? != doing_it
-        artist.update_os_participation current_open_studios, doing_it
-        true
-      else
-        false
-      end
+    def os_update_params
+      params.require(:os).permit!
     end
 
     def artist_params

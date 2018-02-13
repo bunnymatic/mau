@@ -6,6 +6,18 @@
   .artist-admin-header-edit-link {
     float: right;
   }
+  .tab-pane {
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 40px;
+    .mau-spinner {
+      font-size: 3px;
+      margin: auto;
+    }
+    &.active {
+      display: flex;
+    }
+  }
   table {
     font-size: 85%;
     td.date-field {

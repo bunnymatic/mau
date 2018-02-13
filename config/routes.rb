@@ -141,6 +141,8 @@ Mau::Application.routes.draw do
     resources :media, only: %i[index create new edit update destroy]
     resources :artists, only: %i[index edit update] do
       collection do
+        post :good_standing
+        post :bad_standing
         post :bulk_update, as: :bulk_update
         get :purge
       end

@@ -71,4 +71,50 @@ describe Admin::ArtistsController do
       end
     end
   end
+
+  describe '#bulk_update' do
+    let(:artists) { create_list(:artist, 2, :active, :with_studio) }
+    let(:params) do
+      artists.each_with_object({}).with_index do |(artist, memo), idx|
+        memo[artist.id] = !!idx.even?
+      end
+    end
+
+    before do
+      login_as admin
+    end
+
+    context 'when there are artists to change' do
+      before do
+        create(:open_studios_event, :future)
+        post :bulk_update, params: { os: params }
+      end
+
+      it 'updates requested artists' do
+        updated = artists.map(&:reload)
+        expect(updated[0]).to be_doing_open_studios
+        expect(updated[1]).not_to be_doing_open_studios
+      end
+
+      it 'redirects to the admin artist index' do
+        expect(response).to redirect_to admin_artists_path
+      end
+
+      it 'flashes what happened' do
+        expect(flash[:notice]).to include 'Updated setting for'
+      end
+    end
+
+    context 'when there is no current open studios' do
+      before do
+        post :bulk_update, params: { os: params }
+      end
+      it 'flashes an error' do
+        expect(flash[:alert]).to include 'must have an Open Studios'
+      end
+      it 'redirects to the admin artist index' do
+        expect(response).to redirect_to admin_artists_path
+      end
+    end
+  end
 end

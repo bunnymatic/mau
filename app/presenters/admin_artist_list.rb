@@ -3,30 +3,25 @@
 require 'csv'
 
 class AdminArtistList < ViewPresenter
-  include Enumerable
-
-  def raw_artists
-    @raw_artists ||= Artist.all.includes(:artist_info, :studio, :art_pieces)
+  def good_standing_artists
+    artists.good_standing
   end
 
-  def artists
-    @artists ||=
-      begin
-        raw_artists.map { |a| ArtistPresenter.new(a) }
-      end
+  def bad_standing_artists
+    artists.bad_standing
   end
 
-  def csv_headers
-    @csv_headers ||= ['Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name',
-                      'Studio Address', 'Studio Number', 'Email Address']
-  end
+  CSV_HEADERS = [
+    'Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name',
+    'Studio Address', 'Studio Number', 'Email Address'
+  ].freeze
 
   def csv
     @csv ||=
       begin
         CSV.generate(DEFAULT_CSV_OPTS) do |csv|
-          csv << csv_headers
-          raw_artists.each do |artist|
+          csv << CSV_HEADERS
+          artists.all.each do |artist|
             csv << artist_as_csv_row(artist)
           end
         end
@@ -37,11 +32,11 @@ class AdminArtistList < ViewPresenter
     'mau_artists.csv'
   end
 
-  def each(&block)
-    artists.each(&block)
-  end
-
   private
+
+  def artists
+    Artist.includes(:artist_info, :studio, :art_pieces)
+  end
 
   def artist_as_csv_row(artist)
     [

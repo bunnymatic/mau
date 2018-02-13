@@ -15,7 +15,9 @@
         .header Mission Artists
         .body Showcasing artists in the Mission District of San Francisco
     #js-scroll-load-more.scroll-load-more
-      .hint scroll down for more
-      i.fa.fa-spinner.fa-spin
-    #the-end
-      .hint The End
+      .scroll-load-more__contents
+        = mau_spinner
+        .hint scroll down for more
+    #the-end[hidden]
+      .the-end__contents
+        .hint The End

@@ -72,8 +72,6 @@ gem 'actionmailer-text'
 
 gem 'sass-color-extractor'
 
-#gem 'bootsnap', require: false
-
 source 'http://insecure.rails-assets.org' do
   gem 'rails-assets-angular', '=1.3.16'
   gem 'rails-assets-angular-animate', '=1.3.16'
@@ -106,7 +104,6 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'bootsnap', require: false
   gem 'capistrano3-unicorn'
   gem 'spring'
   gem 'spring-commands-teaspoon'

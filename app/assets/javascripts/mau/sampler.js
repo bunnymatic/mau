@@ -31,7 +31,7 @@
           }
         } else {
           $('#js-scroll-load-more').remove();
-          return $('#the-end').show();
+          return $('#the-end').removeAttr('hidden')
         }
       });
     };

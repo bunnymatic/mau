@@ -15,6 +15,14 @@ module ApplicationHelper
     end
   end
 
+  def mau_spinner
+    '<div class="mau-spinner">' \
+    '<div></div><div></div><div></div><div></div>' \
+    '<div></div><div></div><div></div><div></div>' \
+    '<div></div><div></div><div></div><div></div>' \
+    '</div>'.html_safe
+  end
+
   def background_image_style(img)
     "background-image: url(\"#{img}\");"
   end

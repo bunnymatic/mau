@@ -1,4 +1,5 @@
-Feature: Update Artists OS status
+@javascript
+Feature: Edit Artists' basic information
 
 As an administrator, I can edit an artist's info
 
@@ -9,6 +10,7 @@ Background:
   And an "admin" account has been created
   And I login
   When I click on "artists" in the admin menu
+  And I see the admin artists list
   And I click on the first artist edit button that's not me
 
 Scenario: Updating artists basic info
