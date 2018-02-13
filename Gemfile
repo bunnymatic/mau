@@ -72,7 +72,7 @@ gem 'actionmailer-text'
 
 gem 'sass-color-extractor'
 
-source 'http://insecure.rails-assets.org' do
+source 'https://rails-assets.org' do
   gem 'rails-assets-angular', '=1.3.16'
   gem 'rails-assets-angular-animate', '=1.3.16'
   gem 'rails-assets-angular-mailchimp'
