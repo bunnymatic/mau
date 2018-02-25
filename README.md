@@ -39,7 +39,7 @@ Let's get started:
 Get the source code
 
     cd /my_projects/  # Directory under which you want the mau source code to sit
-    git clone git@github.com:bunnymatic/mau.git
+    git clone https://github.com/bunnymatic/mau.git
 
 This will generate a `mau` directory for you.
 

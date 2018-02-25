@@ -11,7 +11,7 @@ set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all # default value
 
 set :application, 'MAU'
-set :repo_url, 'git@github.com:bunnymatic/mau.git'
+set :repo_url, 'https://github.com/bunnymatic/mau.git'
 
 # set :rails_env, 'production'                  # If the environment differs from the stage name
 # set :migration_role, 'migrator'            # Defaults to 'db'
