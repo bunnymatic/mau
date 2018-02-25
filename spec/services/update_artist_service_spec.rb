@@ -19,6 +19,12 @@ describe UpdateArtistService do
       end
     end
 
+    describe 'with a fan' do
+      it 'raises an error' do
+        expect { described_class.new(MauFan.new, params) }.to raise_error UpdateArtistService::Error
+      end
+    end
+
     describe 'with user attributes' do
       let(:params) do
         { firstname: 'BillyBob' }
