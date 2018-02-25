@@ -66,6 +66,12 @@ describe ArtistsController, elasticsearch: true do
   end
 
   describe '#register_for_current_open_studios' do
+    it 'redirects fans to their home page with a nice message' do
+      login_as fan
+      get :register_for_current_open_studios
+      expect(response).to redirect_to user_path(fan)
+    end
+
     it "updates your os status to true and redirects to your edit page if you're logged in" do
       login_as artist
       get :register_for_current_open_studios

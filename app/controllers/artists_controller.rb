@@ -13,7 +13,6 @@ class ArtistsController < ApplicationController
   before_action :user_required, only: %i[register_for_current_open_studios my_profile
                                          edit update manage_art delete_art
                                          destroyart setarrangement arrange_art]
-
   def index
     respond_to do |format|
       format.html do
@@ -40,6 +39,15 @@ class ArtistsController < ApplicationController
   end
 
   def register_for_current_open_studios
+    unless current_user.artist?
+      flash[:error] = "You must have an Artist's account, not a Fan account"\
+                      ' to see that page you requested.  Please login as an '\
+                      'Artist or try starting again from the '\
+                      "<a href='/'>beginning</a>".html_safe
+      redirect_to user_path(current_user)
+      return
+    end
+
     msg = { notice: 'You are now registered for Open Studios!' }
     success = UpdateArtistService.new(current_artist, os_participation: 1).update_os_status
     unless success

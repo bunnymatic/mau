@@ -9,6 +9,7 @@ class UpdateArtistService
     @artist = artist
     @params = params
     raise UpdateArtistService::Error, 'artist cannot be nil' unless artist
+    raise UpdateArtistService::Error, 'artist must be an artist' unless artist.is_a?(Artist)
   end
 
   def update
