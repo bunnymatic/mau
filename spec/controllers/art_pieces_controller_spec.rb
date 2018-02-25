@@ -7,7 +7,11 @@ describe ArtPiecesController do
   let(:existing_tag) { FactoryBot.create(:art_piece_tag) }
   let(:tags) { nil }
   let(:art_piece_attributes) do
-    FactoryBot.attributes_for(:art_piece, artist: nil, medium_id: medium.id, photo: fixture_file_upload('/files/art.png', 'image/jpeg'))
+    FactoryBot.attributes_for(:art_piece,
+                              artist: nil,
+                              title: 'TheBestArtInTheWorld',
+                              medium_id: medium.id,
+                              photo: fixture_file_upload('/files/art.png', 'image/jpeg'))
   end
   let(:admin) { FactoryBot.create(:artist, :admin) }
   let(:fan) { FactoryBot.create(:fan, :active) }
