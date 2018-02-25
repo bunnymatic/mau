@@ -55,7 +55,7 @@
       });
       key = _.intersection(_.keys(options), ["error", "notice"])[0];
       if (options[key]) {
-        msg = options[key];
+        msg = options[key].replace(/\n/gm, "<br/>");
         clz = "flash flash__" + key;
         contents = jQuery('<div>', {
           'class': clz

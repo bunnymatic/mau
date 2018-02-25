@@ -16,7 +16,12 @@ class OpenStudiosEvent < ApplicationRecord
     if !reverse
       start_date.strftime('%Y %b')
     else
-      start_date.strftime('%b %-d-') + end_date.strftime('%-d %Y')
+      date = start_date.strftime('%b %-d-')
+      if start_date.month == end_date.month
+        date + end_date.strftime('%-d %Y')
+      else
+        date + end_date.strftime('%b %-d %Y')
+      end
     end
   end
 

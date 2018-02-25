@@ -70,6 +70,7 @@ describe ArtistsController, elasticsearch: true do
       login_as fan
       get :register_for_current_open_studios
       expect(response).to redirect_to user_path(fan)
+      expect(flash['error']).to include "must have an Artist's account"
     end
 
     it "updates your os status to true and redirects to your edit page if you're logged in" do
@@ -77,6 +78,8 @@ describe ArtistsController, elasticsearch: true do
       get :register_for_current_open_studios
       expect(artist.reload).to be_doing_open_studios
       expect(response).to redirect_to edit_artist_path(artist, anchor: 'events')
+      expect(flash['notice']).to include 'Look for an email'
+      expect(flash['notice']).to include 'Thanks for participating'
     end
 
     it "redirects to your edit page if you're not logged in" do
