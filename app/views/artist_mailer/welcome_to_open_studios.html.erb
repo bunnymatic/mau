@@ -1,0 +1,37 @@
+<p>
+  Hello, <%= @artist.get_name %>
+</p>
+<p>
+  Thanks so much for registering for Open Studios <%= @current_os.for_display(true) %>.
+  We're so excited you're participating!
+</p>
+<p>
+  It's FREE to participate, we are completely donation and volunteer supported.
+</p>
+<p>
+Here are some things you can do to make your Open Studios great:
+<ul>
+  <li>
+    <%= link_to "upload new images of your artwork", @upload_url, target: "_blank" %>
+  </li>
+  <li>promote the event on your social media channels</li>
+  <li>invite your mailing list</li>
+  <li>
+    get connected with MissionArtists on
+    <%= link_to "Facebook", Conf.social_links['facebook'], target: "_blank" %>,
+    <%= link_to "Twitter", Conf.social_links['twitter'], target: "_blank" %>,
+    <%= link_to "Instagram", Conf.social_links['instagram'], target: "_blank" %>.
+  </li>
+</ul>
+
+</p>
+<p>
+Have any questions?  Go ahead and send us an email.  We're here to help.
+</p>
+<p>
+Mission Artists is entirely volunteer run and does not charge for participation.  If you'd like to help out, you can donate by <a href="<%= @donation_url %>" target="_blank">going to the site</a> and clicking on the "Donate" button.  We uses this money to run the website and support promotion for Open Studios events.
+</p>
+
+<p>
+The MAU Web Team
+</p>

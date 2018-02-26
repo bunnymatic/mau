@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+
 describe UpdateArtistService do
   let(:params) { {} }
   let(:artist) { create(:artist) }
@@ -79,6 +80,104 @@ describe UpdateArtistService do
         artist.reload
         expect(artist.slug).to eql 'newlogin'
         expect(artist.login).to eql 'newlogin'
+      end
+    end
+  end
+
+  describe '.update_os_status' do
+    let!(:current_os) { create(:open_studios_event, start_date: 4.days.since) }
+    subject(:update_os) { service.update_os_status }
+
+    before do
+      stub_mailer_email(ArtistMailer, :welcome_to_open_studios)
+    end
+    context 'when the artist cannot do open studios (no address)' do
+      let(:artist) { create(:artist, :without_address) }
+
+      subject(:update_os) { service.update_os_status }
+      it 'returns false' do
+        expect(update_os).to eq false
+      end
+      it 'does not email the artist' do
+        update_os
+        expect(ArtistMailer).to_not have_received :welcome_to_open_studios
+      end
+
+      it 'does not save an open studios sign up event' do
+        expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(0)
+      end
+    end
+
+    context 'when the artist is already doing open studios' do
+      let(:artist) { create(:artist, doing_open_studios: current_os) }
+
+      context 'and they update the status to "doing" it' do
+        let(:params) { { os_participation: '1' } }
+        it 'does not change the open studios flag' do
+          update_os
+          # this find forces the artist_info reload
+          expect(Artist.find(artist.id)).to be_doing_open_studios
+        end
+        it 'does not email the artist' do
+          update_os
+          expect(ArtistMailer).to_not have_received :welcome_to_open_studios
+        end
+
+        it 'does not save an open studios sign up event' do
+          expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(0)
+        end
+      end
+
+      context 'and they update the status to "not doing" it' do
+        let(:params) { { os_participation: '0' } }
+        it 'sets the open studios flag' do
+          update_os
+          # this find forces the artist_info reload
+          expect(Artist.find(artist.id)).to_not be_doing_open_studios
+        end
+        it 'does not email the artist' do
+          update_os
+          expect(ArtistMailer).to_not have_received :welcome_to_open_studios
+        end
+        it 'saves the open studios sign up event' do
+          expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(1)
+        end
+      end
+    end
+    context 'when the artist not yet registered for open studios' do
+      context 'and they update the status to "doing" it' do
+        let(:params) { { os_participation: '1' } }
+        it 'sets the open studios flag' do
+          update_os
+          # this find forces the artist_info reload
+          expect(Artist.find(artist.id)).to be_doing_open_studios
+        end
+        it 'emails the artist' do
+          update_os
+          expect(ArtistMailer).to have_received(:welcome_to_open_studios).with(artist, current_os)
+        end
+
+        it 'saves an open studios sign up event' do
+          expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(1)
+        end
+      end
+
+      context 'and they update the status to "not doing" it' do
+        let(:params) { { os_participation: '0' } }
+        it 'does not change the open studios flag' do
+          update_os
+          # this find forces the artist_info reload
+          expect(Artist.find(artist.id)).to_not be_doing_open_studios
+        end
+
+        it 'does not email the artist' do
+          update_os
+          expect(ArtistMailer).to_not have_received :welcome_to_open_studios
+        end
+
+        it 'does not save the open studios sign up event' do
+          expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(0)
+        end
       end
     end
   end

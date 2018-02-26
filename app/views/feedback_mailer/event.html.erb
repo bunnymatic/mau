@@ -1,21 +1,20 @@
 <p>
-Dear MAU Events Watcher,
+  Dear MAU Events Watcher,
 </p>
 <p>
-We just got a new event from one of our members.
+  We just got a new event from one of our members.
 </p>
 <p>
-Subject: <%= @event_info.subject %>    <br/>
-User's email: <%= @event_info.email %> <br/>
-Logged in as: <%= @event_info.login %> <br/>
-URL: <%= @event_info.url %> <br/>
-Sent at: <%= Time.zone.now %> <br/>
+  Subject: <%= @event_info.subject %>    <br/>
+  User's email: <%= @event_info.email %> <br/>
+  Logged in as: <%= @event_info.login %> <br/>
+  URL: <%= link_to @event_info.url %> <br/>
+  Sent at: <%= Time.zone.now %> <br/>
 </p>
 <p>
-Comment: 
-<%= @event_info.comment %>
+  Comment:
+  <%= @event_info.comment %>
 </p>
 <p>
-Environment: <%= Rails.env %>
+  Environment: <%= Rails.env %>
 </p>
-

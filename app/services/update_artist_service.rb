@@ -8,6 +8,7 @@ class UpdateArtistService
   def initialize(artist, params)
     @artist = artist
     @params = params
+    @current_os = OpenStudiosEventService.current
     raise UpdateArtistService::Error, 'artist cannot be nil' unless artist
     raise UpdateArtistService::Error, 'artist must be an artist' unless artist.is_a?(Artist)
   end
@@ -32,9 +33,10 @@ class UpdateArtistService
     participating = (@params[:os_participation].to_i != 0)
 
     if (participating != @artist.doing_open_studios?) && @artist.can_register_for_open_studios?
-      @artist.update_os_participation(OpenStudiosEventService.current, participating)
+      @artist.update_os_participation(@current_os, participating)
       trigger_os_signup_event(participating)
       refresh_in_search_index
+      ArtistMailer.welcome_to_open_studios(@artist, @current_os).deliver_later if participating
     end
     @artist.can_register_for_open_studios? && participating
   end
@@ -54,7 +56,7 @@ class UpdateArtistService
 
   def trigger_os_signup_event(participating)
     msg = "#{@artist.full_name} set their os status to" \
-          " #{participating} for #{current_open_studios_key} open studios"
+          " #{participating} for #{@current_os.for_display(true)} open studios"
     data = { 'user' => @artist.login, 'user_id' => @artist.id }
     OpenStudiosSignupEvent.create(message: msg,
                                   data: data)

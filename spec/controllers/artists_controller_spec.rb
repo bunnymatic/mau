@@ -354,7 +354,7 @@ describe ArtistsController, elasticsearch: true do
     end
   end
 
-  describe '- logged out' do
+  describe 'logged out' do
     context 'post to set arrangement' do
       before do
         post :setarrangement, params: { neworder: '1,2' }

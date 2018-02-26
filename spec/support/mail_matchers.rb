@@ -43,6 +43,43 @@ class HaveBodyText
   alias negative_failure_message failure_message_when_negated
 end
 
-def have_body_text(txt)
-  HaveBodyText.new(txt)
+def have_body_text(text)
+  HaveBodyText.new(text)
+end
+
+class HaveLinkInBody
+  def initialize(expected_link_text, href:)
+    @expected_link_text = expected_link_text
+    @expected_link_url = href
+  end
+
+  def description
+    desc = "have link #{@expected_link_text.inspect}"
+    return desc if @expected_link_url.nil?
+    desc + " (#{@expected_link_url})"
+  end
+
+  def matches?(email)
+    @given_text = email.html_part.to_s
+    html = Capybara::Node::Simple.new(email.html_part.to_s)
+    if @expected_link_url.nil?
+      html.has_link?(@expected_link_text)
+    else
+      html.has_link?(@expected_link_text, href: @expected_link_url)
+    end
+  end
+
+  def failure_message
+    "expected to find link #{@expected_link_text.inspect} in #{@given_text}"
+  end
+
+  def failure_message_when_negated
+    "expected not to find link #{@expected_link_text.inspect} in #{@given_text}"
+  end
+
+  alias negative_failure_message failure_message_when_negated
+end
+
+def have_link_in_body(link, href: nil)
+  HaveLinkInBody.new(link, href: href)
 end

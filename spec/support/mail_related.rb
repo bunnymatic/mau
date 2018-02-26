@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
 module MailRelated
+  def stub_mailer_email(mailer, email)
+    letter = instance_double(ActionMailer::MessageDelivery,
+                             deliver_later: true,
+                             deliver_now: true)
+    allow(mailer).to receive(email).and_return(letter)
+  end
+
   def stub_signup_notification
-    mailer_double = double('ArtistMailer::SignupNotificationEmail', deliver_later: true, deliver_now: true)
-    allow(ArtistMailer).to receive(:signup_notification).and_return(mailer_double)
+    stub_mailer_email(ArtistMailer, :signup_notification)
   end
 
   def stub_mailchimp
