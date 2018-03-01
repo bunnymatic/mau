@@ -8,8 +8,8 @@ describe Admin::EmailListsController do
 
   let(:test_email) { 'mr_new@example.com' }
 
-  let(:feedback_email_list) { FactoryBot.create(:feedback_email_list) }
-  let(:admin_email_list) { FactoryBot.create(:admin_email_list) }
+  let!(:feedback_email_list) { FactoryBot.create(:feedback_email_list) }
+  let!(:admin_email_list) { FactoryBot.create(:admin_email_list) }
   let!(:lists) { [feedback_email_list, admin_email_list] }
 
   before do

@@ -31,6 +31,27 @@ describe OpenStudiosEvent do
     it 'returns the pretty version for the current os' do
       expect(current_os.for_display).to eql current_os.start_date.strftime('%Y %b')
     end
+
+    context 'with reverse true' do
+      context 'if the dates are within the same month' do
+        it 'returns the pretty version for the current os' do
+          expected = current_os.start_date.strftime('%b %-d-') + current_os.end_date.strftime('%-d %Y')
+          expect(current_os.for_display(true)).to eql expected
+        end
+      end
+      context 'if the dates are across months' do
+        let(:current_os) do
+          date = 1.month.since.beginning_of_month
+          date -= 1.day
+          FactoryBot.create(:open_studios_event, start_date: date)
+        end
+        it 'returns the pretty version for the current os' do
+          expected = current_os.start_date.strftime('%b %-d-') +
+                     current_os.end_date.strftime('%b %-d %Y')
+          expect(current_os.for_display(true)).to eql expected
+        end
+      end
+    end
   end
 
   describe '#future' do

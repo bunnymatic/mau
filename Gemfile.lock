@@ -65,6 +65,7 @@ GEM
       scrypt (>= 1.2, < 4.0)
     autoprefixer-rails (8.0.0)
       execjs
+    awesome_print (1.8.0)
     aws-sdk (2.10.73)
       aws-sdk-resources (= 2.10.73)
     aws-sdk-core (2.10.73)
@@ -508,6 +509,7 @@ DEPENDENCIES
   angular-rails-templates
   authlogic
   autoprefixer-rails
+  awesome_print
   aws-sdk (~> 2.4.x)
   better_errors
   binding_of_caller

@@ -22,7 +22,8 @@ Scenario: "when I'm not logged in"
   And I click on "Sign In"
 
   Then I see my profile edit form
-  And I see a flash notice "You are now registered for Open Studios!"
+  And I see a flash notice including  "Look for an email"
+  And I see a flash notice including "Thanks for participating"
   And I see the "events" profile panel is open
 
 Scenario: "when I'm logged in"
@@ -31,7 +32,9 @@ Scenario: "when I'm logged in"
   And I click on "Register to Participate"
 
   Then I see my profile edit form
-  And I see a flash notice "You are now registered for Open Studios!"
+  And I see a flash notice including  "Look for an email"
+  And I see a flash notice including "Thanks for participating"
+
   And I see the "events" profile panel is open
 
 Scenario: "when I auto register but i'm not allowed (no address)"

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'csv'
-require 'xmlrpc/client'
 
 Mime::Type.register 'image/png', :png
 
@@ -46,16 +45,24 @@ class ArtistsController < ApplicationController
       redirect_to user_path(current_user)
       return
     end
-
-    msg = { notice: 'You are now registered for Open Studios!' }
+    open_studios_event = OpenStudiosEvent.current
     success = UpdateArtistService.new(current_artist, os_participation: 1).update_os_status
-    unless success
-      msg = {
-        error: "You're account needs more info before you can register for Open Studios (probably an address or studio)."
-      }
-    end
+    msg = update_os_status_message(success, current_artist, open_studios_event)
+    flash = success ? { notice: msg } : { error: msg }
     redirect_to(edit_artist_path(current_user, anchor: 'events'),
-                flash: msg)
+                flash: flash)
+  end
+
+  def update_os_status_message(status, artist, os_event)
+    if !status
+      "You're account needs more info before you can "\
+      'register for Open Studios (probably an address or studio).'
+    else
+      "Thanks for participating in Open Studios #{os_event.for_display(true)}!\n"\
+      "Please confirm your studio address: #{artist.address}.\n"\
+      "Look for an email with more info.\n"\
+      "It's FREE to participate, we are completely donation and volunteer supported."
+    end
   end
 
   def my_profile
@@ -173,8 +180,15 @@ class ArtistsController < ApplicationController
 
   def update
     if request.xhr?
+      open_studios_event = OpenStudiosEvent.current
       os_status = UpdateArtistService.new(current_artist, artist_params).update_os_status
-      render json: { success: true, os_status: os_status, current_os: OpenStudiosEventService.current }
+      message = update_os_status_message(os_status, current_artist, open_studios_event)
+      render json: {
+        success: true,
+        os_status: os_status,
+        current_os: OpenStudiosEventService.current,
+        message: message
+      }
     else
       if commit_is_cancel
         redirect_to user_path(current_user)

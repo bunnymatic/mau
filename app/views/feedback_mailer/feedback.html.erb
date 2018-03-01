@@ -1,22 +1,22 @@
 <p>
-Dear MAU Web Posse member,
+  Dear MAU Web Posse member,
 </p>
 <p>
-You're lucky today, you've got feedback from your users:
+  You're lucky today, you've got feedback from your users:
 </p>
 <p>
-Subject: <%= @feedback.subject %>   <br/>
-User's email: <%= @feedback.email %><br/>
-Logged in as: <%= @feedback.login %><br/>
-Skillset: <%= @feedback.skillsets %><br/>
-Bug: <%= @feedback.bugtype %><br/>
-URL: <%= @feedback.url %><br/>
-Sent at: <%= Time.zone.now %><br/>
+  Subject: <%= @feedback.subject %>   <br/>
+  User's email: <%= @feedback.email %><br/>
+  Logged in as: <%= @feedback.login %><br/>
+  Skillset: <%= @feedback.skillsets %><br/>
+  Bug: <%= @feedback.bugtype %><br/>
+  URL: <%= @feedback.url %><br/>
+  Sent at: <%= Time.zone.now %><br/>
 </p>
 <p>
-Comment: 
-<%= @feedback.comment %>
+  Comment:
+  <%= @feedback.comment %>
 </p>
 <p>
-Environment: <%= Rails.env %>
+  Environment: <%= Rails.env %>
 </p>

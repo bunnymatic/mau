@@ -28,7 +28,7 @@
           if (!status) {
             msg = 'So sorry you\'re not going to participate this year.' + ' We\'d love to know why.  Tell us via the feedback link' + ' at the bottom of the page.';
           } else {
-            msg = 'Super!  The more the merrier!';
+            msg = data.message || 'Super!  The more the merrier!';
           }
           flash.show({
             notice: msg

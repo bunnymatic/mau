@@ -60,6 +60,19 @@ class ArtistMailer < MauMailer
     end
   end
 
+  def welcome_to_open_studios(artist, current_os)
+    setup_email(artist)
+    subject = "Welcome To Open Studios #{current_os.for_display(true)}"
+    @current_os = current_os
+    @upload_url = manage_art_artist_url(artist)
+    @donation_url = edit_artist_url(artist, anchor: 'events')
+    mail(to: artist.email,
+         from: ACCOUNTS_FROM_ADDRESS,
+         subject: build_subject(subject)) do |fmt|
+      fmt.html { render 'welcome_to_open_studios' }
+    end
+  end
+
   protected
 
   def setup_email(artist)
