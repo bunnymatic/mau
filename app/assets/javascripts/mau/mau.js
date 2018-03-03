@@ -62,8 +62,10 @@ jQuery(function() {
   });
   jQuery(flashNotice).not(".flash__error").each( function() {
     var _that = this;
+    var timeout = _.min([20000,_.max([5000, (120 * this.innerText.length)])]);
+
     setTimeout(function() {
       $(_that).fadeOut();
-    }, 5000);
+    }, timeout);
   });
 });
