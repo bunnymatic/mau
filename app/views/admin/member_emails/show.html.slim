@@ -29,6 +29,7 @@
         .admin-table
           h3.member-email-lists__results__header
             | Emails
+            '
             a.export-csv(href=("?format=csv&%s" % request.query_string) title="Download CSV")
               i.fa.fa-download
 

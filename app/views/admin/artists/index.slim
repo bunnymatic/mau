@@ -4,16 +4,19 @@
     .admin-artist-download-csv
       a.pure-button.export-csv href=("?format=csv" % request.query_string)
         i.fa.fa-download
+        '
         | Export artists csv
     h2.title Artists
     ul.js-tabs.tabs.tabs__horizontal
       li.active
         a href="#good" title="in good standing" data-toggle="tab"
           i.fa.fa-users
+          '
           | In Good Standing  (#{@active_artist_list_count})
       li
         a href="#bad" title="suspended" data-toggle="tab"
           i.fa.fa-user-times
+          '
           | Suspended etc. (#{@inactive_artist_list_count})
 
   .pure-u-1-1.tab-content.padded-content
