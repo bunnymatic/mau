@@ -116,6 +116,7 @@ group :development do
 end
 
 group :test, :development do
+  gem 'bundle-audit'
   gem 'byebug'
   gem 'database_cleaner'
   gem 'elasticsearch-extensions', require: nil
