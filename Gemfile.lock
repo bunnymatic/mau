@@ -164,10 +164,10 @@ GEM
     dotenv-rails (2.2.1)
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
-    elasticsearch (2.0.2)
-      elasticsearch-api (= 2.0.2)
-      elasticsearch-transport (= 2.0.2)
-    elasticsearch-api (2.0.2)
+    elasticsearch (6.0.1)
+      elasticsearch-api (= 6.0.1)
+      elasticsearch-transport (= 6.0.1)
+    elasticsearch-api (6.0.1)
       multi_json
     elasticsearch-extensions (0.0.22)
       ansi
@@ -177,7 +177,7 @@ GEM
       elasticsearch (> 0.4)
       hashie
     elasticsearch-rails (0.1.8)
-    elasticsearch-transport (2.0.2)
+    elasticsearch-transport (6.0.1)
       faraday
       multi_json
     erubi (1.7.0)
@@ -526,7 +526,7 @@ DEPENDENCIES
   dalli
   database_cleaner
   dotenv-rails
-  elasticsearch (~> 2.x)
+  elasticsearch
   elasticsearch-extensions
   elasticsearch-model
   elasticsearch-rails
