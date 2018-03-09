@@ -1,10 +1,10 @@
 .pure-g
   .pure-u-1-1.header.padded-content
-    %h2.title #{@favorites.title}
+    h2.title = @favorites.title
 .pure-g
   .pure-u-1-1.padded-content
     - if @favorites.empty?
-      %p.no-favorites-msg
+      p.no-favorites-msg
         = @favorites.empty_message.html_safe
       - if @favorites.current_user_is_user?
         = render 'random_picks', :random_picks => @favorites.random_picks
@@ -12,17 +12,15 @@
       - if @favorites.current_user_is_user?
         .pure-g
           .pure-u-1-1.cta
-            %p Find more favorites by clicking the &quot;artists&quot; link and search by name, medium or tag.
+            p Find more favorites by clicking the &quot;artists&quot; link and search by name, medium or tag.
       .pure-g
         .pure-u-1-1.favorite-art-pieces
           .section.header
-            %h3
-              = "Art Pieces (#{@user.fav_art_pieces.count})"
+            h3 = "Art Pieces (#{@user.fav_art_pieces.count})"
           .pure-g
             = render partial: 'art', collection: @favorites.art_pieces, as: :art_piece_favorite, locals: { owner_is_current_user: @favorites.current_user_is_user? }
         .pure-u-1-1.favorite-artists
           .section.header
-            %h3
-              = "Artists (#{@user.fav_artists.count})"
+            h3 = "Artists (#{@user.fav_artists.count})"
           .pure-g
             = render partial: 'artist', collection: @favorites.artists, as: :artist_favorite, locals: { owner_is_current_user: @favorites.current_user_is_user? }

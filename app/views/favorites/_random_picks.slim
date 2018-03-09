@@ -1,19 +1,19 @@
 .pure-g
   .pure-u-1-1.pure-u-sm-1-3.favorites__random-block.favorites__random-by-name
     = link_to artists_path do
-      %h4 Find Artists by Name
-      %ul
+      h4 Find Artists by Name
+      ul
         - random_picks.each do |item|
           = draw_micro_favorite item, :linkless => true
   .pure-u-1-1.pure-u-sm-1-3.favorites__random-block.favorites__random-by-medium
     = link_to media_path(:m => 'a') do
-      %h4 Find Artists by Medium
-      %ul
+      h4 Find Artists by Medium
+      ul
         - random_picks.each do |item|
           = draw_micro_favorite item, :linkless => true
   .pure-u-1-1.pure-u-sm-1-3.favorites__random-block.favorites__random-by-tag
     = link_to art_piece_tags_path(:m => 'a') do
-      %h4 Find Artists by Tag
-      %ul
+      h4 Find Artists by Tag
+      ul
         - random_picks.each do |item|
-          = draw_micro_favorite item, :linkless => true
+          = draw_micro_favorite(item, :linkless => true)
