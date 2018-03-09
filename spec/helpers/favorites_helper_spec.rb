@@ -3,8 +3,23 @@
 require 'rails_helper'
 
 describe FavoritesHelper do
+  let(:favorite) { create :art_piece }
+  describe '#draw_micro_favorite' do
+    let(:options) { {} }
+    subject(:micro) { helper.draw_micro_favorite(favorite, options) }
+    it 'returns an li with the favorite in there' do
+      expect(micro).to have_css("li a[title='#{favorite.title}'] div[title='#{favorite.title}']")
+      expect(micro).to have_css('[style*=background-image]')
+    end
+    context 'with options = {linkless: true}' do
+      let(:options) { { linkless: true } }
+      it 'does not include a link' do
+        expect(micro).to have_css("li div[title='#{favorite.title}']")
+        expect(micro).to_not have_css('li a div')
+      end
+    end
+  end
   describe '#get_favorite_image_and_path' do
-    let(:favorite) { create :art_piece }
     let(:image_and_path) { helper.get_favorite_image_and_path(favorite) }
     let(:img) { image_and_path[0] }
     let(:path) { image_and_path[1] }
