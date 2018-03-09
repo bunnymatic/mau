@@ -64,6 +64,7 @@ Then(/^I see my empty favorites page$/) do
   expect(page).to have_content 'Find Artists by Name'
   expect(page).to have_content 'Find Artists by Medium'
   expect(page).to have_content 'Find Artists by Tag'
+  expect(page).to have_css('.thumb')
 end
 
 When /^I remove the first favorite$/ do
