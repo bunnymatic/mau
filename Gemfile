@@ -25,7 +25,7 @@ gem 'rdiscount' # markdown processor
 gem 'responders'
 gem 'slim-rails'
 
-gem 'elasticsearch', '~> 2.x'
+gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 
