@@ -32,9 +32,9 @@ class FavoritesCollectionPresenter < ViewPresenter
         <span class='fa fa-heart'></span>
         around the site.  Click on it to favorite art or artists.
       MSG
-      safe_join([content_tag('p', msg), content_tag('p', 'Start your search below.')])
+      raw [content_tag('p', raw(msg)), content_tag('p', 'Start your search below.')].join
     else
-      '<p>This user has not favorited anything yet.</p>'
+      raw '<p>This user has not favorited anything yet.</p>'
     end
   end
 

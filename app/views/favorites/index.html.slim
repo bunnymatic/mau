@@ -5,7 +5,7 @@
   .pure-u-1-1.padded-content
     - if @favorites.empty?
       p.no-favorites-msg
-        = @favorites.empty_message.html_safe
+        = @favorites.empty_message
       - if @favorites.current_user_is_user?
         = render 'random_picks', :random_picks => @favorites.random_picks
     - else
