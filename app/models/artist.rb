@@ -35,7 +35,7 @@ class Artist < User
       indexes :lastname, analyzer: :mau_snowball_analyzer
       indexes :nomdeplume, analyzer: :mau_snowball_analyzer
       indexes :studio_name, analyzer: :mau_snowball_analyzer
-      indexes :bio, index: :no
+      indexes :bio, index: false
     end
   end
 
