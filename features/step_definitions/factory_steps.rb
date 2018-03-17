@@ -16,10 +16,11 @@ Given(/^an? "(.*?)" account has been created/) do |role|
 end
 
 Given /^there is a studio named "(.*)"$/ do |studio|
-  @studio = FactoryBot.create(:studio, name: studio)
+  @studio = Studio.find_by(name: studio) || FactoryBot.create(:studio, name: studio)
 end
 
 Given /^there is a studio named "(.*)" with artists$/ do |studio|
+  Studio.where(name: studio).destroy_all
   @studio = FactoryBot.create(:studio, :with_artists, name: studio, artist_count: 3)
 end
 

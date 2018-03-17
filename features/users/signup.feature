@@ -18,6 +18,7 @@ Scenario: sign up as a fan
 Scenario: sign up as a artist
   When I click "Sign up"
   Then I see a flash error "secret word"
+  And I see the secret word email link
   And I see an error in the form "can't be blank"
   And I see an error in the form "is too short"
   When I choose "Mission Artist" from "I am a"
