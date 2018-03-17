@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'elasticsearch'
+require 'elasticsearch/extensions/reindex'
+
 namespace :es do
   desc 'reindex models'
   task reindex: [:environment] do
