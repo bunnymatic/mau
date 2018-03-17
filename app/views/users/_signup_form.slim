@@ -16,8 +16,12 @@
     li.stringish.input.required
       label.label for="secret_word" What's the secret word?
       = text_field_tag :secret_word
-      p.inline-hints If you don't know, contact us via email and we'll let you in on the secret.
-
+      p.inline-hints
+        | If you don't know,
+        '
+        a href="javascript:MAU.mailer('www','missionartistsunited.org','Send me the secret word please!');" contact us via email
+        '
+        | and we'll let you in on the secret.
   = f.actions do
     = f.submit 'Sign up', class: 'pure-button-primary pure-button button-large'
 .input-help

@@ -21,6 +21,14 @@ When(/^I change my email to "(.*?)"$/) do |new_email|
   click_on_first 'Save Changes'
 end
 
+Then('I see the secret word email link') do
+  find(:link, 'contact us via email') do |link|
+    expect(link['href']).to include('MAU.mailer')
+    expect(link['href']).to include('Send me the secret word')
+    expect(link.text).to include('email')
+  end
+end
+
 When(/^I add a photo to upload$/) do
   attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'profile.png')
 end
