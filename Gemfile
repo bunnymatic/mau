@@ -5,6 +5,7 @@ ruby '2.4.1'
 
 gem 'active_model_serializers'
 gem 'capistrano'
+gem 'capistrano-bundler'
 gem 'capistrano-rails'
 gem 'capistrano-rbenv'
 gem 'dalli'
