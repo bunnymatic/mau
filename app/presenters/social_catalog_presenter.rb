@@ -13,8 +13,7 @@ class SocialCatalogPresenter < ArtistsPresenter
 
   def artists
     super.select(&:art?).sort do |a, b|
-      by_studio = Studio::SORT_BY_NAME.call(a.studio, b.studio)
-      by_studio.zero? ? (b.representative_piece.updated_at <=> a.representative_piece.updated_at) : by_studio
+      b.representative_piece.updated_at <=> a.representative_piece.updated_at
     end
   end
 

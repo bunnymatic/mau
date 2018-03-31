@@ -19,6 +19,8 @@
           = " #missionartists #springopenstudios"
         .catalog-entry--artist
           ul
+            li = "Studio: #{artist.studio.try(:name) || 'Independent' }"
+            li = "Address: #{artist.address}"
             li = "Last update: #{artist.model.updated_at.try(:to_formatted_s,:admin_date_only)}"
             li = "Last seen: #{artist.model.last_login_at.try(:to_formatted_s,:admin_date_only)}"
             li = "Last representative piece update: #{artist.representative_piece.updated_at.try(:to_formatted_s,:admin_date_only)}"
