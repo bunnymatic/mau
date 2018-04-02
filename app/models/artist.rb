@@ -124,8 +124,7 @@ class Artist < User
     piece = ArtPiece.find_by id: piece_id
 
     if piece.blank?
-      logger.debug("#{__method__}: cache miss")
-      piece = art_pieces.first
+      piece = art_pieces.sort_by { |ap| [ap.position, -ap.created_at.to_i] }.first
       SafeCache.write(representative_art_cache_key, piece.id, expires_in: 0) unless piece.nil?
     end
     piece
