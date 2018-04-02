@@ -42,14 +42,8 @@ describe SocialCatalogPresenter, type: :view do
     it 'returns artists who are doing os (and in the mission) and have art' do
       expect(subject.artists.map(&:model)).to match_array [listed_indy_artist] + listed_studio_artists
     end
-    it 'returns artist sorted by studio' do
-      expected_studios = [studio, studio, studio2].sort(&Studio::SORT_BY_NAME) + [nil]
-      expect(subject.artists.map(&:studio)).to eql(expected_studios)
-    end
     it 'returns artist sorted by art piece updated at within a studio' do
-      [studio, studio2].each do |s|
-        expect(subject.artists.select { |a| a.studio == s }.map { |a| a.representative_piece.updated_at }).to be_monotonically_decreasing
-      end
+      expect(subject.artists.map { |a| a.representative_piece.updated_at }).to be_monotonically_decreasing
     end
   end
 
