@@ -76,7 +76,7 @@ class ArtistPresenter < UserPresenter
     @art_pieces ||=
       begin
         num = (artist.max_pieces || 20) - 1
-        artist.art_pieces[0..num].map { |piece| ArtPiecePresenter.new(piece) }
+        artist.art_pieces.select(&:persisted?)[0..num].compact.map { |piece| ArtPiecePresenter.new(piece) }
       end
   end
 
