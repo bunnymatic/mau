@@ -31,9 +31,8 @@ class ArtistPresenter < UserPresenter
     media.present?
   end
 
-  def get_share_link(urlsafe = false, options = {})
-    link = artist_url(model, options)
-    urlsafe ? CGI.escape(link) : link
+  def show_url
+    artist_url(model)
   end
 
   def primary_medium
