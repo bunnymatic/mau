@@ -17,6 +17,8 @@
           = artist.representative_piece_tags.map {|tag| "##{tag}" }.join(" ")
           '
           = " #missionartists #springopenstudios"
+          '
+          = artist.show_url
         .catalog-entry--artist
           ul
             li = "Studio: #{artist.studio.try(:name) || 'Independent' }"
