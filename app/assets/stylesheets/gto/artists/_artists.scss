@@ -355,16 +355,18 @@
     }
   }
 
-  .artist__links .link {
-    margin-bottom: 5px;
-    @include ellipsis;
-    span {
-      font-size: 0.8rem;
-    }
-    .ico {
-      font-size: 1.1rem;
-      display: inline-block;
-      margin-right: 10px;
+  .artist__links {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    .link {
+      margin: 5px;
+      display: block;
+      .ico {
+        font-size: 2.4rem;
+      }
     }
   }
   .header .title {

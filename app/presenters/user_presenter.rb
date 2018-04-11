@@ -150,8 +150,7 @@ class UserPresenter < ViewPresenter
       site_display = format_link_for_display(site)
       link_icon_class = icon_link_class(key, site)
       content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
-        content_tag(:i, '', class: link_icon_class) +
-          content_tag(:span, site_display)
+        content_tag(:i, '', class: link_icon_class)
       end
     end.compact
   end

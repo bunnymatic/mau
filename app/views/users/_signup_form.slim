@@ -4,7 +4,7 @@
 = semantic_form_for user, url: users_path do |f|
   = f.input :type, as: :hidden, value: type
   = f.inputs do
-    = f.input :login, required: true, label: 'Username'
+    = f.input :login, required: true, label: 'Username', autofocus: true
     = f.input :email, required: true
     = f.input :password, required: true, hint: 'between 8 and 40 characters', wrapper_html: { "password-strength" => "password" }, input_html: {  "ng-model" => "password" }
     = f.input :password_confirmation, required: true
