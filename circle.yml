@@ -12,3 +12,5 @@ dependencies:
 test:
   pre:
     - bundle exec rake rubocop assets:precompile 2>/dev/null
+  override:
+    - bundle exec rake spec
