@@ -1,20 +1,14 @@
 machine:
   environment:
     API_CONSUMER_KEY: Testing Testing 1 2
-    TEST_CLUSTER_COMMAND: ~/mau/elasticsearch-2.4.3/bin/elasticsearch
-    TEST_CLUSTER_LOGS: ./tmp/elasticsearch/logs
-    TEST_CLUSTER_NODES: 1
+  services:
+    - elasticsearch
 
 dependencies:
   pre:
     - gem update --system 
     - mkdir -p tmp/elasticsearch/logs
     - sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
-  post:
-    - wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.4.3/elasticsearch-2.4.3.tar.gz
-    - tar -xvf elasticsearch-2.4.3.tar.gz
 test:
   pre:
     - bundle exec rake rubocop assets:precompile 2>/dev/null
-  override:
-    - bundle exec rake spec
