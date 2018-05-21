@@ -2,7 +2,6 @@ version: 2
 jobs:
   build:
     environment:
-      DATABASE_URL: "postgres://ubuntu@localhost/circle_ruby_test"
       DISABLE_SPRING: true
       RAILS_ENV: test
       RACK_ENV: test
@@ -10,7 +9,11 @@ jobs:
 
     docker:
       - image: circleci/ruby:2.5.1-node-browsers
-      - image: circleci/mysql:5.7.19
+      - image: tkuchiki/delayed-mysql
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_DATABASE: mau_test
       - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
         environment:
           TEST_CLUSTER_NODES: 1
@@ -29,6 +32,7 @@ jobs:
           shell: /bin/bash
           name: Machine Setup
           command: |-
+            sudo apt install -y mysql-client
             sudo gem install bundle rake
       - run:
           shell: /bin/bash
@@ -36,32 +40,28 @@ jobs:
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
             bundle exec bundle-audit update && bundle exec bundle-audit check
-          environment:
-            NODE_ENV: test
-            RAILS_ENV: test
+      - run:
+          shell: /bin/bash
+          name: Wait For DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+      - run:
+          shell: /bin/bash
+          name: Report Db
+          command: bin/rails runner 'puts ActiveRecord::Base.configurations'
       - run:
           shell: /bin/bash
           name: DB Setup and Assets compilation
           command: |-
             bundle exec rake db:schema:load db:seed
             bundle exec rake assets:precompile
-          environment:
-            NODE_ENV: test
-            RAILS_ENV: test
       - run:
           name: Ruby Tests (rspec)
           command: |-
             bundle exec rspec --format doc --format RspecJunitFormatter --out test-results/rspec/results.xml
-          environment:
-            NODE_ENV: test
-            RAILS_ENV: test
       - run:
           name: Cucumber
           command: |-
             bundle exec cucumber --format doc --format RspecJunitFormatter --out test-results/cucumber/results.xml
-          environment:
-            NODE_ENV: test
-            RAILS_ENV: test
       - save_cache:
           key: v2-dep-{{ .Branch }}-{{ epoch }}
           paths:
@@ -94,16 +94,10 @@ jobs:
   #           sudo gem install bundle rake
   #           bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
   #           yarn install
-  #         environment:
-  #           NODE_ENV: test
-  #           RAILS_ENV: test
   #     - run:
   #         name: I18n Validate, JS tests and Linters
   #         command: |-
   #           bundle exec rake jest:test i18n:validate js:lint rubocop
-  #         environment:
-  #           NODE_ENV: test
-  #           RAILS_ENV: test
   #     - save_cache:
   #         key: v2-dep-{{ .Branch }}-{{ epoch }}
   #         paths:
