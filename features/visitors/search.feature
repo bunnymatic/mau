@@ -1,6 +1,5 @@
 @javascript
-Feature:
-  Visitors can search for art
+Feature:  Visitors can search for art
 
 Background:
   Given the following artists with art are in the system:

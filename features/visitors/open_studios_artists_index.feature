@@ -1,6 +1,5 @@
 @javascript
-Feature:
-  Visitors to the open studios landing page
+Feature: Visitors to the open studios landing page
   see a list of participating artists
   so they can plan their visit
 

@@ -1,5 +1,5 @@
 @javascript
-Feature:
+Feature: Artists Account
   As an artist
   I can see my page with my art and a menu of useful actions
 

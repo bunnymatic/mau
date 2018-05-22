@@ -1,5 +1,4 @@
-Feature:
-As a manager, I can manage my studio
+Feature: As a manager, I can manage my studio
 
 Background:
   Given there are artists with art in the system

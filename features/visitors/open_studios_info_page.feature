@@ -1,5 +1,4 @@
-Feature:
-  Visitors to the open studios landing page
+Feature: Visitors to the open studios landing page
   see a information about open studios
   so they can plan their visit
 

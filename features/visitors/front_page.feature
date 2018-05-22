@@ -1,6 +1,6 @@
-Feature:
-
-  Visitors to the home page see a sampling of artists, the new art that's been added to the system
+Feature:  Visitors to the home page see
+  a sampling of artists
+  the new art that's been added to the system
   and a list of art related feeds.
 
   They should also see a banner talking about open studios and a menu of options to dig into seeing more artists

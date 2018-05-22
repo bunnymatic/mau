@@ -61,11 +61,11 @@ jobs:
       - run:
           name: Cucumber
           command: |-
-            bundle exec cucumber --format doc --format RspecJunitFormatter --out test-results/cucumber/results.xml
+            bundle exec cucumber --format junit --out test-results/cucumber/results.xml
       - run:
           name: JS Tests
           command: |-
-            bundle exec rake specs:javascripts
+            bundle exec rake spec:javascripts
       - save_cache:
           key: v2-dep-{{ .Branch }}-{{ epoch }}
           paths:

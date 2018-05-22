@@ -1,6 +1,4 @@
-Feature:
-
-  Visitors can see artist's information and their art
+Feature:  Visitors can see artist's information and their art
 
 Background:
   Given the following artists with art are in the system:
