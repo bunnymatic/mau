@@ -24,7 +24,7 @@ RSpec.configure do |config|
     case example.metadata[:elasticsearch]
     when true
       begin
-        TestEsServer.start
+        TestEsServer.start unless ENV['CI']
       rescue Exception => ex
         puts "Failed to start Elasticsearch: #{ex}"
       end
@@ -45,7 +45,7 @@ end
 
 at_exit do
   begin
-    TestEsServer.stop
+    TestEsServer.stop unless ENV['CI']
   rescue Exception => ex
     puts "Failed to stop Elasticsearch: #{ex}"
   end
