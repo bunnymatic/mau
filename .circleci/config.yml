@@ -62,6 +62,10 @@ jobs:
           name: Cucumber
           command: |-
             bundle exec cucumber --format doc --format RspecJunitFormatter --out test-results/cucumber/results.xml
+      - run:
+          name: JS Tests
+          command: |-
+            bundle exec rake specs:javascripts
       - save_cache:
           key: v2-dep-{{ .Branch }}-{{ epoch }}
           paths:
@@ -74,35 +78,6 @@ jobs:
       - store_test_results:
           path: ./test-results/rspec
           path: ./test-results/cucumber
-  # lint_and_js_tests:
-  #   docker:
-  #     - image: circleci/ruby:2.5.1-node-browsers
-  #   steps:
-  #     - checkout
-  #     - restore_cache:
-  #         keys:
-  #           # This branch if available
-  #           - v2-dep-{{ .Branch }}-
-  #           # Default branch if not
-  #           - v2-dep-development-
-  #           # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
-  #           - v2-dep-
-  #     - run:
-  #         shell: /bin/bash
-  #         name: Setup
-  #         command: |-
-  #           sudo gem install bundle rake
-  #           bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
-  #           yarn install
-  #     - run:
-  #         name: I18n Validate, JS tests and Linters
-  #         command: |-
-  #           bundle exec rake jest:test i18n:validate js:lint rubocop
-  #     - save_cache:
-  #         key: v2-dep-{{ .Branch }}-{{ epoch }}
-  #         paths:
-  #           - vendor/bundle
-  #           - ./node_modules
 
 workflows:
   version: 2
