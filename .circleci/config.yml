@@ -6,7 +6,7 @@ jobs:
       RAILS_ENV: test
       RACK_ENV: test
       CI: true
-
+      TEST_CLUSTER_PORT: 9200
     docker:
       - image: circleci/ruby:2.5.1-node-browsers
       - image: tkuchiki/delayed-mysql
