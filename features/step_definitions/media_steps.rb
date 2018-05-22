@@ -23,6 +23,7 @@ When(/^I click on the first medium$/) do
 end
 
 Then(/^I see that medium detail page$/) do
+  expect(page).to have_css('.media.show')
   expect(page).to have_css '.header', text: @medium.name
   expect(page).to have_css '.tagcloud li'
   expect(page).to have_css '.art-card'

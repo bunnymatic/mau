@@ -54,6 +54,7 @@ When(/^I click on the first tag$/) do
 end
 
 Then(/^I see that tag detail page$/) do
+  expect(page).to have_css('.art_piece_tags.show')
   expect(page).to have_css '.header', text: @tag.name
   expect(page).to have_css '.tagcloud li'
   expect(page).to have_css '.art-card'
