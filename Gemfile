@@ -115,7 +115,7 @@ group :test, :development do
   gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop', require: false
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
   gem 'simplecov'
   gem 'teaspoon-jasmine'
   gem 'timecop'

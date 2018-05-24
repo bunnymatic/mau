@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/thoughtbot/shoulda-matchers.git
+  revision: c0960bd72dd41c4e9bd8b4375254f539776bfe95
+  specs:
+    shoulda-matchers (3.1.2)
+      activesupport (>= 4.2.0)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -450,8 +457,6 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
     sexp_processor (4.10.0)
-    shoulda-matchers (3.1.2)
-      activesupport (>= 4.0.0)
     simplecov (0.15.1)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -606,7 +611,7 @@ DEPENDENCIES
   sass-color-extractor
   sassc-rails
   selenium-webdriver
-  shoulda-matchers
+  shoulda-matchers!
   simplecov
   slim-rails
   spring
