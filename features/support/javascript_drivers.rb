@@ -16,15 +16,8 @@ Capybara.register_driver :headless_chrome do |app|
                                  desired_capabilities: capabilities
 end
 
-# Capybara.javascript_driver = :poltergeist
-# Capybara.javascript_driver = :webkit
 Capybara.javascript_driver = :headless_chrome
 
-# Capybara::Webkit.configure do |config|
-#     config.block_unknown_urls
-# end
-
-# webkit only
 Before('@javascript') do |_scenario, _block|
   if page.driver.respond_to? :header
     page.driver.header 'Authorization', ENV.fetch('API_CONSUMER_KEY', 'Testing Testing 1 2')

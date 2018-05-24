@@ -198,7 +198,7 @@ When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
       find('#admin_nav .handle').hover
       el = all('#admin_nav a', text: link_title).first
     else
-      el = all('.pure-menu', text: link_title).first
+      el = all('.pure-menu a', text: link_title).first
     end
     el.click
   else

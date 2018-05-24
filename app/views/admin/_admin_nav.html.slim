@@ -15,7 +15,7 @@ a#menu-link.menu-link href="#menu"
       ul.pure-menu-list
         - entries.each do |key, opts|
           li.pure-menu-item
-            = link_to opts[:display], opts[:link], class: key
+            = link_to opts[:display], opts[:link], title: opts[:display], class: key
     .title Version
     ul.pure-menu-list
       li.pure-menu-item.suffix
