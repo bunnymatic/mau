@@ -8,7 +8,7 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w(headless disable-gpu) }
+    chromeOptions: { args: %w[headless disable-gpu] }
   )
 
   Capybara::Selenium::Driver.new app,
@@ -35,7 +35,7 @@ end
 
 module JavascriptDriverChecker
   def running_js?
-    [:selenium, :webkit, :chrome, :headless_chrome, :poltergeist].include?(Capybara.current_driver)
+    %i[selenium webkit chrome headless_chrome poltergeist].include?(Capybara.current_driver)
   end
 end
 
