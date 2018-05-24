@@ -1,6 +1,4 @@
-Feature:
-  As an admin
-  I can see all the open studios events in the system
+Feature: Admins can mange openstudios events
 
 Background:
   Given an "admin" account has been created

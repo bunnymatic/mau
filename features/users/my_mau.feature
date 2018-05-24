@@ -1,4 +1,4 @@
-Feature:
+Feature: MAU Fans
   As an fan
   I can see my page with my art and a menu of useful actions
 

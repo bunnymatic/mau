@@ -1,5 +1,4 @@
-Feature:
-  Visitors can submit feedback and ask for help
+Feature: Visitors can submit feedback and ask for help
 
 
 @javascript

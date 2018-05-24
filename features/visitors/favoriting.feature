@@ -1,7 +1,5 @@
 @javascript
-Feature:
-
-  Visitors can favorite an artist or their art
+Feature:  Visitors can favorite an artist or their art
 
 Background:
   Given I'm logged out

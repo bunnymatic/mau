@@ -1,5 +1,5 @@
 @javascript
-Feature:
+Feature: Open Studios Signup for Artists
   As an artist
   I have an easy way to get to sign up for open studios
 

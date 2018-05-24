@@ -1,7 +1,5 @@
 @javascript
-Feature:
-
-  Visitors can see artist's information and their art
+Feature:  Visitors can see artist's information and their art
 
 Background:
   Given there are artists with art in the system

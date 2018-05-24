@@ -3,75 +3,60 @@
 source 'https://rubygems.org'
 ruby '2.5.1'
 
+gem 'actionmailer-text'
 gem 'active_model_serializers'
+gem 'angular-rails-templates'
+gem 'authlogic'
+gem 'autoprefixer-rails'
+gem 'aws-sdk', '~> 2.4.x'
+gem 'browser'
 gem 'capistrano'
 gem 'capistrano-bundler'
 gem 'capistrano-rails'
 gem 'capistrano-rbenv'
+gem 'coffee-rails'
 gem 'dalli'
-gem 'font-awesome-rails'
-gem 'formtastic'
-gem 'friendly_id'
-gem 'haml'
-gem 'hashie'
-gem 'htmlentities'
-gem 'jquery-rails'
-gem 'lograge'
-gem 'mojo_magick'
-gem 'mysql2', '~> 0.4.x'
-gem 'nokogiri'
-gem 'racc'
-gem 'rails', '5.1.4'
-gem 'rdiscount' # markdown processor
-gem 'responders'
-gem 'slim-rails'
-
+gem 'dotenv-rails'
 gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
-
-gem 'gibbon' # mailchimp connect
-gem 'rosie'
-
-gem 'aws-sdk', '~> 2.4.x'
-gem 'browser'
+gem 'font-awesome-rails'
+gem 'formtastic'
+gem 'friendly_id'
 gem 'geokit'
 gem 'geokit-rails'
+gem 'gibbon' # mailchimp connect
 gem 'gmaps4rails'
+gem 'haml'
+gem 'hashie'
+gem 'htmlentities'
+gem 'jbuilder' # non-html output (rss, atom)
+gem 'jquery-rails'
+gem 'lograge'
 gem 'mime-types'
+gem 'mojo_magick'
+gem 'mysql2', '~> 0.4.x'
+gem 'newrelic_rpm' # moitoring
+gem 'ngannotate-rails'
+gem 'nokogiri'
 gem 'paperclip'
 gem 'pickadate-rails'
-gem 'qr4r'
-gem 'rack-cors', require: 'rack/cors'
-gem 'recaptcha', require: 'recaptcha/rails'
-gem 'xmlrpc' # after ruby 2.4 upgrade
-
-gem 'angular-rails-templates'
-gem 'ngannotate-rails'
-
-# authentication
-gem 'authlogic'
-# mailing with postmarkapp.com
 gem 'postmark'
 gem 'postmark-rails'
-
-gem 'unicorn' # webserver
-
-gem 'jbuilder' # non-html output (rss, atom)
-
-gem 'newrelic_rpm' # moitoring
-
-gem 'dotenv-rails'
-
-gem 'autoprefixer-rails'
-gem 'coffee-rails'
-gem 'sassc-rails'
-
-gem 'uglifier'
-
-gem 'actionmailer-text'
-
+gem 'qr4r'
+gem 'racc'
+gem 'rack-cors', require: 'rack/cors'
+gem 'rails', '~> 5.1.4'
+gem 'rdiscount' # markdown processor
+gem 'recaptcha', require: 'recaptcha/rails'
+gem 'responders'
+gem 'rosie'
 gem 'sass-color-extractor'
+gem 'sassc-rails'
+gem 'slim-rails'
+gem 'uglifier'
+gem 'unicorn' # webserver
+gem 'xmlrpc' # after ruby 2.4 upgrade
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-angular', '=1.3.16'
@@ -97,6 +82,7 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'poltergeist'
+  gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'vcr'
   gem 'webmock'
@@ -108,14 +94,15 @@ group :development do
   gem 'binding_of_caller'
   gem 'capistrano3-unicorn'
   gem 'spring'
-  gem 'spring-commands-teaspoon'
   gem 'spring-commands-rspec'
+  gem 'spring-commands-teaspoon'
   gem 'unicorn-rails'
 
   gem 'rails_best_practices'
 end
 
 group :test, :development do
+  gem 'bundle-audit'
   gem 'byebug'
   gem 'database_cleaner'
   gem 'elasticsearch-extensions', require: nil
@@ -128,8 +115,8 @@ group :test, :development do
   gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop', require: false
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
   gem 'simplecov'
-  gem 'shoulda-matchers'
   gem 'teaspoon-jasmine'
   gem 'timecop'
 end

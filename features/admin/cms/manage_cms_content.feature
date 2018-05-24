@@ -1,4 +1,4 @@
-Feature:
+Feature: Admin CMS Content
   As an admin
   I can manage the pieces of CMS content that we have on the site
   So that I can make sure the site makes sense
@@ -36,4 +36,3 @@ Scenario: Adding CMS Content for the about page
   When I click "Save"
   And I visit the about page
   Then I see "we rule the school" in the ".markdown h1"
-

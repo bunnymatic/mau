@@ -26,7 +26,7 @@ describe ApplicationEvent do
 
     describe 'since' do
       it 'returns only events that have happened since the input date' do
-        events = ApplicationEvent.since(2.days.ago).to_a
+        events = ApplicationEvent.since(49.hours.ago).to_a
         expect(events).to have(3).events
         expect(events.map(&:class).uniq).to eql [GenericEvent]
       end

@@ -4,9 +4,9 @@ require_relative '../../spec/support/test_es_server'
 require_relative './webmock'
 
 AfterConfiguration do
-  TestEsServer.start
+  TestEsServer.start unless ENV['CI']
 end
 
 at_exit do
-  TestEsServer.stop
+  TestEsServer.stop unless ENV['CI']
 end

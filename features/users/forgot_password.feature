@@ -1,4 +1,4 @@
-Feature: As a user
+Feature: Users' Password Management
   if i forget my password
   i can request a new one
 

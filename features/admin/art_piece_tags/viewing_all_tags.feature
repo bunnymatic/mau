@@ -1,4 +1,4 @@
-Feature: As a admin
+Feature: Admin view of tags
   I can check out all the tags and see who's using what
   I can clean out unused tags
   So I can keep the system clean and well oiled

@@ -4,10 +4,6 @@ AllCops:
   # include more directories.
   TargetRubyVersion: 2.3
 
-  Include:
-    - app/**
-    - spec/**
-    - features/**
   Exclude:
     - Capfile
     - Gemfile

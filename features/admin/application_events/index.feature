@@ -1,4 +1,4 @@
-Feature:
+Feature: Admin Application Events
   As an admin
   I can see all the application event sections
 

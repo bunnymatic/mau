@@ -1,5 +1,5 @@
 @javascript
-Feature:
+Feature: Adding and Editing Art
   As an artist
   I can add and edit art
 

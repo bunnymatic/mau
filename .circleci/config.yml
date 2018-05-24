@@ -1,0 +1,212 @@
+version: 2
+jobs:
+  build:
+    environment:
+      DISABLE_SPRING: true
+      RAILS_ENV: test
+      RACK_ENV: test
+      CI: true
+      TEST_CLUSTER_PORT: 9200
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # This branch if available
+            - v2-dep-{{ .Branch }}-
+            # Default branch if not
+            - v2-dep-development-
+            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
+            - v2-dep-
+      - run:
+          shell: /bin/bash
+          name: Bundle Install and Audit
+          command: |-
+            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+            bundle exec bundle-audit update && bundle exec bundle-audit check
+      - run:
+          shell: /bin/bash
+          name: Machine Setup
+          command: |-
+            sudo apt install -y mysql-client
+            sudo gem install bundle rake
+      - save_cache:
+          key: v2-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+            - vendor/bundle
+
+  lint:
+    environment:
+      DISABLE_SPRING: true
+      RAILS_ENV: test
+      RACK_ENV: test
+      CI: true
+      TEST_CLUSTER_PORT: 9200
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # This branch if available
+            - v2-dep-{{ .Branch }}-
+            # Default branch if not
+            - v2-dep-development-
+            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
+            - v2-dep-
+      - run:
+          shell: /bin/bash
+          name: Rubocop
+          command: |-
+            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+            bundle exec rubocop
+  javascript:
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # This branch if available
+            - v2-dep-{{ .Branch }}-
+            # Default branch if not
+            - v2-dep-development-
+            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
+            - v2-dep-
+      - run:
+          shell: /bin/bash
+          name: Bundle install
+          command: |-
+            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+      - run:
+          shell: /bin/bash
+          name: Assets Precompile
+          command: |-
+            bundle exec rake assets:precompile
+      - run:
+          name: JS Tests
+          command: |-
+            bundle exec rake spec:javascripts
+  spec:
+    environment:
+      DISABLE_SPRING: true
+      RAILS_ENV: test
+      RACK_ENV: test
+      CI: true
+      TEST_CLUSTER_PORT: 9200
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+      - image: tkuchiki/delayed-mysql
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_DATABASE: mau_test
+      - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+        environment:
+          TEST_CLUSTER_NODES: 1
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # This branch if available
+            - v2-dep-{{ .Branch }}-
+            # Default branch if not
+            - v2-dep-development-
+            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
+            - v2-dep-
+      - run:
+          shell: /bin/bash
+          name: Bundle install
+          command: |-
+            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+      - run:
+          shell: /bin/bash
+          name: Wait For DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+      - run:
+          shell: /bin/bash
+          name: DB Setup
+          command: |-
+            bundle exec rake db:schema:load db:seed
+      - run:
+          name: Ruby Tests (rspec)
+          command: |-
+            bundle exec rspec --format doc --format RspecJunitFormatter --out test-results/rspec/results.xml
+      - store_artifacts:
+          path: ./tmp/capybara
+      - store_artifacts:
+          path: ./test-results/rspec
+      - store_test_results:
+          path: ./test-results/rspec
+  cucumber:
+    environment:
+      DISABLE_SPRING: true
+      RAILS_ENV: test
+      RACK_ENV: test
+      CI: true
+      TEST_CLUSTER_PORT: 9200
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+      - image: tkuchiki/delayed-mysql
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_DATABASE: mau_test
+      - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+        environment:
+          TEST_CLUSTER_NODES: 1
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # This branch if available
+            - v2-dep-{{ .Branch }}-
+            # Default branch if not
+            - v2-dep-development-
+            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
+            - v2-dep-
+      - run:
+          shell: /bin/bash
+          name: Bundle install
+          command: |-
+            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+      - run:
+          shell: /bin/bash
+          name: Wait For DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+      - run:
+          shell: /bin/bash
+          name: DB Setup
+          command: |-
+            bundle exec rake db:schema:load db:seed
+      - run:
+          name: Cucumber
+          command: |-
+            bundle exec cucumber --format junit --out test-results/cucumber/results.xml
+      - store_artifacts:
+          path: ./tmp/capybara
+      - store_artifacts:
+          path: ./test-results/cucumber
+      - store_test_results:
+          path: ./test-results/cucumber
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - spec:
+          requires:
+            - build
+      - cucumber:
+          requires:
+            - build
+      - lint:
+          requires:
+            - build
+      - javascript:
+          requires:
+            - build
