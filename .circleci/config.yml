@@ -36,7 +36,7 @@ jobs:
           paths:
             - vendor/bundle
 
-  lint:
+  lint_and_javascript_specs:
     environment:
       DISABLE_SPRING: true
       RAILS_ENV: test
@@ -57,28 +57,14 @@ jobs:
             - v2-dep-
       - run:
           shell: /bin/bash
-          name: Rubocop
+          name: Bundle Install
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            bundle exec rubocop
-  javascript:
-    docker:
-      - image: circleci/ruby:2.5.1-node-browsers
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            # This branch if available
-            - v2-dep-{{ .Branch }}-
-            # Default branch if not
-            - v2-dep-development-
-            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
-            - v2-dep-
       - run:
           shell: /bin/bash
-          name: Bundle install
+          name: Rubocop
           command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+            bundle exec rubocop
       - run:
           shell: /bin/bash
           name: Assets Precompile
@@ -105,7 +91,6 @@ jobs:
       - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
         environment:
           TEST_CLUSTER_NODES: 1
-
     steps:
       - checkout
       - restore_cache:
@@ -141,6 +126,7 @@ jobs:
       - store_test_results:
           path: ./test-results/rspec
   cucumber:
+    parallelism: 2
     environment:
       DISABLE_SPRING: true
       RAILS_ENV: test
@@ -185,7 +171,8 @@ jobs:
       - run:
           name: Cucumber
           command: |-
-            bundle exec cucumber --format junit --out test-results/cucumber/results.xml
+            bundle exec cucumber --format junit --out test-results/cucumber/results.xml \
+            $(circleci tests glob "features/**/*_spec.rb" | circleci tests split --split-by=timings)
       - store_artifacts:
           path: ./tmp/capybara
       - store_artifacts:
@@ -204,9 +191,6 @@ workflows:
       - cucumber:
           requires:
             - build
-      - lint:
-          requires:
-            - build
-      - javascript:
+      - lint_and_javascript_specs:
           requires:
             - build
