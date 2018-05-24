@@ -16,10 +16,6 @@ class ArtPieceTagPresenter
       end
   end
 
-  def safe_name
-    safe_join([HtmlEncoder.encode(name).gsub(' ', '&nbsp;')])
-  end
-
   private
 
   def tagged_art_pieces

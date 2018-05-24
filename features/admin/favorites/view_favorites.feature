@@ -1,3 +1,4 @@
+@javascript
 Feature: Admins can see favorites
 
 Background:

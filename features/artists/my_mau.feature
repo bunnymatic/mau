@@ -8,7 +8,6 @@ Background:
   And I login as an artist
   And that artist is doing open studios
 
-
 Scenario: I can edit my profile
   When I visit my artist profile edit page
   Then I see my profile edit form
@@ -19,33 +18,37 @@ Scenario: I can edit my profile
   | joe              | 蕭秋芬          |
   And I click on "Save Changes"
 
-  Then I see my profile edit form
+  Then I see a flash notice including "has been updated"
+  And I see my profile edit form
   And I close the notice
+
   When I click on "Personal Info"
   Then I see my updated personal information as:
   | artist_firstname | artist_lastname |
   | joe              | 蕭秋芬          |
 
-  And I click on "Personal Info"
-
-  And I update my personal information with:
+  When I update my personal information with:
   | artist_firstname |
   | mr joe           |
   And I click on "Save Changes"
-  Then I click on "Personal Info"
-  And I see my updated personal information as:
+  Then I see a flash notice including "has been updated"
+  And I see my profile edit form
+  And I close the notice
+  And I click on "Personal Info"
+  Then I see my updated personal information as:
   | artist_firstname  |
   | mr joe            |
-  And I see that I've successfully signed up for Open Studios
 
-  When I click on "Profile Picture"
+  When I open the "Profile Picture" profile section
   And I submit a new profile picture
   And I click "Save Changes"
-  And I click on "Profile Picture"
+  And I see a flash notice including "has been updated"
+
+  When I open the "Profile Picture" profile section
   Then I see that I have a new profile picture
 
 Scenario: I can update my os status
-  When I visit my artist profile edit page
+  When I visit my profile edit page
   Then I see my profile edit form
 
   And I click on "Personal Info"

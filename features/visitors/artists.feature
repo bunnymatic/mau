@@ -17,9 +17,9 @@ Scenario:  Drilling down to an art piece page from the sampler
   Then I see that artist's profile page
   And the meta description includes the artist's bio
   When I click on an art card
+  And I see that art piece detail page
   And the meta description includes that art piece's title
   And the meta keywords includes that art piece's tags and medium
-  And I see that art piece detail page
 
 @javascript
 Scenario:  Drilling down to an art piece page through the artists' index

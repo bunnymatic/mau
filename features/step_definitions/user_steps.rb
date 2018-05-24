@@ -86,6 +86,7 @@ When(/^I login$/) do
   # if we're already logged in we'll be somewhere else
   fill_in_login_form (@artist || @user).login, '8characters'
   steps %(And I click "Sign In")
+  expect(page).to have_content /sign out/i
 end
 
 When(/^I login as an artist$/) do
@@ -122,6 +123,7 @@ end
 
 When(/^I login as "(.*?)"$/) do |login|
   path = current_path
+  path = '/' if path.nil? || path == ',' # comma comes from some capybara startup thing
   visit login_path
   @artist = User.find_by(login: login)
   fill_in_login_form login, '8characters'

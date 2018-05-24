@@ -107,6 +107,7 @@ end
 
 When /^I (log|sign)\s?out$/ do |_dummy|
   visit logout_path
+  expect(page).to have_content /sign in/i
   expect(page).to have_flash :notice, /make some art/
 end
 
@@ -187,15 +188,19 @@ end
 
 When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
   within container do
-    click_on_first link
+    click_on_first link, visible: false
   end
 end
 
 When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
   if running_js?
-    within('.admin #menu .pure-menu, #admin_nav') do
-      all('a', text: link_title, visible: false).first.trigger('click')
+    if all('#admin_nav').count.positive?
+      find('#admin_nav .handle').hover
+      el = all('#admin_nav a', text: link_title).first
+    else
+      el = all('.pure-menu a', text: link_title).first
     end
+    el.click
   else
     step %(I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav")
   end

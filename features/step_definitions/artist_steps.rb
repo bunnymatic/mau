@@ -4,7 +4,7 @@ When(/^I visit my home page$/) do
   visit artist_path(@artist)
 end
 
-When(/^I visit my artist profile edit page$/) do
+When(/^I visit my\s+(artist\s+)?(profile\s+)?edit page$/) do |_dummy, _dummy2|
   visit edit_artist_path(@artist)
 end
 
@@ -150,7 +150,8 @@ When /^that artist is doing open studios$/ do
 end
 
 When /^I click on the current open studios edit section$/ do
-  click_on "Open Studios #{OpenStudiosEventService.current.for_display(true)}"
+  link_text = OpenStudiosEventPresenter.new(OpenStudiosEventService.current).link_text
+  click_on "Open Studios #{link_text}"
 end
 
 Then(/^I see that I've successfully signed up for Open Studios$/) do
@@ -196,23 +197,37 @@ end
 When(/^I click on an art card$/) do
   art_card = first('.art-card a .image')
   if running_js?
-    art_card.trigger('click')
+    begin
+      art_card.trigger('click')
+    rescue Capybara::NotSupportedByDriverError
+      art_card.click
+    end
   else
     art_card.click
   end
 
-  @art_piece = @artist.art_pieces.first
+  # @art_piece = @artist.art_pieces.first
+  # puts ".art-card a[href=#{art_piece_path(@art_piece)}]"
+  # find(:link_href, art_piece_path(@art_piece)).click
   expect(page).to have_css('.art_pieces.show')
+  # puts @art_piece.tags.count
 end
 
 Then(/^I see that art piece detail page$/) do
   expect(page).to have_css('art-pieces-browser')
-  expect(page).to have_css '.header', text: @artist.full_name
+  expect(page).to have_css '.art-piece__byline', text: @artist.full_name
+  page.current_path =~ %r{art_pieces/(\d+).*}
+  @art_piece = ArtPiece.find_by(id: $1)
+end
+
+When(/^I open the "([^"]*)" profile section/) do |title|
+  trigger = all('.panel-title a').detect { |h4| h4.text.include?(title) }
+  trigger.click
 end
 
 When(/^I submit a new profile picture$/) do
   find('.file.input')
-  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'art.png')
+  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'user.png')
 end
 
 Then(/^I see that I have a new profile picture$/) do
@@ -242,7 +257,7 @@ When(/^the meta description includes that art piece's title$/) do
 end
 
 When(/^the meta keywords includes that art piece's tags and medium$/) do
-  @art_piece.tags.each do |_tag|
+  @art_piece.tags.each do |tag|
     steps %(Then the page meta name "keywords" includes "#{tag.name}")
   end
   steps %(Then the page meta name "keywords" includes "#{@art_piece.medium.name}") if @art_piece.medium

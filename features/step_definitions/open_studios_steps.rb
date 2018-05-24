@@ -6,11 +6,21 @@ When /I click on the current open studios link/ do
 end
 
 When /^I check yep for doing open studios$/ do
-  find('#events .toggle-button .toggle-button__label_on').trigger('click')
+  el = find('#events .toggle-button .toggle-button__label_on')
+  begin
+    el.trigger('click')
+  rescue Capybara::NotSupportedByDriverError
+    el.click
+  end
 end
 
 When /^I check nope for doing open studios$/ do
-  find('#events .toggle-button .toggle-button__label_off').trigger('click')
+  el = find('#events .toggle-button .toggle-button__label_off')
+  begin
+    el.trigger('click')
+  rescue Capybara::NotSupportedByDriverError
+    el.click
+  end
 end
 
 Then(/^I see the open studios cms content/) do
@@ -58,55 +68,53 @@ Then /^I see a new open studios form$/ do
   expect(page).to have_selector '#open_studios_event_end_date.js-datepicker'
 end
 
-Then /I change the date to next month/ do
+def set_start_end_date_on_open_studios_form(_start_date, _end_date)
+  page.execute_script("$('#open_studios_event_start_date').val('#{@start_date.to_date}');")
+  page.execute_script("$('#open_studios_event_end_date').val('#{@end_date.to_date}');")
+  page.execute_script("$('#open_studios_event_start_date').trigger('change');")
+end
+
+Then /I change the date to next month and the title to \"(.*)\"/ do |title|
   @start_date = Time.zone.now + 1.month
   @end_date = @start_date + 1.day
-
-  fill_in 'Start date', with: @start_date
-  fill_in 'End date', with: @end_date
+  set_start_end_date_on_open_studios_form(@start_date, @end_date)
+  # fill_in "Start date", with: @start_date.to_date
+  # fill_in "End date", with: @end_date.to_date
   fill_in 'Key', with: @start_date.strftime('%Y%m')
+  fill_in 'Title', with: title
   click_on 'Update'
 end
 
-Then /I see the updated open studios event/ do
-  @os_event = OpenStudiosEvent.where(key: @start_date.strftime('%Y%m')).first
-  expect(@os_event).to be_present
-  expect(@os_event.end_date.to_i).to eql @end_date.to_i
-  expect(@os_event.key).to eql @start_date.strftime('%Y%m')
+Then /I see the open studios event with the title \"(.*)\"$/ do |title|
+  within table_row_matching(title) do
+    expect(page).to have_content @start_date.strftime('%Y%m')
+  end
 end
 
-Then /^I fill in the open studios event form for next weekend without a key$/ do
-  @start_date = Time.zone.now.beginning_of_week + 11.days
-  @end_date = Time.zone.now.beginning_of_week + 11.days
-  fill_in 'Start date', with: @start_date
-  fill_in 'End date', with: @end_date
-  attach_file 'Logo', Rails.root.join('spec', 'fixtures', 'files', 'open_studios_event.png')
-  click_on 'Create'
+When(/^I click delete on the "([^"]*)" titled open studios event$/) do |title|
+  within table_row_matching(title) do
+    click_on 'Delete'
+  end
 end
 
-Then /^I fill in the open studios event form for next weekend$/ do
+Then /^I fill in the open studios event form for next weekend with the title \"(.*)\"$/ do |title|
   dt = Time.zone.now.beginning_of_week + 11.days
   @os_title = 'Fall OS'
   @start_date = dt
   @end_date = dt + 2.days
-  fill_in 'Title', with: @os_title
-  fill_in 'Start date', with: @start_date
-  fill_in 'End date', with: @end_date
-  fill_in 'Key', with: dt.strftime('%Y%m')
+  fill_in 'Title', with: title
+  set_start_end_date_on_open_studios_form(@start_date, @end_date)
+  # fill_in "Start date", with: @start_date
+  # fill_in "End date", with: @end_date
+  expect(find('#open_studios_event_key').value).to eql @start_date.strftime('%Y%m')
   attach_file 'Logo', Rails.root.join('spec', 'fixtures', 'files', 'open_studios_event.png')
   click_on 'Create'
 end
 
-Then /^I see a new open studios event$/ do
-  @os_event = OpenStudiosEvent.where(key: @start_date.strftime('%Y%m')).first
-  expect(@os_event).to be_present
-  expect(@os_event.end_date.to_i).to eql @end_date.to_i
-  expect(@os_event.key).to eql @start_date.strftime('%Y%m')
-  expect(@os_event.title).to eql @os_title
-end
-
-Then /^I see that the new open studios event is no longer there$/ do
-  expect(page).to have_selector('td', text: @os_event.key)
+Then /^I see that the open studios event titled \"(.*)\" is no longer there$/ do |title|
+  within('.os-events tbody') do
+    expect(page).not_to have_content(title)
+  end
 end
 
 Then(/^I see the open studios participants$/) do
@@ -125,8 +133,4 @@ end
 
 Then(/^I see a list of artists doing open studios with their studio addresses$/) do
   expect(page).to have_css '.map__list-of-artists .tenants'
-end
-
-Then(/^I see a map of the open studios$/) do
-  expect(page).to have_css '#map-canvas'
 end

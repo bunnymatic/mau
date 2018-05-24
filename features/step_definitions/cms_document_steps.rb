@@ -7,5 +7,7 @@ Then(/^I see the cms content page$/) do
 end
 
 Then(/^I see no cms content in the list$/) do
-  expect(all('table tbody tr').count).to eql 0
+  within 'table.js-data-tables' do
+    expect(page).to have_content 'No data available in table'
+  end
 end

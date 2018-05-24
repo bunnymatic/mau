@@ -1,3 +1,4 @@
+@javascript
 Feature: Admin view of tags
   I can check out all the tags and see who's using what
   I can clean out unused tags

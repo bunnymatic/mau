@@ -2,8 +2,7 @@
 
 Then(/^I see the admin studios list$/) do
   s = Studio.last
-  expect(page).to have_content s.name
-  expect(page).to have_link('Show', href: studio_path(s))
+  expect(page).to have_link(s.name, href: studio_path(s))
 end
 
 Then(/^I see update studio links for things I can manage/) do
@@ -30,6 +29,7 @@ end
 
 Then(/^I see the first studio page/) do
   studio = Studio.by_position.first
+  expect(page).to have_selector('.studios.show')
   expect(current_path).to eql studio_path(studio.to_param)
   expect(page).to have_content studio.name
 end
@@ -51,7 +51,7 @@ Then /^I see that some studios are participating in open studios$/ do
 end
 
 When /^I click on the first studio card$/ do
-  first('.studio-card').click
+  first('.studio-card a').click
 end
 
 Then(/^I fill in the filter search box with "(.*?)"$/) do |studio|

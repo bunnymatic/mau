@@ -2,7 +2,7 @@
 
 module SelectizeSelect
   def find_selectized_control_js(key)
-    %{ $('##{key}.selectized').next('.selectize-control') }
+    %{ $('##{key}.selectized').next('.selectize-control') }.strip
   end
 
   # Select a single item from a selectized select input where multiple=false given the id for base field

@@ -40,7 +40,7 @@ Given /the following artists with art are in the system:/ do |table|
     args = {number_of_art_pieces: 5}.merge artist_params
     @artists << FactoryBot.create(:artist, :with_art, :with_studio, args)
   end
-  @art_pieces = @artists.map(&:art_pieces).flatten
+  @art_pieces = @artists.compact.map{|a| a.reload.art_pieces}.flatten
 end
 
 Given /the following artists who aren't ready to sign up for os are in the system:/ do |table|

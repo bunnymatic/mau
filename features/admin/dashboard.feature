@@ -1,3 +1,4 @@
+@javascript
 Feature: Viewing the admin dashboard
   As an admin user, I can see the admin dashboard
 

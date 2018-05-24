@@ -1,3 +1,4 @@
+@javascript
 Feature: Admin CMS Content
   As an admin
   I can manage the pieces of CMS content that we have on the site
@@ -22,9 +23,9 @@ Scenario: Adding CMS Content
   Then I see "mypage" in the "table.js-data-tables"
   And I see "mysection" in the "table.js-data-tables"
   When I click "Delete"
-  Then I see no cms content in the list
+  Then I see a flash notice "CmsDocument was removed"
+  And I see no cms content in the list
 
-@javascript
 Scenario: Adding CMS Content for the about page
   When I click "Add CMS Content"
   And I fill in the form with:

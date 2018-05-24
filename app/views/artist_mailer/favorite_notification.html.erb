@@ -1,7 +1,10 @@
-<p>Bully for you, <%= @artist.get_name %></p>
+<p>Bully for you, <%= @artist.get_name.html_safe %></p>
 
-<p><%= @sender.get_name %> hearts you on Mission Artists!
-  See everyone who hearts you here <a href="<%= @artist_url %>" target="_blank"><%= @artist_url %></a>.</p>
+<p>
+  <%= @sender.get_name.html_safe %> hearts you on Mission Artists!
+  See everyone who hearts you here <a href="<%= @artist_url %>" target="_blank"><%= @artist_url %></a>.
+</p>
+
 <p>
 Cheers,<br/>
 The MAU Team

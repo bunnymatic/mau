@@ -1,8 +1,6 @@
 @javascript
 Feature: Edit Artists' basic information
 
-As an administrator, I can edit an artist's info
-
 Background:
   Given there are artists with art in the system
   And there are future open studios events

@@ -1,3 +1,4 @@
+@javascript
 Feature: As a manager, I can manage my studio
 
 Background:
@@ -16,6 +17,7 @@ Scenario: Updating a studio address
 
 Scenario: Removing an artist from a studio
   When I edit my studio
+  And I click on "Manage"
   And I remove the first artist from the studio
   When I click on "studios" in the admin menu
   Then I see the admin studios list
