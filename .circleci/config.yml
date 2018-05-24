@@ -9,14 +9,6 @@ jobs:
       TEST_CLUSTER_PORT: 9200
     docker:
       - image: circleci/ruby:2.5.1-node-browsers
-      - image: tkuchiki/delayed-mysql
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_ROOT_PASSWORD: ""
-          MYSQL_DATABASE: mau_test
-      - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
-        environment:
-          TEST_CLUSTER_NODES: 1
     steps:
       - checkout
       - restore_cache:
@@ -69,10 +61,6 @@ jobs:
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
             bundle exec rubocop
-      - save_cache:
-          key: v2-dep-{{ .Branch }}-{{ epoch }}
-          paths:
-            - vendor/bundle
   javascript:
     docker:
       - image: circleci/ruby:2.5.1-node-browsers
@@ -100,11 +88,6 @@ jobs:
           name: JS Tests
           command: |-
             bundle exec rake spec:javascripts
-      - save_cache:
-          key: v2-dep-{{ .Branch }}-{{ epoch }}
-          paths:
-            - vendor/bundle
-
   spec:
     environment:
       DISABLE_SPRING: true
@@ -151,10 +134,6 @@ jobs:
           name: Ruby Tests (rspec)
           command: |-
             bundle exec rspec --format doc --format RspecJunitFormatter --out test-results/rspec/results.xml
-      - save_cache:
-          key: v2-dep-{{ .Branch }}-{{ epoch }}
-          paths:
-            - vendor/bundle
       - store_artifacts:
           path: ./tmp/capybara
       - store_artifacts:
@@ -207,10 +186,6 @@ jobs:
           name: Cucumber
           command: |-
             bundle exec cucumber --format junit --out test-results/cucumber/results.xml
-      - save_cache:
-          key: v2-dep-{{ .Branch }}-{{ epoch }}
-          paths:
-            - vendor/bundle
       - store_artifacts:
           path: ./tmp/capybara
       - store_artifacts:
