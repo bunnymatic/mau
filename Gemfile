@@ -85,6 +85,7 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'poltergeist'
+  gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'vcr'
   gem 'webmock'
@@ -95,11 +96,10 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano3-unicorn'
+  gem 'rails_best_practices'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'unicorn-rails'
-
-  gem 'rails_best_practices'
 end
 
 group :test, :development do
@@ -110,14 +110,14 @@ group :test, :development do
   gem 'factory_bot', require: false
   gem 'factory_bot_rails', require: false
   gem 'faker'
-  gem 'guard-rspec'
   gem 'jslint_on_rails'
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop', require: false
-  gem 'shoulda-matchers'
+  gem 'guard-rspec'
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
   gem 'simplecov'
   gem 'spring-commands-teaspoon'
   gem 'teaspoon-jasmine'
