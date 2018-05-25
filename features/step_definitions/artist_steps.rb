@@ -69,17 +69,6 @@ Then /^I see that my art was not added$/ do
   expect(page).to have_css '#art_piece_title_input.error'
 end
 
-When(/^I rearrange my art with drag and drop$/) do
-  expect(@artist.art_pieces).to be_present
-  expect(page).to have_selector('.sortable')
-  @old_order = @artist.art_pieces.map(&:id)
-
-  images = page.all('.allthumbs.sortable li.thumb')
-  images.first.drag_to(images.third)
-  click_on 'save'
-  @new_order = @artist.art_pieces.map(&:id)
-end
-
 Then(/^I see my art$/) do
   expect(@artist.art_pieces).to be_present
   expect(page).to have_selector '.art-card .image'
@@ -94,6 +83,7 @@ When /^I move the last image to the first position$/ do
   card = all('.js-sortable li').last
   target = first('.js-sortable li')
   card.drag_to(target)
+  sleep(1)
 end
 
 Then /^I see that my representative image has been updated$/ do
