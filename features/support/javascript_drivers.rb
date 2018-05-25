@@ -24,6 +24,8 @@ Before('@javascript') do |_scenario, _block|
   elsif page.driver.respond_to? :add_header
     page.driver.add_header 'Authorization', ENV.fetch('API_CONSUMER_KEY', 'Testing Testing 1 2')
   end
+
+  Capybara.reset!
 end
 
 module JavascriptDriverChecker
@@ -34,6 +36,7 @@ end
 
 World JavascriptDriverChecker
 
-After do |_scenario|
+Around('@javascript') do |_scenario, block|
   Capybara.reset_sessions!
+  block.call
 end
