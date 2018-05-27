@@ -1,6 +1,6 @@
 .pure-g
   .pure-u-1-1.padded-content
-    h1
+    h1.title
       | Blacklisted Domains
       .admin-table__controls
         - if current_user.admin?
@@ -10,12 +10,14 @@
       | The system uses blacklist domains to figure out, when people sign up, if their domain is valid.
       '
       | Anyone with an email from one of these domains will not be allowed an account.
+    = render :partial => '/flash_notice_error'
   .pure-u-1-1.padded-content
     h4 Domains
     ul
       - @domains.each_with_index do |domain, idx|
         li.domain
           span = domain.domain
+          '
           span
             = link_to([:admin, domain], :confirm => 'Are you sure you want to remove this blacklisted domain?', :method => :delete) do
               = fa_icon 'close'

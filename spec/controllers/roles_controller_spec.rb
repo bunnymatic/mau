@@ -24,7 +24,7 @@ describe RolesController do
       end
       it 'redirects to the role page' do
         delete :destroy, params: { user_id: editor.id, id: editor_role.id }
-        expect(response).to redirect_to admin_role_path(editor_role)
+        expect(response).to redirect_to edit_admin_role_path(editor_role)
       end
     end
     context 'with invalid role and user' do
@@ -35,7 +35,7 @@ describe RolesController do
       end
       it 'redirects to the role page' do
         delete :destroy, params: { user_id: 'bogus', id: editor_role.id }
-        expect(response).to redirect_to admin_role_path(editor_role)
+        expect(response).to redirect_to edit_admin_role_path(editor_role)
         expect(flash[:error]).to be_present
       end
     end

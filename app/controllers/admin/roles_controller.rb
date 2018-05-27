@@ -3,7 +3,7 @@
 module Admin
   class RolesController < ::BaseAdminController
     before_action :admin_required
-    before_action :load_role, only: %i[show edit update destroy]
+    before_action :load_role, only: %i[edit update destroy]
 
     def index
       @roles = Role.all
@@ -25,15 +25,7 @@ module Admin
       end
     end
 
-    def show
-      show_or_edit
-    end
-
     def edit
-      show_or_edit
-    end
-
-    def show_or_edit
       @role_users = @role.users.active
       @users = (User.active.all - @role_users).sort_by { |u| u.full_name.downcase }
       render :edit
@@ -47,7 +39,7 @@ module Admin
       rescue ActiveRecord::RecordInvalid
         flash[:notice] = "Looks like #{u.full_name} is already in that role."
       end
-      redirect_to admin_role_path(@role)
+      redirect_to edit_admin_role_path(@role)
     end
 
     def destroy
