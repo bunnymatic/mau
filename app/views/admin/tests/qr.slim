@@ -1,0 +1,29 @@
+.pure-g.qrcode_test
+  .pure-u-1-1.padded-content.header
+    h2.title QR Encoder Test Page
+  .pure-u-1-1.pure-u-sm-1-2.padded-content
+    .inputs
+      h3 Input
+      = form_tag do
+        .form-row
+          label for='string_to_encode' Words:
+          input id='string_to_encode' name='string_to_encode' value=@string_to_encode
+        .entry
+          label for='pixel_size' Pixel Size
+          select#pixel_size name='pixel_size'
+            - 9.times do |sz|
+              - if (sz + 1 == @pixel_size.to_i)
+                option selected="selected" value=(sz + 1) = sz+1
+              - else
+                option value=(sz + 1) = sz+1
+        .actions
+          input.pure-button type="submit"
+
+  .pure-u-1-1.pure-u-sm-1-2.padded-content
+    h3 Output
+    p
+      .entry = "Words: #{@string_to_encode}"
+      .entry = "PixelSize: #{@pixel_size}"
+    p
+      .img
+        img src=@qrfile

@@ -1,13 +1,13 @@
 .pure-g
   .pure-u-1-1.padded-content
-    %h2 Errors?
-    %p click the flash to close it
+    h2 Errors?
+    p click the flash to close it
     - if flash[:error]
       .flash.flash__error
-        != flash[:error]
+        = flash[:error]
   .pure-u-1-1.padded-content
-    %h2 Notice?
-    %p click the flash to close it
+    h2 Notice?
+    p click the flash to close it
     - if flash[:notice]
       .flash.flash__notice
-        != flash[:notice]
+        = flash[:notice]

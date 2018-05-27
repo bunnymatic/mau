@@ -1,24 +1,22 @@
 - icons = %w(blogger email facebook instagram pinterest rss twitter tumblr wordpress)
 .pure-g.icons-test-page
   .pure-u-1-1.header.padded-content
-    %h2.title Social Icons
+    h2.title Social Icons
   .pure-u-1-1.padded-content
-    %h2 large
+    h2 large
     .large
-      %p
+      p
         - icons.each do |icon|
-          %i.ico{class: "ico-#{icon}"}
+          i.ico class="ico-#{icon}"
 
-    %h2 medium
+    h2 medium
     .medium
-      %p
+      p
         - icons.each do |icon|
-          %i.ico{class: "ico-#{icon}"}
+          i.ico class="ico-#{icon}"
 
-    %h2 small
+    h2 small
     .small
-      %p
+      p
         - icons.each do |icon|
-          %i.ico{class: "ico-#{icon}"}
-
-
+          i.ico class="ico-#{icon}"
