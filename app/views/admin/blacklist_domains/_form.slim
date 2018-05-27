@@ -1,7 +1,7 @@
 = form_for [:admin,domain] do |f|
   = render '/common/form_errors', :form => f
 
-  %p
+  p
     = f.label :domain
     = f.text_field :domain
     = f.submit 'Update', :class => "pure-button"

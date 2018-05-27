@@ -127,7 +127,7 @@ Mau::Application.routes.draw do
 
     resources :roles
     resources :cms_documents
-    resources :blacklist_domains, except: [:show]
+    resources :blacklist_domains, except: %i[show edit update]
     resources :open_studios_events, only: %i[index edit new create update destroy] do
       collection do
         get :clear_cache

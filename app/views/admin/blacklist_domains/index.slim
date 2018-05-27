@@ -1,21 +1,21 @@
 .pure-g
   .pure-u-1-1.padded-content
-    %h1
-      Blacklisted Domains
+    h1
+      | Blacklisted Domains
       .admin-table__controls
         - if current_user.admin?
           = link_to new_admin_blacklist_domain_path, title: 'add blacklisted domain' do
             = fa_icon "plus-circle"
-    %p.help
-      The system uses blacklist domains to figure out, when people sign up, if their domain is valid.
-      Anyone with an email from one of these domains will not be allowed an account.
+    p.help
+      | The system uses blacklist domains to figure out, when people sign up, if their domain is valid.
+      '
+      | Anyone with an email from one of these domains will not be allowed an account.
   .pure-u-1-1.padded-content
-    %h4 Domains
-    %ul
+    h4 Domains
+    ul
       - @domains.each_with_index do |domain, idx|
-        %li.domain
-          %span
-            = domain.domain
-          %span
+        li.domain
+          span = domain.domain
+          span
             = link_to([:admin, domain], :confirm => 'Are you sure you want to remove this blacklisted domain?', :method => :delete) do
               = fa_icon 'close'
