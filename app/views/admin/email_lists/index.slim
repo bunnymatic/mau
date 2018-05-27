@@ -1,10 +1,10 @@
 .pure-g
   .pure-u-1-1.padded-content
-    %h2.title Internal Email Lists
+    h2.title Internal Email Lists
     = render '/flash_notice_error'
 
 .pure-g
   - @all_lists.each do |key, lst|
     - next if lst.nil?
     .pure-u-1-1.pure-u-md-1-2.pure-u-lg-1-3
-      %email-list-manager{key: key, "list-title" => key.to_s.pluralize.humanize, "list-info" => @purpose[key], "list-id" => lst.id}
+      email-list-manager key=key list-title=key.to_s.pluralize.humanize list-info=@purpose[key] list-id=lst.id
