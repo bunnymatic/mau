@@ -104,8 +104,7 @@ Then /^I fill in the open studios event form for next weekend with the title \"(
   @end_date = dt + 2.days
   fill_in 'Title', with: title
   set_start_end_date_on_open_studios_form(@start_date, @end_date)
-  # fill_in "Start date", with: @start_date
-  # fill_in "End date", with: @end_date
+
   expect(find('#open_studios_event_key').value).to eql @start_date.strftime('%Y%m')
   attach_file 'Logo', Rails.root.join('spec', 'fixtures', 'files', 'open_studios_event.png')
   click_on 'Create'
