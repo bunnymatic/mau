@@ -1,0 +1,28 @@
+#catalog
+  .page
+    = render_cms_content(@catalog.preview_reception_data)
+  .page
+    .header
+    .section.studios
+      .header
+        h3 Artists by Studio
+      .list
+        - @catalog.artists_by_studio.map do |studio, artist_list|
+          .entry
+            .title
+              span.studioname = studio.name
+              span.count = artist_list.count > 1 ? "(#{artist_list.length})": ''
+              br
+              span.address = studio.address.street
+          ul.artists
+            - artist_list.each do |artist|
+              li = artist.full_name
+        .entry
+          .title.indy
+            span.studioname Independent Studios
+            span.count = "(#{@catalog.indy_artists_count})"
+          ul
+            - @catalog.indy_artists.each do |artist|
+              li class=cycle('even','odd')
+                span.name = artist.full_name
+                span.address = artist.address.street
