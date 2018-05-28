@@ -130,7 +130,7 @@ jobs:
           name: Ruby Tests (rspec)
           command: |-
             bundle exec rspec --format doc --format RspecJunitFormatter --out test-results/rspec/results.xml \
-            $(circleci tests glob "spec/**/*spec.rb" | circleci tests split --split-by=timings --timings-type=classname)
+            $(circleci tests glob "spec/**/*spec.rb" | circleci tests split --split-by=timings)
       - store_artifacts:
           path: tmp/capybara
           path: test-results/rspec
@@ -183,7 +183,7 @@ jobs:
           name: Cucumber
           command: |-
             bundle exec cucumber --format junit --out test-results/cucumber/results.xml \
-            $(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings --timings-type=classname)
+            $(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings)
       - store_artifacts:
           path: tmp/capybara
           path: test-results/cucumber
@@ -196,9 +196,5 @@ workflows:
     jobs:
       - build
       - lint_and_javascript_specs
-      - spec:
-          requires:
-            - build
-      - cucumber:
-          requires:
-            - build
+      - spec
+      - cucumber
