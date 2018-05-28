@@ -181,5 +181,9 @@ workflows:
     jobs:
       - build
       - lint_and_javascript_specs
-      - spec
+      - spec:
+          requires:
+            - build
       - cucumber
+          requires:
+            - build
