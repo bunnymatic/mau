@@ -187,12 +187,10 @@ workflows:
   build_and_test:
     jobs:
       - build
+      - lint_and_javascript_specs
       - spec:
           requires:
             - build
       - cucumber:
-          requires:
-            - build
-      - lint_and_javascript_specs:
           requires:
             - build
