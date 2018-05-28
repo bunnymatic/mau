@@ -1,4 +1,4 @@
-Feature:
+Feature: Artists can arrange their art
   As an artist
   I can arrange my art with a drag and drop
 
