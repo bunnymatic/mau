@@ -172,7 +172,7 @@ jobs:
           name: Cucumber
           command: |-
             bundle exec cucumber --format junit --out test-results/cucumber/results.xml \
-            $(circleci tests glob "features/**/*_spec.rb" | circleci tests split --split-by=timings)
+            $(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings)
       - store_artifacts:
           path: ./tmp/capybara
       - store_artifacts:
