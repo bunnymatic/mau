@@ -35,11 +35,6 @@ jobs:
           key: v2-dep-{{ .Branch }}-{{ epoch }}
           paths:
             - vendor/bundle
-      - store_artifacts:
-          path: tmp/capybara
-          path: test-results/cucumber
-      - store_test_results:
-          path: test-results/cucumber
 
   lint_and_javascript_specs:
     environment:
@@ -79,11 +74,6 @@ jobs:
           name: JS Tests
           command: |-
             bundle exec rake spec:javascripts
-      - store_artifacts:
-          path: tmp/capybara
-          path: test-results/cucumber
-      - store_test_results:
-          path: test-results/cucumber
   spec:
     parallelism: 2
     environment:
@@ -131,11 +121,6 @@ jobs:
           command: |-
             bundle exec rspec --format doc --format RspecJunitFormatter --out test-results/rspec/results.xml \
             $(circleci tests glob "spec/**/*spec.rb" | circleci tests split --split-by=timings)
-      - store_artifacts:
-          path: tmp/capybara
-          path: test-results/rspec
-      - store_test_results:
-          path: test-results/rspec
   cucumber:
     parallelism: 2
     environment:
