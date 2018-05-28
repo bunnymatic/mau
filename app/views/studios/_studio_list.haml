@@ -1,7 +1,0 @@
-- selected_studio ||= nil
-.studio-list
-  %h4 MAU Studios
-  - studios.each do |s|
-    - clz = (s.studio == selected_studio.try(:studio)) ? 'cur-studio' : ''
-    %div{:class => clz}
-      = link_to s.name, s.studio_path

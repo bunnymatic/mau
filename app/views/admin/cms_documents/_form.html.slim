@@ -1,0 +1,39 @@
+.pure-g
+  .pure-u-1-1.cms-content.padded-content
+    h1 CMS Content
+    = render '/flash_notice_error'
+    = link_to 'All CMS Content', admin_cms_documents_path, class: 'pure-button'
+.pure-g
+  .pure-u-1-1.padded-content
+    ul.js-tabs.tabs.tabs__horizontal
+      li.active
+        a href='#edit' data-toggle='tab' edit
+      li
+        a href='#preview' data-toggle='tab' preview
+.pure-g
+  .pure-u-1-1.tab-content.padded-content
+    #edit.tab-pane.active
+      = semantic_form_for [:admin,cms_document] do |f|
+        .pure-u-1-1
+          = render '/common/form_errors', form: f
+          = f.inputs do
+            .pure-g
+              .pure-u-1-2
+                = f.input :page
+              .pure-u-1-2
+                = f.input :section
+            p = "Last Updated by: #{cms_document.user.try(:login) || 'unknown'} on #{cms_document.updated_at.try(:to_formatted_s,:admin)}"
+            = f.input :article, rows: 30
+          = f.actions do
+            = f.submit 'Save', class: "pure-button button-secondary"
+      .pure-u-1-1
+        | Find more about Markdown here
+        '
+        a href="http://daringfireball.net/projects/markdown/basics" target="_blank" markdown basics
+        '
+        | or on our
+        '
+        a href=markdown_admin_tests_path markdown test page.
+    #preview.tab-pane
+      .markdown#processed_markdown
+        = MarkdownService.markdown cms_document.article

@@ -1,0 +1,34 @@
+h4.header
+  | {{title}}
+  '
+  a.add-btn slide-toggle="#add_email_{{emailListId}}" href='#' title='add an email to this list'
+    i.fa.fa-plus
+.help
+  | {{info}}
+
+ul.emails
+  li ng-repeat="email in emails"
+    .email
+      | {{email.formatted()}}
+    .del-btn
+      a ng-click="removeEmail(email.id)" href="#" title='remove {{email.email}} from the list'
+        i.fa.fa-close
+        | &nbsp;
+.add_email.slideable id="add_email_{{emailListId}}" duration="0.15s"
+  h4 Email to Add
+  .errors
+    .error.error-msg ng-repeat="err in errors" {{err}}
+
+  form ng-submit="addEmail()"
+    fieldset.inputs
+      ol
+        li.input.string.stringish
+          label.label for="name" Name
+          input name='Name' type="text" ng-model="newEmail.name"
+        li.input.string.stringish.required
+          label.label for="email"
+            | Email
+            abbr title='required' *
+          input name='Email' type="email" ng-model="newEmail.email"
+    fieldset.actions
+      input type="submit" value='add' class='pure-button pure-button-primary'

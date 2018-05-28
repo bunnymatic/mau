@@ -49,6 +49,12 @@
         tr.admin-user__profile-table-row.is-section-start
           td Since
           td = @user.member_since
+        tr.admin-user__profile-table-row
+          td Last Login
+          td = @user.last_login
+        tr.admin-user__profile-table-row
+          td Activation Date
+          td = @user.activation_date
 
   - if @user.artist?
     .pure-u-1-2.padded-content

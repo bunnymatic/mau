@@ -1,0 +1,23 @@
+-# expects studio_thumb
+- classes ||= []
+.studio.studio-card class=classes.join(" ") data-name=studio_thumb.search_name
+  - if studio_thumb.open_studios_artists?
+    .os-violator
+  a href=studio_thumb.studio_path title=studio_thumb.name
+    .image style='background-image: url("#{studio_thumb.image(:medium)}")'
+  .desc
+    .name
+      a href=studio_thumb.studio_path title=studio_thumb.name
+        = studio_thumb.name
+    - unless studio_thumb.indy?
+      .address
+        = studio_thumb.street
+        '
+        = link_to studio_thumb.map_link, title: :map, target: "_blank" do
+          i.fa.fa-map-marker
+
+    - if studio_thumb.artists?
+      .population
+        = studio_thumb.artists_count_label
+      .os_population
+        = studio_thumb.open_studios_artists_count_label

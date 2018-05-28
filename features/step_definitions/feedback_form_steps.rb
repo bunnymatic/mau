@@ -5,7 +5,7 @@ When(/^I fill in the inquiry form$/) do
     fill_in_field_with_value 'Email', 'joe@example.com'
     fill_in 'Confirm Email', with: 'joe@example.com'
     fill_in 'Your Question', with: 'what is the meaning of life?'
-    click_on 'send'
+    click_on 'Send'
   end
 end
 
@@ -14,7 +14,7 @@ When(/^I fill in the help form$/) do
     fill_in_field_with_value 'Email', 'jo@example.com'
     fill_in 'Confirm Email', with: 'jo@example.com'
     fill_in 'What went wrong?', with: 'help me please'
-    click_on 'send'
+    click_on 'Send'
   end
 end
 

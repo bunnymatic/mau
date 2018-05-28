@@ -1,0 +1,25 @@
+.pure-g
+  .pure-u-1-1.padded-content.header
+    h2.title
+      | Manage
+      '
+      em = @role.role
+    = render :partial => '/flash_notice_error'
+.pure-g#role_mgr
+  .pure-u-1-2.padded-content
+    h4
+      | Members
+      .admin-table__controls
+        = link_to_icon '#', 'plus-circle', title: "add users to role", :class => 'add_userrole'
+    ul.members_edit (data-role=@role.id)
+      - @role_users.each do |u|
+        li (data-user= u.id)
+          .user
+            = u.full_name
+            '
+            = link_to "X", "/users/#{u.id}/roles/#{@role.id}", :method => :delete, :confirm => "Are you sure you want to remove #{u.full_name} from the #{@role.role} group?" unless (u == current_user && @role == Role.admin)
+  .pure-u-1-2.padded-content
+    .add-user-role
+      = form_for [:admin, @role], :html => {:class => 'js-hook hidden pure-form'} do |f|
+        = select_tag 'user', options_from_collection_for_select(@users, :id, :full_name)
+        = f.submit "add user", :class => 'pure-button'

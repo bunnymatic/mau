@@ -30,5 +30,6 @@ Scenario: Setting open studios for artists
 Scenario: Suspending artists
   When I suspend the first artist
   And I see a flash notice "has been suspended"
+  And I close the flash
   And I click on "suspended"
   Then I see the first artist in that table

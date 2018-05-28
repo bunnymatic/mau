@@ -1,0 +1,21 @@
+/ locals: title, parent, section, link_text, use_icon
+- title ||= 'Help'
+- parent_id = parent + "container"
+
+- if use_icon
+  a data-parent=parent data-section=section title=link_text class="help__opener js-help js-help-#{parent}" href='#'
+    = fa_icon 'question-circle'
+- else
+  a title=link_text href="#"
+    = link_text
+
+div id=parent_id class="js-help-text js-help-text-#{parent} help__contents"
+  .popup-help
+    .popup-header
+      .popup-title
+        = title
+      .popup-close
+        a href="#"
+          = fa_icon "close"
+    .popup-text
+      = render "/whatsthis/" + section

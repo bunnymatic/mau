@@ -24,7 +24,7 @@ shared_examples_for ImageFileHelpers do
     end
   end
   describe 'get_file_extension' do
-    ['a.jpg', 'a .jpg', 'this.jpg.html.haml.jpg'].each do |jpg_file|
+    ['a.jpg', 'a .jpg', 'this.jpg.html.slim.jpg'].each do |jpg_file|
       it "returns jpg for #{jpg_file}" do
         expect(described_class.get_file_extension(jpg_file)).to eql 'jpg'
       end

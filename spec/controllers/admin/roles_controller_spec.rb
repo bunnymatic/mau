@@ -13,7 +13,7 @@ describe Admin::RolesController do
   let(:admin_role) { admin.roles.first }
 
   describe 'non-admin' do
-    %i[index edit show].each do |endpoint|
+    %i[index edit].each do |endpoint|
       context endpoint.to_s do
         before do
           get endpoint, params: { id: 'whatever' }
@@ -36,7 +36,7 @@ describe Admin::RolesController do
       end
     end
 
-    %i[new show edit].each do |endpoint|
+    %i[new edit].each do |endpoint|
       describe "GET #{endpoint}" do
         before do
           get endpoint, params: { id: manager_role.id }

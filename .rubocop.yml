@@ -81,6 +81,7 @@ Rails/HasManyOrHasOneDependent:
 
 Rails/Output:
   Exclude:
+    - config/environments/test.rb
     - 'db/sample_data.rb'
     - 'db/sample_data/**/*'
 

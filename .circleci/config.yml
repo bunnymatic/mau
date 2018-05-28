@@ -75,6 +75,7 @@ jobs:
           command: |-
             bundle exec rake spec:javascripts
   spec:
+    parallelism: 2
     environment:
       DISABLE_SPRING: true
       RAILS_ENV: test
@@ -118,13 +119,11 @@ jobs:
       - run:
           name: Ruby Tests (rspec)
           command: |-
-            bundle exec rspec --format doc --format RspecJunitFormatter --out test-results/rspec/results.xml
+            bundle exec rspec --format doc --format RspecJunitFormatter --out test-results/rspec/results.xml \
+            $(circleci tests glob "spec/**/*spec.rb" | circleci tests split --split-by=timings)
       - store_artifacts:
-          path: ./tmp/capybara
-      - store_artifacts:
-          path: ./test-results/rspec
-      - store_test_results:
-          path: ./test-results/rspec
+          path: tmp/capybara
+          path: test-results
   cucumber:
     parallelism: 2
     environment:
@@ -172,25 +171,18 @@ jobs:
           name: Cucumber
           command: |-
             bundle exec cucumber --format junit --out test-results/cucumber/results.xml \
-            $(circleci tests glob "features/**/*_spec.rb" | circleci tests split --split-by=timings)
+            $(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings)
       - store_artifacts:
-          path: ./tmp/capybara
-      - store_artifacts:
-          path: ./test-results/cucumber
+          path: tmp/capybara
+          path: test-results
       - store_test_results:
-          path: ./test-results/cucumber
+          path: test-results
 
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
-      - spec:
-          requires:
-            - build
-      - cucumber:
-          requires:
-            - build
-      - lint_and_javascript_specs:
-          requires:
-            - build
+      - lint_and_javascript_specs
+      - spec
+      - cucumber

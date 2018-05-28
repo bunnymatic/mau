@@ -1,0 +1,23 @@
+.pure-g
+  .pure-u-1-1.padded-content.header
+    h2.title
+      | Roles & Membership
+      .admin-table__controls
+        - if current_user.admin?
+          = link_to new_admin_role_path, title: 'add role' do
+            = fa_icon "plus-circle"
+    = render partial: '/flash_notice_error'
+  .pure-u-1-1.padded-content
+    #role_mgr.pure-g
+      - @roles.each do |role|
+        .pure-u-1-2.pure-u-sm-1-4.role-container class=role.role
+          h4.role
+            = role.role.capitalize
+            .admin-table__controls
+              = link_to_icon edit_admin_role_path(role), 'pencil', title: 'manage'
+              '
+              = link_to_icon admin_role_path(role), 'close', title: 'destroy', :confirm => 'Are you sure?', :method => :delete
+
+          ul.role_members
+            - (@users_by_role[role.role] || []).each do |u|
+              li = u.full_name

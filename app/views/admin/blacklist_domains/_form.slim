@@ -1,0 +1,9 @@
+= form_for [:admin,domain] do |f|
+  = render '/common/form_errors', :form => f
+
+  p
+    = f.label :domain
+    = f.text_field :domain
+    = f.submit 'Update', :class => "pure-button"
+
+= link_to 'Back', admin_blacklist_domains_path, class: 'pure-button'

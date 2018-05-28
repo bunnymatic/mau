@@ -26,7 +26,6 @@ gem 'geokit'
 gem 'geokit-rails'
 gem 'gibbon' # mailchimp connect
 gem 'gmaps4rails'
-gem 'haml'
 gem 'hashie'
 gem 'htmlentities'
 gem 'jbuilder' # non-html output (rss, atom)

@@ -245,9 +245,6 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    haml (5.0.4)
-      temple (>= 0.8.0)
-      tilt
     hashdiff (0.3.7)
     hashie (3.5.7)
     htmlentities (4.3.4)
@@ -597,7 +594,6 @@ DEPENDENCIES
   gibbon
   gmaps4rails
   guard-rspec
-  haml
   hashie
   htmlentities
   jbuilder
