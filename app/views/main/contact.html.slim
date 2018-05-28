@@ -5,7 +5,9 @@
     h4 Got a question?
     p
       | Send us an
+      '
       notify-mau< note-type="inquiry" link-text="email" with-icon=true email=current_user.try(:email)
+      '
       | or a letter or postcard
     p
       | Mission Artists
@@ -15,6 +17,7 @@
       | San Francisco, CA  94110
     p
       | And you are always invited to follow us on
+      '
       a>< href=Conf.social_links['twitter'] twitter
       | ,
       a>< href=Conf.social_links['instagram'] instagram
