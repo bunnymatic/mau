@@ -187,6 +187,6 @@ workflows:
       - spec:
           requires:
             - build
-      - cucumber
+      - cucumber:
           requires:
             - build
