@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
-Mau::Application.configure do
-  # config.angular_templates.module_name    = 'templates'
-  # config.angular_templates.ignore_prefix  = %w(templates/)
-  # config.angular_templates.inside_paths   = [Rails.root.join('app', 'assets')]
-  # config.angular_templates.htmlcompressor = false
-  config.angular_templates.markups = %w[erb slim]
+require 'fileutils'
+
+if Rails.env.development?
+  cache_path = Rails.root.join('tmp', 'cache', 'assets', 'sprockets')
+  FileUtils.rm_rf(cache_path)
+
+  listener = Listen.to(Rails.root.join('app', 'assets', 'components')) do |_modified, _added, _removed|
+    # clearing cache
+    FileUtils.rm_rf(cache_path)
+  end
+  listener.start
 end

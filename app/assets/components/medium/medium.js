@@ -17,6 +17,4 @@
       }
     };
   });
-
-  angular.module("mau.directives").directive("medium", medium);
-}.call(this));
+}).call(this);

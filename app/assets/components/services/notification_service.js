@@ -11,7 +11,7 @@
           device: deviceDetector.device
         });
         return $http
-          .post("/main/notes_mailer", {
+          .post("/api/notes", {
             feedback_mail: data
           })
           .then(successCb, errorCb);

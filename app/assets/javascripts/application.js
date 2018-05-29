@@ -14,6 +14,7 @@
 //= require ua-device-detector
 //= require ng-device-detector
 //= require ng-dialog/js/ngDialog
+//= require templates
 //= require_tree ../components
 //= require angularSlideables
 //= require mau_app

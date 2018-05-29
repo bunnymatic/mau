@@ -68,11 +68,14 @@ class FeedbackMail
   end
 
   def save
+    return false unless valid?
     em = (account? ? account_email : email)
     f = Feedback.new(email: em,
                      subject: subject,
                      login: login,
                      comment: comment)
-    FeedbackMailer.feedback(f).deliver_later if f.save
+    success = f.save
+    FeedbackMailer.feedback(f).deliver_later if success
+    success
   end
 end
