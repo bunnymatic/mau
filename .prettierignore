@@ -1,0 +1,5 @@
+vendor/bundle
+vendor/assets
+public
+package-lock.json
+coverage

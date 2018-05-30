@@ -1,4 +1,4 @@
-@import 'mau-mixins';
+@import "mau-mixins";
 .palette-colors {
   display: flex;
   flex-flow: row wrap;
@@ -18,8 +18,8 @@
   bottom: 0px;
   width: 100%;
   padding: 4px;
-  text-align:center;
-  background-color: rgba(200,200,200,0.7);
+  text-align: center;
+  background-color: rgba(200, 200, 200, 0.7);
   font-size: 0.8rem;
   @include large-rounded-corners;
   color: $gto_dark_blue;

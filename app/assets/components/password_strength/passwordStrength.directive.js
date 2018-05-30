@@ -4,14 +4,15 @@
 
   passwordStrength = ngInject(function($compile) {
     return {
-      restrict: 'A',
+      restrict: "A",
       link: function($scope, $element, attrs) {
         var meter;
-        meter = '<meter class="password-strength__meter" min="0" low="3" optimum="3" max="4" value="{{score}}"></meter>';
-        $element.find('input').after($compile(meter)($scope));
+        meter =
+          '<meter class="password-strength__meter" min="0" low="3" optimum="3" max="4" value="{{score}}"></meter>';
+        $element.find("input").after($compile(meter)($scope));
         return $scope.$watch(attrs.passwordStrength, function(newVal) {
           if (newVal != null) {
-            return $scope.score = zxcvbn(newVal).score;
+            return ($scope.score = zxcvbn(newVal).score);
           }
         });
       },
@@ -19,6 +20,7 @@
     };
   });
 
-  angular.module('mau.directives').directive('passwordStrength', passwordStrength);
-
-}).call(this);
+  angular
+    .module("mau.directives")
+    .directive("passwordStrength", passwordStrength);
+}.call(this));

@@ -1,6 +1,6 @@
-@import 'mau-mixins';
-@import 'colors';
-@import 'gto/gto-mixins';
+@import "mau-mixins";
+@import "colors";
+@import "gto/gto-mixins";
 
 .scroll-load-more__contents {
   font-size: 1.5px; /* for spinner */
@@ -20,17 +20,17 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: -1;  /* fix issue with fa-spin screwing up zindex */
+  z-index: -1; /* fix issue with fa-spin screwing up zindex */
   .hint {
     padding: 5px;
-    letter-spacing:0;
+    letter-spacing: 0;
     font-size: 0.9rem;
     font-style: italic;
-    color: rgba(200,200,200,0.5);
+    color: rgba(200, 200, 200, 0.5);
   }
   .fa-spinner {
     font-size: 100px;
-    color: rgba(200,200,200,0.5);
+    color: rgba(200, 200, 200, 0.5);
   }
 }
 
@@ -40,7 +40,7 @@
   }
   .hint {
     font-size: 2rem;
-    color: rgba(200,200,200,0.5);
+    color: rgba(200, 200, 200, 0.5);
     text-transform: uppercase;
   }
 }
@@ -58,17 +58,17 @@
   }
   #password {
     ul.help {
-      margin-bottom: 20px
+      margin-bottom: 20px;
     }
   }
   #address {
-    h4, h5 {
+    h4,
+    h5 {
       padding: 10px 0px;
       margin-right: 20px;
       border-bottom: 1px solid $lightgray;
     }
   }
-
 }
 
 .artists.index {
@@ -87,12 +87,10 @@
       display: inline-block;
     }
   }
-
 }
 
-
 .sticky-gallery-paginator {
-  @media(min-width: $screen-sm-max) {
+  @media (min-width: $screen-sm-max) {
     position: sticky;
     top: 90px;
     z-index: 1;
@@ -101,15 +99,21 @@
 }
 
 .favorites.index,
-.users.show, .search-results, .artists, .artists.index, .artists.show, .art_pieces.show, .art_pieces.create {
-
+.users.show,
+.search-results,
+.artists,
+.artists.index,
+.artists.show,
+.art_pieces.show,
+.art_pieces.create {
   @include search-filter;
   .title .letter {
     text-transform: uppercase;
   }
-  .name-switcher, .gallery-paginator {
+  .name-switcher,
+  .gallery-paginator {
     margin-top: -15px;
-    @media(min-width: $screen-md-min) {
+    @media (min-width: $screen-md-min) {
       display: inline-block;
     }
     .page a {
@@ -122,9 +126,9 @@
   .name-switcher {
     text-align: left;
     vertical-align: top;
-    display:block;
+    display: block;
     margin-top: 8px;
-    @media(min-width: $screen-md-min) {
+    @media (min-width: $screen-md-min) {
       margin-top: -3px;
       display: inline-block;
     }
@@ -141,14 +145,17 @@
     }
   }
 
-  #about, #art, .artist-profile {
-    @include transition-property( width, height, margin, padding);
+  #about,
+  #art,
+  .artist-profile {
+    @include transition-property(width, height, margin, padding);
     @include transition-duration(0.3s);
     @include transition-timing-function(ease-in-out);
   }
 }
 
-.art-card, .artist-card {
+.art-card,
+.artist-card {
   @include artist-thumb-mixin;
   .os-violator {
     position: absolute;
@@ -156,7 +163,8 @@
     right: 12px;
   }
 }
-.art-card, .artist-card {
+.art-card,
+.artist-card {
   .artist-card__remove-favorite,
   .art-card__remove-favorite {
     display: none;
@@ -167,15 +175,18 @@
     min-width: 50px;
     min-height: 10px;
   }
-  .name, .media, .tags {
+  .name,
+  .media,
+  .tags {
     height: 1.2rem;
-    line-height:1.2rem;
+    line-height: 1.2rem;
     @include ellipsis;
   }
   .name {
     font-size: 0.9rem;
   }
-  .media, .tags {
+  .media,
+  .tags {
     font-style: italic;
     font-size: 0.75rem;
   }
@@ -198,7 +209,9 @@
   }
 }
 
-.artist-card, .art-card, .artist-profile {
+.artist-card,
+.art-card,
+.artist-profile {
   .card__controls {
     position: absolute;
     top: 12px;
@@ -210,17 +223,21 @@
       left: 12px;
     }
   }
-  .artist-card__remove-favorite, .art-card__remove-favorite,
-  .artist-profile__edit, .art-card__delete, .art-card__edit {
+  .artist-card__remove-favorite,
+  .art-card__remove-favorite,
+  .artist-profile__edit,
+  .art-card__delete,
+  .art-card__edit {
     display: inline-block;
     font-size: 32px;
-    background-color: rgba(255, 255, 255, .75);
+    background-color: rgba(255, 255, 255, 0.75);
     padding: 4px 8px;
     border-radius: 4px;
     &:hover {
-      background-color: rgba(255, 255, 255, .95);
+      background-color: rgba(255, 255, 255, 0.95);
     }
-    a, a .fa{
+    a,
+    a .fa {
       color: $gto_yellow;
     }
   }
@@ -244,7 +261,8 @@
     #edit-art & {
       display: inline-block;
     }
-    a, a .fa{
+    a,
+    a .fa {
       color: $gto_red;
     }
   }
@@ -254,7 +272,8 @@
   text-align: center;
   margin: auto;
   min-height: 100px;
-  img, i.fa {
+  img,
+  i.fa {
     margin: auto;
     text-align: center;
   }
@@ -266,11 +285,11 @@
   }
 }
 
-
-
-.artist-profile, #art {
+.artist-profile,
+#art {
   .empty {
-    h4, p {
+    h4,
+    p {
       color: lighten($gto_gray, 20%);
     }
   }
@@ -283,9 +302,9 @@
     }
     &.artist__bio {
       @include transition(max-height 0.3s ease-in-out);
-      position:relative;
+      position: relative;
       max-height: 200px;
-      overflow:hidden;
+      overflow: hidden;
       &.overflowing + .artist__bio-read-more {
         @include opacity(1);
       }
@@ -310,7 +329,7 @@
     }
   }
   .artist__bio-read-more {
-    position:relative;
+    position: relative;
     top: -12px;
     vertical-align: middle;
     text-align: right;
@@ -319,7 +338,7 @@
     @include transition(all 0.2s ease-in);
     @include opacity(0);
     .read-more-fade-out {
-      @include linear-gradient(rgba(255,255,255,0), #fcfcfc);
+      @include linear-gradient(rgba(255, 255, 255, 0), #fcfcfc);
       min-height: 80px;
       width: 100%;
       position: absolute;
@@ -396,7 +415,7 @@
       right: 2px;
       display: inline-block;
       background-image: image-url("os_violator.svg");
-      background-color: rgba(245,245,245,0.95);
+      background-color: rgba(245, 245, 245, 0.95);
       width: 75px;
       height: 80px;
       background-size: contain;
@@ -422,7 +441,8 @@
   overflow: auto;
   padding-right: 20px;
   &.empty {
-    h4, p {
+    h4,
+    p {
       color: lighten($gto_gray, 20%);
     }
   }
@@ -430,18 +450,20 @@
     margin-top: 0;
   }
 }
-.bio-container, .bio-container p {
+.bio-container,
+.bio-container p {
   font-size: 0.9rem;
   line-height: 1.2rem;
 }
 .artist-profile {
-  overflow:hidden;
+  overflow: hidden;
 }
-ul.favorite-thumbs, ul.favorite-thumbs li {
+ul.favorite-thumbs,
+ul.favorite-thumbs li {
   display: flex;
   flex-wrap: wrap;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 }
 .favorite-thumbs li {
   .favorite-thumb {
@@ -464,7 +486,6 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
       display: none;
     }
   }
-
 }
 
 .roster {
@@ -484,7 +505,6 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
       margin-bottom: 0px;
     }
   }
-
 }
 
 .name-switcher {

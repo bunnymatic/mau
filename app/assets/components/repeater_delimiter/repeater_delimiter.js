@@ -20,6 +20,5 @@
     };
   });
 
-  angular.module('mau.directives').directive('repeaterDelimiter', directive);
-
-}).call(this);
+  angular.module("mau.directives").directive("repeaterDelimiter", directive);
+}.call(this));

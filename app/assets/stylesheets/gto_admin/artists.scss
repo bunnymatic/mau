@@ -1,4 +1,5 @@
-.admin.users, .admin.artists {
+.admin.users,
+.admin.artists {
   .no-address {
     font-size: 0.8rem;
     font-style: italic;
@@ -29,7 +30,8 @@
         font-size: 75%;
       }
     }
-    .forgot-password-link, .activation-link {
+    .forgot-password-link,
+    .activation-link {
       i {
         margin-right: 6px;
       }

@@ -4,12 +4,16 @@
 
   tagService = ngInject(function($resource) {
     var tags;
-    tags = $resource('/art_piece_tags/:id', {}, {
-      get: {
-        method: 'GET',
-        cache: true
+    tags = $resource(
+      "/art_piece_tags/:id",
+      {},
+      {
+        get: {
+          method: "GET",
+          cache: true
+        }
       }
-    });
+    );
     return {
       get: function(id) {
         return tags.get({
@@ -19,6 +23,5 @@
     };
   });
 
-  angular.module('mau.services').factory('tagService', tagService);
-
-}).call(this);
+  angular.module("mau.services").factory("tagService", tagService);
+}.call(this));

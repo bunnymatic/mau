@@ -1,5 +1,5 @@
 /* error pages */
-@import 'mau-mixins';
+@import "mau-mixins";
 .f404 {
   display: flex !important;
   flex-direction: column;
@@ -18,13 +18,12 @@
   }
 }
 .f404-container {
-
   width: 95%;
   @media screen and (min-width: $screen-xs-max) {
     width: 70%;
   }
   p {
-    margin:20px auto;
+    margin: 20px auto;
   }
   .error-msg {
     border: 0;

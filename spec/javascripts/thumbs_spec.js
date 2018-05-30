@@ -1,5 +1,3 @@
-describe('Thumbs', function() {
-  describe('Helpers', function() {
-  });
+describe("Thumbs", function() {
+  describe("Helpers", function() {});
 });
-

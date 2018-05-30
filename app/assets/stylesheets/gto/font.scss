@@ -1,7 +1,6 @@
-@import 'colors';
-@import 'variables';
-@import url(//fonts.googleapis.com/css?family=Raleway:200,300,500,700,900);
-
+@import "colors";
+@import "variables";
+@import url("//fonts.googleapis.com/css?family=Raleway:200,300,500,700,900");
 
 html body {
   color: $gto_gray;
@@ -23,7 +22,11 @@ p {
 
 .header {
   .title {
-    .artist__name, .art-piece__name, .studio__name, .tag__name, .medium__name {
+    .artist__name,
+    .art-piece__name,
+    .studio__name,
+    .tag__name,
+    .medium__name {
       font-weight: $font-weight-normal;
     }
   }

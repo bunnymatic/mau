@@ -1,27 +1,27 @@
-@import 'mau-mixins';
-@import 'colors';
+@import "mau-mixins";
+@import "colors";
 
 .admin .feeds {
   .feed-header {
     height: 1.7em;
-    line-height:2.0em;
+    line-height: 2em;
   }
 
   .feed-sxn-hdr {
     color: $black;
-    font-weight:bold;
+    font-weight: bold;
     text-align: left;
     margin-left: 5px;
   }
 
-  div.feedtitle  {
+  div.feedtitle {
     font-size: 11px;
     font-weight: 700;
     text-align: left;
   }
 
   .feedentry {
-    max-width:250px;
+    max-width: 250px;
     &.even {
       border-top: 1px dotted $bordergray;
       border-bottom: 1px dotted $bordergray;
@@ -32,8 +32,8 @@
     color: $black;
     font-size: 10px;
     text-align: left;
-    overflow:hidden;
-    font-weight:normal;
+    overflow: hidden;
+    font-weight: normal;
     iframe {
       display: none;
     }

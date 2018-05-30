@@ -2,11 +2,21 @@
 (function() {
   var artPiecesBrowser, controller;
 
-  controller = ngInject(function($scope, $attrs, $location, artPiecesService, artistsService, studiosService, objectRoutingService) {
+  controller = ngInject(function(
+    $scope,
+    $attrs,
+    $location,
+    artPiecesService,
+    artistsService,
+    studiosService,
+    objectRoutingService
+  ) {
     var init, initializeCurrent, limitPosition, setCurrentArtPiece, updateUrl;
     initializeCurrent = function() {
       if ($scope.artPieces && $scope.initialArtPiece) {
-        return $scope.current = _.map($scope.artPieces, 'id').indexOf($scope.initialArtPiece.id);
+        return ($scope.current = _
+          .map($scope.artPieces, "id")
+          .indexOf($scope.initialArtPiece.id));
       }
     };
     updateUrl = function() {
@@ -31,10 +41,10 @@
       return Math.min(Math.max(0, pos), nPieces) % nPieces;
     };
     $scope.prev = function() {
-      return $scope.current = limitPosition($scope.current - 1);
+      return ($scope.current = limitPosition($scope.current - 1));
     };
     $scope.next = function() {
-      return $scope.current = limitPosition($scope.current + 1);
+      return ($scope.current = limitPosition($scope.current + 1));
     };
     $scope.currentArtPath = function() {
       return objectRoutingService.artPiecePath($scope.artPiece);
@@ -46,12 +56,16 @@
     };
     $scope.hasArtistProfile = function() {
       var ref, ref1;
-      return !!((ref = $scope.artist) != null ? (ref1 = ref.profile_images) != null ? ref1.medium : void 0 : void 0);
+      return !!((ref = $scope.artist) != null
+        ? (ref1 = ref.profile_images) != null
+          ? ref1.medium
+          : void 0
+        : void 0);
     };
     $scope.profilePath = function(size) {
       var ref;
       if (size == null) {
-        size = 'medium';
+        size = "medium";
       }
       return (ref = $scope.artist) != null ? ref.profile_images[size] : void 0;
     };
@@ -70,7 +84,7 @@
     };
     $scope.setCurrent = function($event, $index) {
       $event.preventDefault();
-      return $scope.current = $index;
+      return ($scope.current = $index);
     };
     $scope.hasAddress = function() {
       var ref;
@@ -90,7 +104,10 @@
     };
     $scope.hasTags = function() {
       var ref;
-      return ((ref = $scope.artPiece) != null ? ref.tags : void 0) && ($scope.artPiece.tags.length > 0);
+      return (
+        ((ref = $scope.artPiece) != null ? ref.tags : void 0) &&
+        $scope.artPiece.tags.length > 0
+      );
     };
     init = function() {
       var artPieceId, artistId;
@@ -99,40 +116,41 @@
       artistsService.get(artistId).$promise.then(function(data) {
         $scope.artist = data;
         return studiosService.get(data.studio_id).$promise.then(function(data) {
-          return $scope.studio = data;
+          return ($scope.studio = data);
         });
       });
       artPiecesService.list(artistId).$promise.then(function(data) {
-        return $scope.artPieces = data;
+        return ($scope.artPieces = data);
       });
       artPiecesService.get(artPieceId).$promise.then(function(data) {
         $scope.artPiece = data;
-        return $scope.initialArtPiece = data;
+        return ($scope.initialArtPiece = data);
       });
-      $scope.$watch('current', setCurrentArtPiece);
-      $scope.$watch('artPieces', initializeCurrent);
-      return $scope.$watch('initialArtPiece', initializeCurrent);
+      $scope.$watch("current", setCurrentArtPiece);
+      $scope.$watch("artPieces", initializeCurrent);
+      return $scope.$watch("initialArtPiece", initializeCurrent);
     };
     return init();
   });
 
   artPiecesBrowser = ngInject(function($document) {
     return {
-      restrict: 'E',
+      restrict: "E",
       scope: {
-        artistId: '@',
-        artPieceId: '@',
-        currentUser: '@'
+        artistId: "@",
+        artPieceId: "@",
+        currentUser: "@"
       },
-      templateUrl: 'art_pieces_browser/index.html',
+      templateUrl: "art_pieces_browser/index.html",
       controller: controller,
-      controllerAs: 'c',
+      controllerAs: "c",
       link: function($scope, $el, $attr, $ctrl) {
-        return $document.on('keydown', $scope.onKeyDown);
+        return $document.on("keydown", $scope.onKeyDown);
       }
     };
   });
 
-  angular.module('mau.directives').directive('artPiecesBrowser', artPiecesBrowser);
-
-}).call(this);
+  angular
+    .module("mau.directives")
+    .directive("artPiecesBrowser", artPiecesBrowser);
+}.call(this));

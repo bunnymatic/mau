@@ -1,4 +1,5 @@
-#about_text, #venues {
+#about_text,
+#venues {
   p {
     width: 50%;
   }
@@ -9,7 +10,8 @@
     line-height: 1.1rem;
     min-height: 1.1rem;
   }
-  ul, li {
+  ul,
+  li {
     padding: 0;
     margin: 0;
   }

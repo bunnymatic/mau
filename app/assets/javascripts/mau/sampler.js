@@ -5,45 +5,46 @@
     NUM_IMAGES = 12;
     fetchArtists = function(ev) {
       var $content, offset, seed;
-      $content = $('.js-sampler');
-      if (!$content.find('#js-scroll-load-more').length) {
+      $content = $(".js-sampler");
+      if (!$content.find("#js-scroll-load-more").length) {
         return;
       }
-      seed = $content.data('seed');
-      offset = $content.data('offset') || 0;
-      return $.ajax({
-        method: 'post',
-        url: '/main/sampler',
-        data: {
-          seed: seed,
-          offset: offset,
-          number_of_images: NUM_IMAGES
-        }
-      }).done(function(data) {
-        var $insertion, $more;
-        if (data && !/^\s+$/.test(data)) {
-          $insertion = $content.find('#js-scroll-load-more');
-          $(data).insertBefore($insertion);
-          $content.data('offset', 0 + offset + NUM_IMAGES);
-          $more = $('#js-scroll-load-more');
-          if ($more.length && ($more.position().top < $win.height())) {
-            return fetchArtists();
+      seed = $content.data("seed");
+      offset = $content.data("offset") || 0;
+      return $
+        .ajax({
+          method: "post",
+          url: "/main/sampler",
+          data: {
+            seed: seed,
+            offset: offset,
+            number_of_images: NUM_IMAGES
           }
-        } else {
-          $('#js-scroll-load-more').remove();
-          return $('#the-end').removeAttr('hidden')
-        }
-      });
+        })
+        .done(function(data) {
+          var $insertion, $more;
+          if (data && !/^\s+$/.test(data)) {
+            $insertion = $content.find("#js-scroll-load-more");
+            $(data).insertBefore($insertion);
+            $content.data("offset", 0 + offset + NUM_IMAGES);
+            $more = $("#js-scroll-load-more");
+            if ($more.length && $more.position().top < $win.height()) {
+              return fetchArtists();
+            }
+          } else {
+            $("#js-scroll-load-more").remove();
+            return $("#the-end").removeAttr("hidden");
+          }
+        });
     };
-    if ($('#sampler').length) {
+    if ($("#sampler").length) {
       $win = $(window);
       $win.scroll(function() {
-        if ($win.scrollTop() === ($(document).height() - $win.height())) {
+        if ($win.scrollTop() === $(document).height() - $win.height()) {
           return fetchArtists();
         }
       });
       return fetchArtists();
     }
   });
-
-}).call(this);
+}.call(this));

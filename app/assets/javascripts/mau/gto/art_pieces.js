@@ -2,20 +2,20 @@
 (function() {
   $(function() {
     var $artPieceForm;
-    $artPieceForm = jQuery('.art_piece.formtastic');
+    $artPieceForm = jQuery(".art_piece.formtastic");
     if ($artPieceForm.length) {
-      $('#art_piece_medium_id').selectize();
-      $('input[type=submit]').on('click', function() {
+      $("#art_piece_medium_id").selectize();
+      $("input[type=submit]").on("click", function() {
         var spinner;
         if (/add/i.test($(this).val())) {
           spinner = new MAU.Spinner();
           return spinner.spin();
         }
       });
-      return $('#art_piece_tag_ids').selectize({
-        delimiter: ',',
+      return $("#art_piece_tag_ids").selectize({
+        delimiter: ",",
         persist: false,
-        sortField: 'text',
+        sortField: "text",
         create: function(input) {
           return {
             value: input,
@@ -30,8 +30,8 @@
             callback();
           }
           return $.ajax({
-            url: '/art_piece_tags/autosuggest',
-            type: 'post',
+            url: "/art_piece_tags/autosuggest",
+            type: "post",
             dataType: "json",
             data: {
               q: query
@@ -40,17 +40,18 @@
               return callback();
             },
             success: function(results) {
-              return callback(_.map(results, function(result) {
-                return {
-                  value: result,
-                  text: result
-                };
-              }));
+              return callback(
+                _.map(results, function(result) {
+                  return {
+                    value: result,
+                    text: result
+                  };
+                })
+              );
             }
           });
         }
       });
     }
   });
-
-}).call(this);
+}.call(this));

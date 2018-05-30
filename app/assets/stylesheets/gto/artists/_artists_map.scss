@@ -1,6 +1,7 @@
-@import 'mau-mixins';
-@import 'gto/gto-mixins';
-.open_studios.show, .artists.map_page {
+@import "mau-mixins";
+@import "gto/gto-mixins";
+.open_studios.show,
+.artists.map_page {
   #map-canvas {
     height: 400px;
     margin-bottom: 20px;
@@ -29,7 +30,8 @@
       display: inline-block;
       white-space: nowrap;
       @include ellipsis;
-      a, > div {
+      a,
+      > div {
         @include ellipsis;
       }
     }
@@ -38,7 +40,8 @@
     }
   }
   .map__list-of-artists {
-    ul, li {
+    ul,
+    li {
       margin: 0;
       padding: 0;
     }

@@ -11,12 +11,12 @@
         return pos;
       };
     }
-    $map = $('#map-canvas');
+    $map = $("#map-canvas");
     if (($map != null ? $map[0] : void 0) && MAU.map_markers) {
       handler = null;
-      imagePath = '/images/google_maps/js-marker-clusterer/';
+      imagePath = "/images/google_maps/js-marker-clusterer/";
       pin = {
-        url: '/images/google_maps/google-map-pin.svg',
+        url: "/images/google_maps/google-map-pin.svg",
         size: new google.maps.Size(22, 40),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(11, 40)
@@ -26,20 +26,23 @@
         if (handler) {
           return;
         }
-        handler = Gmaps.build('Google');
-        clusterStyles = _.map(['1', '2', '3', '4', '5', 'm1', 'm2', 'm3', 'm4', 'm5'], function(imgPrefix) {
-          var fname;
-          fname = imagePath + imgPrefix + '.png';
-          return {
-            url: fname,
-            textColor: 'white',
-            textSize: 12,
-            height: 70,
-            lineHeight: 60,
-            width: 33,
-            backgroundPosition: 'center bottom'
-          };
-        });
+        handler = Gmaps.build("Google");
+        clusterStyles = _.map(
+          ["1", "2", "3", "4", "5", "m1", "m2", "m3", "m4", "m5"],
+          function(imgPrefix) {
+            var fname;
+            fname = imagePath + imgPrefix + ".png";
+            return {
+              url: fname,
+              textColor: "white",
+              textSize: 12,
+              height: 70,
+              lineHeight: 60,
+              width: 33,
+              backgroundPosition: "center bottom"
+            };
+          }
+        );
         handler.setOptions({
           markers: {
             maxRandomDistance: 8,
@@ -53,35 +56,37 @@
             }
           }
         });
-        handler.buildMap({
-          provider: {},
-          internal: {
-            id: 'map-canvas'
+        handler.buildMap(
+          {
+            provider: {},
+            internal: {
+              id: "map-canvas"
+            }
+          },
+          function() {
+            var markers, polygons;
+            markers = handler.addMarkers(_.compact(MAU.map_markers));
+            handler.bounds.extendWith(markers);
+            polygons = handler.addPolygons([MAU.map_bounds], {
+              strokeColor: "#36828F3",
+              strokeOpacity: 0.1,
+              fillColor: "#c39f06",
+              fillOpacity: 0.1
+            });
+            return handler.fitMapToBounds();
           }
-        }, function() {
-          var markers, polygons;
-          markers = handler.addMarkers(_.compact(MAU.map_markers));
-          handler.bounds.extendWith(markers);
-          polygons = handler.addPolygons([MAU.map_bounds], {
-            strokeColor: "#36828F3",
-            strokeOpacity: 0.1,
-            fillColor: "#c39f06",
-            fillOpacity: 0.1
-          });
-          return handler.fitMapToBounds();
-        });
-        $('.gm-style-iw > [style]').css('overflow: visible');
+        );
+        $(".gm-style-iw > [style]").css("overflow: visible");
         return map;
       };
-      if (((ref = $map.closest('.tab-content')) != null ? ref[0] : void 0)) {
-        return $('a[href=\\#map]').on('shown.bs.tab', function(ev) {
+      if ((ref = $map.closest(".tab-content")) != null ? ref[0] : void 0) {
+        return $("a[href=\\#map]").on("shown.bs.tab", function(ev) {
           var map;
-          return map = buildMap();
+          return (map = buildMap());
         });
       } else {
-        return map = buildMap();
+        return (map = buildMap());
       }
     }
   });
-
-}).call(this);
+}.call(this));

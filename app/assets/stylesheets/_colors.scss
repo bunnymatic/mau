@@ -7,7 +7,6 @@ $gto_gray: #5a636a;
 $gto_dark_teal: #175b5b;
 $gto_dark_blue: #315077;
 
-
 $lightbluegray: #c6c7d6;
 $bluegray: #738294;
 $medbluegray: #606e92;
@@ -16,7 +15,7 @@ $darkbluegray: #223;
 $xdarkgray: darken($gto_gray, 30%);
 $darkgray: darken($gto_gray, 23%);
 
-$border-gray:darken($gto_gray, 9%);
+$border-gray: darken($gto_gray, 9%);
 
 $xmediumgray: $gto_gray;
 $mediumgray: lighten($gto_gray, 24%);
@@ -32,13 +31,12 @@ $pink: #cc77cc;
 $error_red: #f33;
 $dark_red: #800;
 
-$lightyellow: #FEF7CA;
+$lightyellow: #fef7ca;
 
 $gto_yellow: #c39e06;
 
 $light-gray-background: $xxlightgray;
 $base-background-color: lighten($gto_gray, 60);
-
 
 // TODO: Replace these names with hyphenated and remove these
 $bordergray: $border-gray;

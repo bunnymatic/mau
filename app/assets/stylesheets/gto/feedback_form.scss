@@ -1,17 +1,17 @@
-@import 'mau-mixins';
-@import 'gto/gto-mixins';
-@import 'colors';
+@import "mau-mixins";
+@import "gto/gto-mixins";
+@import "colors";
 
 #feedback_overlay {
   z-index: 2;
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   height: 100%;
-  width:100%;
-  background-color: rgba(200,200,200,0.5);
+  width: 100%;
+  background-color: rgba(200, 200, 200, 0.5);
 }
 #feedback {
   z-index: 4;
@@ -26,7 +26,7 @@
 
 #feedback_modal_window {
   @include popup-elements;
-  font-size: 1rem; 
+  font-size: 1rem;
   .popup-text {
     font-size: 0.9rem;
   }

@@ -8,8 +8,8 @@
     ellipsize: function(str, max, ellipse, chars, truncate) {
       var DEFAULTS, c, i, last, len, ref;
       DEFAULTS = {
-        ellipse: '…',
-        chars: [' ', '-'],
+        ellipse: "…",
+        chars: [" ", "-"],
         max: 140,
         truncate: true
       };
@@ -18,7 +18,7 @@
       ellipse || (ellipse = DEFAULTS.ellipse);
       truncate || (truncate = DEFAULTS.truncate);
       last = 0;
-      c = '';
+      c = "";
       if (str.length < max) {
         return str;
       }
@@ -33,9 +33,11 @@
             continue;
           }
           if (last === 0) {
-            return (ref = !truncate) != null ? ref : {
-              '': str.substring(0, max - 1) + ellipse
-            };
+            return (ref = !truncate) != null
+              ? ref
+              : {
+                  "": str.substring(0, max - 1) + ellipse
+                };
           }
           return str.substring(0, last) + ellipse;
         }
@@ -53,18 +55,18 @@
           if (!execAsap) {
             func.apply(obj, args);
           }
-          return timeout = null;
+          return (timeout = null);
         };
         if (timeout) {
           clearTimeout(timeout);
         } else if (execAsap) {
           func.apply(obj, args);
         }
-        return timeout = setTimeout(delayed, threshold || 100);
+        return (timeout = setTimeout(delayed, threshold || 100));
       };
     },
     validateEmail: function(str) {
-      return (str.indexOf(".") > 2) && (str.indexOf("@") > 0);
+      return str.indexOf(".") > 2 && str.indexOf("@") > 0;
     },
     getSize: function(el) {
       return {
@@ -100,23 +102,23 @@
     post_to_url: function(path, params, method) {
       var form, hiddenField, key, val;
       method = method || "post";
-      form = this.createElement('form', {
+      form = this.createElement("form", {
         method: method,
         action: path
       });
       hiddenField = null;
       for (key in params) {
         val = params[key];
-        hiddenField = this.createElement('input', {
-          type: 'hidden',
+        hiddenField = this.createElement("input", {
+          type: "hidden",
           name: key,
           value: val
         });
         form.appendChild(hiddenField);
       }
-      hiddenField = this.createElement('input', {
-        type: 'hidden',
-        name: 'authenticity_token',
+      hiddenField = this.createElement("input", {
+        type: "hidden",
+        name: "authenticity_token",
         value: unescape(authenticityToken)
       });
       form.appendChild(hiddenField);
@@ -124,5 +126,4 @@
       return form.submit();
     }
   };
-
-}).call(this);
+}.call(this));

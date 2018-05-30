@@ -1,5 +1,5 @@
-@import 'colors';
-@import 'gto/variables';
+@import "colors";
+@import "gto/variables";
 
 search-results {
   form {
@@ -16,7 +16,7 @@ search-results {
     border: 0;
     margin-left: 20px;
     background-color: transparent;
-    border-bottom: 1px solid rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   }
   @media screen and (min-width: $screen-sm-max) {
     .submit-button i {
@@ -87,11 +87,14 @@ search-results {
     top: -4px;
   }
   .name {
-    div { float: left; }
+    div {
+      float: left;
+    }
   }
   .hd {
     font-size: 20px;
-    .artist-name, .byline-conjunction {
+    .artist-name,
+    .byline-conjunction {
       font-size: 16px;
       text-transform: uppercase;
       color: $light-gray;
@@ -104,7 +107,8 @@ search-results {
     }
     > div {
       line-height: 1.4rem;
-      .label, .value {
+      .label,
+      .value {
         display: inline-block;
       }
       .value {
@@ -117,6 +121,4 @@ search-results {
       }
     }
   }
-
-
 }

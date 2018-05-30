@@ -1,8 +1,9 @@
-@import 'colors';
-@import 'variables';
-@import 'mau-mixins';
+@import "colors";
+@import "variables";
+@import "mau-mixins";
 
-.success-msg, .error-msg {
+.success-msg,
+.error-msg {
   padding: 12px;
   background-color: white;
   border-color: $xxlightgray;
@@ -33,7 +34,8 @@ tr.error-msg {
   line-height: 1rem;
   color: $lightgray;
 }
-.actions, .inputs {
+.actions,
+.inputs {
   border: none;
   padding: 0;
   ol {
@@ -41,10 +43,12 @@ tr.error-msg {
     padding: 0;
   }
   margin-bottom: 10px;
-  a + a, .pure-button + .pure-button {
+  a + a,
+  .pure-button + .pure-button {
     margin-left: 5px;
   }
-  ::placeholder { /* WebKit, Blink, Edge */
+  ::placeholder {
+    /* WebKit, Blink, Edge */
     color: $light-gray;
   }
 }
@@ -52,7 +56,7 @@ tr.error-msg {
   width: 90%;
 }
 .required {
-  [title=required] {
+  [title="required"] {
     border: none;
     color: $gto_red;
     margin-left: 3px;
@@ -82,7 +86,8 @@ tr.error-msg {
   }
   .input {
     &.error {
-      input, select {
+      input,
+      select {
         border: 1px solid $gto_red;
       }
       label.label {
@@ -103,7 +108,7 @@ tr.error-msg {
 .pure-controls {
   input[type="radio"],
   input[type="checkbox"] {
-    display:none;
+    display: none;
   }
 
   input[type="checkbox"] + span {
@@ -115,7 +120,7 @@ tr.error-msg {
     position: relative;
     top: 1px;
     display: inline-block;
-    font-family: 'FontAwesome';
+    font-family: "FontAwesome";
     font-style: normal;
     font-weight: $font-weight-normal;
     line-height: 1;

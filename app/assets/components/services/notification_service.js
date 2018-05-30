@@ -10,13 +10,17 @@
           browser: deviceDetector.browser,
           device: deviceDetector.device
         });
-        return $http.post('/main/notes_mailer', {
-          "feedback_mail": data
-        }).success(successCb).error(errorCb);
+        return $http
+          .post("/main/notes_mailer", {
+            feedback_mail: data
+          })
+          .success(successCb)
+          .error(errorCb);
       }
     };
   });
 
-  angular.module('mau.services').factory('notificationService', notificationService);
-
-}).call(this);
+  angular
+    .module("mau.services")
+    .factory("notificationService", notificationService);
+}.call(this));

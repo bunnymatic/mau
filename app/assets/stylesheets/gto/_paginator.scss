@@ -1,12 +1,12 @@
-@import 'colors';
-@import 'mau-mixins';
-@import 'gto/gto-mixins';
-.paginator ul
-, ul.paginator {
+@import "colors";
+@import "mau-mixins";
+@import "gto/gto-mixins";
+.paginator ul,
+ul.paginator {
   margin: 0;
   padding: 0;
 }
-  
+
 .paginator {
   li {
     display: inline-block;
@@ -23,7 +23,5 @@
         background-color: $xlightgray;
       }
     }
-      
   }
 }
-       

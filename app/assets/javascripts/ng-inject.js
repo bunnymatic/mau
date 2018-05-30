@@ -1,1 +1,3 @@
-function ngInject(f) { return f }
+function ngInject(f) {
+  return f;
+}

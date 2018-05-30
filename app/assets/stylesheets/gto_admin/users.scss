@@ -1,4 +1,4 @@
-@import 'mau-mixins';
+@import "mau-mixins";
 .admin.users {
   .image {
     text-align: center;
@@ -27,7 +27,8 @@
       font-style: normal;
       font-weight: $font-weight-bold;
     }
-    .instructions, .hint {
+    .instructions,
+    .hint {
       margin-top: 8px;
       line-height: 1.4rem;
       font-style: italic;

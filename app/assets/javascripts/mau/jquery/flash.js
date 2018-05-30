@@ -7,14 +7,17 @@
   Flash = (function() {
     function Flash() {}
 
-    Flash.prototype.wrapper = 'jsFlash';
+    Flash.prototype.wrapper = "jsFlash";
 
     Flash.prototype.clear = function() {
-      return _.map(document.querySelectorAll(".flash, .flash__notice , #" + this.wrapper), function(el) {
-        if (el) {
-          return el.parentNode.removeChild(el);
+      return _.map(
+        document.querySelectorAll(".flash, .flash__notice , #" + this.wrapper),
+        function(el) {
+          if (el) {
+            return el.parentNode.removeChild(el);
+          }
         }
-      });
+      );
     };
 
     Flash.prototype.show = function(options, container) {
@@ -24,13 +27,13 @@
       if (!$w) {
         return;
       }
-      container || (container = 'body, .js-main-container');
+      container || (container = "body, .js-main-container");
       c = jQuery(container).first();
       if (!c.length) {
         c = document.body;
       }
       jQuery(c).prepend($w);
-      $w.find('.flash__close').bind('click', function(ev) {
+      $w.find(".flash__close").bind("click", function(ev) {
         ev.preventDefault();
         return $w.hide();
       });
@@ -49,20 +52,22 @@
       } else {
         this.timeout = options.timeout || 10000;
       }
-      contents = jQuery('<div>');
-      $close = jQuery('<i>', {
-        'class': 'flash__close fa fa-icon fa-times-circle-o'
+      contents = jQuery("<div>");
+      $close = jQuery("<i>", {
+        class: "flash__close fa fa-icon fa-times-circle-o"
       });
       key = _.intersection(_.keys(options), ["error", "notice"])[0];
       if (options[key]) {
         msg = options[key].replace(/\n/gm, "<br/>");
         clz = "flash flash__" + key;
-        contents = jQuery('<div>', {
-          'class': clz
-        }).html(msg).prepend($close);
+        contents = jQuery("<div>", {
+          class: clz
+        })
+          .html(msg)
+          .prepend($close);
       }
-      if ((contents.html().length)) {
-        $flash = jQuery('<div>', {
+      if (contents.html().length) {
+        $flash = jQuery("<div>", {
           id: this.wrapper
         });
         $flash.html(contents);
@@ -73,9 +78,7 @@
     };
 
     return Flash;
-
   })();
 
   MAU.Flash = Flash;
-
-}).call(this);
+}.call(this));

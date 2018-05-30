@@ -1,17 +1,18 @@
 q/* stylesheet for catalog/map */
 body, div, span {
-  font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana", Arial, sans-serif;
+  font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana", Arial,
+    sans-serif;
 }
-ul, li {
+ul,
+li {
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
 .clear {
-  clear:both;
+  clear: both;
 }
-
 
 #catalog {
   /* for pdf, 72px/in
@@ -25,13 +26,15 @@ ul, li {
   .section {
     padding: 50px;
   }
-  h3,h4,h5 {
+  h3,
+  h4,
+  h5 {
     font-size: 130%;
   }
   .markdown {
     p {
       border-top: 1px solid #999;
-      padding-top:5px;
+      padding-top: 5px;
     }
   }
   li {
@@ -55,9 +58,10 @@ ul, li {
       .studioname {
         font-weight: bold;
       }
-
     }
-    .count { margin-left: 5px; }
+    .count {
+      margin-left: 5px;
+    }
   }
 
   .catalog-entry {
@@ -65,11 +69,11 @@ ul, li {
     margin-bottom: 20px;
   }
   .catalog-entry--image {
-    flex:1;
+    flex: 1;
     margin-right: 20px;
   }
   .catalog-entry--info {
-    flex:1;
+    flex: 1;
   }
   .catalog-entry--image {
     width: 300px;

@@ -1,0 +1,18 @@
+{
+  "devDependencies": {},
+  "scripts": {
+    "eslint-fix": "eslint --fix app/**/*.js} spec/**/*.js",
+    "eslint-lint": "eslint app/**/*.js} spec/**/*.js",
+    "lint": "yarn run eslint-lint && yarn run prettier-lint",
+    "lint-fix": "yarn run eslint-fix && yarn run prettier-fix",
+    "prettier-fix": "prettier --write app/**/*.js spec/**/*.js app/**/*.scss **/*.json",
+    "prettier-lint": "prettier --list-different app/**/*.js spec/**/*.js app/**/*.scss **/*.json"
+  },
+  "dependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.12.0",
+    "prettier": "^1.13.2"
+  }
+}

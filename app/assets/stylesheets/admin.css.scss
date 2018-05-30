@@ -16,11 +16,11 @@
  *= require_self
  */
 
-@import 'reset';
-@import 'pure';
-@import 'pure/grids-responsive';
-@import 'pure-customizations';
-@import 'mau-mixins';
+@import "reset";
+@import "pure";
+@import "pure/grids-responsive";
+@import "pure-customizations";
+@import "mau-mixins";
 
 .container {
   margin: auto;

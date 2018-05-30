@@ -6,19 +6,27 @@
 
   MAU.QueryStringParserHelpers = {
     hashToQueryString: function(hash) {
-      return _.compact(_.map(hash, function(v, k) {
-        if ((typeof v !== 'undefined') && (v !== null)) {
-          return [k, v].join('=');
-        }
-      })).join('&');
+      return _
+        .compact(
+          _.map(hash, function(v, k) {
+            if (typeof v !== "undefined" && v !== null) {
+              return [k, v].join("=");
+            }
+          })
+        )
+        .join("&");
     },
     queryStringToHash: function(query) {
-      return _.reduce(query.split('&'), function(memo, params) {
-        var kv;
-        kv = params.split('=');
-        memo[kv[0]] = kv[1];
-        return memo;
-      }, {});
+      return _.reduce(
+        query.split("&"),
+        function(memo, params) {
+          var kv;
+          kv = params.split("=");
+          memo[kv[0]] = kv[1];
+          return memo;
+        },
+        {}
+      );
     }
   };
 
@@ -31,15 +39,15 @@
       var parser, queryString;
       this.query_params = {};
       if (!document || !document.createElement) {
-        throw 'This needs to be run in an HTML context with a document.';
+        throw "This needs to be run in an HTML context with a document.";
       }
-      parser = document.createElement('a');
+      parser = document.createElement("a");
       parser.href = url;
       this.url = url;
       if (parser.origin) {
         this.origin = parser.origin;
       } else {
-        this.origin = [parser.protocol, '//', parser.host].join('');
+        this.origin = [parser.protocol, "//", parser.host].join("");
       }
       this.protocol = parser.protocol;
       this.pathname = parser.pathname;
@@ -51,7 +59,7 @@
     QueryStringParser.prototype.toString = function() {
       var bits, q;
       q = util.hashToQueryString(this.query_params);
-      bits = [this.origin, this.pathname].join('');
+      bits = [this.origin, this.pathname].join("");
       if (q) {
         bits += "?" + q;
       }
@@ -62,7 +70,5 @@
     };
 
     return QueryStringParser;
-
   })();
-
-}).call(this);
+}.call(this));

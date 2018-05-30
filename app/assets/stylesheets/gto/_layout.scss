@@ -1,7 +1,8 @@
 /** settings that affect layout/geometry */
-@import 'variables';
-@import 'mau-mixins';
-html, body {
+@import "variables";
+@import "mau-mixins";
+html,
+body {
   height: 100%;
 }
 .hidden {
@@ -40,10 +41,10 @@ html, body {
   bottom: 1px;
   z-index: 2;
   background-color: $light-gray-background;
-  @include box-shadow(0px 0px 0 2px rgba(200,200,200,0.25));
+  @include box-shadow(0px 0px 0 2px rgba(200, 200, 200, 0.25));
   .sidenav__main {
     background-color: $light-gray-background;
-    @media(min-width: $screen-sm-max) {
+    @media (min-width: $screen-sm-max) {
       position: sticky;
       z-index: 2;
       top: 20px;
@@ -54,7 +55,7 @@ html, body {
     position: fixed;
     bottom: 0;
     width: $sidebar-collapse-nav-width;
-    @media(min-width: $screen-sm-max) {
+    @media (min-width: $screen-sm-max) {
       width: $sidebar-nav-width;
     }
     .back-to-top {
@@ -64,7 +65,7 @@ html, body {
       @include transition(opacity 0.8s ease-in-out);
       .fa {
         padding: 5px;
-        @media(min-width: $screen-sm-max) {
+        @media (min-width: $screen-sm-max) {
           padding: 5px 40px;
         }
         background-color: x-light-gray;
@@ -87,8 +88,9 @@ html, body {
   padding-left: 1em;
 }
 
-.main-container, #footer_bar {
-  @include transition( margin 0.3s ease-in-out );
+.main-container,
+#footer_bar {
+  @include transition(margin 0.3s ease-in-out);
   margin-left: $sidebar-nav-width;
 }
 
@@ -100,17 +102,17 @@ html, body {
   display: block;
   width: 100%;
   margin: 20px auto 30px;
-  text-align:center;
+  text-align: center;
 }
 .sidebar-logo {
-  background-image: image_url('yellow_sidebar_logo_gear_only.svg');
+  background-image: image_url("yellow_sidebar_logo_gear_only.svg");
   @include background-cover;
   margin: auto;
   width: 144px;
   height: 144px;
   background-position: top center;
   @include opacity(1);
-  @include transition( all 0.3s ease-in-out );
+  @include transition(all 0.3s ease-in-out);
 }
 
 ul li {
@@ -130,7 +132,7 @@ body {
   }
 }
 .pure-g.sticky-header {
-  @media(min-width: $screen-sm-max) {
+  @media (min-width: $screen-sm-max) {
     position: sticky;
     z-index: 1;
     top: -1px;
@@ -186,16 +188,17 @@ body {
     }
   }
   .offset-content {
-    @include make-sm-offset(1,6);
+    @include make-sm-offset(1, 6);
     h2.title {
       margin-left: -20px;
       margin-right: 40px;
       padding-left: 20px;
     }
-    h3, h4, h5 {
-      text-transform:uppercase;
+    h3,
+    h4,
+    h5 {
+      text-transform: uppercase;
     }
-
   }
   .padded-content {
     padding: 10px 20px 0;
@@ -214,19 +217,33 @@ body {
       padding-left: 0;
     }
   }
-  .section.markdown, section.markdown {
-    h1, h2, h3, h4, h5 {
+  .section.markdown,
+  section.markdown {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
       &:first-of-type {
         margin-top: 0;
       }
     }
-    h1, h2, h3, h4, h5 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
       margin: 1.2rem 0;
     }
   }
   .tab-pane {
-    .section.markdown, section.markdown {
-      h1, h2, h3, h4, h5 {
+    .section.markdown,
+    section.markdown {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
         &:first-of-type {
           margin-top: auto;
         }
@@ -253,21 +270,20 @@ body {
   }
 }
 
-.collapsed[class^=pure-u-] {
+.collapsed[class^="pure-u-"] {
   width: 0;
   margin: 0;
   padding: 0;
 }
 
 @media screen and (max-width: $screen-sm-max) {
-
-  .collapsed[class^=pure-u-] {
+  .collapsed[class^="pure-u-"] {
     width: auto;
     height: 0;
-    overflow:hidden;
+    overflow: hidden;
   }
   .sidebar-logo {
-    background-image: image_url('yellow_sidebar_logo_gear_only.svg');
+    background-image: image_url("yellow_sidebar_logo_gear_only.svg");
     width: 35px;
     height: 35px;
     margin: 0 auto;
@@ -287,7 +303,7 @@ body {
   }
   .pure-g {
     .offset-content {
-      padding-left:10px;
+      padding-left: 10px;
       margin-left: 10px;
       margin-right: 20px;
       h2.title {

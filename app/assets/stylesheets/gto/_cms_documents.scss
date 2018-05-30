@@ -1,4 +1,4 @@
-@import 'colors';
+@import "colors";
 .section.markdown.editable {
   position: relative;
   .edit_indicator {
@@ -6,11 +6,11 @@
   }
   &:hover {
     .edit_indicator {
-      display:block;
-      position:absolute;
+      display: block;
+      position: absolute;
       right: 20px;
       top: 20px;
-      background-color: rgba(200,220,220,0.6);
+      background-color: rgba(200, 220, 220, 0.6);
       border: 1px solid $xlightgray;
       padding: 10px;
     }

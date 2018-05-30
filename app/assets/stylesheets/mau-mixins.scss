@@ -1,5 +1,5 @@
-@import 'gto/variables';
-@import 'colors';
+@import "gto/variables";
+@import "colors";
 
 @mixin background-cover {
   background-repeat: no-repeat;
@@ -14,17 +14,17 @@
 
 @mixin transparent_black_background {
   background-color: $black;
-  background-color: rgba(10,10,10, 0.8);
+  background-color: rgba(10, 10, 10, 0.8);
 }
 
 @mixin transparent_blue_background {
   background-color: $darkbluegray;
-  background-color: rgba(60,40,100, 0.4);
+  background-color: rgba(60, 40, 100, 0.4);
 }
 
 @mixin transparent_white_background {
   background-color: $xlightgray;
-  background-color: rgba(240,240,240,0.7);
+  background-color: rgba(240, 240, 240, 0.7);
 }
 
 @mixin dotted_border {
@@ -41,7 +41,9 @@
 @mixin link_style {
   text-decoration: none;
   color: $lightyellow;
-  &:link, &:visited, &:active {
+  &:link,
+  &:visited,
+  &:active {
     color: $gto_teal;
   }
   &:hover {
@@ -53,11 +55,12 @@
   font-size: x-small;
 }
 
-
 $default_rounded_amount: 3px;
 
 @mixin opacity($opacity) {
-  filter: unquote("progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($opacity * 100)})");
+  filter: unquote(
+    "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($opacity * 100)})"
+  );
   opacity: $opacity;
 }
 
@@ -147,7 +150,7 @@ $default_rounded_amount: 3px;
 
 @mixin floating-window-border {
   border: 1px solid $bordergray;
-  box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
+  box-shadow: 4px 4px 8px rgba(40, 40, 40, 0.8);
 }
 
 @mixin box-shadow($shadow) {
@@ -158,19 +161,19 @@ $default_rounded_amount: 3px;
 }
 
 @mixin transition-property($transition-property...) {
-          transition-property: $transition-property;
+  transition-property: $transition-property;
 }
 @mixin transition-delay($transition-delay) {
-          transition-delay: $transition-delay;
+  transition-delay: $transition-delay;
 }
 @mixin transition-duration($transition-duration...) {
-          transition-duration: $transition-duration;
+  transition-duration: $transition-duration;
 }
 @mixin transition-timing-function($timing-function) {
-          transition-timing-function: $timing-function;
+  transition-timing-function: $timing-function;
 }
 @mixin transition-transform($transition...) {
-          transition: transform $transition;
+  transition: transform $transition;
 }
 @mixin transform($transform...) {
   transform: $transform;
@@ -185,7 +188,7 @@ $default_rounded_amount: 3px;
   bottom: 0px;
   left: 0;
   width: 100%;
-  background-color: rgba(255,255,255,0.9);
+  background-color: rgba(255, 255, 255, 0.9);
   color: #222;
 }
 
@@ -269,11 +272,28 @@ $default_rounded_amount: 3px;
  * @return {Bool}
  */
 @function is-direction($value) {
-  $is-keyword: index((to top, to top right, to right top, to right, to bottom right, to right bottom, to bottom, to bottom left, to left bottom, to left, to left top, to top left), $value);
-  $is-angle: type-of($value) == 'number' and index('deg' 'grad' 'turn' 'rad', unit($value));
+  $is-keyword: index(
+    (
+      to top,
+      to top right,
+      to right top,
+      to right,
+      to bottom right,
+      to right bottom,
+      to bottom,
+      to bottom left,
+      to left bottom,
+      to left,
+      to left top,
+      to top left
+    ),
+    $value
+  );
+  $is-angle: type-of($value) == "number" and
+    index("deg" "grad" "turn" "rad", unit($value));
 
   @return $is-keyword or $is-angle;
-};
+}
 
 @mixin linear-gradient($direction, $color-stops...) {
   /* Direction has been omitted and happens to be a color-stop */
@@ -284,11 +304,11 @@ $default_rounded_amount: 3px;
 
   background: nth(nth($color-stops, 1), 1);
   background: linear-gradient($direction, $color-stops);
-};
+}
 
 @mixin in-the-middle {
-  position:absolute;
+  position: absolute;
   left: 50%;
   top: 50%;
-  @include transform( translate(-50%, -50%) );
+  @include transform(translate(-50%, -50%));
 }
