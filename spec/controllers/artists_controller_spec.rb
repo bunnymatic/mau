@@ -73,13 +73,11 @@ describe ArtistsController, elasticsearch: true do
       expect(flash['error']).to include "must have an Artist's account"
     end
 
-    it "updates your os status to true and redirects to your edit page if you're logged in" do
+    it 'redirects to edit#events and sets the flash key :registering_for_open_studios' do
       login_as artist
       get :register_for_current_open_studios
-      expect(artist.reload).to be_doing_open_studios
       expect(response).to redirect_to edit_artist_path(artist, anchor: 'events')
-      expect(flash['notice']).to include 'Look for an email'
-      expect(flash['notice']).to include 'Thanks for participating'
+      expect(flash[:registering_for_open_studios]).to eq true
     end
 
     it "redirects to your edit page if you're not logged in" do
