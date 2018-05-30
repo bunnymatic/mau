@@ -33,17 +33,17 @@ ajv@^5.2.3, ajv@^5.3.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-angular-animate@1.4.14:
-  version "1.4.14"
-  resolved "https://registry.yarnpkg.com/angular-animate/-/angular-animate-1.4.14.tgz#ee4068cafdb7e230026319ec6cb9207aca898038"
+angular-animate@1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/angular-animate/-/angular-animate-1.5.11.tgz#1baa43c303d1b93c4e6aa89453b39114b7a1c669"
 
 "angular-mailchimp@https://github.com/keithio/angular-mailchimp":
   version "0.0.0"
   resolved "https://github.com/keithio/angular-mailchimp#e790198c8930480d3ecbac5df13ac83792adc0a5"
 
-angular-mocks@1.4.14:
-  version "1.4.14"
-  resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.4.14.tgz#ea12ec70a5227697e79575523abbec0e0f9168a7"
+angular-mocks@1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.5.11.tgz#a0e1dd0ea55fd77ee7a757d75536c5e964c86f81"
 
 angular-moment@^1.2.0:
   version "1.2.0"
@@ -51,21 +51,21 @@ angular-moment@^1.2.0:
   dependencies:
     moment ">=2.8.0 <3.0.0"
 
-angular-resource@1.4.14:
-  version "1.4.14"
-  resolved "https://registry.yarnpkg.com/angular-resource/-/angular-resource-1.4.14.tgz#382a484e2dce25bfbb53583e783f83e5dc5bee64"
+angular-resource@1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/angular-resource/-/angular-resource-1.5.11.tgz#d93ea619184a2e0ee3ae338265758363172929f0"
 
-angular-sanitize@1.4.14:
-  version "1.4.14"
-  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.4.14.tgz#778c4e24941fa982d86cf7ebac3e613fa5d414fc"
+angular-sanitize@1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.5.11.tgz#ebfb3f343e543f9b2ef050fb4c2e9ee048d1772f"
 
 angular-ui-utils@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/angular-ui-utils/-/angular-ui-utils-0.1.1.tgz#ff8b5c4abb2aebeb08ee05d09a78c4cfbfb65009"
 
-angular@1.4.14:
-  version "1.4.14"
-  resolved "https://registry.yarnpkg.com/angular/-/angular-1.4.14.tgz#9d0feaf60ce6e52ce50f49ee328656d1e1875c37"
+angular@1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.5.11.tgz#8c5ba7386f15965c9acf3429f6881553aada30d6"
 
 ansi-escapes@^3.0.0:
   version "3.1.0"
