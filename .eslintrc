@@ -13,7 +13,8 @@
     "jQuery": true,
     "MAU": true,
     "module": true,
-    "moment": true
+    "moment": true,
+    "ngInject": true
   },
   "rules": {
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],

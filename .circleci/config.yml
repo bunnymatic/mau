@@ -21,10 +21,11 @@ jobs:
             - v2-dep-
       - run:
           shell: /bin/bash
-          name: Bundle Install and Audit
+          name: Yarn/Bundle Install and Audit
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
             bundle exec bundle-audit update && bundle exec bundle-audit check
+            yarn install
       - run:
           shell: /bin/bash
           name: Machine Setup
@@ -35,6 +36,7 @@ jobs:
           key: v2-dep-{{ .Branch }}-{{ epoch }}
           paths:
             - vendor/bundle
+            - node_modules
 
   lint_and_javascript_specs:
     environment:
@@ -57,9 +59,10 @@ jobs:
             - v2-dep-
       - run:
           shell: /bin/bash
-          name: Bundle Install
+          name: Yarn/Bundle Install
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+            yarn install
       - run:
           shell: /bin/bash
           name: Rubocop
@@ -104,9 +107,10 @@ jobs:
             - v2-dep-
       - run:
           shell: /bin/bash
-          name: Bundle install
+          name: Yarn/Bundle install
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+            yarn install
       - run:
           shell: /bin/bash
           name: Wait For DB
@@ -155,9 +159,10 @@ jobs:
             - v2-dep-
       - run:
           shell: /bin/bash
-          name: Bundle install
+          name: Yarn/Bundle install
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+            yarn install
       - run:
           shell: /bin/bash
           name: Wait For DB

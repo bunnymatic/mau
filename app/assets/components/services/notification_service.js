@@ -14,8 +14,7 @@
           .post("/main/notes_mailer", {
             feedback_mail: data
           })
-          .success(successCb)
-          .error(errorCb);
+          .then(successCb, errorCb);
       }
     };
   });

@@ -12,14 +12,14 @@
           return success([]);
         }
         searchParams.q = searchParams.query;
-        return $http
-          .post("/search.json", searchParams)
-          .success(function(data) {
-            return success(data);
-          })
-          .error(function(data) {
-            return error(data);
-          });
+        return $http.post("/search.json", searchParams).then(
+          function(resp) {
+            return success(resp.data);
+          },
+          function(resp) {
+            return error(resp.data);
+          }
+        );
       }
     };
   });

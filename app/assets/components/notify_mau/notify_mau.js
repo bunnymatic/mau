@@ -5,7 +5,7 @@
   modalController = ngInject(function($scope, $element, notificationService) {
     return ($scope.submitInquiry = function() {
       var error, success;
-      success = function(data, status, headers, config) {
+      success = function(_data, _status, _headers, _config) {
         var flash;
         $scope.closeThisDialog();
         flash = new MAU.Flash();
@@ -15,11 +15,11 @@
             "Thanks for your inquiry.  We'll get back to you as soon as we can."
         });
       };
-      error = function(data, status, headers, config) {
+      error = function(data, _status, _headers, _config) {
         var errs, inputs;
         inputs = angular.element($element).find("fieldset")[0];
         angular.element(inputs.getElementsByClassName("error-msg")).remove();
-        errs = _.map(data.error_messages, function(msg) {
+        errs = _.map(data.data.error_messages, function(msg) {
           return "<div>" + msg + ".</div>";
         });
         return angular
@@ -69,7 +69,7 @@
       controller: controller,
       scope: {},
       templateUrl: "notify_mau/inquiry.html",
-      link: function($scope, el, attrs) {}
+      link: function(_$scope, _el, _attrs) {}
     };
   });
 

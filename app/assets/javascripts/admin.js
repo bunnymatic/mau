@@ -2,7 +2,7 @@
 //
 //= require d3
 //= require c3
-//= require moment
+//= require moment/moment
 //= require_tree ./admin
 
 (function() {

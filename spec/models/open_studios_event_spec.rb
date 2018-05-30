@@ -9,7 +9,10 @@ describe OpenStudiosEvent do
       FactoryBot.create(:open_studios_event, start_date: 12.months.ago)
     ]
   end
-  let(:current_os) { FactoryBot.create(:open_studios_event, start_date: 1.month.since) }
+  let(:current_os) do
+    FactoryBot.create(:open_studios_event,
+                      start_date: Time.zone.today.at_beginning_of_month.next_month)
+  end
   let(:future_oses) do
     [
       FactoryBot.create(:open_studios_event, start_date: 6.months.since),

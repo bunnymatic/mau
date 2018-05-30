@@ -57,23 +57,9 @@ gem 'unicorn' # webserver
 gem 'xmlrpc' # after ruby 2.4 upgrade
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-angular', '=1.3.16'
-  gem 'rails-assets-angular-animate', '=1.3.16'
-  gem 'rails-assets-angular-mailchimp'
-  gem 'rails-assets-angular-mocks'
-  gem 'rails-assets-angular-moment'
-  gem 'rails-assets-angular-resource', '=1.3.16'
-  gem 'rails-assets-angular-sanitize', '=1.3.16'
-  gem 'rails-assets-angular-ui-utils', '~> 0.2.3'
   gem 'rails-assets-c3'
   gem 'rails-assets-datatables'
-  gem 'rails-assets-lodash'
-  gem 'rails-assets-moment'
-  gem 'rails-assets-ng-device-detector'
-  gem 'rails-assets-ngDialog'
   gem 'rails-assets-pure'
-  gem 'rails-assets-re-tree' # required for device-detector
-  gem 'rails-assets-spinjs'
 end
 
 group :test do

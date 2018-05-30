@@ -5,7 +5,8 @@
  *= require pickadate/classic
  *= require pickadate/classic.date
  *= require pickadate/classic.time
- *= require ngDialog
+ *= require ng-dialog/css/ngDialog
+ *= require ng-dialog/css/ngDialog-theme-default.css
  *= require collapse
  *= require panel
  *= require toggle_button
@@ -13,6 +14,7 @@
  *= require_tree ./gto
  *= require_self
  */
+
 @import "reset";
 @import "pure";
 @import "pure/grids-responsive";
