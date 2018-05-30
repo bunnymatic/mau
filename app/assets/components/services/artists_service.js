@@ -4,16 +4,20 @@
 
   artistsService = ngInject(function($resource) {
     var artists;
-    artists = $resource('/api/v2/artists/:id.json', {}, {
-      get: {
-        method: 'GET',
-        cache: true,
-        transformResponse: function(data, header) {
-          var ref;
-          return (ref = angular.fromJson(data)) != null ? ref.artist : void 0;
+    artists = $resource(
+      "/api/v2/artists/:id.json",
+      {},
+      {
+        get: {
+          method: "GET",
+          cache: true,
+          transformResponse: function(data, header) {
+            var ref;
+            return (ref = angular.fromJson(data)) != null ? ref.artist : void 0;
+          }
         }
       }
-    });
+    );
     return {
       get: function(id) {
         return artists.get({
@@ -23,6 +27,5 @@
     };
   });
 
-  angular.module('mau.services').factory('artistsService', artistsService);
-
-}).call(this);
+  angular.module("mau.services").factory("artistsService", artistsService);
+}.call(this));

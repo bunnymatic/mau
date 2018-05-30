@@ -9,5 +9,4 @@
       return false;
     });
   });
-
-}).call(this);
+}.call(this));

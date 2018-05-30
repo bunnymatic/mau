@@ -1,6 +1,6 @@
-@import 'variables';
-@import 'mau-mixins';
-@import 'gto/gto-mixins';
+@import "variables";
+@import "mau-mixins";
+@import "gto/gto-mixins";
 
 .help__opener {
   float: right;
@@ -17,7 +17,7 @@
   left: 4px;
   top: 4px;
   background: white;
-  @include box-shadow(0 0 8px 0px rgba(128,128,128,0.7));
+  @include box-shadow(0 0 8px 0px rgba(128, 128, 128, 0.7));
   z-index: 20;
 }
 

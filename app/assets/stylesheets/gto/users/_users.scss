@@ -1,4 +1,4 @@
-@import 'mau-mixins';
+@import "mau-mixins";
 .password-reset {
   .instructions {
     margin-bottom: 20px;
@@ -15,7 +15,7 @@
   }
 }
 #paypal_donate_openstudios {
-  height:0;
+  height: 0;
   display: none;
 }
 .panel-group {
@@ -26,18 +26,18 @@
       margin: 0;
       a {
         @include transition(all 0.4s ease);
-        background-color: rgba(200,200,200,0.4);
+        background-color: rgba(200, 200, 200, 0.4);
         padding: 0.9rem 10px;
         display: block;
         outline: none;
         &:hover {
-          background-color: rgba(200,200,200,0.3);
+          background-color: rgba(200, 200, 200, 0.3);
         }
         &.collapsed {
           color: inherit;
           background-color: transparent;
-          &:hover{
-            background-color: rgba(200,200,200,0.2);
+          &:hover {
+            background-color: rgba(200, 200, 200, 0.2);
           }
         }
       }
@@ -47,11 +47,11 @@
       left: 10px;
       font-size: 20px;
       height: 20px;
-      width:20px;
+      width: 20px;
       text-align: center;
       display: inline-block;
       pointer-events: none;
-      color: rgba(200,200,200,0.9);
+      color: rgba(200, 200, 200, 0.9);
       @include transition(all 0.4s ease);
     }
 
@@ -75,14 +75,14 @@
       content: "\f139"; /* chevron up */
     }
     h4 a.collapsed + .fa.fa-icon {
-      color: rgba(200,200,200,0.8);
+      color: rgba(200, 200, 200, 0.8);
       top: 12px;
       left: 10px;
       @include transform(rotate(180deg));
       @include transform-origin(50% 50%);
     }
 
-    border-bottom: 1px solid rgba(200,200,200,0.4);
+    border-bottom: 1px solid rgba(200, 200, 200, 0.4);
   }
   .panel-body {
     padding: 20px;
@@ -97,7 +97,7 @@
   .toggle-button {
     margin: auto;
     text-align: center;
-    label[for=doing_open_studios] {
+    label[for="doing_open_studios"] {
       margin: auto;
     }
   }

@@ -13,7 +13,7 @@
         } catch (error) {
           e = error;
           try {
-            msg = '';
+            msg = "";
             results = [];
             for (j = 0, len = arguments.length; j < len; j++) {
               args = arguments[j];
@@ -23,11 +23,10 @@
             return results;
           } catch (error) {
             ee = error;
-            return MAU.log = function() {};
+            return (MAU.log = function() {});
           }
         }
       }
     }
   };
-
-}).call(this);
+}.call(this));

@@ -1,4 +1,4 @@
-@import 'mau-mixins';
+@import "mau-mixins";
 
 .gto-list {
   ul {
@@ -9,7 +9,7 @@
   }
 }
 @mixin light-gray-button {
-  @include transition(all .33s ease-in-out);
+  @include transition(all 0.33s ease-in-out);
   @include round-corners(2px);
   padding: 4px 2px;
   min-width: 25px;
@@ -23,7 +23,7 @@
 
 @mixin all-caps-label {
   text-transform: uppercase;
-  font-size: 0.80rem;
+  font-size: 0.8rem;
   font-weight: bold;
 }
 @mixin card-description {
@@ -51,11 +51,11 @@
 @mixin artist-thumb-mixin {
   position: relative;
   min-height: 300px;
-  text-align:center;
+  text-align: center;
   padding: 10px;
   margin-bottom: 6px;
   .image {
-    overflow:hidden;
+    overflow: hidden;
     width: 100%;
     height: 280px;
     @include background-cover;
@@ -64,7 +64,7 @@
   &:hover {
     /** @include box-shadow(0 0 1px 1px rgba(200,200,200,0.5)); */
   }
-  @include card-description
+  @include card-description;
 }
 
 @mixin search-filter {
@@ -76,15 +76,14 @@
       &:hover {
         color: $gto_dark_teal;
       }
-
     }
-    input[type=text] {
+    input[type="text"] {
       background-color: transparent;
       padding: 5px;
       margin-left: 5px;
       border: none;
       font-size: 1.2rem;
-      @include transition( width 0.25s ease-in-out );
+      @include transition(width 0.25s ease-in-out);
       font-weight: $font-weight-light;
     }
   }
@@ -97,7 +96,6 @@
       padding-bottom: 4px;
     }
   }
-
 }
 @mixin section-header {
   padding-bottom: 4px;
@@ -133,11 +131,11 @@
   }
   .popup-text {
     line-height: 1.1rem;
-    font-size:0.8rem;
+    font-size: 0.8rem;
   }
 }
 
-$sampler-thumbnail-size : 250px;
+$sampler-thumbnail-size: 250px;
 
 @mixin sampler-block-mixin {
   @include artist-thumb-mixin;
@@ -151,19 +149,19 @@ $sampler-thumbnail-size : 250px;
   @media screen and (max-width: $screen-lg-max) {
     width: 25%;
     &:nth-child(13) {
-      display:block;
+      display: block;
     }
   }
   @media screen and (max-width: $screen-md-max) {
     width: 33.33%;
     &:nth-child(13) {
-      display:none;
+      display: none;
     }
   }
   @media screen and (max-width: $screen-sm-max) {
     width: 50%;
     &:nth-child(13) {
-      display:block;
+      display: block;
     }
   }
   @media screen and (max-width: $screen-xs-max) {
@@ -172,7 +170,7 @@ $sampler-thumbnail-size : 250px;
     }
     width: 100%;
     .desc {
-      opacity: 1.0 !important;
+      opacity: 1 !important;
     }
   }
 
@@ -193,7 +191,7 @@ $sampler-thumbnail-size : 250px;
   }
   &:hover {
     .desc {
-      opacity: 1.0;
+      opacity: 1;
     }
   }
 }

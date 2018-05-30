@@ -1,4 +1,4 @@
-@import 'mau-mixins';
+@import "mau-mixins";
 
 #mc_embed_signup {
   font-size: 12px;
@@ -8,7 +8,7 @@
     @include small-rounded-corners;
     border: 1px solid $mediumgray;
     padding-top: 1.5em;
-    margin: .5em 0;
+    margin: 0.5em 0;
     background-color: $darkgray;
     color: $lightgray;
     text-align: left;
@@ -19,7 +19,7 @@
     font-weight: bold;
     color: $xlightgray;
     background: $black;
-    padding: .5em 1em;
+    padding: 0.5em 1em;
     border: 1px solid $mediumgray;
     @include small-rounded-corners;
     font-size: 1.2em;
@@ -42,13 +42,13 @@
     overflow: hidden;
     label {
       display: block;
-      margin: .3em 0;
+      margin: 0.3em 0;
       line-height: 1em;
       font-weight: bold;
     }
     input {
       margin-right: 1.5em;
-      padding: .2em .3em;
+      padding: 0.2em 0.3em;
       width: 90%;
       float: left;
       z-index: 50;
@@ -57,7 +57,7 @@
   #mce-responses {
     float: left;
     top: -1.4em;
-    padding: 0em .5em 0em .5em;
+    padding: 0em 0.5em 0em 0.5em;
     overflow: hidden;
     width: 90%;
     margin: 0 5%;

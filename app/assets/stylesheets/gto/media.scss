@@ -1,7 +1,8 @@
-@import 'mau-mixins';
-@import 'gto/gto-mixins';
+@import "mau-mixins";
+@import "gto/gto-mixins";
 
-.art_piece_tags, .media {
+.art_piece_tags,
+.media {
   .tagcloud {
     @extend .gto-list;
   }
@@ -16,9 +17,9 @@
   .header h4.title {
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 0.80rem;
+    font-size: 0.8rem;
     margin-bottom: 8px;
-    margin-top: 0
+    margin-top: 0;
   }
   .paginator {
     display: block;

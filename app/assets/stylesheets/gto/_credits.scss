@@ -1,17 +1,17 @@
-@import 'mau-mixins';
-@import 'gto/gto-mixins';
-@import 'colors';
+@import "mau-mixins";
+@import "gto/gto-mixins";
+@import "colors";
 
 #credits_bg {
   z-index: 3;
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   height: 100%;
-  width:100%;
-  background-color: rgba(200,200,200,0.5);
+  width: 100%;
+  background-color: rgba(200, 200, 200, 0.5);
 }
 #credits_div {
   z-index: 5;

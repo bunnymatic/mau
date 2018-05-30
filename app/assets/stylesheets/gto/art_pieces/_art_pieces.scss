@@ -1,5 +1,5 @@
-@import 'gto/variables';
-@import 'mau-mixins';
+@import "gto/variables";
+@import "mau-mixins";
 #new_art_piece {
   margin-top: 10px;
 }
@@ -14,7 +14,7 @@
     font-style: italic;
   }
   .art-piece__byline-conjunction {
-    font-size: .9rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
     padding-left: 2px;
     padding-right: 2px;
@@ -25,14 +25,17 @@
     max-width: 1440px;
   }
 
-  .ng-hide-add[image-fader], .ng-hide-remove[image-fader] {
+  .ng-hide-add[image-fader],
+  .ng-hide-remove[image-fader] {
     @include transition(all 1sec ease-in-out);
     display: block !important;
   }
-  .ng-hide-add.ng-hide-add-active[image-fader], .ng-hide-remove[image-fader] {
+  .ng-hide-add.ng-hide-add-active[image-fader],
+  .ng-hide-remove[image-fader] {
     @include opacity(0);
   }
-  .ng-hide-add[image-fader], .ng-hide-remove.ng-hide-remove-active[image-fader] {
+  .ng-hide-add[image-fader],
+  .ng-hide-remove.ng-hide-remove-active[image-fader] {
     opacity: 1;
   }
   .art-piece {

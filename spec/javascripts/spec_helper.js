@@ -34,14 +34,14 @@
 //
 // For more information: http://github.com/modeset/teaspoon
 
-angular.module('TestApp', [
-  'templates',
-  'ngResource',
-  'ngSanitize',
-  'ngMocks',
-  'ngDialog',
-  'angularSlideables',
-  'mau.models',
-  'mau.services',
-  'mau.directives'
-])
+angular.module("TestApp", [
+  "templates",
+  "ngResource",
+  "ngSanitize",
+  "ngMocks",
+  "ngDialog",
+  "angularSlideables",
+  "mau.models",
+  "mau.services",
+  "mau.directives"
+]);

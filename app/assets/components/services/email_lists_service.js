@@ -4,16 +4,22 @@
 
   emailListsService = ngInject(function($resource) {
     var email_lists;
-    email_lists = $resource('/admin/email_lists/:email_list_id/emails/:id.json', {}, {
-      get: {
-        method: 'GET',
-        cache: true,
-        transformResponse: function(data, header) {
-          var ref;
-          return (ref = angular.fromJson(data)) != null ? ref.email_lists : void 0;
+    email_lists = $resource(
+      "/admin/email_lists/:email_list_id/emails/:id.json",
+      {},
+      {
+        get: {
+          method: "GET",
+          cache: true,
+          transformResponse: function(data, header) {
+            var ref;
+            return (ref = angular.fromJson(data)) != null
+              ? ref.email_lists
+              : void 0;
+          }
         }
       }
-    });
+    );
     return {
       get: function(id) {
         return email_lists.get({
@@ -28,6 +34,7 @@
     };
   });
 
-  angular.module('mau.services').factory('emailListsService', emailListsService);
-
-}).call(this);
+  angular
+    .module("mau.services")
+    .factory("emailListsService", emailListsService);
+}.call(this));

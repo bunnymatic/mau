@@ -1,13 +1,16 @@
-@import 'colors';
-@import 'variables';
+@import "colors";
+@import "variables";
 #footer_bar {
-  > [class^=pure-g] { margin-top: 20px; }
-  [class^=pure-u-] {
+  > [class^="pure-g"] {
+    margin-top: 20px;
+  }
+  [class^="pure-u-"] {
     text-align: center;
   }
   a {
     color: $lightgray;
-    &:active, &:hover {
+    &:active,
+    &:hover {
       color: $mediumgray;
     }
     &:visited {

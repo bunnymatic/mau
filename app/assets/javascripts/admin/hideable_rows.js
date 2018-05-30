@@ -6,8 +6,10 @@
       whatToHideSelectors: ".filters input"
     });
     return jQuery(".show_all").bind("click", function() {
-      $(this).closest(".filters").find("input").removeAttr("checked");
+      $(this)
+        .closest(".filters")
+        .find("input")
+        .removeAttr("checked");
     });
   });
-
-}).call(this);
+}.call(this));

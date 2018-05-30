@@ -4,19 +4,19 @@
 
   medium = ngInject(function() {
     return {
-      restrict: 'E',
+      restrict: "E",
       scope: {
         mediumId: "@",
         mediumSlug: "@",
         mediumName: "@"
       },
-      templateUrl: 'medium/index.html',
+      templateUrl: "medium/index.html",
       link: function($scope, el, attrs) {
-        return $scope.mediumPath = "/media/" + ($scope.mediumSlug || $scope.mediumId);
+        return ($scope.mediumPath =
+          "/media/" + ($scope.mediumSlug || $scope.mediumId));
       }
     };
   });
 
-  angular.module('mau.directives').directive('medium', medium);
-
-}).call(this);
+  angular.module("mau.directives").directive("medium", medium);
+}.call(this));

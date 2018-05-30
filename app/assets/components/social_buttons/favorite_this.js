@@ -9,38 +9,42 @@
     };
     controller.prototype.addFavorite = function(type, id) {
       var r;
-      return r = favoritesService.add(type, id);
+      return (r = favoritesService.add(type, id));
     };
     link = function(scope, elem, attrs, ctrl) {
-      return $(elem).on('click', function() {
-        return ctrl.addFavorite(attrs.objectType, attrs.objectId).then(function(data) {
-          var flash, message;
-          message = data.message;
-          flash = new MAU.Flash();
-          return flash.show({
-            notice: message,
-            timeout: -1
-          });
-        }, function(err) {
-          var flash, message;
-          message = err.message || "Something went wrong trying to add that favorite.  Please tell us what you were trying to do so we can fix it.";
-          flash = new MAU.Flash();
-          return flash.show({
-            notice: message,
-            timeout: -1
-          });
-        });
+      return $(elem).on("click", function() {
+        return ctrl.addFavorite(attrs.objectType, attrs.objectId).then(
+          function(data) {
+            var flash, message;
+            message = data.message;
+            flash = new MAU.Flash();
+            return flash.show({
+              notice: message,
+              timeout: -1
+            });
+          },
+          function(err) {
+            var flash, message;
+            message =
+              err.message ||
+              "Something went wrong trying to add that favorite.  Please tell us what you were trying to do so we can fix it.";
+            flash = new MAU.Flash();
+            return flash.show({
+              notice: message,
+              timeout: -1
+            });
+          }
+        );
       });
     };
     return {
       controller: controller,
-      restrict: 'E',
-      templateUrl: 'social_buttons/favorite.html',
+      restrict: "E",
+      templateUrl: "social_buttons/favorite.html",
       scope: {},
       link: link
     };
   });
 
-  angular.module('mau.directives').directive('favoriteThis', favoriteThis);
-
-}).call(this);
+  angular.module("mau.directives").directive("favoriteThis", favoriteThis);
+}.call(this));

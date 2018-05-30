@@ -4,16 +4,20 @@
 
   studiosService = ngInject(function($resource) {
     var studios;
-    studios = $resource('/api/v2/studios/:id.json', {}, {
-      get: {
-        method: 'GET',
-        cache: true,
-        transformResponse: function(data, header) {
-          var ref;
-          return (ref = angular.fromJson(data)) != null ? ref.studio : void 0;
+    studios = $resource(
+      "/api/v2/studios/:id.json",
+      {},
+      {
+        get: {
+          method: "GET",
+          cache: true,
+          transformResponse: function(data, header) {
+            var ref;
+            return (ref = angular.fromJson(data)) != null ? ref.studio : void 0;
+          }
         }
       }
-    });
+    );
     return {
       get: function(id) {
         if (!id) {
@@ -26,6 +30,5 @@
     };
   });
 
-  angular.module('mau.services').factory('studiosService', studiosService);
-
-}).call(this);
+  angular.module("mau.services").factory("studiosService", studiosService);
+}.call(this));

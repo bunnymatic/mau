@@ -1,8 +1,8 @@
-@import 'colors';
+@import "colors";
 
 @mixin sorting-control {
   padding-left: 20px;
-  font-family: 'FontAwesome';
+  font-family: "FontAwesome";
   color: $bluegray;
   position: absolute;
   top: 7px;
@@ -45,13 +45,17 @@
   .admin-table__controls {
     margin-bottom: 10px;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     .admin-table__controls {
       display: inline-block;
       margin-left: 20px;
     }
   }
-  table td.admin-controls, table td.controls {
+  table td.admin-controls,
+  table td.controls {
     white-space: nowrap;
     > div {
       display: inline-block;
@@ -62,8 +66,10 @@
     }
   }
 
-  .admin-user__profile-info {}
-  .admin-user__profile-table {}
+  .admin-user__profile-info {
+  }
+  .admin-user__profile-table {
+  }
   .admin-user__profile-table-row {
     td {
       padding-right: 10px;
@@ -74,16 +80,15 @@
   }
   .admin-user__profile-table-row.is-section-start {
     td {
-      margin-top:10px;
-      padding-top:10px;
+      margin-top: 10px;
+      padding-top: 10px;
       border-top: 1px dotted $mediumgray;
     }
   }
   .admin-user__profile-table-row.is-section-end {
     td {
-      margin-bottom:10px;
-      padding-bottom:10px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
     }
   }
-
 }

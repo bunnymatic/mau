@@ -14,7 +14,7 @@
         return this.urlForModel("art_piece", obj);
       },
       urlForModel: function(model, obj) {
-        return "/" + model + "s/" + (this.toParam(obj));
+        return "/" + model + "s/" + this.toParam(obj);
       },
       toParam: function(obj) {
         if (obj != null ? obj.slug : void 0) {
@@ -28,6 +28,7 @@
     };
   });
 
-  angular.module("mau.services").factory("objectRoutingService", objectRoutingService);
-
-}).call(this);
+  angular
+    .module("mau.services")
+    .factory("objectRoutingService", objectRoutingService);
+}.call(this));

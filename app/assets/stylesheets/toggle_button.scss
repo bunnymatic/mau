@@ -1,7 +1,7 @@
 /* from http://callmenick.com/tutorial-demos/css-toggle-switch/ */
-@import 'mau-mixins';
-@import 'colors';
-@import 'gto/variables';
+@import "mau-mixins";
+@import "colors";
+@import "gto/variables";
 
 $height: 32px;
 $overall-width: 72px;
@@ -9,7 +9,7 @@ $inner-width: $overall-width - $height;
 $border-width: 2px;
 $border-radius: $height;
 $button-height: $height - 8px;
-$off-color: rgba(200,200,200,0.8);
+$off-color: rgba(200, 200, 200, 0.8);
 $on-color: $gto-teal;
 
 .toggle-button {
@@ -34,7 +34,7 @@ $on-color: $gto-teal;
     .toggle-button__label {
       position: absolute;
       top: 50%;
-      @include transform( translateY(-50%) );
+      @include transform(translateY(-50%));
       font-size: 20px;
       white-space: nowrap;
       &.toggle-button__label_on {
@@ -59,7 +59,8 @@ $on-color: $gto-teal;
     border-radius: $height;
     transition: background 0.25s;
   }
-  input.toggle-button__round-flat + label:before, input.toggle-button__round-flat + label:after {
+  input.toggle-button__round-flat + label:before,
+  input.toggle-button__round-flat + label:after {
     display: block;
     position: absolute;
     content: "";
@@ -79,8 +80,8 @@ $on-color: $gto-teal;
   }
   input.toggle-button__round-flat + label:after {
     top: $border-width + 2px;
-    left:  $border-width + 2px;
-    bottom:  $border-width + 2px;
+    left: $border-width + 2px;
+    bottom: $border-width + 2px;
     width: $button-height;
     background-color: $off-color;
     -webkit-border-radius: $button-height;

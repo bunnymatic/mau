@@ -1,6 +1,6 @@
-@import 'gto/variables';
-@import 'colors';
-@import 'mau-mixins';
+@import "gto/variables";
+@import "colors";
+@import "mau-mixins";
 art-pieces-browser {
   .profile-info {
     .pure-button {
@@ -9,7 +9,8 @@ art-pieces-browser {
     }
   }
 }
-.social-buttons, .profile-info {
+.social-buttons,
+.profile-info {
   margin-top: 30px;
   margin-right: 15px;
   .share {

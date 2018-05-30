@@ -2,41 +2,43 @@
 (function() {
   $(function() {
     var fetchFilteredStudios, throttledFilter;
-    if ($('.studios.index').length) {
+    if ($(".studios.index").length) {
       fetchFilteredStudios = function(ev) {
         var filter, filters, regexs;
-        filter = document.querySelectorAll('.js-filter-by-name')[0].value;
+        filter = document.querySelectorAll(".js-filter-by-name")[0].value;
         if (filter) {
           filters = _.uniq(_.compact(filter.split(/\s+/)));
           regexs = _.map(filters, function(filter) {
-            return new RegExp(filter, 'i');
+            return new RegExp(filter, "i");
           });
-          return $('.studio-card').each(function() {
+          return $(".studio-card").each(function() {
             var show, studio;
             studio = $(this);
             show = _.some;
             ny(regexs, function(regex) {
-              return regex.test(studio.data('name'));
+              return regex.test(studio.data("name"));
             });
-            if (show && !studio.is(':visible')) {
+            if (show && !studio.is(":visible")) {
               return studio.fadeIn();
-            } else if (!show && studio.is(':visible')) {
+            } else if (!show && studio.is(":visible")) {
               return studio.fadeOut();
             }
           });
         } else {
-          return $('.studio-card').fadeIn();
+          return $(".studio-card").fadeIn();
         }
       };
       throttledFilter = MAU.Utils.debounce(fetchFilteredStudios, 250, false);
-      $("#js-studio-index-filter .js-filter-by-name").on('keyup change', function(ev) {
-        return throttledFilter();
-      });
-      return $("#js-studio-index-filter").on('submit', function(ev) {
+      $("#js-studio-index-filter .js-filter-by-name").on(
+        "keyup change",
+        function(ev) {
+          return throttledFilter();
+        }
+      );
+      return $("#js-studio-index-filter").on("submit", function(ev) {
         ev.stopPropagation();
         return false;
       });
     }
   });
-
-}).call(this);
+}.call(this));

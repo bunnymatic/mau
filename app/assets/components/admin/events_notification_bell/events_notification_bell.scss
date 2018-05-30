@@ -1,5 +1,5 @@
-@import 'colors';
-@import 'mau-mixins';
+@import "colors";
+@import "mau-mixins";
 
 .events-notification-bell {
   z-index: 25;
@@ -7,7 +7,9 @@
   top: 27px;
   right: 7px;
   @include round-corners(50%);
-  a:link, a:visited, a:active {
+  a:link,
+  a:visited,
+  a:active {
     transition: color 0.15s ease-in-out;
     color: $gto_red;
   }

@@ -18,11 +18,9 @@
     };
 
     return Email;
-
   })();
 
-  angular.module('mau.models').factory('Email', function() {
+  angular.module("mau.models").factory("Email", function() {
     return Email;
   });
-
-}).call(this);
+}.call(this));

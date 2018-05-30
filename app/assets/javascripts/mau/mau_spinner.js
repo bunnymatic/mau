@@ -17,9 +17,9 @@
     trail: 60,
     shadow: false,
     hwaccel: false,
-    className: 'spinner',
+    className: "spinner",
     zIndex: 2e9,
-    top: '250px'
+    top: "250px"
   };
 
   MAU.Spinner = MAUSpinner = (function() {
@@ -43,7 +43,5 @@
     };
 
     return MAUSpinner;
-
   })();
-
-}).call(this);
+}.call(this));

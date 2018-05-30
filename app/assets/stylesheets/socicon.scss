@@ -1,38 +1,47 @@
-@import 'mau-mixins';
+@import "mau-mixins";
 
 @font-face {
-    font-family: 'Mono Social Icons Font';
-    src: font-url('MonoSocialIconsFont-1.10.eot');
-    src: font-url('MonoSocialIconsFont-1.10.eot?#iefix') format('embedded-opentype'),
-         font-url('MonoSocialIconsFont-1.10.woff') format('woff'),
-         font-url('MonoSocialIconsFont-1.10.ttf') format('truetype'),
-         font-url('MonoSocialIconsFont-1.10.svg#MonoSocialIconsFont') format('svg');
-    src: font-url('MonoSocialIconsFont-1.10.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Mono Social Icons Font";
+  src: font-url("MonoSocialIconsFont-1.10.eot");
+  src: font-url("MonoSocialIconsFont-1.10.eot?#iefix")
+      format("embedded-opentype"),
+    font-url("MonoSocialIconsFont-1.10.woff") format("woff"),
+    font-url("MonoSocialIconsFont-1.10.ttf") format("truetype"),
+    font-url("MonoSocialIconsFont-1.10.svg#MonoSocialIconsFont") format("svg");
+  src: font-url("MonoSocialIconsFont-1.10.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
-i.ico, i.ico-invert { font-style: normal; }
-
-.ico-invert, .ico, a.ico-invert, a.ico:before {
-    font-family: 'Mono Social Icons Font';
-    -webkit-text-rendering: optimizeLegibility;
-    -moz-text-rendering: optimizeLegibility;
-    -ms-text-rendering: optimizeLegibility;
-    -o-text-rendering: optimizeLegibility;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-font-smoothing: antialiased;
-    -ms-font-smoothing: antialiased;
-    -o-font-smoothing: antialiased;
-    font-smoothing: antialiased;
+i.ico,
+i.ico-invert {
+  font-style: normal;
 }
 
-.ico-invert:before, .ico:before {
+.ico-invert,
+.ico,
+a.ico-invert,
+a.ico:before {
+  font-family: "Mono Social Icons Font";
+  -webkit-text-rendering: optimizeLegibility;
+  -moz-text-rendering: optimizeLegibility;
+  -ms-text-rendering: optimizeLegibility;
+  -o-text-rendering: optimizeLegibility;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -ms-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.ico-invert:before,
+.ico:before {
   content: attr(title);
 }
 
-.fa-ico-invert, .ico-invert {
+.fa-ico-invert,
+.ico-invert {
   @include small-rounded-corners;
   &:before {
     font-size: 1.1em;
@@ -41,14 +50,16 @@ i.ico, i.ico-invert { font-style: normal; }
   display: inline-block;
   line-height: 0.85em;
   font-size: 0.85em;
-  margin:0;
+  margin: 0;
   padding: 0;
   vertical-aligm: middle;
   background-color: lighten($gto_gray, 50%);
   color: $gto_dark_teal;
 }
 
-.social a { color: transparent; }
+.social a {
+  color: transparent;
+}
 
 .ico-flickr {
   &:before {

@@ -6,15 +6,18 @@
     this.currentUser = null;
     return {
       get: function() {
-        return $http.get("/users/whoami").then((function(_this) {
-          return function(response) {
-            return $q.when(response.data.current_user, null);
-          };
-        })(this));
+        return $http.get("/users/whoami").then(
+          (function(_this) {
+            return function(response) {
+              return $q.when(response.data.current_user, null);
+            };
+          })(this)
+        );
       }
     };
   });
 
-  angular.module('mau.services').factory('currentUserService', currentUserService);
-
-}).call(this);
+  angular
+    .module("mau.services")
+    .factory("currentUserService", currentUserService);
+}.call(this));

@@ -7,5 +7,4 @@
       return $tabs.tab();
     }
   });
-
-}).call(this);
+}.call(this));

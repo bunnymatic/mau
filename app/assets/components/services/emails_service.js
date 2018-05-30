@@ -3,36 +3,39 @@
   var emailsService;
 
   emailsService = ngInject(function($resource) {
-    return $resource('/admin/email_lists/:email_list_id/emails/:id', {
-      id: '@id',
-      email_list_id: '@email_list_id'
-    }, {
-      query: {
-        isArray: true,
-        method: 'GET',
-        cache: false,
-        responseType: 'json',
-        transformResponse: function(data, header) {
-          return angular.fromJson(data).emails || [];
-        }
+    return $resource(
+      "/admin/email_lists/:email_list_id/emails/:id",
+      {
+        id: "@id",
+        email_list_id: "@email_list_id"
       },
-      get: {
-        isArray: false,
-        method: 'GET',
-        cache: true,
-        responseType: 'json',
-        transformResponse: function(data, header) {
-          var ref;
-          return (ref = angular.fromJson(data)) != null ? ref.email : void 0;
+      {
+        query: {
+          isArray: true,
+          method: "GET",
+          cache: false,
+          responseType: "json",
+          transformResponse: function(data, header) {
+            return angular.fromJson(data).emails || [];
+          }
+        },
+        get: {
+          isArray: false,
+          method: "GET",
+          cache: true,
+          responseType: "json",
+          transformResponse: function(data, header) {
+            var ref;
+            return (ref = angular.fromJson(data)) != null ? ref.email : void 0;
+          }
+        },
+        save: {
+          method: "POST",
+          responseType: "json"
         }
-      },
-      save: {
-        method: 'POST',
-        responseType: 'json'
       }
-    });
+    );
   });
 
-  angular.module('mau.services').factory('emailsService', emailsService);
-
-}).call(this);
+  angular.module("mau.services").factory("emailsService", emailsService);
+}.call(this));

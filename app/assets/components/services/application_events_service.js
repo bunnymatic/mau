@@ -4,28 +4,38 @@
 
   applicationEventsService = ngInject(function($resource) {
     var applicationEvents;
-    applicationEvents = $resource('/admin/application_events.json', {}, {
-      index: {
-        method: 'GET',
-        cache: true,
-        isArray: true,
-        transformResponse: function(data, header) {
-          var ref;
-          return (ref = angular.fromJson(data)) != null ? ref.application_events : void 0;
+    applicationEvents = $resource(
+      "/admin/application_events.json",
+      {},
+      {
+        index: {
+          method: "GET",
+          cache: true,
+          isArray: true,
+          transformResponse: function(data, header) {
+            var ref;
+            return (ref = angular.fromJson(data)) != null
+              ? ref.application_events
+              : void 0;
+          }
         }
       }
-    });
+    );
     return {
       list: function(params) {
         var args;
-        args = _.extend({
-          limit: 10
-        }, _.pick(params, 'since'));
+        args = _.extend(
+          {
+            limit: 10
+          },
+          _.pick(params, "since")
+        );
         return applicationEvents.index(args);
       }
     };
   });
 
-  angular.module('mau.services').factory('ApplicationEventsService', applicationEventsService);
-
-}).call(this);
+  angular
+    .module("mau.services")
+    .factory("ApplicationEventsService", applicationEventsService);
+}.call(this));

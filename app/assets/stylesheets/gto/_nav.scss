@@ -1,12 +1,12 @@
-@import 'mau-mixins';
-@import 'colors';
-@import 'variables';
+@import "mau-mixins";
+@import "colors";
+@import "variables";
 .sidenav {
   /* see also _layout.scss */
   .nav-section {
     margin-top: 6px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(200,200,200,0.3);
+    border-bottom: 1px solid rgba(200, 200, 200, 0.3);
     h3 {
       height: 33px;
       line-height: 33px;
@@ -18,14 +18,15 @@
       text-align: right;
     }
   }
-  ul, li {
-    margin:0 auto;
-    padding:0;
+  ul,
+  li {
+    margin: 0 auto;
+    padding: 0;
   }
   .search {
     @include sidebar-nav-entry;
     &:hover {
-      background-color: rgba(200,200,200,0.2);
+      background-color: rgba(200, 200, 200, 0.2);
     }
     .text {
       font-weight: $font-weight-bold;
@@ -33,7 +34,7 @@
     }
   }
   .nav-icon {
-    text-align:center;
+    text-align: center;
     position: relative;
     &:hover {
       cursor: pointer;
@@ -56,35 +57,46 @@
   }
 }
 
-.nav, .social-links, .signin-nav {
+.nav,
+.social-links,
+.signin-nav {
   margin: auto;
 }
 
-.signin-nav, .nav {
+.signin-nav,
+.nav {
   width: 100%;
-  a, .fa, .text {
+  a,
+  .fa,
+  .text {
     color: $gto_dark_teal;
-    &:visited, &:link, &:active {
+    &:visited,
+    &:link,
+    &:active {
       color: $gto_dark_teal;
     }
     &:hover {
       color: $gto_gray;
     }
   }
-  .tabs, .tabs li {
-    list-style:none outside none;
-    margin:0;
-    padding:0;
+  .tabs,
+  .tabs li {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
   }
-  .signout__links.tabs, .signin__links.tabs {
+  .signout__links.tabs,
+  .signin__links.tabs {
     .tab a {
       font-weight: $font-weight-normal;
     }
   }
-  .search, .tabs .tab {
+  .search,
+  .tabs .tab {
     margin: 0;
     &:hover {
-      a, .text {
+      a,
+      .text {
         font-weight: $font-weight-bold;
         color: $gto_dark_teal;
       }
@@ -104,20 +116,27 @@
       > a {
         background-color: $gto_yellow;
       }
-      a, .fa, .text {
+      a,
+      .fa,
+      .text {
         color: $xxlightgray;
       }
       .dropdown {
-        a, .fa, .text {
+        a,
+        .fa,
+        .text {
           color: inherit;
         }
       }
     }
   }
 
-  .signout__links.tabs, .tabs.signin__links .tab {
+  .signout__links.tabs,
+  .tabs.signin__links .tab {
     &:hover {
-      a, .fa, .text {
+      a,
+      .fa,
+      .text {
         font-weight: $font-weight-normal;
       }
     }
@@ -134,7 +153,7 @@
     bottom: 0;
     /* overflow: auto; */
     z-index: 1;
-    background-color: rgba(255,255,255,0.95);
+    background-color: rgba(255, 255, 255, 0.95);
     .nav-mobile__close {
       position: absolute;
       right: 10px;
@@ -143,7 +162,7 @@
       @include opacity(0);
     }
     &.active {
-      @include transform(translate3d(0,0,1px));
+      @include transform(translate3d(0, 0, 1px));
       pointer-events: auto;
       left: $sidebar-collapse-nav-width + 5;
       width: 250px;
@@ -157,7 +176,6 @@
       .nav-mobile__close {
         @include opacity(1);
       }
-
     }
     ul.tab-panel {
       /* border-top: 1px solid lighten($gto_gray, 40%); */
@@ -201,7 +219,10 @@
   }
 }
 @media screen and (min-width: $screen-sm-max) {
-  .signout__links, .signin__links, .search.nav-icon, .nav .tabs {
+  .signout__links,
+  .signin__links,
+  .search.nav-icon,
+  .nav .tabs {
     text-align: right;
     a {
       padding: 0 20px 0 0;
@@ -214,7 +235,7 @@
     .nav-icon {
       margin-top: 5px;
       margin-bottom: 5px;
-      font-size:24px;
+      font-size: 24px;
     }
     .search .text {
       display: none;
@@ -228,14 +249,15 @@
     .tabs .tab {
       border: none !important;
     }
-    .signin-nav{
+    .signin-nav {
       .text {
         display: none;
       }
       .nav-icon {
         display: inherit;
       }
-      .search, .nav .tabs {
+      .search,
+      .nav .tabs {
         text-align: right;
         a {
           padding: 0 20px 0 0;
@@ -250,7 +272,8 @@
         display: none;
       }
     }
-    .signin-nav, .nav-section {
+    .signin-nav,
+    .nav-section {
       width: 0;
       height: 0;
       margin: 0;
