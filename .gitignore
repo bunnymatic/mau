@@ -29,10 +29,10 @@ secret/*
 config/config.keys.yml
 research
 .env.*
-node_modules/*
 
 *.mysql
 *.psql
 .byebug_history
 
-node_modules/
+node_modules
+node_modules/*
