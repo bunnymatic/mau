@@ -25,7 +25,7 @@ module UserControllerHelpers
     return if current_user
 
     if request.xhr?
-      render json: { message: 'You need to be logged in' }, status: 400
+      render json: { message: 'You need to be logged in' }, status: :unauthorized
     else
       store_location
       flash[:notice] = 'You must be logged in to access this page'

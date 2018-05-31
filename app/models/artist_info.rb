@@ -25,12 +25,7 @@ class ArtistInfo < ApplicationRecord
   end
 
   def update_os_participation(os, value)
-    key = if os.is_a? OpenStudiosEvent
-            os.key
-          else
-            os
-          end
-
+    key = os.is_a?(OpenStudiosEvent) ? os.key : os
     self.os_participation = Hash[key.to_s, value]
   end
 

@@ -1,0 +1,19 @@
+#open-studios-registration-form
+  h3 Register For Open Studios
+
+  p You are registering to participate in Open Studios at {{location}} on {{dateRange}}.
+  p
+    | This means you are committed to:
+    ol
+      li Hang some art at your studio - {{location}}
+      li Be there to receive the public Saturday and Sunday, {{dateRange}} from {{startTime}} to {{endTime}}.
+      li Promote your art and your studio’s participation in the event. (We’ll send you tools if you need them)
+
+  p Continue with registration?
+  .actions.open-studios-registration-form__actions
+    .open-studios-registration-form__action-item
+      button.pure-button.button-primary ng-click="acceptRegistration()" Yes
+    .open-studios-registration-form__action-item
+      button.pure-button.button-secondary ng-click="declineRegistration()" No
+    .open-studios-registration-form__action-item
+      button.pure-button.button-secondary ng-click="handleHasQuestions()" I have questions

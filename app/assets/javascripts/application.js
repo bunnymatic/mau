@@ -2,7 +2,6 @@
 //= require lodash/lodash
 //= require moment/moment
 //= require angular/angular
-//= require angular-rails-templates
 //= require angular_modules
 //= require angular-resource
 //= require angular-sanitize

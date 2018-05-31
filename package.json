@@ -27,7 +27,6 @@
     "ng-dialog": "^1.4.0",
     "prettier": "^1.13.2",
     "re-tree": "^0.1.7",
-    "spinjs": "^0.4.138",
     "ua-device-detector": "^1.1.2"
   }
 }

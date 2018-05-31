@@ -7,9 +7,11 @@ describe Admin::TestsController do
 
   context 'unauthorized' do
     %w[social_icons qr flash_test custom_map].each do |endpoint|
-      it "#{endpoint} returns error if you're not logged in" do
-        get endpoint
-        expect(response).to redirect_to '/error'
+      context "##{endpoint}" do
+        before do
+          get endpoint
+        end
+        it_should_behave_like 'not authorized'
       end
     end
   end

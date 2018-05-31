@@ -19,6 +19,10 @@ class OpenStudiosEventPresenter < ViewPresenter
     date_range + ' ' + model.start_date.strftime('%Y')
   end
 
+  def date_range_with_year
+    date_range + ' ' + year.to_s
+  end
+
   def date_range(separator: '-')
     return model.start_date.strftime('%b %-d') if same_day
 
