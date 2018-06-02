@@ -7,11 +7,5 @@
     if (location.hash && location.hash.length > 1) {
       $(location.hash).collapse("show");
     }
-
-    if (MAU.registering_for_os) {
-      $(function() {
-        $("#open-studios-registration-button button").click();
-      });
-    }
   });
 }.call(this));
