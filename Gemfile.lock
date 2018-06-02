@@ -356,10 +356,7 @@ GEM
     rails-assets-datatables (1.10.16)
       rails-assets-jquery (>= 1.7.0)
     rails-assets-jquery (3.3.1)
-    rails-assets-lodash (4.17.4)
-    rails-assets-moment (2.20.1)
     rails-assets-pure (1.0.0)
-    rails-assets-spinjs (4.0.0)
     rails-controller-testing (1.0.2)
       actionpack (~> 5.x, >= 5.0.1)
       actionview (~> 5.x, >= 5.0.1)
@@ -594,10 +591,7 @@ DEPENDENCIES
   rails (~> 5.1.4)
   rails-assets-c3!
   rails-assets-datatables!
-  rails-assets-lodash!
-  rails-assets-moment!
   rails-assets-pure!
-  rails-assets-spinjs!
   rails-controller-testing
   rails_best_practices
   rdiscount

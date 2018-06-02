@@ -67,7 +67,7 @@
       templateUrl: "admin/email_list_manager/index.html",
       controller: controller,
       scope: {},
-      link: function($scope, $el, $attrs, $ctrl) {
+      link: function($scope, $el, _$attrs, _$ctrl) {
         return ($scope.toggleAddEmailForm = function() {
           return $timeout(function() {
             return angular

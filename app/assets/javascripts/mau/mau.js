@@ -1,6 +1,3 @@
-/*global                        l        merr    */
-/*jshint -W031 */ /** don't warn for using "new" with side-effects : because of prototype new Insertion() */
-
 var MAU = (window.MAU = window.MAU || {});
 
 /** setup hash change observer */
@@ -19,9 +16,6 @@ var MAU = (window.MAU = window.MAU || {});
   }
 
   var M = MAU;
-  var A = (M.Artist = M.Artist || {});
-
-  M.__debug__ = true;
 
   // clear any errors and spinit
   M.waitcursor = function() {
@@ -33,7 +27,7 @@ var MAU = (window.MAU = window.MAU || {});
     spinner.spin();
   };
 
-  M.doSearch = function(ev) {
+  M.doSearch = function(_ev) {
     var q = jQuery("#search_box");
     var f = jQuery("#search_form");
     if (f.length && q.length && q.val()) {
@@ -55,7 +49,7 @@ var MAU = (window.MAU = window.MAU || {});
 /*** jquery on load */
 jQuery(function() {
   var flashNotice = ".notice, .flash, .flash__notice, .flash__error";
-  $("body").on("click", flashNotice, function(ev) {
+  $("body").on("click", flashNotice, function(_ev) {
     var $_that = $(this);
     $_that.fadeOut({
       complete: function() {

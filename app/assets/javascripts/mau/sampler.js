@@ -3,7 +3,7 @@
   $(function() {
     var $win, NUM_IMAGES, fetchArtists;
     NUM_IMAGES = 12;
-    fetchArtists = function(ev) {
+    fetchArtists = function(_ev) {
       var $content, offset, seed;
       $content = $(".js-sampler");
       if (!$content.find("#js-scroll-load-more").length) {

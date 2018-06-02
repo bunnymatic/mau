@@ -11,7 +11,7 @@
         get: {
           method: "GET",
           cache: true,
-          transformResponse: function(data, header) {
+          transformResponse: function(data, _header) {
             var ref;
             return (ref = angular.fromJson(data)) != null ? ref.studio : void 0;
           }

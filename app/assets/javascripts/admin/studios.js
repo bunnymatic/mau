@@ -4,8 +4,8 @@
     if ($(".admin.studios").length) {
       return $("#js-studio-arranger tbody").sortable({
         cursor: "move",
-        start: function(event, ui) {},
-        update: function(event, ui) {
+        start: function(_event, _ui) {},
+        update: function(_event, ui) {
           var ajaxOpts, studioIds;
           studioIds = _.map(
             $(ui.item.context)
@@ -24,13 +24,13 @@
           };
           return $
             .ajax(ajaxOpts)
-            .done(function(data) {
+            .done(function(_data) {
               return new MAU.Flash().show({
                 notice: "Studio Order has been updated",
                 timeout: 2000
               });
             })
-            .fail(function(data) {
+            .fail(function(_data) {
               new MAU.Flash().show({
                 error: "There was trouble updating the studio order"
               });

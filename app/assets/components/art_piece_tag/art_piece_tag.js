@@ -9,7 +9,7 @@
         tag: "="
       },
       templateUrl: "art_piece_tag/index.html",
-      link: function($scope, el, attrs) {
+      link: function($scope, _el, _attrs) {
         var tag;
         tag = $scope.tag;
         $scope.tagPath = objectRoutingService.urlForModel("art_piece_tag", tag);

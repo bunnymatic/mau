@@ -7,17 +7,29 @@
     "$": true,
     "_": true,
     "angular": true,
+    "c3": true,
+    "ClusterIcon": true,
     "compileTemplate": true,
+    "d3": true,
     "fixture": true,
+    "google": true,
+    "Gmaps": true,
     "inject": true,
     "jQuery": true,
     "MAU": true,
     "module": true,
     "moment": true,
-    "ngInject": true
+    "ngInject": true,
+    "Spinner": true,
+    "zxcvbn": true
   },
   "rules": {
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ]
   },
   "extends": ["eslint:recommended", "prettier"]
 }

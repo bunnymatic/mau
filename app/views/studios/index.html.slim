@@ -1,11 +1,6 @@
 .pure-g.sticky-header
   .pure-u-1-1.header.padded-content.bordered-header>
     h2.title Studios
-  / .pure-u-1-1.pure-u-lg-1-3.header.padded-content>
-  /   .filter.js-filter-visibility
-  /     = form_tag '.', id: 'js-studio-index-filter' do
-  /       = fa_icon 'search'
-  /       %input.js-filter-by-name{type: :text, autofocus: true, name: :filter, placeholder: 'search by name'}
 
 .studios.pure-g.alpha.omega
   = render partial: 'studio_thumb', collection: @studios.studios, locals: { classes: %w(pure-u-1-2 pure-u-sm-1-3 pure-u-md-1-4 pure-u-lg-1-6) }

@@ -64,10 +64,10 @@
             }
           },
           function() {
-            var markers, polygons;
+            var markers;
             markers = handler.addMarkers(_.compact(MAU.map_markers));
             handler.bounds.extendWith(markers);
-            polygons = handler.addPolygons([MAU.map_bounds], {
+            handler.addPolygons([MAU.map_bounds], {
               strokeColor: "#36828F3",
               strokeOpacity: 0.1,
               fillColor: "#c39f06",
@@ -80,12 +80,11 @@
         return map;
       };
       if ((ref = $map.closest(".tab-content")) != null ? ref[0] : void 0) {
-        return $("a[href=\\#map]").on("shown.bs.tab", function(ev) {
-          var map;
-          return (map = buildMap());
+        $("a[href=\\#map]").on("shown.bs.tab", function(_ev) {
+          buildMap();
         });
       } else {
-        return (map = buildMap());
+        buildMap();
       }
     }
   });

@@ -7,7 +7,7 @@
     if (location.hash && location.hash.length > 1) {
       $(location.hash).collapse("show");
     }
-    return $(".toggle-button input[type=checkbox]").on("change", function(ev) {
+    return $(".toggle-button input[type=checkbox]").on("change", function(_ev) {
       var ajax_params, form, val;
       val = $(this).is(":checked");
       new MAU.Flash().clear();

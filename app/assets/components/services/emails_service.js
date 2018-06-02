@@ -15,7 +15,7 @@
           method: "GET",
           cache: false,
           responseType: "json",
-          transformResponse: function(data, header) {
+          transformResponse: function(data, _header) {
             return angular.fromJson(data).emails || [];
           }
         },
@@ -24,7 +24,7 @@
           method: "GET",
           cache: true,
           responseType: "json",
-          transformResponse: function(data, header) {
+          transformResponse: function(data, _header) {
             var ref;
             return (ref = angular.fromJson(data)) != null ? ref.email : void 0;
           }

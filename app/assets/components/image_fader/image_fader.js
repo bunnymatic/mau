@@ -2,10 +2,10 @@
 (function() {
   angular.module("mau.directives").directive(
     "imageFader",
-    ngInject(function($timeout) {
+    ngInject(function(_$timeout) {
       return {
         restrict: "A",
-        link: function($scope, $element, attrs) {
+        link: function($scope, $element, _attrs) {
           $element.addClass("ng-hide-remove");
           return $element.on("load", function() {
             return $element.addClass("ng-hide-add");

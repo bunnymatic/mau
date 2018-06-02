@@ -54,7 +54,7 @@
               });
             }
           })
-          ["catch"](function(err) {
+          ["catch"](function(_err) {
             return $q.when(
               {
                 message:

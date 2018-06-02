@@ -12,7 +12,7 @@
       },
       setActiveSection: function() {
         var path;
-        path = location.pathname.replace(/\#.*$/, "");
+        path = location.pathname.replace(/#.*$/, "");
         return $('.nav a[href="' + path + location.search + '"]')
           .closest(".tab")
           .addClass("active");
@@ -32,7 +32,9 @@
         return navHelpers.hideTabs();
       }
     });
-    $(".nav a[data-toggle=tab]").on("shown.bs.tab hidden.bs.tab", function(ev) {
+    $(".nav a[data-toggle=tab]").on("shown.bs.tab hidden.bs.tab", function(
+      _ev
+    ) {
       var anyActive;
       anyActive = $(".tab-pane.active").length !== 0;
       $(".sidenav .tab-content").toggleClass("active", anyActive);
@@ -57,7 +59,7 @@
         .find(".tab-content, .tab-pane")
         .toggleClass("active");
     });
-    $(".js-close").on("click", function(ev) {
+    $(".js-close").on("click", function(_ev) {
       return $(this)
         .closest(".tab-content")
         .removeClass("active", false);

@@ -8,8 +8,7 @@
       return $scope.title || ($scope.title = "Add to my favorites");
     };
     controller.prototype.addFavorite = function(type, id) {
-      var r;
-      return (r = favoritesService.add(type, id));
+      return favoritesService.add(type, id);
     };
     link = function(scope, elem, attrs, ctrl) {
       return $(elem).on("click", function() {

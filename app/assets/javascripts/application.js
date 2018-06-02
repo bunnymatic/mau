@@ -1,5 +1,4 @@
 //= require ng-inject
-//= require monkey_patches
 //= require lodash/lodash
 //= require moment/moment
 //= require angular/angular

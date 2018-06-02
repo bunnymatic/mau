@@ -12,7 +12,7 @@
           method: "GET",
           cache: true,
           isArray: true,
-          transformResponse: function(data, header) {
+          transformResponse: function(data, _header) {
             var ref;
             return (ref = angular.fromJson(data)) != null
               ? ref.application_events
