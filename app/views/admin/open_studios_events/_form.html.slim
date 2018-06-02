@@ -10,6 +10,11 @@
             = f.input :start_date, as: :string, placeholder: 'choose a date', input_html: { class: "js-datepicker", value: os_event.start_date.try(:to_s,:pickadate) }
           .pure-u-1-2
             = f.input :end_date, as: :string, placeholder: 'choose a date', input_html: { class: "js-datepicker", value: os_event.end_date.try(:to_s,:pickadate) }
+        .pure-g
+          .pure-u-1-2
+            = f.input :start_time, as: :string, placeholder: 'choose a time', hint: "Something like 12noon or noon or 11a.  This is used for display only (not for date/time math)"
+          .pure-u-1-2
+            = f.input :end_time, as: :string, placeholder: 'choose a time', hint: "Something like 6p.  This is used for display only (not for date/time math)"
         = f.input :key, placeholder: 'e.g. YYYYMM'
         = f.input :logo
         .help Current: #{os_event.logo? ? os_event.logo.original_filename : 'none'}

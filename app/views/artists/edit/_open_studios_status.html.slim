@@ -19,8 +19,8 @@
         participation=current_user.doing_open_studios?
         studio-name=current_user.studio_with_number
         date-range=current_open_studios.date_range_with_year
-        start-time="12.00pm"
-        end-time="6:00pm"
+        start-time=current_open_studios.start_time
+        end-time=current_open_studios.end_time
         address=current_user.address.to_s
         auto-register=registering_for_open_studios ]
 

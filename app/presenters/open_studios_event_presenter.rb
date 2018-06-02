@@ -3,12 +3,16 @@
 class OpenStudiosEventPresenter < ViewPresenter
   attr_reader :model
 
-  delegate :year, :key, :logo, :logo?, :to_param, to: :model
+  delegate :start_time, :end_time, :year, :key, :logo, :logo?, :to_param, to: :model
 
   include OpenStudiosEventShim
 
   def initialize(os_event)
     @model = os_event
+  end
+
+  def time_range
+    (model.start_time + ' &mdash; ' + model.end_time).html_safe
   end
 
   def title
