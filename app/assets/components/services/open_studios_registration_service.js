@@ -6,12 +6,17 @@
   function registerUrl(artist) {
     return "/api/artists/" + artist + "/register_for_open_studios";
   }
-  openStudiosRegistrationService = ngInject(function($http, currentUserService) {
+  openStudiosRegistrationService = ngInject(function(
+    $http,
+    currentUserService
+  ) {
     return {
       register: function(data, successCb, errorCb) {
         currentUserService.get().then(function(login) {
           if (login) {
-            return $http.post(registerUrl(login), data).then(successCb, errorCb);
+            return $http
+              .post(registerUrl(login), data)
+              .then(successCb, errorCb);
           }
         });
       }
