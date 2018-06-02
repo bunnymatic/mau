@@ -5,22 +5,21 @@ When /I click on the current open studios link/ do
   click_on_first os_link_text
 end
 
-When /^I check yep for doing open studios$/ do
-  el = find('#events .toggle-button .toggle-button__label_on')
-  begin
-    el.trigger('click')
-  rescue Capybara::NotSupportedByDriverError
-    el.click
-  end
+Then('I see the registration dialog') do
+  expect(page).to have_css('.ngdialog')
+  expect(page).to have_content('You are registering to participate in Open Studios')
+  expect(page).to have_content('I have questions')
 end
 
-When /^I check nope for doing open studios$/ do
-  el = find('#events .toggle-button .toggle-button__label_off')
-  begin
-    el.trigger('click')
-  rescue Capybara::NotSupportedByDriverError
-    el.click
-  end
+Then('I see the registration message') do
+  expect(page).not_to have_css('.ngdialog')
+  expect(page).to have_content('Will you be opening your doors for Open Studios on')
+  expect(page).to have_button('Register')
+end
+
+Then('I see the update my registration message') do
+  expect(page).to have_content('You are currently registered for Open Studio')
+  expect(page).to have_button('Update my registration status')
 end
 
 Then(/^I see the open studios cms content/) do

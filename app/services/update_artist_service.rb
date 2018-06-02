@@ -45,6 +45,7 @@ class UpdateArtistService
   private
 
   def to_boolean(val)
+    return false if val.nil?
     return val if !!val == val # is a boolean
     return true if val.casecmp('true').zero?
     val.to_i != 0

@@ -18,13 +18,21 @@
       );
     };
 
+    function error() {
+      $scope.closeThisDialog();
+    }
+
+    function success() {
+      $scope.closeThisDialog();
+    }
+
     function setRegistration(participation) {
       openStudiosRegistrationService.register(
         {
           participation: participation
         },
-        $scope.closeDialog,
-        $scope.closeDialog
+        success,
+        error
       );
     }
 
@@ -51,7 +59,7 @@
         "?";
       $scope.buttonText = "Yes - Sign Me Up";
       if (participation) {
-        $scope.buttonText = "Update your registration status";
+        $scope.buttonText = "Update my registration status";
         $scope.currentMessage =
           "Yay! You are currently registered for Open Studios on " +
           $scope.dateRange +
