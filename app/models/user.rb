@@ -12,9 +12,9 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :email, length: { within: 6..100 } # r@a.wk
   validates :email, uniqueness: true
-  validates       :email, format: { with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE }
-  validates       :firstname, length: { maximum: 100, allow_nil: true }
-  validates       :lastname, length: { maximum: 100, allow_nil: true }
+  validates :email, format: { with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE }
+  validates :firstname, length: { maximum: 100, allow_nil: true }
+  validates :lastname, length: { maximum: 100, allow_nil: true }
 
   store :links, accessors: %i[website facebook twitter blog pinterest myspace flickr instagram artspan]
 

@@ -57,8 +57,8 @@ Then /I see the open studios page$/ do
 end
 
 Then(/^I see the open studios events$/) do
-  expect(page).to have_selector 'table.os-events tbody tr', count: OpenStudiosEvent.count
-  expect(page).to have_selector 'table.os-events tbody tr td.key', text: OpenStudiosEvent.all.first.key
+  expect(page).to have_selector '.os-events__table-row', count: OpenStudiosEvent.count
+  expect(page).to have_selector '.os-events__table-item--key', text: OpenStudiosEvent.all.first.key
 end
 
 Then /^I see a new open studios form$/ do
@@ -103,7 +103,8 @@ Then /^I fill in the open studios event form for next weekend with the title \"(
   @end_date = dt + 2.days
   fill_in 'Title', with: title
   set_start_end_date_on_open_studios_form(@start_date, @end_date)
-
+  fill_in 'Start time', with: '12a'
+  fill_in 'End time', with: '5a'
   expect(find('#open_studios_event_key').value).to eql @start_date.strftime('%Y%m')
   attach_file 'Logo', Rails.root.join('spec', 'fixtures', 'files', 'open_studios_event.png')
   click_on 'Create'

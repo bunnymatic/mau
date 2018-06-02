@@ -48,6 +48,12 @@ describe User, elasticsearch: :stub do
   it { is_expected.to validate_length_of(:firstname).is_at_most(100) }
   it { is_expected.to validate_length_of(:lastname).is_at_most(100) }
 
+  it 'does not allow dots in login' do
+    user.login = 'whatever.thing'
+    expect(user).not_to be_valid
+    expect(user.errors[:login]).to be_present
+  end
+
   context '.login_or_email_finder' do
     let!(:artist) { create :artist, login: 'whatever_yo', email: 'yo_whatever@example.com' }
     it 'finds users by their login' do
