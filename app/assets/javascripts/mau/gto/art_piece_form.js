@@ -22,7 +22,7 @@
             text: input
           };
         },
-        render: function(data, escape) {
+        render: function(data, _escape) {
           return data;
         },
         load: function(query, callback) {

@@ -1,5 +1,3 @@
-/*global     */
-/** jquery mods **/
 jQuery(function() {
   /** arrange art */
   var sortMe = jQuery(
@@ -15,7 +13,7 @@ jQuery(function() {
     });
   }
 
-  jQuery("#arrange_art_form").bind("submit", function(ev) {
+  jQuery("#arrange_art_form").bind("submit", function(_ev) {
     // construct new order
     var divs = jQuery(".art-card");
     var newOrderArray = _.compact(

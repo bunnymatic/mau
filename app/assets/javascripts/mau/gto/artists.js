@@ -17,7 +17,7 @@
           .find("span.text")
           .html(t);
       });
-      $("#js-hide-artist-details").on("click", function(ev) {
+      $("#js-hide-artist-details").on("click", function(_ev) {
         var $columns, $left, $right, btnText;
         $left = $("#about");
         $right = $("#art");
@@ -39,6 +39,7 @@
         return $(this).html(btnText);
       });
     }
+
     if ($(".artists.index, .open_studios.show").length) {
       fetching = false;
       fetchArtists = function(url) {

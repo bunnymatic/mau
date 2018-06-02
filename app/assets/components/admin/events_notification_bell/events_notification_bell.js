@@ -8,9 +8,9 @@
     EmailChangedEventsService,
     moment
   ) {
-    var since, x;
+    var since;
     since = moment().subtract(7, "days");
-    x = EmailChangedEventsService.list({
+    EmailChangedEventsService.list({
       since: since.format()
     });
     return EmailChangedEventsService.list({

@@ -11,6 +11,13 @@
       width: 90%;
     }
   }
+  .graph--empty {
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 20px;
+    border: 1px solid $gto_gray;
+  }
+
   .dashboard__stats-list {
     margin-bottom: 1.5rem;
     h4 {

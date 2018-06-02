@@ -65,28 +65,6 @@
         return (timeout = setTimeout(delayed, threshold || 100));
       };
     },
-    validateEmail: function(str) {
-      return str.indexOf(".") > 2 && str.indexOf("@") > 0;
-    },
-    getSize: function(el) {
-      return {
-        width: el.offsetWidth,
-        height: el.offsetHeight
-      };
-    },
-    getPosition: function(el) {
-      var xx, yy;
-      xx = yy = 0;
-      while (el) {
-        xx += element.offsetLeft - element.scrollLeft + element.clientLeft;
-        xx += element.offsetTop - element.scrollTop + element.clientTop;
-        el = element.offsetParent;
-      }
-      return {
-        x: xx,
-        y: yy
-      };
-    },
     createElement: function(tagName, attrs) {
       el;
       var el, k, v;
@@ -98,32 +76,6 @@
         }
       }
       return el;
-    },
-    post_to_url: function(path, params, method) {
-      var form, hiddenField, key, val;
-      method = method || "post";
-      form = this.createElement("form", {
-        method: method,
-        action: path
-      });
-      hiddenField = null;
-      for (key in params) {
-        val = params[key];
-        hiddenField = this.createElement("input", {
-          type: "hidden",
-          name: key,
-          value: val
-        });
-        form.appendChild(hiddenField);
-      }
-      hiddenField = this.createElement("input", {
-        type: "hidden",
-        name: "authenticity_token",
-        value: unescape(authenticityToken)
-      });
-      form.appendChild(hiddenField);
-      document.body.appendChild(form);
-      return form.submit();
     }
   };
 }.call(this));

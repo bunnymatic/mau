@@ -12,7 +12,7 @@
           method: "GET",
           cache: true,
           isArray: true,
-          transformResponse: function(data, header) {
+          transformResponse: function(data, _header) {
             var ref;
             return (ref = angular.fromJson(data)) != null
               ? ref.art_pieces
@@ -28,7 +28,7 @@
         get: {
           method: "GET",
           cache: true,
-          transformResponse: function(data, header) {
+          transformResponse: function(data, _header) {
             var ref;
             return (ref = angular.fromJson(data)) != null
               ? ref.art_piece

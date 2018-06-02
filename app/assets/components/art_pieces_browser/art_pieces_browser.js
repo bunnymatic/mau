@@ -144,8 +144,8 @@
       templateUrl: "art_pieces_browser/index.html",
       controller: controller,
       controllerAs: "c",
-      link: function($scope, $el, $attr, $ctrl) {
-        return $document.on("keydown", $scope.onKeyDown);
+      link: function($scope, _$el, _$attr, _$ctrl) {
+        $document.on("keydown", $scope.onKeyDown);
       }
     };
   });

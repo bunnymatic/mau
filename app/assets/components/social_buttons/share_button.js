@@ -3,8 +3,7 @@
   var controller, shareButton;
 
   controller = ngInject(function($scope, $attrs, $location) {
-    var c, location_origin, util;
-    c = this;
+    var location_origin, util;
     util = MAU.QueryStringParserHelpers;
     location_origin = $location.protocol() + "://" + $location.host();
     if ($location.port() != null && $location.port() !== 80) {

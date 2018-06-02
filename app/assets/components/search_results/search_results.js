@@ -33,7 +33,7 @@
         });
         return stopSpinner();
       };
-      error = function(data) {
+      error = function(_data) {
         return stopSpinner();
       };
       pageSize || (pageSize = 20);
@@ -53,7 +53,7 @@
       restrict: "E",
       controller: controller,
       templateUrl: "search_results/index.html",
-      link: function($scope, el, attrs) {
+      link: function($scope, el, _attrs) {
         var $form, path, ref;
         $form = $(el).find("form");
         path = new MAU.QueryStringParser(location.href);

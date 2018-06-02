@@ -11,7 +11,7 @@
         mediumName: "@"
       },
       templateUrl: "medium/index.html",
-      link: function($scope, el, attrs) {
+      link: function($scope, _el, _attrs) {
         return ($scope.mediumPath =
           "/media/" + ($scope.mediumSlug || $scope.mediumId));
       }
