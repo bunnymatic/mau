@@ -1,36 +1,16 @@
 @import "mau-mixins";
 @import "gto/gto-mixins";
+@import "gto/mau_modal";
 @import "colors";
 
 #feedback_overlay {
-  z-index: 2;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(200, 200, 200, 0.5);
+  @include mau-modal__overlay;
 }
+
 #feedback {
-  z-index: 4;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  @include transform(translate3d(-50%, -50%, 0));
-  padding: 20px;
-  @include round-corners();
-  background-color: $light-gray-background;
+  @include mau-modal__container;
 }
 
 #feedback_modal_window {
-  @include popup-elements;
-  font-size: 1rem;
-  .popup-text {
-    font-size: 0.9rem;
-  }
-  .inputs {
-    margin-top: 20px;
-  }
+  @include mau-modal__window;
 }

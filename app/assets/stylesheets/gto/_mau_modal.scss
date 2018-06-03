@@ -1,0 +1,33 @@
+@mixin mau-modal__overlay {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+@mixin mau-modal__container {
+  z-index: 4;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  @include transform(translate3d(-50%, -50%, 0));
+  padding: 15px 20px;
+  @include round-corners();
+  background-color: $light-gray-background;
+}
+
+@mixin mau-modal__window {
+  @include popup-elements;
+  font-size: 1rem;
+  .popup-text {
+    font-size: 0.9rem;
+  }
+  .inputs {
+    margin-top: 20px;
+  }
+}

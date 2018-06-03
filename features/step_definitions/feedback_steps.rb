@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 When(/^I fill in the feedback form$/) do
+  expect(page).to have_css '.popup-close'
   within '#feedback' do
     fill_in 'feedback_comment', with: 'this is my feedback'
     click_on 'Send'
@@ -9,6 +10,7 @@ end
 
 Then(/^I see that my feedback was submitted$/) do
   expect(page).to have_css '.popup-help-text.feedback_msg', text: /thanks/i
+  expect(page).not_to have_css '.popup-close'
 end
 
 Then(/^the system knows that my feedback was submitted$/) do
