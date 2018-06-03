@@ -1,0 +1,19 @@
+@import "gto/gto-mixins";
+@import "gto/mau_modal";
+
+.notify-mau-modal__container {
+  @include mau-modal__window;
+  background-color: $light-gray-background;
+}
+
+.notify-mau-modal__header {
+}
+
+.notify-mau-modal__title {
+}
+.notify-mau-modal__close {
+}
+.notify-mau-modal__content {
+}
+notify-mau-modal__form {
+}

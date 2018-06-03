@@ -1,25 +1,32 @@
-form#inquiry-form ng-submit='submitInquiry()'
-  p
-    | {{message}}
-  fieldset.inputs
-    ol
-      li.string.input.optional.stringish
-        label for='inquiry_email'
-          | Email
-          '
-          abbr title='required' *
-        input#inquiry_email type='email' ng-model='inquiry.email' name='inquiry[email]' required="required"
-      li.string.input.optional.stringish
-        label for='inquiry_email_confirm'
-          | Confirm Email
-          '
-          abbr title='required' *
-        input#inquiry_email_confirm type='email' ng-model='inquiry.email_confirm' name='inquiry[email_confirm]' required="required"
-      li.text.input.optional
-        label for='inquiry_inquiry'
-          | {{questionLabel}}
-          '
-          abbr title='required' *
-        textarea#inquiry_inquiry name="inquiry[inquiry]"  ng-model='inquiry.inquiry' required="required"
-  fieldset.actions
-    input.pure-button.button-secondary type="submit" value='Send'
+.notify-mau-modal__container
+  .notify-mau-modal__header.popup-header
+    .notify-mau-modal__title.popup-title Ask us a question?
+    .notify-mau-modal__close.popup-close
+      a href="#" ng-click="closeThisDialog()"
+        i.fa.fa-close
+  .notify-mau-modal__content.popup-text
+    form.notify-mau-modal__form ng-submit='submitInquiry()'
+      p
+        | {{message}}
+      fieldset.inputs
+        ol
+          li.string.input.optional.stringish
+            label for='inquiry_email'
+              | Email
+              '
+              abbr title='required' *
+            input#inquiry_email type='email' ng-model='inquiry.email' name='inquiry[email]' required="required"
+          li.string.input.optional.stringish
+            label for='inquiry_email_confirm'
+              | Confirm Email
+              '
+              abbr title='required' *
+            input#inquiry_email_confirm type='email' ng-model='inquiry.email_confirm' name='inquiry[email_confirm]' required="required"
+          li.text.input.optional
+            label for='inquiry_inquiry'
+              | {{questionLabel}}
+              '
+              abbr title='required' *
+            textarea#inquiry_inquiry name="inquiry[inquiry]"  ng-model='inquiry.inquiry' required="required"
+      fieldset.actions
+        input.pure-button.button-secondary type="submit" value='Send'

@@ -45,6 +45,7 @@
       return ngDialog.open({
         templateUrl: "notify_mau/inquiry_form.html",
         scope: $scope,
+        showClose: false,
         controller: modalController
       });
     };

@@ -75,6 +75,7 @@
         controller: modalController,
         className: "ngdialog-theme-default open-studios-registration__modal",
         width: "80%",
+        showClose: false,
         closeByDocument: false
       });
     };

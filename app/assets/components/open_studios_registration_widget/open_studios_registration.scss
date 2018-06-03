@@ -1,9 +1,17 @@
+@import "gto/gto-mixins";
+@import "gto/mau_modal";
+
 .ngdialog.ngdialog-theme-default.open-studios-registration__modal {
   padding-top: 20px;
 
   .ngdialog-content {
     max-width: 900px;
   }
+}
+
+.open-studios-modal__container {
+  @include mau-modal__window;
+  background-color: $light-gray-background;
 }
 
 .open-studios-registration-form__actions {
