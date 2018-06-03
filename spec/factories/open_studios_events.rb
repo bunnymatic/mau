@@ -4,6 +4,8 @@ FactoryBot.define do
   factory :open_studios_event do
     start_date { Time.zone.now }
     end_date { start_date + 1.day }
+    start_time { 'noon' }
+    end_time { '6p' }
     key { start_date.strftime('%Y%m') }
     logo_file_name { 'x.png' }
     logo_content_type { 'image/png' }

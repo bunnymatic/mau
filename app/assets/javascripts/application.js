@@ -2,7 +2,6 @@
 //= require lodash/lodash
 //= require moment/moment
 //= require angular/angular
-//= require angular-rails-templates
 //= require angular_modules
 //= require angular-resource
 //= require angular-sanitize
@@ -14,6 +13,7 @@
 //= require ua-device-detector
 //= require ng-device-detector
 //= require ng-dialog/js/ngDialog
+//= require templates
 //= require_tree ../components
 //= require angularSlideables
 //= require mau_app

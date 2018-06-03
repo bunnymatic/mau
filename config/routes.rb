@@ -81,8 +81,6 @@ Mau::Application.routes.draw do
   end
 
   resource :main, controller: :main, only: [] do
-    get :notes_mailer
-    post :notes_mailer
     post :sampler
   end
 
@@ -169,6 +167,12 @@ Mau::Application.routes.draw do
   end
 
   namespace :api do
+    resources :notes, only: [:create]
+    resources :artists, only: [] do
+      member do
+        post :register_for_open_studios
+      end
+    end
     namespace :v2 do
       resources :studios, only: [:show]
       resources :artists, only: %i[index show] do

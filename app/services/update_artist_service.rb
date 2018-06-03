@@ -30,18 +30,26 @@ class UpdateArtistService
   end
 
   def update_os_status
-    participating = (@params[:os_participation].to_i != 0)
+    participating = to_boolean(@params[:os_participation])
+    return false unless @artist.can_register_for_open_studios?
 
-    if (participating != @artist.doing_open_studios?) && @artist.can_register_for_open_studios?
+    if participating != @artist.doing_open_studios?
       @artist.update_os_participation(@current_os, participating)
       trigger_os_signup_event(participating)
       refresh_in_search_index
       ArtistMailer.welcome_to_open_studios(@artist, @current_os).deliver_later if participating
     end
-    @artist.can_register_for_open_studios? && participating
+    participating
   end
 
   private
+
+  def to_boolean(val)
+    return false if val.nil?
+    return val if !!val == val # is a boolean
+    return true if val.casecmp('true').zero?
+    val.to_i != 0
+  end
 
   def trigger_user_change_event(changes)
     changes.each do |field, change|

@@ -1,0 +1,36 @@
+(function(){
+  'use strict';
+
+  angular.module('templates', []).run(['$templateCache', function($templateCache) {
+    <%=
+
+    environment.context_class.instance_eval { include ActionView::Helpers::JavaScriptHelper }
+
+    def put_template_cache_js_command(key, html)
+      "$templateCache.put(\"#{key}\", \"#{escape_javascript(html)}\");"
+    end
+
+    base_dir = Rails.root.join(*%w(app assets components)).to_s + "/"
+
+    handle_slim_file = Proc.new do |file|
+      key  = file.gsub(%r(^#{base_dir}), '').gsub(/.slim$/,'')
+      html = Slim::Template.new(file, {}).render(self).squish
+      put_template_cache_js_command(key, html)
+    end
+
+    handle_html_file = Proc.new do |file|
+      key  = file.gsub(%r(^#{base_dir}), '')
+      html = File.read(file).squish
+      put_template_cache_js_command(key, html)
+    end
+
+    templates = File.join(base_dir, %w{** *.html})
+    slim_templates = File.join(base_dir, %w{** *.html.slim})
+
+    begin
+      Dir.glob(templates).map(&handle_html_file) +
+      Dir.glob(slim_templates).map(&handle_slim_file)
+    end.join("\n");
+    %>
+  }]);
+}());

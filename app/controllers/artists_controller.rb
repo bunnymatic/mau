@@ -45,12 +45,8 @@ class ArtistsController < ApplicationController
       redirect_to user_path(current_user)
       return
     end
-    open_studios_event = OpenStudiosEvent.current
-    success = UpdateArtistService.new(current_artist, os_participation: 1).update_os_status
-    msg = update_os_status_message(success, current_artist, open_studios_event)
-    flash = success ? { notice: msg } : { error: msg }
     redirect_to(edit_artist_path(current_user, anchor: 'events'),
-                flash: flash)
+                flash: { registering_for_open_studios: true })
   end
 
   def update_os_status_message(status, artist, os_event)

@@ -147,11 +147,13 @@ tr.error-msg {
   &.button-success,
   &.button-error,
   &.button-warning,
+  &.button-primary,
   &.pure-button-primary,
   &.button-secondary {
     color: white;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   }
+  &.button-primary,
   &.pure-button-primary {
     background: $gto_teal;
   }
@@ -165,7 +167,6 @@ tr.error-msg {
     background: $gto_orange;
     background: rgb(223, 117, 20); /* this is an orange */
   }
-
   &.button-secondary {
     background: $gto_yellow;
   }

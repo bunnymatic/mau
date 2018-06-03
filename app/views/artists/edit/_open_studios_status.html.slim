@@ -1,3 +1,5 @@
+/ expects form, open_studios_event and current_user as presented current logged in user
+/ and registering_for_open_studios to decide whether or not to start the "auto" registration
 .panel-heading
   h4.panel-title
     = link_to "Open Studios #{open_studios_event.link_text}", '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
@@ -13,15 +15,14 @@
         '
         | section below.
     - else
-      p
-        | Will you be opening your doors for Open Studios
-        '
-        = open_studios_event.date_range
-      .toggle-button
-        = check_box_tag :doing_open_studios, 1, current_user.doing_open_studios?, class: 'toggle-button__checkbox toggle-button__round-flat'
-        label for="doing_open_studios"
-          .toggle-button__label.toggle-button__label_off title='nope' Nope :(
-          .toggle-button__label.toggle-button__label_on title='yep' Yep!
+      open-studios-registration-widget [
+        participation=current_user.doing_open_studios?
+        studio-name=current_user.studio_with_number
+        date-range=current_open_studios.date_range_with_year
+        start-time=current_open_studios.start_time
+        end-time=current_open_studios.end_time
+        address=current_user.address.to_s
+        auto-register=registering_for_open_studios ]
 
       .donate
         And if you'd like to donate to help with our Open Studios promotion and keep this system running, you can donate via Paypal.  Just click below.  Thanks!

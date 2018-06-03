@@ -3,7 +3,7 @@
 require_relative '../support/test_users_helper'
 
 FactoryBot.define do
-  sequence(:login) { |n| sprintf("#{Faker::Internet.user_name}%04d", n) }
+  sequence(:login) { |n| sprintf("#{Faker::Internet.user_name}%04d", n).gsub(/[[:punct:]]/, '') }
   factory :user do
     login
     email { "#{login}@example.com" }

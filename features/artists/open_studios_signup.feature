@@ -22,9 +22,10 @@ Scenario: "when I'm not logged in"
   And I click on "Sign In"
 
   Then I see my profile edit form
-  And I see a flash notice including  "Look for an email"
-  And I see a flash notice including "Thanks for participating"
-  And I see the "events" profile panel is open
+  And I see the registration dialog
+
+  When I click on "Yes" in the ".ngdialog"
+  Then I see the update my registration message
 
 Scenario: "when I'm logged in"
   When I login as "artist"
@@ -32,9 +33,9 @@ Scenario: "when I'm logged in"
   And I click on "Register to Participate"
 
   Then I see my profile edit form
-  And I see a flash notice including  "Look for an email"
-  And I see a flash notice including "Thanks for participating"
 
+  When I click on "Yes" in the ".ngdialog"
+  Then I see the update my registration message
   And I see the "events" profile panel is open
 
 Scenario: "when I auto register but i'm not allowed (no address)"
@@ -45,4 +46,3 @@ Scenario: "when I auto register but i'm not allowed (no address)"
   Then I see my profile edit form
   And I see the "events" profile panel is open
   And I see "Check the Address" on the page
-  And I see a flash error "You're account needs more info before you can register for Open Studios."

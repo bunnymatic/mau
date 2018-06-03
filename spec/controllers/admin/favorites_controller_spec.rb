@@ -22,12 +22,7 @@ describe Admin::FavoritesController do
         login_as jesse
         get :index
       end
-      it 'responds failure if not logged in' do
-        expect(response).to redirect_to '/error'
-      end
-      it 'responds failure if not logged in as admin' do
-        expect(response).to redirect_to '/error'
-      end
+      it_should_behave_like 'not authorized'
     end
   end
 end

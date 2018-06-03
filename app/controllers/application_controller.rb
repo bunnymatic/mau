@@ -6,6 +6,7 @@
 # USERAGENT = 'HTTP_USER_AGENT'
 class ApplicationController < ActionController::Base
   include OpenStudiosEventShim
+  include UserControllerHelpers
 
   # helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -35,33 +36,9 @@ class ApplicationController < ActionController::Base
       end
   end
 
-  def logged_in?
-    !!current_user
-  end
-
-  def current_user_session
-    return @current_user_session if defined? @current_user_session
-    @current_user_session = UserSession.find
-  end
-
-  def current_user
-    return @current_user if defined? @current_user
-    @current_user = current_user_session.try(:user)
-  end
-
   def logout
     session[:return_to] = nil
     current_user_session.try(:destroy)
-  end
-
-  def current_artist
-    current_user if current_user.try(:artist?)
-  end
-
-  def redirect_back_or_default(default = nil)
-    path = session.delete(:return_to) || default || root_path
-    redirect_to path
-    session[:return_to] = nil
   end
 
   def user_must_be_you
@@ -69,29 +46,11 @@ class ApplicationController < ActionController::Base
     redirect_back_or_default(user_path(current_user)) unless User.find(params[:user_id]) == current_user
   end
 
-  def user_required
-    return if current_user
-
-    if request.xhr?
-      render json: { message: 'You need to be logged in' }, status: 400
-    else
-      store_location
-      flash[:notice] = 'You must be logged in to access this page'
-      redirect_to new_user_session_url
-    end
+  def redirect_back_or_default(default = nil)
+    path = session.delete(:return_to) || default || root_path
+    redirect_to path
+    session[:return_to] = nil
   end
-
-  alias require_user user_required
-
-  def require_no_user
-    return unless current_user
-
-    store_location
-    flash[:notice] = 'You must be logged out to access this page'
-    redirect_to(root_url) && (return false)
-  end
-
-  alias logged_out_required require_no_user
 
   def init_body_classes
     @body_classes ||= []
@@ -119,42 +78,6 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-
-  def admin?
-    current_user.try(:admin?)
-  end
-
-  def editor?
-    current_user.try(:editor?)
-  end
-
-  def manager?
-    current_user.try(:manager?)
-  end
-
-  def artist?
-    current_user.try(:artist?)
-  end
-
-  def admin_required
-    redirect_to '/error' unless admin?
-  end
-
-  def artist_required
-    redirect_to '/error' unless artist?
-  end
-
-  def editor_required
-    redirect_to '/error' unless editor?
-  end
-
-  def manager_required
-    redirect_to '/error' unless manager?
-  end
-
-  def editor_or_manager_required
-    redirect_to '/error' unless manager? || editor?
-  end
 
   def check_browser
     @browser_as_class = browser.name.downcase.tr(' ', '_') # _class(self.request)

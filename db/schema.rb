@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171223205227) do
+ActiveRecord::Schema.define(version: 20180602185402) do
 
   create_table "application_events", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "type"
@@ -167,6 +167,8 @@ ActiveRecord::Schema.define(version: 20171223205227) do
     t.integer "logo_file_size"
     t.datetime "logo_updated_at"
     t.string "title", default: "Open Studios", null: false
+    t.string "start_time", default: "noon"
+    t.string "end_time", default: "6p"
   end
 
   create_table "open_studios_tallies", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|

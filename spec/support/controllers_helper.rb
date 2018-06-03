@@ -22,7 +22,8 @@ end
 
 shared_examples_for 'not authorized' do
   it 'redirects to error page' do
-    expect(response).to redirect_to error_path
+    expect(response).to be_unauthorized
+    expect(response.location).to end_with '/error'
   end
 end
 

@@ -114,7 +114,7 @@ end
 
 Then(/^I see my profile edit form$/) do
   expect(page).to have_css '.panel-heading'
-  expect(all('.panel-heading')).to have_at_least(7).panels
+  expect(all('.panel-heading')).to have_at_least(6).panels
 end
 
 When(/^I update my personal information with:$/) do |table|

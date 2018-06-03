@@ -16,18 +16,14 @@ describe Admin::ArtistsController do
       before do
         get :index
       end
-      it 'redirects to error' do
-        expect(response).to redirect_to '/error'
-      end
+      it_should_behave_like 'not authorized'
     end
     context 'while logged in as user' do
       before do
         login_as(artist2)
         get :index
       end
-      it 'should report error' do
-        expect(response).to redirect_to '/error'
-      end
+      it_should_behave_like 'not authorized'
     end
     context 'logged in as admin' do
       before do

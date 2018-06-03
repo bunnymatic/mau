@@ -246,10 +246,14 @@ describe ArtPiecesController do
         art_piece
         login_as fan
       end
-      it 'redirects' do
-        post :destroy, params: { id: art_piece.id }
-        expect(response).to be_redirect
+
+      context 'returns unauthorized' do
+        before do
+          post :destroy, params: { id: art_piece.id }
+        end
+        it_should_behave_like 'not authorized'
       end
+
       it 'does not removes that art piece' do
         expect do
           post :destroy, params: { id: art_piece.id }

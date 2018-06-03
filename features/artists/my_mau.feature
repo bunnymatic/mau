@@ -54,14 +54,13 @@ Scenario: I can update my os status
   And I click on "Personal Info"
 
   When I click on the current open studios edit section
-  And I check nope for doing open studios
-  Then I see a flash notice including "So sorry"
-  And I close the notice
-  Then I see that I've successfully unsigned up for Open Studios
+  And I click on "Update my registration status"
 
-  And I check yep for doing open studios
-  Then I see a flash notice including  "Look for an email"
-  And I see a flash notice including "Thanks for participating"
+  Then I see the registration dialog
+  And I click on "No" in the ".ngdialog"
+  Then I see the registration message
 
-  And I close the notice
-  And I see that I've successfully signed up for Open Studios
+  When I click on "Yes - Sign Me Up"
+  And I see the registration dialog
+  And I click on "Yes" in the ".ngdialog"
+  Then I see the update my registration message
