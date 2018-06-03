@@ -36,12 +36,12 @@ class DisableAnimations
            -webkit-transition-duration: 0s !important;
            transition-duration: 0s !important;
 
-           -webkit-animation: none !important;
-           -moz-animation: none !important;
-           -o-animation: none !important;
-           -ms-animation: none !important;
-           animation: none !important;
-        }
+           -o-animation-duration: 0s !important;
+           -moz-animation-duration: 0s !important;
+           -ms-animation-duration: 0s !important;
+           -webkit-animation-duration: 0s !important;
+           animation-duration: 0s !important;
+         }
       </style>
     CSS
     fragment.gsub(%r{</head>}, disable_animations + '</head>')
