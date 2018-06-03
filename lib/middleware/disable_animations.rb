@@ -38,7 +38,6 @@ class DisableAnimations
 
            -o-animation-duration: 0s !important;
            -moz-animation-duration: 0s !important;
-           -ms-animation-duration: 0s !important;
            -webkit-animation-duration: 0s !important;
            animation-duration: 0s !important;
          }
