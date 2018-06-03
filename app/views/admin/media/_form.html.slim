@@ -1,7 +1,7 @@
 = semantic_form_for([:admin, medium]) do |f|
   = render '/common/form_errors', form: f if medium.errors.full_messages.present?
   = f.inputs do
-    = f.input :name
+    = f.input :name, input_html: { autofocus: true }
   = f.actions do
     = f.submit :class => "pure-button"
 

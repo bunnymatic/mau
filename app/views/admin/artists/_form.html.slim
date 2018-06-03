@@ -3,7 +3,7 @@
     = f.inputs do
       .pure-g
         .pure-u-1-1.pure-u-md-1-2.padded-content
-          = f.input :email
+          = f.input :email, input_html: { autofocus: true }
           = f.input :firstname
           = f.input :lastname
           = f.input :nomdeplume

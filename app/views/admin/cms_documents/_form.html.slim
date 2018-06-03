@@ -19,7 +19,7 @@
           = f.inputs do
             .pure-g
               .pure-u-1-2
-                = f.input :page
+                = f.input :page, input_html: { autofocus: true }
               .pure-u-1-2
                 = f.input :section
             p = "Last Updated by: #{cms_document.user.try(:login) || 'unknown'} on #{cms_document.updated_at.try(:to_formatted_s,:admin)}"

@@ -8,7 +8,7 @@
     = semantic_form_for :user do |f|
       = render "common/form_errors", :form => f
       = f.inputs do
-        = f.input :email, required: true, placeholder: 'enter your email'
+        = f.input :email, required: true, placeholder: 'enter your email', input_html: { autofocus: true }
       = f.actions do
         = f.submit 'Submit', :class => 'pure-button pure-button-primary button-large'
     .input-help

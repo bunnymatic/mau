@@ -1,6 +1,6 @@
 .popup-header
   .popup-title = @title
-  .popup-close 
+  .popup-close
     a#feedback_close_link href="#"
       i.fa.fa-close
 .popup-text
@@ -9,30 +9,30 @@
       - unless @error_message.blank?
         .error-msg = @error_message
     .fdbk-form-container
-      .info_text 
-        | We love to get feedback.  Please let us know what you think of the website, 
-        | what MAU can do for you, or whatever else you might like to tell us.  
-        | If you would like to get involved with MAU or Spring Open Studios planning, 
+      .info_text
+        | We love to get feedback.  Please let us know what you think of the website,
+        | what MAU can do for you, or whatever else you might like to tell us.
+        | If you would like to get involved with MAU or Spring Open Studios planning,
         | please leave your email and we'll get in touch as soon as we can.
       = f.inputs do
         #email_input.fdbk-input
-          - if !logged_in? 
-            = f.input 'email', input_html: {placeholder: 'email address'}
+          - if !logged_in?
+            = f.input 'email', input_html: {placeholder: 'email address'}, input_html: { autofocus: true }
           - else
             = f.hidden_field 'email', value: current_user.email
         #comment_input.fdbk-input
-          = f.input 'comment', input_html: {cols: 70, rows: 10, placeholder: "Enter your comments here"}
+          = f.input 'comment', input_html: {cols: 70, rows: 10, placeholder: "Enter your comments here", autofocus: true}
       .actions#send_input
-	      = f.submit 'Send', class: 'pure-button button-secondary'
-	      button class='pure-button' id="feedback_close_btn" onclick="return false;" Cancel
+        = f.submit 'Send', class: 'pure-button button-secondary'
+        button class='pure-button' id="feedback_close_btn" onclick="return false;" Cancel
       = f.hidden_field 'subject', value: @section
       = f.hidden_field 'page', value: request.referer
       = f.hidden_field 'url', value: request.path
-      - if current_user 
+      - if current_user
         = f.hidden_field 'login', value: current_user.login
         = f.hidden_field 'email', value: current_user.email
 
   - if !logged_in?
     .feedback-signup-msg
-      | Are you an artist working in the Mission District of San Francisco? 
+      | Are you an artist working in the Mission District of San Francisco?
       = link_to "Sign up!", new_user_path
