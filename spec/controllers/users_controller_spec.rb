@@ -53,14 +53,18 @@ describe UsersController do
     context 'when not logged in' do
       it 'returns nil' do
         get :whoami
-        expect(JSON.parse(response.body)['current_user']).to be_nil
+        expect(JSON.parse(response.body)).to eql({})
       end
     end
     context 'when logged in' do
       it 'returns login name' do
         login_as fan
         get :whoami
-        expect(JSON.parse(response.body)['current_user']).to eql fan.login
+        expect(JSON.parse(response.body)['current_user']).to eql(
+          'id' => fan.id,
+          'login' => fan.login,
+          'slug' => fan.slug
+        )
       end
     end
   end

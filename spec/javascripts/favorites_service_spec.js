@@ -29,10 +29,14 @@
           }
         };
         this.http.when("GET", "/users/whoami").respond({
-          current_user: "the_user"
+          current_user: {
+            id: 1,
+            login: "the_user",
+            slug: "the_user_slug"
+          }
         });
         this.http
-          .expect("POST", "/users/the_user/favorites", expectedPost)
+          .expect("POST", "/users/the_user_slug/favorites", expectedPost)
           .respond(success);
         response = this.service.add(type, id);
         this.http.flush();
@@ -42,15 +46,13 @@
       });
       it("returns a message if there is not a logged in user", function() {
         var response;
-        this.http.when("GET", "/users/whoami").respond({
-          current_user: null
-        });
+        this.http.when("GET", "/users/whoami").respond({});
         response = this.service.add("the_type", "the_id");
         this.http.flush();
         return response.then(function(data) {
-          return expect(data).toEqual({
-            message: "You need to login before you can favorite things"
-          });
+          return expect(data.message).toEqual(
+            "You need to login before you can favorite things"
+          );
         });
       });
       return it("returns a message if there is favoriting fails", function() {
@@ -62,10 +64,14 @@
           }
         };
         this.http.when("GET", "/users/whoami").respond({
-          current_user: "somebody"
+          current_user: {
+            id: 1,
+            login: "somebody",
+            slug: "somebody_slug"
+          }
         });
         this.http
-          .expect("POST", "/users/somebody/favorites", expectedPost)
+          .expect("POST", "/users/somebody_slug/favorites", expectedPost)
           .respond(500, {});
         response = this.service.add(null, null);
         this.http.flush();

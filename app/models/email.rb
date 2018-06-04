@@ -10,10 +10,4 @@ class Email < ApplicationRecord
   def formatted
     name.present? ? "#{name} <#{email}>" : email
   end
-
-  # def self.find_or_create props
-  #   email = Email.new(props)
-  #   found = Email.find_by_email(email.email)
-  #   found ? found : email
-  # end
 end

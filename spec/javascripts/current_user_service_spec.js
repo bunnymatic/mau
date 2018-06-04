@@ -18,13 +18,13 @@
       return it("calls the apps current user endpoint", function() {
         var response, success;
         success = {
-          current_user: "yo"
+          current_user: { id: 1, login: "yo", slug: "yo" }
         };
         this.http.expect("GET", "/users/whoami").respond(success);
         response = this.service.get();
         this.http.flush();
         return response.then(function(data) {
-          return expect(data).toEqual("yo");
+          return expect(data).toEqual(success);
         });
       });
     });

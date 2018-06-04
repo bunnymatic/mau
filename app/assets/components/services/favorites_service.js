@@ -2,6 +2,8 @@
 (function() {
   var favoritesService;
 
+  var MUST_LOGIN_MESSAGE = "You need to login before you can favorite things";
+
   favoritesService = ngInject(function($resource, $q, currentUserService) {
     var favorites;
     favorites = $resource(
@@ -20,12 +22,13 @@
       add: function(type, id) {
         return currentUserService
           .get()
-          .then(function(login) {
-            if (login) {
+          .then(function(data) {
+            var userInfo = data.current_user;
+            if (userInfo.slug) {
               return favorites
                 .add(
                   {
-                    userId: login
+                    userId: userInfo.slug
                   },
                   {
                     favorite: {
@@ -50,19 +53,17 @@
                 });
             } else {
               return $q.when({
-                message: "You need to login before you can favorite things"
+                message: MUST_LOGIN_MESSAGE
               });
             }
           })
           ["catch"](function(_err) {
             return $q.when(
               {
-                message:
-                  "You need to be logged in before you can favorite things"
+                message: MUST_LOGIN_MESSAGE
               },
               {
-                message:
-                  "You need to be logged in before you can favorite things"
+                message: MUST_LOGIN_MESSAGE
               }
             );
           });

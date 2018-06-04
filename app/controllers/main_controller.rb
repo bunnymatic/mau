@@ -31,7 +31,7 @@ class MainController < ApplicationController
   def status_page
     # do dummy db test
     Medium.first
-    render json: { success: true }, status: 200
+    render json: { success: true }, status: :ok
   end
 
   def resources
