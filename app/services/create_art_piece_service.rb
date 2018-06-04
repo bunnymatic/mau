@@ -14,6 +14,7 @@ class CreateArtPieceService
     prepare_tags_params
     art_piece = artist.art_pieces.build(params)
     art_piece.save
+    WatcherMailer.notify_new_art_piece(art_piece).deliver_now
     art_piece
   end
 end

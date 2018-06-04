@@ -6,7 +6,13 @@ describe CreateArtPieceService do
   let(:artist) { create :artist, :active }
   let(:existing_tag) { create :art_piece_tag, name: 'existing tag' }
   let(:params) { {} }
+  let!(:watcher_list) { create(:watcher_email_list, :with_member) }
+
   subject(:service) { described_class.new(artist, params) }
+
+  before do
+    allow(WatcherMailer).to receive(:notify_new_art_piece).and_call_original
+  end
 
   context 'with params[:tags]' do
     let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name].join(', ') }
@@ -27,6 +33,11 @@ describe CreateArtPieceService do
       ap = service.create_art_piece
       expect(ap.valid?).to eq true
       expect(ap.tags.map(&:name)).to match_array ['mytag', 'yourtag', existing_tag.name]
+    end
+
+    it 'sends an email to the watchers' do
+      service.create_art_piece
+      expect(WatcherMailer).to have_received(:notify_new_art_piece)
     end
   end
 

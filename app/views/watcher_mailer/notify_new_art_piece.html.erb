@@ -1,0 +1,36 @@
+<p>
+  Dear MAU Web Posse member,
+</p>
+<p>
+  Today someone added a new piece of art!
+</p>
+<p>
+  <ul>
+    <li>
+      New Art: <%= link_to @art_piece.title, art_piece_url(@art_piece) %>
+    </li>
+    <li>
+      By Artist: <%= link_to @artist.get_name, artist_url(@artist) %>
+    </li>
+    <li>
+      In studio: <%= link_to @studio.name, studio_url(@studio) %>
+  </ul>
+</p>
+<p>
+  Here's a possible social media post:
+</p>
+<p>
+  <%= @artist.get_name %> just added <%= @art_piece.title %>
+  <% @art_piece.tags.each do |tag| %>
+    #<%= tag.name %>
+  <% end %>
+  <% if @art_piece.medium  %>
+    #<%= @art_piece.medium.name %>
+  <% end %>
+  #missionartists
+  @sfmau
+</p>
+<hr/>
+<p>
+  Environment: <%= Rails.env %>
+</p>
