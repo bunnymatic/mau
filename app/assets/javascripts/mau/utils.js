@@ -64,18 +64,6 @@
         }
         return (timeout = setTimeout(delayed, threshold || 100));
       };
-    },
-    createElement: function(tagName, attrs) {
-      el;
-      var el, k, v;
-      if (document && document.createElement) {
-        el = document.createElement(tagName);
-        for (k in attrs) {
-          v = attrs[k];
-          el.setAttribute(k, v);
-        }
-      }
-      return el;
     }
   };
 }.call(this));
