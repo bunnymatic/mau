@@ -8,7 +8,7 @@ Background:
 # javascript doesn't work in poltergeist :(
 # https://github.com/jonleighton/poltergeist/issues/402
 @javascript
-Scenario:
+Scenario: Arrange Art
   When I visit my home page
   And I click on "My Art" in the sidebar menu
   And I click on "arrange"
