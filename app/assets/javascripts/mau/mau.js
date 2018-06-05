@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: 0*/
 var MAU = (window.MAU = window.MAU || {});
 
 /** setup hash change observer */
@@ -14,36 +15,6 @@ var MAU = (window.MAU = window.MAU || {});
   } else {
     window.setInterval(doHashChange, 20);
   }
-
-  var M = MAU;
-
-  // clear any errors and spinit
-  M.waitcursor = function() {
-    var errmsg = jQuery("#error_row");
-    if (errmsg) {
-      errmsg.html("");
-    }
-    var spinner = new MAU.Spinner();
-    spinner.spin();
-  };
-
-  M.doSearch = function(_ev) {
-    var q = jQuery("#search_box");
-    var f = jQuery("#search_form");
-    if (f.length && q.length && q.val()) {
-      f.submit();
-      return true;
-    }
-    return false;
-  };
-
-  M.mailer = function(name, domain, subject) {
-    var lnk = "mailto:" + name + "@" + domain;
-    if (subject && subject.length > -1) {
-      lnk += "?subject=" + escape(subject);
-    }
-    window.location = lnk;
-  };
 })();
 
 /*** jquery on load */
