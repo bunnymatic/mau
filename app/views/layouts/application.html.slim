@@ -8,8 +8,6 @@ html
 
     javascript:
       var authenticityToken = encodeURIComponent("#{form_authenticity_token}");
-      var MAU = window.MAU = window.MAU || {};
-      MAU.versionString = '#{@revision}';
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
   body class=classes ng-app="MauApp"

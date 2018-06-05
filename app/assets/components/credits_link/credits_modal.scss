@@ -3,10 +3,11 @@
 @import "gto/mau_modal";
 @import "colors";
 
-#credits_bg {
-  @include mau-modal__overlay;
-}
-#credits_div {
-  @include mau-modal__container;
+.credits-modal__container {
   @include mau-modal__window;
+}
+.credits-modal__img {
+  img {
+    width: 384px;
+  }
 }

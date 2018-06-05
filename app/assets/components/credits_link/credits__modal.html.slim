@@ -1,0 +1,20 @@
+.credits-modal__container
+  .credits-modal__header.popup-header
+    .credits-modal__title.popup-title Credits
+    .credits-modal__close.popup-close
+      a href="#" ng-click="closeThisDialog()"
+        i.fa.fa-close
+
+  .credits-modal__content.popup-text
+    .credits-modal__img
+      img.pure-img src="/images/mau-headquarters-small.jpg"
+    p
+      | Built at MAU Headquarters by
+      '
+      a href="http://trishtunney.com" Trish Tunney
+      '
+      | and
+      '
+      a href="http://rcode5.com" Mr Rogers
+    .release_version
+      | Version: {{ versionString }}

@@ -1,0 +1,23 @@
+{
+  "env": {
+    "browser": true,
+    "jasmine": true
+  },
+  "globals": {
+    "$": true,
+    "_": true,
+    "angular": true,
+    "compileTemplate": true,
+    "fixture": true,
+    "inject": true,
+    "jQuery": true,
+    "MAU": true,
+    "module": true,
+    "moment": true,
+    "ngInject": true
+  },
+  "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+  },
+  "extends": ["eslint:recommended", "prettier"]
+}

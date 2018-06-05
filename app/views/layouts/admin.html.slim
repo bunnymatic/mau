@@ -6,8 +6,6 @@ html
     = stylesheet_link_tag 'admin'
     javascript:
       var authenticityToken  = encodeURIComponent("#{form_authenticity_token}");
-      var MAU = window.MAU = window.MAU || {};
-      MAU.versionString = '#{@revision}';
     = csrf_meta_tags
   body.admin class=([@browser_as_class, application_body_class].join " ")
     #layout ng-app='MauAdminApp'
