@@ -5,8 +5,8 @@ module Mau
     VERSION = {
       name: 'Challenger',
       major: '7',
-      minor: '0',
-      rev: '1',
+      minor: '1',
+      rev: '0',
       build: 'unk'
     }.freeze
 
