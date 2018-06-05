@@ -10,7 +10,7 @@ module Admin
     end
 
     def new
-      @cms_document = CmsDocument.new
+      @cms_document = CmsDocument.new(cms_document_params)
     end
 
     def edit; end
@@ -47,6 +47,7 @@ module Admin
     end
 
     def cms_document_params
+      return {} unless params[:cms_document]
       params.require(:cms_document).permit(:page, :section, :article).merge(user_id: current_user.id)
     end
   end
