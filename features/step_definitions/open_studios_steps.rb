@@ -7,7 +7,7 @@ end
 
 Then('I see the registration dialog') do
   expect(page).to have_css('.ngdialog')
-  expect(page).to have_content('You are registering to participate in Open Studios')
+  expect(page).to have_content('You are registering to participate as an Open Studios artist')
   expect(page).to have_content('I have questions')
 end
 

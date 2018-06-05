@@ -1,6 +1,3 @@
-/*global  */
-/* mau admin js */
-
 jQuery(function() {
   $(".tab-content .tab-pane[data-url]").each(function() {
     var $pane = $(this);

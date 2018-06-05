@@ -1,4 +1,3 @@
-/*global    */
 var MAU = (window.MAU = window.MAU || {});
 
 jQuery(function() {

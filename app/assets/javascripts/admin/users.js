@@ -1,2 +1,0 @@
-/*global  */
-/* mau admin js */
