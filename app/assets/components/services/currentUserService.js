@@ -9,7 +9,7 @@
         return $http.get("/users/whoami").then(
           (function(_this) {
             return function(response) {
-              return $q.when(response.data.current_user, null);
+              return $q.when(response.data, null);
             };
           })(this)
         );

@@ -1,5 +1,7 @@
 - date_range = @social_artists.os.date_range(separator: " & ") + ", #{@social_artists.os.year}"
 #catalog
+  - unless @social_artists.artists.present?
+    h3 Nothing to show here.  Probably no one has signed up for open studios yet...
   - @social_artists.artists.each do |artist|
     .catalog-entry
       .catalog-entry--image

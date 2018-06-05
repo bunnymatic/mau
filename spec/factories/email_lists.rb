@@ -8,6 +8,7 @@ FactoryBot.define do
       end
     end
   end
+  factory :watcher_email_list, parent: :email_list, class: 'WatcherMailerList'
   factory :admin_email_list, parent: :email_list, class: 'AdminMailerList'
   factory :feedback_email_list, parent: :email_list, class: 'FeedbackMailerList'
 end

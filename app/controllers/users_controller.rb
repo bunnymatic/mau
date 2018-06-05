@@ -15,7 +15,14 @@ class UsersController < ApplicationController
   end
 
   def whoami
-    render json: { current_user: current_user.try(:login) }
+    ((render json: {}) && return) unless current_user
+    render json: {
+      current_user: {
+        id: current_user&.id,
+        login: current_user&.login,
+        slug: current_user&.slug
+      }
+    }
   end
 
   def edit
@@ -236,7 +243,7 @@ class UsersController < ApplicationController
     User.friendly.find(id)
   rescue ActiveRecord::RecordNotFound
     flash.now[:error] = 'The user you were looking for was not found.'
-    return nil
+    nil
   end
 
   private

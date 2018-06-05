@@ -90,13 +90,13 @@ class ApplicationController < ActionController::Base
   def render_not_found(exception)
     logger.warn(exception)
     @exception = exception
-    render template: '/error/index', status: 404
+    render template: '/error/index', status: :not_found
   end
 
   def render_error(exception)
     logger.error(exception)
     @exception = exception
-    render template: '/error/index', status: 500
+    render template: '/error/index', status: :internal_server_error
   end
 
   def render_csv_string(csv_data, filename)

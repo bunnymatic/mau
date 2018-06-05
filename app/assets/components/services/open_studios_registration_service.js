@@ -12,10 +12,11 @@
   ) {
     return {
       register: function(data, successCb, errorCb) {
-        currentUserService.get().then(function(login) {
-          if (login) {
+        return currentUserService.get().then(function(currentUserData) {
+          var currentUser = currentUserData.current_user;
+          if (currentUser && currentUser.slug) {
             return $http
-              .post(registerUrl(login), data)
+              .post(registerUrl(currentUser.slug), data)
               .then(successCb, errorCb);
           }
         });
