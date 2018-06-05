@@ -4,6 +4,14 @@
   .edit_indicator {
     display: none;
   }
+  &.editable--empty {
+    padding: 20px;
+    margin: 0;
+    &:before {
+      content: "<empty cms content>";
+      color: $light-gray;
+    }
+  }
   &:hover {
     .edit_indicator {
       display: block;

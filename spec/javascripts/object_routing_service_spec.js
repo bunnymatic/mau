@@ -7,6 +7,27 @@
     beforeEach(inject(function(objectRoutingService) {
       return (svc = objectRoutingService);
     }));
+    describe("#editCmsDocumentPath", function() {
+      it("returns the right path for an cms document with an id", function() {
+        return expect(
+          svc.editCmsDocumentPath({
+            id: "whatever"
+          })
+        ).toEqual("/admin/cms_documents/whatever/edit");
+      });
+    });
+    describe("#newCmsDocumentPath", function() {
+      it("returns the right path for an cms document with a page and section", function() {
+        return expect(
+          svc.newCmsDocumentPath({
+            page: "the_page",
+            section: "the_section"
+          })
+        ).toEqual(
+          "/admin/cms_documents/new?cms_document[page]=the_page&cms_document[section]=the_section"
+        );
+      });
+    });
     describe("#artistPath", function() {
       it("returns the right path for an artist with an id", function() {
         return expect(

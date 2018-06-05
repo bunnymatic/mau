@@ -1,8 +1,8 @@
 {
   "devDependencies": {},
   "scripts": {
-    "eslint-fix": "eslint --fix app/**/*.js} spec/**/*.js",
-    "eslint-lint": "eslint app/**/*.js} spec/**/*.js",
+    "eslint-fix": "eslint --fix app/**/*.js spec/**/*.js",
+    "eslint-lint": "eslint app/**/*.js spec/**/*.js",
     "lint": "yarn run eslint-lint && yarn run prettier-lint",
     "lint-fix": "yarn run eslint-fix && yarn run prettier-fix",
     "prettier-fix": "prettier --write app/**/*.js spec/**/*.js app/**/*.scss **/*.json",

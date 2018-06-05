@@ -4,6 +4,17 @@
 
   objectRoutingService = ngInject(function() {
     return {
+      newCmsDocumentPath: function(obj) {
+        return (
+          "/admin/cms_documents/new?cms_document[page]=" +
+          obj.page +
+          "&cms_document[section]=" +
+          obj.section
+        );
+      },
+      editCmsDocumentPath: function(obj) {
+        return "/admin/cms_documents/" + obj.id + "/edit";
+      },
       artistPath: function(obj) {
         return this.urlForModel("artist", obj);
       },
