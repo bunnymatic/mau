@@ -80,6 +80,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano3-unicorn'
+  gem 'letter_opener'
   gem 'rails_best_practices'
   gem 'spring'
   gem 'spring-commands-rspec'
