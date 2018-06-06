@@ -41,7 +41,7 @@ describe Admin::RolesController do
         before do
           get endpoint, params: { id: manager_role.id }
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
       end
     end
     describe 'POST update' do

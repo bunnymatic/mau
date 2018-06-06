@@ -23,6 +23,7 @@
     "eslint-plugin-import": "^2.12.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.1",
+    "moment-timezone": "^0.5.17",
     "ng-device-detector": "^5.1.2",
     "ng-dialog": "^1.4.0",
     "prettier": "^1.13.2",

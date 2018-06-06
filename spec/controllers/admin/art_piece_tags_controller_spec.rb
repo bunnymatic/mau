@@ -30,7 +30,7 @@ describe Admin::ArtPieceTagsController do
       login_as admin
       get :index
     end
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
   end
 
   describe '#destroy' do

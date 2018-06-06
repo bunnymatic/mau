@@ -16,7 +16,7 @@ class FavoritesController < ApplicationController
       return
     end
 
-    @favorites = FavoritesCollectionPresenter.new @user.favorites, @user, current_user
+    @favorites = FavoritesCollectionPresenter.new @user, current_user
   end
 
   def create

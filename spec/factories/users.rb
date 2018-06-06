@@ -76,7 +76,7 @@ FactoryBot.define do
 
     transient do
       max_pieces 10
-      number_of_art_pieces 2
+      number_of_art_pieces 1
       doing_open_studios nil
     end
 

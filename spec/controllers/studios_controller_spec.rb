@@ -35,7 +35,7 @@ describe StudiosController do
           allow_any_instance_of(Studio).to receive(:cross_street).and_return('fillmore')
           get :show, params: { id: studio.slug, format: 'html' }
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
       end
     end
   end

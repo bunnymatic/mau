@@ -40,7 +40,7 @@ describe Admin::MediaController do
         login_as admin
         make_edit_request
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(assigns(:medium)).to eql medium }
     end
   end
@@ -57,7 +57,7 @@ describe Admin::MediaController do
         login_as admin
         get :new
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(assigns(:medium)).to be_a_kind_of Medium }
     end
   end

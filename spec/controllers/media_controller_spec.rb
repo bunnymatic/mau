@@ -39,7 +39,7 @@ describe MediaController do
         before do
           get :show, params: { id: medium.slug }
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
       end
       context 'by artist' do
         before do

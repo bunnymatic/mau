@@ -27,7 +27,7 @@ describe ArtPiecesController do
           before do
             get :show, params: { id: art_piece.id }
           end
-          it { expect(response).to be_success }
+          it { expect(response).to be_successful }
           it 'has a description with the art piece name' do
             expect(assigns(:page_description)).to match(/#{art_piece.title}/)
           end
@@ -234,7 +234,7 @@ describe ArtPiecesController do
         before do
           get :edit, params: { id: artist.art_pieces.last }
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
       end
     end
   end

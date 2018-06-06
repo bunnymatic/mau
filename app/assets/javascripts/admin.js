@@ -2,13 +2,13 @@
 //
 //= require d3
 //= require c3
-//= require moment/moment
 //= require_tree ./admin
 
 (function() {
   angular
     .module("MauAdminApp", [
       "templates",
+      "angularMoment",
       "ngSanitize",
       "ngDialog",
       "angularSlideables",

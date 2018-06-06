@@ -23,28 +23,28 @@ describe Admin::CmsDocumentsController do
       before do
         get :index
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     describe '#show' do
       before do
         get :show, params: { id: cms_document }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     describe '#edit' do
       before do
         get :edit, params: { id: cms_document }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     describe '#new' do
       before do
         get :new
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     describe '#create' do

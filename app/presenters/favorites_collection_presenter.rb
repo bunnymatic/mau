@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 class FavoritesCollectionPresenter < ViewPresenter
-  attr_reader :user, :collection, :current_user
+  attr_reader :user, :current_user
 
   include Enumerable
 
-  def initialize(favorites, user, current_user = nil)
-    @collection = favorites
+  def initialize(user, current_user = nil)
     @user = user
     @current_user = current_user
   end
@@ -43,25 +42,25 @@ class FavoritesCollectionPresenter < ViewPresenter
   end
 
   def art_pieces
-    collection.select(&:art_piece?).map do |f|
-      art_piece = f.to_obj
-      valid_artist = art_piece.try(:artist).try(&:active?)
-      ArtPieceFavoritePresenter.new(f) if valid_artist
+    user.favorites.art_pieces.map do |favorite|
+      piece = favorite.favoritable
+      valid_artist = piece.try(:artist).try(&:active?)
+      ArtPieceFavoritePresenter.new(favorite) if valid_artist
     end.compact
   end
 
   def artists
-    collection.select(&:artist?).map do |f|
-      o = f.to_obj
-      o.representative_piece && ArtistFavoritePresenter.new(f) if o.active?
+    user.favorites.artists.map do |favorite|
+      artist = favorite.favoritable
+      artist.representative_piece && ArtistFavoritePresenter.new(favorite) if artist.active?
     end.compact
   end
 
   def empty?
-    !any?
+    !@user.favorites.exists?
   end
 
   def each(&block)
-    collection.each(&block)
+    @user.favorites.each(&block)
   end
 end

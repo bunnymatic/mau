@@ -30,7 +30,7 @@ html
             = link_to '#', title: 'Back to top' do
               = fa_icon 'arrow-up', class: 'fa-ico-invert'
           = render '/common/social_links'
-          = render '/common/footer_links'
+          = render '/common/footer_links', revision: @revision
 
       .main-container.js-main-container
         = render '/flash_notice_error'

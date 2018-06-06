@@ -21,7 +21,7 @@ describe SearchController, elasticsearch: true do
         get :index, params: { q: studios.first.name.split.first }
       end
       it 'returns success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end

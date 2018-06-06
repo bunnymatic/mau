@@ -20,7 +20,7 @@ describe Admin::EmailsController do
     end
     it 'returns 200 on success' do
       make_request
-      expect(response).to be_success
+      expect(response).to be_successful
     end
     it 'returns json' do
       make_request
@@ -62,7 +62,7 @@ describe Admin::EmailsController do
     it 'returns a message indicating who was removed' do
       make_delete_request
       expect(response.content_type).to eql 'application/json'
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 end

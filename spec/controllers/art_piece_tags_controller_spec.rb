@@ -89,7 +89,7 @@ describe ArtPieceTagsController do
       before do
         get :show, params: { id: tag.id }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     context 'for an unknown tag' do

@@ -153,7 +153,7 @@ describe Admin::StudiosController do
         login_as manager
         get :edit, params: { id: manager.studio.to_param }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
   end
 

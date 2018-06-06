@@ -35,7 +35,7 @@ describe AdminController do
       it "#{endpoint} responds success if logged in as admin" do
         login_as admin
         get endpoint
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -46,7 +46,7 @@ describe AdminController do
       get :os_status
     end
     it 'returns success' do
-      expect(response).to be_success
+      expect(response).to be_successful
     end
     it 'sets a list of artists in alpha order by last name' do
       expect(assigns(:os)).to have(Artist.active.count).items

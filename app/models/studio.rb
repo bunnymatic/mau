@@ -51,7 +51,10 @@ class Studio < ApplicationRecord
   validates_attachment_content_type :photo, content_type: %r{\Aimage\/.*\Z}, if: :"photo?"
 
   def self.by_position
-    order('position, lower(name)')
+    order(
+      arel_table[:position],
+      Arel::Nodes::NamedFunction.new('lower', [arel_table[:name]])
+    )
   end
 
   SORT_BY_NAME = lambda do |a, b|

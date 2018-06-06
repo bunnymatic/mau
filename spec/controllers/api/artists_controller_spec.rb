@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::ArtistsController do
+describe Api::ArtistsController, elasticsearch: true do
   before do
     request.env['HTTP_REFERER'] = 'http://test.host/'
     create(:open_studios_event, :future)
@@ -49,14 +49,14 @@ describe Api::ArtistsController do
         it "updates your os status to true and redirects to your edit page if you're logged in" do
           get :register_for_open_studios, params: { id: artist.id, participation: '1' }
           expect(artist.reload).to be_doing_open_studios
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(JSON.parse(response.body)).to eq('success' => true, 'participating' => true)
         end
 
         it "updates your os status to false and redirects to your edit page if you're logged in" do
           get :register_for_open_studios, params: { id: artist.id, participation: '0' }
           expect(artist.reload).not_to be_doing_open_studios
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(JSON.parse(response.body)).to eq('success' => true, 'participating' => false)
         end
       end

@@ -5,7 +5,7 @@
     - pfx = "Oops: " if k.to_sym == :error
     div(class=clz)
       = pfx
-      - msg.split(/\n/).each do |line| 
+      - msg.split(/\n/).each do |line|
         = line
         br
       i.fa.fa-icon.fa-times-circle-o.js-flash__close.flash__close

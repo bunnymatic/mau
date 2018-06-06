@@ -90,7 +90,7 @@ describe FavoritesController do
           post :create, xhr: true, params: { user_id: fan.id, favorite: { type: 'bogus', id: art_piece.id } }
         end
         it 'returns 404' do
-          expect(response).to be_missing
+          expect(response).to be_not_found
           expect(response.code).to eql('404')
         end
       end
@@ -135,7 +135,7 @@ describe FavoritesController do
       before do
         get :index, params: { id: fan.id }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     context "asking for a user that doesn't exist" do
@@ -155,7 +155,7 @@ describe FavoritesController do
         login_as(fan)
         get :index, params: { id: fan.id }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     context 'while logged in as artist' do
@@ -164,7 +164,7 @@ describe FavoritesController do
       end
       it 'returns success' do
         get :index, params: { id: artist.id }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end

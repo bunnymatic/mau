@@ -77,11 +77,7 @@ class User < ApplicationRecord
     a.lastname.downcase <=> b.lastname.downcase
   end
 
-  has_many :favorites, dependent: :destroy, inverse_of: :favorite, class_name: 'Favorite' do
-    def to_obj
-      proxy_association.owner.favorites.map(&:to_obj).reject(&:nil?)
-    end
-  end
+  has_many :favorites, dependent: :destroy, inverse_of: :user, class_name: 'Favorite'
 
   belongs_to :studio
   has_many :roles_users
@@ -167,16 +163,12 @@ class User < ApplicationRecord
     state == 'suspended'
   end
 
-  def favorites_to_obj
-    @favorites_to_obj ||= favorites.to_obj.reverse
-  end
-
   def fav_artists
-    @fav_artists ||= favorites_to_obj.select { |f| f.is_a? User }.uniq
+    @fav_artists ||= favorites.artists.by_recency.distinct.compact
   end
 
   def fav_art_pieces
-    @fav_art_pieces ||= favorites_to_obj.select { |f| f.is_a? ArtPiece }.uniq
+    @fav_art_pieces ||= favorites.art_pieces.by_recency.distinct.compact
   end
 
   def artist?
