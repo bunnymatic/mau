@@ -64,14 +64,16 @@ source 'https://rails-assets.org' do
 end
 
 group :test do
-  gem 'capybara', '~> 2.17.x' # saw performance hit with v 3.?
+  #gem 'capybara', '~> 2.17.x' # saw performance hit with v 3.?
+  gem 'capybara'
   gem 'capybara-email'
   gem 'capybara-screenshot'
+  gem 'capybara-slow_finder_errors'
   gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'rspec_junit_formatter'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '3.11.0'
   gem 'vcr'
   gem 'webmock'
 end

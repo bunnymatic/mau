@@ -121,6 +121,8 @@ GEM
     capybara-screenshot (1.0.21)
       capybara (>= 1.0, < 4)
       launchy
+    capybara-slow_finder_errors (0.1.4)
+      capybara (~> 2.5)
     case_transform (0.2)
       activesupport
     childprocess (0.9.0)
@@ -457,7 +459,7 @@ GEM
       tilt
     scrypt (3.0.5)
       ffi-compiler (>= 1.0, < 2.0)
-    selenium-webdriver (3.12.0)
+    selenium-webdriver (3.11.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
     sexp_processor (4.10.0)
@@ -542,9 +544,10 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rbenv
   capistrano3-unicorn
-  capybara (~> 2.17.x)
+  capybara
   capybara-email
   capybara-screenshot
+  capybara-slow_finder_errors
   coffee-rails
   cucumber
   cucumber-rails
@@ -606,7 +609,7 @@ DEPENDENCIES
   rubocop
   sass-color-extractor
   sassc-rails
-  selenium-webdriver
+  selenium-webdriver (= 3.11.0)
   shoulda-matchers!
   simplecov
   slim-rails
