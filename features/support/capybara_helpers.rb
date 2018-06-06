@@ -53,9 +53,9 @@ module CapybaraHelpers
     end
   end
 
-  def scroll_to_position(x, y)
+  def scroll_to_position(xpos, ypos)
     script = <<-JS
-      window.scrollTo(#{x},#{y});
+      window.scrollTo(#{xpos},#{ypos});
     JS
 
     Capybara.current_session.driver.browser.execute_script(script)

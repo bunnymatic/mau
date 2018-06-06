@@ -101,7 +101,7 @@ namespace :mau do
 
   desc 'import scammer emails from FASO'
   task import_scammer_list: [:environment] do
-    Scammer.import_from_FASO
+    Scammer.import_from_faso
   end
 
   desc 'reset all passwords to "whatever"'

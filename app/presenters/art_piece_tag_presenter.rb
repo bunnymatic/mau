@@ -9,7 +9,7 @@ class ArtPieceTagPresenter
   end
 
   def art_pieces
-    @pieces ||=
+    @art_pieces ||=
       begin
         pieces = (by_artist? ? pieces_by_artist : tagged_art_pieces).compact.sort_by(&:updated_at).reverse
         pieces.map { |p| ArtPiecePresenter.new(p) }

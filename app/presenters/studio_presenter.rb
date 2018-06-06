@@ -49,7 +49,7 @@ class StudioPresenter < ViewPresenter
   end
 
   def open_studios_artists_count_label
-    @open_studios_count_label ||=
+    @open_studios_artists_count_label ||=
       begin
         if open_studios_artists? && current_open_studios
           "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) +

@@ -66,7 +66,12 @@ Naming/AccessorMethodName:
 
 Naming/ConstantName:
   Exclude:
-    - 'config/application.rb'
+    - config/application.rb
+
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - app/controllers/**/*.rb
+    - spec/support/**/*.rb
 
 Rails/FilePath:
   Exclude:
@@ -74,7 +79,7 @@ Rails/FilePath:
 
 Rails/DynamicFindBy:
   Exclude:
-    - 'app/models/user_session.rb'
+    - app/models/user_session.rb
 
 Rails/HasManyOrHasOneDependent:
   Enabled: false
@@ -94,7 +99,7 @@ Rails/TimeZone:
 
 Rails/DynamicFindBy:
   Exclude:
-    - 'app/models/user_session.rb'
+    - app/models/user_session.rb
 
 Style/Documentation:
   Enabled: false

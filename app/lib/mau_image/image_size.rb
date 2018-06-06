@@ -38,10 +38,10 @@ module MauImage
     class << self
       private
 
-      def keymap(sz)
-        return :medium if sz.blank?
-        return sz.to_sym if allowed_sizes.include? sz.to_sym
-        case sz.to_s
+      def keymap(size)
+        return :medium if size.blank?
+        return size.to_sym if allowed_sizes.include? size.to_sym
+        case size.to_s
         when 'orig'
           :original
         when 'sm', 's'

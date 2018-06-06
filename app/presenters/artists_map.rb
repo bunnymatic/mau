@@ -2,11 +2,11 @@
 
 class ArtistsMap < ArtistsPresenter
   def with_addresses
-    @addresses ||= grouped_by_address.values.flatten.compact
+    @with_addresses ||= grouped_by_address.values.flatten.compact
   end
 
   def grouped_by_address_and_sorted
-    @sorted ||= grouped_by_address.sort_by { |_k, v| -v.count }
+    @grouped_by_address_and_sorted ||= grouped_by_address.sort_by { |_k, v| -v.count }
   end
 
   def grouped_by_address

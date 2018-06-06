@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class SafeCache
-  def self.read(k)
-    Rails.cache.read(k)
+  def self.read(key)
+    Rails.cache.read(key)
   rescue Dalli::RingError
     Rails.logger.warn('Memcache (read) appears to be dead or unavailable')
     nil
@@ -15,8 +15,8 @@ class SafeCache
     false
   end
 
-  def self.delete(k)
-    Rails.cache.delete(k)
+  def self.delete(key)
+    Rails.cache.delete(key)
   rescue Dalli::RingError
     Rails.logger.warn('Memcache (delete) appears to be dead or unavailable')
     nil

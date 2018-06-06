@@ -202,11 +202,11 @@ class ArtistPresenter < UserPresenter
   private
 
   def map_thumb
-    @representative_thumb ||= representative_piece.path('thumb')
+    @map_thumb ||= representative_piece.path('thumb')
   end
 
   def map_thumb_image
-    @representative_thumb_image ||= content_tag('div', '', class: 'thumb', style: background_image_style(map_thumb))
+    @map_thumb_image ||= content_tag('div', '', class: 'thumb', style: background_image_style(map_thumb))
   end
 
   def linked_thumb

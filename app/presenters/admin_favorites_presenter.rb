@@ -8,7 +8,7 @@ class AdminFavoritesPresenter
   end
 
   def favorites
-    @processed ||=
+    @favorites ||=
       begin
         processed = {}
         @plain_favorites.each do |f|

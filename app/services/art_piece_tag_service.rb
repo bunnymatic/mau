@@ -55,7 +55,7 @@ class ArtPieceTagService
   end
 
   def self.most_popular_tag
-    popular_tag = frequency.sort_by { |tf| [-tf.frequency, -tf.tag] }.first
+    popular_tag = frequency.min_by { |tf| [-tf.frequency, -tf.tag] }
     ArtPieceTag.find_by(slug: popular_tag.tag) if popular_tag
   end
 

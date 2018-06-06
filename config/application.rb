@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path('../boot', __FILE__)
+require File.expand_path('boot', __dir__)
 
 require 'rails/all'
 
@@ -11,9 +11,9 @@ Bundler.require(*Rails.groups)
 require_relative '../app/lib/app_config.rb'
 
 c = AppConfig.new
-c.use_file! File.expand_path('../../config/config.yml', __FILE__)
-c.use_file! File.expand_path('../../config/config.local.yml', __FILE__)
-c.use_file! File.expand_path('../../config/config.keys.yml', __FILE__)
+c.use_file! File.expand_path('../config/config.yml', __dir__)
+c.use_file! File.expand_path('../config/config.local.yml', __dir__)
+c.use_file! File.expand_path('../config/config.keys.yml', __dir__)
 c.use_section! Rails.env
 ::Conf = c
 

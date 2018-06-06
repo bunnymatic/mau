@@ -5,11 +5,11 @@ module OpenStudiosEventShim
   extend ActiveSupport::Concern
 
   def current_open_studios_key
-    @coskey ||= OpenStudiosEventService.current.try(:key)
+    @current_open_studios_key ||= OpenStudiosEventService.current.try(:key)
   end
 
   def available_open_studios_keys
-    @aoskey ||= self.class.available_open_studios_keys
+    @available_open_studios_keys ||= self.class.available_open_studios_keys
   end
 
   module ClassMethods

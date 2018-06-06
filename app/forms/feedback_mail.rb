@@ -29,8 +29,8 @@ class FeedbackMail
     end
   end
 
-  def os=(v)
-    self.operating_system = v
+  def os=(value)
+    self.operating_system = value
   end
 
   def emails_must_match

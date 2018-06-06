@@ -58,7 +58,7 @@ Rails.application.configure do
     host: 'localhost:3000'
   }
 
-  config.middleware.use DisableAnimations
+  #  config.middleware.use DisableAnimations
 end
 
 Rails.application.routes.default_url_options[:host] = 'localhost:3000'
