@@ -41,6 +41,7 @@ gem 'paperclip'
 gem 'pickadate-rails'
 gem 'postmark'
 gem 'postmark-rails'
+gem 'puma'
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
@@ -63,7 +64,7 @@ source 'https://rails-assets.org' do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '~> 2.17.x' # saw performance hit with v 3.?
   gem 'capybara-email'
   gem 'capybara-screenshot'
   gem 'cucumber'
