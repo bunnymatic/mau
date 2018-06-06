@@ -84,7 +84,7 @@ class SiteStatistics
   end
 
   def compute_totals
-    @totals ||= {}.tap do |tally|
+    @totals = {}.tap do |tally|
       %w[art_pieces_stats artists_stats other_users_stats login_stats favorites_stats studios_stats].each do |m|
         tally.merge!(send(m))
       end

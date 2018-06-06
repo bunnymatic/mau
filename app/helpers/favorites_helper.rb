@@ -1,15 +1,15 @@
 # frozen_string_literal: false
 
 module FavoritesHelper
-  def get_favorite_image_and_path(fav, sz = :small)
+  def get_favorite_image_and_path(fav, size = :small)
     title = fav.get_name
     img = ''
     path = ''
     if fav.is_a? ArtPiece
-      img = fav.path sz
+      img = fav.path size
       path = art_piece_path fav.id
     else
-      img = fav.get_profile_image(sz) || asset_path('default_user.svg')
+      img = fav.get_profile_image(size) || asset_path('default_user.svg')
       path = user_path(fav)
     end
     [img, path, title]

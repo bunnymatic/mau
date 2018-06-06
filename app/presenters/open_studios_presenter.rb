@@ -5,7 +5,7 @@ class OpenStudiosPresenter
 
   def packaged_summary
     section = 'summary'
-    @summary ||= CmsDocument.packaged(PAGE, section)
+    @packaged_summary ||= CmsDocument.packaged(PAGE, section)
   end
 
   def summary_data
@@ -18,7 +18,7 @@ class OpenStudiosPresenter
 
   def packaged_preview_reception
     section = 'preview_reception'
-    @preview_reception ||= CmsDocument.packaged(PAGE, section)
+    @packaged_preview_reception ||= CmsDocument.packaged(PAGE, section)
   end
 
   def preview_reception_data
@@ -30,7 +30,7 @@ class OpenStudiosPresenter
   end
 
   def os_participants
-    @participants ||= Artist.active.open_studios_participants.in_the_mission
+    @os_participants ||= Artist.active.open_studios_participants.in_the_mission
   end
 
   def participating_studios

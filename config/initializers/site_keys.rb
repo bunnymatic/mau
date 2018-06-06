@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 # A Site key gives additional protection against a dictionary attack if your

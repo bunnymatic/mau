@@ -15,23 +15,13 @@ class FasoImporter
     @uri ||= URI.parse('https://api.faso.com/1/scammers?key=2386ad2c89aa40dfa0ce90e868797a33&format=pipe')
   end
 
-  def make_request
-    @request ||=
-      begin
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        req = Net::HTTP::Get.new(uri.request_uri)
-        http.request(req)
-      end
-  end
-
   def fetch
     # import data from FASO database
-    resp = make_request
-    resp.body.split("\n").map(&:chomp).map do |row|
+    faso_data.map do |row|
       entry = parse_row(row)
-      Scammer.new(name: entry['name_used'], faso_id: entry['id'], email: entry['email']) if entry
+      next unless entry
+      name = entry['name_used'].encode('utf-8', invalid: :replace, undef: :replace)
+      Scammer.new(name: name, faso_id: entry['id'], email: entry['email'])
     end.compact.uniq
   end
 
@@ -40,6 +30,17 @@ class FasoImporter
   end
 
   private
+
+  def faso_data
+    @faso_data ||=
+      begin
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        req = Net::HTTP::Get.new(uri.request_uri)
+        http.request(req)
+      end.body.split("\n").map(&:chomp)
+  end
 
   def parse_row(row)
     if !@headers

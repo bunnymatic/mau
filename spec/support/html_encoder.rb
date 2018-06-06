@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module HTMLEncoder
-  def html_encode(s, type = nil)
+  def html_encode(string, type = nil)
     method = type.present? ? [type] : %i[named hexadecimal]
-    args = [s, method].flatten.compact
+    args = [string, method].flatten.compact
     HTMLEntities.new.encode(*args)
   end
 end

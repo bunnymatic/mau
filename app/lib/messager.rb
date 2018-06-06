@@ -6,7 +6,7 @@ FAYE_SERVER_URL = Conf.messaging_server || 'http://localhost:3030/maumessages'
 SUBSCRIBER_TOKEN = Conf.messaging_token || 'whatevs_yo'
 
 class ClientAuth
-  def outgoing(msg, cb)
+  def outgoing(_msg, _cb)
     # if msg['channel'] == '/meta/subscribe'
     #   msg['ext'] ||= {}
     #   msg['ext']['subscriberToken'] = SUBSCRIBER_TOKEN
@@ -16,7 +16,7 @@ class ClientAuth
 end
 
 class Messager
-  def publish(channel, message)
+  def publish(_channel, _message)
     # EM.run {
     #   client = Faye::Client.new(FAYE_SERVER_URL)
     #   puts "Publish"

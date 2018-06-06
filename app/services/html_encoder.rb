@@ -5,7 +5,7 @@ class HtmlEncoder
     @coder ||= HTMLEntities.new
   end
 
-  def self.encode(s)
-    coder.encode(s, :named, :hexadecimal)
+  def self.encode(string)
+    coder.encode(string, :named, :hexadecimal)
   end
 end

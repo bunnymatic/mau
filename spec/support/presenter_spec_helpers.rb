@@ -18,8 +18,8 @@ module PresenterSpecHelpers
       # this helps the tag_cloud_presenter tag_path method (for some reason)
     end
 
-    def output_buffer=(s)
-      @buffer += s if s.present?
+    def output_buffer=(string)
+      @buffer += string if string.present?
     end
 
     def output_buffer

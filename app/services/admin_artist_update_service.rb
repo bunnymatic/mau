@@ -18,8 +18,8 @@ class AdminArtistUpdateService
   class << self
     private
 
-    def truthy?(v)
-      ['on', 'true', true, '1'].include? v
+    def truthy?(value)
+      ['on', 'true', true, '1'].include? value
     end
 
     def run_update(os_updates_by_artist_id, current_os)
