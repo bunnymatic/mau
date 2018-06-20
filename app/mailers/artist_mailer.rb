@@ -66,6 +66,7 @@ class ArtistMailer < MauMailer
     @current_os = current_os
     @upload_url = manage_art_artist_url(artist)
     @donation_url = edit_artist_url(artist, anchor: 'events')
+    @studio_address = artist.address
     mail(to: artist.email,
          from: ACCOUNTS_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|
