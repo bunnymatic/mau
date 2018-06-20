@@ -14,7 +14,7 @@ end
 Then('I see the registration message') do
   expect(page).not_to have_css('.ngdialog')
   expect(page).to have_content('Will you be opening your doors for Open Studios on')
-  expect(page).to have_button('Yes - Sign Me Up')
+  expect(page).to have_button('Yes - Register Me')
 end
 
 Then('I see the update my registration message') do

@@ -60,7 +60,7 @@ Scenario: I can update my os status
   And I click on "No" in the ".ngdialog"
   Then I see the registration message
 
-  When I click on "Yes - Sign Me Up"
+  When I click on "Yes - Register Me"
   And I see the registration dialog
   And I click on "Yes" in the ".ngdialog"
   Then I see the update my registration message

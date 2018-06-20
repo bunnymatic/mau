@@ -57,7 +57,7 @@
         "Will you be opening your doors for Open Studios on " +
         $scope.dateRange +
         "?";
-      $scope.buttonText = "Yes - Sign Me Up";
+      $scope.buttonText = "Yes - Register Me";
       if (participation) {
         $scope.buttonText = "Update my registration status";
         $scope.currentMessage =
