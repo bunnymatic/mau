@@ -24,6 +24,10 @@ describe WatcherMailer do
       expect(mail).to have_link(studio.name, href: studio_url(studio))
     end
 
+    it 'includes the picture' do
+      expect(mail).to have_css("img[src='#{art_piece.photo(:original)}'][title='#{art_piece.title}']")
+    end
+
     it 'renders a little social media snippet' do
       tags = art_piece.tags.map { |tag| "##{tag.name}" }.join(' ')
       expect(mail).to have_body_text tags
