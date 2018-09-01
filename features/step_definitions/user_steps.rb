@@ -22,11 +22,7 @@ When(/^I change my email to "(.*?)"$/) do |new_email|
 end
 
 Then('I see the secret word email link') do
-  find(:link, 'contact us via email') do |link|
-    expect(link['href']).to include('MAU.mailer')
-    expect(link['href']).to include('Send me the secret word')
-    expect(link.text).to include('email')
-  end
+  expect(find('mailer[text="contact us via email"]')).to be_present
 end
 
 When(/^I add a photo to upload$/) do
