@@ -52,7 +52,7 @@
         pagination = $(".js-pagination-state")
           .last()
           .data();
-        if (pagination.hasOwnProperty("hasMore")) {
+        if (pagination.hasMore) {
           nextPage = pagination.nextPage;
           return $
             .ajax({
