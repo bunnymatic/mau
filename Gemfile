@@ -64,11 +64,11 @@ source 'https://rails-assets.org' do
 end
 
 group :test do
-  #gem 'capybara', '~> 2.17.x' # saw performance hit with v 3.?
   gem 'capybara'
   gem 'capybara-email'
   gem 'capybara-screenshot'
   gem 'capybara-slow_finder_errors'
+  gem 'chromedriver-helper'
   gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'launchy' # Required to dump the page when running cucumber features

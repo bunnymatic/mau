@@ -7,13 +7,13 @@
     $scope,
     $element,
     $q,
+    $window,
+    mailerService,
     openStudiosRegistrationService
   ) {
     $scope.handleHasQuestions = function() {
       $scope.closeThisDialog();
-      MAU.mailer(
-        "www",
-        "missionartistsunited.org",
+      $window.location = mailerService.mailToLink(
         "I have questions about registering for Open Studios"
       );
     };
