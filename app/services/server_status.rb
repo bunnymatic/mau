@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'faraday_middleware'
+
 class ServerStatus
   def self.run
     {
@@ -21,7 +23,11 @@ class ServerStatus
     end
 
     def url_check(url)
-      response = Faraday.get(url)
+      conn = Faraday.new(url) do |c|
+        c.use FaradayMiddleware::FollowRedirects, limit: 3
+        c.adapter :net_http
+      end
+      response = conn.get
       response.status == 200
     rescue Errno::ECONNREFUSED, Faraday::ConnectionFailed
       false
