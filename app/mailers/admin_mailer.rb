@@ -8,8 +8,29 @@ class AdminMailer < MauMailer
 
     @data = inf
 
-    mail(to: mailer_list.formatted_emails, from: from, reply_to: reply_to, subject: subject) do |fmt|
+    mail(
+      to: mailer_list.formatted_emails,
+      from: from,
+      reply_to: reply_to,
+      subject: subject
+    ) do |fmt|
       fmt.html { render 'spammer' }
+    end
+  end
+
+  def server_trouble(status)
+    from        = 'info@missionartists.org'
+    reply_to    = 'noreply@missionartists.org'
+    subject     = '[MAU Admin] server trouble...'
+
+    @status = status
+    mail(
+      to: mailer_list.formatted_emails,
+      from: from,
+      reply_to: reply_to,
+      subject: subject
+    ) do |fmt|
+      fmt.html { render 'server_trouble' }
     end
   end
 end

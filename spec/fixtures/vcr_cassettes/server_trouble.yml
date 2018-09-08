@@ -1,0 +1,265 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://test.host/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 08 Sep 2018 22:37:53 GMT
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '33464'
+      Etag:
+      - W/"64dcdfdd961949132d430ba9e52849b0"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Set-Cookie:
+      - _mau_session=bHlMQWZhYWw2WEV1OVZKSWNMdnFaZ3dmR2RRL3NPSmxvd01SVytuRDFjR2JEN0xrZFNVU05XODR4VWhZN0QrbVcrRVZPNkJDS09VYnQveExBekFsY3pOYWxnc1grN2VpSXFKUGpkVklaZXU3SDNoUzVFK3ZYODNQNHB0WVZYbDE0R0Nud3hmTWYxM1E5OHlrZEpvSnpBPT0tLXhOaHEwb3BJV3lTUWRtZmNMMHJqSmc9PQ%3D%3D--f0412aeaa8e28e4beb44a922c459a3be7bc63ffe;
+        path=/; HttpOnly
+      X-Request-Id:
+      - e7eac825-fc03-4295-ab70-d2e210e979ff
+      X-Runtime:
+      - '0.659358'
+    body:
+      encoding: UTF-8
+      string: |-
+        <!DOCTYPE html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <script>window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"f335dd151a","applicationID":"17787613","transactionName":"e14LQ0RaXg8GQRhbUFFfSl5YUVcb","queueTime":0,"applicationTime":660,"agent":""}</script>
+        <script>window.NREUM||(NREUM={}),__nr_require=function(e,t,n){function r(n){if(!t[n]){var o=t[n]={exports:{}};e[n][0].call(o.exports,function(t){var o=e[n][1][t];return r(o||t)},o,o.exports)}return t[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(e,t,n){function r(){}function o(e,t,n){return function(){return i(e,[f.now()].concat(u(arguments)),t?null:this,n),t?void 0:this}}var i=e("handle"),a=e(2),u=e(3),c=e("ee").get("tracer"),f=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,t){s[t]=o(d+t,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),t.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,t){var n={},r=this,o="function"==typeof t;return i(l+"tracer",[f.now(),e,n],r),function(){if(c.emit((o?"":"no-")+"fn-start",[f.now(),r,o],n),o)try{return t.apply(this,arguments)}catch(e){throw c.emit("fn-err",[arguments,this,e],n),e}finally{c.emit("fn-end",[f.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,t){m[t]=o(l+t)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,f.now()])}},{}],2:[function(e,t,n){function r(e,t){var n=[],r="",i=0;for(r in e)o.call(e,r)&&(n[i]=t(r,e[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;t.exports=r},{}],3:[function(e,t,n){function r(e,t,n){t||(t=0),"undefined"==typeof n&&(n=e?e.length:0);for(var r=-1,o=n-t||0,i=Array(o<0?0:o);++r<o;)i[r]=e[t+r];return i}t.exports=r},{}],4:[function(e,t,n){t.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,t,n){function r(){}function o(e){function t(e){return e&&e instanceof r?e:e?c(e,u,i):i()}function n(n,r,o,i){if(!d.aborted||i){e&&e(n,r,o);for(var a=t(o),u=m(n),c=u.length,f=0;f<c;f++)u[f].apply(a,r);var p=s[y[n]];return p&&p.push([b,n,r,a]),a}}function l(e,t){v[e]=m(e).concat(t)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(n)}function g(e,t){f(e,function(e,n){t=t||"feature",y[n]=t,t in s||(s[t]=[])})}var v={},y={},b={on:l,emit:n,get:w,listeners:m,context:t,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",c=e("gos"),f=e(2),s={},p={},d=t.exports=o();d.backlog=s},{}],gos:[function(e,t,n){function r(e,t,n){if(o.call(e,t))return e[t];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[t]=r,r}var o=Object.prototype.hasOwnProperty;t.exports=r},{}],handle:[function(e,t,n){function r(e,t,n,r){o.buffer([e],r),o.emit(e,t,n)}var o=e("ee").get("handle");t.exports=r,r.ee=o},{}],id:[function(e,t,n){function r(e){var t=typeof e;return!e||"object"!==t&&"function"!==t?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");t.exports=r},{}],loader:[function(e,t,n){function r(){if(!x++){var e=h.info=NREUM.info,t=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&t))return s.abort();f(y,function(t,n){e[t]||(e[t]=n)}),c("mark",["onload",a()+h.offset],null,"api");var n=d.createElement("script");n.src="https://"+e.agent,t.parentNode.insertBefore(n,t)}}function o(){"complete"===d.readyState&&i()}function i(){c("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),c=e("handle"),f=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1071.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=t.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),c("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);</script><meta content="XwU42kZDs6e712I04otyvbS5JWswmFTOM-XsRWclzEk" name="google-site-verification" /><meta content="3a62978406d492441c52d8b8736c8595" name="p:domain_verify" /><meta content="Mission Artists is a website dedicated to the unification of artists
+        in the Mission District of San Francisco.  We promote the artists and the
+        community. Art is the Mission!
+        " name="description" /><meta content="art is the mission, art, artists, san francisco" name="keywords" /><meta content="http://test.host/" property="og:url" /><meta content="Mission Artists is a website dedicated to the unification of artists
+        in the Mission District of San Francisco.  We promote the artists and the
+        community. Art is the Mission!
+        " property="og:description" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="/favicon.png" rel="SHORTCUT ICON" /><title>
+          Mission Artists - Art is the Mission
+          ( development )
+        </title>
+        <link rel="stylesheet" media="screen" href="/assets/font-awesome.self-0bf298ed32ae24e9a46666fb29f93284d31e4a557dcdb38fa14e9f63dc58e3b3.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/socicon.self-a9749cadd8876b46caa2457dbf8f840bf08645c25f6aea49f09bf60ad9a30813.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/selectize.self-6b4228571cc132db2a18d74156dd69d3e6f22a186a6fe2ba3b43b48508782ec8.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/pickadate/classic.self-eb7da7f5c6f3fba956787ba6ab914b2296ab81a1428b44d47493324814a11ee0.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/pickadate/classic.date.self-1ac13b00c70060366982f2fbaf026360711e22a338a1a2c0fdfae9034566aa69.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/pickadate/classic.time.self-310d99b3d2d9519a1a3154c8f22de43d896f6eb38683d86737f09c05523463c7.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/ng-dialog/css/ngDialog.self-d8eccdfa71d119e1d87800569007a5c1d066dfa3880cf4ccbf14ed822bd64ab7.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/ng-dialog/css/ngDialog-theme-default.self-23799d34570bb3bfca1e6be3f1e5d3a258ecff0fd32721a8e0853d94ceac9f19.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/collapse.self-a99b5533ef4b1935411cb770728cf7b5fafd5ca1c0e73b1a0c04e16f789e31f4.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/panel.self-4e4719f85fc542915827b9e59f4eba7198fbfe721b2c9108d3f60002e00b224a.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/toggle_button.self-4f160094016767406a7be016f960446a8e8188d6830cd31e37d82a489817797b.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/admin/email_list_manager/email_list_manager.self-41137223aaa56c6292f133fac09a187b4d6dead0e36fdeec73e7cd6cce94110b.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/admin/events_notification_bell/events_notification_bell.self-4c4b8d9e0b39be279a7e39bb1f8bb4c31c90d42658b0cb8bd2b7c83621cd7c0a.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/art_pieces_browser/art_pieces_browser.self-581cd634f73830d4deb3c253dad89f1378fa5a347582457f234ff71511c1247a.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/credits_link/credits_modal.self-5f79462b8b08cc2000e664662e8b0c5bda0496fd672684f0ff5947db5f619ae3.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/mailer/mailer.self-aeb40995f5b9821726058239f63c176ebaac4fb59992ba7e91ba8b306f1df1f4.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/notify_mau/notify_mau.self-d727cc6b5f4e503bbb4bcb5edd13072974bd2eb14d756cc42ba3364ec0b8a587.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/open_studios_registration_widget/open_studios_registration.self-350421e0cd621ccad1b5a174f18727269336e040031406d44e95b0e50014c9b4.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/password_strength/passwordStrength.self-0157fc7c64497a72e8df4431b5208100dd018ce15d173978719154080fac9be9.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/search_results/search_results.self-f4f355f62ec733b42dd6c815378d0f426329e6b178c595bd72ebb3e5ed5fe7d5.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/social_buttons/social_buttons.self-3261a311cd09a0a3b0045abbc96414e333e0837310fc8396115235b1bd906a62.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_admin_colors.self-c86cd7761165889951782a3f29ebd81e16979162ea4b6b66eaa8c1014bc2e778.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_admin_nav.self-86d800c7546e2aa1c84401fe5503375b8ff01ffc0f9e50882118c959eeaed10b.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_cms_documents.self-7ccea37f58f3484593f7758f88bfafa1196e5900e6310cba542620336ba60924.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_content_pages.self-9271b74982e6ffb9a84da0d2a64c9a1f6df916e2507f4ad2a1081568b951ba9c.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_flash.self-2815c419479bdd01449996355e54c8860ca870dffbfce44dfed47fc5e520665a.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_footer.self-6915221d22203c6a6f8bd07d2eedbf2452e430b5e55a839eb168c14db3d6edb1.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_forms.self-c633142e36f4dba1d659c2e820a9bc74ea76edfca1ef758d3828f41d8b819695.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_help_dialogs.self-6f098c2ba1bd4643ffed1dcf6507c73ecce8effef73927745a4e4311de0f42e6.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_layout.self-804be60a94a71c5b4fe32915dc37c59fbcb8cd04f709a5f6dc410af74707326b.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_mau_modal.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_mau_spinner.self-1dfdec99a708381ac08b70662430d594a99f844e762e265e36925bf5dd66f52c.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_nav.self-37d224eaf3c4760319c55c91976b0db8c7ea9e403dd1722b1fa8ff1c265ea3d2.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_notes.self-b1153ed5a8aeb8f52d6ea43d112eb3fb64bba0864e5a37cdd22ee7aba0b6cc4a.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_os_violators.self-01aaa24a25e9feac2ca04bd7a5acbbeece921737db92ef5fb6e46fa3c52c5ee1.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_paginator.self-9402618afb3bc730868b7707920c7b382295514783bdca49154e71eae1c7f495.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_sampler.self-41ac18732b8dea40466faf2c657123e13bf509337011b380e4622854bde85d05.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_search_form.self-def475a1968264bf733f1a52093ff98701bb9174ae8a0136fac784145e76685d.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_signup.self-22b4c66fa18f4a8ce9390b18cfb24ffc3c9337fafda4c43c115beaf6cf470af6.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_signup_table.self-a1aebbc7410f848c249259ae4994715387d0bdd12bc266d73840d94f6c5b5b4f.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_social_footer.self-7b771056daeb6f5bdaa88a18686209e968754dec200fe04813362af483053863.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_tabs.self-f33c2440bbb814127c61c32ff5a5b72f1817975c48dcbd3fa84b096566309215.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_text.self-5c639d91698d2b6c983bdf71dc6f6e013c527ee3ddbcf88e254d287bfbd8c0f3.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/_variables.self-cc06a0c60886527d1c24ed1d4b3a01556a5227d1080c3291f12c8d0e113d4813.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/admin/email_lists.self-cc2ffd07add5f50217759806593037e1863727f9c1a313557185ff129d842aec.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/art_pieces/_art_pieces.self-fde33f7760d9dbaee3c214ae92fc56a8648a8fc131981d1936b2a4d17c7c2c95.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/artists/_artists.self-76bb8c24f376ae8d751adcba072e4928b7d352f106dac9e114e022206d6502b6.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/artists/_artists_map.self-30dfebaad29532951a0fead2bae5b2db2230a55b9007665d19086f509cfa24fe.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/artists/_manage_art.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/error.self-198036fe960010d9213a94c76ff554e257235854bfe3b882174625139ca69551.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/favorites/_favorites.self-5d89ae30daf345160a87e54f6227a07535d9e7b16cd32f35dd8c4f035e67bbcc.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/feedback_form.self-cc12cf3e163e86ecd4974d9c01ba0347f1fea1c108104cabf6231f7bb0fb275f.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/font.self-411fc84aa4da3a81e413df106dfd1db4d87ae9fd6b4e396311b038b1657ae2bf.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/gto-mixins.self-e3fa2e4bdef04c2d1e0f38541e4419bea33ac32e415fb9e6ddb893a56d905266.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/mailchimp_form.self-0d2a1169dd60bb796321e132d20e3021f0ea88f6856fb637c834e4f1795fc3d7.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/main/_index.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/main/_open_studios.self-457d37e3df8fdfd0c7ce4212b1ab2d16155e6f9bd02a5108ef0cb43aa235413b.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/media.self-f1a4dce99537ec61dcf5bf2e11afeb829162dd1f95db1596ba77b877c8a86dc9.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/ngdialog-customizations.self-79183758b45a4377851fd42a5dd10e90eb0982a46789d0bf6a82eb155f68f42e.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/search/_search.self-7f88bc332b7ea57fb2b9a3d2fa42ae6e5a09bf5d4313a1ddc457fa205be81924.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/studios/_studios.self-c4c5ffcf85ac5e11adb4c1b19a75da1d1a2034aa762c4d0839f54f8bc563cd81.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/users/_user_sessions.self-4b690ac55d5c04cf7f7d3f46c176820d6701479467fbf0c74d914efc75c443c5.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/users/_users.self-f6618105f64e15d67bc407bf36c7d1d2229c7befac31779560a50ab795fff289.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/gto/venues.self-5ab4a16c0bfc265e0ec922f3a58dadbcdc08a4b7c7508c70e2801bb455393ffa.css?body=1" />
+        <link rel="stylesheet" media="screen" href="/assets/application.self-b2a7742cc2a0a73421ff050712a67b0772e75edddd0ea8d8e7a28e62203029c2.css?body=1" /><meta name="csrf-param" content="authenticity_token" />
+        <meta name="csrf-token" content="VyAjAFFXtgYYr0ZRMgRNHjhK0N9jDlG7/AqHbpFXm/6r3i5uoc8i7cX3SeAJugZnGQVBgaCOiMN+Tq56ZOyfBQ==" /><script>var authenticityToken = encodeURIComponent("7+wIJAQuajTmKy01ACbjryb8rQRy/T7I+79OhWfLF/YTEgVK9Lb+3ztzIoQ7mKjWB7M8WrF957B5+2eRknATDQ==");</script></head><body class="generic_browser main index" ng-app="MauApp"><div id="old_browser_warning">
+        It looks like you're using an unsupported browser.  This site will not look it's best and may not be fully functional. If you're not already using <a target="_blank" href="http://chrome.google.com">Google Chrome</a> or <a target="_blank" href="http://www.mozilla.com/firefox">Mozilla's Firefox</a>.  Either way, you may want to get the latest version of the browser that you are using.
+        </div>
+            <noscript>
+              <div id="noscript">It looks like you might have javascript turned off.  This site will not work well without it.  We suggest that you turn on javascript (under your browser preferences or settings), or you may want to upgrade to a more modern browser like <a target="_blank" href="http://chrome.google.com">Google Chrome</a> or <a target="_blank" href="http://www.mozilla.com/firefox">Mozilla's Firefox.</a></div>
+            </noscript>
+        <div class="body-highlight"></div><div class="container"><div class="sidenav"><div class="sidenav__main"><a class="brand" href="/" title="Mission Artists"><div class="sidebar-logo" title="Mission Artists"></div></a><div class="nav nav-tabs"><div class="js-nav-mobile nav-mobile nav-icon" title="menu"><i class="fa fa-bars"></i></div><section class="nav-section"><div class="tab search js-in-page-search nav-icon" title="search"><a href="/search" title="search"><i class="fa fa-search"></i> <div class="text">search</div></a></div></section><section class="nav-section"><ul class="tabs tabs__nav"><li class="tab"><a href="/artists" title="artists">artists a-z</a></li><li class="tab"><a href="/studios" title="group studios">studios</a></li></ul></section><section class="nav-section open-studios"><ul class="tabs tabs__nav"><li class="tab"><a href="/open_studios" title="open studios Jun 16-17 2018">Jun 16-17 2018</a></li></ul></section><section class="nav-section signin-nav"><ul class="signin__links tabs"><li class="tab"><a title="sign in" href="/login"><div class="text">sign in</div><div class="nav-icon fa fa-sign-in"></div></a></li><li class="tab"><a title="create an account" href="/signup"><div class="text">sign up</div><div class="nav-icon fa fa-user"></div></a></li></ul></section><div class="tab-content nav-mobile"><div class="js-close nav-mobile__close"><i class="fa fa-close"></i></div><ul class="tab-panel"><li class="nav-mobile__title"><a href="/artists" title="artists">artists a-z</a></li></ul><ul class="tab-panel"><li class="nav-mobile__title"><a href="/studios" title="group studios">studios</a></li></ul><ul class="tab-panel"><li class="nav-mobile__title"><a href="/search" title="search">search</a></li></ul><ul class="tab-panel" id="open-studios"><li class="nav-mobile__title"><a href="/open_studios" title="open studios Jun 16-17 2018">Jun 16-17 2018</a></li></ul><ul class="tab-panel signout__links"><li class="nav-mobile__title"><a href="/login" title="sign in">sign in</a></li><li class="nav-mobile__title"><a href="/signup" title="sign up">sign up</a></li></ul></div></div><div class="push"></div></div><div class="sidenav__footer"><div class="back-to-top" title="Back to top"><a title="Back to top" href="#"><i class="fa fa-arrow-up fa-ico-invert"></i></a></div><div id="social-links"><div class="pure-g"><div class="pure-u-1"><a href="http://www.facebook.com/MissionArtists" rel="external" target="_blank" title="Facebook"><i class="ico ico-invert ico-facebook"></i></a><a href="http://www.twitter.com/sfmau" rel="external" target="_blank" title="Twitter"><i class="ico ico-invert ico-twitter"></i></a><a href="https://www.instagram.com/missionartists" rel="external" target="_blank" title="Instagram"><i class="ico ico-invert ico-instagram"></i></a><a href="http://pinterest.com/mausf/" rel="external" target="_blank" title="Pinterest"><i class="ico ico-invert ico-pinterest"></i></a></div></div></div><div class="fine-print-links"><ul><li><a href="/about">about</a></li><li><a class="feedback_link" href="#">feedback</a></li><li><a href="/privacy">privacy</a></li><li><a href="/contact">contact</a></li><li><credits-link version-string="Challenger 7.1.0"></credits-link></li></ul></div></div></div><div class="main-container js-main-container"><div id="main_thumbs"><div class="js-sampler" data-seed="1536446272" id="sampler"><div class="sampler__promo js-sampler__promo"><div class="bg"></div><div class="sampler__promo-contents"><div class="header">Mission Artists</div><div class="body">Showcasing artists in the Mission District of San Francisco</div></div></div><div class="scroll-load-more" id="js-scroll-load-more"><div class="scroll-load-more__contents"><div class="mau-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div class="hint">scroll down for more</div></div></div><div hidden="" id="the-end"><div class="the-end__contents"><div class="hint">The End</div></div></div></div></div></div></div></body><script src="/assets/ng-inject.self-942ce6da043ea996df5314f453cd34d79c728e86e38ff2aa7b3143081b5818cb.js?body=1"></script>
+        <script src="/assets/lodash/lodash.self-a9c29c44f75a77c9ffa00eb4dc33ddc7ac3d8479df2988eea7d51b6f53aea819.js?body=1"></script>
+        <script src="/assets/moment/moment.self-6757799d7ebe2301a38e491883e7d67bf8f3bc969ee0d61e8d3cfb3dc22e9b11.js?body=1"></script>
+        <script src="/assets/angular/angular.self-ac47ca00cf1877ca0bc28de6a71873b63b6cf1694cf8e8b66a875161789aec31.js?body=1"></script>
+        <script src="/assets/angular_modules.self-f14f7207b31212edec1b1330aabf5cef93b99e147beed6f8e7f9b6c4e8ac1c81.js?body=1"></script>
+        <script src="/assets/angular-resource/angular-resource.self-b8b5919e20ac438a70ff418a24567ba059a3a604ab40f4063350c255b952b139.js?body=1"></script>
+        <script src="/assets/angular-sanitize/angular-sanitize.self-c9ab489c808e981bd5028413801c611c439d309394b865c11117c17fea6a8570.js?body=1"></script>
+        <script src="/assets/angular-animate/angular-animate.self-650365d9b9ecba22adc0ac63525295bae08ed1bed3f70cdff0b97da8d979ffe0.js?body=1"></script>
+        <script src="/assets/angular-moment/angular-moment.self-c537521fdc92e9c20761d42e79124f81728ca52a03b311115b7b54814da9e062.js?body=1"></script>
+        <script src="/assets/angular-mailchimp/angular-mailchimp.self-b1d4cac7d27431bb266d16caa631bfbb4dbbcc1d19432ddc2fe4ed477c7130d7.js?body=1"></script>
+        <script src="/assets/angular-ui-utils/modules/keypress/keypress.self-78e9bb379a1fdf5ea206c20ce654b20ef5c45a48e5a98b05633089819dce944b.js?body=1"></script>
+        <script src="/assets/re-tree/re-tree.self-21a10437a4af486d30069ccf29b8b4a4bdb9323b71fe04bf443ec192b7c24f26.js?body=1"></script>
+        <script src="/assets/ua-device-detector/ua-device-detector.self-7d7df159d4561fae9ec4aaddddbf26eeb5cf74b41c6477cc36db1bc7013f9198.js?body=1"></script>
+        <script src="/assets/ng-device-detector/ng-device-detector.self-2a66e8d91aeefaa3ec686fb48f77f5ac06d45a121b5a9662a490373fd68a8e50.js?body=1"></script>
+        <script src="/assets/ng-dialog/js/ngDialog.self-802aed88194138d912ba530ad1ff70cc290ebb97cc4f6b0c078e2a3d75065d9a.js?body=1"></script>
+        <script src="/assets/templates.self-6c44e5afd42629e8d6f1c9e81d0bff29003ccfc7351ebc447f4f53e763a9ccc1.js?body=1"></script>
+        <script src="/assets/admin/email_list_manager/email_list_manager.self-9979385dbf129fba9fefa60a14c409027809db11d8e60293d43e026154ec2a83.js?body=1"></script>
+        <script src="/assets/admin/events_notification_bell/events_notification_bell.self-94ab221b8390dce2042f903b5e2c6cf5038d775a911061bbd09e4dc590990654.js?body=1"></script>
+        <script src="/assets/art_piece_tag/art_piece_tag.self-62a6511a933cc07048dcc4409be8614104e183b7e939b7fd6cc0350491c24fce.js?body=1"></script>
+        <script src="/assets/art_pieces_browser/art_pieces_browser.self-8c417479b9e61f97c33d4710c82072a8a8743f04290dcbc509db79eec00e1df5.js?body=1"></script>
+        <script src="/assets/background-img/background-img.self-82d1f4c6c46ca15a269cacf52446c3380279f63200a042148bd4effe240e93ad.js?body=1"></script>
+        <script src="/assets/credits_link/credits_link.self-d029b7de4347190592d2aa34d57bbb3cdad34a79689406f38e4472051583767f.js?body=1"></script>
+        <script src="/assets/editable_content/editable_content.self-54ce60e826316ec3874ad3810f650ff680c951f039714caba44551abd76926d7.js?body=1"></script>
+        <script src="/assets/image_fader/image_fader.self-79bf47e4ba247517048d80bf3d94815ceb61bf3d1d1aeb3ab8c23a4ad7c28c95.js?body=1"></script>
+        <script src="/assets/link_if/link_if.self-0545276582c5c60b35bbfff05f3765df771b55a0889c2666c07e91f59b875440.js?body=1"></script>
+        <script src="/assets/mailer/mailer.self-9a3fd60437a36e97ffc1909db43d0aef4ef123ebc8c2b6d61abfbf423c2dddfe.js?body=1"></script>
+        <script src="/assets/medium/medium.self-3cca1e4712d5b7f80578a697847495e10a890458c903fe3b1d19738188e192cd.js?body=1"></script>
+        <script src="/assets/models/email.self-b45c586c13fb78e5cd57c61efcbd56e4dd31c2fb1bde6576017d38dd40b9a2d2.js?body=1"></script>
+        <script src="/assets/notify_mau/notify_mau.self-b52abfb264a038648395d633838c979dc2be4b214f2c61a6d671a6b4cd500f45.js?body=1"></script>
+        <script src="/assets/open_studios_registration_widget/open_studios_registration_widget.self-529785802ccaaaa371f498461a28b60c8a763e9b8e59db1e7e6c066f040ad00a.js?body=1"></script>
+        <script src="/assets/password_strength/passwordStrength.directive.self-efef9e0adfeeaf1fb629946bf161c530008915f8a0f1fea4063ab56dbb772f2c.js?body=1"></script>
+        <script src="/assets/repeater_delimiter/repeater_delimiter.self-b57b85dec9047123df2f720d2dc35d17ad5a4e23d6b5db2e70d03169404ab2c8.js?body=1"></script>
+        <script src="/assets/search_results/search_hit.self-4e2f1b1bd43df53ff9664f3c902ae131376c7cfc1b3cb16ddbcca39a5b1fa193.js?body=1"></script>
+        <script src="/assets/search_results/search_results.self-81218ac62167e0fd03e30beb033714f54cc78aa6d7c2524f167e119e6cfc849c.js?body=1"></script>
+        <script src="/assets/services/application_events_service.self-78a0b655bb0ee7489c7b995b9a1b485e6270c29599a32a5d47385382ba842dce.js?body=1"></script>
+        <script src="/assets/services/art_pieces_service.self-e6a7318bca6da547b5d6d65a82f4e261c254466a88396f49f572cf2078d0963a.js?body=1"></script>
+        <script src="/assets/services/artists_service.self-2fad63cc8f2e3ccb43ba0858665f51858de0b44ad3a18a03a90c00e3ff43bc0c.js?body=1"></script>
+        <script src="/assets/services/currentUserService.self-d5d9082b07118fff34b82de652f3ee4d2d648ac0280fb6585bf8cf143b5aa151.js?body=1"></script>
+        <script src="/assets/services/email_changed_events_service.self-97d811a3c42c647f80559a0dd2f359a0fc20ec5ffbd7487908844912397ba182.js?body=1"></script>
+        <script src="/assets/services/email_lists_service.self-93818452db4a16f8e3ed744742e782c48dc60598a1a86744b8f56e589b1d22c4.js?body=1"></script>
+        <script src="/assets/services/emails_service.self-ba5e78b78a54c73883701a7e91dc6aa3ae7c822fe7e6e29c3423d4c0c480e94b.js?body=1"></script>
+        <script src="/assets/services/favorites_service.self-eb7ef45fc3112aaf8d0fe19b4d7c10496fbc8c58131abf462fba4deba92d250b.js?body=1"></script>
+        <script src="/assets/services/mailer_service.self-c9c1ddb83f53c94a8dfb93411c2e6b1e3ec7e45c82f18e43170505515df20782.js?body=1"></script>
+        <script src="/assets/services/notification_service.self-2bc9565e7e537a872726e513632b87aa790079d559f01f40604d031f040cdf6a.js?body=1"></script>
+        <script src="/assets/services/object_routing_service.self-9d30e609c3293d651a7d8bb08fe1816660d60fac68278fee0e91c01320c1f286.js?body=1"></script>
+        <script src="/assets/services/open_studios_registration_service.self-e455d9066e86bfd350ab37497e5e8448a4510a868b83c32b9159c28a8456a122.js?body=1"></script>
+        <script src="/assets/services/pub_sub_service.self-90ae004d355e8d64c4162957b2d71243179c2adf29954bba41118d923e4d5b0a.js?body=1"></script>
+        <script src="/assets/services/search_service.self-f8286c0b9375f57ce2437f6e7a73d89d84f871b2851637d5554ea69d29305610.js?body=1"></script>
+        <script src="/assets/services/studios_service.self-c23ad07a6e5a89528eafdfcdb625ba65acf3cd539b893c74f14f594b7f8364ec.js?body=1"></script>
+        <script src="/assets/services/tag_service.self-3ae08308cf4653929873d6bf8542b5e0ea3b57409d105ef8cbd25265098759e8.js?body=1"></script>
+        <script src="/assets/social_buttons/favorite_this.self-12cb5328844f8a4ba2be90b9b4dc738ada955fb4d3c6dc7a58440a1d6f6d0b3a.js?body=1"></script>
+        <script src="/assets/social_buttons/share_button.self-ca949f58b9103e561bf52cc6d8e952baa1ca216c8ce8cb07053bcad1d7fecd51.js?body=1"></script>
+        <script src="/assets/angularSlideables.self-fd68177619f594a91f3955bfbcbb0034c5421928a608ec0ce37c566c29b6c7f7.js?body=1"></script>
+        <script src="/assets/mau_app.self-2ccefa6fc1692fecef629f9454117b2f1a633e6c5db08d2ef1c68ed48d9d2a95.js?body=1"></script>
+        <script src="/assets/jquery/jquery.self-5af507e253c37e9c9dcf65064fc3f93795e6e28012780579975a4d709f4074ad.js?body=1"></script>
+        <script src="/assets/jquery.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.js?body=1"></script>
+        <script src="/assets/jquery_ujs.self-784a997f6726036b1993eb2217c9cb558e1cbb801c6da88105588c56f13b466a.js?body=1"></script>
+        <script src="/assets/jquery-ui-1.10.4.custom.self-52647bf7d424eb988e2ef10844481c9705e5c4b7495067f7b89dc50716e3c3db.js?body=1"></script>
+        <script src="/assets/selectize/selectize-standalone.self-7e677d328c56b076ab303c3a5685e4f11fab78c896c7c6be7c7159180f774040.js?body=1"></script>
+        <script src="/assets/jquery.form.self-51c7ac7126d36e0fbb704bf80b9e9fe79216a26c21cb0307d81fa0d3ea185f4e.js?body=1"></script>
+        <script src="/assets/bootstrap/transition.self-2da0d063949ae9f31354b8e9e555006e277d06fd03f632cb90d71832db7c7c9a.js?body=1"></script>
+        <script src="/assets/bootstrap/tab.self-b352edad3a7a2084f2dec3ec280730716655b27b74ab10403bc959c77f914156.js?body=1"></script>
+        <script src="/assets/bootstrap/collapse.self-9b54bcf1950a1371fd1cdfd37d95d7966abebe4a79c43d5502c2751a82719c18.js?body=1"></script>
+        <script src="/assets/pickadate/picker.self-02f84955ca44820967714672014a67f2c6c263b38dd8460431476f9afdb0b347.js?body=1"></script>
+        <script src="/assets/pickadate/picker.date.self-be93bac040492bb6997368eb57092e0d7e48b87cbe8170cc9c16789cc0607a80.js?body=1"></script>
+        <script src="/assets/pickadate/picker.time.self-48958852b3cf631ca2f58c34e055ec61263cdbd703261dba4ec53ff29ad82e92.js?body=1"></script>
+        <script src="/assets/jquery.feedback.self-db5b2aca7784bc7745a85475bc50ce34aa2c681d7100bd501b8cb1aaaaf38dcd.js?body=1"></script>
+        <script src="/assets/mau/feedback.self-787aa2ea34f39a1e0f18aed4668e0e80dc20c226fff8bcd0e16c041b29f29313.js?body=1"></script>
+        <script src="/assets/mau/gto/all_tabs.self-578f382e66019a4475db09149c4ebf2a20b70786ecae109baeb8ed651bf89807.js?body=1"></script>
+        <script src="/assets/mau/gto/art_piece_form.self-039a75bc1bef55512e99b9521da8d4efdcfa6d26b3fd74f178bdc7fef66f0132.js?body=1"></script>
+        <script src="/assets/mau/gto/artists.self-89ccbf0a3db5372e944ab1468b344332bdb1542e8e53b63064de560fb8c839c6.js?body=1"></script>
+        <script src="/assets/mau/gto/main.self-252995cd49b8af1e9e77c72577bc186f431b532cf9d6084c0ad51acd499d558c.js?body=1"></script>
+        <script src="/assets/mau/gto/map.self-fc2c86b601a21cfe21f29eac2e069b541f6c680e1c99113362bd048d8624f6b7.js?body=1"></script>
+        <script src="/assets/mau/gto/navigation.self-4710ee0c00db1fbb149b5f5db99885e81697a7f0dee0c8bc5752f62abd3b58da.js?body=1"></script>
+        <script src="/assets/mau/gto/users.self-3818763c72ab8dbd74297922a3a64aa952274fc1d7efbcfb252deef949cf4d70.js?body=1"></script>
+        <script src="/assets/mau/jquery/arrange_art.self-2015b6e6fb09e2d10b24cff85dce244866e2388653814ef1c0b6b882236f804b.js?body=1"></script>
+        <script src="/assets/mau/jquery/flash.self-6a8b23911b8994a6d6da3602fb204004323de2527216c4ecd283fe9c17e87c8d.js?body=1"></script>
+        <script src="/assets/mau/jquery/jquery.isOverflowing.self-4530d8f488bfcb95dea065e06b4045334096cb06c2eb5ad9c8dd348f7399e585.js?body=1"></script>
+        <script src="/assets/mau/jquery/os_key_generator.self-6b5c04fbf6deb64d0dbb081648570884121ed81b2734f0f5ac28646bbef8d1d0.js?body=1"></script>
+        <script src="/assets/mau/mau.self-7fcf543b554e8e04d84858e0b31213e0ae3d1466d647850bacdf2ffc19fe83c7.js?body=1"></script>
+        <script src="/assets/mau/mau_discount.self-1d3bc72beb8c9dda1cd51bad20521d954c05385a051cf05c0ad6cf77d6dd586d.js?body=1"></script>
+        <script src="/assets/mau/mau_spinner.self-9bd24a4a5ca9ca201c876309c1ccd4e6bdbcd0577164ba4b17b24ffe558d0309.js?body=1"></script>
+        <script src="/assets/mau/mau_user_account_chooser.self-0a5296696143382c99bc03aa1e1275f8a66c8bc778546b41cacdd6e0a71415b5.js?body=1"></script>
+        <script src="/assets/mau/paypal.self-d3e4e5cd40f190ea4ab421548ec7349a44a9170bfaed04357420d58f774c0643.js?body=1"></script>
+        <script src="/assets/mau/query_string_parser.self-e0c2ff0035d268da93cda8293cf58e371329bc2b9b36e96726af800db5ae8fc0.js?body=1"></script>
+        <script src="/assets/mau/sampler.self-aaf8f2e44928ce01897b034f2b112bbaada4a05b8ac6001e64d33040b04791cb.js?body=1"></script>
+        <script src="/assets/mau/utils.self-2333dba07e181fc941ff439cf167e5231db546ec11b038e27a5b96522169f6b1.js?body=1"></script>
+        <script src="/assets/mau/whats_this_popup.self-54719ceed53a64b31fd46bf41fe9d7359653733fa83f9e55b7739cb401e8cd3c.js?body=1"></script>
+        <script src="/assets/application.self-b9b07dd4e7718454476f04edeb935022ae4f4d90934ab7ce913ff20c8baeb399.js?body=1"></script><script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script></html>
+    http_version:
+  recorded_at: Sat, 08 Sep 2018 22:37:53 GMT
+- request:
+    method: get
+    uri: http://localhost:9250/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '286'
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "name" : "node-1",
+          "cluster_name" : "elasticsearch-test-kinda",
+          "cluster_uuid" : "SpZUOIZuSKmvoKlR8PhfQQ",
+          "version" : {
+            "number" : "6.2.2",
+            "build_hash" : "10b1edd",
+            "build_date" : "2018-02-16T19:01:30.685723Z",
+            "build_snapshot" : false,
+            "lucene_version" : "7.2.1",
+            "minimum_wire_compatibility_version" : "5.6.0",
+            "minimum_index_compatibility_version" : "5.0.0"
+          },
+          "tagline" : "You Know, for Search"
+        }
+    http_version:
+  recorded_at: Sat, 08 Sep 2018 22:37:53 GMT
+recorded_with: VCR 4.0.0
