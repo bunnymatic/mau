@@ -83,14 +83,20 @@ describe MainController do
     end
   end
 
-  describe 'status' do
-    it 'hits the database' do
-      expect(Medium).to receive :first
+  describe 'status', vcr: { cassette_name: 'server_status', record: :none } do
+    before do
       get :status_page
     end
     it 'returns success' do
-      get :status_page
-      expect(response).to be_success
+      expect(response).to be_successful
+    end
+    it 'returns the server status' do
+      status = {
+        version: Mau::Version::VERSION,
+        main: true,
+        elasticsearch: true
+      }
+      expect(JSON.parse(response.body)).to eq status.with_indifferent_access
     end
   end
 

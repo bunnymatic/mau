@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ServerStatus, vcr: { cassette_name: 'server_trouble', record: :none } do
+describe ServerStatus, vcr: { cassette_name: 'server_status', record: :none } do
   describe '.run' do
     subject(:run_status) { described_class.run }
     it 'returns the status of the server' do
