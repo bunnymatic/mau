@@ -7,6 +7,8 @@ class ApiAuthorizor
   end
 
   class << self
+    private
+
     def check_authorization_key(auth_key)
       (auth_key.present? && auth_key == Rails.application.config.api_consumer_key)
     end
