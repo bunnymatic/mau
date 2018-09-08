@@ -21,8 +21,12 @@ namespace :mau do
   desc 'check status and email if there are issues'
   task check_and_notify_server_status: [:environment] do
     status = ServerStatus.run
-    if (!status[:main] && !status[:elasticsearch])
-      AdminMailer.server_issues(status)
+    if (!status[:main] || !status[:elasticsearch])
+      puts "ERROR"
+      puts status
+      AdminMailer.server_trouble(status)
+    else
+      puts "OK"
     end
   end
 

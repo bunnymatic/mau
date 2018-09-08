@@ -13,7 +13,7 @@ class ServerStatus
     private
 
     def site_up?
-      url_check(Rails.application.routes.url_helpers.root_url)
+      url_check(Rails.application.routes.url_helpers.version_url)
     end
 
     def elasticsearch_up?
