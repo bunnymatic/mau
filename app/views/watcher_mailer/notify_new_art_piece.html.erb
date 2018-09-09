@@ -1,3 +1,8 @@
+<%
+art_piece = @new_art.art_piece
+artist = @new_art.artist
+studio = @new_art.studio
+%>
 <p>
   Dear MAU Web Posse member,
 </p>
@@ -7,31 +12,25 @@
 <p>
   <ul>
     <li>
-      New Art: <%= link_to @art_piece.title, art_piece_url(@art_piece) %>
+      New Art: <%= link_to art_piece.title, art_piece_url(art_piece) %>
     </li>
     <li>
-      By Artist: <%= link_to @artist.get_name, artist_url(@artist) %>
+      By Artist: <%= link_to artist.get_name, artist_url(artist) %>
     </li>
     <li>
-      In studio: <%= link_to @studio.name, studio_url(@studio) %>
+      In studio: <%= link_to studio.name, studio_url(studio) %>
   </ul>
 </p>
 <p>
   Here's a possible social media post:
 </p>
 <p>
-  <%= @artist.get_name %> just added <%= @art_piece.title %>
-  <% @art_piece.tags.each do |tag| %>
-    #<%= tag.name %>
-  <% end %>
-  <% if @art_piece.medium  %>
-    #<%= @art_piece.medium.name %>
-  <% end %>
-  #missionartists
-  @sfmau
+  &quot;<%= art_piece.title %>&quot; by <%= artist.get_name %>.
+  <%= @new_art.open_studios_info %>
+  <%= @new_art.hash_tags %>
 </p>
 <p>
-  <img style="width: 100%; max-width: 600px;" src="<%= @art_piece.photo(:original) %>"  title="<%= @art_piece.title %>" />
+  <img style="width: 100%; max-width: 600px;" src="<%= art_piece.photo(:original) %>"  title="<%= art_piece.title %>" />
 </p>
 <hr/>
 <p>

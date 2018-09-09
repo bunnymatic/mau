@@ -5,6 +5,7 @@ class StudioPresenter < ViewPresenter
 
   attr_reader :studio
   delegate :slug, :phone, :phone?, :map_link,
+           :address,
            :city, :street, :cross_street, :url, :url?, :to_param, to: :studio
 
   def initialize(studio)
