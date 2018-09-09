@@ -4,7 +4,7 @@ class WatcherMailer < MauMailer
   def notify_new_art_piece(art_piece, to)
     from        = 'info@missionartists.org'
     reply_to    = 'noreply@missionartists.org'
-    subject     = '[MAU Art] new art has been added'
+    subject     = "[MAU Art]#{environment_for_subject} new art has been added"
 
     @new_art = NewArtPiecePresenter.new(art_piece)
 

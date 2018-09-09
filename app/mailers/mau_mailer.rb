@@ -15,6 +15,11 @@ class MauMailer < ActionMailer::Base
 
   protected
 
+  def environment_for_subject
+    return '' if Rails.env.production?
+    "[#{Rails.env}]"
+  end
+
   def build_subject(subject)
     [SUBJECT_PREFIX, subject].join ' '
   end
