@@ -6,9 +6,7 @@ class WatcherMailer < MauMailer
     reply_to    = 'noreply@missionartists.org'
     subject     = '[MAU Art] new art has been added'
 
-    @art_piece = art_piece
-    @artist = @art_piece.artist
-    @studio = @artist.studio || IndependentStudio.new
+    @new_art = NewArtPiecePresenter.new(art_piece)
 
     mail(to: to, from: from, reply_to: reply_to, subject: subject) do |fmt|
       fmt.html { render 'notify_new_art_piece' }
