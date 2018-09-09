@@ -17,6 +17,10 @@ describe WatcherMailer do
       expect(mail.to).to match_array ['someone@example.com', 'other@example.com']
     end
 
+    it 'renders the correct subject' do
+      expect(mail.subject).to eq '[MAU Art][test] new art has been added'
+    end
+
     it 'renders the email with the art piece, artist and studio info' do
       expect(mail).to have_body_text 'New Art:'
       expect(mail).to have_link(art_piece.title, href: art_piece_url(art_piece))
