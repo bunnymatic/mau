@@ -8,13 +8,16 @@ describe AdminMailer do
   end
 
   context '#spammer' do
+    let(:email) { described_class.spammer(page: 'thispage', body: 'spam here', login: nil) }
+    it 'sets the subject' do
+      expect(email.subject).to start_with('[MAU Spammer][test] ')
+    end
     it 'delivers to the right folks' do
-      m = described_class.spammer(page: 'thispage', body: 'spam here', login: nil)
       AdminMailerList.first.emails.each do |expected|
-        expect(m.to).to include expected.email
+        expect(email.to).to include expected.email
       end
-      expect(m.from).to include 'info@missionartists.org'
-      expect(m).to have_body_text 'spam here'
+      expect(email.from).to include 'info@missionartists.org'
+      expect(email).to have_body_text 'spam here'
     end
   end
 
@@ -28,6 +31,10 @@ describe AdminMailer do
     end
 
     subject(:email) { described_class.server_trouble(status) }
+
+    it 'sets the subject' do
+      expect(email.subject).to eq('[MAU Admin][test] server trouble...')
+    end
 
     it 'delivers to the right folks' do
       AdminMailerList.first.emails.each do |expected|
