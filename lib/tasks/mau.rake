@@ -24,9 +24,7 @@ namespace :mau do
     if (!status[:main] || !status[:elasticsearch])
       puts "ERROR"
       puts status
-      AdminMailer.server_trouble(status)
-    else
-      puts "OK"
+      AdminMailer.server_trouble(status).deliver_now
     end
   end
 
