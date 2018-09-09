@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ENVIRONMENT_HOST = 'localhost:3000'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -55,10 +57,13 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.default_url_options = {
-    host: 'localhost:3000'
+    host: ENVIRONMENT_HOST
   }
+
+  config.action_controller.asset_host = ENVIRONMENT_HOST
+  config.action_mailer.asset_host = ENVIRONMENT_HOST
 
   #  config.middleware.use DisableAnimations
 end
 
-Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+Rails.application.routes.default_url_options[:host] = ENVIRONMENT_HOST
