@@ -7,7 +7,7 @@ class NewArtPiecePresenter
     @art_piece = ArtPiecePresenter.new(art_piece)
     @artist = @art_piece.artist
     @studio = StudioPresenter.new(@artist.studio || IndependentStudio.new)
-    @open_studios = OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
+    @open_studios = OpenStudiosEventPresenter.new(OpenStudiosEvent.current) if OpenStudiosEvent.current
   end
 
   def open_studios_info
@@ -53,15 +53,19 @@ class NewArtPiecePresenter
   end
 
   def before_current_os?
-    Time.current < current_os_start
+    current_os? && Time.current < current_os_start
   end
 
   def art_span_os?
     # time is after june and before current open studios
-    Time.current.month >= 6
+    current_os? && Time.current.month >= 6
+  end
+
+  def current_os?
+    @open_studios.present?
   end
 
   def current_os_start
-    Time.zone.parse(@open_studios.start_date)
+    current_os? && Time.zone.parse(@open_studios.start_date)
   end
 end
