@@ -35,6 +35,7 @@ Rails:
 
 Lint/HandleExceptions:
   Exclude:
+    - lib/tasks/*.rake
     - app/services/search/indexer.rb
 
 Metrics/AbcSize:
