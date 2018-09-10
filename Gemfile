@@ -55,6 +55,7 @@ gem 'rosie'
 gem 'sass-color-extractor'
 gem 'sassc-rails'
 gem 'slim-rails'
+gem 'sprockets', '~> 3.7.2'
 gem 'uglifier'
 gem 'unicorn' # webserver
 gem 'xmlrpc' # after ruby 2.4 upgrade
