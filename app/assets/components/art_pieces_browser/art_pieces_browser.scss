@@ -12,6 +12,7 @@ art-pieces-browser {
     margin-bottom: 20px;
   }
   .art-piece__info {
+    padding-right: 15px;
     display: flex;
     order: 2;
     flex-direction: column;
@@ -104,6 +105,7 @@ art-pieces-browser {
       margin-bottom: 0px;
     }
     .art-piece__info {
+      border-right: 1px solid $xlightgray;
       order: 1;
       i.fa.fa-user {
         font-size: 10rem;
