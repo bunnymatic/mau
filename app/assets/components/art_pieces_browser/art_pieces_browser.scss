@@ -14,7 +14,7 @@ art-pieces-browser {
   .art-piece__info {
     padding-right: 15px;
     display: flex;
-    order: 2;
+    order: 3;
     flex-direction: column;
     .artist__image {
       margin-bottom: 20px;
@@ -46,7 +46,7 @@ art-pieces-browser {
     }
   }
   .art-piece__thumbs {
-    order: 3;
+    order: 2;
   }
   .header .title {
     .os-violator {
