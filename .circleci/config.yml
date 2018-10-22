@@ -126,8 +126,11 @@ jobs:
             bundle exec rspec --format doc --format RspecJunitFormatter --out test-results/rspec/results.xml \
             $(circleci tests glob "spec/**/*spec.rb" | circleci tests split --split-by=timings)
       - store_artifacts:
-          path: tmp/capybara
-          path: test-results
+          path: ./tmp/capybara
+      - store_artifacts:
+          path: ./test-results/rspec
+      - store_test_results:
+          path: ./test-results/rspec
   cucumber:
     parallelism: 2
     environment:
@@ -178,10 +181,11 @@ jobs:
             bundle exec cucumber --format junit --out test-results/cucumber/results.xml \
             $(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings)
       - store_artifacts:
-          path: tmp/capybara
-          path: test-results
+          path: ./tmp/capybara
+      - store_artifacts:
+          path: ./test-results/cucumber
       - store_test_results:
-          path: test-results
+          path: ./test-results/cucumber
 
 workflows:
   version: 2
