@@ -32,9 +32,15 @@ art-pieces-browser {
         height: 80px;
         background-size: contain;
       }
+      @media screen and (max-width: $screen-xs-max) {
+        display: none;
+      }
     }
     .push {
       margin-top: 20px;
+      @media screen and (max-width: $screen-xs-max) {
+        margin-top: 0px;
+      }
     }
     section h4 {
       font-size: 0.75rem;

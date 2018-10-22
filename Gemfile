@@ -102,6 +102,7 @@ group :test, :development do
   gem 'factory_bot_rails', require: false
   gem 'faker'
   gem 'jslint_on_rails'
+  gem 'phantomjs'
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
