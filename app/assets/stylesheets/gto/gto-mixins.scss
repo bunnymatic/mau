@@ -27,24 +27,22 @@
   font-weight: bold;
 }
 @mixin card-description {
-  .desc {
-    padding: 6px;
-    border-radius: 3px;
-    @include bottom-label-overlay;
-    @include transition(opacity 0.25s ease-in-out);
-    width: calc(100% - 40px);
-    margin: 0 20px 20px;
-    font-size: 0.8rem;
-    text-align: center;
-    @include box-shadow(0 0 4px 1px rgba($gto_teal, 0.3));
-    .media {
-      @include ellipsis;
-    }
-    .byline {
-      font-size: 0.75rem;
-      color: $gto_dark_blue;
-      font-weight: $font-weight-light;
-    }
+  padding: 6px;
+  border-radius: 3px;
+  @include bottom-label-overlay;
+  @include transition(opacity 0.25s ease-in-out);
+  width: calc(100% - 40px);
+  margin: 0 20px 20px;
+  font-size: 0.8rem;
+  text-align: center;
+  @include box-shadow(0 0 4px 1px rgba($gto_teal, 0.3));
+  .media {
+    @include ellipsis;
+  }
+  .byline {
+    font-size: 0.75rem;
+    color: $gto_dark_blue;
+    font-weight: $font-weight-light;
   }
 }
 
@@ -64,7 +62,9 @@
   &:hover {
     /** @include box-shadow(0 0 1px 1px rgba(200,200,200,0.5)); */
   }
-  @include card-description;
+  .desc {
+    @include card-description;
+  }
 }
 
 @mixin search-filter {

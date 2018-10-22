@@ -4,22 +4,54 @@
 .studios:not(.admin),
 .studios.show {
   @include search-filter;
+
   .studio {
-    height: 200px;
     @include artist-thumb-mixin;
     min-height: 250px !important;
     .image {
       height: 200px;
       @include background-contain;
     }
-    .desc {
-      padding-top: 8px;
-      .name {
-        font-size: 1rem;
-      }
-      > div {
-        padding-bottom: 4px;
-      }
+
+    @media screen and (max-width: $screen-lg-max) {
+    }
+    @media screen and (max-width: $screen-md-max) {
+    }
+    @media screen and (max-width: $screen-sm-max) {
+      height: 200px;
+    }
+    @media screen and (max-width: $screen-xs-max) {
+      height: auto;
+    }
+  }
+}
+
+.studio-card__desc {
+  padding-top: 8px;
+  @include card-description;
+
+  .name {
+    font-size: 1rem;
+  }
+  > div {
+    padding-bottom: 4px;
+  }
+
+  @media screen and (max-width: $screen-lg-max) {
+  }
+  @media screen and (max-width: $screen-md-max) {
+  }
+  @media screen and (max-width: $screen-sm-max) {
+    margin-top: inherit;
+  }
+  @media screen and (max-width: $screen-xs-max) {
+    margin-top: 15px;
+    position: static;
+    .name {
+      font-size: inherit;
+    }
+    > div {
+      padding-bottom: inherit;
     }
   }
 }
