@@ -51,7 +51,7 @@ Then /^I see that some studios are participating in open studios$/ do
 end
 
 When /^I click on the first studio card$/ do
-  first('.studio-card .desc a').click
+  first('.studio-card__desc a').click
 end
 
 Then(/^I fill in the filter search box with "(.*?)"$/) do |studio|
