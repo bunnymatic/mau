@@ -37,7 +37,7 @@ describe NewArtPiecePresenter do
   end
 
   describe '#hash_tags' do
-    its(:hash_tags) { is_expected.to include '#missionartists @sfmau' }
+    its(:hash_tags) { is_expected.to include '@missionartists' }
     its(:hash_tags) { is_expected.to include "##{art_piece.tags.first.name}" }
     its(:hash_tags) { is_expected.to include "##{art_piece.medium.name}" }
     it 'does not include any os tags' do
@@ -49,6 +49,16 @@ describe NewArtPiecePresenter do
         '#springopenstudios'
       ]
       expect(os_tags.none? { |tag| presenter.hash_tags.include?(tag) }).to eq true
+    end
+
+    context 'when the art piece tags have a leading #' do
+      before do
+        art_piece.tags.create(name: '#1890Bryant')
+      end
+      it 'does not show ## for those tags' do
+        expect(presenter.hash_tags).to include '#1890Bryant'
+        expect(presenter.hash_tags).not_to include '##1890Bryant'
+      end
     end
 
     context 'artist is doing open studios' do

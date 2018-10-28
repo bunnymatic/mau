@@ -31,7 +31,7 @@ class NewArtPiecePresenter
   end
 
   def hash_tags_from_tags
-    art_piece.tags.map { |tag| "##{tag.name}" }
+    art_piece.tags.map { |tag| "##{tag.name}".gsub(/##/, '#') }
   end
 
   def hash_tags_from_medium
@@ -49,7 +49,7 @@ class NewArtPiecePresenter
   end
 
   def base_hash_tags
-    ['#missionartists', '@sfmau']
+    ['@missionartists']
   end
 
   def before_current_os?
