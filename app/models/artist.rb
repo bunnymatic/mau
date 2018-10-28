@@ -156,7 +156,7 @@ class Artist < User
     if q.present?
       joins(:artist_info).where("artist_infos.open_studios_participation like '%#{q}%'")
     else
-      where('1 = 0')
+      none
     end
   end
 

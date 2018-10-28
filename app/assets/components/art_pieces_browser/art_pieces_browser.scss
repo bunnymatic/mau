@@ -12,8 +12,9 @@ art-pieces-browser {
     margin-bottom: 20px;
   }
   .art-piece__info {
+    padding-right: 15px;
     display: flex;
-    order: 2;
+    order: 3;
     flex-direction: column;
     .artist__image {
       margin-bottom: 20px;
@@ -31,9 +32,15 @@ art-pieces-browser {
         height: 80px;
         background-size: contain;
       }
+      @media screen and (max-width: $screen-xs-max) {
+        display: none;
+      }
     }
     .push {
       margin-top: 20px;
+      @media screen and (max-width: $screen-xs-max) {
+        margin-top: 0px;
+      }
     }
     section h4 {
       font-size: 0.75rem;
@@ -45,7 +52,7 @@ art-pieces-browser {
     }
   }
   .art-piece__thumbs {
-    order: 3;
+    order: 2;
   }
   .header .title {
     .os-violator {
@@ -104,6 +111,7 @@ art-pieces-browser {
       margin-bottom: 0px;
     }
     .art-piece__info {
+      border-right: 1px solid $xlightgray;
       order: 1;
       i.fa.fa-user {
         font-size: 10rem;

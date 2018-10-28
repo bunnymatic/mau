@@ -48,7 +48,7 @@ module Admin
     # PUT /studios/1
     def update
       if @studio.update(studio_params)
-        flash[:notice] = "That's great that we're keeping studio data current.  Keep up the good work."
+        flash[:notice] = "It's so great that we're keeping studio data current.  Keep up the good work."
         redirect_to(@studio) && return
       else
         render 'edit'
