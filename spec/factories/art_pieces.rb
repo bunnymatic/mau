@@ -9,11 +9,9 @@ FactoryBot.define do
     photo_updated_at   1.day.ago
     dimensions { '10 x 10' }
     year { (Time.zone.now - Random.rand(5).years).year }
+    medium
     artist do
       FactoryBot.create(:artist, :active)
-    end
-    after(:build) do |art_piece|
-      art_piece.medium = FactoryBot.create(:medium)
     end
 
     trait :with_tag do

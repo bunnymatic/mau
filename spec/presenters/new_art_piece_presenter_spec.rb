@@ -6,8 +6,9 @@ describe NewArtPiecePresenter do
   let(:os_start_date) { Time.current }
   let!(:open_studios_event) { create(:open_studios_event, start_date: os_start_date) }
   let(:artist) { create(:artist, :active, :with_studio) }
+  let(:medium) { create(:medium, name: 'My Medium') }
   let(:art_piece) do
-    create(:art_piece, :with_tags, artist: artist)
+    create(:art_piece, :with_tags, artist: artist, medium: medium)
   end
   subject(:presenter) { described_class.new(art_piece) }
 
@@ -38,8 +39,8 @@ describe NewArtPiecePresenter do
 
   describe '#hash_tags' do
     its(:hash_tags) { is_expected.to include '@missionartists' }
-    its(:hash_tags) { is_expected.to include "##{art_piece.tags.first.name}" }
-    its(:hash_tags) { is_expected.to include "##{art_piece.medium.name}" }
+    its(:hash_tags) { is_expected.to include "##{art_piece.tags.first.name.gsub(/[\s-]/, '')}" }
+    its(:hash_tags) { is_expected.to include '#mymedium' }
     it 'does not include any os tags' do
       os_tags = [
         '#SFOS',
@@ -51,13 +52,20 @@ describe NewArtPiecePresenter do
       expect(os_tags.none? { |tag| presenter.hash_tags.include?(tag) }).to eq true
     end
 
+    context 'when there is no medium' do
+      let(:medium) { nil }
+      it 'does not blow up' do
+        expect(presenter.hash_tags).to be_present
+      end
+    end
+
     context 'when the art piece tags have a leading #' do
       before do
         art_piece.tags.create(name: '#1890Bryant')
       end
       it 'does not show ## for those tags' do
-        expect(presenter.hash_tags).to include '#1890Bryant'
-        expect(presenter.hash_tags).not_to include '##1890Bryant'
+        expect(presenter.hash_tags).to include '#1890bryant'
+        expect(presenter.hash_tags).not_to include '##1890bryant'
       end
     end
 
