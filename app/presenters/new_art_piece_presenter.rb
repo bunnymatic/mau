@@ -16,39 +16,48 @@ class NewArtPiecePresenter
   end
 
   def hash_tags
-    (
-      hash_tags_from_tags +
-      hash_tags_from_medium +
-      hash_tags_from_open_studios +
-      base_hash_tags
-    ).uniq.join(' ')
+    tags.uniq.map { |t| tag_cleaner(t) }.uniq.join(' ')
   end
 
   private
+
+  def tags
+    (
+      tags_from_tags +
+      tags_from_medium +
+      tags_for_open_studios +
+      base_tags
+    )
+  end
+
+  def tag_cleaner(tag)
+    return tag if tag.starts_with?('@')
+    "##{tag.gsub(/\W/, '')}"
+  end
 
   def studio_address
     @studio.indy? ? @artist.address : @studio.name
   end
 
-  def hash_tags_from_tags
-    art_piece.tags.map { |tag| "##{tag.name}".gsub(/##/, '#') }
+  def tags_from_tags
+    art_piece.tags.map { |tag| tag.name.downcase }
   end
 
-  def hash_tags_from_medium
-    @art_piece.medium.present? ? ["##{art_piece.medium.name}"] : []
+  def tags_from_medium
+    @art_piece.medium.present? ? [@art_piece.medium.name.downcase] : []
   end
 
-  def hash_tags_from_open_studios
+  def tags_for_open_studios
     return [] unless artist.doing_open_studios?
     return [] unless before_current_os?
     if art_span_os?
-      ['#SFOS', "#SFOS#{current_os_start.year}", '#SFopenstudios']
+      ['SFOS', "SFOS#{current_os_start.year}", 'SFopenstudios']
     else
-      ['#missionopenstudios', '#springopenstudios']
+      %w[missionopenstudios springopenstudios]
     end
   end
 
-  def base_hash_tags
+  def base_tags
     ['@missionartists']
   end
 
