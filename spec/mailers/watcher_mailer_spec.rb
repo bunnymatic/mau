@@ -18,7 +18,7 @@ describe WatcherMailer do
     end
 
     it 'renders the correct subject' do
-      expect(mail.subject).to eq '[MAU Art][test] new art has been added'
+      expect(mail.subject).to eq "[MAU Art][test] #{artist.get_name} just added some art"
     end
 
     it 'renders the email with the art piece, artist and studio info' do
