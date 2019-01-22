@@ -35,7 +35,7 @@ gem 'listen'
 gem 'lograge'
 gem 'mime-types'
 gem 'mojo_magick'
-gem 'mysql2', '~> 0.4.x'
+gem 'mysql2'
 gem 'newrelic_rpm' # moitoring
 gem 'ngannotate-rails'
 gem 'nokogiri'
