@@ -17,6 +17,7 @@ class Medium < ApplicationRecord
 
   def hashtag
     return name.parameterize.underscore unless /^painting/i =~ name
+
     name.split('-').map(&:strip).reverse.join('').downcase
   end
 

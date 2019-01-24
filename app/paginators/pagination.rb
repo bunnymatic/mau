@@ -7,6 +7,7 @@ class Pagination < ViewPresenter
 
   def initialize(array, current, per_page, opts = nil)
     raise PaginationError, 'per_page must be present and greater than 0' unless per_page&.to_i&.positive?
+
     @array = array
     @current = current
     @per_page = [per_page, 1].max
@@ -87,16 +88,19 @@ class Pagination < ViewPresenter
 
   def link_to_page(page)
     raise PaginationError, 'link_to_page requires page_link to be defined!' unless respond_to? :page_link
+
     link_to page + 1, page_link(page), title: page + 1
   end
 
   def link_to_previous
     raise PaginationError, 'link_to_previous requires previous_link to be defined!' unless respond_to? :previous_link
+
     link_to previous_label, previous_link, title: previous_title
   end
 
   def link_to_next
     raise PaginationError, 'link_to_next requires next_link to be defined!' unless respond_to? :next_link
+
     link_to next_label, next_link, title: next_title
   end
 

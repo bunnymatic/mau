@@ -78,6 +78,7 @@ module Admin
 
     def studio_manager_required
       return if (manager? && (current_user.studio.to_param == params[:id].to_s)) || admin?
+
       redirect_to request.referer, flash: { error: 'You are not a manager of that studio.' }
     end
 

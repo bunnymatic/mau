@@ -9,14 +9,17 @@ class OpenStudiosEventService
   def self.for_display(os_key, reverse = false)
     os = OpenStudiosEvent.find_by(key: os_key)
     return os.for_display(reverse) if os
+
     parse_key(os_key, reverse) || 'n/a'
   end
 
   def self.date(os_key)
     os = OpenStudiosEvent.find_by(key: os_key)
     return os.start_date if os
+
     parsed = parse_key(os_key, true)
     return Time.zone.parse(parsed) if parsed
+
     # fallback
     Time.zone.now - 10.years
   end

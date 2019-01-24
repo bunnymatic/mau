@@ -56,6 +56,7 @@ class HaveLinkInBody
   def description
     desc = "have link #{@expected_link_text.inspect}"
     return desc if @expected_link_url.nil?
+
     desc + " (#{@expected_link_url})"
   end
 

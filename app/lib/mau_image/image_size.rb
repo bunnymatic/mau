@@ -41,6 +41,7 @@ module MauImage
       def keymap(size)
         return :medium if size.blank?
         return size.to_sym if allowed_sizes.include? size.to_sym
+
         case size.to_s
         when 'orig'
           :original

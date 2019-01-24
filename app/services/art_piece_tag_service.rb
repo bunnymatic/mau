@@ -11,11 +11,13 @@ class ArtPieceTagService
 
     def [](key)
       raise NoMethodError, "#{key} does not exist as a method on #{inspect}" unless FIELDS.include?(key.to_sym)
+
       send(key)
     end
 
     def []=(key, val)
       raise NoMethodError, "#{key} does not exist as a method on #{inspect}" unless FIELDS.include?(key.to_sym)
+
       send("#{key}=", val)
     end
   end
@@ -47,6 +49,7 @@ class ArtPieceTagService
   def self.destroy(tags)
     tags = [tags].flatten.compact
     return unless tags.any?
+
     ActiveRecord::Base.transaction do
       ArtPiecesTag.where(art_piece_tag_id: tags.map(&:id)).delete_all
       ArtPieceTag.where(id: tags.map(&:id)).destroy_all
@@ -63,6 +66,7 @@ class ArtPieceTagService
     ckey = cache_key(normalized)
     freq = SafeCache.read(ckey)
     return freq if freq
+
     tags = compute_tag_usage
     tags = normalize(tags, 'frequency') if normalized
 

@@ -28,6 +28,7 @@ class Favorite < ApplicationRecord
 
   def to_obj
     return nil unless FAVORITABLE_TYPES.include? favoritable_type
+
     begin
       favoritable_type.constantize.find(favoritable_id)
     rescue ActiveRecord::RecordNotFound

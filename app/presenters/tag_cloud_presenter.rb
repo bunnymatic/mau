@@ -45,6 +45,7 @@ class TagCloudPresenter < ViewPresenter
         frequency.map do |entry|
           tag = find_tag(entry.tag)
           next unless tag
+
           tag
         end.compact
       end

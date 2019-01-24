@@ -72,6 +72,7 @@ module Search
     class ArtistSearchService < ObjectSearchService
       def index
         return unless object.active?
+
         super
         object.art_pieces.each do |art|
           ObjectSearchService.new(art).index
@@ -80,6 +81,7 @@ module Search
 
       def reindex
         return unless object.active?
+
         super
         object.art_pieces.each do |art|
           ObjectSearchService.new(art).reindex
@@ -88,6 +90,7 @@ module Search
 
       def update
         return unless object.active?
+
         super
         object.art_pieces.each do |art|
           ObjectSearchService.new(art).update

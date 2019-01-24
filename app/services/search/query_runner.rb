@@ -8,6 +8,7 @@ module Search
 
     def search
       return [] if @query.blank?
+
       results = multi_index_search
       package_results(results)
     end

@@ -108,6 +108,7 @@ class User < ApplicationRecord
 
   def get_name(htmlsafe = false)
     return full_name unless htmlsafe
+
     HtmlEncoder.encode(full_name)
   end
 
@@ -200,6 +201,7 @@ class User < ApplicationRecord
 
   def tell_user_they_signed_up
     return unless artist?
+
     reload
     ArtistMailer.signup_notification(self).deliver_later
   end
@@ -214,7 +216,8 @@ class User < ApplicationRecord
 
   def _add_http_to_link(link)
     return if link.blank?
-    %r{^https?:\/\/} =~ link ? link : ('http://' + link)
+
+    %r{^https?:\/\/}.match?(link) ? link : ('http://' + link)
   end
 
   def add_http_to_links

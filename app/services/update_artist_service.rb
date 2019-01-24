@@ -48,6 +48,7 @@ class UpdateArtistService
     return false if val.nil?
     return val if !!val == val # is a boolean
     return true if val.casecmp('true').zero?
+
     val.to_i != 0
   end
 
@@ -55,6 +56,7 @@ class UpdateArtistService
     changes.each do |field, change|
       old_value, new_value = change
       next unless old_value.present? || new_value.present?
+
       msg = "#{@artist.full_name} changed their #{field} from " \
             "[#{old_value.to_s.truncate(50)}] to [#{new_value.to_s.truncate(50)}]"
       data = { 'user' => @artist.login, 'user_id' => @artist.id }

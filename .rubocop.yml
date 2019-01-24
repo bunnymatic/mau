@@ -1,10 +1,10 @@
-inherit_from: .rubocop_todo.yml
 AllCops:
   # Only runs checks on specific directories. Could be expanded to
   # include more directories.
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
 
   Exclude:
+    - .spec
     - Capfile
     - Gemfile
     - Guardfile
@@ -14,9 +14,7 @@ AllCops:
     - '**/*.yml'
     - '**/*.txt'
     - '**/*.md'
-    - 'bin/setup'
-    - 'bin/update'
-    - 'bin/spring'
+    - 'bin/**'
     - config/boot.rb
     - db/schema.rb
     - db/migrate/**/*
@@ -70,6 +68,7 @@ Naming/ConstantName:
     - config/application.rb
 
 Naming/MemoizedInstanceVariableName:
+  EnforcedStyleForLeadingUnderscores: optional
   Exclude:
     - app/controllers/**/*.rb
     - spec/support/**/*.rb

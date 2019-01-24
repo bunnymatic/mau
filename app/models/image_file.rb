@@ -7,6 +7,7 @@ class ImageFile
 
   def self.get_path(dir, size, fname)
     return '' if fname.empty?
+
     prefix = MauImage::ImageSize.find(size).prefix
     # idx = fname.hash % @@IMG_SERVERS.length
     # svr = @@IMG_SERVERS[idx]

@@ -6,11 +6,13 @@ class StatsCalculator
 
     def initialize(hash = nil)
       raise ValueError, "#{hash.inspect} is not a valid histogram initalize (Hash required)" if hash.present? && !hash.is_a?(Hash)
+
       merge!(hash || {})
     end
 
     def add(val)
       raise ValueError, "#{val.inspect} is not a valid histogram element" if val.blank?
+
       self[val] = (self[val] || 0) + 1
     end
 
