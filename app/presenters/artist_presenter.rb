@@ -13,7 +13,8 @@ class ArtistPresenter < UserPresenter
   delegate :can_register_for_open_studios?, :doing_open_studios?, :os_participation,
            :studio, :studio_id,
            :artist_info, :at_art_piece_limit?, :studionumber,
-           :max_pieces, :pending?, :active?, :updated_at,
+           :max_pieces, :pending?, :active?, :suspended?, :updated_at,
+           :==, :!=,
            to: :artist, allow_nil: true
 
   def artist?

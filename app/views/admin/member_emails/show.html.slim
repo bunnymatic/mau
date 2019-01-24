@@ -46,8 +46,8 @@
                   td.name = link_to e.name, e.link
                   td.email = e.email
                   td.activation data-order=e.activated_at.to_i
-                    = time_ago_in_words(e.activated_at) if e.activated_at
+                    time-ago time=e.activated_at
                   td.last-seen data-order=e.last_login.to_i
-                    = time_ago_in_words(e.last_login) if e.last_login
+                    time-ago time=e.last_login
       - else
         h4 No one matches that query

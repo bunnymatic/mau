@@ -38,7 +38,7 @@ describe Api::V2::StudiosController do
       context 'for a known studio' do
         it 'returns successful json' do
           make_request
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response.content_type).to eq 'application/json'
         end
         it 'uses the StudioSerializer' do
@@ -50,7 +50,7 @@ describe Api::V2::StudiosController do
         let(:studio) { IndependentStudio.new }
         it 'returns successful json' do
           make_request
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response.content_type).to eq 'application/json'
         end
         it 'uses the StudioSerializer' do

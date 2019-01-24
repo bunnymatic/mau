@@ -11,7 +11,7 @@ describe Admin::MauFansController do
       login_as admin
       get :index
     end
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
     it 'assigns fans' do
       expect(assigns(:fans)).to have(2).fans
       expect(assigns(:fans).first).to be_a_kind_of UserPresenter

@@ -2,15 +2,16 @@
 
 class Favorite < ApplicationRecord
   belongs_to :user
-  belongs_to :favorite, polymorphic: true
+  belongs_to :favoritable, polymorphic: true
 
   validate :uniqueness_of_user_and_item
 
   scope :art_pieces, -> { where(favoritable_type: ArtPiece.name) }
   scope :users, -> { where(favoritable_type: [Artist.name, User.name]) }
   scope :artists, -> { where(favoritable_type: Artist.name) }
+  scope :by_recency, -> { order(created_at: :desc) }
 
-  FAVORITABLE_TYPES = %w[Artist ArtPiece].freeze
+  FAVORITABLE_TYPES = %w[Artist MauFan User ArtPiece].freeze
 
   def uniqueness_of_user_and_item
     duplicate = self.class.find_by(user: user, favoritable_type: favoritable_type, favoritable_id: favoritable_id)
@@ -18,11 +19,11 @@ class Favorite < ApplicationRecord
   end
 
   def art_piece?
-    favoritable_type == ArtPiece.name
+    favoritable.is_a? ArtPiece
   end
 
   def artist?
-    favoritable_type == Artist.name
+    favoritable.is_a? User
   end
 
   def to_obj

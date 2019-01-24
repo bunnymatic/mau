@@ -29,7 +29,7 @@ end
 
 shared_examples_for 'successful json' do
   it do
-    expect(response).to be_success
+    expect(response).to be_successful
     expect(response).to be_json
   end
 end

@@ -19,7 +19,7 @@ describe Admin::MemberEmailsController do
           get :show
         end
         it 'returns success' do
-          expect(response).to be_success
+          expect(response).to be_successful
         end
         it 'assigns the title' do
           expect(assigns(:email_list).title).to eql 'Activated'
@@ -57,7 +57,7 @@ describe Admin::MemberEmailsController do
         pending_artist
         get :show, params: { format: :csv, listname: 'pending' }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to be_csv_type }
       it 'includes the right headers' do
         past_os_event_keys = %w[201004 201010 201104 201110 201204 201210 201304 201310 201404]

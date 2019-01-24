@@ -30,7 +30,7 @@ describe Admin::ApplicationEventsController do
     end
     context 'with no params' do
       it 'returns success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       it 'fetches all events by type' do
         events_by_type = assigns(:events_by_type)
@@ -49,7 +49,7 @@ describe Admin::ApplicationEventsController do
       let(:limit) { 2 }
 
       it 'returns success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       it 'fetches all events by type' do
         events_by_type = assigns(:events_by_type)
@@ -68,7 +68,7 @@ describe Admin::ApplicationEventsController do
       let(:limit) { 'A' }
 
       it 'returns success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       it 'fetches all events by type' do
         events_by_type = assigns(:events_by_type)
@@ -80,7 +80,7 @@ describe Admin::ApplicationEventsController do
       let(:since) { 1.day.ago.localtime.to_s }
 
       it 'returns success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       it 'fetches all events since that date' do
         events = assigns(:events_by_type).values.flatten
@@ -93,7 +93,7 @@ describe Admin::ApplicationEventsController do
       let(:limit) { 'A' }
 
       it 'returns success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       it 'fetches all events by type' do
         events_by_type = assigns(:events_by_type)
@@ -110,7 +110,7 @@ describe Admin::ApplicationEventsController do
     end
     context 'with no params' do
       it 'returns success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       it 'fetches all events by type' do
         events = JSON.parse(response.body)['application_events']

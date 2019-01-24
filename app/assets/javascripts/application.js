@@ -1,6 +1,8 @@
 //= require ng-inject
 //= require lodash/lodash
 //= require moment/moment
+//= require moment-timezone/moment-timezone
+//= require timezones
 //= require angular/angular
 //= require angular_modules
 //= require angular-resource

@@ -131,7 +131,7 @@ describe UsersController do
     #          )
     #   end
     #   it "returns success" do
-    #     expect(response).to be_success
+    #     expect(response).to be_successful
     #   end
 
     #   it "sets a flash.now indicating failure" do
@@ -146,7 +146,7 @@ describe UsersController do
         end
 
         it 'login=>newuser : should return success' do
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
     end
@@ -299,7 +299,7 @@ describe UsersController do
       before do
         get :show, params: { id: fan.id }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
     context 'while logged in as an user' do
       before do
@@ -307,7 +307,7 @@ describe UsersController do
         @logged_in_user = fan
         get :show, params: { id: fan.id }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
   end
   describe '#edit' do
@@ -335,7 +335,7 @@ describe UsersController do
         get :edit, params: { id: fan.id }
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it 'renders the user edit template' do
         expect(response).to render_template('edit')
       end
@@ -420,7 +420,7 @@ describe UsersController do
         fan.update(reset_code: reset_code)
         get :reset, params: { reset_code: reset_code }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
     context 'get with invalid reset code' do
       before do
@@ -440,7 +440,7 @@ describe UsersController do
             reset_code: reset_code
           }
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
         it 'has an error message' do
           expect(assigns(:user).errors.full_messages.length).to eql 1
         end
@@ -474,7 +474,7 @@ describe UsersController do
       get :resend_activation
     end
 
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
 
     context "post with email that's not in the system" do
       before do
@@ -517,7 +517,7 @@ describe UsersController do
       get :forgot
     end
 
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
 
     context 'post a fan email' do
       let(:make_forgot_request) do
@@ -589,7 +589,7 @@ describe UsersController do
       get :resend_activation
     end
 
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
   end
 
   describe '#delete' do

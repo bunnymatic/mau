@@ -38,7 +38,7 @@ describe Admin::ArtistsController do
             password_reset
             get :index
           end
-          it { expect(response).to be_success }
+          it { expect(response).to be_successful }
         end
       end
       context 'format=csv' do
@@ -49,7 +49,7 @@ describe Admin::ArtistsController do
           get :index, params: { format: :csv }
         end
 
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
         it { expect(response).to be_csv_type }
 
         it 'includes the right headers' do

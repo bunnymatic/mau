@@ -15,7 +15,7 @@ describe Admin::FavoritesController do
         login_as(:admin)
         get :index
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
     context 'as a non-admin' do
       before do

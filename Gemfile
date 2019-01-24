@@ -47,7 +47,7 @@ gem 'puma'
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 5.1.4'
+gem 'rails', '~> 5.2.x'
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
@@ -113,5 +113,6 @@ group :test, :development do
   gem 'simplecov'
   gem 'spring-commands-teaspoon'
   gem 'teaspoon-jasmine'
+  gem 'test-prof'
   gem 'timecop'
 end

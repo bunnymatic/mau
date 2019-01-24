@@ -30,7 +30,7 @@ describe Api::V2::ArtistsController do
       end
       it 'returns successful json' do
         make_request
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.content_type).to eq 'application/json'
       end
       it 'returns only artists in the studio' do

@@ -22,7 +22,7 @@ describe MainController do
       before do
         get :index
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
   end
 
@@ -30,7 +30,7 @@ describe MainController do
     before do
       get :resources
     end
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
   end
 
   describe '#about' do
@@ -39,7 +39,7 @@ describe MainController do
         FactoryBot.create(:cms_document, page: :main, section: :about)
         get :about
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it 'fetches markdown content' do
         expect(assigns(:content)).to have_key :content
         expect(assigns(:content)).to have_key :cmsid
@@ -51,14 +51,14 @@ describe MainController do
     before do
       get :privacy
     end
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
   end
 
   describe '#faq' do
     before do
       get :faq
     end
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
   end
 
   describe '#main/venues' do
@@ -66,7 +66,7 @@ describe MainController do
       before do
         get :venues
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
     context 'logged in as admin' do
       let(:venue_doc) do

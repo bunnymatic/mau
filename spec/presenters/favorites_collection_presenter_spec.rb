@@ -7,7 +7,7 @@ describe FavoritesCollectionPresenter do
   let(:artist) { artists.first }
   let(:art_piece_without_artist) { create(:art_piece) }
   let(:current_user) { nil }
-  subject(:presenter) { FavoritesCollectionPresenter.new(artist.favorites, artist, current_user) }
+  subject(:presenter) { FavoritesCollectionPresenter.new(artist, current_user) }
 
   context 'with favorites' do
     before do

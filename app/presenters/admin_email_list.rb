@@ -27,7 +27,7 @@ class AdminEmailList < ViewPresenter
         name: a.get_name,
         email: a.email,
         activated_at: a.activated_at,
-        last_login: a.last_login_at.try(:to_formatted_s, :admin),
+        last_login: a.last_login_at,
         link: url_helpers.artist_path(a.slug)
       )
     end

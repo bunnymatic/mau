@@ -80,7 +80,7 @@ describe Api::NotesController do
           }
           @resp = JSON.parse(response.body)
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
         it { expect(JSON.parse(response.body)['success']).to eql true }
       end
 
@@ -96,7 +96,7 @@ describe Api::NotesController do
           }
           @resp = JSON.parse(response.body)
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
         it { expect(JSON.parse(response.body)['success']).to eql true }
       end
     end

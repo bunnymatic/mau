@@ -36,7 +36,7 @@ describe Admin::EmailListsController do
   it 'responds success if logged in as admin' do
     login_as admin
     get :index
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   describe '#index' do

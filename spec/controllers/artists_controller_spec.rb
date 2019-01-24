@@ -6,20 +6,23 @@ require 'htmlentities'
 describe ArtistsController, elasticsearch: true do
   let(:studio) { create :studio }
   let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:number_of_art_pieces) { 1 }
+  let(:artist_info) { artist.artist_info }
   let(:artist) do
     FactoryBot.create(:artist, :with_art,
                       studio: studio,
-                      number_of_art_pieces: 3,
-                      nomdeplume: nil, firstname: 'joe', lastname: 'ablow')
+                      number_of_art_pieces: number_of_art_pieces,
+                      nomdeplume: nil,
+                      firstname: 'joe',
+                      lastname: 'ablow')
   end
   let(:artist2) { FactoryBot.create(:artist, :active, studio: studio) }
   let(:without_address) { FactoryBot.create(:artist, :active, :without_address) }
   let(:artists) do
-    [artist] + FactoryBot.create_list(:artist, 3, :with_studio, :with_tagged_art, number_of_art_pieces: 1)
+    [artist] + FactoryBot.create_list(:artist, 2, :with_studio, :with_tagged_art, number_of_art_pieces: 1)
   end
   let!(:open_studios_event) { create(:open_studios_event) }
   let(:fan) { FactoryBot.create(:fan, :active) }
-  let(:artist_info) { artist.artist_info }
   let(:ne_bounds) { Artist::BOUNDS['NE'] }
   let(:sw_bounds) { Artist::BOUNDS['SW'] }
 
@@ -28,7 +31,7 @@ describe ArtistsController, elasticsearch: true do
       artists
       get :index
     end
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
     it 'set the title' do
       expect(assigns(:page_title)).to eql 'Mission Artists - Artists'
     end
@@ -38,7 +41,7 @@ describe ArtistsController, elasticsearch: true do
     before do
       get :roster
     end
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
     it 'assigns artists' do
       expect(assigns(:roster).artists.length.size).to be >= 2
     end
@@ -218,7 +221,7 @@ describe ArtistsController, elasticsearch: true do
         login_as artist
         get :edit, params: { id: artist.to_param }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
   end
 
@@ -239,14 +242,14 @@ describe ArtistsController, elasticsearch: true do
       before(:each) do
         get :show, params: { id: artist2.id }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     context 'while not logged in' do
       before(:each) do
         get :show, params: { id: artist2.id }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     describe 'logged in as admin' do
@@ -254,7 +257,7 @@ describe ArtistsController, elasticsearch: true do
         login_as admin
         get :show, params: { id: artist.id }
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     describe 'json' do
@@ -300,17 +303,16 @@ describe ArtistsController, elasticsearch: true do
   # end
 
   describe '#setarrangement' do
-    before do
-      # stash an artist and art pieces
-      @artpieces = artist.art_pieces.map(&:id)
-    end
+    let(:number_of_art_pieces) { 3 }
+    let(:art_piece_ids) { artist.art_pieces.pluck(:id) }
+
     context 'while logged in' do
       before(:each) do
         login_as(artist)
       end
       [[2, 1, 3], [1, 3, 2], [2, 3, 1]].each do |ord|
         it "returns art_pieces in new order #{ord.inspect}" do
-          order1 = ord.map { |idx| @artpieces[idx - 1] }
+          order1 = ord.map { |idx| art_piece_ids[idx - 1] }
           expect(artist.art_pieces.map(&:id)).not_to eql order1
           post :setarrangement, params: { neworder: order1.join(',') }
           expect(response).to redirect_to artist_url(artist)
@@ -324,7 +326,7 @@ describe ArtistsController, elasticsearch: true do
         mock_messager = instance_double(Messager)
         expect(mock_messager).to receive(:publish)
         expect(Messager).to receive(:new).and_return(mock_messager)
-        order1 = [@artpieces[0], @artpieces[2], @artpieces[1]]
+        order1 = [art_piece_ids[0], art_piece_ids[2], art_piece_ids[1]]
         post :setarrangement, params: { neworder: order1.join(',') }
       end
 
@@ -340,14 +342,14 @@ describe ArtistsController, elasticsearch: true do
         expect(artist.art_pieces.map(&:id)).to eql order1
       end
       it 'redirects to the artists page' do
-        order1 = [@artpieces[0], @artpieces[2], @artpieces[1]]
+        order1 = [art_piece_ids[0], art_piece_ids[2], art_piece_ids[1]]
         post :setarrangement, params: { neworder: order1.join(',') }
         expect(response).to redirect_to artist_path(artist)
       end
       it 'does not redirect if request is xhr' do
-        order1 = [@artpieces[0], @artpieces[2], @artpieces[1]]
+        order1 = [art_piece_ids[0], art_piece_ids[2], art_piece_ids[1]]
         post :setarrangement, xhr: true, params: { neworder: order1.join(',') }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -362,6 +364,7 @@ describe ArtistsController, elasticsearch: true do
   end
 
   describe '#destroyart' do
+    let(:number_of_art_pieces) { 2 }
     let(:art_pieces) { ArtPiece.all.reject { |art| art.artist == artist } }
     let(:art_pieces_for_deletion) do
       Hash[art_pieces.map.with_index { |a, idx| [a.id, idx % 2] }]

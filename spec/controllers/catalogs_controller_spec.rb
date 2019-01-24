@@ -27,7 +27,7 @@ describe CatalogsController do
       before do
         get :show
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     context 'format=csv' do
@@ -38,7 +38,7 @@ describe CatalogsController do
       before do
         get :show, format: :csv
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to be_csv_type }
       it 'includes the right headers' do
         expected_headers = ['First Name', 'Last Name', 'Full Name', 'Email', 'Group Site Name',
@@ -62,7 +62,7 @@ describe CatalogsController do
       before do
         get :social
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
     context 'format=csv' do
       let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge(headers: true) }
@@ -71,7 +71,7 @@ describe CatalogsController do
       before do
         get :social, format: :csv
       end
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to be_csv_type }
 
       it 'includes the right headers' do
