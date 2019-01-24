@@ -31,6 +31,7 @@ class MediaCloudPresenter < ViewPresenter
         frequency.map do |entry|
           medium = find_medium(entry['medium'])
           next unless medium
+
           medium
         end.select(&:present?)
       end

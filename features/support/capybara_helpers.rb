@@ -30,6 +30,7 @@ module CapybaraHelpers
     Timeout.timeout(time) do
       loop do
         break if yield
+
         sleep 0.1
       end
     end
@@ -63,6 +64,7 @@ module CapybaraHelpers
 
   def scroll_to_element(locator)
     return unless running_js?
+
     element = locator.is_a?(String) ? find(locator, visible: false) : locator
 
     script = <<-JS

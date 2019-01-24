@@ -28,6 +28,7 @@ class Address
 
   def to_s(full = nil)
     return '' if empty?
+
     full ? [street, city, state, zip].join(', ') : [street, zip].join(' ')
   end
 
@@ -49,12 +50,14 @@ class Address
 
   def get_state(model)
     return model.addr_state if model.respond_to?(:addr_state)
+
     model.state
   end
 
   def fetch_with_default(default)
     val = yield
     return default if val.blank?
+
     val
   end
 end

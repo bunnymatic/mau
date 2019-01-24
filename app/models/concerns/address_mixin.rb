@@ -27,6 +27,7 @@ module AddressMixin
 
   def compute_geocode(force = false)
     return unless (should_recompute? || force) && address.present?
+
     begin
       if address.present? && (should_recompute? || force)
         result = Geokit::Geocoders::MultiGeocoder.geocode(address.to_s(true))

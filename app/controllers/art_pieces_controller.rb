@@ -93,6 +93,7 @@ class ArtPiecesController < ApplicationController
   def load_art_piece
     @art_piece = safe_find_art_piece(params[:id])
     return if @art_piece&.artist && @art_piece.artist.active?
+
     flash[:error] = "We couldn't find that art piece."
     redirect_to '/error'
   end

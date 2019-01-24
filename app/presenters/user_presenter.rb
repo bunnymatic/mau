@@ -146,6 +146,7 @@ class UserPresenter < ViewPresenter
     self.class.keyed_links.map do |key|
       site = @model.send(key)
       next if site.blank?
+
       formatted_site = format_link(site)
       site_display = format_link_for_display(site)
       link_icon_class = icon_link_class(key, site)
@@ -197,17 +198,17 @@ class UserPresenter < ViewPresenter
   end
 
   def format_link(link)
-    (link =~ %r{^https?://} ? link : "http://#{link}") if link.present?
+    (%r{^https?://}.match?(link) ? link : "http://#{link}") if link.present?
   end
 
   def icon_link_class(key, site)
     site = strip_http_from_link(site)
     clz = [:ico, 'ico-invert', "ico-#{key}"]
     icon_chooser = begin
-                     if site =~ /\.tumblr\./
+                     if /\.tumblr\./.match?(site)
                        'ico-tumblr'
                      elsif key.to_sym == :blog
-                       if site =~ /\.blogger\./
+                       if /\.blogger\./.match?(site)
                          'ico-blogger'
                        else
                          site_bits = site.split('.')

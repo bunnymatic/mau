@@ -22,6 +22,7 @@ class TestEsServer
 
   def self.start
     return if running?
+
     puts "Starting elasticsearch cluster on port #{port}"
     cluster.start(server_args) unless running?
   end

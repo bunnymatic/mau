@@ -17,6 +17,7 @@ class MauMailer < ActionMailer::Base
 
   def environment_for_subject
     return '' if Rails.env.production?
+
     "[#{Rails.env}]"
   end
 

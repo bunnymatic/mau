@@ -19,6 +19,7 @@ class UserNavigation < Navigation
 
   def artist_nav_items
     return [] unless current_artist
+
     [
       link_to('My Profile', url_helpers.artist_path(current_artist.to_param), title: 'View My Info'),
       link_to('My Art', url_helpers.manage_art_artist_path(current_artist.to_param), title: 'Manage My Art'),
@@ -29,6 +30,7 @@ class UserNavigation < Navigation
 
   def user_nav_items
     return [] if current_artist
+
     [
       link_to('My Profile', url_helpers.user_path(current_user.to_param)),
       link_to('My Account', url_helpers.edit_user_path(current_user.to_param))

@@ -41,6 +41,7 @@ class Artist < User
 
   def as_indexed_json(_opts = {})
     return {} unless active?
+
     idxd = as_json(only: %i[firstname lastname nomdeplume slug])
     extras = {}
     studio_name = studio.try(:name)
@@ -107,6 +108,7 @@ class Artist < User
 
   def in_the_mission?
     return false unless address?
+
     within_bounds?(address.lat, address.lng)
   end
 

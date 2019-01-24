@@ -69,6 +69,7 @@ class FeedbackMail
 
   def save
     return false unless valid?
+
     em = (account? ? account_email : email)
     f = Feedback.new(email: em,
                      subject: subject,

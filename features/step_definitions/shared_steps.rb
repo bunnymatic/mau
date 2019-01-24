@@ -34,8 +34,10 @@ end
 def find_links_or_buttons(locator)
   result = all("##{locator}") if /^-_[A-z][0-9]*$/ =~ locator
   return result if result.present?
+
   result = all('a,button', text: locator)
   return result if result.present?
+
   all_links_or_buttons_with_title(locator)
 end
 
@@ -159,11 +161,9 @@ Then(/^I see a flash notice (including\s+)?"(.*?)"$/) do |_, msg|
 end
 
 Then(/^I close the notice$/) do
-  begin
-    find('.flash.flash__notice .flash__close').trigger 'click'
-  rescue Capybara::NotSupportedByDriverError
-    find('.flash.flash__notice .flash__close').click
-  end
+  find('.flash.flash__notice .flash__close').trigger 'click'
+rescue Capybara::NotSupportedByDriverError
+  find('.flash.flash__notice .flash__close').click
 end
 
 Then(/^I close the flash$/) do
@@ -242,7 +242,7 @@ end
 When(/^I fill in the form with:$/) do |table|
   info = table.hashes.first
   info.each do |field, val|
-    if /Studio/ =~ field
+    if /Studio/.match?(field)
       select val, from: field
     else
       fill_in_field_with_value field, val
@@ -254,7 +254,7 @@ When(/^I fill in the "([^"]*?)" form with:$/) do |form_locator, table|
   within form_locator do
     info = table.hashes.first
     info.each do |field, val|
-      if /Studio/ =~ field
+      if /Studio/.match?(field)
         select val, from: field
       else
         fill_in_field_with_value field, val

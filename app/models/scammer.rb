@@ -13,6 +13,7 @@ class Scammer < ApplicationRecord
     importer = FasoImporter.new
     importer.scammers.each do |s|
       next if Scammer.exists?(faso_id: s.faso_id)
+
       s.save if s.valid?
     end
   end

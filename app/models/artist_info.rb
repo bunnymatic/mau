@@ -34,7 +34,7 @@ class ArtistInfo < ApplicationRecord
   def os_participation=(os_setting)
     current = parse_open_studios_participation(open_studios_participation)
     current.merge!(os_setting)
-    current.delete_if { |_k, v| !(v == 'true' || v == true || v == 'on' || v == '1' || v == 1) }
+    current.delete_if { |_k, v| !['true', 'on', '1', true, 1].include?(v) }
     update(open_studios_participation: current.keys.join('|'))
   end
 

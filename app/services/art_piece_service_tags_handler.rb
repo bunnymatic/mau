@@ -4,6 +4,7 @@ module ArtPieceServiceTagsHandler
   def prepare_tags_params
     key = :tags if @params.key? :tags
     return unless key
+
     base_names = (@params[:tags] || '').split(',').map do |name|
       name.strip.downcase if name.present?
     end.compact.uniq

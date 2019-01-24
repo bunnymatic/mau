@@ -20,6 +20,7 @@ class FasoImporter
     faso_data.map do |row|
       entry = parse_row(row)
       next unless entry
+
       name = entry['name_used'].encode('utf-8', invalid: :replace, undef: :replace)
       Scammer.new(name: name, faso_id: entry['id'], email: entry['email'])
     end.compact.uniq

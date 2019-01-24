@@ -47,6 +47,7 @@ class ArtistPresenter < UserPresenter
 
   def _primary_medium
     return @_primary_medium if @_primary_medium
+
     media = art_pieces.map(&:medium).compact
     medium = StatsCalculator.histogram(media).map(&:first).first
     @_primary_medium = medium
@@ -74,6 +75,7 @@ class ArtistPresenter < UserPresenter
 
   def art_pieces
     return [] unless artist?
+
     @art_pieces ||=
       begin
         num = (artist.max_pieces || 20) - 1
@@ -212,6 +214,7 @@ class ArtistPresenter < UserPresenter
 
   def linked_thumb
     return unless representative_piece
+
     @linked_thumb ||= content_tag('a', map_thumb_image, href: url_helpers.artist_path(model))
   end
 end

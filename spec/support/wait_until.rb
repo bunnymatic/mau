@@ -5,6 +5,7 @@ module WaitUntil
     Timeout.timeout(time) do
       loop do
         break if yield
+
         sleep 0.1
       end
     end

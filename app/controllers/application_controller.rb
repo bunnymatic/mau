@@ -28,6 +28,7 @@ class ApplicationController < ActionController::Base
 
   def store_location(location = nil)
     return unless request.format == 'text/html'
+
     session[:return_to] =
       begin
         location.presence ||

@@ -12,6 +12,7 @@ class NewArtPiecePresenter
 
   def open_studios_info
     return unless before_current_os?
+
     "See more at #{studio_address} during Open Studios #{open_studios.date_range}"
   end
 
@@ -32,6 +33,7 @@ class NewArtPiecePresenter
 
   def tag_cleaner(tag)
     return tag if tag.starts_with?('@')
+
     "##{tag.gsub(/\W/, '')}"
   end
 
@@ -50,6 +52,7 @@ class NewArtPiecePresenter
   def tags_for_open_studios
     return [] unless artist.doing_open_studios?
     return [] unless before_current_os?
+
     if art_span_os?
       ['SFOS', "SFOS#{current_os_start.year}", 'SFopenstudios']
     else

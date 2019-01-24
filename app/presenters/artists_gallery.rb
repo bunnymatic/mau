@@ -5,7 +5,7 @@ class ArtistsGallery < ArtistsPresenter
 
   PER_PAGE = Rails.env.development? ? 5 : 20
   ELLIPSIS = '&hellip;'
-  LETTERS_REGEX = /[a-zA-Z]/
+  LETTERS_REGEX = /[a-zA-Z]/.freeze
   attr_reader :pagination, :per_page, :letter, :ordering
 
   delegate :items, :more?, :current_page, :next_page, to: :pagination
@@ -26,6 +26,7 @@ class ArtistsGallery < ArtistsPresenter
   def self.letters(first_or_last)
     name = first_or_last.to_sym if %i[lastname firstname].include? first_or_last.to_sym
     return [] unless name
+
     letters = ArtPiece.joins(:artist).where(users: { state: 'active' }).group("lcase(left(users.#{name},1))").count.keys
     letters.select { |l| LETTERS_REGEX =~ l } + [ELLIPSIS]
   end
@@ -63,6 +64,7 @@ class ArtistsGallery < ArtistsPresenter
 
   def letter_match(lettr, name)
     return true if lettr.nil?
+
     first_letter = name[0].try(:downcase)
     (lettr == first_letter) || ((LETTERS_REGEX !~ first_letter) && lettr == ELLIPSIS)
   end

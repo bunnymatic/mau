@@ -16,6 +16,7 @@ class ApiAuthorizor
     def internal_request?(request)
       referrer = URI.parse(request.env['HTTP_REFERER'].to_s)
       return false unless referrer
+
       request.host == referrer.host
     rescue URI::Error
       false

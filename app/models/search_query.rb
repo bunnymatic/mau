@@ -32,12 +32,14 @@ class SearchQuery
 
   def mediums_from_attrs(vals)
     return [] unless vals
+
     medium_ids = vals.map(&:to_i).reject { |v| v <= 0 }
     Medium.by_name.where(id: medium_ids)
   end
 
   def studios_from_attrs(vals)
     return [] unless vals
+
     Studio.where(id: vals.compact.uniq)
   end
 end

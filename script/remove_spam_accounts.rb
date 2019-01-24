@@ -58,6 +58,7 @@ spam_accounts = ['attonhayd John <slip23572@tom.com>',
 spam_accounts.each do |acct|
   m = /<(.*)>/.match(acct)
   next unless m
+
   email = m[1]
   a = Artist.find_by(email: email)
   if a

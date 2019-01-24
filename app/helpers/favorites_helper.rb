@@ -17,6 +17,7 @@ module FavoritesHelper
 
   def draw_micro_favorite(fav, linkless: false)
     return '' unless fav
+
     img, path, title = get_favorite_image_and_path fav, 'thumb'
     result = ''
     if img && path
