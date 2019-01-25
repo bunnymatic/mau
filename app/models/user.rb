@@ -2,6 +2,8 @@
 
 require 'digest/sha1'
 require 'json'
+require Rails.root.join('lib', 'authlogic', 'crypto_providers', 'restful_auth_sha1.rb')
+require Rails.root.join('lib', 'authlogic', 'crypto_providers', 'restful_auth_scrypt.rb')
 
 class User < ApplicationRecord
   validates :login, presence: true
@@ -84,8 +86,12 @@ class User < ApplicationRecord
   has_many :roles, through: :roles_users, dependent: :destroy
 
   acts_as_authentic do |c|
-    c.act_like_restful_authentication = true
-    c.transition_from_restful_authentication = true
+    c.transition_from_crypto_providers = [
+      Authlogic::CryptoProviders::Sha1,
+      Authlogic::CryptoProviders::RestfulAuthSha1,
+      Authlogic::CryptoProviders::RestfulAuthSCrypt
+    ]
+    c.crypto_provider = Authlogic::CryptoProviders::SCrypt
   end
 
   def active?
