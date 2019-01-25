@@ -67,9 +67,10 @@ GEM
       io-like (~> 0.3.0)
     arel (9.0.0)
     ast (2.4.0)
-    authlogic (3.8.0)
-      activerecord (>= 3.2, < 5.3)
-      activesupport (>= 3.2, < 5.3)
+    authlogic (5.0.0)
+      activemodel (>= 5.2, < 6.1)
+      activerecord (>= 5.2, < 6.1)
+      activesupport (>= 5.2, < 6.1)
       request_store (~> 1.0)
       scrypt (>= 1.2, < 4.0)
     autoprefixer-rails (8.6.0)
@@ -407,7 +408,7 @@ GEM
     rdiscount (2.2.0.1)
     recaptcha (4.6.4)
       json
-    request_store (1.4.0)
+    request_store (1.4.1)
       rack (>= 1.4)
     require_all (2.0.0)
     responders (2.4.0)
@@ -466,7 +467,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    scrypt (3.0.5)
+    scrypt (3.0.6)
       ffi-compiler (>= 1.0, < 2.0)
     selenium-webdriver (3.11.0)
       childprocess (~> 0.5)
