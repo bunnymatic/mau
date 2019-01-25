@@ -23,19 +23,19 @@
 }
 
 @mixin transparent_white_background {
-  background-color: $xlightgray;
+  background-color: $x-light-gray;
   background-color: rgba(240, 240, 240, 0.7);
 }
 
 @mixin dotted_border {
-  border: 1px dotted $bordergray;
+  border: 1px dotted $border-gray;
 }
 @mixin solid_border {
-  border: 1px solid $bordergray;
+  border: 1px solid $border-gray;
 }
 @mixin input_style {
   border: 1px solid $lightbluegray;
-  background-color: $xlightgray;
+  background-color: $x-light-gray;
   padding: 4px;
 }
 @mixin link_style {
@@ -149,7 +149,7 @@ $default_rounded_amount: 3px;
 }
 
 @mixin floating-window-border {
-  border: 1px solid $bordergray;
+  border: 1px solid $border-gray;
   box-shadow: 4px 4px 8px rgba(40, 40, 40, 0.8);
 }
 

@@ -19,7 +19,7 @@ email-list-manager {
         @include ellipsis;
       }
       &:nth-child(odd) {
-        background-color: $xxlightgray;
+        background-color: $xx-light-gray;
       }
     }
     .del-btn {

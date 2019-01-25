@@ -75,14 +75,14 @@
       padding-right: 10px;
     }
     td:first-child {
-      color: $lightgray;
+      color: $light-gray;
     }
   }
   .admin-user__profile-table-row.is-section-start {
     td {
       margin-top: 10px;
       padding-top: 10px;
-      border-top: 1px dotted $mediumgray;
+      border-top: 1px dotted $medium-gray;
     }
   }
   .admin-user__profile-table-row.is-section-end {

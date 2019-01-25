@@ -2,9 +2,6 @@
 
 module Admin
   class PalettesController < ::BaseAdminController
-    def show
-      f = File.expand_path('app/assets/stylesheets/_colors.scss')
-      @colors = SassColorExtractor::Base.parse_colors(f)
-    end
+    def show; end
   end
 end

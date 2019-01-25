@@ -65,8 +65,8 @@ search-results {
   .score {
     display: none;
     float: right;
-    text-color: $mediumgray;
-    border-bottom: 1px dotted $mediumgray;
+    text-color: $medium-gray;
+    border-bottom: 1px dotted $medium-gray;
     font-size: 12px;
   }
   .fa {
@@ -113,7 +113,7 @@ search-results {
       }
       .value {
         padding-left: 0.5rem;
-        color: $mediumgray;
+        color: $medium-gray;
       }
       .search-highlight {
         color: $darkgray;

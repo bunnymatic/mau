@@ -1,6 +1,30 @@
+ruby:
+  colors = %w(
+    base-background-color
+    black
+    bluegray
+    border-gray
+    bordergray
+    darkbluegray
+    darkgray
+    error_red
+    gto_dark_blue
+    gto_dark_teal
+    gto_gray
+    gto_orange
+    gto_red
+    gto_teal
+    gto_yellow
+    light-gray-background
+    light-gray
+    lightbluegray
+    medium-gray
+    white
+    x-light-gray
+    xx-light-gray
+  )
 .palette-colors
-  - @colors.each do |name, hexval|
-    .palette-colors__color(style="background-color: ##{hexval}")
+  - colors.each do |color|
+    .palette-colors__color class="palette-colors__color--#{color}"
       .palette-colors__color-info
-        .palette-colors__color-info__name = name
-        .palette-colors__color-info__hexval = "##{hexval}"
+        .palette-colors__color-info__name = color

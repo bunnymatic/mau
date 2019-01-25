@@ -6,21 +6,21 @@
 
   fieldset {
     @include small-rounded-corners;
-    border: 1px solid $mediumgray;
+    border: 1px solid $medium-gray;
     padding-top: 1.5em;
     margin: 0.5em 0;
     background-color: $darkgray;
-    color: $lightgray;
+    color: $light-gray;
     text-align: left;
   }
   legend {
     white-space: normal;
     text-transform: capitalize;
     font-weight: bold;
-    color: $xlightgray;
+    color: $x-light-gray;
     background: $black;
     padding: 0.5em 1em;
-    border: 1px solid $mediumgray;
+    border: 1px solid $medium-gray;
     @include small-rounded-corners;
     font-size: 1.2em;
   }
@@ -33,7 +33,7 @@
     text-align: right;
     font-style: italic;
     overflow: hidden;
-    color: $lightgray;
+    color: $light-gray;
     margin: 0 9% 0 0;
   }
   .mc-field-group {
