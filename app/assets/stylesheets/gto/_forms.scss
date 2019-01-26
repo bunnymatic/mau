@@ -6,7 +6,7 @@
 .error-msg {
   padding: 12px;
   background-color: white;
-  border-color: $xxlightgray;
+  border-color: $xx-light-gray;
   margin-bottom: 20px;
   line-height: 1.4rem;
   @include round-corners(2px);
@@ -32,7 +32,7 @@ tr.error-msg {
   font-style: italic;
   margin: 5px auto;
   line-height: 1rem;
-  color: $lightgray;
+  color: $light-gray;
 }
 .actions,
 .inputs {

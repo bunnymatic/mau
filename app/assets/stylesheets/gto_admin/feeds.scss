@@ -23,8 +23,8 @@
   .feedentry {
     max-width: 250px;
     &.even {
-      border-top: 1px dotted $bordergray;
-      border-bottom: 1px dotted $bordergray;
+      border-top: 1px dotted $border-gray;
+      border-bottom: 1px dotted $border-gray;
     }
     padding: 2px 5px 5px 5px;
   }

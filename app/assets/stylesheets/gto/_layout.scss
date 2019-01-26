@@ -142,7 +142,7 @@ body {
 .pure-g {
   .header {
     &.bordered-header {
-      border-bottom: 1px solid $xlightgray;
+      border-bottom: 1px solid $x-light-gray;
       margin: 1em 0 0.83em;
       padding-bottom: 10px;
       display: flex;
@@ -171,7 +171,7 @@ body {
     }
     .title {
       font-weight: $font-weight-light;
-      border-bottom: 1px solid $xlightgray;
+      border-bottom: 1px solid $x-light-gray;
       padding-bottom: 8px;
       padding-left: 2px;
     }

@@ -66,7 +66,7 @@
     h5 {
       padding: 10px 0px;
       margin-right: 20px;
-      border-bottom: 1px solid $lightgray;
+      border-bottom: 1px solid $light-gray;
     }
   }
 }
@@ -322,7 +322,7 @@
       }
     }
     .header {
-      border-bottom: 1px solid $xlightgray;
+      border-bottom: 1px solid $x-light-gray;
       padding: 4px 2px;
       margin-bottom: 8px;
       @include all-caps-label;
@@ -545,7 +545,7 @@ ul.favorite-thumbs li {
         border-right-width: 1px;
       }
       &.current {
-        background-color: $xlightgray;
+        background-color: $x-light-gray;
       }
     }
   }

@@ -52,7 +52,6 @@ gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
 gem 'rosie'
-gem 'sass-color-extractor'
 gem 'sassc-rails'
 gem 'slim-rails'
 gem 'sprockets', '~> 3.7.2'
