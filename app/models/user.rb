@@ -18,7 +18,21 @@ class User < ApplicationRecord
   validates :firstname, length: { maximum: 100, allow_nil: true }
   validates :lastname, length: { maximum: 100, allow_nil: true }
 
+  validates :password,
+            confirmation: { if: :require_password? },
+            length: {
+              minimum: 8,
+              if: :require_password?
+            }
+  validates :password_confirmation,
+            length: {
+              minimum: 8,
+              if: :require_password?
+            }
+
   store :links, accessors: %i[website facebook twitter blog pinterest myspace flickr instagram artspan]
+
+  attr_accessor :password_confirmation
 
   extend FriendlyId
   friendly_id :login, use: [:slugged]
@@ -92,6 +106,7 @@ class User < ApplicationRecord
       Authlogic::CryptoProviders::RestfulAuthSCrypt
     ]
     c.crypto_provider = Authlogic::CryptoProviders::SCrypt
+    c.require_password_confirmation = true
   end
 
   def active?
