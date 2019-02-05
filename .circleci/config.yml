@@ -8,17 +8,14 @@ jobs:
       CI: true
       TEST_CLUSTER_PORT: 9200
     docker:
-      - image: circleci/ruby:2.5.1-node-browsers
+      - image: circleci/ruby:2.6.1-node-browsers
     steps:
       - checkout
       - restore_cache:
           keys:
-            # This branch if available
-            - v2-dep-{{ .Branch }}-
-            # Default branch if not
-            - v2-dep-development-
-            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
-            - v2-dep-
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}
+            - mau-deps-v2-
       - run:
           shell: /bin/bash
           name: Yarn/Bundle Install and Audit
@@ -46,17 +43,14 @@ jobs:
       CI: true
       TEST_CLUSTER_PORT: 9200
     docker:
-      - image: circleci/ruby:2.5.1-node-browsers
+      - image: circleci/ruby:2.6.1-node-browsers
     steps:
       - checkout
       - restore_cache:
           keys:
-            # This branch if available
-            - v2-dep-{{ .Branch }}-
-            # Default branch if not
-            - v2-dep-development-
-            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
-            - v2-dep-
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}
+            - mau-deps-v2-
       - run:
           shell: /bin/bash
           name: Yarn/Bundle Install
@@ -86,7 +80,7 @@ jobs:
       CI: true
       TEST_CLUSTER_PORT: 9200
     docker:
-      - image: circleci/ruby:2.5.1-node-browsers
+      - image: circleci/ruby:2.6.1-node-browsers
       - image: tkuchiki/delayed-mysql
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
@@ -99,12 +93,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            # This branch if available
-            - v2-dep-{{ .Branch }}-
-            # Default branch if not
-            - v2-dep-development-
-            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
-            - v2-dep-
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}
+            - mau-deps-v2-
       - run:
           shell: /bin/bash
           name: Yarn/Bundle install
@@ -140,7 +131,7 @@ jobs:
       CI: true
       TEST_CLUSTER_PORT: 9200
     docker:
-      - image: circleci/ruby:2.5.1-node-browsers
+      - image: circleci/ruby:2.6.1-node-browsers
       - image: tkuchiki/delayed-mysql
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
@@ -154,12 +145,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            # This branch if available
-            - v2-dep-{{ .Branch }}-
-            # Default branch if not
-            - v2-dep-development-
-            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch set properly
-            - v2-dep-
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}
+            - mau-deps-v2-
       - run:
           shell: /bin/bash
           name: Yarn/Bundle install
