@@ -73,7 +73,8 @@ When(/^I suspend the first artist$/) do
   wait_until do
     !all('#good .admin-table tr').empty?
   end
-  name = first('#good table tbody tr td.login a').text
+
+  name = first('#good table tbody tr a.admin-artist-suspend-link').ancestor('tr').find('td.login').text
   @first_artist = Artist.find_by(login: name)
   click_on_first 'Suspend artist'
 end
