@@ -3,7 +3,7 @@ Feature: As a active artist I can edit my information
 
 Background:
   Given I am signed in as an artist
-  And I click on the first "MY ACCOUNT" link
+  And I click on the first "My Account" link
 
 Scenario: I can edit my personal information
   When I click on "Personal Info"

@@ -3,8 +3,11 @@
 require_relative '../../spec/support/mobile_setup'
 
 def fill_in_login_form(login, pass)
-  flash = all('.flash__close')
-  flash.map(&:click) if flash.any?
+  begin
+    find('.flash__close').click
+  rescue Capybara::ElementNotFound
+  end
+
   fill_in('Username/Email', with: login)
   fill_in('Password', with: pass)
 end
@@ -148,7 +151,6 @@ Then(/^I do not see an error message$/) do
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  wait_until { all('.error-msg').any? }
   expect(page).to have_selector '.error-msg', text: msg
 end
 
@@ -211,15 +213,15 @@ When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
 end
 
 When(/^I click on the first "([^"]*?)"$/) do |button_text|
-  find_first_link_or_button(button_text).click
+  click_on(button_text, match: :first)
 end
 
 When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, _dummy|
-  find_first_link_or_button(button_text).click
+  click_on(button_text, match: :first)
 end
 
 When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, _dummy|
-  find_last_link_or_button(button_text).click
+  all(:link_or_button, button_text).last.click
 end
 
 Then(/^I see a message "(.*?)"$/) do |message|

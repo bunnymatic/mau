@@ -28,9 +28,8 @@ AllCops:
     - app/lib/app_config.rb
     - config/initializers/setup_email_lists.rb
     - features/step_definitions/factory_steps.rb
-
-Rails:
-  Enabled: true
+    - features/step_definitions/shared_steps.rb
+    - features/step_definitions/user_steps.rb
 
 Lint/HandleExceptions:
   Exclude:

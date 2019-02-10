@@ -75,7 +75,7 @@ class ArtPiece < ApplicationRecord
   end
 
   def self.find_random(num = 1)
-    owned.limit(num).order('rand()')
+    owned.limit(num).order(Arel.sql('rand()'))
   end
 
   def self.owned

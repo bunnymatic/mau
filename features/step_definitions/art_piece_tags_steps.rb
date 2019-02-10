@@ -39,10 +39,10 @@ Then(/^I see more artists who have art in the most popular tag$/) do
   # this preload/call (for some reason) sets this test up for success
   @first_tag.art_pieces.all
 
-  page.all '.search-results .desc .name' do |element|
-    expect(element.any? { |el| el.has_content? have_content @first_tag.art_pieces.first.title }).to be_truthy
-    expect(element.any? { |el| el.has_content? have_content @first_tag.art_pieces.last.title }).to be_falsy
-  end
+  name_tags = page.all('.search-results .desc .name')
+
+  expect(name_tags.any? { |el| el.text =~ /#{@first_tag.art_pieces.first.title}/ }).to eq true
+  expect(name_tags.any? { |el| el.text =~ /#{@first_tag.art_pieces.last.title}/ }).to eq false
 end
 
 When(/^I click on the first tag$/) do

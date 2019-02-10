@@ -17,7 +17,7 @@
       = f.inputs do
         #email_input.fdbk-input
           - if !logged_in?
-            = f.input 'email', input_html: {placeholder: 'email address'}, input_html: { autofocus: true }
+            = f.input 'email', input_html: {placeholder: 'email address', autofocus: true }
           - else
             = f.hidden_field 'email', value: current_user.email
         #comment_input.fdbk-input

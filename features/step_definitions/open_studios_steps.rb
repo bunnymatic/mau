@@ -94,6 +94,7 @@ When(/^I click delete on the "([^"]*)" titled open studios event$/) do |title|
   within table_row_matching(title) do
     click_on 'Delete'
   end
+  step %(I close the flash)
 end
 
 Then /^I fill in the open studios event form for next weekend with the title \"(.*)\"$/ do |title|
