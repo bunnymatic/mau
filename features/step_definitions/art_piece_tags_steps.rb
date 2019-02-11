@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-Then(/^I see the most popular tag page$/) do
-  first_tag = ArtPieceTagService.tags_sorted_by_frequency.first.tag
-  expect(current_path).to eql art_piece_tag_path(first_tag)
-end
-
 Then(/^I don't see the first tag anymore$/) do
   expect(page).to_not have_selector('.tagcloud .clouditem a', text: /\A@first_tag.name\Z/)
 end

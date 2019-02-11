@@ -13,10 +13,6 @@ When(/^I search for "(.*?)"$/) do |query|
   page.execute_script("$('.js-main-container form').submit()")
 end
 
-Then(/^I see the search results$/) do
-  expect(page).to have_css 'search-results'
-end
-
 Then(/^I see "([^"]*)" in the search results$/) do |keyword|
   within 'search-results' do
     expect(page).to have_content(/#{keyword}/i)

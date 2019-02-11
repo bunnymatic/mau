@@ -74,10 +74,6 @@ Then(/^I see my art$/) do
   expect(page).to have_selector '.art-card .image'
 end
 
-Then(/^I see the artist's menu/) do
-  expect(page).to have_selector '.nav-section.users'
-end
-
 When /^I move the last image to the first position$/ do
   @last_piece = @artist.art_pieces.last
   card = all('.js-sortable li').last
@@ -223,12 +219,6 @@ end
 Then(/^I see that I have a new profile picture$/) do
   img = find('.artist-profile__image img')
   expect(img).to be_present
-end
-
-Then(/^the artists index page shows no artists for open studios$/) do
-  expect(page).to_not have_css '.artist-card'
-  expect(page).to have_css 'h2', text: 'Artists in Open Studios'
-  expect(page).to have_content 'Sorry, no one has signed up for the next Open Studios'
 end
 
 Then(/^I see open studios artists on the artists list$/) do

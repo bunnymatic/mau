@@ -18,12 +18,6 @@ Then(/^I see the admin dashboard$/) do
   expect(current_path).to eql admin_path
 end
 
-When(/^I wait for the artists table to be rendered/) do
-  wait_until do
-    all('.mau-spinner').count.zero? && page.all('.admin-table').count.positive?
-  end
-end
-
 Then(/^I see the admin artists list$/) do
   if running_js?
     wait_until do

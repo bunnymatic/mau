@@ -3,11 +3,6 @@
 require_relative '../../spec/support/mobile_setup'
 
 def fill_in_login_form(login, pass)
-  begin
-    find('.flash__close').click
-  rescue Capybara::ElementNotFound
-  end
-
   fill_in('Username/Email', with: login)
   fill_in('Password', with: pass)
 end
@@ -46,10 +41,6 @@ end
 
 Given /^the cache is clear$/ do
   Rails.cache.clear
-end
-
-Given /^Mailchimp is hooked up$/ do
-  stub_mailchimp
 end
 
 When /I'm on my smart phone/ do
@@ -222,10 +213,6 @@ end
 
 When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, _dummy|
   all(:link_or_button, button_text).last.click
-end
-
-Then(/^I see a message "(.*?)"$/) do |message|
-  expect(page).to have_selector '.flash', text: message
 end
 
 def fill_in_field_with_value(field, value)
