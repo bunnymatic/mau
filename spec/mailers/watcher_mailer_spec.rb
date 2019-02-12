@@ -13,6 +13,13 @@ describe WatcherMailer do
 
     subject(:mail) { described_class.notify_new_art_piece(art_piece, to) }
 
+    let(:mail_body) do
+      # sometimes when our matchers are at the attribute level, because of
+      # utf8 encoding and such, matching against the raw mail body is more
+      # dependable
+      mail.html_part.body
+    end
+
     it 'sends it to the watchlist email list' do
       expect(mail.to).to match_array ['someone@example.com', 'other@example.com']
     end
@@ -23,13 +30,13 @@ describe WatcherMailer do
 
     it 'renders the email with the art piece, artist and studio info' do
       expect(mail).to have_body_text 'New Art:'
-      expect(mail).to have_link(art_piece.title, href: art_piece_url(art_piece))
-      expect(mail).to have_link(artist.get_name, href: artist_url(artist))
-      expect(mail).to have_link(studio.name, href: studio_url(studio))
+      expect(mail_body).to have_link(art_piece.title, href: art_piece_url(art_piece))
+      expect(mail_body).to have_link(artist.get_name, href: artist_url(artist))
+      expect(mail_body).to have_link(studio.name, href: studio_url(studio))
     end
 
     it 'includes the picture' do
-      expect(mail).to have_css("img[src='#{art_piece.photo(:original)}'][title='#{art_piece.title}']")
+      expect(mail_body).to have_css("img[src='#{art_piece.photo(:original)}'][title='#{art_piece.title}']")
     end
 
     it 'renders a little social media snippet' do

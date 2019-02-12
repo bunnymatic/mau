@@ -9,17 +9,7 @@ module CapybaraHelpers
   # @param [String] locator      Text, id or value of link or button
   #
   def click_on_first(locator, options = {})
-    links = nil
-    wait_until do
-      links = all(:link_or_button, locator, options)
-      links.present?
-    end
-    el = links.first
-    begin
-      el.trigger('click')
-    rescue Capybara::NotSupportedByDriverError
-      el.click
-    end
+    click_on(locator, options.merge(match: :first))
   end
 
   def javascript_driver?

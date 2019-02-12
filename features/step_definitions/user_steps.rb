@@ -78,43 +78,44 @@ Then(/^I see the login page$/) do
 end
 
 When(/^I login$/) do
-  steps %(When I visit the login page)
+  step %(I visit the login page)
   # if we're already logged in we'll be somewhere else
   fill_in_login_form (@artist || @user).login, '8characters'
-  steps %(And I click "Sign In")
+  step %(I click "Sign In")
   expect(page).to have_content /sign out/i
+  step %{I close the flash}
 end
 
 When(/^I login as an artist$/) do
-  steps %(Given there are artists with art in the system)
+  step %(there are artists with art in the system)
   @artist = @artists.first
-  steps %(When I login)
+  step %(I login)
 end
 
 When(/^I login as a fan$/) do
-  steps %(Given there are users in the system)
+  step %(there are users in the system)
   @user = MauFan.first
-  steps %(When I login)
+  step %(I login)
 end
 
 When(/^I login as an editor$/) do
   @editor = FactoryBot.create(:user, :editor, :active)
-  steps %(When I visit the login page)
+  step %(I visit the login page)
   fill_in_login_form @editor.login, '8characters'
-  steps %(And I click "Sign In")
+  step %(I click "Sign In")
 end
 
 When(/^I login as a manager$/) do
   studios = FactoryBot.create_list(:studio, 2)
   @manager = FactoryBot.create(:user, :manager, :active, studio: studios.first)
-  steps %(When I visit the login page)
+  step %(I visit the login page)
   fill_in_login_form @manager.login, '8characters'
-  steps %(And I click "Sign In")
+  step %(I click "Sign In")
 end
 
 When(/^I'm logged out$/) do
-  logout_links = page.all('a[href*=logout]')
-  logout_links.first.click if logout_links.present?
+  click_on_first 'sign out'
+rescue Capybara::ElementNotFound => _ex
 end
 
 When(/^I login as "(.*?)"$/) do |login|

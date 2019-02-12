@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-Then(/^I see the most popular tag page$/) do
-  first_tag = ArtPieceTagService.tags_sorted_by_frequency.first.tag
-  expect(current_path).to eql art_piece_tag_path(first_tag)
-end
-
 Then(/^I don't see the first tag anymore$/) do
   expect(page).to_not have_selector('.tagcloud .clouditem a', text: /\A@first_tag.name\Z/)
 end
@@ -39,10 +34,10 @@ Then(/^I see more artists who have art in the most popular tag$/) do
   # this preload/call (for some reason) sets this test up for success
   @first_tag.art_pieces.all
 
-  page.all '.search-results .desc .name' do |element|
-    expect(element.any? { |el| el.has_content? have_content @first_tag.art_pieces.first.title }).to be_truthy
-    expect(element.any? { |el| el.has_content? have_content @first_tag.art_pieces.last.title }).to be_falsy
-  end
+  name_tags = page.all('.search-results .desc .name')
+
+  expect(name_tags.any? { |el| el.text =~ /#{@first_tag.art_pieces.first.title}/ }).to eq true
+  expect(name_tags.any? { |el| el.text =~ /#{@first_tag.art_pieces.last.title}/ }).to eq false
 end
 
 When(/^I click on the first tag$/) do

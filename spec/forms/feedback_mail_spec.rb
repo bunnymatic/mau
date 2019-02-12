@@ -9,7 +9,12 @@ describe FeedbackMail, type: :model do
   it { should validate_presence_of :email }
   it { should validate_presence_of :email_confirm }
   it { should validate_presence_of :note_type }
-  it { should validate_inclusion_of(:note_type).in_array(FeedbackMail::VALID_NOTE_TYPES) }
+  it do
+    test_value = Shoulda::Matchers::ActiveModel::ValidateInclusionOfMatcher::ARBITRARY_OUTSIDE_STRING
+    should validate_inclusion_of(:note_type)
+      .in_array(FeedbackMail::VALID_NOTE_TYPES)
+      .with_message("#{test_value} is not a valid note type")
+  end
 
   context "if emails don't match (and are required" do
     subject(:feedback_mail) do

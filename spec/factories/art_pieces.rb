@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :art_piece do
-    title { Faker::BossaNova.song }
+    title { Faker::Name.initials + ' ' + Faker::BossaNova.song }
     photo_file_name    'new-art-piece.jpg'
     photo_content_type 'image/jpeg'
     photo_file_size    1234

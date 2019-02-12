@@ -69,13 +69,12 @@ group :test do
   gem 'capybara'
   gem 'capybara-email'
   gem 'capybara-screenshot'
-  gem 'capybara-slow_finder_errors'
   gem 'chromedriver-helper'
   gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'rspec_junit_formatter'
-  gem 'selenium-webdriver', '3.11.0'
+  gem 'selenium-webdriver'
   gem 'vcr'
   gem 'webmock'
 end
@@ -107,7 +106,6 @@ group :test, :development do
   gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop', require: false
-  gem 'guard-rspec'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
   gem 'simplecov'
   gem 'spring-commands-teaspoon'
