@@ -9,12 +9,22 @@ module Admin
       artist_list = AdminArtistList.new
       respond_to do |format|
         format.html do
-          @active_artist_list_count = artist_list.good_standing_artists.count
-          @inactive_artist_list_count = artist_list.bad_standing_artists.count
+          @artist_counts = {
+            active: artist_list.good_standing_artists.count,
+            pending: artist_list.pending_artists.count,
+            inactive: artist_list.bad_standing_artists.count
+          }
         end
 
         format.csv { render_csv_string(artist_list.csv, artist_list.csv_filename) }
       end
+    end
+
+    def pending
+      artist_list = AdminArtistList.new
+      render partial: 'admin_artists_table', locals: {
+        artist_list: artist_list.pending_artists.map { |a| ArtistPresenter.new(a) }
+      }
     end
 
     def good_standing

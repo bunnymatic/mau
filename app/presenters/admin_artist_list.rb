@@ -4,11 +4,15 @@ require 'csv'
 
 class AdminArtistList < ViewPresenter
   def good_standing_artists
-    artists.good_standing
+    artists.active.order(updated_at: :desc)
+  end
+
+  def pending_artists
+    artists.pending.order(updated_at: :desc)
   end
 
   def bad_standing_artists
-    artists.bad_standing
+    artists.bad_standing.order(updated_at: :desc)
   end
 
   CSV_HEADERS = [

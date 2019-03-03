@@ -12,15 +12,22 @@
         a href="#good" title="in good standing" data-toggle="tab"
           i.fa.fa-users
           '
-          | In Good Standing  (#{@active_artist_list_count})
+          | In Good Standing  (#{@artist_counts[:active]})
+      li
+        a href="#pending" title="not yet activated" data-toggle="tab"
+          i.fa.fa-users
+          '
+          | Not Yet Activated (#{@artist_counts[:pending]})
       li
         a href="#bad" title="suspended" data-toggle="tab"
           i.fa.fa-user-times
           '
-          | Suspended etc. (#{@inactive_artist_list_count})
+          | Suspended etc. (#{@artist_counts[:inactive]})
 
   .pure-u-1-1.tab-content.padded-content
     #good.tab-pane.active data-url="/admin/artists/good_standing"
+      = mau_spinner
+    #pending.tab-pane data-url="/admin/artists/pending"
       = mau_spinner
     #bad.tab-pane data-url="/admin/artists/bad_standing"
       = mau_spinner

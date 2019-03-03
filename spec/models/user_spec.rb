@@ -169,9 +169,6 @@ describe User, elasticsearch: :stub do
     it 'pending returns only pending users' do
       expect(User.pending.pluck(:state).all? { |s| s == 'pending' }).to eql true
     end
-    it 'good_standing returns only not suspended and not deleted users' do
-      expect(User.good_standing.pluck(:state).compact.uniq).to match_array %w[active pending passive]
-    end
     it 'bad_standing returns only suspended or deleted users' do
       expect(User.bad_standing.pluck(:state).compact.uniq).to match_array %w[suspended deleted]
     end

@@ -141,6 +141,7 @@ Mau::Application.routes.draw do
       collection do
         post :good_standing
         post :bad_standing
+        post :pending
         post :bulk_update, as: :bulk_update
         get :purge
       end
