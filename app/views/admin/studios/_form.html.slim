@@ -21,5 +21,18 @@
         = f.input :photo
     .pure-g
       .pure-u-1-1.pure-u-md-1-2
+        p
+          | Latitude and longitude are automatically computed based on address and
+            typically do not need to be changed here.
+        p
+          |
+            If for some reason the map pin is not where you like it, you can update
+            these two fields manually.  If address fields (zip, city etc) are changed
+            in the future the lat/long will be automatically recomputed.
+        = f.input :lat, label: "Latitude", input_html: { value: f.object.lat.presence }
+        = f.input :lng, label: "Longitude", input_html: { value: f.object.lng.presence }
+
+    .pure-g
+      .pure-u-1-1.pure-u-md-1-2
         = f.actions do
           = f.submit :class => 'pure-button pure-button-primary'

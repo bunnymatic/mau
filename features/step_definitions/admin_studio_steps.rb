@@ -23,3 +23,15 @@ end
 Then(/^I see the last studio has been removed$/) do
   expect(page).to have_flash :notice, 'Sad to see them go'
 end
+
+When("I update the studio's latitude and longitude to {string} and {string}") do |lat, lng|
+  fill_in 'Latitude', with: lat
+  fill_in 'Longitude', with: lng
+  click_on 'Update'
+end
+
+Then('I can tell the db knows the studio the latitude and longitude set to {string} and {string}') do |lat, lng|
+  studio = Studio.by_position.first
+  expect(studio.lat.to_s).to eq lat
+  expect(studio.lng.to_s).to eq lng
+end
