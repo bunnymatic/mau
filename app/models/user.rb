@@ -65,7 +65,6 @@ class User < ApplicationRecord
   scope :deleted, -> { where(state: :deleted) }
   scope :admin, -> { joins(:roles_users).where(roles_users: { role: Role.admin }) }
 
-  scope :good_standing, -> { where.not(state: %i[suspended deleted]) }
   scope :bad_standing, -> { where(state: %i[suspended deleted]) }
 
   before_validation :normalize_attributes
@@ -174,11 +173,11 @@ class User < ApplicationRecord
   end
 
   def delete!
-    update(state: 'deleted')
+    update(state: 'deleted', activation_code: nil, reset_code: nil)
   end
 
   def suspend!
-    update(state: 'suspended')
+    update(state: 'suspended', activation_code: nil, reset_code: nil)
   end
 
   def suspended?
