@@ -214,9 +214,9 @@ class UsersController < ApplicationController
     msg = [
       'There was a problem creating your account.',
       [@user.errors[:base]],
-      ' Please correct these issues or contact the webmaster (link below), if you continue to have problems.'
-    ].flatten.join('<br/>')
-    flash.now[:error] = msg
+      ' Please correct these issues or contact us, if you continue to have problems.'
+    ].flatten.join(' ')
+    flash.now[:error] = msg.html_safe
     @studios = StudioService.all
     @user.valid?
     render 'new'
@@ -229,14 +229,14 @@ class UsersController < ApplicationController
       @user.artist_info.save!
       @user.save!
       Messager.new.publish '/artists/create', 'added a new artist'
-      flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
-      redirect_to root_path
+      flash[:notice] = "We're so excited to have you! Just sign in to get started."
     else
-      @user.activate!
-      MailChimpService.new(@user).subscribe_and_welcome
       flash[:notice] = "Thanks for signing up!  Login and you're ready to roll!"
-      redirect_to login_path
     end
+
+    @user.activate!
+    MailChimpService.new(@user).subscribe_and_welcome
+    redirect_to login_path
   end
 
   def safe_find_user(id)
