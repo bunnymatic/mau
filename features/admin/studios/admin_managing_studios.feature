@@ -19,6 +19,11 @@ Scenario: Updating a studio address
   And I change the street address to "100 market st"
   Then I see the first studio page
   And I see the first studio has the street address "100 market st"
+  When I click on "studios" in the admin menu
+  And I edit the first studio
+  When I update the studio's latitude and longitude to "37.7623783" and "-122.4122675"
+  Then I see the first studio page
+  And I can tell the db knows the studio the latitude and longitude set to "37.7623783" and "-122.4122675"
 
 Scenario: Removing an artist from a studio
   When I click on "studios" in the admin menu

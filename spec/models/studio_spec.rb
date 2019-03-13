@@ -25,6 +25,22 @@ describe Studio do
     end
   end
 
+  describe 'lat/lng updates' do
+    let!(:studio) { create(:studio) }
+    before do
+      allow(Geokit::Geocoders::MultiGeocoder).to receive(:geocode)
+    end
+    it 'recomputes geocode if address changes' do
+      studio.update(zip: 12_345)
+      expect(Geokit::Geocoders::MultiGeocoder).to have_received(:geocode)
+    end
+
+    it 'does not recompute if lat/lng is the only change' do
+      studio.update(lat: 1.234)
+      expect(Geokit::Geocoders::MultiGeocoder).not_to have_received(:geocode)
+    end
+  end
+
   describe 'create' do
     let(:studio) { FactoryBot.build(:studio) }
     before do
