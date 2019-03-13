@@ -19,6 +19,7 @@ class ArtistMailer < MauMailer
     subject = 'Please activate your new account'
     setup_email(artist)
     @url = activate_url(activation_code: artist.activation_code)
+    @open_studios_registration_url = register_open_studios_url
     mail(to: artist.email,
          from: ACCOUNTS_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|
@@ -42,6 +43,7 @@ class ArtistMailer < MauMailer
     subject = 'Your account has been activated!'
     @url = root_url
     @artistsurl = artist_url(artist)
+    @open_studios_registration_url = register_open_studios_url
     mail(to: artist.email,
          from: ACCOUNTS_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|
