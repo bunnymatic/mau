@@ -9,8 +9,8 @@ describe ArtistMailer do
 
   describe '#signup_notification' do
     subject(:mail) { ArtistMailer.signup_notification(pending_artist) }
-    it 'includes an activation code' do
-      expect(mail).to have_link_in_body(activate_url(activation_code: pending_artist.activation_code))
+    it 'includes the todo list' do
+      expect(mail).to have_body_text('TODO LIST')
     end
   end
 
