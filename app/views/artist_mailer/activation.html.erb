@@ -1,28 +1,29 @@
 <p>
-Hello, <%= @artist.get_name.html_safe %>
+  Hello, <%= @artist.get_name.html_safe %>
 </p>
 <p>
-Congratulations!  Your account has been activated.  We're so excited to have you join.
+  Congratulations!  Your account has been activated.  We're so excited to have you join.
 </p>
 <p>
-YOUR Mission Artists TODO LIST:
-<ul>
-<li>upload some images of your artwork</li>
-<li>add your links to your page: website, facebook, twitter, instagram etc</li>
-<li>write a bio or artist statement.  (you know you need to update that old one anyway)</li>
-<li>upload a profile image.  (patrons and curators love to see your mug)</li>
-<li>make note of our next Open Studios event and give some thought to participating</li>
-<li>get connected with MissionArtists on
-  <%= link_to "Facebook", Conf.social_links['facebook'] %>,
-  <%= link_to "Twitter", Conf.social_links['twitter'] %>,
-  <%= link_to "Instagram", Conf.social_links['instagram'] %>.
-</li>
-</ul>
+  YOUR Mission Artists TODO LIST:
+  <ul>
+    <li><a href="<%= @open_studios_registration_url %>">register for open studios</a> (if you want :) )</li>
+    <li>upload some images of your artwork</li>
+    <li>add your links to your page: website, facebook, twitter, instagram etc</li>
+    <li>write a bio or artist statement.  (you know you need to update that old one anyway)</li>
+    <li>upload a profile image.  (patrons and curators love to see your mug)</li>
+    <li>make note of our next Open Studios event and give some thought to participating</li>
+    <li>get connected with MissionArtists on
+      <%= link_to "Facebook", Conf.social_links['facebook'] %>,
+      <%= link_to "Twitter", Conf.social_links['twitter'] %>,
+      <%= link_to "Instagram", Conf.social_links['instagram'] %>.
+    </li>
+  </ul>
 
 </p>
 <p>
-Have any questions?  Go ahead and send us an email.  We're here to help.
+  Have any questions?  Go ahead and send us an email.  We're here to help.
 </p>
 <p>
-The Mission Artists Team
+  The Mission Artists Team
 </p>

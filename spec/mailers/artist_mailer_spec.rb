@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ArtistMailer do
+describe ArtistMailer, elasticsearch: :stub do
   let(:artist) { FactoryBot.create(:artist, :active) }
   let(:fan) { FactoryBot.create(:fan, :active) }
   let(:pending_artist) { FactoryBot.build(:artist, :pending) }
@@ -10,7 +10,10 @@ describe ArtistMailer do
   describe '#signup_notification' do
     subject(:mail) { ArtistMailer.signup_notification(pending_artist) }
     it 'includes the todo list' do
-      expect(mail).to have_body_text('TODO LIST')
+      expect(mail).to have_body_text('Once you\'ve activated you should:')
+    end
+    it 'includes a register for os link' do
+      expect(mail).to have_link('register for open studios', href: register_open_studios_url)
     end
   end
 
@@ -26,7 +29,10 @@ describe ArtistMailer do
     end
 
     it 'includes a welcome message' do
-      expect(mail).to have_body_text 'YOUR MAU TODO LIST'
+      expect(mail).to have_body_text 'TODO LIST'
+    end
+    it 'includes a register for os link' do
+      expect(mail).to have_link('register for open studios', href: register_open_studios_url)
     end
   end
 
