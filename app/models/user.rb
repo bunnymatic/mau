@@ -55,8 +55,6 @@ class User < ApplicationRecord
   include User::Authentication
   include User::Authorization
 
-  after_create :tell_user_they_signed_up
-
   scope :fan, -> { where.not(type: 'Artist') }
   scope :active, -> { where(state: :active) }
   scope :not_active, -> { where.not(state: :active) }
@@ -217,13 +215,6 @@ class User < ApplicationRecord
   def normalize_attributes
     self.login = login.try(:downcase)
     self.email = email.try(:downcase)
-  end
-
-  def tell_user_they_signed_up
-    return unless artist?
-
-    reload
-    ArtistMailer.signup_notification(self).deliver_later
   end
 
   def notify_user_about_state_change
