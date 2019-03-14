@@ -83,7 +83,7 @@ When(/^I login$/) do
   fill_in_login_form (@artist || @user).login, '8characters'
   step %(I click "Sign In")
   expect(page).to have_content /sign out/i
-  step %{I close the flash}
+  step %(I close the flash)
 end
 
 When(/^I login as an artist$/) do
@@ -133,10 +133,10 @@ Then(/^I see my fan profile edit form$/) do
   expect(page).to have_css '.panel-heading', count: 5
 end
 
-Then /^I see that "(.*?)" is a new pending artist$/ do |username|
-  steps %(Then I see a flash notice "Thanks for signing up! We're sending you an email")
-  expect(current_path).to eql root_path
-  expect(Artist.find_by(login: username)).to be_pending
+Then /^I see that "(.*?)" is a new active artist$/ do |username|
+  steps %(Then I see a flash notice "We're so excited to have you! Just sign in")
+  expect(current_path).to eql login_path
+  expect(Artist.find_by(login: username)).to be_active
 end
 
 Then /^I see that "(.*?)" is a new fan$/ do |username|
@@ -145,11 +145,15 @@ Then /^I see that "(.*?)" is a new fan$/ do |username|
   expect(MauFan.find_by(login: username)).to be_active
 end
 
-Then /^I click the fan signup button$/ do
+And /^mailchimp is handled$/ do
   resp = JSON.generate(email: 'example email',
                        euid: 'example euid',
                        leid: 'example leid')
   stub_request(:any, /.*\.mailchimp.com/).to_return(body: resp)
+end
+
+Then /^I click the fan signup button$/ do
+  step 'mailchimp is handled'
   step 'I click "Sign up"'
 end
 

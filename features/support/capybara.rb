@@ -4,7 +4,7 @@ Capybara.server = :puma
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app,
                                  browser: :chrome,
-                                 args: ['--window-size=1200,1200'])
+                                 args: ['--window-size=1400,1200'])
 end
 
 Capybara.register_driver :headless_chrome do |app|

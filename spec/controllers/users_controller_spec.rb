@@ -110,34 +110,6 @@ describe UsersController do
         end.to change(User, :count).by(1)
       end
     end
-    # context "with invalid recaptcha" do
-    #   before do
-    #     # disable sweep of flash.now messages
-    #     # so we can test them
-    #     #allow(@controller).to receive(:sweep)
-    #     allow(@controller).to receive(:verify_recaptcha).and_return(false)
-    #     post :create, params: params_with_secret(
-    #            {
-    #              mau_fan: {
-    #                login: 'newuser',
-    #                lastname: "bmatic2",
-    #                firstname: "bmatic2",
-    #                password: "8characters",
-    #                password_confirmation: "8characters",
-    #                email: "bmatic2@b.com"
-    #              },
-    #              type: "MauFan"
-    #            }
-    #          )
-    #   end
-    #   it "returns success" do
-    #     expect(response).to be_successful
-    #   end
-
-    #   it "sets a flash.now indicating failure" do
-    #     expect(flash[:error]).to be_present
-    #   end
-    # end
 
     context 'with partial params' do
       context "login = 'newuser'" do
@@ -150,6 +122,7 @@ describe UsersController do
         end
       end
     end
+
     context 'valid user params and type = MauFan' do
       before do
         expect(UserMailer).to receive(:activation).exactly(:once).and_return(double('UserMailer::Activation', deliver_later: true))
@@ -195,6 +168,7 @@ describe UsersController do
         expect(User.find_by(login: 'newuser')).to be
       end
     end
+
     context 'valid user param (email/password only) and type = MauFan' do
       before do
         post :create, params: params_with_secret(
@@ -236,6 +210,7 @@ describe UsersController do
         expect(User.find_by(login: 'bmati2@b.com')).to be
       end
     end
+
     context 'valid artist params and type = Artist' do
       before do
         allow_any_instance_of(Artist).to receive(:activation_code).and_return('random_activation_code')
@@ -252,27 +227,17 @@ describe UsersController do
         )
       end
       it 'redirects to index' do
-        expect(response).to redirect_to(root_url)
+        expect(response).to redirect_to(login_url)
       end
       it 'sets flash indicating that activation email has been sent' do
-        expect(flash[:notice]).to include(' email with your activation code')
+        expect(flash[:notice]).to include('sign in to get started')
       end
-      context 'creates an account' do
-        before do
-          @found_artist = User.find_by(login: 'newuser2')
-        end
-        it 'in the artist database' do
-          expect(@found_artist).to be_present
-        end
-        it "whose state is 'pending'" do
-          expect(@found_artist.state).to eql 'pending'
-        end
-        it "whose type is 'Artist'" do
-          expect(@found_artist.type).to eql 'Artist'
-        end
-        it 'has an associated artist_info' do
-          expect(@found_artist.artist_info).not_to be_nil
-        end
+      it 'creates an active account' do
+        @found_artist = User.find_by(login: 'newuser2')
+        expect(@found_artist).to be_present
+        expect(@found_artist.state).to eql 'active'
+        expect(@found_artist.type).to eql 'Artist'
+        expect(@found_artist.artist_info).not_to be_nil
       end
       it 'should not register as a fan account' do
         expect(MauFan.find_by(login: 'newuser2')).to be_nil
@@ -558,29 +523,28 @@ describe UsersController do
         make_activate_call
       end
     end
-  end
-
-  describe 'with invalid activation code' do
-    let(:make_activate_call) do
-      get :activate, params: { activation_code: 'blah' }
-    end
-    it 'redirects to login' do
-      make_activate_call
-      expect(response).to redirect_to login_url
-    end
-    it 'flashes an error' do
-      make_activate_call
-      expect(/find an artist with that activation code/.match(flash[:error])).not_to be []
-    end
-    it 'does not blow away all activation codes' do
-      FactoryBot.create_list(:artist, 2)
-      make_activate_call
-      expect(User.all.map(&:activation_code).select(&:present?).count).to be > 0
-    end
-    it 'does not send email' do
-      expect(ArtistMailer).to receive(:activation).never
-      expect(UserMailer).to receive(:activation).never
-      make_activate_call
+    describe 'with invalid activation code' do
+      let(:make_activate_call) do
+        get :activate, params: { activation_code: 'blah' }
+      end
+      it 'redirects to login' do
+        make_activate_call
+        expect(response).to redirect_to login_url
+      end
+      it 'flashes an error' do
+        make_activate_call
+        expect(/find an artist with that activation code/.match(flash[:error])).not_to be []
+      end
+      it 'does not blow away all activation codes' do
+        FactoryBot.create_list(:artist, 2)
+        make_activate_call
+        expect(User.all.map(&:activation_code).select(&:present?).count).to be > 0
+      end
+      it 'does not send email' do
+        expect(ArtistMailer).to receive(:activation).never
+        expect(UserMailer).to receive(:activation).never
+        make_activate_call
+      end
     end
   end
 

@@ -2,11 +2,14 @@
 @import "mau-mixins";
 
 .events-notification-bell {
-  z-index: 25;
+  z-index: 125;
+  border: 1px solid $gto_red;
+  background-color: lighten($gto_red, 45%);
   position: fixed;
   top: 27px;
-  right: 7px;
-  @include round-corners(50%);
+  right: -5px;
+  padding-right: 5px;
+  @include round-corners(4px);
   a:link,
   a:visited,
   a:active {
@@ -16,4 +19,11 @@
   a:hover {
     color: $gto_orange;
   }
+}
+
+.events-notification-bell__tooltip {
+  padding: 8px 0 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
