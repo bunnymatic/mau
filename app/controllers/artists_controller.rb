@@ -177,7 +177,7 @@ class ArtistsController < ApplicationController
   def update
     if request.xhr?
       open_studios_event = OpenStudiosEvent.current
-      os_status = UpdateArtistService.new(current_artist, artist_params).update_os_status
+      os_status = UpdateArtistService.new(current_artist, os_status_params).update_os_status
       message = update_os_status_message(os_status, current_artist, open_studios_event)
       render json: {
         success: true,
@@ -238,10 +238,6 @@ class ArtistsController < ApplicationController
 
   private
 
-  def artist_info_permitted_attributes
-    %i[bio street city addr_state zip studionumber]
-  end
-
   def destroy_art_params
     if params.key? :art
       params.require(:art).permit!
@@ -250,16 +246,37 @@ class ArtistsController < ApplicationController
     end
   end
 
+  def os_status_params
+    params.require(:artist).permit('os_participation')
+  end
+
+  def artist_info_permitted_attributes
+    %i[bio street city addr_state zip studionumber]
+  end
+
   def artist_params
     if params[:artist].key?('studio') && params[:artist]['studio'].blank?
       params[:artist]['studio_id'] = nil
       params[:artist].delete('studio')
     end
 
-    permitted = %i[studio login email
-                   password password_confirmation photo os_participation
-                   firstname lastname url studio_id studio nomdeplume] + User.stored_attributes[:links]
-    params.require(:artist).permit(*permitted, artist_info_attributes: artist_info_permitted_attributes)
+    permitted = %i[
+      studio
+      login
+      email
+      password
+      password_confirmation
+      photo
+      firstname
+      lastname
+      url
+      studio_id
+      studio
+      nomdeplume
+    ] + User.stored_attributes[:links]
+    params
+      .require(:artist)
+      .permit(*permitted, artist_info_attributes: artist_info_permitted_attributes)
   end
 
   def os_only?(osonly)

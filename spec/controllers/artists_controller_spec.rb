@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'htmlentities'
 
-describe ArtistsController, elasticsearch: true do
+describe ArtistsController, elasticsearch: false do
   let(:studio) { create :studio }
   let(:admin) { FactoryBot.create(:artist, :admin) }
   let(:number_of_art_pieces) { 1 }
@@ -21,19 +21,39 @@ describe ArtistsController, elasticsearch: true do
   let(:artists) do
     [artist] + FactoryBot.create_list(:artist, 2, :with_studio, :with_tagged_art, number_of_art_pieces: 1)
   end
-  let!(:open_studios_event) { create(:open_studios_event) }
   let(:fan) { FactoryBot.create(:fan, :active) }
   let(:ne_bounds) { Artist::BOUNDS['NE'] }
   let(:sw_bounds) { Artist::BOUNDS['SW'] }
 
   describe '#index' do
+    let(:query_params) { {} }
     before do
-      artists
-      get :index
+      mock_gallery = instance_double(
+        ArtistsGallery
+      )
+      allow(ArtistsGallery).to receive(:letters).and_return(%w[b c])
+      allow(ArtistsGallery).to receive(:new).and_return(mock_gallery)
+      get :index, params: query_params
     end
     it { expect(response).to be_successful }
     it 'set the title' do
       expect(assigns(:page_title)).to eql 'Mission Artists - Artists'
+    end
+    it 'sets up the gallery with the right params' do
+      expect(ArtistsGallery).to have_received(:new).with(
+        false, 'b', :lastname, 0
+      )
+    end
+
+    context 'with query params' do
+      let(:query_params) do
+        { o: true, l: 'd', p: 5, s: :firstname }
+      end
+      it 'sets up the gallery with the right params' do
+        expect(ArtistsGallery).to have_received(:new).with(
+          true, 'd', 'firstname', 5
+        )
+      end
     end
   end
 
@@ -169,6 +189,7 @@ describe ArtistsController, elasticsearch: true do
         end
       end
       context 'update os status' do
+        let!(:open_studios_event) { create(:open_studios_event) }
         it 'updates artists os status to true' do
           put :update, xhr: true, params: { id: artist, artist: { 'os_participation' => '1' } }
           expect(artist.reload.os_participation[OpenStudiosEvent.current.key]).to eq true
