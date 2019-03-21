@@ -11,7 +11,7 @@ class AdminNavigation < ViewPresenter
     pr_links = [
       [:favorites, {}],
       [:catalog, { link: '/catalog' }],
-      [:cms_documents, { display: 'cms', link: url_helpers.admin_cms_documents_path }]
+      [:cms_documents, { display: 'cms', link: url_helpers.admin_cms_documents_path }],
     ]
     model_links = [
       [:artists, {}],
@@ -19,25 +19,25 @@ class AdminNavigation < ViewPresenter
       [:studios, {}],
       [:media, {}],
       [:art_piece_tags, { display: 'tags' }],
-      [:emaillist, { display: 'member emails', link: url_helpers.admin_member_emails_path }]
+      [:emaillist, { display: 'member emails', link: url_helpers.admin_member_emails_path }],
     ]
     admin_links = [
       [:open_studios_events, { display: 'os dates' }],
       [:roles, {}],
       [:internal_email, { display: 'admin email lists', link: url_helpers.admin_email_lists_path }],
       [:blacklist, { display: 'blacklist', link: url_helpers.admin_blacklist_domains_path }],
-      [:os_status, {}]
+      [:os_status, {}],
     ]
     internal_links = [
       [:palette, { display: 'colors', link: url_helpers.admin_palette_path }],
       [:app_events, { display: 'app events', icon: :bell, link: url_helpers.admin_application_events_path }],
-      [:tests, { link: url_helpers.admin_tests_path }]
+      [:tests, { link: url_helpers.admin_tests_path }],
     ]
     [
       [:models, model_links],
       [:pr, pr_links],
       [:admin, admin_links],
-      [:internal, internal_links]
+      [:internal, internal_links],
     ]
   end
 

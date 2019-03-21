@@ -38,7 +38,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
         clz: 'tiny-thumb',
         id: item_id,
         link: url_helpers.art_piece_path(item),
-        background_style: style
+        background_style: style,
       }
       if item_id == @current_piece.id
         mark_as_current(idx)

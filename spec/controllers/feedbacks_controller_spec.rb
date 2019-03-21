@@ -35,7 +35,7 @@ describe FeedbacksController do
         expect do
           attrs = FactoryBot.attributes_for(:feedback)
           get :create, params: {
-            feedback: attrs
+            feedback: attrs,
           }
         end.to change(Feedback, :count).by(1)
       end

@@ -76,7 +76,7 @@ describe ArtPiecesController do
   describe '#create' do
     before do
       allow(WatcherMailerList).to receive(:first).and_return(
-        instance_double(WatcherMailerList, formatted_emails: [])
+        instance_double(WatcherMailerList, formatted_emails: []),
       )
     end
     context 'while not logged in' do

@@ -7,7 +7,7 @@ module RSpec
     ES_METHODS = {
       index_document: nil,
       delete_document: nil,
-      update_document: nil
+      update_document: nil,
     }.freeze
     def elasticsearch_double(name:, stubs: nil)
       stubs = (stubs || {}).merge(ES_METHODS)

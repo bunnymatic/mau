@@ -47,7 +47,7 @@ describe NewArtPiecePresenter do
         "#SFOS#{open_studios_event.start_date.year}",
         '#SFopenstudios',
         '#missionopenstudios',
-        '#springopenstudios'
+        '#springopenstudios',
       ]
       expect(os_tags.none? { |tag| presenter.hash_tags.include?(tag) }).to eq true
     end
@@ -91,7 +91,7 @@ describe NewArtPiecePresenter do
           os_tags = [
             '#SFOS',
             "#SFOS#{open_studios_event.start_date.year}",
-            '#SFopenstudios'
+            '#SFopenstudios',
           ]
           expect(os_tags.all? { |tag| presenter.hash_tags.include?(tag) }).to eq true
         end
@@ -108,7 +108,7 @@ describe NewArtPiecePresenter do
             "#SFOS#{open_studios_event.start_date.year}",
             '#SFopenstudios',
             '#missionopenstudios',
-            '#springopenstudios'
+            '#springopenstudios',
           ]
           expect(os_tags.none? { |tag| presenter.hash_tags.include?(tag) }).to eq true
         end

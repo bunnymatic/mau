@@ -26,9 +26,9 @@ describe MailChimpService do
                                                       status: 'subscribed',
                                                       merge_fields: {
                                                         'FNAME' => user.firstname,
-                                                        'LNAME' => user.lastname
+                                                        'LNAME' => user.lastname,
                                                       },
-                                                      email_type: 'html'
+                                                      email_type: 'html',
                                                     })
 
       mock_lists = double('MailchimpLists', members: mock_members)

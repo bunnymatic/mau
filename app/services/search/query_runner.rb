@@ -20,8 +20,8 @@ module Search
             query: @query,
             fields: ['_all', 'studio.name^5', 'artist.artist_name^5', 'art_piece.title^3', 'art_piece.artist_name^3'],
             type: 'most_fields',
-            fuzziness: 1
-          }
+            fuzziness: 1,
+          },
         },
         size: 100,
         highlight: {
@@ -31,13 +31,13 @@ module Search
             'title' => {},
             'artist_name' => {},
             'artist_bio' => {},
-            'bio' => {}
-          }
-        }
+            'bio' => {},
+          },
+        },
       }
       EsClient.client.search(
         index: %i[art_pieces studios artists].join(','),
-        body: query_body
+        body: query_body,
       )
     end
 

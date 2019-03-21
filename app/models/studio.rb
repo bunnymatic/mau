@@ -53,7 +53,7 @@ class Studio < ApplicationRecord
   def self.by_position
     order(
       arel_table[:position],
-      Arel::Nodes::NamedFunction.new('lower', [arel_table[:name]])
+      Arel::Nodes::NamedFunction.new('lower', [arel_table[:name]]),
     )
   end
 

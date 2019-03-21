@@ -51,7 +51,7 @@ class AdminArtistList < ViewPresenter
       artist.studio ? artist.studio.name : '',
       artist.address.street,
       artist.studionumber,
-      artist.email
+      artist.email,
     ]
   end
 end

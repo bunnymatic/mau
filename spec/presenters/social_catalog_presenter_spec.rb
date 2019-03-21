@@ -19,7 +19,7 @@ describe SocialCatalogPresenter, type: :view do
     [
       create(:artist, :active, :with_art, :with_links, doing_open_studios: open_studios_event, studio: studio),
       create(:artist, :active, :with_art, :with_links, doing_open_studios: open_studios_event, studio: studio),
-      create(:artist, :active, :with_art, :with_links, doing_open_studios: open_studios_event, studio: studio2)
+      create(:artist, :active, :with_art, :with_links, doing_open_studios: open_studios_event, studio: studio2),
     ]
   end
   let!(:artists) do

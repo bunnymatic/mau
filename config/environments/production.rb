@@ -24,7 +24,7 @@ Rails.application.configure do
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = Uglifier.new(
     # for angular
-    mangle: false
+    mangle: false,
   )
   config.assets.css_compressor = :sass
 
@@ -74,7 +74,7 @@ Rails.application.configure do
   config.action_mailer.postmark_settings = { api_key: Conf.POSTMARK_API_KEY }
   config.action_mailer.delivery_method = :postmark
   config.action_mailer.default_url_options = {
-    host: 'www.missionartists.org'
+    host: 'www.missionartists.org',
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

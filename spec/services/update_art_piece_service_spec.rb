@@ -14,7 +14,7 @@ describe UpdateArtPieceService do
     let(:params) do
       {
         title: Faker::Lorem.words(4).join(' '),
-        tags: tag_params
+        tags: tag_params,
       }
     end
 

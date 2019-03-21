@@ -19,7 +19,7 @@ class MailChimpService
 
   ATTRIBUTE_CONVERSIONS = {
     'firstname' => 'FNAME',
-    'lastname' => 'LNAME'
+    'lastname' => 'LNAME',
   }.freeze
 
   def mailchimp_additional_data
@@ -48,8 +48,8 @@ class MailChimpService
         email_address: @user.email,
         status: 'subscribed',
         merge_fields: mailchimp_additional_data,
-        email_type: 'html'
-      }
+        email_type: 'html',
+      },
     )
   end
 end

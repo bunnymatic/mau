@@ -24,7 +24,7 @@ describe ArtPieceTagService do
       art_piece_tags = [
         create(:art_piece_tag, name: 'hello'),
         create(:art_piece_tag, name: 'hello a'),
-        create(:art_piece_tag, name: 'hello b')
+        create(:art_piece_tag, name: 'hello b'),
       ]
       tags = art_piece_tags.shuffle.map { |t| ArtPieceTagService::TagWithFrequency.new(t.slug, 10) }
 

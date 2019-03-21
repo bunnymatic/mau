@@ -12,7 +12,7 @@ class AdminMailer < MauMailer
       to: mailer_list.formatted_emails,
       from: from,
       reply_to: reply_to,
-      subject: subject
+      subject: subject,
     ) do |fmt|
       fmt.html { render 'spammer' }
     end
@@ -28,7 +28,7 @@ class AdminMailer < MauMailer
       to: mailer_list.formatted_emails,
       from: from,
       reply_to: reply_to,
-      subject: subject
+      subject: subject,
     ) do |fmt|
       fmt.html { render 'server_trouble' }
     end

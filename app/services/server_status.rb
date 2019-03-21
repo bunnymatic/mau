@@ -7,7 +7,7 @@ class ServerStatus
     {
       version: Mau::Version::VERSION,
       main: site_up?,
-      elasticsearch: elasticsearch_up?
+      elasticsearch: elasticsearch_up?,
     }
   end
 

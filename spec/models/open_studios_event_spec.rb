@@ -6,7 +6,7 @@ describe OpenStudiosEvent do
   let(:past_oses) do
     [
       FactoryBot.create(:open_studios_event, start_date: 6.months.ago),
-      FactoryBot.create(:open_studios_event, start_date: 12.months.ago)
+      FactoryBot.create(:open_studios_event, start_date: 12.months.ago),
     ]
   end
   let(:current_os) do
@@ -16,7 +16,7 @@ describe OpenStudiosEvent do
   let(:future_oses) do
     [
       FactoryBot.create(:open_studios_event, start_date: 6.months.since),
-      FactoryBot.create(:open_studios_event, start_date: 12.months.since)
+      FactoryBot.create(:open_studios_event, start_date: 12.months.since),
     ]
   end
 

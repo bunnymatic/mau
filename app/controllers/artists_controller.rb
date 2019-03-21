@@ -183,7 +183,7 @@ class ArtistsController < ApplicationController
         success: true,
         os_status: os_status,
         current_os: OpenStudiosEventService.current,
-        message: message
+        message: message,
       }
     else
       if commit_is_cancel

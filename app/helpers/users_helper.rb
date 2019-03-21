@@ -8,7 +8,7 @@ module UsersHelper
                ['Mission Artist', :Artist]]
     options = {
       disabled: [entries.first.first],
-      selected: [type.presence || entries.first.first]
+      selected: [type.presence || entries.first.first],
     }
     options_for_select(entries, options)
   end

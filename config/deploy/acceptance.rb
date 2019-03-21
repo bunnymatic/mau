@@ -21,7 +21,7 @@ server 'mau.rcode5.com',
        roles: %w[web app db],
        ssh_options: {
          user: 'deploy',
-         forward_agent: true
+         forward_agent: true,
        }
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }

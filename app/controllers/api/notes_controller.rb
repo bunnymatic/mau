@@ -11,7 +11,7 @@ module Api
       else
         data = {
           success: false,
-          error_messages: f.errors.full_messages
+          error_messages: f.errors.full_messages,
         }
         status = 400
       end
@@ -29,7 +29,7 @@ module Api
         :os,
         :browser,
         :device,
-        :version
+        :version,
       )
     end
   end

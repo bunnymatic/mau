@@ -9,7 +9,7 @@ describe ServerStatus, vcr: { cassette_name: 'server_status', record: :none } do
       expect(subject).to eql(
         version: Mau::Version::VERSION,
         main: true,
-        elasticsearch: true
+        elasticsearch: true,
       )
     end
   end

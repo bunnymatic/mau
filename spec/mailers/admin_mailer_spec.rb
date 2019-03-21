@@ -26,7 +26,7 @@ describe AdminMailer do
       {
         version: Mau::Version::VERSION,
         main: true,
-        elasticsearch: true
+        elasticsearch: true,
       }
     end
 

@@ -25,7 +25,7 @@ class UserPresenter < ViewPresenter
       active: 'check-circle-o',
       pending: 'clock-o',
       deleted: 'times-circle-o',
-      suspended: 'thumbs-o-down'
+      suspended: 'thumbs-o-down',
     }[state.to_sym]
     "fa fa-#{icon_class}" if icon_class
   end

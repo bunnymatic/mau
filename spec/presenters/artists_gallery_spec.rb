@@ -16,7 +16,7 @@ describe ArtistsGallery do
       create(:artist, :with_art, firstname: 'zoo', lastname: 'cab'),
       create(:artist, :with_art, firstname: 'zap', lastname: ''),
       create(:artist, firstname: 'z', lastname: 'Arnold'),
-      create(:artist, firstname: 'a', lastname: 'Bored')
+      create(:artist, firstname: 'a', lastname: 'Bored'),
     ]
   end
   let(:showing_artists) { artists.first(per_page) }

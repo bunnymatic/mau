@@ -19,7 +19,7 @@ describe OpenStudiosPresenter do
     end
     indy_artist.artist_info.attributes = {
       lat: 37.75,
-      lng: -122.41
+      lng: -122.41,
     }
     indy_artist.artist_info.save validate: false
 

@@ -22,7 +22,7 @@ describe UsersController do
 
   def params_with_secret(opts)
     {
-      secret_word: Conf.signup_secret_word
+      secret_word: Conf.signup_secret_word,
     }.merge(opts)
   end
 
@@ -63,7 +63,7 @@ describe UsersController do
         expect(JSON.parse(response.body)['current_user']).to eql(
           'id' => fan.id,
           'login' => fan.login,
-          'slug' => fan.slug
+          'slug' => fan.slug,
         )
       end
     end
@@ -88,9 +88,9 @@ describe UsersController do
               firstname: 'bmatic2',
               password: '8characters',
               password_confirmation: '8characters',
-              email: 'bmatic2@blacklist.com'
+              email: 'bmatic2@blacklist.com',
             },
-            type: 'MauFan'
+            type: 'MauFan',
           )
         end.to change(User, :count).by(0)
       end
@@ -103,9 +103,9 @@ describe UsersController do
               firstname: 'bmatic2',
               password: '8characters',
               password_confirmation: '8characters',
-              email: 'bmatic2@nonblacklist.com'
+              email: 'bmatic2@nonblacklist.com',
             },
-            type: 'MauFan'
+            type: 'MauFan',
           )
         end.to change(User, :count).by(1)
       end
@@ -133,9 +133,9 @@ describe UsersController do
             firstname: 'bmatic2',
             password: '8characters',
             password_confirmation: '8characters',
-            email: 'bmatic2@b.com'
+            email: 'bmatic2@b.com',
           },
-          type: 'MauFan'
+          type: 'MauFan',
         )
       end
       it 'redirects to index' do
@@ -175,9 +175,9 @@ describe UsersController do
           mau_fan: {
             password: '8characters',
             password_confirmation: '8characters',
-            email: 'bmati2@b.com'
+            email: 'bmati2@b.com',
           },
-          type: 'MauFan'
+          type: 'MauFan',
         )
       end
       it 'redirects to index' do
@@ -222,7 +222,7 @@ describe UsersController do
             firstname: 'bmatic',
             password: '8characters',
             password_confirmation: '8characters',
-            email: 'bmatic2@b.com'
+            email: 'bmatic2@b.com',
           }, type: 'Artist'
         )
       end
@@ -400,9 +400,9 @@ describe UsersController do
           post :reset, params: {
             user: {
               password: 'whatever',
-              password_confirmation: 'whateveryo'
+              password_confirmation: 'whateveryo',
             },
-            reset_code: reset_code
+            reset_code: reset_code,
           }
         end
         it { expect(response).to be_successful }
@@ -418,9 +418,9 @@ describe UsersController do
           post :reset, params: {
             user: {
               password: 'whatever',
-              password_confirmation: 'whatever'
+              password_confirmation: 'whatever',
             },
-            reset_code: reset_code
+            reset_code: reset_code,
           }
         end
         it 'returns redirect' do

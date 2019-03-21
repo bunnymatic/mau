@@ -28,7 +28,7 @@
   'Pastels',
   'Photography',
   'Printmaking',
-  'Sculpture'
+  'Sculpture',
 ].each do |name|
   Medium.find_or_create_by(name: name)
 end

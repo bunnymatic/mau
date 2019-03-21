@@ -10,7 +10,7 @@ module MauImage
       small: [200, 200, 's_'],
       medium: [400, 400, 'm_'],
       large: [800, 800, 'l_'],
-      original: [nil, nil, '']
+      original: [nil, nil, ''],
     }.freeze
 
     def initialize(name, width, height, prefix)
