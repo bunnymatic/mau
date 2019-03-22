@@ -166,38 +166,6 @@ class ArtistPresenter < UserPresenter
                   end
   end
 
-  def facebook
-    model.links[:facebook]
-  end
-
-  def twitter
-    model.links[:twitter]
-  end
-
-  def blog
-    model.links[:blog]
-  end
-
-  def instagram
-    model.links[:instagram]
-  end
-
-  def myspace
-    model.links[:myspace]
-  end
-
-  def pinterest
-    model.links[:pinterest]
-  end
-
-  def flickr
-    model.links[:flickr]
-  end
-
-  def artspan
-    model.links[:artspan]
-  end
-
   def self.keyed_links
     (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
   end

@@ -70,6 +70,10 @@ class User < ApplicationRecord
   before_validation :cleanup_fields
   before_destroy :delete_favorites
 
+  def website
+    links[:website].presence || url
+  end
+
   def mailchimp_subscribed?
     !!mailchimp_subscribed_at
   end

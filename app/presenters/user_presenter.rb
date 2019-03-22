@@ -164,10 +164,6 @@ class UserPresenter < ViewPresenter
     model.photo(size) if model.photo?
   end
 
-  def website
-    model.links[:website].presence || model.url
-  end
-
   alias get_profile_image profile_image
 
   def self.keyed_links

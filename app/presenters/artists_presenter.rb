@@ -11,10 +11,6 @@ class ArtistsPresenter < ViewPresenter
     @os_only = !os_only.nil? && os_only
   end
 
-  def active_artists
-    @active_artists ||= Artist.active.includes(:studio, :artist_info, :art_pieces)
-  end
-
   def artists_only_in_the_mission
     (os_only ? artists : artists.select(&:in_the_mission?))
   end
@@ -22,6 +18,7 @@ class ArtistsPresenter < ViewPresenter
   def artists
     @artists ||=
       begin
+        active_artists = Artist.active.includes(:studio, :artist_info, :art_pieces)
         artist_list = (if os_only
                          active_artists.open_studios_participants.in_the_mission
                        else
