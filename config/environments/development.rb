@@ -22,7 +22,7 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => 'public, max-age=172800'
+      'Cache-Control' => 'public, max-age=172800',
     }
   else
     config.action_controller.perform_caching = false
@@ -57,7 +57,7 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.default_url_options = {
-    host: ENVIRONMENT_HOST
+    host: ENVIRONMENT_HOST,
   }
 
   config.action_controller.asset_host = ENVIRONMENT_HOST

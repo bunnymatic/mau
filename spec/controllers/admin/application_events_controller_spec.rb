@@ -10,7 +10,7 @@ describe Admin::ApplicationEventsController do
     Array.new(3) do |x|
       [
         FactoryBot.create(:open_studios_signup_event, created_at: x.weeks.ago, data: { user: 'artist' }),
-        FactoryBot.create(:generic_event, created_at: x.weeks.ago, data: { user: 'artist' })
+        FactoryBot.create(:generic_event, created_at: x.weeks.ago, data: { user: 'artist' }),
       ]
     end.flatten
   end

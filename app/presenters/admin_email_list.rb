@@ -28,7 +28,7 @@ class AdminEmailList < ViewPresenter
         email: a.email,
         activated_at: a.activated_at,
         last_login: a.last_login_at,
-        link: url_helpers.artist_path(a.slug)
+        link: url_helpers.artist_path(a.slug),
       )
     end
   end
@@ -125,7 +125,7 @@ class AdminEmailList < ViewPresenter
       csv_safe(artist.lastname),
       artist.get_name(false),
       artist.email,
-      artist.studio ? artist.studio.name : ''
+      artist.studio ? artist.studio.name : '',
     ] + available_open_studios_keys.map do |os_tag|
       ((artist.respond_to? :os_participation) && artist.os_participation[os_tag]).to_s
     end

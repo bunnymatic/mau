@@ -35,7 +35,7 @@ describe CatalogPresenter do
     is_expected.to eql(
       'data-page' => reception_doc.page,
       'data-section' => reception_doc.section,
-      'data-cmsid' => reception_doc.id
+      'data-cmsid' => reception_doc.id,
     )
   end
 

@@ -8,7 +8,7 @@ shared_examples_for AddressMixin do
     {
       street: Faker::Address.street_name,
       city: Faker::Address.city,
-      zip: Faker::Address.zip_code
+      zip: Faker::Address.zip_code,
     }
   end
   let(:with_state) do

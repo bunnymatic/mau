@@ -22,12 +22,12 @@ class User < ApplicationRecord
             confirmation: { if: :require_password? },
             length: {
               minimum: 8,
-              if: :require_password?
+              if: :require_password?,
             }
   validates :password_confirmation,
             length: {
               minimum: 8,
-              if: :require_password?
+              if: :require_password?,
             }
 
   store :links, accessors: %i[website facebook twitter blog pinterest myspace flickr instagram artspan]
@@ -100,7 +100,7 @@ class User < ApplicationRecord
     c.transition_from_crypto_providers = [
       Authlogic::CryptoProviders::Sha1,
       Authlogic::CryptoProviders::RestfulAuthSha1,
-      Authlogic::CryptoProviders::RestfulAuthSCrypt
+      Authlogic::CryptoProviders::RestfulAuthSCrypt,
     ]
     c.crypto_provider = Authlogic::CryptoProviders::SCrypt
     c.require_password_confirmation = true

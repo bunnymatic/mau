@@ -63,7 +63,7 @@ describe Pagination do
         previous_title: 'behind',
         previous_label: '<',
         next_title: 'forward',
-        next_label: '>'
+        next_label: '>',
       }
     end
 

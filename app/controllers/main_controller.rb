@@ -40,7 +40,7 @@ class MainController < ApplicationController
     doc = CmsDocument.find_by(page: page, section: section)
     @content = {
       page: page,
-      section: section
+      section: section,
     }
     render && return unless doc
     @content[:content] = MarkdownService.markdown(doc.article)
@@ -54,7 +54,7 @@ class MainController < ApplicationController
     doc = CmsDocument.find_by(page: page, section: section)
     @content = {
       page: page,
-      section: section
+      section: section,
     }
     render && return unless doc
     @content[:content] = MarkdownService.markdown(doc.article)

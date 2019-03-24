@@ -32,8 +32,8 @@ describe Api::NotesController do
         post :create, xhr: true, params: {
           feedback_mail: {
             note_type: 'bogus',
-            email: 'a@b.com'
-          }
+            email: 'a@b.com',
+          },
         }
         @resp = JSON.parse(response.body)
       end
@@ -45,8 +45,8 @@ describe Api::NotesController do
         post :create, xhr: true, params: {
           feedback_mail: {
             note_type: 'email_list',
-            email: 'a@b.com'
-          }
+            email: 'a@b.com',
+          },
         }
         @resp = JSON.parse(response.body)
       end
@@ -59,8 +59,8 @@ describe Api::NotesController do
           feedback_mail: {
             note_type: 'inquiry',
             email: 'a@b.com',
-            email_confirm: 'a@b.com'
-          }
+            email_confirm: 'a@b.com',
+          },
         }
         @resp = JSON.parse(response.body)
       end
@@ -75,8 +75,8 @@ describe Api::NotesController do
               note_type: 'inquiry',
               inquiry: 'cool note',
               email: 'a@b.com',
-              email_confirm: 'a@b.com'
-            }
+              email_confirm: 'a@b.com',
+            },
           }
           @resp = JSON.parse(response.body)
         end
@@ -91,8 +91,8 @@ describe Api::NotesController do
               note_type: 'help',
               inquiry: 'cool note',
               email: 'a@b.com',
-              email_confirm: 'a@b.com'
-            }
+              email_confirm: 'a@b.com',
+            },
           }
           @resp = JSON.parse(response.body)
         end

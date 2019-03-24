@@ -5,24 +5,24 @@ module Search
     ANALYZERS = {
       mau_snowball_analyzer: {
         type: 'snowball',
-        language: 'English'
+        language: 'English',
       },
       mau_ngram_analyzer: {
-        tokenizer: :mau_ngram_tokenizer
-      }
+        tokenizer: :mau_ngram_tokenizer,
+      },
     }.freeze
     TOKENIZERS = {
       mau_ngram_tokenizer: {
         type: 'nGram',
         min_gram: 4,
         max_gram: 10,
-        token_chars: %i[letter digit]
-      }
+        token_chars: %i[letter digit],
+      },
     }.freeze
 
     ANALYZERS_TOKENIZERS = {
       analyzer: ANALYZERS,
-      tokenizer: TOKENIZERS
+      tokenizer: TOKENIZERS,
     }.freeze
 
     class ObjectSearchService

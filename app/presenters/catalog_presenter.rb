@@ -88,7 +88,7 @@ class CatalogPresenter < ViewPresenter
       a.studionumber,
       a.studio.try(:cross_street).to_s,
       '',
-      a.media.map(&:name).join(' ')
+      a.media.map(&:name).join(' '),
     ]
   end
 end

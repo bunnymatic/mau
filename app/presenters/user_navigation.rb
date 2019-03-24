@@ -24,7 +24,7 @@ class UserNavigation < Navigation
       link_to('My Profile', url_helpers.artist_path(current_artist.to_param), title: 'View My Info'),
       link_to('My Art', url_helpers.manage_art_artist_path(current_artist.to_param), title: 'Manage My Art'),
       link_to('My Favorites', url_helpers.favorites_path(current_artist.to_param), title: 'Manage My Art'),
-      link_to('My Account', url_helpers.edit_artist_path(current_artist.to_param), title: 'Edit My Info')
+      link_to('My Account', url_helpers.edit_artist_path(current_artist.to_param), title: 'Edit My Info'),
     ]
   end
 
@@ -33,7 +33,7 @@ class UserNavigation < Navigation
 
     [
       link_to('My Profile', url_helpers.user_path(current_user.to_param)),
-      link_to('My Account', url_helpers.edit_user_path(current_user.to_param))
+      link_to('My Account', url_helpers.edit_user_path(current_user.to_param)),
     ]
   end
 end

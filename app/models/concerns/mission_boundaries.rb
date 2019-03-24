@@ -19,7 +19,7 @@ module MissionBoundaries
     ],
     'NE' => [
       NORTH_BOUNDARY, EAST_BOUNDARY
-    ]
+    ],
   }.freeze
 
   def within_bounds?(lat, lng)

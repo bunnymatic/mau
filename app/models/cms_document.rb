@@ -11,7 +11,7 @@ class CmsDocument < ApplicationRecord
   def self.packaged(page, section)
     pkg = {
       page: page.to_s,
-      section: section.to_s
+      section: section.to_s,
     }
     markdown_content = find_by(page: page.to_s, section: section.to_s)
 

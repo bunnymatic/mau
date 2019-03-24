@@ -49,7 +49,7 @@ class SiteStatistics
     {
       last_30_days: [clause, 30.days.ago],
       last_week: [clause, 1.week.ago],
-      yesterday: [clause, 1.day.ago]
+      yesterday: [clause, 1.day.ago],
     }
   end
 
@@ -99,7 +99,7 @@ class SiteStatistics
     {
       favorited_art_pieces: Favorite.art_pieces.count,
       favorited_artists: Favorite.artists.count,
-      favorites_users_using: Favorite.distinct('user_id').pluck(:user_id).count
+      favorites_users_using: Favorite.distinct('user_id').pluck(:user_id).count,
     }
   end
 
@@ -119,7 +119,7 @@ class SiteStatistics
   def other_users_stats
     {
       accounts: User.count,
-      fans: MauFan.count
+      fans: MauFan.count,
     }
   end
 

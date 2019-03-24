@@ -7,7 +7,7 @@ module Mau
       major: '7',
       minor: '1',
       rev: '0',
-      build: 'unk'
+      build: 'unk',
     }.freeze
 
     def number

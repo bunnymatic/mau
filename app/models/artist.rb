@@ -73,7 +73,7 @@ class Artist < User
        SOUTH_BOUNDARY, NORTH_BOUNDARY,
        WEST_BOUNDARY, EAST_BOUNDARY,
        SOUTH_BOUNDARY, NORTH_BOUNDARY,
-       WEST_BOUNDARY, EAST_BOUNDARY]
+       WEST_BOUNDARY, EAST_BOUNDARY],
     )
   }
   has_one :artist_info, dependent: :destroy

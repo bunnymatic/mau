@@ -30,7 +30,7 @@ class AdminArtistUpdateService
         changed = update_artist_os_standing(
           artist,
           current_os,
-          truthy?(os_updates_by_artist_id[artist.id.to_s])
+          truthy?(os_updates_by_artist_id[artist.id.to_s]),
         )
         if changed.nil?
           skipped_count += 1

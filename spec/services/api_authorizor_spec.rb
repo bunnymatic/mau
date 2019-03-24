@@ -15,7 +15,7 @@ describe ApiAuthorizor do
     xit 'refuses external requests without the proper auth key' do
       request = instance_double(ActionDispatch::Request,
                                 headers: {
-                                  'HTTP_AUTHORIZATION' => 'Testing Testing 1 2'
+                                  'HTTP_AUTHORIZATION' => 'Testing Testing 1 2',
                                 },
                                 host: 'other.host',
                                 env: { 'HTTP_REFERER' => 'http://somewhere.else.com' })

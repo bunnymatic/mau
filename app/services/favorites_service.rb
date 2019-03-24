@@ -52,7 +52,7 @@ class FavoritesService
       favorite_params = {
         favoritable_type: obj.class.name,
         favoritable_id: obj.id,
-        user_id: user.id
+        user_id: user.id,
       }
       f = Favorite.create(favorite_params)
       notify_favorited_user(obj, user) if f
