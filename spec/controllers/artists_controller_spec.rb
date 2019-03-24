@@ -29,7 +29,7 @@ describe ArtistsController, elasticsearch: false do
     let(:query_params) { {} }
     before do
       mock_gallery = instance_double(
-        ArtistsGallery
+        ArtistsGallery,
       )
       allow(ArtistsGallery).to receive(:letters).and_return(%w[b c])
       allow(ArtistsGallery).to receive(:new).and_return(mock_gallery)
