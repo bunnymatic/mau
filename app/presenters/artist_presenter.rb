@@ -121,7 +121,7 @@ class ArtistPresenter < UserPresenter
     @representative_piece ||=
       begin
         r = artist.representative_piece
-        ArtPiecePresenter.new(r) if r.is_a?(ArtPiece)
+        ArtPiecePresenter.new(r) if r
       end
   end
 

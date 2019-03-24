@@ -12,8 +12,8 @@ class SocialCatalogPresenter < ArtistsPresenter
   end
 
   def artists
-    super.select(&:art?).sort do |a, b|
-      b.representative_piece.updated_at <=> a.representative_piece.updated_at
+    super.select(&:art?).sort do |aa, bb|
+      bb.representative_piece.updated_at <=> aa.representative_piece.updated_at
     end
   end
 

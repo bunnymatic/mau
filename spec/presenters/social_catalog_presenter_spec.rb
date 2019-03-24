@@ -13,13 +13,23 @@ describe SocialCatalogPresenter do
     }
   end
 
+  def fake_art(opts = {})
+    instance_double(ArtPiece, opts.merge(
+                                persisted?: true,
+                                title: 'title',
+                                photo: 'the-image.jpg',
+                                medium: nil,
+                                tags: [],
+                                uniq_tags: [],
+                                updated_at: rand.days.ago,
+                              ))
+  end
+
   let!(:open_studios_event) { FactoryBot.create :open_studios_event }
   let(:studio) { build_stubbed(:studio) }
   let(:listed_indy_artist) do
     name = Faker::Name.name
-    art_pieces = [
-      instance_double(ArtPiece, persisted?: true, updated_at: rand.days.ago),
-    ]
+    art_pieces = [fake_art]
     attrs = attributes_for(:artist).merge(gen_links).merge(
       art_pieces: art_pieces,
       artist_info: build_stubbed(:artist_info),
@@ -38,6 +48,7 @@ describe SocialCatalogPresenter do
   let(:listed_studio_artists) do
     Array.new(5).map do
       name = Faker::Name.name
+      art_pieces = [fake_art]
       attrs = attributes_for(:artist).merge(gen_links).merge(
         art_pieces: [instance_double(ArtPiece, persisted?: true)],
         artist_info: build_stubbed(:artist_info, max_pieces: 4),
@@ -47,7 +58,7 @@ describe SocialCatalogPresenter do
         in_the_mission?: true,
         is_a?: true,
         max_pieces: 4,
-        representative_piece: build_stubbed(:art_piece, updated_at: rand.days.ago),
+        representative_piece: art_pieces.first,
         sortable_name: 'joe',
         studio: studio,
       )
