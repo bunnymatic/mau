@@ -11,7 +11,6 @@ describe MediaPresenter do
     pieces = artists.map(&:art_pieces).flatten
     pieces.each { |ap| ap.update(medium: select_medium) }
   end
-
   let(:page) { 1 }
   let(:mode) { nil }
   let(:per_page) { 2 }
@@ -29,13 +28,13 @@ describe MediaPresenter do
   end
 
   describe '#paginator' do
-    subject { super().paginator }
+    subject { presenter.paginator }
     it 'has 2 items' do
+      expect(subject).to be_a_kind_of MediumPagination
       expect(subject.items).to have(2).items
+      expect(subject.per_page).to eq per_page
+      expect(subject.current_page).to eq page
     end
-    it { is_expected.to be_a_kind_of MediumPagination }
-    its(:per_page) { is_expected.to eql per_page }
-    its(:current_page) { is_expected.to eql page }
   end
 
   context 'with inactive artists in the system' do

@@ -3,22 +3,32 @@
 require 'rails_helper'
 
 describe FavoritesCollectionPresenter do
-  let(:artists) { create_list(:artist, 4, :active, :with_art) + [create(:artist, :active)] }
-  let(:artist) { artists.first }
-  let(:art_piece_without_artist) { create(:art_piece) }
+  let(:artist) { instance_double(Artist) }
   let(:current_user) { nil }
+  let(:favorite_artists) { [] }
+  let(:favorite_art_pieces) { [] }
   subject(:presenter) { FavoritesCollectionPresenter.new(artist, current_user) }
 
-  context 'with favorites' do
-    before do
-      create_favorite(artist, artists[1])
-      create_favorite(artist, artists[2])
-      create_favorite(artist, artists.last)
+  before do
+    allow(artist).to receive_message_chain(:favorites, :artists).and_return(favorite_artists)
+    allow(artist).to receive_message_chain(:favorites, :art_pieces).and_return(favorite_art_pieces)
+  end
 
-      create_favorite(artist, artists[2].art_pieces.first)
-      create_favorite(artist, artists[3].art_pieces.first)
-      create_favorite(artist, art_piece_without_artist)
-      art_piece_without_artist.artist.suspend!
+  context 'with favorites' do
+    let(:favorite_artists) do
+      [
+        instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: true),
+        instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: true),
+        instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: false),
+      ].map { |artist| instance_double(Favorite, to_obj: artist, favoritable: artist) }
+    end
+    let(:favorite_art_pieces) do
+      [
+        instance_double(ArtPiece, artist: instance_double(Artist, active?: true)),
+        instance_double(ArtPiece, artist: instance_double(Artist, active?: true)),
+        instance_double(ArtPiece, artist: instance_double(Artist, active?: false)),
+        instance_double(ArtPiece),
+      ].map { |art| instance_double(Favorite, to_obj: art, favoritable: art) }
     end
 
     describe '#art_pieces' do
@@ -34,10 +44,12 @@ describe FavoritesCollectionPresenter do
     end
 
     context 'when the artists are not all active' do
-      before do
-        artists[1].suspend!
+      let(:favorite_artists) do
+        [
+          instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: true),
+          instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: false),
+        ].map { |artist| instance_double(Favorite, to_obj: artist, favoritable: artist) }
       end
-
       describe '#artists' do
         it 'has 1 artist' do
           expect(subject.artists.size).to eq(1)
@@ -47,6 +59,8 @@ describe FavoritesCollectionPresenter do
   end
 
   context 'when the artist has no favorites' do
+    let(:favorite_artists) { [] }
+    let(:favorite_art_pieces) { [] }
     describe '#art_pieces' do
       subject { super().art_pieces }
       it { is_expected.to be_empty }

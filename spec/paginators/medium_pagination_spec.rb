@@ -5,13 +5,10 @@ require 'rails_helper'
 describe MediumPagination, type: :controller do
   include PresenterSpecHelpers
 
-  let(:artist) { FactoryBot.create :artist, :with_tagged_art }
-  let(:art_pieces) { artist.art_pieces }
-  let!(:media) { artist.art_pieces.map(&:medium) }
   let(:num_items) { 8 }
   let(:per_page) { 3 }
   let(:current_page) { 0 }
-  let(:medium) { media.last }
+  let(:medium) { instance_double(Medium) }
   let(:page_mode) {}
 
   subject(:paginator) do

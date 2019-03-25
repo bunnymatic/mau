@@ -3,36 +3,32 @@
 require 'rails_helper'
 
 describe OpenStudiosPresenter do
-  let(:open_studios_event) { FactoryBot.create :open_studios_event }
-  let(:indy_artist) { FactoryBot.create(:artist, :active, :with_art) }
-  let(:studio_artists) { FactoryBot.create_list :artist, 2, :with_art }
-  let(:studio2_artists) { FactoryBot.create_list :artist, 2, :with_art }
-  let(:artists) { [indy_artist] + studio_artists }
-  let!(:studio) { FactoryBot.create :studio, artists: studio_artists }
-  let!(:studio2) { FactoryBot.create :studio, artists: studio2_artists }
   subject(:presenter) { described_class.new }
 
   before do
-    [studio, studio2].each do |stdio|
-      stdio.attributes = { lat: 37.75, lng: -122.41 }
-      stdio.save(validate: false)
-    end
-    indy_artist.artist_info.attributes = {
-      lat: 37.75,
-      lng: -122.41,
-    }
-    indy_artist.artist_info.save validate: false
-
-    FactoryBot.create(:cms_document,
-                      page: :main_openstudios,
-                      section: :summary,
-                      article: "# spring 2004\n\n## spring 2004 header2 \n\nwhy spring 2004?  that's _dumb_.")
-    FactoryBot.create(:cms_document,
-                      page: :main_openstudios,
-                      section: :preview_reception,
-                      article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
-    artists.first(2).each { |a| a.update_os_participation open_studios_event.key, true }
-    studio2_artists.last(3).each { |a| a.update_os_participation open_studios_event.key, true }
+    allow(CmsDocument).to receive(:packaged)
+      .with('main_openstudios', 'summary')
+      .and_return(
+        page: 'main_openstudios',
+        section: 'summary',
+        content: "# spring 2004\n\n## spring 2004 header2 \n\nwhy _spring_.",
+        cmsid: 1,
+      )
+    allow(CmsDocument).to receive(:packaged)
+      .with('main_openstudios', 'preview_reception')
+      .and_return(
+        page: 'main_openstudios',
+        section: 'preview_reception',
+        content: '# pr header\n\n## pr header2\n\ncome out to the *preview* receiption',
+        cmsid: 1,
+      )
+    allow(Artist).to receive_message_chain(
+      :active, :open_studios_participants, :in_the_mission
+    ).and_return([
+                   instance_double(Artist, studio: instance_double(Studio, name: 'studio')),
+                   instance_double(Artist, studio: instance_double(Studio, name: 'studio2')),
+                   instance_double(Artist, studio: nil, address: 'mission', lastname: 'Rogers'),
+                 ])
   end
 
   describe '#participating_studios' do
