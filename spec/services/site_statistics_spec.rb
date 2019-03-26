@@ -37,18 +37,22 @@ describe SiteStatistics do
     expect(stats.totals[:favorited_artists]).to eql 2
   end
 
-  it 'assigns correct values for artists counts at different time points' do
+  it 'assigns correct values for artists yesterday' do
     expect(stats.yesterday[:artists_added]).to eql 1
     expect(stats.yesterday[:artists_activated]).to eql 1
-
+  end
+  it 'assigns correct values for artists last week' do
     expect(stats.last_week[:artists_activated]).to eql 3
     expect(stats.last_week[:artists_added]).to eql 6
-
+  end
+  it 'assigns correct values for artists last month' do
     expect(stats.last_30_days[:artists_activated]).to eql 5
     expect(stats.last_30_days[:artists_added]).to eql 11
   end
   it 'has totals' do
     expect(stats.totals).to be
+  end
+  it 'has studio count' do
     expect(stats.totals[:studios]).to eql 2
   end
   it 'has open studios info' do
