@@ -26,34 +26,22 @@ describe ArtistsGallery do
   subject(:presenter) { ArtistsGallery.new(os_only, letter, ordering, current_page, per_page) }
 
   before do
-    fix_leaky_fixtures
     artists
   end
 
-  describe '#current_page' do
-    subject { super().current_page }
-    it { is_expected.to eql current_page }
+  it 'sets up pagination and an empty_message' do
+    expect(presenter.current_page).to eq current_page
+    expect(presenter.per_page).to eq per_page
+    expect(presenter.empty_message).to include "couldn't find any artists"
   end
 
-  describe '#per_page' do
-    subject { super().per_page }
-    it { is_expected.to eql per_page }
-  end
-
-  describe '#empty_message' do
-    subject { super().empty_message }
-    it { is_expected.to include "couldn't find any artists" }
-  end
-
-  it 'shows no artists without a representative piece' do
+  it 'artists include only those with representative pieces sorted by name' do
     with_art, without_art = presenter.items.partition(&:representative_piece)
     expect(without_art).to be_empty
     expect(with_art.size).to eq(1)
     expect(with_art.first.lastname).to eql 'Atkins'
-  end
 
-  it 'artists include only those with representative pieces sorted by name' do
-    expect(subject.artists.map(&:artist)).to eql artists.first(3)
+    expect(presenter.artists.map(&:artist)).to eql artists.first(3)
   end
 
   context 'with open studios set true' do
