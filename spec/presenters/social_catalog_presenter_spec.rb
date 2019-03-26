@@ -43,6 +43,9 @@ describe SocialCatalogPresenter do
       sortable_name: 'joe',
       studio: nil,
     )
+    User.stored_attributes[:links].each do |attr|
+      attrs[attr] = nil
+    end
     instance_double(Artist, **attrs)
   end
   let(:listed_studio_artists) do
@@ -62,6 +65,9 @@ describe SocialCatalogPresenter do
         sortable_name: 'joe',
         studio: studio,
       )
+      User.stored_attributes[:links].each do |attr|
+        attrs[attr] = nil
+      end
       instance_double(Artist, **attrs)
     end
   end
