@@ -2,40 +2,87 @@
 
 require 'rails_helper'
 
-describe SocialCatalogPresenter, type: :view do
-  let(:open_studios_event) { FactoryBot.create :open_studios_event }
-  let(:studio) { create(:studio) }
-  let(:studio2) { create(:studio) }
-  let(:unlisted_because_not_os) do
-    create(:artist, :active, :with_links, :with_art)
+describe SocialCatalogPresenter do
+  include PresenterSpecHelpers
+  def gen_links
+    {
+      facebook: Faker::Internet.url,
+      website: Faker::Internet.url,
+      twitter: Faker::Internet.url,
+      instagram: Faker::Internet.url,
+    }
   end
-  let(:unlisted_because_no_art) do
-    create(:artist, :active, :with_links, doing_open_studios: open_studios_event)
+
+  def fake_art(opts = {})
+    instance_double(ArtPiece, opts.merge(
+                                persisted?: true,
+                                title: 'title',
+                                photo: 'the-image.jpg',
+                                medium: nil,
+                                tags: [],
+                                uniq_tags: [],
+                                updated_at: rand.days.ago,
+                              ))
   end
+
+  let!(:open_studios_event) { FactoryBot.create :open_studios_event }
+  let(:studio) { build_stubbed(:studio) }
   let(:listed_indy_artist) do
-    create(:artist, :active, :with_art, :in_the_mission, doing_open_studios: open_studios_event)
+    name = Faker::Name.name
+    art_pieces = [fake_art]
+    attrs = attributes_for(:artist).merge(gen_links).merge(
+      art_pieces: art_pieces,
+      artist_info: build_stubbed(:artist_info),
+      doing_open_studios?: true,
+      full_name: name,
+      get_name: name,
+      in_the_mission?: true,
+      is_a?: true,
+      max_pieces: 4,
+      representative_piece: art_pieces.first,
+      sortable_name: 'joe',
+      studio: nil,
+    )
+    User.stored_attributes[:links].each do |attr|
+      attrs[attr] = nil
+    end
+    instance_double(Artist, **attrs)
   end
   let(:listed_studio_artists) do
-    [
-      create(:artist, :active, :with_art, :with_links, doing_open_studios: open_studios_event, studio: studio),
-      create(:artist, :active, :with_art, :with_links, doing_open_studios: open_studios_event, studio: studio),
-      create(:artist, :active, :with_art, :with_links, doing_open_studios: open_studios_event, studio: studio2),
-    ]
+    Array.new(5).map do
+      name = Faker::Name.name
+      art_pieces = [fake_art]
+      attrs = attributes_for(:artist).merge(gen_links).merge(
+        art_pieces: [instance_double(ArtPiece, persisted?: true)],
+        artist_info: build_stubbed(:artist_info, max_pieces: 4),
+        doing_open_studios?: true,
+        full_name: name,
+        get_name: name,
+        in_the_mission?: true,
+        is_a?: true,
+        max_pieces: 4,
+        representative_piece: art_pieces.first,
+        sortable_name: 'joe',
+        studio: studio,
+      )
+      User.stored_attributes[:links].each do |attr|
+        attrs[attr] = nil
+      end
+      instance_double(Artist, **attrs)
+    end
   end
+
   let!(:artists) do
-    [unlisted_because_no_art, unlisted_because_not_os, listed_indy_artist] + listed_studio_artists
+    [listed_indy_artist] + listed_studio_artists
   end
   let(:parsed) { CSV.parse(subject.csv, headers: true) }
 
   before do
-    # TODO: update studio/artist factories to set address properly without compute_geocode
-    studio.update_attribute(:lat, 37.75)
-    studio.update_attribute(:lng, -122.41)
-    studio2.update_attribute(:lat, 37.751)
-    studio2.update_attribute(:lng, -122.411)
-    listed_studio_artists.first.art_pieces.first.update_attribute(:updated_at, Time.zone.now - 1.day)
-    listed_indy_artist.artist_info.update_attribute(:lat, 37.76)
-    listed_indy_artist.artist_info.update_attribute(:lng, -122.411)
+    allow(Artist).to receive_message_chain(:active, :includes).and_return(
+      double('Artist::ActiveRecord_Relation',
+             open_studios_participants:
+               double('Artist::ActiveRecord_Relation', in_the_mission: artists)),
+    )
   end
 
   describe '#artists' do

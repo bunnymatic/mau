@@ -16,11 +16,16 @@ describe ArtistsController, elasticsearch: false do
                       firstname: 'joe',
                       lastname: 'ablow')
   end
+  let(:studio) { create :studio }
+  let(:admin) { FactoryBot.create(:artist, :admin) }
+  let(:number_of_art_pieces) { 1 }
+  let(:artist_info) { artist.artist_info }
   let(:artist2) { FactoryBot.create(:artist, :active, studio: studio) }
   let(:without_address) { FactoryBot.create(:artist, :active, :without_address) }
   let(:artists) do
     [artist] + FactoryBot.create_list(:artist, 2, :with_studio, :with_tagged_art, number_of_art_pieces: 1)
   end
+  let(:open_studios_event) { create(:open_studios_event) }
   let(:fan) { FactoryBot.create(:fan, :active) }
   let(:ne_bounds) { Artist::BOUNDS['NE'] }
   let(:sw_bounds) { Artist::BOUNDS['SW'] }
@@ -58,20 +63,16 @@ describe ArtistsController, elasticsearch: false do
   end
 
   describe '#index roster view' do
+    let(:mock_roster) { instance_double(ArtistsRoster, artists: build_stubbed_list(:artist, 1)) }
     before do
+      allow(ArtistsRoster).to receive(:new).and_return(mock_roster)
+      allow(PageInfoService).to receive(:title).and_return('the title')
       get :roster
     end
     it { expect(response).to be_successful }
-    it 'assigns artists' do
-      expect(assigns(:roster).artists.length.size).to be >= 2
-    end
     it 'set the title' do
-      expect(assigns(:page_title)).to eql 'Mission Artists - Artists'
-    end
-    it 'artists are all active' do
-      assigns(:roster).artists.each do |a|
-        expect(a.state).to eql 'active'
-      end
+      expect(assigns(:page_title)).to eql 'the title'
+      expect(PageInfoService).to have_received(:title).with('Artists')
     end
   end
 
@@ -111,6 +112,7 @@ describe ArtistsController, elasticsearch: false do
 
   describe '#update' do
     before do
+      open_studios_event
       artist_info.update(open_studios_participation: '')
     end
     context 'while not logged in' do
@@ -169,6 +171,9 @@ describe ArtistsController, elasticsearch: false do
       context 'update address' do
         let(:artist_info_attrs) { { street: '100 main st' } }
         let(:street) { artist_info_attrs[:street] }
+
+        before do
+        end
 
         it 'contains flash notice of success' do
           put :update, params: { id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs } }
@@ -324,6 +329,14 @@ describe ArtistsController, elasticsearch: false do
   # end
 
   describe '#setarrangement' do
+    let(:artist) do
+      FactoryBot.create(:artist, :with_art,
+                        studio: studio,
+                        number_of_art_pieces: number_of_art_pieces,
+                        nomdeplume: nil,
+                        firstname: 'joe',
+                        lastname: 'ablow')
+    end
     let(:number_of_art_pieces) { 3 }
     let(:art_piece_ids) { artist.art_pieces.pluck(:id) }
 
@@ -331,8 +344,8 @@ describe ArtistsController, elasticsearch: false do
       before(:each) do
         login_as(artist)
       end
-      [[2, 1, 3], [1, 3, 2], [2, 3, 1]].each do |ord|
-        it "returns art_pieces in new order #{ord.inspect}" do
+      it 'returns art_pieces in new order' do
+        [[2, 1, 3], [1, 3, 2], [2, 3, 1]].each do |ord|
           order1 = ord.map { |idx| art_piece_ids[idx - 1] }
           expect(artist.art_pieces.map(&:id)).not_to eql order1
           post :setarrangement, params: { neworder: order1.join(',') }

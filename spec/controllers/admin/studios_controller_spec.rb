@@ -4,13 +4,11 @@ require 'rails_helper'
 require 'htmlentities'
 
 describe Admin::StudiosController do
-  let(:studios) { create_list :studio, 3, :with_artists }
-  let(:studio) { studios.first }
-  let(:studio2) { studios.last }
+  let(:studio) { FactoryBot.create(:studio) }
   let(:manager) { FactoryBot.create(:artist, :manager, :active, studio: studio) }
   let(:manager_studio) { manager.studio }
   let(:editor) { FactoryBot.create(:artist, :editor, :active, studio: studio) }
-  let(:admin) { FactoryBot.create(:artist, :admin, :active, studio: studio) }
+  let(:admin) { FactoryBot.create(:artist, :admin, :active) }
 
   context 'as an admin' do
     before do
@@ -52,6 +50,7 @@ describe Admin::StudiosController do
     end
 
     describe '#reorder' do
+      let(:studios) { create_list :studio, 3 }
       it 'arranges studios in the order specified given studio slugs' do
         new_order = studios.shuffle
         post :reorder, params: { studios: new_order.map(&:slug) }
@@ -93,6 +92,8 @@ describe Admin::StudiosController do
       end
     end
     describe 'as admin' do
+      let(:studios) { create_list :studio, 2, :with_artists }
+      let(:studio) { studios.first }
       before do
         studios
         login_as(admin)
@@ -129,6 +130,9 @@ describe Admin::StudiosController do
         it_should_behave_like 'not authorized'
       end
       describe 'as manager' do
+        let(:studios) { create_list :studio, 2 }
+        let(:studio) { studios.first }
+        let(:studio2) { studios.last }
         before do
           login_as manager
         end
@@ -158,6 +162,9 @@ describe Admin::StudiosController do
   end
 
   describe 'unaffiliate_artist' do
+    let!(:studios) { create_list :studio, 2, :with_artists }
+    let(:studio) { studios.first }
+    let(:studio2) { studios.last }
     let(:manager_role) { Role.find_by(role: 'manager') }
     let(:artist) { (studio.artists.active.to_a - [admin]).first }
     let(:non_studio_artist) { studio2.artists.active.first }
@@ -192,7 +199,7 @@ describe Admin::StudiosController do
       let(:artist) { admin }
       before do
         # validate fixtures
-        expect(admin.studio).to eql studio
+        admin.update(studio: studio)
       end
 
       it 'does not let you unaffiliate yourself' do

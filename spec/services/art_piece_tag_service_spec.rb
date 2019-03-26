@@ -4,14 +4,14 @@ require 'rails_helper'
 
 describe ArtPieceTagService do
   let(:service) { described_class }
-  let!(:art_pieces) { create_list :art_piece, 6, :with_tags }
-  let!(:tags) { FactoryBot.create_list :art_piece_tag, 5 }
 
   before do
     Rails.cache.clear
   end
 
   describe '.tags_sorted_by_frequency' do
+    let!(:art_pieces) { [create(:art_piece, :with_tags)] }
+    let!(:tags) { FactoryBot.create_list(:art_piece_tag, 1) }
     it 'returns tags with their count' do
       freq = service.tags_sorted_by_frequency
       expect(freq.first.frequency).to be >= 1
@@ -37,44 +37,38 @@ describe ArtPieceTagService do
 
   describe '.delete_unused_tags' do
     it 'removes only tags that are unused' do
+      create :art_piece, :with_tag
+      FactoryBot.create_list :art_piece_tag, 5
       expect do
         service.delete_unused_tags
-        expect(service.tags_sorted_by_frequency.size).to be >= 7
+        expect(service.tags_sorted_by_frequency.size).to eq 1
       end.to change(ArtPieceTag, :count).by(-5)
     end
   end
 
   describe '.destroy' do
     it 'removes the tag' do
+      art = create :art_piece, :with_tags
+      FactoryBot.create :art_piece_tag
+      tags = ArtPieceTag.all
       expect do
-        service.delete_unused_tags
-        expect(service.tags_sorted_by_frequency.size).to be >= 6
-      end.to change(ArtPieceTag, :count).by(-5)
-    end
-    it 'removes the tag references on any art pieces' do
-      tags = service.tags_sorted_by_frequency.select { |tf| tf.frequency > 0 }.first(3).map(&:tag)
-      art_piece = tags.first.art_pieces.first
-      tag_names = tags.map(&:name)
-      expect do
-        expect do
-          expect(art_piece.tags.map(&:name) & tag_names).not_to be_empty
-          service.destroy(tags)
-          expect(art_piece.tags.map(&:name) & tag_names).to be_empty
-        end.to change(ArtPieceTag, :count).by(-3)
-      end.to change(ArtPiecesTag, :count).by(-3)
+        expect(art.tags).not_to be_empty
+        service.destroy(tags)
+        expect(art.tags).to be_empty
+      end.to change(ArtPieceTag, :count).by(-3).and(
+        change(ArtPiecesTag, :count).by(-2),
+      )
     end
   end
 
   describe 'frequency' do
+    let!(:art_pieces) { create_list :art_piece, 6, :with_tags }
+    let!(:tags) { FactoryBot.create_list :art_piece_tag, 5 }
     before do
       art_pieces.each_with_index do |ap, idx|
         ap.tags = tags[0..(5 - idx)]
         ap.save!
       end
-    end
-
-    it 'should not throw when getting frequency with no tags' do
-      expect { service.frequency }.to_not raise_error
     end
 
     it 'returns normalized frequency correctly' do

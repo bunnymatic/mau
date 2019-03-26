@@ -3,16 +3,6 @@
 require 'rails_helper'
 
 describe ArtPieceTagsController do
-  let(:artists) { FactoryBot.create_list(:artist, 3, :with_tagged_art) }
-  let(:artist) { artists.first }
-  let(:tags) { artist.art_pieces.map(&:tags).flatten }
-  let(:tag) { tags.first }
-
-  before do
-    fix_leaky_fixtures
-    artists
-  end
-
   describe '#index' do
     describe 'format=html' do
       before do
@@ -26,6 +16,7 @@ describe ArtPieceTagsController do
         it_should_behave_like 'renders error page'
       end
       context 'when there are tags' do
+        let(:tag) { FactoryBot.build_stubbed(:art_piece_tag) }
         before do
           allow(ArtPieceTagService).to receive(:most_popular_tag).and_return(tag)
           get :index
@@ -36,6 +27,9 @@ describe ArtPieceTagsController do
       end
     end
     describe 'format=json' do
+      before do
+        allow(ArtPieceTag).to receive(:all).and_return([FactoryBot.build_stubbed(:art_piece_tag)])
+      end
       context 'default' do
         before do
           get :index, params: { format: :json }
@@ -43,14 +37,16 @@ describe ArtPieceTagsController do
         it_should_behave_like 'successful json'
         it 'returns all tags as json' do
           j = JSON.parse(response.body)['art_piece_tags']
-          expect(j.size).to eq(ArtPieceTag.count)
+          expect(j.size).to eq(1)
         end
       end
     end
   end
 
   describe '#autosuggest' do
+    let(:tags) { FactoryBot.build_stubbed_list(:art_piece_tag, 3) }
     before do
+      allow(ArtPieceTag).to receive(:all).and_return(tags)
       get :autosuggest, params: { format: 'json', input: tags.first.name.downcase }
     end
     it_should_behave_like 'successful json'
@@ -82,6 +78,10 @@ describe ArtPieceTagsController do
   end
 
   describe '#show' do
+    let(:artists) { FactoryBot.create_list(:artist, 3, :with_tagged_art) }
+    let(:artist) { artists.first }
+    let(:tags) { artist.art_pieces.map(&:tags).flatten }
+    let(:tag) { tags.first }
     before do
       tags
     end

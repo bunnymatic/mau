@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::ArtistsController, elasticsearch: true do
+describe Api::ArtistsController, elasticsearch: false do
   before do
     request.env['HTTP_REFERER'] = 'http://test.host/'
     create(:open_studios_event, :future)

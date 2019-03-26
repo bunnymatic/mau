@@ -10,18 +10,20 @@ describe ArtistPresenter do
   subject(:presenter) { ArtistPresenter.new(artist) }
 
   context 'when the subject is an artist' do
-    its(:artist?) { is_expected.to eq true }
-    its(:in_the_mission?) { is_expected.to eql artist.in_the_mission? }
-    its(:media?) { is_expected.to eql true }
-    its(:bio?) { is_expected.to eql true }
-    its(:bio_html) { is_expected.to eql RDiscount.new(artist.artist_info.bio).to_html.html_safe }
-    its(:links?) { is_expected.to eql true }
-    its(:links) { is_expected.to be_present }
-    its(:favorites_count) { is_expected.to be_nil }
-    its(:studio_name) { is_expected.to eql artist.studio.name }
-    its(:art?) { is_expected.to eql true }
-    it { is_expected.to be_valid }
-    its(:show_url) { is_expected.to match %r{/artists/#{artist.login}$} }
+    it 'delegates a bunch of stuff' do
+      expect(artist).to be_valid
+      expect(presenter.artist?).to be_truthy
+      expect(presenter.in_the_mission?).to eq artist.in_the_mission?
+      expect(presenter.media?).to be_truthy
+      expect(presenter.bio?).to be_truthy
+      expect(presenter.bio_html).to eq RDiscount.new(artist.artist_info.bio).to_html.html_safe
+      expect(presenter.links?).to be_truthy
+      expect(presenter.links).to be_present
+      expect(presenter.favorites_count).to be_nil
+      expect(presenter.studio_name).to eql artist.studio.name
+      expect(presenter.art?).to eql true
+      expect(presenter.show_url).to match %r{/artists/#{artist.login}$}
+    end
 
     it 'has a good map div for google maps' do
       map_info = subject.map_info
@@ -48,8 +50,10 @@ describe ArtistPresenter do
         allow_any_instance_of(ArtPiece).to receive(:medium).and_return(nil)
       end
 
-      its(:media?) { is_expected.to eql false }
-      its(:primary_medium) { is_expected.to eql '' }
+      it "#media? returns false and primary medium is ''" do
+        expect(presenter.media?).to eql false
+        expect(presenter.primary_medium).to eql ''
+      end
     end
 
     context 'without bio' do
@@ -58,8 +62,7 @@ describe ArtistPresenter do
       end
 
       describe '#bio?' do
-        subject { super().bio? }
-        it { is_expected.to eq false }
+        it { expect(presenter.bio?).to eq false }
       end
     end
 
@@ -78,20 +81,15 @@ describe ArtistPresenter do
     context 'without art' do
       let(:artist) { FactoryBot.create(:artist, :active) }
 
-      describe '#art_pieces' do
-        subject { super().art_pieces }
-        it { is_expected.to be_empty }
-      end
-
-      describe '#art?' do
-        subject { super().art? }
-        it { is_expected.to eq false }
+      it '#art_pieces and art? should return' do
+        expect(presenter.art_pieces).to be_empty
+        expect(presenter.art?).to be_falsy
       end
     end
   end
 
   context 'when the subject is a fan' do
-    let(:artist) { FactoryBot.create(:mau_fan, :active) }
+    let(:artist) { FactoryBot.build(:mau_fan, :active) }
     describe 'artist?' do
       its(:artist?) { is_expected.to eq false }
     end

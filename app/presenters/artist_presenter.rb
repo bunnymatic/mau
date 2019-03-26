@@ -10,12 +10,26 @@ class ArtistPresenter < UserPresenter
 
   attr_accessor :model
 
-  delegate :can_register_for_open_studios?, :doing_open_studios?, :os_participation,
-           :studio, :studio_id,
-           :artist_info, :at_art_piece_limit?, :studionumber,
-           :max_pieces, :pending?, :active?, :suspended?, :updated_at,
-           :==, :!=,
+  delegate :!=,
+           :==,
+           :active?,
+           :address,
+           :address?,
+           :artist_info,
+           :at_art_piece_limit?,
+           :can_register_for_open_studios?,
+           :doing_open_studios?,
+           :in_the_mission?,
+           :max_pieces,
+           :os_participation,
+           :pending?,
+           :studio,
+           :studio_id,
+           :studionumber,
+           :suspended?,
+           :updated_at,
            to: :artist, allow_nil: true
+  delegate(*ALLOWED_LINKS, to: :artist, allow_nil: true)
 
   def artist?
     artist && model.is_a?(Artist)
@@ -101,10 +115,6 @@ class ArtistPresenter < UserPresenter
     studio_name.present? ? studio_name + ' ' + studio_number : ''
   end
 
-  delegate :address?, to: :model
-
-  delegate :in_the_mission?, to: :model
-
   def map_url
     if model.studio
       model.studio.map_link
@@ -121,7 +131,7 @@ class ArtistPresenter < UserPresenter
     @representative_piece ||=
       begin
         r = artist.representative_piece
-        ArtPiecePresenter.new(r) if r.is_a?(ArtPiece)
+        ArtPiecePresenter.new(r) if r
       end
   end
 
@@ -164,38 +174,6 @@ class ArtistPresenter < UserPresenter
                       content_tag('h4', "No artist's statement")
                     end
                   end
-  end
-
-  def facebook
-    model.links[:facebook]
-  end
-
-  def twitter
-    model.links[:twitter]
-  end
-
-  def blog
-    model.links[:blog]
-  end
-
-  def instagram
-    model.links[:instagram]
-  end
-
-  def myspace
-    model.links[:myspace]
-  end
-
-  def pinterest
-    model.links[:pinterest]
-  end
-
-  def flickr
-    model.links[:flickr]
-  end
-
-  def artspan
-    model.links[:artspan]
   end
 
   def self.keyed_links
