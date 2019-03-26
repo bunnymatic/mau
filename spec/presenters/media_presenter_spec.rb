@@ -7,7 +7,7 @@ describe MediaPresenter do
 
   let(:media) { FactoryBot.create_list(:medium, 4) }
   let(:artists) { FactoryBot.create_list(:artist, 5, :with_art) }
-  let!(:art_pieces) do
+  let(:art_pieces) do
     pieces = artists.map(&:art_pieces).flatten
     pieces.each { |ap| ap.update(medium: select_medium) }
   end
@@ -18,16 +18,24 @@ describe MediaPresenter do
 
   subject(:presenter) { MediaPresenter.new(select_medium, page, mode, per_page) }
 
-  its(:by_artists?) { is_expected.to eql false }
-  its(:by_pieces?) { is_expected.to eql true }
+  it 'returns by pieces by default' do
+    expect(presenter.by_artists?).to eq false
+    expect(presenter.by_pieces?).to eq true
+  end
 
   describe '#all_art_pieces' do
+    before do
+      art_pieces
+    end
     it 'has select_medium.art_pieces.count art_pieces' do
       expect(subject.all_art_pieces.size).to eq(select_medium.art_pieces.count)
     end
   end
 
   describe '#paginator' do
+    before do
+      art_pieces
+    end
     subject { presenter.paginator }
     it 'has 2 items' do
       expect(subject).to be_a_kind_of MediumPagination
@@ -39,6 +47,7 @@ describe MediaPresenter do
 
   context 'with inactive artists in the system' do
     before do
+      art_pieces
       artists.first.suspend!
     end
     it 'shows art only from active artists' do

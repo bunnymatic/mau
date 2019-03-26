@@ -33,9 +33,6 @@ describe AdminEmailList do
 
     it 'assigns a list of fans emails when we ask for the fans list' do
       expect(emails.length).to eql 2
-    end
-
-    it 'shows the title and list size and correct emails when we ask for fans' do
       expect(email_list.display_title).to eq('Fans [2]')
     end
   end
@@ -81,9 +78,6 @@ describe AdminEmailList do
 
     it "assigns a list of emails of artists who don't have images" do
       expect(emails.length).to eql 1
-    end
-
-    it 'shows the title and list size and correct emails when we ask for fans' do
       expect(email_list.display_title).to eq('Active with no art [1]')
     end
   end
@@ -104,9 +98,6 @@ describe AdminEmailList do
 
     it 'assigns a list of pending emails when we ask for the fans list' do
       expect(email_list.artists.to_a).to eql pending_artists
-    end
-
-    it 'shows the title and list size and correct emails when we ask for pending' do
       expect(email_list.display_title).to eql 'Pending [1]'
     end
   end
@@ -129,13 +120,7 @@ describe AdminEmailList do
 
     it 'assigns a list of os artists' do
       expect(emails.length).to eql(2)
-    end
-
-    it 'shows the title and list size and correct emails' do
       expect(email_list.display_title).to eql "#{current.for_display} [2]"
-    end
-
-    it 'calls with the right tag' do
       expect(participants).to have_received(:open_studios_participants).with(ostag)
     end
   end
@@ -162,8 +147,6 @@ describe AdminEmailList do
 
     it 'returns emails that have been in both open studios' do
       expect(emails.map(&:email)).to eql participants.map(&:email)
-    end
-    it 'returns emails that have been in both open studios' do
       expect(active_relation).to have_received(:open_studios_participants).with(ostags.last)
     end
   end
