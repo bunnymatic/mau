@@ -717,9 +717,10 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ng-device-detector@^5.1.2:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/ng-device-detector/-/ng-device-detector-5.1.2.tgz#e5070ef779412a3e13a6cdeb828e58ff65bb78bc"
+ng-device-detector@^5.1.3:
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/ng-device-detector/-/ng-device-detector-5.1.3.tgz#e44df41c213753a49bf9ceb72a921fb81dba938f"
+  integrity sha512-FFi+NhvGRssi44U7oXIM4NzoGf9w+tBIGsWs3UTya6ts3fPxf0YApYLJZsvNAPxpSUOMGHGIc4XwXZr/IZaPHQ==
   dependencies:
     re-tree "^0.1.7"
     ua-device-detector "^1.1.1"
@@ -1079,9 +1080,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-ua-device-detector@^1.1.1, ua-device-detector@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/ua-device-detector/-/ua-device-detector-1.1.2.tgz#791030bae094bbde94766afa5f1d97edb18026c4"
+ua-device-detector@^1.1.1:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/ua-device-detector/-/ua-device-detector-1.1.5.tgz#351f320aff507d6d90c006d709aee9976ed3ccaf"
+  integrity sha512-E65TiHssS5FAeNQu0RfGqU7BTuXcwmNnxKePL3DTGc60kVGV6y8KKpEClUCujZ+cXC/X5Zpa7ESlNITSjajG7g==
   dependencies:
     re-tree "^0.1.7"
 
