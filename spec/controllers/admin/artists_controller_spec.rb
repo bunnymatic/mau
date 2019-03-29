@@ -32,8 +32,6 @@ describe Admin::ArtistsController do
       context 'format=html' do
         context 'with no params' do
           before do
-            allow_any_instance_of(ArtistInfo).to receive(:os_participation).and_return(current_os.key => true)
-            allow_any_instance_of(Artist).to receive(:os_participation).and_return({ current_os.key => true }, address: { yes: 'we do' })
             pending
             password_reset
             get :index

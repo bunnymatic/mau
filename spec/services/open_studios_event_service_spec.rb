@@ -35,26 +35,44 @@ describe OpenStudiosEventService do
     it 'reverses the date given reverse = true' do
       expect(service.for_display('201104', true)).to eql 'Apr 2011'
     end
-    it 'uses a db version of it\'s available' do
-      expect(service.for_display(future_oses.last.key)).to eql sprintf('%s %s', (Time.zone.now + 1.year).year, Time.zone.now.strftime('%b'))
-    end
   end
 
   describe '.date' do
-    it 'returns the date for a key that is not tied to os in the db' do
+    it 'returns the date for a key whether or not there is an event in the db' do
       expect(service.date('201104')).to eql Time.zone.parse('Apr 2011')
-    end
-    it 'returns the start date for a key that matches one in the db' do
       expect(service.date(OpenStudiosEvent.first.key)).to eql OpenStudiosEvent.first.start_date
     end
   end
 
   describe '.parse_key' do
-    it 'returns the year month as a string' do
+    it 'returns the year month as a string and can return it reversed' do
       expect(service.parse_key('201410')).to eql '2014 Oct'
-    end
-    it 'returns the month and year as a string with reverse' do
       expect(service.parse_key('201410', true)).to eql 'Oct 2014'
+    end
+  end
+
+  describe '.find' do
+    before do
+      allow(SafeCache).to receive(:read).and_return(nil, past_oses.last, past_oses.last)
+      allow(SafeCache).to receive(:write).and_call_original
+    end
+    it 'finds and caches the event (by default)' do
+      expect(service.find(past_oses.last.id)).to eq past_oses.last
+      service.find(past_oses.last.id)
+      service.find(past_oses.last.id)
+      expect(SafeCache).to have_received(:read).exactly(3).times
+      expect(SafeCache).to have_received(:write).once
+    end
+  end
+
+  describe '.find_by' do
+    before do
+      allow(SafeCache).to receive(:read).and_return(nil, past_oses.last, past_oses.last)
+      allow(SafeCache).to receive(:write).and_call_original
+    end
+    it 'finds and caches the event (by default)' do
+      expect(service.find_by(key: past_oses.last.key)).to eq past_oses.last
+      expect(SafeCache).to have_received(:write).once.with("os_event_#{past_oses.last.id}", past_oses.last)
     end
   end
 end

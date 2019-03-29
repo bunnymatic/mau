@@ -46,10 +46,12 @@ describe ArtistsGallery do
 
   context 'with open studios set true' do
     let(:os_only) { true }
+    before do
+      create(:open_studios_event)
+    end
 
     describe '#empty_message' do
-      subject { super().empty_message }
-      it { is_expected.to include 'no one with that name has signed up' }
+      its(:empty_message) { is_expected.to include 'no one with that name has signed up' }
     end
   end
 

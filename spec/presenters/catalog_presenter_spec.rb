@@ -4,7 +4,9 @@ require 'rails_helper'
 
 describe CatalogPresenter do
   let!(:open_studios_event) { FactoryBot.create :open_studios_event }
-  let!(:artists) { FactoryBot.create_list :artist, 4, :with_studio }
+  let!(:artists) do
+    FactoryBot.create_list(:artist, 4, :with_studio) + [create(:artist, :active, :in_the_mission)]
+  end
   let!(:reception_doc) do
     FactoryBot.create(:cms_document,
                       page: 'main_openstudios',
@@ -15,20 +17,21 @@ describe CatalogPresenter do
 
   before do
     artists[0..1].each do |artist|
-      artist.update_os_participation open_studios_event.key, true
+      artist.open_studios_events << open_studios_event
     end
+    artists.last.open_studios_events << open_studios_event
   end
 
   its(:csv_filename) { is_expected.to eql "mau_catalog_#{open_studios_event.key}.csv" }
 
-  its(:all_artists) { is_expected.to match_array Artist.active.open_studios_participants }
+  its(:all_artists) { is_expected.to match_array artists[0..1] + [artists.last] }
 
-  its(:indy_artists) { is_expected.to match_array Artist.active.open_studios_participants.independent_studio }
+  its(:indy_artists) { is_expected.to match_array [artists.last] }
 
-  its(:indy_artists_count) { is_expected.to eql Artist.active.open_studios_participants.independent_studio.count }
+  its(:indy_artists_count) { is_expected.to eql 1 }
 
   its(:group_studio_artists) do
-    is_expected.to match_array Artist.active.open_studios_participants.in_a_group_studio
+    is_expected.to match_array artists[0..1]
   end
 
   its(:preview_reception_data) do

@@ -11,16 +11,22 @@ class FavoritesService
     type, id = unpack_object(obj)
     raise InvalidFavoriteTypeError, "You can't favorite that type of object" unless Favorite::FAVORITABLE_TYPES.include? type
 
-    obj = type.constantize.find(id)
-    obj ? add_favorite(user, obj) : nil
+    clz = type.constantize
+    clz.transaction do
+      obj = clz.find(id)
+      obj ? add_favorite(user, obj) : nil
+    end
   end
 
   def self.remove(user, obj)
     type, id = unpack_object(obj)
     raise InvalidFavoriteTypeError, "You can't unfavorite that type of object" unless Favorite::FAVORITABLE_TYPES.include? type
 
-    obj = type.constantize.find(id)
-    (obj ? remove_favorite(user, obj) : nil)
+    clz = type.constantize
+    clz.transaction do
+      obj = clz.find(id)
+      (obj ? remove_favorite(user, obj) : nil)
+    end
   end
 
   class << self

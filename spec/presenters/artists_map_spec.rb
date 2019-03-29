@@ -38,7 +38,9 @@ describe ArtistsMap do
 
   context 'when os_only is true' do
     let(:os_only) { true }
-
+    before do
+      create(:open_studios_event)
+    end
     it 'includes artists in the mission' do
       map.with_addresses.each do |a|
         lat = a.address.lat

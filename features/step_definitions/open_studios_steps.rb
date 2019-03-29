@@ -134,3 +134,9 @@ end
 Then(/^I see a list of artists doing open studios with their studio addresses$/) do
   expect(page).to have_css '.map__list-of-artists .tenants'
 end
+
+# os status page
+Then(/^I see stars for all open studios participants$/) do
+  participants = OpenStudiosParticipant.count
+  expect(page).to have_css('.fa.fa-star', count: participants)
+end

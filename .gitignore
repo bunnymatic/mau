@@ -23,6 +23,7 @@ public/assets
 log
 coverage/*
 cucumber_reports/*
+test-results/*
 jscoverage/*
 flog.report*
 secret/*

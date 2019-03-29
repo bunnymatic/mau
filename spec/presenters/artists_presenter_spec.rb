@@ -26,7 +26,10 @@ describe ArtistsPresenter do
 
     context 'os_only is true' do
       let(:os_only) { true }
-      let(:os_participants) { Artist.active.open_studios_participants }
+      let(:os_participants) { OpenStudiosParticipant.all.map(&:user) }
+      before do
+        artists.first.open_studios_events << create(:open_studios_event)
+      end
       it 'shows only os artists' do
         expected = os_participants.select(&:in_the_mission?).sort_by(&:sortable_name).to_a
         expect(subject.artists.map(&:artist).to_a).to eql(expected)

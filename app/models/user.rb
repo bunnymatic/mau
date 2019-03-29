@@ -99,6 +99,8 @@ class User < ApplicationRecord
   belongs_to :studio
   has_many :roles_users
   has_many :roles, through: :roles_users, dependent: :destroy
+  has_many :open_studios_participants, inverse_of: :user
+  has_many :open_studios_events, through: :open_studios_participants
 
   acts_as_authentic do |c|
     c.transition_from_crypto_providers = [

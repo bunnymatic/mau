@@ -75,6 +75,16 @@ class OpenStudiosEventService
     cache
   end
 
+  def self.where(*args)
+    OpenStudiosEvent.where(*args)
+  end
+
+  def self.find_by(*args)
+    OpenStudiosEvent.find_by(*args).tap do |event|
+      SafeCache.write(event_cache_key(event.id), event) if event
+    end
+  end
+
   def self.find(id, use_cache = true)
     if use_cache
       cache = SafeCache.read(event_cache_key(id))

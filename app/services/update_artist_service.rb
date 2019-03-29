@@ -34,7 +34,11 @@ class UpdateArtistService
     return false unless @artist.can_register_for_open_studios?
 
     if participating != @artist.doing_open_studios?
-      @artist.update_os_participation(@current_os, participating)
+      if participating
+        OpenStudiosParticipationService.participate(@artist, @current_os)
+      else
+        OpenStudiosParticipationService.refrain(@artist, @current_os)
+      end
       trigger_os_signup_event(participating)
       refresh_in_search_index
       ArtistMailer.welcome_to_open_studios(@artist, @current_os).deliver_later if participating

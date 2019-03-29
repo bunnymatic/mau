@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'htmlentities'
 
-describe ArtistsController, elasticsearch: false do
+describe ArtistsController, elasticsearch: :stub do
   let(:studio) { create :studio }
   let(:admin) { FactoryBot.create(:artist, :admin) }
   let(:number_of_art_pieces) { 1 }
@@ -111,10 +111,6 @@ describe ArtistsController, elasticsearch: false do
   end
 
   describe '#update' do
-    before do
-      open_studios_event
-      artist_info.update(open_studios_participation: '')
-    end
     context 'while not logged in' do
       context 'with invalid params' do
         before do
@@ -194,33 +190,23 @@ describe ArtistsController, elasticsearch: false do
         end
       end
       context 'update os status' do
-        let!(:open_studios_event) { create(:open_studios_event) }
+        before do
+          create(:open_studios_event)
+        end
         it 'updates artists os status to true' do
           put :update, xhr: true, params: { id: artist, artist: { 'os_participation' => '1' } }
-          expect(artist.reload.os_participation[OpenStudiosEvent.current.key]).to eq true
+          expect(artist.open_studios_events).to include OpenStudiosEvent.current
         end
 
         it 'sets false if artist has no address' do
-          without_address.artist_info.update(open_studios_participation: '')
           put :update, xhr: true, params: { id: without_address, commit: 'submit', artist: { 'os_participation' => '1' } }
-          expect(without_address.reload.os_participation[OpenStudiosEvent.current.key]).to be_nil
+          expect(without_address.open_studios_events).not_to include OpenStudiosEvent.current
         end
         it 'saves an OpenStudiosSignupEvent when the user sets their open studios status to true' do
           stub_request(:get, Regexp.new("http:\/\/example.com\/openstudios.*"))
           expect do
             put :update, xhr: true, params: { id: artist, commit: 'submit', artist: { 'os_participation' => '1' } }
           end.to change(OpenStudiosSignupEvent, :count).by(1)
-        end
-      end
-      context 'update name and bio' do
-        before do
-          artist.update_os_participation OpenStudiosEvent.current, true
-        end
-        it 'does not reset the open studios participation setting' do
-          expect do
-            attrs = { 'firstname' => 'mr joe', 'artist_info_attributes' => { 'bio' => 'Dolor error praesentium et' } }
-            put :update, params: { id: artist, commit: 'submit', artist: attrs }
-          end.to_not change(artist, :doing_open_studios?)
         end
       end
     end

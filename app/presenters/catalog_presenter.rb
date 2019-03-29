@@ -22,7 +22,13 @@ class CatalogPresenter < ViewPresenter
   end
 
   def all_artists
-    @all_artists ||= Artist.active.open_studios_participants.includes(:studio, :artist_info)
+    @all_artists ||=
+      begin
+        artists = OpenStudiosEventService.current.artists
+        return artists.includes(:studio, :artist_info) if artists.present?
+
+        Artist.none
+      end
   end
 
   def indy_artists
@@ -34,7 +40,7 @@ class CatalogPresenter < ViewPresenter
   end
 
   def group_studio_artists
-    @group_studio_artists ||= all_artists.in_a_group_studio
+    @group_studio_artists ||= all_artists.try(:in_a_group_studio) || []
   end
 
   def artists_by_studio

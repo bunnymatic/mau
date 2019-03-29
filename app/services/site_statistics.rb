@@ -13,7 +13,7 @@ class SiteStatistics
     {}.tap do |os_stats|
       available_open_studios_keys.sort_by { |k| OpenStudiosEventService.date(k) }.reverse_each do |ostag|
         key = display_key(ostag)
-        os_stats[key] = Artist.active.open_studios_participants(ostag).count
+        os_stats[key] = (OpenStudiosEventService.find_by(key: ostag).presence || []).size
       end
     end
   end
