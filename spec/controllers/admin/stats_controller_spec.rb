@@ -38,7 +38,7 @@ describe Admin::StatsController do
       Timecop.return
     end
 
-    describe 'compute_artists_per_day' do
+    describe '#compute_artists_per_day' do
       it 'returns an array' do
         expect(artists_per_day).to be_a_kind_of(Array)
         expect(artists_per_day.size).to eq(4)
@@ -54,7 +54,7 @@ describe Admin::StatsController do
         expect(artists_per_day.all? { |apd| !apd[0].nil? }).to be
       end
     end
-    describe 'compute_favorites_per_day' do
+    describe '#compute_favorites_per_day' do
       before do
         u1 = fan
         u2 = artist
@@ -91,15 +91,6 @@ describe Admin::StatsController do
       end
       it 'does not include nil dates' do
         expect(@favorites_per_day.all? { |apd| !apd[0].nil? }).to be
-      end
-    end
-    describe '#compute_art_pieces_per_day' do
-      it 'returns an array' do
-        expect(art_pieces_per_day).to be_a_kind_of(Array)
-        expect(art_pieces_per_day.size).to be >= 6
-      end
-      it 'does not include nil dates' do
-        expect(art_pieces_per_day.all? { |apd| !apd[0].nil? }).to be
       end
     end
   end

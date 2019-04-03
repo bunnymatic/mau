@@ -56,7 +56,7 @@ module Admin
       results.each do |row|
         results_by_num_pieces[row.first] = row.last
       end
-      Array.new(21) do |x|
+      Array.new(Artist::MAX_PIECES + 1) do |x|
         [x, results_by_num_pieces[x] || 0]
       end
     end
