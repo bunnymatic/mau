@@ -106,7 +106,7 @@ group :test, :development do
   gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop', require: false
-  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
+  gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'spring-commands-teaspoon'
   gem 'teaspoon-jasmine'

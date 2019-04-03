@@ -22,8 +22,9 @@ describe OpenStudiosPresenter do
         content: '# pr header\n\n## pr header2\n\ncome out to the *preview* receiption',
         cmsid: 1,
       )
-    allow(Artist).to receive_message_chain(
-      :active, :open_studios_participants, :in_the_mission
+
+    allow(OpenStudiosEventService).to receive_message_chain(
+      :current, :artists, :in_the_mission
     ).and_return([
                    instance_double(Artist, studio: instance_double(Studio, name: 'studio')),
                    instance_double(Artist, studio: instance_double(Studio, name: 'studio2')),

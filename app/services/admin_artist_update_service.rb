@@ -46,7 +46,11 @@ class AdminArtistUpdateService
       return nil unless artist.address?
       return false if artist.doing_open_studios? == doing_it
 
-      artist.update_os_participation current_os, doing_it
+      if doing_it
+        OpenStudiosParticipationService.participate(artist, current_os)
+      else
+        OpenStudiosParticipationService.refrain(artist, current_os)
+      end
       true
     end
   end

@@ -30,7 +30,7 @@ class OpenStudiosPresenter
   end
 
   def os_participants
-    @os_participants ||= Artist.active.open_studios_participants.in_the_mission
+    @os_participants ||= OpenStudiosEventService.current.artists.in_the_mission
   end
 
   def participating_studios

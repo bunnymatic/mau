@@ -62,7 +62,9 @@ class StudioPresenter < ViewPresenter
   end
 
   def open_studios_artists
-    artists.open_studios_participants
+    return Artist.none unless OpenStudiosEventService.current.present?
+
+    artists.where(id: OpenStudiosEventService.current.artists.map(&:id))
   end
 
   def artists_with_art?

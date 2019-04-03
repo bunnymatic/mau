@@ -27,7 +27,7 @@
               li
                 = link_to(s.name,s)
                 '
-                | (#{pluralize(s.artists.open_studios_participants.count,"artist")}) &mdash; #{s.street}
+                = "(#{pluralize(s.artists.to_a.count(&:doing_open_studios?), 'artist')})"
         .section
           h4 Participating Independent Artists
           ul.participant_list

@@ -105,49 +105,36 @@ describe AdminEmailList do
   describe 'list name is an os event tag' do
     let!(:ostag) { current.key }
     let(:listname) { ostag }
-    let(:participants) do
-      double('Artist::ActiveRecord_Relation',
-             open_studios_participants: [
-               FactoryBot.build_stubbed(:artist, :active, slug: 'xxx'),
-               FactoryBot.build_stubbed(:artist, :active, slug: 'yyy'),
-             ])
-    end
+    let(:artists) { FactoryBot.create_list(:artist, 3, :active, :in_the_mission) }
 
     before do
-      allow(Artist).to receive(:active).and_return(participants)
-      emails
+      artists.first(2).each do |a|
+        a.open_studios_events << current
+      end
     end
 
     it 'assigns a list of os artists' do
       expect(emails.length).to eql(2)
       expect(email_list.display_title).to eql "#{current.for_display} [2]"
-      expect(participants).to have_received(:open_studios_participants).with(ostag)
     end
   end
 
   context 'with multiple os tags' do
-    let(:ostags) { %w[20180101 20190101] }
+    let(:ostags) { %w[201801 201901] }
     let(:listname) { ostags }
-
-    let(:participants) do
-      FactoryBot.build_stubbed_list(:artist, 1, :active, slug: SecureRandom.hex(10))
-    end
-    let(:active_relation) do
-      double('Artist::ActiveRecord_Relation',
-             open_studios_participants: participants)
-    end
+    let(:artists) { FactoryBot.create_list(:artist, 3, :active, :in_the_mission) }
+    let(:os2018) { FactoryBot.create(:open_studios_event, start_date: Time.zone.parse('Jan 2018')) }
+    let(:os2019) { FactoryBot.create(:open_studios_event, start_date: Time.zone.parse('Jan 2019')) }
 
     before do
-      allow(described_class).to receive(:available_open_studios_keys).and_return(ostags)
-      allow(Artist).to receive(:active).and_return(active_relation)
-      emails
+      artists.first.open_studios_events << os2018
+      artists.last.open_studios_events << os2019
     end
 
     its(:csv_filename) { is_expected.to eql 'email_' + listname.join('_') + '.csv' }
 
     it 'returns emails that have been in both open studios' do
-      expect(emails.map(&:email)).to eql participants.map(&:email)
-      expect(active_relation).to have_received(:open_studios_participants).with(ostags.last)
+      expect(emails.map(&:email)).to match_array [artists.first.email, artists.last.email]
     end
   end
 end

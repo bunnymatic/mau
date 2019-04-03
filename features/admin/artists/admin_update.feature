@@ -27,6 +27,9 @@ Scenario: Setting open studios for artists
   When I uncheck the box for the first participating artist
   Then I see that the first participating artist is no longer doing open studios
 
+  When I visit the "Admin Os Status" page
+  Then I see stars for all open studios participants
+
 Scenario: Suspending artists
   When I suspend the first artist
   And I see a flash notice "has been suspended"

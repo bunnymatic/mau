@@ -11,6 +11,10 @@ class OpenStudiosEventPresenter < ViewPresenter
     @model = os_event
   end
 
+  def num_participants
+    model.open_studios_participants.count
+  end
+
   def time_range
     (model.start_time + ' &mdash; ' + model.end_time).html_safe
   end

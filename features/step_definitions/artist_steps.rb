@@ -128,11 +128,11 @@ When(/^I see my updated personal information as:$/) do |table|
 end
 
 When /^that artist is not doing open studios$/ do
-  @artist.update_os_participation OpenStudiosEventService.current, false
+  OpenStudiosParticipationService.refrain(@artist, OpenStudiosEventService.current)
 end
 
 When /^that artist is doing open studios$/ do
-  @artist.update_os_participation OpenStudiosEventService.current, true
+  OpenStudiosParticipationService.participate(@artist, OpenStudiosEventService.current)
 end
 
 When /^I click on the current open studios edit section$/ do

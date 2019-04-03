@@ -84,12 +84,18 @@ class Artist < User
   before_create :make_activation_code
 
   %i[
-    bio bio= lat lng city street addr_state zip
-    os_participation os_participation= max_pieces
+    addr_state
+    bio
+    bio=
+    city
+    lat
+    lng
+    max_pieces
+    street
+    zip
   ].each do |delegat|
     delegate delegat, to: :artist_info, allow_nil: true
   end
-  delegate :update_os_participation, to: :artist_info
 
   def at_art_piece_limit?
     art_pieces.select(&:persisted?).count >= (max_pieces || MAX_PIECES)
@@ -112,13 +118,9 @@ class Artist < User
     within_bounds?(address.lat, address.lng)
   end
 
-  def doing_open_studios?
-    @doing_open_studios ||=
-      begin
-        !!(current_open_studios_key &&
-           os_participation &&
-           os_participation[current_open_studios_key.to_s])
-      end
+  def doing_open_studios?(key = nil)
+    os = key ? OpenStudiosEventService.find_by(key: key) : OpenStudiosEventService.current
+    !!(os && open_studios_events.find_by(id: os.to_param))
   end
 
   alias doing_open_studios doing_open_studios?
@@ -142,7 +144,7 @@ class Artist < User
     # tally up today's open studios count
     def tally_os
       today = Time.zone.now.to_date
-      count = Artist.open_studios_participants.count
+      count = OpenStudiosEventService.current.try(:artists).count
 
       o = OpenStudiosTally.find_by(recorded_on: today)
       if o
@@ -150,15 +152,6 @@ class Artist < User
       else
         OpenStudiosTally.create!(oskey: current_open_studios_key, count: count, recorded_on: today)
       end
-    end
-  end
-
-  def self.open_studios_participants(oskey = nil)
-    q = (oskey || OpenStudiosEventService.current.try(:key)).to_s
-    if q.present?
-      joins(:artist_info).where("artist_infos.open_studios_participation like '%#{q}%'")
-    else
-      none
     end
   end
 

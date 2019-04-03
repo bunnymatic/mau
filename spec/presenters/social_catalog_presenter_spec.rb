@@ -78,11 +78,9 @@ describe SocialCatalogPresenter do
   let(:parsed) { CSV.parse(subject.csv, headers: true) }
 
   before do
-    allow(Artist).to receive_message_chain(:active, :includes).and_return(
-      double('Artist::ActiveRecord_Relation',
-             open_studios_participants:
-               double('Artist::ActiveRecord_Relation', in_the_mission: artists)),
-    )
+    mock_os = instance_double(OpenStudiosEvent, key: open_studios_event.key)
+    allow(mock_os).to receive_message_chain(:artists, :in_the_mission).and_return(artists)
+    allow(OpenStudiosEventService).to receive(:current).and_return(mock_os)
   end
 
   describe '#artists' do

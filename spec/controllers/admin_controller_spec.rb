@@ -42,6 +42,10 @@ describe AdminController do
 
   describe '#os_status' do
     before do
+      open_studios = create(:open_studios_event)
+      Artist.active.each do |artist|
+        artist.open_studios_events << open_studios
+      end
       login_as admin
       get :os_status
     end
@@ -51,7 +55,7 @@ describe AdminController do
     it 'sets a list of artists in alpha order by last name' do
       expect(assigns(:os)).to have(Artist.active.count).items
       expect(assigns(:os).map(&:lastname).map(&:downcase)).to be_monotonically_increasing
-      expect(assigns(:totals).count).to eql 9
+      expect(assigns(:totals).count).to eql 1
     end
   end
 end

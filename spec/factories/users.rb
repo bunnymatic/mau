@@ -71,7 +71,7 @@ FactoryBot.define do
 
     after(:create) do |artist, context|
       FactoryBot.create(:artist_info, artist: artist, max_pieces: context.max_pieces)
-      artist.update_os_participation context.doing_open_studios, true if context.doing_open_studios
+      artist.open_studios_events << OpenStudiosEventService.current if context.doing_open_studios
     end
 
     transient do

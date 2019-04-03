@@ -8,6 +8,9 @@ class OpenStudiosEvent < ApplicationRecord
   validates :end_date, presence: true
   validate :end_date_is_after_start_date
 
+  has_many :open_studios_participants, inverse_of: :open_studios_event, dependent: :destroy
+  has_many :artists, through: :open_studios_participants, class_name: 'Artist', source: :user
+
   has_attached_file :logo, styles: { square: '240x240#' }, default_url: ''
   validates_attachment_content_type :logo, content_type: %r{\Aimage\/.*\Z}
   # validates_attachment_presence :logo

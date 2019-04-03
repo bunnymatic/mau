@@ -240,8 +240,7 @@ describe Artist do
       Artist.tally_os
       a = Artist.all.reject(&:doing_open_studios?).first
       t = OpenStudiosTally.last
-      a.artist_info.update_os_participation(open_studios_event.key, true)
-      a.artist_info.save
+      a.open_studios_events << open_studios_event
       Artist.tally_os
       expect(OpenStudiosTally.last.count).to eql(t.count + 1)
     end
@@ -249,14 +248,14 @@ describe Artist do
 
   describe 'doing_open_studios?' do
     before do
+      artist.open_studios_events << open_studios_event
       artist_without_studio
-      artist.update_os_participation open_studios_event.key, true
     end
 
     it 'returns true for an artist doing this open studios (with no args)' do
       doing, notdoing = Artist.all.partition(&:doing_open_studios?)
-      expect(doing.size).to be >= 1
-      expect(notdoing.size).to eq(Artist.count - 1)
+      expect(doing.size).to eq(1)
+      expect(notdoing.size).to eq(1)
     end
   end
 
@@ -300,19 +299,6 @@ describe Artist do
         expect(active.count).not_to eql w_image.count
         expect(active.select { |a| a.representative_piece.blank? }.size).to be >= 1
         expect(w_image.select { |a| a.representative_piece.blank? }).to be_empty
-      end
-    end
-    describe '.open_studios_participants' do
-      before do
-        artist.update_os_participation open_studios_event.key, true
-      end
-
-      it 'returns 0 artists for an unknown os' do
-        expect(Artist.open_studios_participants('200810').count).to eql 0
-      end
-      it 'returns 1 artist(s) for the current open studios' do
-        artists = Artist.open_studios_participants
-        expect(artists.size).to eq(1)
       end
     end
     describe '.in_a_group_studio' do

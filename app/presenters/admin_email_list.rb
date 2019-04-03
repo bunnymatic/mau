@@ -44,9 +44,7 @@ class AdminEmailList < ViewPresenter
   def os_participants
     @os_participants ||=
       begin
-        artist_list = queried_os_tags.map do |tag|
-          Artist.active.open_studios_participants(tag)
-        end
+        artist_list = OpenStudiosEventService.where(key: queried_os_tags).map(&:artists)
         inlist = artist_list.shift
         artist_list.each do |l|
           inlist |= l
@@ -81,7 +79,7 @@ class AdminEmailList < ViewPresenter
     when 'no_images'
       Artist.active.reject { |a| a.art_pieces.count.positive? }
     when *available_open_studios_keys
-      Artist.active.open_studios_participants(list_name)
+      OpenStudiosEventService.find_by(key: list_name).try(:artists).presence || []
     end
   end
 
@@ -127,7 +125,7 @@ class AdminEmailList < ViewPresenter
       artist.email,
       artist.studio ? artist.studio.name : '',
     ] + available_open_studios_keys.map do |os_tag|
-      ((artist.respond_to? :os_participation) && artist.os_participation[os_tag]).to_s
+      artist.doing_open_studios?(os_tag).to_s
     end
   end
 end

@@ -11,10 +11,9 @@ class AdminController < BaseAdminController
 
   def os_status
     @os = Artist.active.by_lastname
-    @totals = {}
-    @keys = available_open_studios_keys
-    @keys.each do |ostag|
-      @totals[ostag] = @os.select { |a| (a.os_participation || {})[ostag] }.length
+    @open_studios_events = OpenStudiosEvent.all.includes(:open_studios_participants)
+    @totals = @open_studios_events.each_with_object({}) do |open_studio, memo|
+      memo[open_studio.key] = open_studio.artists.count
     end
   end
 end
