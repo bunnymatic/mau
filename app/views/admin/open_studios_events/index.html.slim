@@ -19,6 +19,7 @@
           th end date
           th time
           th logo?
+          th participants
           th data-orderable="false"
       tbody
         - @os_events.each_with_index do |os_event|
@@ -31,7 +32,8 @@
             td.os-events__table-item.os-events__table-item--logo
               - if os_event.logo?
                 = link_to os_event.logo.original_filename, os_event.logo.url(:square), target: '_blank'
-            td.input-name
+            td.os-events__table-item.os-events__table-item--participants = os_event.num_participants
+            td.admin-controls
               = link_to edit_admin_open_studios_event_path(os_event), title: 'Edit' do
                 = fa_icon 'edit'
               = link_to admin_open_studios_event_path(os_event), confirm: 'Are you sure?', method: :delete, title: "Delete" do

@@ -5,18 +5,14 @@ namespace :admin do
   task remove_orphaned_art: [:environment] do
     ArtPiece.includes(:artist).select { |ap| ap.artist.nil? }.each(&:destroy)
   end
+
+  desc 'Migrate open studios participants from the old system to the new'
   task migrate_open_studios_participants: [:environment] do
-    os_events = OpenStudiosEvent.all.each_with_object({}) do |entry, memo|
-      memo[entry.key] = entry
-    end
-    infos = ArtistInfo.where.not(open_studios_participation: nil)
-    infos.each do |info|
-      os = info.os_participation.select { |_key, val| val }.map(&:first)
-      os.each do |key|
-        event = os_events[key]
-        puts "#{event.key} #{info.artist.login}"
-        OpenStudiosParticipant.create(user: info.artist, open_studios_event: event) if event && info.artist
-      end
+    OpenStudiosMigrator.new.tap do |migrator|
+      puts 'Creating open studios events for previously unrecorded events'
+      migrator.create_past_open_studios_events
+      puts 'Migrating artists to the new open studios events'
+      migrator.migrate_open_studios_participation
     end
   end
 end
