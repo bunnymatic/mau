@@ -12,7 +12,12 @@
             tbody
               - events.each do |ev|
                 tr
-                  td.message = ev.message
+                  td.message
+                    details
+                      summary = ev.message
+                      code
+                        pre
+                          = JSON.pretty_generate(ev.data)
                   td.user
-                    = link_to_user ev
+                    = link_to_event_user ev
                   td.last.date = ev.created_at.strftime("%b %d, %Y %H:%M")
