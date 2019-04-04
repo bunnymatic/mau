@@ -31,8 +31,6 @@ describe Admin::StatsController do
         Timecop.travel((1 + n).days.ago)
         FactoryBot.create(:artist, :active, :with_art, number_of_art_pieces: 2)
       end
-      artists_per_day
-      art_pieces_per_day
     end
     after do
       Timecop.return

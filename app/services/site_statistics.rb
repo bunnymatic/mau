@@ -13,7 +13,7 @@ class SiteStatistics
     {}.tap do |os_stats|
       available_open_studios_keys.sort_by { |k| OpenStudiosEventService.date(k) }.reverse_each do |ostag|
         key = display_key(ostag)
-        os_stats[key] = (OpenStudiosEventService.find_by(key: ostag).presence || []).size
+        os_stats[key] = OpenStudiosEventService.find_by(key: ostag).try(:artists).try(:count) || 0
       end
     end
   end
@@ -31,7 +31,7 @@ class SiteStatistics
   private
 
   def display_key(os_key)
-    OpenStudiosEventService.for_display(os_key, true)
+    OpenStudiosEventService.for_display(os_key)
   end
 
   def compute

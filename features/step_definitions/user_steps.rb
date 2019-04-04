@@ -162,7 +162,9 @@ Then(/^I see that I have been deactivated$/) do
 end
 
 Then(/^I click on the reset link in my email$/) do
-  open_email(@artist.email)
+  wait_until do
+    open_email(@artist.email)
+  end
   email = current_email.body
   reset_link = $1 if %r{(https?://.*/reset/.*)\s+} =~ email
   expect(reset_link).to be_present, 'Unable to find reset link in the email'
