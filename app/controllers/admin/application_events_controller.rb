@@ -2,36 +2,32 @@
 
 module Admin
   class ApplicationEventsController < ::BaseAdminController
-    DEFAULT_NUM_EVENTS = 100
-
     def index
-      events = fetch_events
+      query = ApplicationEventQuery.new(application_event_params)
+
+      if query.valid?
+        @query = query
+      else
+        flash.now[:error] = query.errors.full_messages.to_sentence + '. Falling back to the defaults.' unless application_event_params.empty?
+        @query = ApplicationEventQuery.new
+      end
+      events = ApplicationEventFetcher.run(@query)
       respond_to do |format|
         format.html do
-          @events_by_type = events.each_with_object({}) do |item, result|
-            tp = item.class.name
-            result[tp] = [] unless result.key? tp
-            result[tp] << item
-          end
+          @events_by_type = events
         end
         format.json do
-          render json: events, root: 'application_events'
+          render json: events.values.flatten, root: 'application_events'
         end
       end
     end
 
     private
 
-    def fetch_events
-      limit = application_event_params[:limit].to_i
-      since_date = application_event_params[:since].presence
-      limit = DEFAULT_NUM_EVENTS unless limit.positive?
-      since = since_date ? Time.zone.parse(since_date) : 1.year.ago
-      ApplicationEvent.by_recency.where(['created_at > ?', since]).limit(limit)
-    end
-
     def application_event_params
-      params.permit(:limit, :since)
+      return {} unless params.key?(:query)
+
+      params.require(:query).permit(:number_of_records, :since)
     end
   end
 end

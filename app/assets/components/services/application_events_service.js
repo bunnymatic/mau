@@ -24,12 +24,9 @@
     return {
       list: function(params) {
         var args;
-        args = _.extend(
-          {
-            limit: 10
-          },
-          _.pick(params, "since")
-        );
+        args = {
+          "query[since]": params.since
+        };
         return applicationEvents.index(args);
       }
     };

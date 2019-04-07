@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module ApplicationEventsHelper
-  def link_to_user(event)
-    user = (event.data || {})['user']
-    (link_to event.data['user'], artist_path(id: event.data['user']) if user.present?).to_s
+  def link_to_event_user(event)
+    data = (event.data || {}).with_indifferent_access
+    (link_to data['user'], artist_path(id: data['user_id']) if data['user'].present?).to_s
   end
 end
