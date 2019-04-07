@@ -1,23 +1,40 @@
+ruby:
+  num_records_options = options_for_select(ApplicationEventQuery::ALLOWED_NUM_EVENTS.map{|val| [val, val]}, @query.number_of_records)
+
 .pure-g.application_events
   .pure-u-1-1.padded-content.header
     h2.title Application Events
 
   .pure-u-1-1.padded-content
     = render partial: '/flash_notice_error'
+    .application_events__details-form
+      = semantic_form_for 'query', url: admin_application_events_path, method: :get do |f|
+        = f.inputs class: "application_events__details-form--inputs inputs" do
+          = f.input :since, required: false, input_html: { type: :date, max: Date.today }, wrapper_html: { class: "application_events__details-form--input" }
+          .application_events__details-form--input-spacer or
+          = f.input :number_of_records, required: false, as: :select, collection: num_records_options, wrapper_html: { class: "application_events__details-form--input" }
+          = f.action :submit, label: "Query", wrapper_html: { class: "application_events__details-form--input application_events__details-form--submit" }, button_html: { class: 'pure-button button-secondary' } do
+            i.fa.fa-search
+
     - @events_by_type.each do |key, events|
       - if events.length
         .events_list class=key.to_s.tableize
-          h3 = key
+          h3
+            = key
+            = " (#{@query})"
           table.pure-table.pure-table-striped
             tbody
               - events.each do |ev|
                 tr
                   td.message
-                    details
-                      summary = ev.message
-                      code
-                        pre
-                          = JSON.pretty_generate(ev.data)
+                    - if key != 'OpenStudiosSignupEvent'
+                      details
+                        summary = ev.message
+                        code
+                          pre
+                            = JSON.pretty_generate(ev.data)
+                    - else
+                      = ev.message
                   td.user
                     = link_to_event_user ev
                   td.last.date = ev.created_at.strftime("%b %d, %Y %H:%M")

@@ -117,6 +117,10 @@ When(/^I change "(.*?)" to "(.*?)" in the "(.*?)" form$/) do |form_field_label, 
   end
 end
 
+When(/^I fill in "(.*?)" for "(.*?)"$/) do |arg1, arg2|
+  step "I change \"#{arg2}\" to \"#{arg1}\""
+end
+
 When(/^I change "(.*?)" to "(.*?)"$/) do |form_field_label, value|
   fill_in form_field_label, with: value
 end

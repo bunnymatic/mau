@@ -6,3 +6,31 @@
     }
   }
 }
+.application_events__details-form--summary {
+  margin-bottom: 20px;
+}
+.application_events__details-form--inputs {
+  > ol {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  > ol > li {
+    flex: 1;
+  }
+}
+.application_events__details-form--input-spacer,
+.application_events__details-form--submit {
+  align-self: center;
+}
+.application_events__details-form--input-spacer,
+.application_events__details-form--input {
+  margin-right: 20px;
+  &:last-child {
+    margin-right: inherit;
+  }
+  [type="date"],
+  select {
+    width: 100%;
+  }
+}
