@@ -7,7 +7,7 @@ describe Admin::ApplicationEventsController do
   let(:generic_event) { events.detect { |e| e.is_a? GenericEvent } }
   let(:os_event) { events.detect { |e| e.is_a? OpenStudiosSignupEvent } }
   let!(:events) do
-    Array.new(3) do |x|
+    Array.new(6) do |x|
       [
         FactoryBot.create(:open_studios_signup_event, created_at: x.weeks.ago, data: { user: 'artist' }),
         FactoryBot.create(:generic_event, created_at: x.weeks.ago, data: { user: 'artist' }),
@@ -26,7 +26,12 @@ describe Admin::ApplicationEventsController do
     let(:since) { nil }
     before do
       login_as(admin)
-      get :index, params: { limit: limit, since: since }
+      get :index, params: {
+        query: {
+          number_of_records: limit,
+          since: since,
+        },
+      }
     end
     context 'with no params' do
       it 'returns success' do
@@ -35,13 +40,13 @@ describe Admin::ApplicationEventsController do
       it 'fetches all events by type' do
         events_by_type = assigns(:events_by_type)
         expect(events_by_type).not_to be_empty
-        expect(events_by_type.keys).to include 'GenericEvent'
-        expect(events_by_type.keys).to include 'OpenStudiosSignupEvent'
-        generics = events_by_type['GenericEvent']
-        expect(generics.size).to eq(3)
+        expect(events_by_type.keys).to include GenericEvent
+        expect(events_by_type.keys).to include OpenStudiosSignupEvent
+        generics = events_by_type[GenericEvent]
+        expect(generics.size).to eq(6)
         expect(generics.first.message).to eql generic_event.message
-        oss = events_by_type['OpenStudiosSignupEvent']
-        expect(oss.size).to eq(3)
+        oss = events_by_type[OpenStudiosSignupEvent]
+        expect(oss.size).to eq(6)
         expect(oss.first.data).to eql(os_event.data)
       end
     end
@@ -54,13 +59,13 @@ describe Admin::ApplicationEventsController do
       it 'fetches all events by type' do
         events_by_type = assigns(:events_by_type)
         expect(events_by_type).not_to be_empty
-        expect(events_by_type.keys).to include 'GenericEvent'
-        expect(events_by_type.keys).to include 'OpenStudiosSignupEvent'
-        generics = events_by_type['GenericEvent']
-        expect(generics.size).to eq(1)
+        expect(events_by_type.keys).to include GenericEvent
+        expect(events_by_type.keys).to include OpenStudiosSignupEvent
+        generics = events_by_type[GenericEvent]
+        expect(generics.size).to eq(2)
         expect(generics.first.message).to eql generic_event.message
-        oss = events_by_type['OpenStudiosSignupEvent']
-        expect(oss.size).to eq(1)
+        oss = events_by_type[OpenStudiosSignupEvent]
+        expect(oss.size).to eq(2)
         expect(oss.first.data).to eql(os_event.data)
       end
     end
@@ -72,7 +77,7 @@ describe Admin::ApplicationEventsController do
       end
       it 'fetches all events by type' do
         events_by_type = assigns(:events_by_type)
-        expect(events_by_type.values.flatten).to have(6).items
+        expect(events_by_type.values.flatten).to have(12).items
       end
     end
 
@@ -97,7 +102,7 @@ describe Admin::ApplicationEventsController do
       end
       it 'fetches all events by type' do
         events_by_type = assigns(:events_by_type)
-        expect(events_by_type.values.flatten).to have(6).items
+        expect(events_by_type.values.flatten).to have(12).items
       end
     end
   end
@@ -106,7 +111,12 @@ describe Admin::ApplicationEventsController do
     let(:limit) { nil }
     before do
       login_as(admin)
-      get :index, params: { format: :json, limit: limit }
+      get :index, params: {
+        format: :json,
+        query: {
+          number_of_records: limit,
+        },
+      }
     end
     context 'with no params' do
       it 'returns success' do
@@ -114,14 +124,14 @@ describe Admin::ApplicationEventsController do
       end
       it 'fetches all events by type' do
         events = JSON.parse(response.body)['application_events']
-        expect(events).to have(6).items
+        expect(events).to have(12).items
       end
     end
     context 'with a limit of 2' do
       let(:limit) { 2 }
       it 'fetches all events by type' do
         events = JSON.parse(response.body)['application_events']
-        expect(events).to have(2).items
+        expect(events).to have(4).items
       end
     end
   end
