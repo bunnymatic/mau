@@ -5,7 +5,7 @@ Then(/^I (sleep|wait) "(\d+)" seconds?$/) do |_dummy, secs|
 end
 
 Then(/^I debug$/) do
-  binding.pry
+  debugger
 end
 
 Then /^show me the os info$/ do

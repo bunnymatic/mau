@@ -6,7 +6,7 @@
     var filterByChangedEmail;
     filterByChangedEmail = function(data) {
       return _.find(data, function(event) {
-        return /changed their email/.test(event.message);
+        return /updated.*email/.test(event.message);
       });
     };
     return {
