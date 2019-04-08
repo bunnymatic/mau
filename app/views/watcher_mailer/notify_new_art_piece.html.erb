@@ -19,6 +19,10 @@ studio = @new_art.studio
     </li>
     <li>
       In studio: <%= link_to studio.name, studio_url(studio) %>
+    </li>
+    <li>
+      Participating in <%= OpenStudiosEventService.current.for_display %>: <%= artist.doing_open_studios?.to_s %>
+    </li>
   </ul>
 </p>
 <p>
