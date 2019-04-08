@@ -11,6 +11,7 @@ describe CreateArtPieceService do
   subject(:service) { described_class.new(artist, params) }
 
   before do
+    allow(OpenStudiosEventService).to receive(:current).and_return(build(:open_studios_event))
     allow(WatcherMailer).to receive(:notify_new_art_piece).and_call_original
   end
 
