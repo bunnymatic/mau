@@ -3,8 +3,12 @@
 require 'rails_helper'
 
 describe NewArtPiecePresenter do
-  let(:os_start_date) { Time.current }
-  let!(:open_studios_event) { create(:open_studios_event, start_date: os_start_date) }
+  let(:os_end_date) { Time.current - 1.day }
+  let!(:open_studios_event) do
+    create(:open_studios_event,
+           start_date: os_end_date - 1.day,
+           end_date: os_end_date)
+  end
   let(:artist) { create(:artist, :active, :with_studio) }
   let(:medium) { create(:medium, name: 'My Medium') }
   let(:art_piece) do
@@ -16,22 +20,31 @@ describe NewArtPiecePresenter do
     its(:open_studios_info) { is_expected.to be_nil }
 
     context 'artist is doing open studios' do
-      before do
-        Timecop.freeze(Time.zone.parse('2017-03-01'))
+      let(:artist) { create(:artist, :active, :with_studio, doing_open_studios: open_studios_event) }
+      context 'and it is during spring open studios' do
+        before do
+          Timecop.freeze(Time.zone.parse('2017-03-01 17:00:00'))
+        end
+        let(:os_end_date) { Time.zone.parse('2017-03-01') }
+        its(:open_studios_info) { is_expected.to_not be_nil }
       end
-      let(:os_start_date) { Time.zone.parse('2017-05-01') }
+      context 'and it is before spring  open studios' do
+        before do
+          Timecop.freeze(Time.zone.parse('2017-03-01'))
+        end
+        let(:os_end_date) { Time.zone.parse('2017-05-01') }
 
-      context 'and they are in a studio' do
-        let(:artist) { create(:artist, :active, :with_studio, doing_open_studios: open_studios_event) }
         it 'shows a see more message' do
           expect(presenter.open_studios_info).to include "See more at #{artist.studio.name} during Open Studios"
         end
-      end
 
-      context 'and they are in an indy studio' do
-        let(:artist) { create(:artist, :active, doing_open_studios: open_studios_event) }
-        it 'shows a see more message' do
-          expect(presenter.open_studios_info).to include "See more at #{artist.address} during Open Studios"
+        context 'and they are in an indy studio' do
+          before do
+            artist.update(studio: nil)
+          end
+          it 'shows a see more message' do
+            expect(presenter.open_studios_info).to include "See more at #{artist.address} during Open Studios"
+          end
         end
       end
     end
@@ -75,18 +88,18 @@ describe NewArtPiecePresenter do
         before do
           Timecop.freeze(Time.zone.parse('2017-03-01'))
         end
-        let(:os_start_date) { Time.zone.parse('2017-05-01') }
+        let(:os_end_date) { Time.zone.parse('2017-05-01') }
         it 'shows spring open studios tags' do
           os_tags = ['#missionopenstudios',
                      '#springopenstudios']
           expect(os_tags.all? { |tag| presenter.hash_tags.include?(tag) }).to eq true
         end
       end
-      context 'in the spring (before june)' do
+      context 'in the fall (before june)' do
         before do
           Timecop.freeze(Time.zone.parse('2017-07-01'))
         end
-        let(:os_start_date) { Time.zone.parse('2017-11-01') }
+        let(:os_end_date) { Time.zone.parse('2017-11-01') }
         it 'shows fall open studios tags' do
           os_tags = [
             '#SFOS',
@@ -101,7 +114,7 @@ describe NewArtPiecePresenter do
         before do
           Timecop.freeze(Time.zone.parse('2017-12-01'))
         end
-        let(:os_start_date) { Time.zone.parse('2017-11-01') }
+        let(:os_end_date) { Time.zone.parse('2017-11-01') }
         it 'does not include any os tags' do
           os_tags = [
             '#SFOS',

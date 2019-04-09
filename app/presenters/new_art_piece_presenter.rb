@@ -11,7 +11,7 @@ class NewArtPiecePresenter
   end
 
   def open_studios_info
-    return unless before_current_os?
+    return if after_current_os?
 
     "See more at #{studio_address} during Open Studios #{open_studios.date_range}"
   end
@@ -51,7 +51,7 @@ class NewArtPiecePresenter
 
   def tags_for_open_studios
     return [] unless artist.doing_open_studios?
-    return [] unless before_current_os?
+    return [] if after_current_os?
 
     if art_span_os?
       ['SFOS', "SFOS#{current_os_start.year}", 'SFopenstudios']
@@ -64,8 +64,8 @@ class NewArtPiecePresenter
     ['@missionartists']
   end
 
-  def before_current_os?
-    current_os? && Time.current < current_os_start
+  def after_current_os?
+    current_os? && Time.current > current_os_end
   end
 
   def art_span_os?
@@ -75,6 +75,10 @@ class NewArtPiecePresenter
 
   def current_os?
     @open_studios.present?
+  end
+
+  def current_os_end
+    current_os? && Time.zone.parse(@open_studios.end_date + ' 18:00:00')
   end
 
   def current_os_start
