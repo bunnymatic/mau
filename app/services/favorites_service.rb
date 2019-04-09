@@ -52,16 +52,18 @@ class FavoritesService
 
     def add_favorite(user, obj)
       # can't favorite yourself
-      return if trying_to_favorite_yourself?(user, obj)
+      obj.class.transaction do
+        return if trying_to_favorite_yourself?(user, obj)
 
-      # don't add dups
-      favorite_params = {
-        favoritable_type: obj.class.name,
-        favoritable_id: obj.id,
-        user_id: user.id,
-      }
-      f = Favorite.create(favorite_params)
-      notify_favorited_user(obj, user) if f
+        # don't add dups
+        favorite_params = {
+          favoritable_type: obj.class.name,
+          favoritable_id: obj.id,
+          user_id: user.id,
+        }
+        f = Favorite.create(favorite_params)
+        notify_favorited_user(obj, user) if f
+      end
       obj
     end
 
