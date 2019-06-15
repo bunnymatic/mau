@@ -22,7 +22,7 @@ html
       .sidenav
         .sidenav__main
           a.brand href=root_path title="Mission Artists"
-            .sidebar-logo title="Mission Artists"
+            .sidebar-logo title="Mission Artists" class="#{Date.today.month == 6 ? 'sidebar-logo--pride' : ''}"
           = render '/navigation'
           .push
         .sidenav__footer
