@@ -114,6 +114,9 @@ body {
   @include opacity(1);
   @include transition(all 0.3s ease-in-out);
 }
+.sidebar-logo--pride {
+  background-image: image_url("pride_sidebar_logo_gear_only.svg");
+}
 
 ul li {
   line-height: 1.4em;
@@ -283,7 +286,6 @@ body {
     overflow: hidden;
   }
   .sidebar-logo {
-    background-image: image_url("yellow_sidebar_logo_gear_only.svg");
     width: 35px;
     height: 35px;
     margin: 0 auto;

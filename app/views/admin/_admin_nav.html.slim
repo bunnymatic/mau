@@ -1,12 +1,13 @@
 - nav_presenter = AdminNavigation.new(current_user)
 a#menu-link.menu-link href="#menu"
-  .sidebar-logo
+  .sidebar-logo class="#{Date.today.month == 6 ? 'sidebar-logo--pride' : ''}"
+
 #menu
   .pure-menu
     ul.pure-menu-list
       li.pure-menu-item.home title="home"
         = link_to root_path, title: 'home' do
-          .sidebar-logo
+          .sidebar-logo class="#{Date.today.month == 6 ? 'sidebar-logo--pride' : ''}"
       li.pure-menu-item.dashboard title="admin dashboard"
         = link_to fa_icon('dashboard'), admin_path, title: 'admin dashboard'
     - nav_presenter.links.each do |sxn, entries|
