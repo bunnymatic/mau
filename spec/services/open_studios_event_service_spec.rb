@@ -51,28 +51,38 @@ describe OpenStudiosEventService do
     end
   end
 
-  describe '.find' do
+  describe '.find_by_key' do
     before do
       allow(SafeCache).to receive(:read).and_return(nil, past_oses.last, past_oses.last)
       allow(SafeCache).to receive(:write).and_call_original
     end
     it 'finds and caches the event (by default)' do
-      expect(service.find(past_oses.last.id)).to eq past_oses.last
-      service.find(past_oses.last.id)
-      service.find(past_oses.last.id)
-      expect(SafeCache).to have_received(:read).exactly(3).times
-      expect(SafeCache).to have_received(:write).once
+      expect(service.find_by_key(past_oses.last.key)).to eq past_oses.last
+      expect(SafeCache).to have_received(:write).once.with("os_event_#{past_oses.last.key}", past_oses.last)
     end
   end
 
-  describe '.find_by' do
+  describe '.clear_cache' do
     before do
-      allow(SafeCache).to receive(:read).and_return(nil, past_oses.last, past_oses.last)
-      allow(SafeCache).to receive(:write).and_call_original
+      allow(SafeCache).to receive(:delete)
     end
-    it 'finds and caches the event (by default)' do
-      expect(service.find_by(key: past_oses.last.key)).to eq past_oses.last
-      expect(SafeCache).to have_received(:write).once.with("os_event_#{past_oses.last.id}", past_oses.last)
+
+    it 'removes all the future, past and current caches' do
+      service.clear_cache
+      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::FUTURE_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::PAST_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::CURRENT_CACHE_KEY)
+    end
+
+    it 'removes the event cache based on key if it exists' do
+      event = OpenStudiosEvent.new(id: 100, key: '12345')
+      service.clear_cache(event)
+      expect(SafeCache).to have_received(:delete).with('os_event_100')
+      expect(SafeCache).to have_received(:delete).with('os_event_12345')
+
+      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::FUTURE_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::PAST_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::CURRENT_CACHE_KEY)
     end
   end
 end

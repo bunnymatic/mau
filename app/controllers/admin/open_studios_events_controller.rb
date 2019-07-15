@@ -26,7 +26,7 @@ module Admin
     end
 
     def update
-      @os_event = OpenStudiosEventService.find(params[:id])
+      @os_event = OpenStudiosEvent.find(params[:id])
       if OpenStudiosEventService.update(@os_event, open_studios_event_params)
         redirect_to admin_open_studios_events_path, flash: { notice: 'Successfully updated an Open Studios Event' }
       else
@@ -35,7 +35,7 @@ module Admin
     end
 
     def destroy
-      @os_event = OpenStudiosEventService.find(params[:id])
+      @os_event = OpenStudiosEvent.find(params[:id])
       OpenStudiosEventService.destroy(@os_event)
       redirect_to admin_open_studios_events_path, notice: 'The Event has been removed'
     end
