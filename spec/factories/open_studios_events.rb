@@ -13,5 +13,8 @@ FactoryBot.define do
     trait :future do
       start_date { Time.zone.now + 1.week }
     end
+    trait :past do
+      start_date { Time.zone.now - 6.months }
+    end
   end
 end

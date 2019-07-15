@@ -6,6 +6,7 @@ describe Artist do
   let(:max_pieces) { 10 }
   subject(:artist) { FactoryBot.create(:artist, :active, :with_studio, :with_art, max_pieces: max_pieces, firstname: 'Joe', lastname: 'Blow') }
   let!(:open_studios_event) { FactoryBot.create(:open_studios_event) }
+  let!(:past_open_studios_event) { FactoryBot.create(:open_studios_event, :past) }
   let(:wayout_artist) { FactoryBot.create(:artist, :active, :out_of_the_mission) }
   let(:nobody) { FactoryBot.create(:artist, :active, :without_address) }
   let(:artist_without_studio) { FactoryBot.create(:artist, :active, :with_art, :in_the_mission) }
@@ -247,15 +248,23 @@ describe Artist do
   end
 
   describe 'doing_open_studios?' do
+    let(:past_artist) { create(:artist) }
     before do
       artist.open_studios_events << open_studios_event
+      past_artist.open_studios_events << past_open_studios_event
       artist_without_studio
     end
 
     it 'returns true for an artist doing this open studios (with no args)' do
       doing, notdoing = Artist.all.partition(&:doing_open_studios?)
-      expect(doing.size).to eq(1)
-      expect(notdoing.size).to eq(1)
+      expect(doing).to eq([artist])
+      expect(notdoing.size).to eq(2)
+    end
+
+    it 'returns true for an artist doing this a past open studios' do
+      doing, notdoing = Artist.all.partition { |artist| artist.doing_open_studios?(past_open_studios_event.key) }
+      expect(doing).to eq([past_artist])
+      expect(notdoing.size).to eq(2)
     end
   end
 

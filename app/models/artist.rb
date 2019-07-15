@@ -119,8 +119,11 @@ class Artist < User
   end
 
   def doing_open_studios?(key = nil)
-    os = key ? OpenStudiosEventService.find_by(key: key) : OpenStudiosEventService.current
-    !!(os && open_studios_events.find_by(id: os.to_param))
+    if key
+      open_studios_events.find_by(key: key)
+    else
+      open_studios_events.include? OpenStudiosEventService.current
+    end
   end
 
   alias doing_open_studios doing_open_studios?

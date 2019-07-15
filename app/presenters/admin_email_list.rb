@@ -79,7 +79,7 @@ class AdminEmailList < ViewPresenter
     when 'no_images'
       Artist.active.reject { |a| a.art_pieces.count.positive? }
     when *available_open_studios_keys
-      OpenStudiosEventService.find_by(key: list_name).try(:artists).presence || []
+      OpenStudiosEventService.find_by_key(list_name).try(:artists).presence || []
     end
   end
 

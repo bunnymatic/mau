@@ -10,8 +10,8 @@ class AdminController < BaseAdminController
   end
 
   def os_status
-    @os = Artist.active.by_lastname
-    @open_studios_events = OpenStudiosEvent.all.includes(:open_studios_participants)
+    @artists = Artist.active.includes(:open_studios_events).by_lastname
+    @open_studios_events = OpenStudiosEvent.all.order(start_date: :desc)
     @totals = @open_studios_events.each_with_object({}) do |open_studio, memo|
       memo[open_studio.key] = open_studio.artists.count
     end

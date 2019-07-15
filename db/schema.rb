@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_02_103855) do
+ActiveRecord::Schema.define(version: 2019_07_15_064832) do
 
   create_table "application_events", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "type"
@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_103855) do
     t.string "title", default: "Open Studios", null: false
     t.string "start_time", default: "noon"
     t.string "end_time", default: "6p"
+    t.index ["key"], name: "index_open_studios_events_on_key", unique: true
   end
 
   create_table "open_studios_participants", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

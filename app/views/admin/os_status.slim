@@ -1,4 +1,3 @@
-- keys = @open_studios_events.map(&:key).sort_by { |k| OpenStudiosEventService.date(k) }.reverse
 .pure-g
   .pure-u-1-1.padded-content
     h1 Open Studios Status
@@ -7,19 +6,20 @@
       thead
         tr
           th name
-          - keys.each do |key|
-            th = OpenStudiosEventService.for_display(key)
+          - @open_studios_events.map(&:for_display).each do |date|
+            th = date
       tbody
-        - @os.each_with_index do |artist,idx|
+        - @artists.each_with_index do |artist,idx|
           tr
             td.os-status__artist-name
               a href=user_path(artist) = artist.get_name
-            - keys.each do |ostag|
+            - stars = @open_studios_events.map{|event| artist.open_studios_events.include?(event)}
+            - stars.each do |star|
               td.tf
-                - if artist.doing_open_studios?(ostag)
+                - if star
                   .fa.fa-star
       tfoot
         tr.totals
           td Totals:
-          - keys.each do |key|
-            td.tf = @totals[key]
+          - @open_studios_events.each do |ev|
+            td.tf = @totals[ev.key]

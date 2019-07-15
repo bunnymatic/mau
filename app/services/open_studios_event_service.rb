@@ -7,14 +7,14 @@ class OpenStudiosEventService
   PAST_CACHE_KEY = :past_os_events
 
   def self.for_display(os_key, reverse = false)
-    os = OpenStudiosEvent.find_by(key: os_key)
+    os = find_by_key(os_key)
     return os.for_display(reverse) if os
 
     parse_key(os_key, reverse) || 'n/a'
   end
 
   def self.date(os_key)
-    os = OpenStudiosEvent.find_by(key: os_key)
+    os = find_by_key(os_key)
     return os.start_date if os
 
     parsed = parse_key(os_key, true)
@@ -39,12 +39,12 @@ class OpenStudiosEventService
   end
 
   def self.update(open_studios_event, attributes)
-    clear_cache(open_studios_event.id)
+    clear_cache(open_studios_event)
     open_studios_event.update(attributes)
   end
 
   def self.save(open_studios_event)
-    clear_cache(open_studios_event.id)
+    clear_cache(open_studios_event)
     open_studios_event.save
   end
 
@@ -79,35 +79,32 @@ class OpenStudiosEventService
     OpenStudiosEvent.where(*args)
   end
 
-  def self.find_by(*args)
-    OpenStudiosEvent.find_by(*args).tap do |event|
-      SafeCache.write(event_cache_key(event.id), event) if event
-    end
-  end
-
-  def self.find(id, use_cache = true)
+  def self.find_by_key(key, use_cache = true)
     if use_cache
-      cache = SafeCache.read(event_cache_key(id))
-      unless cache
-        cache = OpenStudiosEvent.find(id)
-        SafeCache.write(event_cache_key(id), cache)
+      event = SafeCache.read(event_cache_key(key))
+      unless event
+        event = OpenStudiosEvent.find_by(key: key)
+        SafeCache.write(event_cache_key(key), event)
       end
     else
-      cache = OpenStudiosEvent.find(id)
+      event = OpenStudiosEvent.find_by(key: key)
     end
-    cache
+    event
   end
 
   def self.destroy(os_event)
-    clear_cache(os_event.id)
+    clear_cache(os_event)
     os_event.destroy
   end
 
-  def self.clear_cache(id = nil)
-    SafeCache.delete(event_cache_key(id)) if id
+  def self.clear_cache(event = nil)
     SafeCache.delete(FUTURE_CACHE_KEY)
     SafeCache.delete(PAST_CACHE_KEY)
     SafeCache.delete(CURRENT_CACHE_KEY)
+    return unless event
+
+    SafeCache.delete(event_cache_key(event.id))
+    SafeCache.delete(event_cache_key(event.key))
   end
 
   def self.event_cache_key(id)
