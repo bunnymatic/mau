@@ -1,12 +1,12 @@
 common:
    BUILD_INFO: whatever
    mailchimp_api_key: mailchimp_api
-   mailchimp_artist_list_id: artist list id from mailchimp
-   mailchimp_fan_list_id: fan list id from mailchimp
-   recaptcha_public_key: public recaptcha key
-   recaptcha_private_key: private recaptcha key
-   ga_key: google analytics key
-   ga_server_api_key: ga server key - for Geokit
+   mailchimp_artist_list_id: artist-list-id-from-mailchimp
+   mailchimp_fan_list_id: fan-list-id-from-mailchimp
+   recaptcha_public_key: public-recaptcha-key
+   recaptcha_private_key: private-recaptcha-key
+   ga_key: google-analytics-key
+   ga_server_api_key: ga-server-key-for-Geokit
    API_CONSUMER_KEY: key for consumers
 acceptance:
    mailchimp_api_key: override as necessary

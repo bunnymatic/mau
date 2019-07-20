@@ -7,7 +7,7 @@
 # files.
 require 'dotenv'
 Dotenv.load
-
+require 'webdrivers'
 require './spec/support/simplecov'
 require './spec/support/faker_files'
 require 'cucumber/rails'
