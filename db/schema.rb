@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(version: 2019_07_15_064832) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "promoted_events", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "promoted_events", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "event_id"
     t.datetime "publish_date"
     t.datetime "created_at"

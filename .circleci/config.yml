@@ -164,6 +164,9 @@ jobs:
           command: |-
             bundle exec rake db:schema:load db:seed assets:precompile
       - run:
+          name: Webdrivers update
+          command: RAILS_ENV=test rails webdrivers:chromedriver:update
+      - run:
           name: Cucumber
           command: |-
             bundle exec cucumber --format junit --out test-results/cucumber/results.xml \
