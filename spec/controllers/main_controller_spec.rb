@@ -84,13 +84,12 @@ describe MainController do
   end
 
   describe 'status', vcr: { cassette_name: 'server_status', record: :none } do
-    before do
-      get :status_page
-    end
     it 'returns success' do
+      get :status_page
       expect(response).to be_successful
     end
     it 'returns the server status' do
+      get :status_page
       status = {
         version: Mau::Version::VERSION,
         main: true,
