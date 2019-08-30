@@ -16,6 +16,7 @@
     return EmailChangedEventsService.list({
       since: since.format()
     }).then(function(data) {
+      data;
       return ($scope.hasNotifications = _.some(data));
     });
   });

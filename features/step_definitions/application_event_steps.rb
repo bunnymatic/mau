@@ -6,5 +6,5 @@ Then(/^I see all application events sections/) do
 end
 
 Then(/^I see an email change in application events$/) do
-  expect(page).to have_content(/updated.*email/)
+  expect(page).to have_content('changed their email from')
 end
