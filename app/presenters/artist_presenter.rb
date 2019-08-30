@@ -14,7 +14,6 @@ class ArtistPresenter < UserPresenter
            :==,
            :active?,
            :address,
-           :address?,
            :artist_info,
            :at_art_piece_limit?,
            :can_register_for_open_studios?,
