@@ -42,6 +42,7 @@ gem 'nokogiri'
 gem 'paperclip'
 gem 'pickadate-rails'
 gem 'postmark'
+<<<<<<< HEAD
 gem 'postmark-rails'
 gem 'puma'
 gem 'qr4r'
@@ -55,6 +56,31 @@ gem 'rosie'
 gem 'sassc-rails'
 gem 'slim-rails'
 gem 'sprockets', '~> 3.7.2'
+=======
+
+gem 'unicorn' # webserver
+
+gem 'flot-rails' # jquery plotting program
+
+gem 'select2-rails' # autocompleter
+
+gem 'underscore-string-rails'
+
+gem 'jbuilder' #non-html output (rss, atom)
+
+gem 'newrelic_rpm' #moitoring
+
+gem 'dotenv-rails'
+
+gem 'sass-rails'
+gem 'coffee-rails'
+# uglifier 2.7.2 breaks Angular in feature specs on CI. Connecting to CircleCI over VNC
+# (https://circleci.com/docs/browser-debugging#interact-with-the-browser-over-vnc)
+# shows the error: "[$injector:unpr] Unknown provider: tProvider <- t <- $http <- $templateRequest <- $compile"
+# The changelog for `uglifier` shows an upgrade from UglifyJS2 2.4.16 to 2.4.24,
+# (https://github.com/mishoo/UglifyJS2/compare/v2.4.16...v2.4.24)
+# but I couldn't find a changelog for that to help figure out why it breaks our minification
+>>>>>>> parent of 302f5f47... move config files to puma
 gem 'uglifier'
 gem 'unicorn' # webserver
 gem 'xmlrpc' # after ruby 2.4 upgrade
@@ -80,11 +106,20 @@ group :test do
 end
 
 group :development do
+<<<<<<< HEAD
   gem 'awesome_print'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano3-unicorn'
   gem 'letter_opener'
+=======
+  gem 'capistrano3-unicorn'
+  gem 'spring'
+  gem 'better_errors'
+  gem "binding_of_caller"
+  gem 'unicorn-rails'
+
+>>>>>>> parent of 302f5f47... move config files to puma
   gem 'rails_best_practices'
   gem 'spring'
   gem 'spring-commands-rspec'
