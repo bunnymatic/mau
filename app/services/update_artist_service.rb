@@ -57,12 +57,15 @@ class UpdateArtistService
   end
 
   def trigger_user_change_event(changes)
-    msg = sprintf("#{@artist.full_name} updated %s", changes.map(&:first).to_sentence)
-    formatted_changes = changes.each_with_object({}) do |(field, change), memo|
-      memo[field] = sprintf('%s => %s', *change)
-    end
+    changes.each do |field, change|
+      old_value, new_value = change
+      next unless old_value.present? || new_value.present?
 
-    UserChangedEvent.create(message: msg, data: { changes: formatted_changes, user: @artist.login, user_id: @artist.id })
+      msg = "#{@artist.full_name} changed their #{field} from " \
+            "[#{old_value.to_s.truncate(50)}] to [#{new_value.to_s.truncate(50)}]"
+      data = { 'user' => @artist.login, 'user_id' => @artist.id }
+      UserChangedEvent.create(message: msg, data: data)
+    end
   end
 
   def trigger_os_signup_event(participating)

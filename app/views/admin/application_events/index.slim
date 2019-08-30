@@ -26,6 +26,7 @@ ruby:
             tbody
               - events.each do |ev|
                 tr
+<<<<<<< HEAD
                   td.message
                     - if key != 'OpenStudiosSignupEvent'
                       details
@@ -35,6 +36,9 @@ ruby:
                             = JSON.pretty_generate(ev.data)
                     - else
                       = ev.message
+=======
+                  td.message = ev.message
+>>>>>>> parent of cbfb902c... Update app events to show all chanes in one line with details
                   td.user
-                    = link_to_event_user ev
+                    = link_to_user ev
                   td.last.date = ev.created_at.strftime("%b %d, %Y %H:%M")
