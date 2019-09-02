@@ -30,7 +30,7 @@ jobs:
             sudo apt install -y mysql-client
             sudo gem install bundle rake
       - save_cache:
-          key: v2-dep-{{ .Branch }}-{{ epoch }}
+          key: mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
           paths:
             - vendor/bundle
             - node_modules
