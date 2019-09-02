@@ -7,7 +7,6 @@ describe Admin::RolesController do
   let(:admin) { FactoryBot.create(:artist, :admin, :active) }
   let(:artist) { FactoryBot.create(:artist, :active) }
 
-  let!(:users) { [editor, manager, admin] }
   let(:manager_role) { manager.roles.first }
   let(:editor_role) { editor.roles.first }
   let(:admin_role) { admin.roles.first }
@@ -101,6 +100,7 @@ describe Admin::RolesController do
 
     describe '#destroy' do
       before do
+        manager_role
         login_as admin
       end
       context 'with role' do
