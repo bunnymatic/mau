@@ -7,7 +7,8 @@ html
     javascript:
       var authenticityToken  = encodeURIComponent("#{form_authenticity_token}");
     = csrf_meta_tags
-  body.admin class=([@browser_as_class, application_body_class].join " ")
+  - body_class = application_body_class(@current_controller, @body_classes)
+  body.admin class=([@browser_as_class, body_class].join " ")
     #layout ng-app='MauAdminApp'
       = render '/admin/admin_nav', revision: @revision
       = yield

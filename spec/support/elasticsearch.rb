@@ -25,8 +25,8 @@ RSpec.configure do |config|
     when true
       begin
         TestEsServer.start unless ENV['CI']
-      rescue Exception => ex
-        puts "Failed to start Elasticsearch: #{ex}"
+      rescue Exception => e
+        puts "Failed to start Elasticsearch: #{e}"
       end
     when :stub, 'stub'
       [Artist, Studio, ArtPiece].each do |clz|
@@ -45,6 +45,6 @@ end
 
 at_exit do
   TestEsServer.stop unless ENV['CI']
-rescue Exception => ex
-  puts "Failed to stop Elasticsearch: #{ex}"
+rescue Exception => e
+  puts "Failed to stop Elasticsearch: #{e}"
 end

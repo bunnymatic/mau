@@ -28,8 +28,8 @@ module Admin
             new_email = @email_list.emails.create(email_params)
             errors = new_email.errors.full_messages unless new_email.valid?
           end
-        rescue ActiveRecord::RecordInvalid => ex
-          errors << ex.to_s
+        rescue ActiveRecord::RecordInvalid => e
+          errors << e.to_s
         end
       end
       if errors.present?

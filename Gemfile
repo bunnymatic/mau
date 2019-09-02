@@ -106,6 +106,8 @@ group :test, :development do
   gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'spring-commands-teaspoon'

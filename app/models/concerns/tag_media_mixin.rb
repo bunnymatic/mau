@@ -8,7 +8,7 @@ module TagMediaMixin
       maxct = get_max_value(arr, fld)
       maxct = 1.0 if !maxct || maxct <= 0
       arr.map do |m|
-        m[fld] = m[fld].to_f / maxct.to_f
+        m[fld] = m[fld].to_f / maxct
         m
       end
     end
