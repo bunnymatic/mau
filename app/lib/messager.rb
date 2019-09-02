@@ -6,12 +6,12 @@ FAYE_SERVER_URL = Conf.messaging_server || 'http://localhost:3030/maumessages'
 SUBSCRIBER_TOKEN = Conf.messaging_token || 'whatevs_yo'
 
 class ClientAuth
-  def outgoing(_msg, _cb)
+  def outgoing(_msg, _callback)
     # if msg['channel'] == '/meta/subscribe'
     #   msg['ext'] ||= {}
     #   msg['ext']['subscriberToken'] = SUBSCRIBER_TOKEN
     # end
-    # cb.call msg
+    # callback.call msg
   end
 end
 

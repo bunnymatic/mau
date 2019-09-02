@@ -12,7 +12,9 @@ describe ApplicationEventQuery do
     expect(described_class.new(since: 2.days.ago)).to be_valid
     expect(described_class.new(since: 2.days.ago.to_date)).to be_valid
     expect(described_class.new(since: 2.days.ago.to_datetime)).to be_valid
+    # rubocop:disable Rails/Date
     expect(described_class.new(since: 2.days.ago.to_time)).to be_valid
+    # rubocop:enable Rails/Date
   end
 
   it 'does not allow dates in the future' do

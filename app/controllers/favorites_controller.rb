@@ -45,8 +45,8 @@ class FavoritesController < ApplicationController
       flash[:notice] = "#{obj.get_name(true)} has been removed from your favorites."
       redirect_to(request.referer || user_path(obj))
     end
-  rescue InvalidFavoriteTypeError => ex
-    render_not_found(message: ex.message)
+  rescue InvalidFavoriteTypeError => e
+    render_not_found(message: e.message)
   end
 
   def favorite_params

@@ -16,7 +16,7 @@ class Medium < ApplicationRecord
   scope :alpha, -> { order(:name) }
 
   def hashtag
-    return name.parameterize.underscore unless /^painting/i =~ name
+    return name.parameterize.underscore unless /^painting/i.match?(name)
 
     name.split('-').map(&:strip).reverse.join('').downcase
   end

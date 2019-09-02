@@ -1,3 +1,7 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+
 AllCops:
   # Only runs checks on specific directories. Could be expanded to
   # include more directories.
@@ -80,6 +84,11 @@ Rails/FilePath:
 Rails/DynamicFindBy:
   Exclude:
     - app/models/user_session.rb
+    - app/presenters/admin_email_list.rb
+    - app/services/open_studios_event_service.rb
+    - app/services/open_studios_migrator.rb
+    - app/services/site_statistics.rb
+    - spec/services/open_studios_event_service_spec.rb
 
 Rails/HasManyOrHasOneDependent:
   Enabled: false
@@ -96,10 +105,6 @@ Rails/OutputSafety:
 Rails/TimeZone:
   Exclude:
     - tztest.rb
-
-Rails/DynamicFindBy:
-  Exclude:
-    - app/models/user_session.rb
 
 Style/Documentation:
   Enabled: false

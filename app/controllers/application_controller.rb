@@ -103,7 +103,7 @@ class ApplicationController < ActionController::Base
   def render_csv_string(csv_data, filename)
     disposition = ['attachment']
     if filename
-      filename += '.csv' unless filename =~ /\.csv$|\.CSV$/
+      filename += '.csv' unless /\.csv$|\.CSV$/.match?(filename)
       disposition << "filename=#{filename}"
     end
     send_data csv_data, type: 'text/csv', disposition: disposition.compact.join('; ')

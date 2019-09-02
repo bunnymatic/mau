@@ -120,7 +120,7 @@ class ArtistsController < ApplicationController
       neworder = params[:neworder].split(',')
       neworder.each_with_index do |apid, idx|
         a = ArtPiece.where(id: apid, artist_id: current_user.id).first
-        a&.update_attribute(:position, idx)
+        a&.update(position: idx)
       end
       Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", 'reordered art pieces'
     else

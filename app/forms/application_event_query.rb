@@ -18,7 +18,7 @@ class ApplicationEventQuery
   end
 
   def since=(val)
-    return unless val.present?
+    return if val.blank?
 
     @since = begin
                if val.respond_to?(:strftime)

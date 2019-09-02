@@ -8,7 +8,7 @@ describe AdminArtistList, elasticsearch: false do
 
   let(:active_artists) do
     double('Artist::ActiveRecord_Relation', order: [
-             FactoryBot.build_stubbed(:artist, :active, updated_at: 1.months.ago),
+             FactoryBot.build_stubbed(:artist, :active, updated_at: 1.month.ago),
            ])
   end
 
