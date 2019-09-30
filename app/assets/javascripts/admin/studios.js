@@ -7,14 +7,9 @@
         start: function(_event, _ui) {},
         update: function(_event, ui) {
           var ajaxOpts, studioIds;
-          studioIds = _.map(
-            $(ui.item.context)
-              .closest("tbody")
-              .find("tr"),
-            function(row) {
-              return $(row).data("studioId");
-            }
-          );
+          studioIds = _.map(ui.item.closest("tbody").find("tr"), function(row) {
+            return $(row).data("studioId");
+          });
           ajaxOpts = {
             url: "/admin/studios/reorder",
             method: "POST",
