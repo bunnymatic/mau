@@ -280,7 +280,7 @@ describe UsersController do
       before do
         get :edit, params: { id: 123_123 }
       end
-      it_should_behave_like 'redirects to login'
+      it_behaves_like 'redirects to login'
     end
     context 'while logged in as an artist' do
       before do
@@ -326,13 +326,13 @@ describe UsersController do
         before do
           put :update, params: { id: quentin.id, user: {} }
         end
-        it_should_behave_like 'redirects to login'
+        it_behaves_like 'redirects to login'
       end
       context 'with valid params' do
         before do
           put :update, params: { id: quentin.id, user: { firstname: 'blow' } }
         end
-        it_should_behave_like 'redirects to login'
+        it_behaves_like 'redirects to login'
       end
     end
     context 'while logged in' do
@@ -561,7 +561,7 @@ describe UsersController do
       before do
         delete :destroy, params: { id: jesse.id }
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     context 'as yourself' do
       before do

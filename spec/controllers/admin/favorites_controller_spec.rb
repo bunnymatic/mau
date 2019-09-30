@@ -22,7 +22,7 @@ describe Admin::FavoritesController do
         login_as jesse
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
   end
 end

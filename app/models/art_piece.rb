@@ -6,7 +6,7 @@ class ArtPiece < ApplicationRecord
   has_many :art_pieces_tags
   has_many :tags, through: :art_pieces_tags, source: :art_piece_tag, dependent: :destroy
 
-  belongs_to :medium
+  belongs_to :medium, optional: true
 
   include TagsHelper
 

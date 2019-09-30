@@ -21,7 +21,7 @@ describe Admin::EmailListsController do
       before do
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
   end
   describe 'logged in as plain user' do
@@ -30,7 +30,7 @@ describe Admin::EmailListsController do
         login_as fan
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
   end
   it 'responds success if logged in as admin' do

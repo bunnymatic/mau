@@ -30,6 +30,6 @@ end
 shared_examples_for 'successful json' do
   it do
     expect(response).to be_successful
-    expect(response).to be_json
+    expect(response.content_type).to eq('application/json; charset=utf-8')
   end
 end

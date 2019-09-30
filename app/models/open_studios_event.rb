@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class OpenStudiosEvent < ApplicationRecord
-  validates :key, presence: true, uniqueness: true
+  validates :key, presence: true, uniqueness: { case_sensitive: true }
   validates :start_date, presence: true
   validates :end_date, presence: true
   validate :end_date_is_after_start_date

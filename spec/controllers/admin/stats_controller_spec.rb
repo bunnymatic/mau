@@ -16,7 +16,7 @@ describe Admin::StatsController do
         before do
           get endpoint, xhr: true
         end
-        it_should_behave_like 'successful json'
+        it_behaves_like 'successful json'
       end
     end
   end

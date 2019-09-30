@@ -8,12 +8,12 @@ require Rails.root.join('lib/authlogic/crypto_providers/restful_auth_scrypt.rb')
 class User < ApplicationRecord
   validates :login, presence: true
   validates :login, length: { within: 5..40 }
-  validates :login, uniqueness: true
+  validates :login, uniqueness: { case_sensitive: false }
   validates :login, format: { with: Mau::Regex::LOGIN, message: Mau::Regex::BAD_LOGIN_MESSAGE }
 
   validates :email, presence: true
   validates :email, length: { within: 6..100 } # r@a.wk
-  validates :email, uniqueness: true
+  validates :email, uniqueness: { case_sensitive: false }
   validates :email, format: { with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE }
   validates :firstname, length: { maximum: 100, allow_nil: true }
   validates :lastname, length: { maximum: 100, allow_nil: true }
@@ -96,7 +96,7 @@ class User < ApplicationRecord
 
   has_many :favorites, dependent: :destroy, inverse_of: :user, class_name: 'Favorite'
 
-  belongs_to :studio
+  belongs_to :studio, optional: true
   has_many :roles_users
   has_many :roles, through: :roles_users, dependent: :destroy
   has_many :open_studios_participants, inverse_of: :user

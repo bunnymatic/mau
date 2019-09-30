@@ -50,7 +50,7 @@ describe Api::NotesController do
         }
         @resp = JSON.parse(response.body)
       end
-      it_should_behave_like 'has some invalid params'
+      it_behaves_like 'has some invalid params'
     end
 
     describe 'submission given note_type inquiry, both emails but no inquiry' do
@@ -64,7 +64,7 @@ describe Api::NotesController do
         }
         @resp = JSON.parse(response.body)
       end
-      it_should_behave_like 'has some invalid params'
+      it_behaves_like 'has some invalid params'
     end
 
     describe 'submission with valid params' do

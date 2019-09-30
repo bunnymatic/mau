@@ -42,7 +42,7 @@ class Studio < ApplicationRecord
   before_update :compute_geocode
   before_save :normalize_phone_number
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { case_sensitive: true }
   validates :street, presence: true
 
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''

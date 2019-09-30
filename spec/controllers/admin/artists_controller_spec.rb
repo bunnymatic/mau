@@ -16,14 +16,14 @@ describe Admin::ArtistsController do
       before do
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     context 'while logged in as user' do
       before do
         login_as(artist2)
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     context 'logged in as admin' do
       before do

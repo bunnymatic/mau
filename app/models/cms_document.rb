@@ -6,7 +6,7 @@ class CmsDocument < ApplicationRecord
   validates :page, presence: true, length: { within: (2..255) }
   validates :article, presence: true, length: { minimum: 2 }
 
-  belongs_to :user
+  belongs_to :user, optional: true
 
   def self.packaged(page, section)
     pkg = {

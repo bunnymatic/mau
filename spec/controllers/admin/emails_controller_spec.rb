@@ -24,7 +24,7 @@ describe Admin::EmailsController do
     end
     it 'returns json' do
       make_request
-      expect(response.content_type.to_s).to eql 'application/json'
+      expect(response.content_type.to_s).to eql 'application/json; charset=utf-8'
     end
     it 'adds a new email to the email list' do
       expect do
@@ -61,7 +61,7 @@ describe Admin::EmailsController do
 
     it 'returns a message indicating who was removed' do
       make_delete_request
-      expect(response.content_type).to eql 'application/json'
+      expect(response.content_type).to eql 'application/json; charset=utf-8'
       expect(response).to be_successful
     end
   end

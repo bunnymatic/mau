@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Studio do
   subject(:studio) { FactoryBot.build(:studio) }
 
-  it_should_behave_like AddressMixin
+  it_behaves_like AddressMixin
 
   it { should validate_presence_of(:name) }
 

@@ -5,7 +5,7 @@ class Role < ApplicationRecord
   has_many :users, through: :roles_users, dependent: :destroy
 
   validates :role, presence: true
-  validates :role, uniqueness: true
+  validates :role, uniqueness: { case_sensitive: false }
 
   class << self
     def admin

@@ -10,7 +10,7 @@ describe Admin::CmsDocumentsController do
       before do
         get meth, params: { id: 'whatever' }
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
   end
 

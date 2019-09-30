@@ -13,7 +13,7 @@ gem 'capistrano'
 gem 'capistrano-bundler'
 gem 'capistrano-rails'
 gem 'capistrano-rbenv'
-gem 'coffee-rails'
+gem 'coffee-rails' # not sure who needs this...
 gem 'dalli'
 gem 'dotenv-rails'
 gem 'elasticsearch'
@@ -47,7 +47,7 @@ gem 'postmark-rails'
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 5.2.x'
+gem 'rails', '~> 6.0.x'
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
@@ -99,7 +99,7 @@ group :test, :development do
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '4.0.0.rc1'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
