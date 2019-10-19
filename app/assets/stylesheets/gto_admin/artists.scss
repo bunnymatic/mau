@@ -32,12 +32,13 @@
     }
     .forgot-password-link,
     .activation-link {
+      padding-left: 0;
       i {
         margin-right: 6px;
       }
     }
     td > div {
-      line-height: 1.4rem;
+      margin-bottom: 0.4rem;
     }
   }
   .admin-artist-download-csv {

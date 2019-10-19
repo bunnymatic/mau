@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Then(/^I (sleep|wait) "(\d+)" seconds?$/) do |_dummy, secs|
+Then(/^I (sleep|wait) "?(\d+)"? seconds?$/) do |_dummy, secs|
   sleep(secs.to_i)
 end
 
@@ -16,4 +16,15 @@ Then /^show me the os info$/ do
   puts 'keys', OpenStudiosEvent.all.map(&:inspect)
   puts 'os artists', Artist.active.count(&:doing_open_studios?)
   puts 'os', (Artist.active.map { |a| a.artist_info.os_participation })
+end
+
+Then /^I print the console.logs?/ do
+  logs = page.driver.browser.manage.logs.get(:browser)
+  if logs.empty?
+    puts 'Nothing to log'
+  else
+    logs.each do |entry|
+      Cucumber.logger.info "[#{entry.level}] #{entry.message}\n"
+    end
+  end
 end

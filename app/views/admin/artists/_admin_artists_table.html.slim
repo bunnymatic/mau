@@ -6,16 +6,17 @@
       - if artist_list.any?(&:active?)
         button.pure-button.update-artists update os status
   .pure-u-1-1.padded-content
-    table.admin-table.js-data-tables#artists_index.pure-table.pure-table-striped
+    table.admin-table.js-data-tables.pure-table.pure-table-striped#artists_index
       thead
         tr
-          th
+          th data-orderable="false"
           th Username
           th Name
-          th Since
-          th Last seen
           th Studio
           th Art
+          th Last seen
+          th Activated
+          th First seen
           th Info
           th
             = OpenStudiosEventService.current.for_display(true)
@@ -34,15 +35,17 @@
             td
               a href=artist_path(a)
                 = a.full_name
-            td.date-field data-order=a.member_since_date.to_i
-              = a.member_since_date.to_formatted_s(:admin_date_only)
-            td.date-field
-              = a.last_login
             td
               = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
             td
               = (a.art_pieces || []).count
-            td
+            td.date-field data-order=a.last_login_at.to_i
+              time-ago time=a.last_login_at&.iso8601
+            td.date-field data-order=a.activated_at.to_i
+              time-ago time=a.activated_at&.iso8601
+            td.date-field data-order=a.created_at.to_i
+              time-ago time=a.created_at.iso8601
+            td data-order=a.email
               .email = a.email
               .address = a.address
               - if a.activation_code? && !a.active?
@@ -63,7 +66,7 @@
               - if a.address? && a.active?
                 - checked = a.doing_open_studios?
                 - name = "os[#{a.id}]"
-                = hidden_field_tag name, "0"
+                = hidden_field_tag name, "0", id: "os_hidden_#{a.id}"
                 = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
               - else
                 .no-address N/A

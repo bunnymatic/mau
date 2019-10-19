@@ -39,15 +39,18 @@
                 th Name
                 th Email
                 th Since
+                th Activated
                 th Last seen
             tbody
               - @email_list.emails.each do |e|
                 tr
                   td.name = link_to e.name, e.link
                   td.email = e.email
+                  td.created data-order=e.created_at.to_i
+                    time-ago time=e.created_at.iso8601
                   td.activation data-order=e.activated_at.to_i
-                    time-ago time=e.activated_at
+                    time-ago time=e.activated_at&.iso8601
                   td.last-seen data-order=e.last_login.to_i
-                    time-ago time=e.last_login
+                    time-ago time=e.last_login&.iso8601
       - else
         h4 No one matches that query

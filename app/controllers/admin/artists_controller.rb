@@ -6,6 +6,7 @@ module Admin
     before_action :set_artist, only: %i[edit suspend update]
 
     def index
+      @manual_angular_bootstrap = true
       artist_list = AdminArtistList.new
       respond_to do |format|
         format.html do

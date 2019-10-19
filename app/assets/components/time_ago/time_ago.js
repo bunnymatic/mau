@@ -1,7 +1,7 @@
 (function() {
   var timeAgo;
 
-  timeAgo = ngInject(function(moment) {
+  timeAgo = ngInject(function(moment, $timeout) {
     return {
       restrict: "E",
       scope: {
@@ -10,8 +10,15 @@
       template:
         "<span class='time-ago' title={{pacificTime}}>{{formattedTime}}</span>",
       link: function($scope, _el, _attrs) {
-        $scope.pacificTime = moment($scope.time).tz("America/Los_Angeles");
-        $scope.formattedTime = moment($scope.time).fromNow();
+        var setTime = function() {
+          $scope.pacificTime = moment($scope.time).tz("America/Los_Angeles");
+          if ($scope.time) {
+            $scope.formattedTime = moment($scope.time).fromNow();
+          } else {
+            $scope.formattedTime = "never";
+          }
+        };
+        $timeout(setTime, 0);
       }
     };
   });

@@ -20,25 +20,25 @@
     isNotSearchableTable: function(idx, el) {
       return !this.isSearchableTable(idx, el);
     },
-    setupDataTables: function(selector) {
+    setupDataTables: function(selector, initCompleteCb) {
+      initCompleteCb = initCompleteCb || function() {};
       if (!this.datatablesAvailable()) {
         return;
       }
       var cfg = this.config;
+      var baseConfig = {
+        aaSorting: [],
+        info: false,
+        initComplete: initCompleteCb,
+        paging: false
+      };
+
       jQuery(selector)
         .filter(this.isSearchableTable.bind(this))
         .each(function() {
           var $table, opts;
           $table = jQuery(this);
-          opts = _.extend(
-            {},
-            {
-              aaSorting: [],
-              paging: false,
-              info: false
-            },
-            cfg($table.attr("id"))
-          );
+          opts = _.extend({}, baseConfig, cfg($table.attr("id")));
           jQuery($table).dataTable(opts);
         });
 
@@ -49,10 +49,8 @@
           $table = jQuery(this);
           opts = _.extend(
             {},
+            baseConfig,
             {
-              aaSorting: [],
-              paging: false,
-              info: false,
               searching: false
             },
             cfg($table.attr("id"))

@@ -13,6 +13,9 @@ FactoryBot.define do
     lastname { Faker::Name.first_name }
     nomdeplume { Faker::Company.name }
     website { Faker::Internet.url }
+
+    last_login_at { rand(60).minutes.ago }
+
     trait :pending do
       state { :pending }
       activation_code { 'factory_activation_code' }
@@ -36,7 +39,7 @@ FactoryBot.define do
     trait :active do
       state { :active }
       activation_code { 'factory_activation_code' }
-      activated_at { Time.zone.now - 1.hour }
+      sequence(:activated_at) { |n| Time.zone.now - n.hours }
     end
 
     trait :manager do

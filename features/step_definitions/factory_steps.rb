@@ -29,6 +29,14 @@ Given /there are artists with art in the system$/ do
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
+Given /there are suspended artists in the system$/ do
+  @suspended_artists = FactoryBot.create_list(:artist, 2, :suspended)
+end
+
+Given /there are not yet activated artists in the system$/ do
+  @pending_artists = FactoryBot.create_list(:artist, 2, :pending)
+end
+
 Given /there are artists with art in my studio$/ do
   studio = (@manager || @artist || @user).studio
   FactoryBot.create_list(:artist, 2, :with_art, studio: studio, number_of_art_pieces: 1)
@@ -140,8 +148,8 @@ Given /^the email lists have been created with emails$/ do
     clz = mailing_list.constantize
     begin
       clz.create unless clz.first
-    rescue Exception => ex
-      ::Rails.logger.debug("Failed to create #{mailing_list} : #{ex}")
+    rescue Exception => e
+      ::Rails.logger.debug("Failed to create #{mailing_list} : #{e}")
     end
     clz.first.emails.create(name: Faker::Name.name, email: Faker::Internet.email)
   end

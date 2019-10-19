@@ -7,38 +7,6 @@ def fill_in_login_form(login, pass)
   fill_in('Password', with: pass)
 end
 
-def path_from_title(titleized_path_name)
-  clean_path_name = titleized_path_name.downcase.tr(' ', '_')
-  path_helper_name = "#{clean_path_name}_path".to_sym
-  send(path_helper_name)
-end
-
-def find_first_link_or_button(locator)
-  find_links_or_buttons(locator).first
-end
-
-def find_last_link_or_button(locator)
-  find_links_or_buttons(locator).last
-end
-
-# careful here with JS.  these don't "wait for" things to show up
-# so invisible buttons that may become visible because of animation
-# will cause issues - use click_on instead
-def all_links_or_buttons_with_title(title)
-  all('a').select { |a| a['title'] == title } ||
-    all('button').select { |b| b.value == title }
-end
-
-def find_links_or_buttons(locator)
-  result = all("##{locator}") if /^-_[A-z][0-9]*$/.match?(locator)
-  return result if result.present?
-
-  result = all('a,button', text: locator)
-  return result if result.present?
-
-  all_links_or_buttons_with_title(locator)
-end
-
 Given /^the cache is clear$/ do
   Rails.cache.clear
 end
@@ -274,6 +242,21 @@ end
 
 Then(/^I click on the "([^"]*)" icon$/) do |icon_class|
   first(".fa.fa-#{icon_class}").click
+end
+
+When /^I click on the table header "([^"]*)"/ do |header_name|
+  table_header_cell_matching(header_name).click
+end
+
+When /^I see the last table row contains "([^"]*)"/ do |content|
+  content_matcher = content.is_a?(String) ? /#{content}/ : content
+  expect(last_table_row.all('td').detect { |cell| content_matcher =~ cell.text }).to be_present
+end
+
+When /^I see the first table row contains "([^"]*)"/ do |content|
+  # skip the header row
+  content_matcher = content.is_a?(String) ? /#{content}/ : content
+  expect(nth_table_row(1).all('td').detect { |cell| content_matcher =~ cell.text }).to be_present
 end
 
 Then(/^I see "([^"]*)" in the "([^"]*)"$/) do |text, container|

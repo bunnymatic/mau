@@ -12,7 +12,8 @@ class UserPresenter < ViewPresenter
            :bio, :address, :get_name,
            :facebook, :twitter, :instagram,
            :login, :active?,
-           :activated_at, :email, :last_login, :full_name,
+           :created_at,
+           :activated_at, :last_login_at, :email, :last_login, :full_name,
            :to_param,
            to: :model, allow_nil: true
 
@@ -106,10 +107,6 @@ class UserPresenter < ViewPresenter
 
   def valid?
     !model.nil?
-  end
-
-  def created_at
-    model.created_at.strftime('%m/%d/%y')
   end
 
   def activation_state

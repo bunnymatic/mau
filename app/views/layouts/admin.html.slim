@@ -9,7 +9,7 @@ html
     = csrf_meta_tags
   - body_class = application_body_class(@current_controller, @body_classes)
   body.admin class=([@browser_as_class, body_class].join " ")
-    #layout ng-app='MauAdminApp'
+    #layout ng-app=(@manual_angular_bootstrap ? "" : "MauAdminApp")
       = render '/admin/admin_nav', revision: @revision
       = yield
   = javascript_include_tag 'application.js'

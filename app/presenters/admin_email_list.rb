@@ -26,8 +26,9 @@ class AdminEmailList < ViewPresenter
         id: a.id,
         name: a.get_name,
         email: a.email,
+        created_at: a.created_at,
         activated_at: a.activated_at,
-        last_login: a.last_login_at,
+        last_login: a.last_login_at.presence,
         link: url_helpers.artist_path(a.slug),
       )
     end

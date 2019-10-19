@@ -26,6 +26,26 @@ module CapybaraHelpers
     end
   end
 
+  def nth_table_row(num)
+    all('table tr')[num]
+  end
+
+  def last_table_row
+    all('table tr').last
+  end
+
+  def first_table_row
+    all('table tr').first
+  end
+
+  def table_header_cell_matching(content)
+    content_matcher = content.is_a?(String) ? /#{content}/ : content
+    match = all('table thead tr th').select do |cell|
+      content_matcher =~ cell.text
+    end
+    match.first
+  end
+
   def table_row_matching(content)
     content_matcher = content.is_a?(String) ? /#{content}/ : content
     match = all('table tbody tr').select do |row|
@@ -62,6 +82,38 @@ module CapybaraHelpers
     JS
 
     Capybara.current_session.driver.browser.execute_script(script, element.native)
+  end
+
+  def path_from_title(titleized_path_name)
+    clean_path_name = titleized_path_name.downcase.tr(' ', '_')
+    path_helper_name = "#{clean_path_name}_path".to_sym
+    send(path_helper_name)
+  end
+
+  def find_first_link_or_button(locator)
+    find_links_or_buttons(locator).first
+  end
+
+  def find_last_link_or_button(locator)
+    find_links_or_buttons(locator).last
+  end
+
+  # careful here with JS.  these don't "wait for" things to show up
+  # so invisible buttons that may become visible because of animation
+  # will cause issues - use click_on instead
+  def all_links_or_buttons_with_title(title)
+    all('a').select { |a| a['title'] == title } ||
+      all('button').select { |b| b.value == title }
+  end
+
+  def find_links_or_buttons(locator)
+    result = all("##{locator}") if /^-_[A-z][0-9]*$/.match?(locator)
+    return result if result.present?
+
+    result = all('a,button', text: locator)
+    return result if result.present?
+
+    all_links_or_buttons_with_title(locator)
   end
 end
 
