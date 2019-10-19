@@ -54,6 +54,7 @@ describe NewArtPiecePresenter do
     its(:hash_tags) { is_expected.to include '@missionartists' }
     its(:hash_tags) { is_expected.to include "##{art_piece.tags.first.name.gsub(/[\s-]/, '')}" }
     its(:hash_tags) { is_expected.to include '#mymedium' }
+    its(:hash_tags) { is_expected.to include '#sfart' }
     it 'does not include any os tags' do
       os_tags = [
         '#SFOS',
