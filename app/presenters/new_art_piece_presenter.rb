@@ -61,7 +61,7 @@ class NewArtPiecePresenter
   end
 
   def base_tags
-    ['@missionartists']
+    ['@missionartists', '#sfart']
   end
 
   def after_current_os?
