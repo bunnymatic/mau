@@ -18,6 +18,15 @@
   height: 0;
   display: none;
 }
+
+.user-edit__link-icon {
+  font-size: 1.4rem;
+  margin-right: 5px;
+  & + span {
+    position: relative;
+    bottom: 2px;
+  }
+}
 .panel-group {
   margin-bottom: 20px;
   .panel-heading {

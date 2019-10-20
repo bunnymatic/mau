@@ -11,7 +11,8 @@
         - link_info.each do |key|
           - placeholder = "e.g. http://#{key}.com/mypage" if key.to_sym != :website
           .pure-u-1-1.pure-u-sm-1-2
-            = form.input key, label: key, placeholder: placeholder
+            - label = content_tag('i', '',class: "user-edit__link-icon #{UserPresenter::icon_link_class(key)}") + content_tag("span", key.to_s.titleize)
+            = form.input key, label: label, placeholder: placeholder
     = form.actions do
       = form.submit 'Save Changes', class: "pure-button pure-button-primary"
       = form.submit 'Cancel', class: "pure-button"
