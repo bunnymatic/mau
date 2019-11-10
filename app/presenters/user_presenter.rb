@@ -149,7 +149,7 @@ class UserPresenter < ViewPresenter
 
       formatted_site = format_link(site)
       site_display = format_link_for_display(site)
-      link_icon_class = icon_link_class(key, site)
+      link_icon_class = self.class.icon_link_class(key, site)
       content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
         content_tag(:i, '', class: link_icon_class)
       end
@@ -170,7 +170,33 @@ class UserPresenter < ViewPresenter
     (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
   end
 
+  def self.icon_link_class(key, site = '')
+    site = strip_http_from_link(site)
+    clz = [:ico, 'ico-invert', "ico-#{key}"]
+    icon_chooser = begin
+                     if /\.tumblr\./.match?(site)
+                       'ico-tumblr'
+                     elsif key.to_sym == :blog
+                       if /\.blogger\./.match?(site)
+                         'ico-blogger'
+                       elsif !site.empty?
+                         site_bits = site.split('.')
+                         'ico-' + (site_bits.length > 2 ? site_bits[-3] : site_bits[0])
+                       end
+                     else
+                       ''
+                     end
+                   end
+    (clz + [icon_chooser]).join(' ')
+  end
+
   private
+
+  class << self
+    def strip_http_from_link(link)
+      link.gsub %r{^https?:\/\/}, ''
+    end
+  end
 
   def my_favorites
     if !@user_favorites || !@art_piece_favorites
@@ -190,32 +216,10 @@ class UserPresenter < ViewPresenter
   end
 
   def format_link_for_display(link)
-    strip_http_from_link(link)
+    self.class.strip_http_from_link(link)
   end
 
   def format_link(link)
     (%r{^https?://}.match?(link) ? link : "http://#{link}") if link.present?
-  end
-
-  def icon_link_class(key, site)
-    site = strip_http_from_link(site)
-    clz = [:ico, 'ico-invert', "ico-#{key}"]
-    icon_chooser = begin
-                     if /\.tumblr\./.match?(site)
-                       'ico-tumblr'
-                     elsif key.to_sym == :blog
-                       if /\.blogger\./.match?(site)
-                         'ico-blogger'
-                       else
-                         site_bits = site.split('.')
-                         'ico-' + (site_bits.length > 2 ? site_bits[-3] : site_bits[0])
-                       end
-                     end
-                   end
-    (clz + [icon_chooser]).join(' ')
-  end
-
-  def strip_http_from_link(link)
-    link.gsub %r{^https?:\/\/}, ''
   end
 end
