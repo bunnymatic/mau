@@ -1,6 +1,17 @@
-version: 2
+version: 2.1
+commands:
+  bundle_and_npm_install:
+    steps:
+      - run:
+          shell: /bin/bash
+          name: Yarn/Bundle Install and Audit
+          command: |-
+            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+            bundle exec bundle-audit update && bundle exec bundle-audit check
+            npm ci
+      
 jobs:
-  build:
+  prepare:
     environment:
       DISABLE_SPRING: true
       RAILS_ENV: test
@@ -16,13 +27,7 @@ jobs:
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}
             - mau-deps-v2-
-      - run:
-          shell: /bin/bash
-          name: Yarn/Bundle Install and Audit
-          command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            bundle exec bundle-audit update && bundle exec bundle-audit check
-            npm ci
+      - bundle_and_npm_install
       - run:
           shell: /bin/bash
           name: Machine Setup
@@ -51,12 +56,7 @@ jobs:
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}
             - mau-deps-v2-
-      - run:
-          shell: /bin/bash
-          name: Yarn/Bundle Install
-          command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            npm ci
+      - bundle_and_npm_install
       - run:
           shell: /bin/bash
           name: Rubocop
@@ -96,12 +96,7 @@ jobs:
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}
             - mau-deps-v2-
-      - run:
-          shell: /bin/bash
-          name: Yarn/Bundle install
-          command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            npm ci
+      - bundle_and_npm_install
       - run:
           shell: /bin/bash
           name: Wait For DB
@@ -148,12 +143,7 @@ jobs:
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}
             - mau-deps-v2-
-      - run:
-          shell: /bin/bash
-          name: Yarn/Bundle install
-          command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            npm ci
+      - bundle_and_npm_install
       - run:
           shell: /bin/bash
           name: Wait For DB
@@ -179,10 +169,16 @@ jobs:
           path: ./test-results/cucumber
 
 workflows:
-  version: 2
+  version: 2.1
   build_and_test:
     jobs:
-      - build
-      - lint_and_javascript_specs
-      - spec
-      - cucumber
+      - prepare
+      - lint_and_javascript_specs:
+          requires:
+            - prepare
+      - spec:
+          requires:
+            - prepare      
+      - cucumber:
+          requires:
+            - prepare      
