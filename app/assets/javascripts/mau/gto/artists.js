@@ -54,24 +54,22 @@
           .data();
         if (pagination.hasMore) {
           nextPage = pagination.nextPage;
-          return $
-            .ajax({
-              url: url,
-              data: {
-                s: pagination.sortOrder,
-                l: pagination.currentLetter,
-                p: nextPage,
-                os_only: pagination.osOnly
-              }
-            })
-            .done(function(data) {
-              $("#js-scroll-load-more").remove();
-              if (data) {
-                $content = $(".js-artists-scroll-wrapper");
-                $content.append(data);
-              }
-              return (fetching = false);
-            });
+          return $.ajax({
+            url: url,
+            data: {
+              s: pagination.sortOrder,
+              l: pagination.currentLetter,
+              p: nextPage,
+              os_only: pagination.osOnly
+            }
+          }).done(function(data) {
+            $("#js-scroll-load-more").remove();
+            if (data) {
+              $content = $(".js-artists-scroll-wrapper");
+              $content.append(data);
+            }
+            return (fetching = false);
+          });
         }
       };
       url = $(".artists.index")[0] != null ? "/artists" : "/open_studios";

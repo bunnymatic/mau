@@ -11,31 +11,29 @@
       }
       seed = $content.data("seed");
       offset = $content.data("offset") || 0;
-      return $
-        .ajax({
-          method: "post",
-          url: "/main/sampler",
-          data: {
-            seed: seed,
-            offset: offset,
-            number_of_images: NUM_IMAGES
+      return $.ajax({
+        method: "post",
+        url: "/main/sampler",
+        data: {
+          seed: seed,
+          offset: offset,
+          number_of_images: NUM_IMAGES
+        }
+      }).done(function(data) {
+        var $insertion, $more;
+        if (data && !/^\s+$/.test(data)) {
+          $insertion = $content.find("#js-scroll-load-more");
+          $(data).insertBefore($insertion);
+          $content.data("offset", 0 + offset + NUM_IMAGES);
+          $more = $("#js-scroll-load-more");
+          if ($more.length && $more.position().top < $win.height()) {
+            return fetchArtists();
           }
-        })
-        .done(function(data) {
-          var $insertion, $more;
-          if (data && !/^\s+$/.test(data)) {
-            $insertion = $content.find("#js-scroll-load-more");
-            $(data).insertBefore($insertion);
-            $content.data("offset", 0 + offset + NUM_IMAGES);
-            $more = $("#js-scroll-load-more");
-            if ($more.length && $more.position().top < $win.height()) {
-              return fetchArtists();
-            }
-          } else {
-            $("#js-scroll-load-more").remove();
-            return $("#the-end").removeAttr("hidden");
-          }
-        });
+        } else {
+          $("#js-scroll-load-more").remove();
+          return $("#the-end").removeAttr("hidden");
+        }
+      });
     };
     if ($("#sampler").length) {
       $win = $(window);
