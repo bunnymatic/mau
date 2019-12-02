@@ -22,7 +22,7 @@ jobs:
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
             bundle exec bundle-audit update && bundle exec bundle-audit check
-            yarn install
+            npm ci
       - run:
           shell: /bin/bash
           name: Machine Setup
@@ -56,7 +56,7 @@ jobs:
           name: Yarn/Bundle Install
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            yarn install
+            npm ci
       - run:
           shell: /bin/bash
           name: Rubocop
@@ -101,7 +101,7 @@ jobs:
           name: Yarn/Bundle install
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            yarn install
+            npm ci
       - run:
           shell: /bin/bash
           name: Wait For DB
@@ -153,7 +153,7 @@ jobs:
           name: Yarn/Bundle install
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            yarn install
+            npm ci
       - run:
           shell: /bin/bash
           name: Wait For DB
