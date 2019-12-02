@@ -24,16 +24,11 @@
             "artist_name": "Ferry Inc",
             "studio_name": "O'RMorissette-Hintz",
             "images": {
-              "thumb":
-                "/system/art_pieces/photos/000/003/456/thumb/new-studio.jpg?1448985420",
-              "small":
-                "/system/art_pieces/photos/000/003/456/small/new-studio.jpg?1448985420",
-              "medium":
-                "/system/art_pieces/photos/000/003/456/medium/new-studio.jpg?1448985420",
-              "large":
-                "/system/art_pieces/photos/000/003/456/large/new-studio.jpg?1448985420",
-              "original":
-                "/system/art_pieces/photos/000/003/456/original/new-studio.jpg?1448985420"
+              "thumb": "/system/art_pieces/photos/000/003/456/thumb/new-studio.jpg?1448985420",
+              "small": "/system/art_pieces/photos/000/003/456/small/new-studio.jpg?1448985420",
+              "medium": "/system/art_pieces/photos/000/003/456/medium/new-studio.jpg?1448985420",
+              "large": "/system/art_pieces/photos/000/003/456/large/new-studio.jpg?1448985420",
+              "original": "/system/art_pieces/photos/000/003/456/original/new-studio.jpg?1448985420"
             },
             "os_participant": false
           }
@@ -53,19 +48,13 @@
             "artist_name": "Ferry Inc",
             "studio_name": "O'RMorissette-Hintz",
             "images": {
-              "thumb":
-                "/system/art_pieces/photos/000/003/455/thumb/new-studio.jpg?1448985420",
-              "small":
-                "/system/art_pieces/photos/000/003/455/small/new-studio.jpg?1448985420",
-              "medium":
-                "/system/art_pieces/photos/000/003/455/medium/new-studio.jpg?1448985420",
-              "large":
-                "/system/art_pieces/photos/000/003/455/large/new-studio.jpg?1448985420",
-              "original":
-                "/system/art_pieces/photos/000/003/455/original/new-studio.jpg?1448985420"
+              "thumb": "/system/art_pieces/photos/000/003/455/thumb/new-studio.jpg?1448985420",
+              "small": "/system/art_pieces/photos/000/003/455/small/new-studio.jpg?1448985420",
+              "medium": "/system/art_pieces/photos/000/003/455/medium/new-studio.jpg?1448985420",
+              "large": "/system/art_pieces/photos/000/003/455/large/new-studio.jpg?1448985420",
+              "original": "/system/art_pieces/photos/000/003/455/original/new-studio.jpg?1448985420"
             },
-            "bio":
-              "Sed corrupti ipsam. Quaerat ad voluptatibus autem. Est sint quod cum natus alias pariatur nemo.",
+            "bio": "Sed corrupti ipsam. Quaerat ad voluptatibus autem. Est sint quod cum natus alias pariatur nemo.",
             "os_participant": false
           }
         }
@@ -81,16 +70,11 @@
             "slug": "o-rmorissette-hintz",
             "address": "Karlie Park 78946",
             "images": {
-              "thumb":
-                "/system/studios/photos/000/000/439/thumb/new-studio.jpg?1448985420",
-              "small":
-                "/system/studios/photos/000/000/439/small/new-studio.jpg?1448985420",
-              "medium":
-                "/system/studios/photos/000/000/439/medium/new-studio.jpg?1448985420",
-              "large":
-                "/system/studios/photos/000/000/439/large/new-studio.jpg?1448985420",
-              "original":
-                "/system/studios/photos/000/000/439/original/new-studio.jpg?1448985420"
+              "thumb": "/system/studios/photos/000/000/439/thumb/new-studio.jpg?1448985420",
+              "small": "/system/studios/photos/000/000/439/small/new-studio.jpg?1448985420",
+              "medium": "/system/studios/photos/000/000/439/medium/new-studio.jpg?1448985420",
+              "large": "/system/studios/photos/000/000/439/large/new-studio.jpg?1448985420",
+              "original": "/system/studios/photos/000/000/439/original/new-studio.jpg?1448985420"
             },
             "os_participant": false
           }

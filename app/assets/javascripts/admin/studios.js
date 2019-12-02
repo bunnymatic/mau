@@ -17,8 +17,7 @@
               studios: studioIds
             }
           };
-          return $
-            .ajax(ajaxOpts)
+          return $.ajax(ajaxOpts)
             .done(function(_data) {
               return new MAU.Flash().show({
                 notice: "Studio Order has been updated",

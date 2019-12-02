@@ -6,12 +6,12 @@ Rake::Task['assets:precompile']
 
 namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
-  task compile_environment: :yarn do
+  task compile_environment: :npm do
     Rake::Task['assets:environment'].invoke
   end
 
-  desc 'Fetch yarn packages'
-  task :yarn do
-    sh 'bundle exec yarn install'
+  desc 'Fetch npm packages'
+  task :npm do
+    sh 'bundle exec npm install'
   end
 end

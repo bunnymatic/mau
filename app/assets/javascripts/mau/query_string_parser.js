@@ -4,15 +4,13 @@
 
   MAU.QueryStringParserHelpers = {
     hashToQueryString: function(hash) {
-      return _
-        .compact(
-          _.map(hash, function(v, k) {
-            if (typeof v !== "undefined" && v !== null) {
-              return [k, v].join("=");
-            }
-          })
-        )
-        .join("&");
+      return _.compact(
+        _.map(hash, function(v, k) {
+          if (typeof v !== "undefined" && v !== null) {
+            return [k, v].join("=");
+          }
+        })
+      ).join("&");
     },
     queryStringToHash: function(query) {
       return _.reduce(

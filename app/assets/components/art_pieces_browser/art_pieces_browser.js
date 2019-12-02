@@ -14,9 +14,9 @@
     var init, initializeCurrent, limitPosition, setCurrentArtPiece, updateUrl;
     initializeCurrent = function() {
       if ($scope.artPieces && $scope.initialArtPiece) {
-        return ($scope.current = _
-          .map($scope.artPieces, "id")
-          .indexOf($scope.initialArtPiece.id));
+        return ($scope.current = _.map($scope.artPieces, "id").indexOf(
+          $scope.initialArtPiece.id
+        ));
       }
     };
     updateUrl = function() {
