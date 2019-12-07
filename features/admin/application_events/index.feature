@@ -30,7 +30,7 @@ Scenario: Checking on application events
   And I see "(Since 2018-10-20)" on the page
 
 Scenario: Getting notified about user email changes
-  Given I logout
+  Given I'm logged out
   When I login as "whoever"
   And I change my email to "new_email_address@example.com"
 

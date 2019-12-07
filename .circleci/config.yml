@@ -1,36 +1,54 @@
-version: 2
+version: 2.1
+executors:
+  ruby_node_mysql_elasticsearch:
+    docker:
+      - image: circleci/ruby:2.6.1-node-browsers
+      - image: tkuchiki/delayed-mysql
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_DATABASE: mau_test
+      - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+        environment:
+          TEST_CLUSTER_NODES: 1
+
+commands:
+  bundle_and_npm_install:
+    steps:
+      - run:
+          shell: /bin/bash
+          name: NPM/Bundle Install and Audit
+          command: |-
+            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+            bundle exec bundle-audit update && bundle exec bundle-audit check
+            npm ci
+  install_mysql_client:
+    steps:
+      - run:
+          shell: /bin/bash
+          name: Machine Setup
+          command: |-
+            sudo apt install -y mysql-client
 jobs:
-  build:
+  prepare:
     environment:
       DISABLE_SPRING: true
       RAILS_ENV: test
       RACK_ENV: test
       CI: true
       TEST_CLUSTER_PORT: 9200
-    docker:
-      - image: circleci/ruby:2.6.1-node-browsers
+    executor: ruby_node_mysql_elasticsearch
     steps:
       - checkout
       - restore_cache:
           keys:
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}
             - mau-deps-v2-
-      - run:
-          shell: /bin/bash
-          name: Yarn/Bundle Install and Audit
-          command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            bundle exec bundle-audit update && bundle exec bundle-audit check
-            yarn install
-      - run:
-          shell: /bin/bash
-          name: Machine Setup
-          command: |-
-            sudo apt install -y mysql-client
-            sudo gem install bundle rake
+      - bundle_and_npm_install
+      - install_mysql_client
       - save_cache:
-          key: mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
+          key: mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
           paths:
             - vendor/bundle
             - node_modules
@@ -42,21 +60,15 @@ jobs:
       RACK_ENV: test
       CI: true
       TEST_CLUSTER_PORT: 9200
-    docker:
-      - image: circleci/ruby:2.6.1-node-browsers
+    executor: ruby_node_mysql_elasticsearch
     steps:
       - checkout
       - restore_cache:
           keys:
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}
             - mau-deps-v2-
-      - run:
-          shell: /bin/bash
-          name: Yarn/Bundle Install
-          command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            yarn install
+      - bundle_and_npm_install
       - run:
           shell: /bin/bash
           name: Rubocop
@@ -79,29 +91,15 @@ jobs:
       RACK_ENV: test
       CI: true
       TEST_CLUSTER_PORT: 9200
-    docker:
-      - image: circleci/ruby:2.6.1-node-browsers
-      - image: tkuchiki/delayed-mysql
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_ROOT_PASSWORD: ""
-          MYSQL_DATABASE: mau_test
-      - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
-        environment:
-          TEST_CLUSTER_NODES: 1
+    executor: ruby_node_mysql_elasticsearch
     steps:
       - checkout
       - restore_cache:
           keys:
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}
             - mau-deps-v2-
-      - run:
-          shell: /bin/bash
-          name: Yarn/Bundle install
-          command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            yarn install
+      - bundle_and_npm_install
       - run:
           shell: /bin/bash
           name: Wait For DB
@@ -130,30 +128,16 @@ jobs:
       RACK_ENV: test
       CI: true
       TEST_CLUSTER_PORT: 9200
-    docker:
-      - image: circleci/ruby:2.6.1-node-browsers
-      - image: tkuchiki/delayed-mysql
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_ROOT_PASSWORD: ""
-          MYSQL_DATABASE: mau_test
-      - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
-        environment:
-          TEST_CLUSTER_NODES: 1
+    executor: ruby_node_mysql_elasticsearch
 
     steps:
       - checkout
       - restore_cache:
           keys:
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock"}}
+            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
             - mau-deps-v2-{{ checksum "Gemfile.lock" }}
             - mau-deps-v2-
-      - run:
-          shell: /bin/bash
-          name: Yarn/Bundle install
-          command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-            yarn install
+      - bundle_and_npm_install
       - run:
           shell: /bin/bash
           name: Wait For DB
@@ -179,10 +163,16 @@ jobs:
           path: ./test-results/cucumber
 
 workflows:
-  version: 2
+  version: 2.1
   build_and_test:
     jobs:
-      - build
-      - lint_and_javascript_specs
-      - spec
-      - cucumber
+      - prepare
+      - lint_and_javascript_specs:
+          requires:
+            - prepare
+      - spec:
+          requires:
+            - prepare
+      - cucumber:
+          requires:
+            - prepare
