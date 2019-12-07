@@ -59,12 +59,6 @@ gem 'uglifier'
 gem 'unicorn' # webserver
 gem 'xmlrpc' # after ruby 2.4 upgrade
 
-source 'https://rails-assets.org' do
-  gem 'rails-assets-c3'
-  gem 'rails-assets-datatables'
-  gem 'rails-assets-pure'
-end
-
 group :test do
   gem 'capybara'
   gem 'capybara-email'

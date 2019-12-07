@@ -9,7 +9,7 @@
  *= require collapse
  *= require panel
  *= require toggle_button
- *= require c3
+ *= require c3/c3.min
  *= require_tree ../components
  *= require_tree ./gto
  *= require_tree ./gto_admin
@@ -17,8 +17,8 @@
  */
 
 @import "reset";
-@import "pure";
-@import "pure/grids-responsive";
+@import "purecss/build/pure";
+@import "purecss/build/grids-responsive";
 @import "pure-customizations";
 @import "mau-mixins";
 

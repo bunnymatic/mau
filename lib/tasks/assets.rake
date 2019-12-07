@@ -12,6 +12,6 @@ namespace :assets do
 
   desc 'Fetch npm packages'
   task :npm do
-    sh 'bundle exec npm install'
+    sh 'bundle exec npm ci'
   end
 end
