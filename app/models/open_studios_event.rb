@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class OpenStudiosEvent < ApplicationRecord
-  # attr_accessible :end_date, :start_date, :key, :logo, :title
-
   validates :key, presence: true, uniqueness: true
   validates :start_date, presence: true
   validates :end_date, presence: true
@@ -10,10 +8,6 @@ class OpenStudiosEvent < ApplicationRecord
 
   has_many :open_studios_participants, inverse_of: :open_studios_event, dependent: :destroy
   has_many :artists, through: :open_studios_participants, class_name: 'Artist', source: :user
-
-  has_attached_file :logo, styles: { square: '240x240#' }, default_url: ''
-  validates_attachment_content_type :logo, content_type: %r{\Aimage\/.*\Z}
-  # validates_attachment_presence :logo
 
   def for_display(reverse = false)
     if !reverse

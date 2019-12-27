@@ -107,7 +107,6 @@ Then /^I fill in the open studios event form for next weekend with the title \"(
   fill_in 'Start time', with: '12a'
   fill_in 'End time', with: '5a'
   expect(find('#open_studios_event_key').value).to eql @start_date.strftime('%Y%m')
-  attach_file 'Logo', Rails.root.join('spec', 'fixtures', 'files', 'open_studios_event.png')
   click_on 'Create'
 end
 

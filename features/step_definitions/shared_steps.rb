@@ -30,7 +30,7 @@ def all_links_or_buttons_with_title(title)
 end
 
 def find_links_or_buttons(locator)
-  result = all("##{locator}") if /^-_[A-z][0-9]*$/ =~ locator
+  result = all("##{locator}") if /^-_[A-z][0-9]*$/.match?(locator)
   return result if result.present?
 
   result = all('a,button', text: locator)

@@ -7,9 +7,6 @@ FactoryBot.define do
     start_time { 'noon' }
     end_time { '6p' }
     key { start_date.strftime('%Y%m') }
-    logo_file_name { 'x.png' }
-    logo_content_type { 'image/png' }
-    logo_file_size { 10 }
     trait :future do
       start_date { Time.zone.now + 1.week }
     end

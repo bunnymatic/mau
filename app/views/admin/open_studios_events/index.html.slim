@@ -18,7 +18,6 @@
           th start date
           th end date
           th time
-          th logo?
           th participants
           th data-orderable="false"
       tbody
@@ -29,9 +28,6 @@
             td.os-events__table-item.os-events__table-item--start = os_event.start_date
             td.os-events__table-item.os-events__table-item--end = os_event.end_date
             td.os-events__table-item.os-events__table-item--time = os_event.time_range
-            td.os-events__table-item.os-events__table-item--logo
-              - if os_event.logo?
-                = link_to os_event.logo.original_filename, os_event.logo.url(:square), target: '_blank'
             td.os-events__table-item.os-events__table-item--participants = os_event.num_participants
             td.admin-controls
               = link_to edit_admin_open_studios_event_path(os_event), title: 'Edit' do
