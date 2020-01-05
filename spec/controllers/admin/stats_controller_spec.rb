@@ -26,10 +26,10 @@ describe Admin::StatsController do
     let(:artists_per_day) { Admin::StatsController.new.send(:compute_artists_per_day) }
     before do
       Timecop.freeze
-      FactoryBot.create(:artist, :active, :with_art, number_of_art_pieces: 2)
+      FactoryBot.create(:artist, :active, :with_art, number_of_art_pieces: 2, activated_at: Time.current)
       3.times.each do |n|
         Timecop.travel((1 + n).days.ago)
-        FactoryBot.create(:artist, :active, :with_art, number_of_art_pieces: 2)
+        FactoryBot.create(:artist, :active, :with_art, number_of_art_pieces: 2, activated_at: Time.current)
       end
     end
     after do
