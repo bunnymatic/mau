@@ -8,7 +8,7 @@ Lint/AmbiguousRegexpLiteral:
   Exclude:
     - 'step_definitions/**/*'
 
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Exclude:
     - 'support/**/*'
 

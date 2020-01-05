@@ -14,28 +14,28 @@ FactoryBot.define do
     nomdeplume { Faker::Company.name }
     website { Faker::Internet.url }
     trait :pending do
-      state :pending
-      activation_code 'factory_activation_code'
+      state { :pending }
+      activation_code { 'factory_activation_code' }
     end
 
     trait :deleted do
-      state :deleted
+      state { :deleted }
     end
 
     trait :suspended do
-      state :suspended
+      state { :suspended }
     end
 
     trait :with_photo do
-      photo_file_name    'new-profile.jpg'
-      photo_content_type 'image/jpeg'
-      photo_file_size    134
-      photo_updated_at   2.days.ago
+      photo_file_name    { 'new-profile.jpg' }
+      photo_content_type { 'image/jpeg' }
+      photo_file_size    { 134 }
+      photo_updated_at   { 2.days.ago }
     end
 
     trait :active do
-      state :active
-      activation_code 'factory_activation_code'
+      state { :active }
+      activation_code { 'factory_activation_code' }
       activated_at { Time.zone.now - 1.hour }
     end
 
@@ -75,9 +75,9 @@ FactoryBot.define do
     end
 
     transient do
-      max_pieces 10
-      number_of_art_pieces 1
-      doing_open_studios nil
+      max_pieces { 10 }
+      number_of_art_pieces { 1 }
+      doing_open_studios { nil }
     end
 
     trait :with_links do

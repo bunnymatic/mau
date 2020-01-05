@@ -11,10 +11,10 @@ Rails/SkipsModelValidations:
   Exclude:
     - '**/*'
 
-
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Exclude:
     - 'support/**/*'
+
 Lint/RescueException:
   Exclude:
     - 'support/**/*'
