@@ -12,13 +12,13 @@ FactoryBot.define do
     url { Faker::Internet.url }
     cross_street { Faker::Address.street_name }
     phone { Faker::PhoneNumber.phone_number }
-    photo_file_name    'new-studio.jpg'
-    photo_content_type 'image/jpeg'
-    photo_file_size    1234
-    photo_updated_at   1.day.ago
+    photo_file_name    { 'new-studio.jpg' }
+    photo_content_type { 'image/jpeg' }
+    photo_file_size    { 1234 }
+    photo_updated_at   { 1.day.ago }
     position { Random.rand(200) }
     transient do
-      artist_count 2
+      artist_count { 2 }
     end
 
     trait :with_artists do

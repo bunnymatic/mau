@@ -13,7 +13,7 @@ describe UpdateArtPieceService do
     let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name].join(', ') }
     let(:params) do
       {
-        title: Faker::Lorem.words(4).join(' '),
+        title: Faker::Lorem.words(number: 4).join(' '),
         tags: tag_params,
       }
     end
