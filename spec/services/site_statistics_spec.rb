@@ -10,14 +10,14 @@ describe SiteStatistics do
     FactoryBot.create_list(:studio, 2)
 
     Timecop.travel(16.hours.ago)
-    FactoryBot.create(:artist, :active)
+    FactoryBot.create(:artist, :active, activated_at: Time.zone.now)
 
     Timecop.travel(4.days.ago)
-    FactoryBot.create_list(:artist, 2, :active, :with_art, :with_links)
+    FactoryBot.create_list(:artist, 2, :active, :with_art, :with_links, activated_at: Time.zone.now)
     FactoryBot.create_list(:artist, 3)
 
     Timecop.travel(10.days.ago)
-    FactoryBot.create_list(:artist, 2, :active)
+    FactoryBot.create_list(:artist, 2, :active, activated_at: Time.zone.now)
     FactoryBot.create_list(:artist, 3)
 
     Timecop.return
