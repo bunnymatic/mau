@@ -2,8 +2,8 @@
 
 require 'digest/sha1'
 require 'json'
-require Rails.root.join('lib', 'authlogic', 'crypto_providers', 'restful_auth_sha1.rb')
-require Rails.root.join('lib', 'authlogic', 'crypto_providers', 'restful_auth_scrypt.rb')
+require Rails.root.join('lib/authlogic/crypto_providers/restful_auth_sha1.rb')
+require Rails.root.join('lib/authlogic/crypto_providers/restful_auth_scrypt.rb')
 
 class User < ApplicationRecord
   validates :login, presence: true

@@ -7,7 +7,7 @@ MYSQL_DUMP_EXEC = 'mysqldump'
 
 class DbDumper
   def db_config
-    @db_config ||= YAML.load_file(Rails.root.join('config', 'database.yml')).fetch(Rails.env)
+    @db_config ||= YAML.load_file(Rails.root.join('config/database.yml')).fetch(Rails.env)
   end
 
   def db_name

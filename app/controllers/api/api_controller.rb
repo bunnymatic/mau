@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class ApiController < ActionController::Base
+  class ApiController < ApplicationController
     before_action :require_authorization
 
     helper_method :current_user_session, :current_user

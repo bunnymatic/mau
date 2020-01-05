@@ -2,12 +2,12 @@
 
 namespace :js do
   desc 'Runs the javascript linter'
-  task :lint do
+  task lint: [:environment] do
     sh('npm run lint')
   end
 
   desc 'Runs the javascript linter and autocorrects what it can'
-  task :fix do
+  task fix: [:environment] do
     sh('npm run lint-fix')
   end
 end
