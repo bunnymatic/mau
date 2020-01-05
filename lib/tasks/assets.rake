@@ -11,7 +11,7 @@ namespace :assets do
   end
 
   desc 'Fetch npm packages'
-  task :npm do
+  task npm: [:environment] do
     sh 'bundle exec npm ci'
   end
 end

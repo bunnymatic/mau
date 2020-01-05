@@ -4,7 +4,7 @@ unless Rails.env.production?
   namespace :db do
     desc 'Load set of data so that the application can start in a useful state'
     task sample_data: :environment do
-      sample_data = Rails.root.join('db', 'sample_data.rb')
+      sample_data = Rails.root.join('db/sample_data.rb')
       load(sample_data) if sample_data
     end
   end

@@ -4,7 +4,7 @@ class OpenStudiosMigrator
   include OpenStudiosEventShim
 
   def create_past_open_studios_events
-    image = Rails.root.join('app', 'assets', 'images', 'debug_os_placeholder.png')
+    image = Rails.root.join('app/assets/images/debug_os_placeholder.png')
 
     PAST_OS_EVENT_KEYS.each do |key|
       next if OpenStudiosEvent.find_by(key: key)

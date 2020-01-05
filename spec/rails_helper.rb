@@ -27,8 +27,8 @@ SHARED_REFERER = '/a_referrer_specified_in/spec_helper' unless defined? SHARED_R
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
-Dir[Rails.root.join('spec', 'factories', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/factories/**/*.rb')].sort.each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -66,6 +66,6 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    FileUtils.rm_rf(Dir[Rails.root.join('tmp', 'paperclip_test')])
+    FileUtils.rm_rf(Dir[Rails.root.join('tmp/paperclip_test')])
   end
 end

@@ -98,7 +98,7 @@ class Artist < User
   end
 
   def at_art_piece_limit?
-    art_pieces.select(&:persisted?).count >= (max_pieces || MAX_PIECES)
+    art_pieces.count(&:persisted?) >= (max_pieces || MAX_PIECES)
   end
 
   def profile_images

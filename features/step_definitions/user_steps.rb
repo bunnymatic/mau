@@ -26,7 +26,7 @@ Then('I see the secret word email link') do
 end
 
 When(/^I add a photo to upload$/) do
-  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'profile.png')
+  attach_file 'Photo', Rails.root.join('spec/fixtures/files/profile.png')
 end
 
 When(%r{^I fill in the login form with "([^\/]*)\/([^\"]*)"}) do |login, pass|
@@ -115,7 +115,7 @@ end
 
 When(/^I'm logged out$/) do
   click_on_first 'sign out'
-rescue Capybara::ElementNotFound => _ex
+rescue Capybara::ElementNotFound => _e
 end
 
 When(/^I login as "(.*?)"$/) do |login|

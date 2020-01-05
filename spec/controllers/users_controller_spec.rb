@@ -538,7 +538,7 @@ describe UsersController do
       it 'does not blow away all activation codes' do
         FactoryBot.create_list(:artist, 2)
         make_activate_call
-        expect(User.all.map(&:activation_code).select(&:present?).count).to be > 0
+        expect(User.all.map(&:activation_code).count(&:present?)).to be > 0
       end
       it 'does not send email' do
         expect(ArtistMailer).to receive(:activation).never
