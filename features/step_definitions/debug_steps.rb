@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Then(/^I (sleep|wait) "(\d+)" seconds?$/) do |_dummy, secs|
+Then(/^I (sleep|wait) "?(\d+)"? seconds?$/) do |_dummy, secs|
   sleep(secs.to_i)
 end
 
