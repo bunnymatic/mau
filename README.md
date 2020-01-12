@@ -49,7 +49,7 @@ Assuming MySQL is running, and you know have a root-level user, update your `con
 Install the MAU bundle (or, starting a dev session every time)
 
     cd /my_projects/mau
-    git checkout development
+    git checkout master
     git pull
     bundle install
 
@@ -63,7 +63,6 @@ Tell Rails to setup that database and build a copy of that schema for testing
 
 At this point, you should have a semi-working system that has no users and no art.  To try it out, start up the server
 
-    script/server # if we're still on rails 2
     rails server # if you're past that
 
 Point your browser to http://localhost:3000 and you should see the MAU front page.
@@ -131,6 +130,7 @@ Push your changes out
 
     git push
 
+NOTE: We only have `master`.  There is no `development` branch any more.  All feature branches should branch off `master`.
 
 # Deployment
 
@@ -145,7 +145,7 @@ cap acceptance deploy
 cap production deploy
 ```
 
-will push the `development` or `master` branches respectively to the `mau.rcode5.com` or `www`.
+will push the `master` branches respectively to the `mau.rcode5.com` or `www`.
 
 # Issues/Versions etc
 
