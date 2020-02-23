@@ -303,8 +303,6 @@ GEM
       actionmailer (>= 3.0.0)
       postmark (~> 1.15.0)
     public_suffix (4.0.3)
-    puma (4.3.1)
-      nio4r (~> 2.0)
     qr4r (0.4.1)
       mojo_magick
       rqrcode
@@ -558,7 +556,6 @@ DEPENDENCIES
   pickadate-rails
   postmark
   postmark-rails
-  puma
   qr4r
   racc
   rack-cors
