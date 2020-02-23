@@ -28,7 +28,7 @@ Follow the post-install instructions to get your MySQL server running.  For easy
 
 Use `homebrew` to install the following packages:
 
-    brew install markdown imagemagick	memcached chromedriver elasticsearch@2.4
+    brew install markdown imagemagick	memcached elasticsearch@2.4
 
 At this point, you should have all the binary resources you'll need (hopefully).
 
