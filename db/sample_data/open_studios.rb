@@ -13,6 +13,6 @@ ensure_open_studios_event(Time.zone.local(2017, 4, 1))
 
 OpenStudiosEvent.all.each do |os_event|
   Artist.active.each do |artist|
-    artist.update_os_participation os_event, true
+    artist.open_studios_events << os_event
   end
 end
