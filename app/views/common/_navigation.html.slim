@@ -21,6 +21,12 @@
         a href=open_studios_path title="open studios #{open_studios_nav_title}"
           = open_studios_nav_title
 
+        a.nav-secondary-link href=open_studios_path  title ="open studios #{open_studios_nav_title}" open studios
+
+        - if user_nav.remind_for_open_studio_register?
+          a.nav-secondary-link-emphasis href=register_for_current_open_studios_artists_path title = "register for open studios"
+            = "register now!"
+
   - if logged_in?
     section.nav-section.users
       ul.tabs.tabs__nav
