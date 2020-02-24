@@ -15,6 +15,10 @@ class UserNavigation < Navigation
     @items ||= [] + artist_nav_items + user_nav_items + [link_to('sign out', url_helpers.logout_path)]
   end
 
+  def remind_for_open_studio_register?
+    current_artist&.remind_for_open_studios_register?
+  end
+
   private
 
   def artist_nav_items

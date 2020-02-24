@@ -84,6 +84,15 @@
     list-style: none outside none;
     margin: 0;
     padding: 0;
+
+    .nav-secondary-link {
+      font-size: 0.75em;
+    }
+
+    .nav-secondary-link-emphasis {
+      font-size: 0.75em;
+      color: $gto_orange;
+    }
   }
   .signout__links.tabs,
   .signin__links.tabs {
