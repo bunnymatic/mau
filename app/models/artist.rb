@@ -128,6 +128,14 @@ class Artist < User
 
   alias doing_open_studios doing_open_studios?
 
+  def remind_for_open_studios_register?
+    current_event = OpenStudiosEventService.current
+    current_event_start_date = current_event.start_date
+    time_to_remind = Time.zone.now < current_event_start_date && current_event_start_date <= Time.zone.now + 12.weeks
+
+    (open_studios_events.exclude? current_event) && time_to_remind
+  end
+
   def representative_piece
     piece_id = SafeCache.read(representative_art_cache_key)
     piece = ArtPiece.find_by id: piece_id
