@@ -43,7 +43,6 @@ gem 'paperclip'
 gem 'pickadate-rails'
 gem 'postmark'
 gem 'postmark-rails'
-gem 'puma'
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
@@ -66,6 +65,7 @@ group :test do
   gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
+  gem 'rack-handlers'
   gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'vcr'
