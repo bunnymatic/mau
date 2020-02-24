@@ -2,7 +2,7 @@
 
 begin
   namespace :spec do
-    task :enable_coverage do
+    task enable_coverage: [:environment] do
       ENV['COVERAGE'] = '1'
     end
 
@@ -13,10 +13,10 @@ begin
 
     require 'rspec/core/rake_task'
     desc 'Runs all rspec specs'
-    RSpec::Core::RakeTask.new(:all)
+    RSpec::Core::RakeTask.new(:all, [:environment])
   end
 rescue LoadError
-  task :spec do
+  task spec: [:environment] do
     puts 'Failed to load rspec'
   end
 end

@@ -23,8 +23,8 @@ class MailChimpService
   }.freeze
 
   def mailchimp_additional_data
-    @user.attributes.slice(*ATTRIBUTE_CONVERSIONS.keys).each_with_object({}) do |(k, v), memo|
-      memo[ATTRIBUTE_CONVERSIONS[k]] = v
+    @user.attributes.slice(*ATTRIBUTE_CONVERSIONS.keys).transform_keys do |k|
+      ATTRIBUTE_CONVERSIONS[k]
     end
   end
 

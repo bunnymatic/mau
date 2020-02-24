@@ -14,7 +14,7 @@ class AdminFavoritesPresenter
         @plain_favorites.each do |f|
           tally_favorites(processed, f)
         end
-        Hash[processed.map { |key, entry| [key, OpenStruct.new(entry)] }]
+        processed.transform_values { |entry| OpenStruct.new(entry) }
       end
   end
 

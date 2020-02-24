@@ -40,7 +40,7 @@ class FavoritesController < ApplicationController
     fav.destroy
     if request.xhr?
       render json: { message: 'Removed a favorite' }
-      return
+      nil
     else
       flash[:notice] = "#{obj.get_name(true)} has been removed from your favorites."
       redirect_to(request.referer || user_path(obj))

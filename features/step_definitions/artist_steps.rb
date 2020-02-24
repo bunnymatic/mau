@@ -48,7 +48,7 @@ end
 
 When(/^I fill out the add art form$/) do
   @medium = Medium.first
-  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'art.png')
+  attach_file 'Photo', Rails.root.join('spec/fixtures/files/art.png')
   fill_in 'Title', with: 'Mona Lisa'
   fill_in 'Dimensions', with: '4 x 3'
   fill_in 'Year', with: '1515'
@@ -213,7 +213,7 @@ end
 
 When(/^I submit a new profile picture$/) do
   find('.file.input')
-  attach_file 'Photo', Rails.root.join('spec', 'fixtures', 'files', 'user.png')
+  attach_file 'Photo', Rails.root.join('spec/fixtures/files/user.png')
 end
 
 Then(/^I see that I have a new profile picture$/) do

@@ -9,11 +9,11 @@ class ApplicationEventFetcher
     types = ApplicationEvent.available_types.map(&:constantize)
 
     if application_event_query.number_of_records?
-      return types.each_with_object({}) do |clz, memo|
+      types.each_with_object({}) do |clz, memo|
         memo[clz] = clz.by_recency.limit(application_event_query.number_of_records)
       end
     else
-      return types.each_with_object({}) do |clz, memo|
+      types.each_with_object({}) do |clz, memo|
         memo[clz] = clz.by_recency.where(['created_at > ?', application_event_query.since])
       end
     end

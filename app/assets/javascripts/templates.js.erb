@@ -10,7 +10,7 @@
       "$templateCache.put(\"#{key}\", \"#{escape_javascript(html)}\");"
     end
 
-    base_dir = Rails.root.join(*%w(app assets components)).to_s + "/"
+    base_dir = Rails.root.join("app/assets/components").to_s + "/"
 
     handle_slim_file = Proc.new do |file|
       key  = file.gsub(%r(^#{base_dir}), '').gsub(/.slim$/,'')

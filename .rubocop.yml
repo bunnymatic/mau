@@ -35,7 +35,7 @@ AllCops:
     - features/step_definitions/shared_steps.rb
     - features/step_definitions/user_steps.rb
 
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Exclude:
     - lib/tasks/*.rake
     - app/services/search/indexer.rb
@@ -54,7 +54,7 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Max: 10
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 150
 
 Metrics/MethodLength:
@@ -120,6 +120,14 @@ Style/FormatString:
   SupportedStyles:
     - sprintf
     - format
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/RegexpLiteral:
   EnforcedStyle: slashes

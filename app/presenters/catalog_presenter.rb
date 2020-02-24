@@ -59,7 +59,7 @@ class CatalogPresenter < ViewPresenter
   end
 
   def preview_reception_data
-    Hash[preview_receptions.except(:content).map { |k, v| ["data-#{k}", v] }]
+    preview_receptions.except(:content).transform_keys { |k| "data-#{k}" }
   end
 
   def preview_reception_content

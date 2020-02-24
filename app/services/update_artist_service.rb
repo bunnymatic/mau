@@ -58,8 +58,8 @@ class UpdateArtistService
 
   def trigger_user_change_event(changes)
     msg = sprintf("#{@artist.full_name} updated %s", changes.map(&:first).to_sentence)
-    formatted_changes = changes.each_with_object({}) do |(field, change), memo|
-      memo[field] = sprintf('%s => %s', *change)
+    formatted_changes = changes.transform_values do |change|
+      sprintf('%s => %s', *change)
     end
 
     UserChangedEvent.create(message: msg, data: { changes: formatted_changes, user: @artist.login, user_id: @artist.id })

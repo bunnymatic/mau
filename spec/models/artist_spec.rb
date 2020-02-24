@@ -306,7 +306,7 @@ describe Artist do
         active = Artist.active
         w_image = Artist.active.with_representative_image.all
         expect(active.count).not_to eql w_image.count
-        expect(active.select { |a| a.representative_piece.blank? }.size).to be >= 1
+        expect(active.count { |a| a.representative_piece.blank? }).to be >= 1
         expect(w_image.select { |a| a.representative_piece.blank? }).to be_empty
       end
     end

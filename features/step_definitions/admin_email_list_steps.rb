@@ -46,7 +46,7 @@ end
 Then(/^I click to remove "([^"]*)" from the "(.*?)" list$/) do |email, list_name|
   within get_email_directive(list_name) do
     link_title = "remove #{email} from the list"
-    all('.del-btn a').select { |t| t['title'] == link_title }.first.click
+    all('.del-btn a').find { |t| t['title'] == link_title }.click
   end
 end
 

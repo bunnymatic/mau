@@ -60,7 +60,7 @@ describe UpdateArtistService do
     end
 
     describe 'with a huge bio update' do
-      let(:big_bio) { Faker::Lorem.paragraphs(4).join }
+      let(:big_bio) { Faker::Lorem.paragraphs(number: 4).join }
       let(:params) do
         { artist_info_attributes: { bio: big_bio } }
       end
