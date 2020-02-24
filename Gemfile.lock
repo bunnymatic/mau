@@ -310,6 +310,8 @@ GEM
     rack (2.2.2)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-handlers (0.7.3)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.4.1)
@@ -559,6 +561,7 @@ DEPENDENCIES
   qr4r
   racc
   rack-cors
+  rack-handlers
   rails (~> 5.2.x)
   rails-controller-testing
   rails_best_practices
