@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class UserNavigation < Navigation
+  EVENT_REGISTER_COUNTDOWN = 12.weeks
+
   attr_reader :current_user
 
   def initialize(user)
@@ -15,8 +17,11 @@ class UserNavigation < Navigation
     @items ||= [] + artist_nav_items + user_nav_items + [link_to('sign out', url_helpers.logout_path)]
   end
 
-  def remind_for_open_studio_register?
-    current_artist&.remind_for_open_studios_register?
+  def remind_for_open_studios_register?
+    current_event = OpenStudiosEventService.current
+    return false if current_artist&.doing_open_studios?
+
+    Time.zone.now < current_event.start_date && current_event.start_date <= Time.zone.now + EVENT_REGISTER_COUNTDOWN
   end
 
   private
