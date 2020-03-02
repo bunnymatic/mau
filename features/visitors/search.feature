@@ -13,7 +13,6 @@ Background:
   Given there are open studios artists with art in the system
 
 Scenario:  Visitors can search from the artists index page by artist name or art piece name or studio name
-  Given we've fixed the javascript issue that breaks this test
   When I visit the home page
   And I click on "artists" in the ".sidenav"
   And I click on "search" in the ".main-container .search"

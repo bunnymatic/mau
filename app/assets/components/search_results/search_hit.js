@@ -7,6 +7,11 @@
       src = this.hit._source;
       this.id = this.hit._id;
       this.type = this.hit._type;
+      // the `type` field was mapped to the ruby model in the past
+      // but recently has been replaced with `_doc` (ES 6.x something) so...
+      if (this.type === "_doc") {
+        this.type = Object.keys(src)[0];
+      }
       this.score = this.hit._score;
       obj = src[this.type];
       this.image = (ref = obj.images) != null ? ref.small : void 0;
