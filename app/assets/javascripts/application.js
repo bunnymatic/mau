@@ -1,3 +1,4 @@
+//= require spin.2.3.2.min
 //= require ng-inject
 //= require lodash/lodash
 //= require moment/moment
