@@ -15,6 +15,7 @@ class ArtistPresenter < UserPresenter
            :active?,
            :address,
            :address?,
+           :artist?,
            :artist_info,
            :at_art_piece_limit?,
            :can_register_for_open_studios?,
@@ -30,10 +31,6 @@ class ArtistPresenter < UserPresenter
            :updated_at,
            to: :artist, allow_nil: true
   delegate(*ALLOWED_LINKS, to: :artist, allow_nil: true)
-
-  def artist?
-    artist && model.is_a?(Artist)
-  end
 
   def artist
     model

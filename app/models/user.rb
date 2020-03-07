@@ -197,7 +197,7 @@ class User < ApplicationRecord
   end
 
   def artist?
-    self[:type] == 'Artist'
+    is_a?(Artist)
   end
 
   def manages?(studio)

@@ -31,6 +31,7 @@ describe SocialCatalogPresenter do
     name = Faker::Name.name
     art_pieces = [fake_art]
     attrs = attributes_for(:artist).merge(gen_links).merge(
+      artist?: true,
       art_pieces: art_pieces,
       artist_info: build_stubbed(:artist_info),
       doing_open_studios?: true,
@@ -53,6 +54,7 @@ describe SocialCatalogPresenter do
       name = Faker::Name.name
       art_pieces = [fake_art]
       attrs = attributes_for(:artist).merge(gen_links).merge(
+        artist?: true,
         art_pieces: [instance_double(ArtPiece, persisted?: true)],
         artist_info: build_stubbed(:artist_info, max_pieces: 4),
         doing_open_studios?: true,
