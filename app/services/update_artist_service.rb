@@ -10,7 +10,7 @@ class UpdateArtistService
     @params = params
     @current_os = OpenStudiosEventService.current
     raise UpdateArtistService::Error, 'artist cannot be nil' unless artist
-    raise UpdateArtistService::Error, 'artist must be an artist' unless artist.is_a?(Artist)
+    raise UpdateArtistService::Error, 'artist must be an artist' unless artist.artist?
   end
 
   def update

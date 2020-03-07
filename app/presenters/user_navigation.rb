@@ -19,9 +19,10 @@ class UserNavigation < Navigation
 
   def remind_for_open_studios_register?
     current_event = OpenStudiosEventService.current
-    return false if !current_event || current_artist&.doing_open_studios?
 
-    Time.zone.now < current_event.start_date && current_event.start_date <= Time.zone.now + EVENT_REGISTER_COUNTDOWN
+    return false if !current_event || !current_artist || current_artist&.doing_open_studios?
+
+    current_event.start_date.between?(Time.zone.now, Time.zone.now + EVENT_REGISTER_COUNTDOWN)
   end
 
   private
