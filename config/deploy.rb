@@ -7,7 +7,7 @@ lock '~> 3.12.0'
 set :stages, %w[production acceptance]
 
 set :rbenv_type, :user # or :system, depends on your rbenv setup
-set :rbenv_ruby, '2.6.1'
+set :rbenv_ruby, '2.6.5'
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all # default value
@@ -86,7 +86,7 @@ namespace :cache do
   task :clear do
     on roles(:app) do |_host|
       with rails_env: fetch(:rails_env) do
-        within current_path do
+        within release_path do
           execute :bundle, :exec, 'rake cache:clear'
         end
       end

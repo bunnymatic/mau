@@ -286,7 +286,7 @@ GEM
       execjs
       rails (>= 3.1)
     nio4r (2.5.2)
-    nokogiri (1.10.8)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     paperclip (6.1.0)
       activemodel (>= 4.2.0)
@@ -295,7 +295,7 @@ GEM
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
     parallel (1.19.1)
-    parser (2.7.0.2)
+    parser (2.7.0.4)
       ast (~> 2.4.0)
     phantomjs (2.1.1.0)
     pickadate-rails (3.5.6.0)
@@ -399,7 +399,7 @@ GEM
     rspec-support (3.9.2)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (0.80.0)
+    rubocop (0.80.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
@@ -458,8 +458,8 @@ GEM
     sshkit (1.20.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    teaspoon (1.1.5)
-      railties (>= 3.2.5, < 6)
+    teaspoon (1.2.0)
+      railties (>= 3.2.5)
     teaspoon-jasmine (2.3.4)
       teaspoon (>= 1.0.0)
     temple (0.8.2)
@@ -603,7 +603,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-   ruby 2.6.1p33
+   ruby 2.6.5p114
 
 BUNDLED WITH
    1.17.2

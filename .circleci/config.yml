@@ -2,7 +2,7 @@ version: 2.1
 executors:
   ruby_node_mysql_elasticsearch:
     docker:
-      - image: circleci/ruby:2.6.1-node-browsers
+      - image: circleci/ruby:2.6.5-node-browsers-legacy
       - image: tkuchiki/delayed-mysql
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
@@ -13,22 +13,49 @@ executors:
           TEST_CLUSTER_NODES: 1
 
 commands:
-  bundle_and_npm_install:
+  bundle_install:
+    description: Bundle Install (and cache)
     steps:
+      - restore_cache:
+          keys:
+            - mau-bundler-cache-v3-{{ checksum ".ruby-version" }}-{{ checksum "Gemfile.lock" }}
+            - mau-bundler-cache-v3-{{ checksum ".ruby-version" }}
+            - mau-bundler-cache-v3-
       - run:
           shell: /bin/bash
-          name: NPM/Bundle Install and Audit
+          name: Bundle Install and Audit
           command: |-
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
             bundle exec bundle-audit update && bundle exec bundle-audit check
+            bundle clean --force
+      - save_cache:
+          key: mau-bundler-cache-v3-{{ checksum ".ruby-version" }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+  npm_install:
+    description: Npm ci (and cache)
+    steps:
+      - restore_cache:
+          keys:
+            - mau-npm-cache-v3-{{ checksum ".ruby-version" }}-{{ checksum "package-lock.json"}}
+            - mau-npm-cache-v3-{{ checksum ".ruby-version" }}
+            - mau-npm-cache-v3-
+      - run:
+          shell: /bin/bash
+          name: NPM Install
+          command: |-
             npm ci
+      - save_cache:
+          key: mau-npm-cache-v3-{{ checksum ".ruby-version" }}-{{ checksum "package-lock.json" }}
+          paths:
+            -  node_modules
   install_mysql_client:
     steps:
       - run:
           shell: /bin/bash
           name: Machine Setup
           command: |-
-            sudo apt install -y mysql-client
+            sudo apt install -y default-mysql-client
 jobs:
   prepare:
     environment:
@@ -40,18 +67,8 @@ jobs:
     executor: ruby_node_mysql_elasticsearch
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}
-            - mau-deps-v2-
-      - bundle_and_npm_install
-      - install_mysql_client
-      - save_cache:
-          key: mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
-          paths:
-            - vendor/bundle
-            - node_modules
+      - bundle_install
+      - npm_install
 
   lint_and_javascript_specs:
     environment:
@@ -63,12 +80,9 @@ jobs:
     executor: ruby_node_mysql_elasticsearch
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}
-            - mau-deps-v2-
-      - bundle_and_npm_install
+      - bundle_install
+      - npm_install
+      - install_mysql_client
       - run:
           shell: /bin/bash
           name: Rubocop
@@ -94,12 +108,8 @@ jobs:
     executor: ruby_node_mysql_elasticsearch
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}
-            - mau-deps-v2-
-      - bundle_and_npm_install
+      - bundle_install
+      - npm_install
       - run:
           shell: /bin/bash
           name: Wait For DB
@@ -132,12 +142,8 @@ jobs:
 
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}-{{ checksum "package-lock.json"}}
-            - mau-deps-v2-{{ checksum "Gemfile.lock" }}
-            - mau-deps-v2-
-      - bundle_and_npm_install
+      - bundle_install
+      - npm_install
       - run:
           shell: /bin/bash
           name: Wait For DB
