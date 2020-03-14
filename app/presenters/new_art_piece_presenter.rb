@@ -27,6 +27,7 @@ class NewArtPiecePresenter
       tags_from_tags +
       tags_from_medium +
       tags_for_open_studios +
+      custom_tags +
       base_tags
     )
   end
@@ -60,8 +61,12 @@ class NewArtPiecePresenter
     end
   end
 
+  def custom_tags
+    %w[#artinthetimeofcovid]
+  end
+
   def base_tags
-    ['@missionartists', '#sfart']
+    %w[#missionartists #sfart]
   end
 
   def after_current_os?

@@ -51,10 +51,18 @@ describe NewArtPiecePresenter do
   end
 
   describe '#hash_tags' do
-    its(:hash_tags) { is_expected.to include '@missionartists' }
-    its(:hash_tags) { is_expected.to include "##{art_piece.tags.first.name.gsub(/[\s-]/, '')}" }
-    its(:hash_tags) { is_expected.to include '#mymedium' }
-    its(:hash_tags) { is_expected.to include '#sfart' }
+    it 'includes tags from the art' do
+      expect(subject.hash_tags).to include "##{art_piece.tags.first.name.gsub(/[\s-]/, '')}"
+    end
+    it 'includes tags from the art medium' do
+      expect(subject.hash_tags).to include '#mymedium'
+    end
+    it 'includes base tags' do
+      expect(subject.hash_tags).to include '#missionartists #sfart'
+    end
+    it 'includes custom tags' do
+      expect(subject.hash_tags).to include '#artinthetimeofcovid'
+    end
     it 'does not include any os tags' do
       os_tags = [
         '#SFOS',
