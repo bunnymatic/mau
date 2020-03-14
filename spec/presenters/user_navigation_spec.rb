@@ -15,6 +15,15 @@ describe UserNavigation do
         expect(navigation.remind_for_open_studios_register?).to eq true
       end
 
+      context 'if the open studios event is not promoted' do
+        before do
+          @os.update(promote: false)
+        end
+        it 'returns false' do
+          expect(navigation.remind_for_open_studios_register?).to eq false
+        end
+      end
+
       context 'if the user is already signed up' do
         before do
           artist.open_studios_events << @os

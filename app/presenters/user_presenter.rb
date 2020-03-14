@@ -8,13 +8,30 @@ class UserPresenter < ViewPresenter
   ALLOWED_LINKS = [:website].freeze
   attr_accessor :model
 
-  delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
-           :bio, :address, :get_name,
-           :facebook, :twitter, :instagram,
-           :login, :active?,
-           :activated_at, :email, :last_login, :full_name,
+  delegate :activated_at,
+           :active?,
+           :address,
+           :bio,
+           :city,
+           :email,
+           :facebook,
+           :firstname,
+           :full_name,
+           :get_name,
+           :id,
+           :instagram,
+           :last_login,
+           :lastname,
+           :login,
+           :name,
+           :nomdeplume,
+           :state,
+           :street,
            :to_param,
-           to: :model, allow_nil: true
+           :twitter,
+           :website,
+           to: :model,
+           allow_nil: true
 
   def initialize(user)
     @model = user

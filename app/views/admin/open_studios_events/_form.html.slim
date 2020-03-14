@@ -16,6 +16,7 @@
           .pure-u-1-2
             = f.input :end_time, as: :string, placeholder: 'choose a time', hint: "Something like 6p.  This is used for display only (not for date/time math)"
         = f.input :key, placeholder: 'e.g. YYYYMM'
+        = f.input :promote, hint: "If true, we'll remind artists in navigation to register when we're near (in time) this event."
       = f.actions do
         .form-controls
           = f.submit class: 'pure-button pure-button-primary'
