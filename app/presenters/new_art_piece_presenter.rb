@@ -17,19 +17,19 @@ class NewArtPiecePresenter
   end
 
   def hash_tags
-    tags.uniq.map { |t| tag_cleaner(t) }.uniq.join(' ')
+    tags.uniq.map { |t| tag_cleaner(t) }.uniq.join(' ').gsub(/\s+/, ' ')
   end
 
   private
 
   def tags
     (
+      [custom_tag_string] +
       tags_from_tags +
       tags_from_medium +
       tags_for_open_studios +
-      custom_tags +
       base_tags
-    )
+    ).compact(&:present?)
   end
 
   def tag_cleaner(tag)
@@ -61,8 +61,8 @@ class NewArtPiecePresenter
     end
   end
 
-  def custom_tags
-    %w[#artinthetimeofcovid]
+  def custom_tag_string
+    SitePreferences.instance(true).social_media_tags
   end
 
   def base_tags
