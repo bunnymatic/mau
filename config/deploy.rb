@@ -94,4 +94,4 @@ namespace :cache do
   end
 end
 
-after 'deploy:update', 'cache:clear'
+after 'deploy:updated', 'cache:clear'
