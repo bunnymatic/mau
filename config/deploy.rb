@@ -81,3 +81,17 @@ namespace :deploy do
     end
   end
 end
+
+namespace :cache do
+  task :clear do
+    on roles(:app) do |_host|
+      with rails_env: fetch(:rails_env) do
+        within current_path do
+          execute :bundle, :exec, 'rake cache:clear'
+        end
+      end
+    end
+  end
+end
+
+after 'deploy:update', 'cache:clear'
