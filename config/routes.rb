@@ -108,6 +108,7 @@ Mau::Application.routes.draw do
 
     get :os_status
 
+    resource :site_preferences, only: %i[edit update]
     resources :mau_fans, only: [:index]
     resource :palette, only: [:show]
     resource :member_emails, only: [:show]

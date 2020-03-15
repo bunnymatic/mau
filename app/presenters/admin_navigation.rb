@@ -9,6 +9,8 @@ class AdminNavigation < ViewPresenter
 
   def admin_links
     pr_links = [
+      [:open_studios_events, { display: 'os dates' }],
+      [:site_preferences, { link: url_helpers.edit_admin_site_preferences_path }],
       [:favorites, {}],
       [:catalog, { link: '/catalog' }],
       [:cms_documents, { display: 'cms', link: url_helpers.admin_cms_documents_path }],
@@ -22,7 +24,6 @@ class AdminNavigation < ViewPresenter
       [:emaillist, { display: 'member emails', link: url_helpers.admin_member_emails_path }],
     ]
     admin_links = [
-      [:open_studios_events, { display: 'os dates' }],
       [:roles, {}],
       [:internal_email, { display: 'admin email lists', link: url_helpers.admin_email_lists_path }],
       [:blacklist, { display: 'blacklist', link: url_helpers.admin_blacklist_domains_path }],
