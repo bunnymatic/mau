@@ -3,7 +3,15 @@
 class OpenStudiosEventPresenter < ViewPresenter
   attr_reader :model
 
-  delegate :start_date, :start_time, :end_time, :year, :key, :logo, :logo?, :to_param, to: :model
+  delegate :end_time,
+           :key,
+           :logo,
+           :logo?,
+           :promote?,
+           :start_date,
+           :start_time,
+           :year,
+           :to_param, to: :model
 
   include OpenStudiosEventShim
 

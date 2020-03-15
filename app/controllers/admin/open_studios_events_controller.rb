@@ -48,7 +48,7 @@ module Admin
     private
 
     def open_studios_event_params
-      params.require(:open_studios_event).permit(:title, :start_date, :end_date, :start_time, :end_time, :key)
+      params.require(:open_studios_event).permit(:title, :start_date, :end_date, :start_time, :end_time, :key, :promote)
     end
   end
 end

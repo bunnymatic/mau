@@ -18,6 +18,7 @@
           th start date
           th end date
           th time
+          th promoted
           th participants
           th data-orderable="false"
       tbody
@@ -28,6 +29,7 @@
             td.os-events__table-item.os-events__table-item--start = os_event.start_date
             td.os-events__table-item.os-events__table-item--end = os_event.end_date
             td.os-events__table-item.os-events__table-item--time = os_event.time_range
+            td.os-events__table-item.os-events__table-item--promoted = boolean_as_checkmark(os_event.promote?)
             td.os-events__table-item.os-events__table-item--participants = os_event.num_participants
             td.admin-controls
               = link_to edit_admin_open_studios_event_path(os_event), title: 'Edit' do
