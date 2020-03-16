@@ -1,6 +1,7 @@
 .pure-g
   .pure-u-1-1.padded-content.header.artist-admin-header
     h2.title = "Edit Artist: " + (@artist.name.presence || @artist.login)
+    = render '/flash_notice_error'
 
 .pure-g
   .pure-u-1-1.padded-content
