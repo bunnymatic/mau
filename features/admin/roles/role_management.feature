@@ -20,15 +20,19 @@ Scenario: Managing users in their roles
   And I choose the last user in the user list
   And I click "add user"
   Then I expect to see the last user is now an editor
+  Then I see a flash notice "Added .* to role editor"
 
   When I remove a user from the editor list
   Then I expect to see that user is not an editor
+  Then I see a flash notice "Removed editor"
+
 
 Scenario: Adding a new role
   When I add a new role called "juror"
   Then I see there is a role called "juror"
 
   When I add a user to the "juror" role
+  Then I see a flash notice "Added .* to role juror"
   And I click on "roles" in the admin menu
   Then I see there is a role called "juror" with 1 user
 

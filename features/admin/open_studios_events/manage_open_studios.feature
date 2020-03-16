@@ -17,6 +17,7 @@ Scenario: Adding a new open studios event
   Then I see a new open studios form
 
   When I fill in the open studios event form for next weekend with the title "SuperDuper"
+  And I see a flash notice "Successfully added a new Open Studios Event"
   Then I see the open studios event with the title "SuperDuper"
 
   When I click delete on the "Open Studios" titled open studios event
@@ -31,3 +32,4 @@ Scenario: Editing an existing open studios event
   And I click on the last "Edit" link
   And I change the date to next month and the title to "Whatever"
   Then I see the open studios event with the title "Whatever"
+  And I see a flash notice "Successfully updated"

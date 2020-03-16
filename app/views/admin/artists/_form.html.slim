@@ -1,24 +1,24 @@
-  = semantic_form_for [:admin, artist] do |f|
-    - link_info = ((f.object.is_a? Artist) ? ArtistPresenter : UserPresenter)::keyed_links
-    = f.inputs do
-      .pure-g
-        .pure-u-1-1.pure-u-md-1-2.padded-content
-          = f.input :email, input_html: { autofocus: true }
-          = f.input :firstname
-          = f.input :lastname
-          = f.input :nomdeplume
-          = f.input :studio
-          = f.semantic_fields_for :artist_info do |artist_info|
-            = artist_info.inputs do
-              = artist_info.input :studionumber
-              = artist_info.input :street
-              = artist_info.input :bio
-        .pure-u-1-1.pure-u-md-1-2.padded-content
-          = f.semantic_fields_for :links, OpenStruct.new(artist.links) do |links|
-            = links.inputs do
-              - link_info.each do |key|
-                = links.input key
+= semantic_form_for [:admin, artist] do |f|
+  - link_info = ((f.object.is_a? Artist) ? ArtistPresenter : UserPresenter)::keyed_links
+  = f.inputs do
     .pure-g
-      .pure-u-1-1
-        = f.actions do
-          = f.action :submit, as: :button, button_html: { class: 'pure-button' }
+      .pure-u-1-1.pure-u-md-1-2.padded-content
+        = f.input :email, input_html: { autofocus: true }
+        = f.input :firstname
+        = f.input :lastname
+        = f.input :nomdeplume
+        = f.input :studio
+        = f.semantic_fields_for :artist_info do |artist_info|
+          = artist_info.inputs do
+            = artist_info.input :studionumber
+            = artist_info.input :street
+            = artist_info.input :bio
+      .pure-u-1-1.pure-u-md-1-2.padded-content
+        = f.semantic_fields_for :links, OpenStruct.new(artist.links) do |links|
+          = links.inputs do
+            - link_info.each do |key|
+              = links.input key
+  .pure-g
+    .pure-u-1-1
+      = f.actions do
+        = f.action :submit, as: :button, button_html: { class: 'pure-button' }

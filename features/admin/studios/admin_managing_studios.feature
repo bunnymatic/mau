@@ -18,6 +18,7 @@ Scenario: Updating a studio address
   When I edit the first studio
   And I change the street address to "100 market st"
   Then I see the first studio page
+  And I see a flash notice "keeping studio data current"
   And I see the first studio has the street address "100 market st"
   When I click on "studios" in the admin menu
   And I edit the first studio
