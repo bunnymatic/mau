@@ -16,22 +16,27 @@ describe NewArtPiecePresenter do
   end
   subject(:presenter) { described_class.new(art_piece) }
 
+  let(:current_time) do
+  end
+  before do
+    Timecop.freeze(current_time ? Time.zone.parse(current_time) : Time.current)
+  end
+  after do
+    Timecop.return
+  end
+
   describe '#open_studios_info' do
     its(:open_studios_info) { is_expected.to be_nil }
 
     context 'artist is doing open studios' do
       let(:artist) { create(:artist, :active, :with_studio, doing_open_studios: open_studios_event) }
       context 'and it is during spring open studios' do
-        before do
-          Timecop.freeze(Time.zone.parse('2017-03-01 17:00:00'))
-        end
+        let(:current_time) { '2017-03-01 17:00:00' }
         let(:os_end_date) { Time.zone.parse('2017-03-01') }
         its(:open_studios_info) { is_expected.to_not be_nil }
       end
       context 'and it is before spring  open studios' do
-        before do
-          Timecop.freeze(Time.zone.parse('2017-03-01'))
-        end
+        let(:current_time) { '2017-03-01' }
         let(:os_end_date) { Time.zone.parse('2017-05-01') }
 
         it 'shows a see more message' do
@@ -97,9 +102,7 @@ describe NewArtPiecePresenter do
     context 'artist is doing open studios' do
       let(:artist) { create(:artist, :active, :with_studio, doing_open_studios: open_studios_event) }
       context 'in the spring (before june)' do
-        before do
-          Timecop.freeze(Time.zone.parse('2017-03-01'))
-        end
+        let(:current_time) { '2017-03-01' }
         let(:os_end_date) { Time.zone.parse('2017-05-01') }
         it 'shows spring open studios tags' do
           os_tags = ['#missionopenstudios',
@@ -108,9 +111,7 @@ describe NewArtPiecePresenter do
         end
       end
       context 'in the fall (before june)' do
-        before do
-          Timecop.freeze(Time.zone.parse('2017-07-01'))
-        end
+        let(:current_time) { '2017-07-01' }
         let(:os_end_date) { Time.zone.parse('2017-11-01') }
         it 'shows fall open studios tags' do
           os_tags = [
@@ -123,9 +124,7 @@ describe NewArtPiecePresenter do
       end
 
       context 'is past the current open studios' do
-        before do
-          Timecop.freeze(Time.zone.parse('2017-12-01'))
-        end
+        let(:current_time) { '2017-12-01' }
         let(:os_end_date) { Time.zone.parse('2017-11-01') }
         it 'does not include any os tags' do
           os_tags = [

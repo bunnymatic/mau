@@ -93,18 +93,6 @@ describe Admin::ApplicationEventsController do
         expect(events.all? { |ev| ev.created_at > 1.day.ago })
       end
     end
-
-    context 'with a limit of A' do
-      let(:limit) { 'A' }
-
-      it 'returns success' do
-        expect(response).to be_successful
-      end
-      it 'fetches all events by type' do
-        events_by_type = assigns(:events_by_type)
-        expect(events_by_type.values.flatten).to have(12).items
-      end
-    end
   end
 
   describe 'index.json (as admin)' do
