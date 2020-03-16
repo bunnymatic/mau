@@ -8,7 +8,7 @@ describe MediumPagination, type: :controller do
   let(:num_items) { 8 }
   let(:per_page) { 3 }
   let(:current_page) { 0 }
-  let(:medium) { instance_double(Medium) }
+  let(:medium) { build_stubbed(:medium) }
   let(:page_mode) {}
 
   subject(:paginator) do
