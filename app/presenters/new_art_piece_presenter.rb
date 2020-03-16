@@ -24,12 +24,12 @@ class NewArtPiecePresenter
 
   def tags
     (
-      [custom_tag_string] +
+      custom_tags +
       tags_from_tags +
       tags_from_medium +
       tags_for_open_studios +
       base_tags
-    ).compact(&:present?)
+    )
   end
 
   def tag_cleaner(tag)
@@ -61,8 +61,8 @@ class NewArtPiecePresenter
     end
   end
 
-  def custom_tag_string
-    SitePreferences.instance(true).social_media_tags
+  def custom_tags
+    (SitePreferences.instance(true).social_media_tags || '').split(/,|\s/).select(&:present?)
   end
 
   def base_tags

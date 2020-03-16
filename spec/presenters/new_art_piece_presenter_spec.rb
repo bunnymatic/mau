@@ -52,7 +52,7 @@ describe NewArtPiecePresenter do
 
   describe '#hash_tags' do
     before do
-      SitePreferences.instance.update(social_media_tags: '#whatever-man')
+      SitePreferences.instance.update(social_media_tags: '#whatever-man    another, #this-tag, #final-tag')
     end
     it 'includes tags from the art' do
       expect(subject.hash_tags).to include "##{art_piece.tags.first.name.gsub(/[\s-]/, '')}"
@@ -64,7 +64,7 @@ describe NewArtPiecePresenter do
       expect(subject.hash_tags).to include '#missionartists #sfart'
     end
     it 'includes custom tags' do
-      expect(subject.hash_tags).to start_with('#whateverman')
+      expect(subject.hash_tags).to start_with('#whateverman #another #thistag #finaltag')
     end
     it 'does not include any os tags' do
       os_tags = [
