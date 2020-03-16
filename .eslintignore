@@ -1,3 +1,4 @@
 public
 vendor/assets
 coverage
+bin/get-browserlist.js

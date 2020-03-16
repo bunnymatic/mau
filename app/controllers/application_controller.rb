@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user, :logged_in?, :current_artist
   helper_method :current_open_studios
   helper_method :current_open_studios_key, :available_open_studios_keys # from OpenStudiosEventShim
+  helper_method :supported_browser?
 
   def append_view_paths
     append_view_path 'app/views/common'
@@ -81,9 +82,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def check_browser
-    @browser_as_class = browser.name.downcase.tr(' ', '_') # _class(self.request)
-
-    @logo_img = Rails.env != 'acceptance' ? '/images/tiny-colored.png' : '/images/tiny-colored-acceptance.png'
+    @browser_as_class = browser.name.downcase.tr(' ', '_')
   end
 
   private
@@ -124,5 +123,17 @@ class ApplicationController < ActionController::Base
 
   def current_open_studios
     @current_open_studios ||= OpenStudiosEventPresenter.new(OpenStudiosEventService.current)
+  end
+
+  def supported_browser?
+    browsers_json_file = Rails.root.join('browsers.json')
+    return true if !File.exist?(browsers_json_file) || Rails.env.test?
+
+    @supported_browser ||=
+      begin
+        browsers ||= JSON.parse(File.open(browsers_json_file).read)
+        matcher = BrowserslistUseragent::Match.new(browsers, request.user_agent)
+        (matcher.browser? && matcher.version?(allow_higher: true))
+      end
   end
 end
