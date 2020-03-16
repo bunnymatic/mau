@@ -1,6 +1,7 @@
 .pure-g
   .pure-u-1-1.header.padded-content
     h2.title Add a role
+    = render '/flash_notice_error'
   .pure-u-1-1.padded-content
     = semantic_form_for [:admin,@role] do |f|
       = render '/common/form_errors', :form => f
