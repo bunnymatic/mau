@@ -3,3 +3,4 @@ vendor/assets
 public
 package-lock.json
 coverage
+browsers.json

@@ -147,6 +147,19 @@ cap production deploy
 
 will push the `master` branches respectively to the `mau.rcode5.com` or `www`.
 
+# Supported Browsers
+
+We keep track of the supported list in `app/assets/stylesheets/.browserlistrc`.   This is used by 
+`autoprefixer-rails`.  We also have a `supported_browser?` method which is reading a local list
+of browsers which should use the same rules.
+
+To generate a new `browsers.json` file, run 
+
+```bash
+yarn install
+BROWSERSLIST_CONFIG=./app/assets/stylesheets/.browserslistrc bin/get-browserlist.js
+```
+
 # Issues/Versions etc
 
 # Keys for external connections

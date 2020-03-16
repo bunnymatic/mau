@@ -11,7 +11,7 @@ html
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
   body class=classes ng-app="MauApp"
-    - unless browser.modern?
+    - unless supported_browser?
       = render '/old_browser_warning'
     = render '/noscript_msg'
     - if current_user.try(:special?)

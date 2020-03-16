@@ -89,7 +89,10 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
-    browser (3.0.3)
+    browser (4.0.0)
+    browserslist_useragent (0.2.0)
+      semantic
+      user_agent_parser
     builder (3.2.4)
     bundle-audit (0.1.0)
       bundler-audit
@@ -425,6 +428,7 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
+    semantic (1.6.1)
     sexp_processor (4.14.1)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
@@ -477,6 +481,7 @@ GEM
     unicorn-rails (2.2.1)
       rack
       unicorn
+    user_agent_parser (2.6.0)
     vcr (5.1.0)
     webdrivers (4.2.0)
       nokogiri (~> 1.6)
@@ -506,6 +511,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   browser
+  browserslist_useragent
   bundle-audit
   byebug
   capistrano
