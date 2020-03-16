@@ -15,7 +15,7 @@ Background:
   When I login as "billybob"
 
 Scenario: Checking on application events
-  When I click on "app events" in the admin menu
+  When I visit "/admin/application_events"
   Then I see all application events sections
   And I see "(100 records)" on the page
   When I choose "200" from "Number of records"
@@ -36,7 +36,7 @@ Scenario: Getting notified about user email changes
 
   Given I logout
   When I login as "billybob"
-  When I click on "app events" in the admin menu
+  When I visit "/admin/application_events"
   And I wait "1" second
   When I visit the home page
   And I click on "Something happened!"
