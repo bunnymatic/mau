@@ -47,7 +47,13 @@
     };
   });
 
-  controller = ngInject(function($scope, $attrs, $element, ngDialog) {
+  controller = ngInject(function(
+    $scope,
+    $attrs,
+    $element,
+    ngDialog,
+    envService
+  ) {
     $scope.$on("changedRegistration", function(event, data) {
       $scope.setMessage(data.participation);
     });
@@ -76,7 +82,8 @@
         className: "ngdialog-theme-default open-studios-registration__modal",
         width: "80%",
         showClose: false,
-        closeByDocument: false
+        closeByDocument: false,
+        disableAnimation: envService.isTest()
       });
     };
 
