@@ -20,7 +20,7 @@ describe AdminController do
           before do
             get endpoint
           end
-          it_should_behave_like 'not authorized'
+          it_behaves_like 'not authorized'
         end
       end
       describe 'logged in as plain user' do
@@ -29,7 +29,7 @@ describe AdminController do
             login_as fan
             get endpoint
           end
-          it_should_behave_like 'not authorized'
+          it_behaves_like 'not authorized'
         end
       end
       it "#{endpoint} responds success if logged in as admin" do

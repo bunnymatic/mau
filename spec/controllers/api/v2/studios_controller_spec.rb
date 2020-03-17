@@ -27,35 +27,26 @@ describe Api::V2::StudiosController do
     context 'with proper authorization' do
       before do
         allow(controller).to receive(:require_authorization).and_return true
+        allow(StudioSerializer).to receive(:new).and_call_original
+        make_request
       end
       context 'for an unknown studio' do
         let(:studio) { double(Studio, id: 1000, slug: 'whatever') }
-        it 'returns successful json' do
-          make_request
+        it 'returns a 400' do
           expect(response.status).to eql 400
         end
       end
       context 'for a known studio' do
-        it 'returns successful json' do
-          make_request
-          expect(response).to be_successful
-          expect(response.content_type).to eq 'application/json'
-        end
+        it_behaves_like 'successful json'
         it 'uses the StudioSerializer' do
-          expect(StudioSerializer).to receive(:new).and_call_original
-          make_request
+          expect(StudioSerializer).to have_received(:new)
         end
       end
       context 'for independent studio' do
         let(:studio) { IndependentStudio.new }
-        it 'returns successful json' do
-          make_request
-          expect(response).to be_successful
-          expect(response.content_type).to eq 'application/json'
-        end
+        it_behaves_like 'successful json'
         it 'uses the StudioSerializer' do
-          expect(StudioSerializer).to receive(:new).and_call_original
-          make_request
+          expect(StudioSerializer).to have_received(:new)
         end
       end
     end

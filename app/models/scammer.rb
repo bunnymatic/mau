@@ -4,7 +4,7 @@ require 'net/http'
 require 'uri'
 
 class Scammer < ApplicationRecord
-  validates :faso_id, uniqueness: true
+  validates :faso_id, uniqueness: { case_sensitive: false }
 
   validates :email, presence: true
   validates :email, length: { within: 6..100 } # r@a.wk

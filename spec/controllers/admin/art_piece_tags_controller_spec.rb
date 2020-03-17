@@ -12,7 +12,7 @@ describe Admin::ArtPieceTagsController do
       before do
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
   end
   describe 'logged in as plain user' do
@@ -21,7 +21,7 @@ describe Admin::ArtPieceTagsController do
         login_as user
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
   end
 

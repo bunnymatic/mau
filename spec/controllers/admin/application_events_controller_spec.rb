@@ -19,7 +19,7 @@ describe Admin::ApplicationEventsController do
     before do
       get :index
     end
-    it_should_behave_like 'not authorized'
+    it_behaves_like 'not authorized'
   end
   describe 'index.html (as admin)' do
     let(:limit) { nil }

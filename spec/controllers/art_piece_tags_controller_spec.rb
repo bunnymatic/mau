@@ -13,7 +13,7 @@ describe ArtPieceTagsController do
         before do
           get :index
         end
-        it_should_behave_like 'renders error page'
+        it_behaves_like 'renders error page'
       end
       context 'when there are tags' do
         let(:tag) { FactoryBot.build_stubbed(:art_piece_tag) }
@@ -34,7 +34,7 @@ describe ArtPieceTagsController do
         before do
           get :index, params: { format: :json }
         end
-        it_should_behave_like 'successful json'
+        it_behaves_like 'successful json'
         it 'returns all tags as json' do
           j = JSON.parse(response.body)['art_piece_tags']
           expect(j.size).to eq(1)
@@ -49,7 +49,7 @@ describe ArtPieceTagsController do
       allow(ArtPieceTag).to receive(:all).and_return(tags)
       get :autosuggest, params: { format: 'json', input: tags.first.name.downcase }
     end
-    it_should_behave_like 'successful json'
+    it_behaves_like 'successful json'
     it 'returns all tags as json' do
       j = JSON.parse(response.body)
       expect(j.all?(&:present?)).to eq true

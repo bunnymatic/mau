@@ -67,7 +67,7 @@ describe Admin::StudiosController do
 
       it 'returns json' do
         post :reorder, params: { studios: studios.shuffle.map(&:slug) }
-        expect(response.content_type).to eql 'application/json'
+        expect(response.content_type).to eql 'application/json; charset=utf-8'
       end
     end
   end
@@ -80,7 +80,7 @@ describe Admin::StudiosController do
       before do
         make_destroy_call
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     %i[editor manager].each do |u|
       describe "as #{u}" do
@@ -88,7 +88,7 @@ describe Admin::StudiosController do
           # login_as self.send(u)
           make_destroy_call
         end
-        it_should_behave_like 'not authorized'
+        it_behaves_like 'not authorized'
       end
     end
     describe 'as admin' do
@@ -120,14 +120,14 @@ describe Admin::StudiosController do
         before do
           get endpoint, params: { id: studio }
         end
-        it_should_behave_like 'not authorized'
+        it_behaves_like 'not authorized'
       end
       describe 'as editor' do
         before do
           login_as editor
           get endpoint, params: { id: studio.to_param }
         end
-        it_should_behave_like 'not authorized'
+        it_behaves_like 'not authorized'
       end
       describe 'as manager' do
         let(:studios) { create_list :studio, 2 }
@@ -215,14 +215,14 @@ describe Admin::StudiosController do
       before do
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     describe 'as editor' do
       before do
         login_as editor
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
   end
 end

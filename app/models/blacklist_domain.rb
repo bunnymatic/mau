@@ -5,7 +5,7 @@ class BlacklistDomain < ApplicationRecord
   DOMAIN_MESSAGE = 'This domain does not appear to be valid.'
 
   before_validation :downcase_domain
-  validates :domain, uniqueness: true
+  validates :domain, uniqueness: { case_sensitive: false }
   validates :domain, format: { with: DOMAIN_REGEX, message: DOMAIN_MESSAGE }
 
   def self.allowed?(email_or_domain)

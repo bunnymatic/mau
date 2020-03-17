@@ -11,7 +11,7 @@ describe Admin::TestsController do
         before do
           get endpoint
         end
-        it_should_behave_like 'not authorized'
+        it_behaves_like 'not authorized'
       end
     end
   end

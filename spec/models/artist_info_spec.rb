@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ArtistInfo do
-  it_should_behave_like AddressMixin
+  it_behaves_like AddressMixin
 
   let!(:open_studios_event) { FactoryBot.create(:open_studios_event) }
   let(:artist_info) { FactoryBot.create(:artist).artist_info }

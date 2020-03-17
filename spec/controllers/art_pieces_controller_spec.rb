@@ -84,7 +84,7 @@ describe ArtPiecesController do
         before do
           post :create, params: { artist_id: 6 }
         end
-        it_should_behave_like 'redirects to login'
+        it_behaves_like 'redirects to login'
       end
     end
     context 'while logged in' do
@@ -149,7 +149,7 @@ describe ArtPiecesController do
         before do
           post :update, params: { id: 'whatever' }
         end
-        it_should_behave_like 'redirects to login'
+        it_behaves_like 'redirects to login'
       end
     end
     context 'while logged in' do
@@ -204,13 +204,13 @@ describe ArtPiecesController do
         before do
           post :edit, params: { id: art_piece.id }
         end
-        it_should_behave_like 'redirects to login'
+        it_behaves_like 'redirects to login'
       end
       context 'get ' do
         before do
           get :edit, params: { id: art_piece.id }
         end
-        it_should_behave_like 'redirects to login'
+        it_behaves_like 'redirects to login'
       end
     end
     context 'while logged in' do
@@ -244,7 +244,7 @@ describe ArtPiecesController do
       before do
         post :destroy, params: { id: 'whatever' }
       end
-      it_should_behave_like 'redirects to login'
+      it_behaves_like 'redirects to login'
     end
     context 'while logged in as not art piece owner' do
       before do
@@ -256,7 +256,7 @@ describe ArtPiecesController do
         before do
           post :destroy, params: { id: art_piece.id }
         end
-        it_should_behave_like 'not authorized'
+        it_behaves_like 'not authorized'
       end
 
       it 'does not removes that art piece' do

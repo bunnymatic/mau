@@ -116,13 +116,13 @@ describe ArtistsController, elasticsearch: :stub do
         before do
           put :update, params: { id: artist.id, user: {} }
         end
-        it_should_behave_like 'redirects to login'
+        it_behaves_like 'redirects to login'
       end
       context 'with valid params' do
         before do
           put :update, params: { id: artist.id, user: { firstname: 'blow' } }
         end
-        it_should_behave_like 'redirects to login'
+        it_behaves_like 'redirects to login'
       end
     end
     context 'while logged in' do
@@ -217,7 +217,7 @@ describe ArtistsController, elasticsearch: :stub do
       before do
         get :edit, params: { id: 'blahdeblah' }
       end
-      it_should_behave_like 'redirects to login'
+      it_behaves_like 'redirects to login'
     end
     context 'while logged in as a fan' do
       before do
@@ -276,7 +276,7 @@ describe ArtistsController, elasticsearch: :stub do
       before do
         get :show, params: { id: artist.id, format: 'json' }
       end
-      it_should_behave_like 'successful json'
+      it_behaves_like 'successful json'
     end
   end
 
@@ -379,7 +379,7 @@ describe ArtistsController, elasticsearch: :stub do
       before do
         post :setarrangement, params: { neworder: '1,2' }
       end
-      it_should_behave_like 'redirects to login'
+      it_behaves_like 'redirects to login'
     end
   end
 
@@ -455,7 +455,7 @@ describe ArtistsController, elasticsearch: :stub do
       Rails.cache.clear
       get :suggest, params: { q: artist.firstname[0..2] }
     end
-    it_should_behave_like 'successful json'
+    it_behaves_like 'successful json'
     it 'returns a hash with a list of artists' do
       j = JSON.parse(response.body)
       expect(j).to be_a_kind_of Array

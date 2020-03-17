@@ -12,7 +12,7 @@ describe Admin::MediaController do
       before do
         get :index
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     context 'as an admin' do
       before do
@@ -33,7 +33,7 @@ describe Admin::MediaController do
       before do
         make_edit_request
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     context 'as an admin' do
       before do
@@ -50,7 +50,7 @@ describe Admin::MediaController do
       before do
         get :new
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     context 'as an admin' do
       before do
@@ -67,7 +67,7 @@ describe Admin::MediaController do
       before do
         post :create
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     context 'as an admin' do
       before do
@@ -94,7 +94,7 @@ describe Admin::MediaController do
       before do
         post :update, params: { id: 'whatever' }
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     context 'as an admin' do
       before do
@@ -123,7 +123,7 @@ describe Admin::MediaController do
       before do
         make_destroy_call
       end
-      it_should_behave_like 'not authorized'
+      it_behaves_like 'not authorized'
     end
     context 'as an admin' do
       before do

@@ -9,7 +9,7 @@ describe Admin::DiscountController do
     before do
       get :markup
     end
-    it_should_behave_like 'not authorized'
+    it_behaves_like 'not authorized'
   end
   describe 'authorized' do
     before do

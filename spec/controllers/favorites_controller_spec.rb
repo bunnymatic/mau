@@ -23,7 +23,7 @@ describe FavoritesController do
       before do
         post :create, xhr: true, params: { user_id: fan.id }
       end
-      it_should_behave_like 'refuses access by xhr'
+      it_behaves_like 'refuses access by xhr'
     end
 
     context 'while logged in' do
@@ -69,7 +69,7 @@ describe FavoritesController do
             login_as fan
             post :create, xhr: true, params: { user_id: fan.id, favorite: { type: 'ArtPiece', id: art_piece.id } }
           end
-          it_should_behave_like 'successful json'
+          it_behaves_like 'successful json'
           it 'adds favorite to user' do
             u = User.find(fan.id)
             favs = u.favorites
