@@ -1,8 +1,8 @@
 ChangeLog
 ---------
 
-If we may major changes that may need some kind of version numbers or notes about the over change (maybe a rollup of feature checkins), add it here
-
+If we make major changes that may need some kind of version numbers or notes 
+about the over change (maybe a rollup of feature checkins), add it here
 
 * 06 12 2009  Version 0.1  Initial checkin by Jon/Jeremy of mau web Rails app which currently has part of the underlying model/controller stuff with default view templates.
 
@@ -15,6 +15,11 @@ If we may major changes that may need some kind of version numbers or notes abou
 
 * 01 05 2014 v6.0 Charger
 
+* 05 ?? 2015 Design Revamp
+
 * 12 30 2015 Rails 4
 
 * 12 30 2016 v7.0.0 Challenger - Rails 5, custom map icons, more admin visibility
+
+* 03 17 2020 v8.0.0 Coronet - Rails 6
+

@@ -3,9 +3,9 @@
 module Mau
   class Version
     VERSION = {
-      name: 'Challenger',
-      major: '7',
-      minor: '1',
+      name: 'Coronet',
+      major: '8',
+      minor: '0',
       rev: '0',
       build: 'unk',
     }.freeze
