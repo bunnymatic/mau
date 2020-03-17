@@ -8,6 +8,8 @@ html
 
     javascript:
       var authenticityToken = encodeURIComponent("#{form_authenticity_token}");
+      window = window || {}
+      window['__env'] = "#{Rails.env}";
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
   body class=classes ng-app="MauApp"
