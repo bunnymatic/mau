@@ -22,7 +22,7 @@ class MediaCloudPresenter < ViewPresenter
   end
 
   def media_lut
-    @media_lut = Hash[Medium.all.map { |m| [m.id, m] }]
+    @media_lut ||= Hash[Medium.all.map { |m| [m.id, m] }]
   end
 
   def media_for_display

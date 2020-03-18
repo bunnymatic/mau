@@ -225,8 +225,6 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
-    font-awesome-rails (4.7.0.5)
-      railties (>= 3.2, < 6.1)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
     friendly_id (5.3.0)
@@ -309,7 +307,6 @@ GEM
     parallel (1.19.1)
     parser (2.7.0.4)
       ast (~> 2.4.0)
-    phantomjs (2.1.1.0)
     pickadate-rails (3.5.6.0)
       railties (>= 3.1.0)
     postmark (1.15.0)
@@ -326,6 +323,8 @@ GEM
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-handlers (0.7.3)
+      rack
+    rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -443,6 +442,7 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic (1.6.1)
+    semantic_range (2.3.0)
     sexp_processor (4.14.1)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
@@ -460,8 +460,6 @@ GEM
     spring (2.1.0)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
-    spring-commands-teaspoon (0.0.2)
-      spring (>= 0.9.1)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -472,10 +470,6 @@ GEM
     sshkit (1.20.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    teaspoon (1.2.0)
-      railties (>= 3.2.5)
-    teaspoon-jasmine (2.3.4)
-      teaspoon (>= 1.0.0)
     temple (0.8.2)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
@@ -504,6 +498,11 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
+    webpacker (5.0.0)
+      activesupport (>= 5.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 5.2)
+      semantic_range (>= 2.3.0)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
@@ -551,7 +550,6 @@ DEPENDENCIES
   faker
   faraday
   faraday_middleware
-  font-awesome-rails
   formtastic
   friendly_id
   geokit
@@ -573,7 +571,6 @@ DEPENDENCIES
   ngannotate-rails
   nokogiri
   paperclip
-  phantomjs
   pickadate-rails
   postmark
   postmark-rails
@@ -602,9 +599,7 @@ DEPENDENCIES
   slim-rails
   spring
   spring-commands-rspec
-  spring-commands-teaspoon
   sprockets (~> 3.7.2)
-  teaspoon-jasmine
   test-prof
   uglifier
   unicorn
@@ -612,6 +607,7 @@ DEPENDENCIES
   vcr
   webdrivers
   webmock
+  webpacker
   xmlrpc
 
 RUBY VERSION

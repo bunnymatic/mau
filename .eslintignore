@@ -1,4 +1,5 @@
 public
 vendor/assets
+app/webpack/js/vendor
 coverage
 bin/get-browserlist.js

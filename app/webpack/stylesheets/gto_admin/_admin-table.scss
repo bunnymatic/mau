@@ -1,0 +1,94 @@
+@import "colors";
+
+@mixin sorting-control {
+  padding-left: 20px;
+  font-family: $font-awesome-font-family;
+  color: $bluegray;
+  position: absolute;
+  top: 7px;
+  right: 5px;
+}
+
+.admin {
+  .pure-table {
+    th.sorting_asc,
+    th.sorting_desc,
+    th.sorting {
+      position: relative;
+      padding-right: 1.5em;
+      &:hover {
+        background-color: $lightbluegray;
+      }
+    }
+    th.sorting {
+      &:after {
+        @include sorting-control;
+        content: "\f0dc";
+      }
+    }
+    th.sorting_desc {
+      &:after {
+        @include sorting-control;
+        content: "\f0dd";
+      }
+    }
+    th.sorting_asc {
+      &:after {
+        @include sorting-control;
+        content: "\f0de";
+      }
+    }
+  }
+  .pure-table td {
+    vertical-align: top;
+  }
+  .admin-table__controls {
+    margin-bottom: 10px;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    .admin-table__controls {
+      display: inline-block;
+      margin-left: 20px;
+    }
+  }
+  table td.admin-controls,
+  table td.controls {
+    white-space: nowrap;
+    > div {
+      display: inline-block;
+    }
+    .btn + .btn,
+    a + a {
+      margin-left: 8px;
+    }
+  }
+
+  .admin-user__profile-info {
+  }
+  .admin-user__profile-table {
+  }
+  .admin-user__profile-table-row {
+    td {
+      padding-right: 10px;
+    }
+    td:first-child {
+      color: $light-gray;
+    }
+  }
+  .admin-user__profile-table-row.is-section-start {
+    td {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dotted $medium-gray;
+    }
+  }
+  .admin-user__profile-table-row.is-section-end {
+    td {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+    }
+  }
+}

@@ -3,6 +3,7 @@
 .#*
 .env.*
 *.orig
+*.tgz
 .DS_Store
 .bundle
 _cached_feeds.html
@@ -35,5 +36,10 @@ research
 *.psql
 .byebug_history
 
-node_modules
-node_modules/*
+# webpack
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

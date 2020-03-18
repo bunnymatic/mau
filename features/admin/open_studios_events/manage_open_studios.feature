@@ -33,3 +33,12 @@ Scenario: Editing an existing open studios event
   And I change the date to next month and the title to "Whatever"
   Then I see the open studios event with the title "Whatever"
   And I see a flash notice "Successfully updated"
+  And I click on the first "Edit" link
+  And I uncheck "Promote"
+  And I click on "Update"
+  And I see a flash notice "Successfully updated"
+
+  When I visit the open studios page
+  Then I do not see "Register to Participate"
+
+

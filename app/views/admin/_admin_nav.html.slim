@@ -9,7 +9,7 @@ a#menu-link.menu-link href="#menu"
         = link_to root_path, title: 'home' do
           .sidebar-logo class="#{Date.today.month == 6 ? 'sidebar-logo--pride' : ''}"
       li.pure-menu-item.dashboard title="admin dashboard"
-        = link_to fa_icon('dashboard'), admin_path, title: 'admin dashboard'
+        = link_to fa_icon('tachometer-alt'), admin_path, title: 'admin dashboard'
     - nav_presenter.links.each do |sxn, entries|
       - if sxn
         .title #{sxn}

@@ -21,7 +21,6 @@ gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'faraday'
 gem 'faraday_middleware'
-gem 'font-awesome-rails'
 gem 'formtastic'
 gem 'friendly_id'
 gem 'geokit'
@@ -56,6 +55,7 @@ gem 'slim-rails'
 gem 'sprockets', '~> 3.7.2'
 gem 'uglifier'
 gem 'unicorn' # webserver
+gem "webpacker"
 gem 'xmlrpc' # after ruby 2.4 upgrade
 
 group :test do
@@ -94,7 +94,6 @@ group :test, :development do
   gem 'factory_bot_rails', require: false
   gem 'faker'
   gem 'jslint_on_rails'
-  gem 'phantomjs'
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
@@ -104,7 +103,6 @@ group :test, :development do
   gem 'rubocop-rails', require: false
   gem 'shoulda-matchers'
   gem 'simplecov'
-  gem 'spring-commands-teaspoon'
-  gem 'teaspoon-jasmine'
   gem 'test-prof'
 end
+

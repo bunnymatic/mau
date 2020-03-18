@@ -8,7 +8,7 @@
           = fa_icon "plus-circle"
         '
         = link_to clear_cache_admin_open_studios_events_path, title: 'clear os dates cache' do
-          = fa_icon "refresh"
+          = fa_icon "sync-alt"
   .pure-u-1-1.padded-content
     table.os-events.pure-table.pure-table-striped.os-events__table
       thead
@@ -35,4 +35,4 @@
               = link_to edit_admin_open_studios_event_path(os_event), title: 'Edit' do
                 = fa_icon 'edit'
               = link_to admin_open_studios_event_path(os_event), confirm: 'Are you sure?', method: :delete, title: "Delete" do
-                = fa_icon 'remove'
+                = far_icon 'times-circle'

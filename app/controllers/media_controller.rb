@@ -8,7 +8,7 @@ class MediaController < ApplicationController
   before_action :load_media_frequency, only: %i[index show]
 
   def index
-    xtra_params = params.permit(:m)
+    xtra_params = medium_params.slice(:m)
     unless @frequency.empty?
       freq = @frequency.sort { |m1, m2| m2['ct'].to_i <=> m1['ct'].to_i }
       med = Medium.find(freq[0]['medium'])
@@ -34,7 +34,7 @@ class MediaController < ApplicationController
   private
 
   def medium_params
-    params.permit(:p, :m)
+    params.permit(:id, :p, :m)
   end
 
   def load_media_frequency

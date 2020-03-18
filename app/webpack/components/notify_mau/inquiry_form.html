@@ -1,0 +1,33 @@
+<div class="notify-mau-modal__container">
+  <div class="notify-mau-modal__header popup-header">
+    <div class="notify-mau-modal__title popup-title">
+      Ask us a question?
+    </div>
+    <div class="notify-mau-modal__close popup-close">
+      <a href="#" ng-click="closeThisDialog()"><i class="fa fa-close"></i></a>
+    </div>
+  </div>
+  <div class="notify-mau-modal__content popup-text">
+    <form class="notify-mau-modal__form" ng-submit="submitInquiry()">
+      <p>
+        {{message}}
+      </p>
+      <fieldset class="inputs">
+        <ol>
+          <li class="string input optional stringish">
+            <label for="inquiry_email">Email <abbr title="required">*</abbr></label><input id="inquiry_email" name="inquiry[email]" ng-model="inquiry.email" required="required" type="email" />
+          </li>
+          <li class="string input optional stringish">
+            <label for="inquiry_email_confirm">Confirm Email <abbr title="required">*</abbr></label><input id="inquiry_email_confirm" name="inquiry[email_confirm]" ng-model="inquiry.email_confirm" required="required" type="email" />
+          </li>
+          <li class="text input optional">
+            <label for="inquiry_inquiry">{{questionLabel}} <abbr title="required">*</abbr></label><textarea id="inquiry_inquiry" name="inquiry[inquiry]" ng-model="inquiry.inquiry" required="required"></textarea>
+          </li>
+        </ol>
+      </fieldset>
+      <fieldset class="actions">
+        <input class="pure-button button-secondary" type="submit" value="Send" />
+      </fieldset>
+    </form>
+  </div>
+</div>

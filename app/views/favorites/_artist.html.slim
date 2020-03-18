@@ -7,7 +7,7 @@
     .card__controls
       .artist-card__remove-favorite
         = link_to user_favorite_path(current_user, artist_favorite.favorite), title: "Remove Favorite", method: :delete do
-          .fa.fa-icon.fa-close
+          = fa_icon "times"
   - if artist.doing_open_studios?
     .os-violator title="Open Studios Participant!"
   = link_to artist_path(artist) do

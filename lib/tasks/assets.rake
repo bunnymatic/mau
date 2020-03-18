@@ -12,6 +12,6 @@ namespace :assets do
 
   desc 'Fetch npm packages'
   task npm: [:environment] do
-    sh 'bundle exec npm ci'
+    sh 'bundle exec yarn install'
   end
 end
