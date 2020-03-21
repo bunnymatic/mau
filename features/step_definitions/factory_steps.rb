@@ -72,6 +72,10 @@ rescue ActiveRecord::RecordInvalid
   # there's already one there
 end
 
+Given /the current open studios is not promoted/ do
+  OpenStudiosEvent.current.update(promote: false)
+end
+
 Given /there are open studios artists with art in the system/ do
   steps %(
     Given there are artists with art in the system
@@ -140,8 +144,8 @@ Given /^the email lists have been created with emails$/ do
     clz = mailing_list.constantize
     begin
       clz.create unless clz.first
-    rescue Exception => ex
-      ::Rails.logger.debug("Failed to create #{mailing_list} : #{ex}")
+    rescue Exception => e
+      ::Rails.logger.debug("Failed to create #{mailing_list} : #{e}")
     end
     clz.first.emails.create(name: Faker::Name.name, email: Faker::Internet.email)
   end

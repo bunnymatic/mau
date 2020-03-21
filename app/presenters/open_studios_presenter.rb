@@ -3,17 +3,11 @@
 class OpenStudiosPresenter
   PAGE = 'main_openstudios'
 
+  delegate :promote?, to: :current_os
+
   def packaged_summary
     section = 'summary'
     @packaged_summary ||= CmsDocument.packaged(PAGE, section)
-  end
-
-  def summary_data
-    @summary_data = editable_content_data(packaged_summary)
-  end
-
-  def summary
-    packaged_summary[:content]
   end
 
   def packaged_preview_reception
@@ -21,25 +15,15 @@ class OpenStudiosPresenter
     @packaged_preview_reception ||= CmsDocument.packaged(PAGE, section)
   end
 
-  def preview_reception_data
-    @preview_reception_data ||= editable_content_data(packaged_preview_reception)
-  end
-
-  def preview_reception
-    packaged_preview_reception[:content]
-  end
-
-  def os_participants
-    @os_participants ||= OpenStudiosEventService.current.artists.in_the_mission
-  end
-
   def participating_studios
-    @participating_studios ||= sort_studios_by_name(os_participants.map(&:studio).compact.uniq)
+    @participating_studios ||= sort_studios_by_name(os_participants.map(&:studio))
   end
 
   def participating_indies
     @participating_indies ||= sort_artists_by_name(os_participants.reject { |a| a.studio || a.address.blank? })
   end
+
+  private
 
   def sort_studios_by_name(studios)
     studios.compact.uniq.sort(&Studio::SORT_BY_NAME)
@@ -49,9 +33,11 @@ class OpenStudiosPresenter
     artists.compact.uniq.sort(&Artist::SORT_BY_LASTNAME)
   end
 
-  private
+  def current_os
+    @current_os ||= OpenStudiosEventService.current
+  end
 
-  def editable_content_data(packaged_data)
-    Hash[packaged_data.reject { |k, _v| k == :content }.map { |item| ["data-#{item[0]}", item[1]] }]
+  def os_participants
+    @os_participants ||= current_os.artists.in_the_mission
   end
 end
