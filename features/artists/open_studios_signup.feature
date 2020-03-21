@@ -27,6 +27,11 @@ Scenario: "when I'm not logged in"
   When I click on "Yes" in the ".ngdialog"
   Then I see the update my registration message
 
+Scenario: "when the open studios is not promoted"
+  Given the current open studios is not promoted
+  When I visit the open studios page
+  Then I do not see "Register to Participate"
+
 Scenario: "when I'm logged in"
   When I login as "artist"
   And I visit the open studios page

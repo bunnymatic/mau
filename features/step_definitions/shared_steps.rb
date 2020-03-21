@@ -141,6 +141,10 @@ Then(/^I see an error in the form "(.*?)"$/) do |msg|
   end
 end
 
+Then(/^I do not see "(.*?)"/) do |string|
+  expect(page).to_not have_content(string)
+end
+
 Then(/^I do not see an error message$/) do
   expect(page).to_not have_selector '.error-msg, .flash__error, .err'
 end

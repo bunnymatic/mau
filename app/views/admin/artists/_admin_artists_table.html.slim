@@ -74,4 +74,4 @@
                 i.fa.fa-icon.fa-edit
               - if !a.suspended? && a != current_user
                 = link_to suspend_admin_artist_path(a.to_param), method: :post, confirm: 'Are you sure you want to suspend this artist?', title: "Suspend artist", class: 'admin-artist-suspend-link' do
-                  i.fa.fa-icon.fa-bomb
+                  i.far.fa-icon.fa-bomb
