@@ -4,11 +4,7 @@ require 'rails_helper'
 
 describe ArtSampler do
   before do
-    Timecop.freeze
-  end
-
-  after do
-    Timecop.return
+    freeze_time
   end
 
   describe 'initialization' do
@@ -19,7 +15,7 @@ describe ArtSampler do
       expect((ArtSampler.new offset: 2).offset).to eql 2
     end
     it 'defaults the seed to the time' do
-      Timecop.freeze
+      freeze_time
       expect(ArtSampler.new.seed).to eql Time.zone.now.to_i
     end
     it 'defaults the offset to 0' do

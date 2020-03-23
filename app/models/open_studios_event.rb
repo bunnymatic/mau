@@ -23,7 +23,7 @@ class OpenStudiosEvent < ApplicationRecord
   end
 
   # define future/past not as scopes because we want Time.zone.now() to be evaluated at query time
-  # Also, this allows us to test with Timecop as opposed to using database NOW() method
+  # Also, this allows us to test with TimesHelper as opposed to using database NOW() method
   def self.past
     where('start_date < ?', Time.zone.now).order(:start_date)
   end

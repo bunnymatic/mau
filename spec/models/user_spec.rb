@@ -20,10 +20,7 @@ describe User, elasticsearch: :stub do
   subject(:user) { FactoryBot.build(:user, :active) }
 
   before do
-    Timecop.freeze
-  end
-  after do
-    Timecop.return
+    freeze_time
   end
 
   it 'allows unicode characters for name fields' do
@@ -262,7 +259,7 @@ describe User, elasticsearch: :stub do
   describe 'forgot password methods' do
     context 'artfan' do
       before do
-        Timecop.travel(1.hour.since)
+        travel_to(1.hour.since)
       end
       it 'create_reset_code creates a reset code' do
         ActiveJob::Base.queue_adapter = :test

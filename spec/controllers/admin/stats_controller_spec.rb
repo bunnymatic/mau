@@ -25,15 +25,12 @@ describe Admin::StatsController do
     let(:art_pieces_per_day) { Admin::StatsController.new.send(:compute_art_pieces_per_day) }
     let(:artists_per_day) { Admin::StatsController.new.send(:compute_artists_per_day) }
     before do
-      Timecop.freeze
+      freeze_time
       FactoryBot.create(:artist, :active, :with_art, number_of_art_pieces: 2)
       3.times.each do |n|
-        Timecop.travel((1 + n).days.ago)
+        travel_to((1 + n).days.ago)
         FactoryBot.create(:artist, :active, :with_art, number_of_art_pieces: 2)
       end
-    end
-    after do
-      Timecop.return
     end
 
     describe '#compute_artists_per_day' do
