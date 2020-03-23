@@ -19,10 +19,7 @@ describe NewArtPiecePresenter do
   let(:current_time) do
   end
   before do
-    Timecop.freeze(current_time ? Time.zone.parse(current_time) : Time.current)
-  end
-  after do
-    Timecop.return
+    travel_to(current_time ? Time.zone.parse(current_time) : Time.current)
   end
 
   describe '#open_studios_info' do

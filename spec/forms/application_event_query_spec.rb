@@ -36,7 +36,7 @@ describe ApplicationEventQuery do
 
   describe '.to_s' do
     before do
-      Timecop.freeze
+      freeze_time
     end
     it 'renders the query as a string with the date' do
       query = described_class.new(since: '2018-10-20')

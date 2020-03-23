@@ -5,17 +5,17 @@ require 'rails_helper'
 describe SiteStatistics do
   subject(:stats) { SiteStatistics.new }
   let!(:models) do
-    Timecop.freeze do
+    freeze_time do
       FactoryBot.create_list(:studio, 2)
 
-      Timecop.travel(16.hours.ago)
+      travel_to(16.hours.ago)
       FactoryBot.create(:artist, :active)
 
-      Timecop.travel(4.days.ago)
+      travel_to(4.days.ago)
       FactoryBot.create_list(:artist, 2, :active, :with_art, :with_links)
       FactoryBot.create_list(:artist, 3)
 
-      Timecop.travel(10.days.ago)
+      travel_to(10.days.ago)
       FactoryBot.create_list(:artist, 2, :active)
       FactoryBot.create_list(:artist, 3)
     end

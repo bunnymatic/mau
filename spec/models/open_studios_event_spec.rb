@@ -22,12 +22,8 @@ describe OpenStudiosEvent do
 
   before do
     # allow_any_instance_of(OpenStudiosEvent).to receive(:save_attached_files).and_return(true)
-    Timecop.freeze
+    freeze_time
     [past_oses, current_os, future_oses].flatten
-  end
-
-  after do
-    Timecop.return
   end
 
   describe '#for_display' do
@@ -75,7 +71,7 @@ describe OpenStudiosEvent do
     end
 
     it 'shows the first future event if today is monday after the last event' do
-      Timecop.travel(current_os.end_date + 1.day)
+      travel_to(current_os.end_date + 1.day)
 
       expect(OpenStudiosEvent.current).to eql future_oses.first
     end

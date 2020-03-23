@@ -107,5 +107,4 @@ group :test, :development do
   gem 'spring-commands-teaspoon'
   gem 'teaspoon-jasmine'
   gem 'test-prof'
-  gem 'timecop'
 end

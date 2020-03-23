@@ -483,7 +483,6 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    timecop (0.9.1)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
@@ -607,7 +606,6 @@ DEPENDENCIES
   sprockets (~> 3.7.2)
   teaspoon-jasmine
   test-prof
-  timecop
   uglifier
   unicorn
   unicorn-rails

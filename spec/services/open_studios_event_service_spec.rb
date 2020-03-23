@@ -20,12 +20,8 @@ describe OpenStudiosEventService do
 
   before do
     # allow_any_instance_of(OpenStudiosEvent).to receive(:save_attached_files).and_return(true)
-    Timecop.freeze
+    freeze_time
     [past_oses, current_os, future_oses].flatten
-  end
-
-  after do
-    Timecop.return
   end
 
   describe '.for_display' do
