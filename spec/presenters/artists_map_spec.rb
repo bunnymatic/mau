@@ -10,19 +10,47 @@ describe ArtistsMap do
   let(:sw_bounds) { MissionBoudnaries::BOUNDS['SW'] }
 
   subject(:map) { ArtistsMap.new(os_only) }
+  let(:os_event) { create(:open_studios_event) }
+  let(:artists) do
+    [
+      create(:artist, :active, :with_art, :in_the_mission),
+      create(:artist, :active, :with_art, :in_the_mission),
+    ]
+  end
+  before do
+    artists
+  end
+
+  describe '.map_data' do
+    require 'awesome_print'
+    it 'constructs map data for the artists' do
+      map_data = JSON.parse(map.map_data)
+      expect(map_data).to have(2).items
+      expected_data = artists.map do |a|
+        {
+          'lat' => a.lat,
+          'lng' => a.lng,
+          'artist_id' => a.id,
+          'infowindow' => ArtistPresenter.new(a).map_info,
+        }
+      end
+      expect(map_data).to match_array expected_data
+    end
+  end
 
   context 'when os_only is false' do
     describe '#grouped_by_address' do
       it 'returns artists grouped by address' do
-        expect(subject.grouped_by_address.size).to eq(map.artists.select(&:has_address?).map(&:address).compact.uniq.count)
+        expected = map.artists.map do |a|
+          a.address.to_s if a.address?
+        end.compact.uniq
+        expect(subject.grouped_by_address.size).to eq(expected.count)
       end
     end
 
     describe '#with_addresses' do
-      subject { super().with_addresses }
-      describe '#count' do
-        subject { super().count }
-        it { is_expected.to eql map.artists.count(&:has_address?) }
+      it 'returns all artists with addresses' do
+        expect(subject.with_addresses.count).to eq map.artists.count(&:address?)
       end
     end
 

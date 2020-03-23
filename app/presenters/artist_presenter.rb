@@ -21,6 +21,8 @@ class ArtistPresenter < UserPresenter
            :can_register_for_open_studios?,
            :doing_open_studios?,
            :in_the_mission?,
+           :lat,
+           :lng,
            :max_pieces,
            :os_participation,
            :pending?,

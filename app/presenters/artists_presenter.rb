@@ -8,11 +8,7 @@ class ArtistsPresenter < ViewPresenter
   attr_reader :os_only
 
   def initialize(os_only = nil)
-    @os_only = !os_only.nil? && os_only
-  end
-
-  def artists_only_in_the_mission
-    (os_only ? artists : artists.select(&:in_the_mission?))
+    @os_only = !!os_only
   end
 
   def artists

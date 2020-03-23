@@ -9,6 +9,12 @@
   .map__artist {
     @include ellipsis;
   }
+  .cluster {
+    /* offset for cluster count */
+    > div[aria-label] {
+      top: 10px;
+    }
+  }
   .gm-style-iw {
     min-width: 260px !important;
     overflow: visible !important;
