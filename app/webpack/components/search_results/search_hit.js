@@ -4,9 +4,9 @@ import ngInject from "@js/ng-inject";
 
 const SearchHit = ngInject(function (objectRoutingService) {
   return function (hit) {
-    var obj, ref, src;
+    var ref;
     this.hit = hit;
-    src = this.hit._source;
+    const src = this.hit._source;
     this.id = this.hit._id;
     this.type = this.hit._type;
     // the `type` field was mapped to the ruby model in the past
@@ -15,14 +15,14 @@ const SearchHit = ngInject(function (objectRoutingService) {
       this.type = Object.keys(src)[0];
     }
     this.score = this.hit._score;
-    obj = src[this.type];
+    const obj = src[this.type];
     this.image = (ref = obj.images) != null ? ref.small : void 0;
     obj.id = this.id;
     this.osParticipant = obj.os_participant;
     switch (this.type) {
       case "artist":
         this.name = obj.artist_name;
-        this.icon_class = "fa-user";
+        this.icon_class = "fa fa-user";
         if (obj.bio != null) {
           this.description = ellipsize(obj.bio);
         }
@@ -30,7 +30,7 @@ const SearchHit = ngInject(function (objectRoutingService) {
         break;
       case "studio":
         this.name = obj.name;
-        this.icon_class = "fa-building-o";
+        this.icon_class = "far fa-building";
         this.description = obj.address;
         this.link = objectRoutingService.studioPath(obj);
         break;
@@ -40,7 +40,7 @@ const SearchHit = ngInject(function (objectRoutingService) {
           (" <span class='byline-conjunction'>by</span> <span class='artist-name'>" +
             obj.artist_name +
             "</span>");
-        this.icon_class = "fa-picture-o";
+        this.icon_class = "far fa-image";
         this.link = objectRoutingService.artPiecePath(obj);
         this.tags = obj.tags;
         this.tagsForDisplay = function () {};
