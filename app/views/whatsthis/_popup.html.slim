@@ -4,7 +4,7 @@
 
 - if use_icon
   a data-parent=parent data-section=section title=link_text class="help__opener js-help js-help-#{parent}" href='#'
-    = fa_icon 'question-circle'
+    = far_icon 'question-circle'
 - else
   a title=link_text href="#"
     = link_text
@@ -16,6 +16,6 @@ div id=parent_id class="js-help-text js-help-text-#{parent} help__contents"
         = title
       .popup-close
         a href="#"
-          = fa_icon "times"
+          = far_icon "times-circle"
     .popup-text
       = render "/whatsthis/" + section

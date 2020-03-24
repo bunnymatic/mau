@@ -1,40 +1,21 @@
 import jQuery from "jquery";
 
-(function () {
-  var MAU,
-    bind = function (fn, me) {
-      return function () {
-        return fn.apply(me, arguments);
-      };
-    };
+class WhatsThisPopup {
+  constructor(trigger) {
+    const $trigger = jQuery(trigger);
+    this.parentId = $trigger.data("parent");
+    this.section = $trigger.data("section");
+    this.helpTextDiv = `#${this.parentId}container`;
+    $trigger.on("click", this.popup.bind(this));
+    jQuery(this.helpTextDiv).on("click", this.popup.bind(this));
+  }
+  popup() {
+    return jQuery(this.helpTextDiv).fadeToggle();
+  }
+}
 
-  MAU = window.MAU = window.MAU || {};
+jQuery(function () {
+  jQuery(".js-help").each((_idx, el) => new WhatsThisPopup(el));
+});
 
-  MAU.WhatsThis =
-    MAU.WhatsThis ||
-    (function () {
-      function WhatsThis(trigger) {
-        this.popup = bind(this.popup, this);
-        var $trigger;
-        this.trigger = trigger;
-        $trigger = jQuery(this.trigger);
-        this.parentId = $trigger.data("parent");
-        this.section = $trigger.data("section");
-        this.helpTextDiv = "#" + this.parentId + "container";
-        jQuery(this.trigger).bind("click", this.popup);
-        jQuery(this.helpTextDiv).bind("click", this.popup);
-      }
-
-      WhatsThis.prototype.popup = function () {
-        return jQuery(this.helpTextDiv).fadeToggle();
-      };
-
-      return WhatsThis;
-    })();
-
-  jQuery(function () {
-    return jQuery(".js-help").each(function () {
-      return new MAU.WhatsThis(this);
-    });
-  });
-}.call(this));
+export { WhatsThisPopup };
