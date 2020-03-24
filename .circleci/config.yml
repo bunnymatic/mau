@@ -50,7 +50,7 @@ commands:
           command: |-
             yarn install
       - save_cache:
-          key: mau-npm-cache-v3-{{ checksum ".ruby-version" }}-{{ checksum "yarn.lock" }}
+          key: mau-npm-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
   compile_assets:
