@@ -3,8 +3,6 @@ html
   head
     = render '/extra_html_head'
     = render '/title'
-    javascript:
-      var authenticityToken  = encodeURIComponent("#{form_authenticity_token}");
     = csrf_meta_tags
     = stylesheet_pack_tag 'admin'
     = javascript_pack_tag 'admin'

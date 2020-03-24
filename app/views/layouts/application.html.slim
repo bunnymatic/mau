@@ -6,7 +6,6 @@ html
     = csrf_meta_tags
 
     javascript:
-      var authenticityToken = encodeURIComponent("#{form_authenticity_token}");
       window = window || {}
       window['__env'] = "#{Rails.env}";
 
