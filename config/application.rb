@@ -81,3 +81,5 @@ module Mau
     config.active_support.test_order = :random
   end
 end
+
+Rails.autoloaders.main.ignore(Rails.root.join('app/webpack'))
