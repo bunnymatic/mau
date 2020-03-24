@@ -5,16 +5,12 @@ import ngInject from "@js/ng-inject";
   var emailChangedEventsService;
 
   emailChangedEventsService = ngInject(function ($q, ApplicationEventsService) {
-    var filterByChangedEmail;
-    filterByChangedEmail = function (data) {
-      return _.find(data, function (event) {
-        return /updated.*email/.test(event.message);
-      });
-    };
+    const filterByChangedEmail = (data) =>
+      data.find((event) => /updated.*email/.test(event.message));
     return {
       list: function (params) {
-        var events, ref;
-        events = ApplicationEventsService.list(params);
+        let ref;
+        const events = ApplicationEventsService.list(params);
         return (ref = events.$promise) != null
           ? ref.then(function (data) {
               var defer;

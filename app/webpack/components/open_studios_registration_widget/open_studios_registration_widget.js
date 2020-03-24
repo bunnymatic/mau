@@ -96,7 +96,7 @@ import ngInject from "@js/ng-inject";
     };
 
     $scope.participation = Object.keys($attrs).includes("participation");
-    $scope.autoRegister = Object.keys($attrs).includes("autoRegister");    
+    $scope.autoRegister = Object.keys($attrs).includes("autoRegister");
     $scope.location = $scope.studioName || $scope.address;
     $scope.setMessage($scope.participation);
 

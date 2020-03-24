@@ -1,15 +1,15 @@
 /*eslint no-unused-vars: 0*/
-import $ from "jquery";
-
-let MAU = (window.MAU = window.MAU || {});
+import jQuery from "jquery";
+import min from "lodash/min";
+import max from "lodash/max";
 
 /** setup hash change observer */
 (function () {
-  var curHash = window.location.hash;
+  let curHash = window.location.hash;
   function doHashChange() {
     if (window.location.hash != curHash) {
       curHash = window.location.hash;
-      $(document).trigger("mau:hashchange");
+      jQuery(document).trigger("mau:hashchange");
     }
   }
   if ("onhashchange" in window) {
@@ -20,24 +20,24 @@ let MAU = (window.MAU = window.MAU || {});
 })();
 
 /*** jquery on load */
-$(function () {
-  var flashNotice = ".notice, .flash, .flash__notice, .flash__error";
-  $("body").on("click", flashNotice, function (_ev) {
-    var $_that = $(this);
-    $_that.fadeOut({
+jQuery(function () {
+  const flashNotice = ".notice, .flash, .flash__notice, .flash__error";
+  jQuery("body").on("click", flashNotice, function (_ev) {
+    const _that = this;
+    jQuery(_that).fadeOut({
       complete: function () {
-        $_that.remove();
+        jQuery(_that).remove();
       },
     });
   });
-  $(flashNotice)
+  jQuery(flashNotice)
     .not(".flash__error")
     .each(function () {
-      var _that = this;
-      var timeout = _.min([20000, _.max([5000, 120 * this.innerText.length])]);
+      const _that = this;
+      const timeout = min([20000, max([5000, 120 * this.innerText.length])]);
 
       setTimeout(function () {
-        $(_that).fadeOut();
+        jQuery(_that).fadeOut();
       }, timeout);
     });
 });

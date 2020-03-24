@@ -5,7 +5,6 @@ import ngInject from "@js/ng-inject";
 window.jQuery = jQuery;
 window.$ = jQuery;
 
-import "lodash/lodash";
 import "moment/moment";
 import "moment-timezone/moment-timezone";
 import "./timezones";

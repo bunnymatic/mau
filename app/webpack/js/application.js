@@ -3,7 +3,6 @@ import jQuery from "jquery";
 window.jQuery = jQuery;
 window.$ = jQuery;
 
-import "lodash/lodash";
 import "angular/angular";
 import "@components/angular_modules";
 import "angular-resource";

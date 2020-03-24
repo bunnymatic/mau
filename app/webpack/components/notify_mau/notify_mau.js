@@ -1,4 +1,5 @@
 import Flash from "@js/mau/jquery/flash";
+import angular from "angular";
 import ngInject from "@js/ng-inject";
 
 const modalController = ngInject(function (
@@ -6,9 +7,8 @@ const modalController = ngInject(function (
   $element,
   notificationService
 ) {
-  return ($scope.submitInquiry = function () {
-    var error, success;
-    success = function (_data, _status, _headers, _config) {
+  $scope.submitInquiry = function () {
+    const success = function (_data, _status, _headers, _config) {
       var flash;
       $scope.closeThisDialog();
       flash = new Flash();
@@ -18,19 +18,17 @@ const modalController = ngInject(function (
           "Thanks for your inquiry.  We'll get back to you as soon as we can.",
       });
     };
-    error = function (data, _status, _headers, _config) {
+    const error = function (data, _status, _headers, _config) {
       var errs, inputs;
       inputs = angular.element($element).find("fieldset")[0];
       angular.element(inputs.getElementsByClassName("error-msg")).remove();
-      errs = _.map(data.data.error_messages, function (msg) {
-        return "<div>" + msg + ".</div>";
-      });
-      return angular
+      errs = data.data.error_messages.map((msg) => `<div>${msg}.</div>`);
+      angular
         .element(inputs)
         .prepend("<div class='error-msg'>" + errs.join("") + "</div>");
     };
     return notificationService.sendInquiry($scope.inquiry, success, error);
-  });
+  };
 });
 
 const controller = ngInject(function ($scope, $attrs, $element, ngDialog) {

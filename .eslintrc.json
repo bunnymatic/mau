@@ -8,12 +8,7 @@
   },
   "globals": {
     "$": true,
-    "_": true,
     "angular": true,
-    "c3": true,
-    "ClusterIcon": true,
-    "compileTemplate": true,
-    "d3": true,
     "google": true,
     "jQuery": true,
     "MAU": true,
