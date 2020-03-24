@@ -9,7 +9,7 @@ module FavoritesHelper
       img = fav.path size
       path = art_piece_path fav.id
     else
-      img = fav.get_profile_image(size) || asset_path('default_user.svg')
+      img = fav.get_profile_image(size) || asset_pack_path('media/images/default_user.svg')
       path = user_path(fav)
     end
     [img, path, title]

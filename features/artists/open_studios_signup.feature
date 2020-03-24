@@ -11,7 +11,7 @@ Background:
   Given the following artists who aren't ready to sign up for os are in the system:
     | login      | email                  | number_of_art_pieces |
     | no_address | no_address@example.com |                    1 |
- Given I'm logged out
+  Given I'm logged out
 
 Scenario: "when I'm not logged in"
   When I visit the open studios page
@@ -26,11 +26,6 @@ Scenario: "when I'm not logged in"
 
   When I click on "Yes" in the ".ngdialog"
   Then I see the update my registration message
-
-Scenario: "when the open studios is not promoted"
-  Given the current open studios is not promoted
-  When I visit the open studios page
-  Then I do not see "Register to Participate"
 
 Scenario: "when I'm logged in"
   When I login as "artist"

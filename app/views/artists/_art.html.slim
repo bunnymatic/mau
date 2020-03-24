@@ -1,4 +1,4 @@
--# expects art_piece as art_piece_presenter
+/ expects art_piece as art_piece_presenter
 - show_os_violator ||= false
 - class_overrides ||= %w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4 pure-u-xl-1-5).join(" ")
 .art-card class=class_overrides
@@ -9,7 +9,7 @@
           .fa.fa-icon.fa-edit
       .art-card__delete
         = link_to art_piece.destroy_path, confirm: 'Are you sure you want to remove this piece of art from your portfolio?', method: :delete, title: "Delete"
-          .fa.fa-icon.fa-close
+          = fa_icon "close"
   = link_to art_piece_path(art_piece)
     - if show_os_violator && art_piece.artist.doing_open_studios?
       .os-violator title="Open Studios Participant!"

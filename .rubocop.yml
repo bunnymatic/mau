@@ -20,6 +20,7 @@ AllCops:
     - '**/*.txt'
     - '**/*.md'
     - 'bin/**'
+    - node_modules/**/*
     - config/boot.rb
     - db/schema.rb
     - db/migrate/**/*

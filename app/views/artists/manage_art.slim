@@ -37,7 +37,8 @@
         p The top left image will be used to represent your art in search results, the home page and across the site.
       .pure-u-1-1.arrange
         = form_tag setarrangement_artists_path, id: 'arrange_art_form', 'data-remote' => true do
-          input type='hidden' name='artist' value=@artist.id
+          = hidden_field_tag :authenticity_token, form_authenticity_token
+          = hidden_field_tag :artist, @artist.id
           ul.js-sortable
             = render partial: '/art_pieces/arrange_thumb', collection: @artist.art_pieces, as: :art_piece
 

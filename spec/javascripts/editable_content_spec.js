@@ -1,10 +1,10 @@
-(function() {
-  describe("mau.directives.editableContent", function() {
+(function () {
+  describe("mau.directives.editableContent", function () {
     beforeEach(module("mau.directives"));
     beforeEach(module("templates"));
     beforeEach(module("mau.services"));
-    beforeEach(function() {
-      return inject(function(objectRoutingService) {
+    beforeEach(function () {
+      return inject(function (objectRoutingService) {
         this.objectRoutingService = objectRoutingService;
         spyOn(objectRoutingService, "newCmsDocumentPath").and.returnValue(
           "/newPath"
@@ -22,41 +22,33 @@
     var compiledTemplate;
     var scope = {};
 
-    describe("with cms page and section", function() {
-      beforeEach(function() {
+    describe("with cms page and section", function () {
+      beforeEach(function () {
         compiledTemplate = compileTemplate(newTemplate, scope);
       });
-      it("renders the transcluded content and includes a link to the right place", function() {
-        expect(
-          $(compiledTemplate)
-            .find("a")
-            .attr("href")
-        ).toEqual("/newPath");
+      it("renders the transcluded content and includes a link to the right place", function () {
+        expect($(compiledTemplate).find("a").attr("href")).toEqual("/newPath");
       });
-      it("calls the path constructor with the right stuff", function() {
+      it("calls the path constructor with the right stuff", function () {
         expect(
           this.objectRoutingService.newCmsDocumentPath
         ).toHaveBeenCalledWith({
           page: "the_page",
-          section: "the_section"
+          section: "the_section",
         });
       });
     });
-    describe("with cms id", function() {
-      beforeEach(function() {
+    describe("with cms id", function () {
+      beforeEach(function () {
         compiledTemplate = compileTemplate(editTemplate, scope);
       });
-      it("calls the path constructor with the right stuff", function() {
+      it("calls the path constructor with the right stuff", function () {
         expect(
           this.objectRoutingService.editCmsDocumentPath
         ).toHaveBeenCalledWith({ id: "5" });
       });
-      it("renders the transcluded content and includes a link to the right place", function() {
-        expect(
-          $(compiledTemplate)
-            .find("a")
-            .attr("href")
-        ).toEqual("/editPath");
+      it("renders the transcluded content and includes a link to the right place", function () {
+        expect($(compiledTemplate).find("a").attr("href")).toEqual("/editPath");
         expect($(compiledTemplate).text()).toMatch("existing stuff");
       });
     });

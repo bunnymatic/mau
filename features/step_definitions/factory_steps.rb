@@ -73,7 +73,7 @@ rescue ActiveRecord::RecordInvalid
 end
 
 Given /the current open studios is not promoted/ do
-  OpenStudiosEvent.current.update(promote: false)
+  OpenStudiosEvent.current.update!(promote: false)
 end
 
 Given /there are open studios artists with art in the system/ do

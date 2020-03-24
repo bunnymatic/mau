@@ -3,13 +3,14 @@ html
   head
     = render '/extra_html_head'
     = render '/title'
-    = stylesheet_link_tag 'application'
     = csrf_meta_tags
 
     javascript:
-      var authenticityToken = encodeURIComponent("#{form_authenticity_token}");
       window = window || {}
       window['__env'] = "#{Rails.env}";
+
+    = stylesheet_pack_tag 'application'
+    = javascript_pack_tag "application"
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
   body class=classes ng-app="MauApp"
@@ -38,6 +39,5 @@ html
         = render '/flash_notice_error'
         = yield
 
-  = javascript_include_tag "application"
   = render '/ganalytics'
   = render '/footer_javascripts'

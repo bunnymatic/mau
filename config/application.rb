@@ -2,7 +2,32 @@
 
 require File.expand_path('boot', __dir__)
 
-require 'rails/all'
+# Unrolled `rails/all.rb` from https://github.com/rails/rails/blob/master/railties/lib/rails/all.rb as of 03/23/2020
+
+# rubocop:disable Style/RedundantBegin
+# rubocop:disable Style/SuppressedException
+require 'rails'
+
+[
+  'active_record/railtie',
+  'active_storage/engine',
+  'action_controller/railtie',
+  'action_view/railtie',
+  'action_mailer/railtie',
+  'action_mailbox/engine',
+  'action_text/engine',
+  'rails/test_unit/railtie',
+  #  "active_job/railtie",
+  #  "action_cable/engine",
+  #  "sprockets/railtie",
+].each do |railtie|
+  begin
+    require railtie
+  rescue LoadError
+  end
+end
+# rubocop:enable Style/SuppressedException
+# rubocop:enable Style/RedundantBegin
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -38,13 +63,6 @@ module Mau
     # config.autoload_paths += app_paths.map{|path| File.join(Rails.root,'app', path)}
 
     config.action_mailer.delivery_method = :file
-
-    # Enable the asset pipeline
-    # config.assets.enabled = true
-    # config.assets.initialize_on_precompile = true
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.3'
 
     # config.i18n.enforce_available_locales = true
 

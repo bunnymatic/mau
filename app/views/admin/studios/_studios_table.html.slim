@@ -33,4 +33,4 @@ table.js-data-tables.pure-table.pure-table-striped#studios_index
           .remove.btn
             - if current_user.admin? && !(studio.is_a? IndependentStudio)
               = link_to admin_studio_path(studio.studio), method: :delete, confirm: 'Are you sure?', title: 'Remove' do
-                = fa_icon 'remove'
+                = far_icon 'times-circle'

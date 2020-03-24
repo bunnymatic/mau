@@ -2,7 +2,7 @@
   .popup-title = @title
   .popup-close
     a#feedback_close_link href="#"
-      i.fa.fa-close
+      = fa_icon "close"
 .popup-text
   = semantic_form_for @feedback, html: {id: "feedback_form"} do |f|
     .fdbk-form

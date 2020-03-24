@@ -30,7 +30,8 @@ describe ArtistsMap do
         {
           'lat' => a.lat,
           'lng' => a.lng,
-          'artist_id' => a.id,
+          'artistId' => a.id,
+          'artistName' => a.full_name,
           'infowindow' => ArtistPresenter.new(a).map_info,
         }
       end

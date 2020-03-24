@@ -3,13 +3,20 @@
 begin
   namespace :spec do
     desc 'Run all javascript specs'
-    task javascripts: [:teaspoon]
+    task javascripts: ['jest:test']
   end
 end
 
 Rake::Task['spec'].clear_actions
 
 desc 'Runs all specs'
-task spec: ['rubocop', 'js:lint', 'spec:enable_coverage', 'spec:all', 'spec:javascripts', 'cucumber:ok']
+task spec: [
+  'rubocop',
+  'js:lint',
+  'spec:enable_coverage',
+  'spec:all',
+  'spec:javascripts',
+  'cucumber:ok',
+]
 
 # task default: [:spec]

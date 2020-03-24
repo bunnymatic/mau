@@ -1,0 +1,552 @@
+@import "mau-mixins";
+@import "colors";
+@import "gto/gto-mixins";
+
+.scroll-load-more__contents {
+  font-size: 1.5px; /* for spinner */
+}
+
+.scroll-load-more,
+#the-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include sampler-block-mixin;
+}
+
+#the-end,
+.scroll-load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: -1; /* fix issue with fa-spin screwing up zindex */
+  .hint {
+    padding: 5px;
+    letter-spacing: 0;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: rgba(200, 200, 200, 0.5);
+  }
+  .fa-spinner {
+    font-size: 100px;
+    color: rgba(200, 200, 200, 0.5);
+  }
+}
+
+#the-end {
+  &[hidden] {
+    display: none;
+  }
+  .hint {
+    font-size: 2rem;
+    color: rgba(200, 200, 200, 0.5);
+    text-transform: uppercase;
+  }
+}
+.artists.edit {
+  .donate {
+    font-size: 90%;
+    line-height: 1.3rem;
+    padding-top: 15px;
+    .form-group {
+      padding-top: 10px;
+    }
+  }
+  .studio-address-form {
+    padding-top: 20px;
+  }
+  #password {
+    ul.help {
+      margin-bottom: 20px;
+    }
+  }
+  #address {
+    h4,
+    h5 {
+      padding: 10px 0px;
+      margin-right: 20px;
+      border-bottom: 1px solid $light-gray;
+    }
+  }
+}
+
+.artists.index {
+  .header {
+    position: relative;
+  }
+  .header .search {
+    position: absolute;
+    bottom: 32px;
+    right: 30px;
+    text-transform: uppercase;
+    a {
+      color: $gto-gray;
+    }
+    .text {
+      display: inline-block;
+    }
+  }
+}
+
+.sticky-gallery-paginator {
+  @media (min-width: $screen-sm-max) {
+    position: sticky;
+    top: 90px;
+    z-index: 1;
+    background-color: $base-background-color;
+  }
+}
+
+.favorites.index,
+.users.show,
+.search-results,
+.artists,
+.artists.index,
+.artists.show,
+.art_pieces.show,
+.art_pieces.create {
+  @include search-filter;
+  .title .letter {
+    text-transform: uppercase;
+  }
+  .name-switcher,
+  .gallery-paginator {
+    margin-top: -15px;
+    @media (min-width: $screen-md-min) {
+      display: inline-block;
+    }
+    .page a {
+      text-transform: uppercase;
+    }
+    .page:last-of-type {
+      margin-right: 20px;
+    }
+  }
+  .name-switcher {
+    text-align: left;
+    vertical-align: top;
+    display: block;
+    margin-top: 8px;
+    @media (min-width: $screen-md-min) {
+      margin-top: -3px;
+      display: inline-block;
+    }
+  }
+  .header .title {
+    .os-violator {
+      background-size: 25px 25px;
+      margin-left: 4px;
+      display: inline-block;
+      vertical-align: middle;
+      height: 28px;
+      width: 28px;
+      background-color: transparent;
+    }
+  }
+
+  #about,
+  #art,
+  .artist-profile {
+    @include transition-property(width, height, margin, padding);
+    @include transition-duration(0.3s);
+    @include transition-timing-function(ease-in-out);
+  }
+}
+
+.art-card,
+.artist-card {
+  @include artist-thumb-mixin;
+  .os-violator {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+}
+.art-card,
+.artist-card {
+  .artist-card__remove-favorite,
+  .art-card__remove-favorite {
+    display: none;
+  }
+  .desc {
+    padding: 0.1rem;
+    /* this helps tests see the content in here */
+    min-width: 50px;
+    min-height: 10px;
+  }
+  .name,
+  .media,
+  .tags {
+    height: 1.2rem;
+    line-height: 1.2rem;
+    @include ellipsis;
+  }
+  .name {
+    font-size: 0.9rem;
+  }
+  .media,
+  .tags {
+    font-style: italic;
+    font-size: 0.75rem;
+  }
+  .art-card {
+    .desc {
+      height: 3rem;
+    }
+  }
+}
+.art-card {
+  &:hover {
+    .desc {
+      @include opacity(1);
+    }
+  }
+  @media (min-width: $screen-sm-min) {
+    .desc {
+      @include opacity(0);
+    }
+  }
+}
+
+.artist-card,
+.art-card,
+.artist-profile {
+  .card__controls {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+  .card__controls + a {
+    .os-violator {
+      right: auto;
+      left: 12px;
+    }
+  }
+  .artist-card__remove-favorite,
+  .art-card__remove-favorite,
+  .artist-profile__edit,
+  .art-card__delete,
+  .art-card__edit {
+    display: inline-block;
+    font-size: 32px;
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 4px 8px;
+    border-radius: 4px;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+    a,
+    a .fa {
+      color: $gto_yellow;
+    }
+  }
+}
+.art-card {
+  #delete-art & {
+    .desc {
+      .name {
+        display: none;
+      }
+      .pure-controls {
+        padding: 0.6rem;
+        font-size: 1.1rem;
+      }
+      opacity: 1;
+    }
+  }
+
+  .art-card__delete {
+    display: none;
+    #edit-art & {
+      display: inline-block;
+    }
+    a,
+    a .fa {
+      color: $gto_red;
+    }
+  }
+}
+
+.artist-profile__image {
+  text-align: center;
+  margin: auto;
+  min-height: 100px;
+  img,
+  i.fa {
+    margin: auto;
+    text-align: center;
+  }
+  i.fa.fa-user {
+    font-size: 15rem;
+  }
+  img {
+    min-height: 1px;
+  }
+}
+
+.artist-profile,
+#art {
+  .empty {
+    h4,
+    p {
+      color: lighten($gto_gray, 20%);
+    }
+  }
+
+  section {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    &:artist__image {
+      margin-bottom: 40px;
+    }
+    &.artist__bio {
+      @include transition(max-height 0.3s ease-in-out);
+      position: relative;
+      max-height: 200px;
+      overflow: hidden;
+      &.overflowing + .artist__bio-read-more {
+        @include opacity(1);
+      }
+      &.overflowing.open {
+        max-height: 1200px;
+        overflow-y: auto;
+      }
+      &.open + .artist__bio-read-more {
+        .read-more-fade-out {
+          display: none;
+        }
+        .fa {
+          @include transform(rotate(180deg));
+        }
+      }
+    }
+    .header {
+      border-bottom: 1px solid $x-light-gray;
+      padding: 4px 2px;
+      margin-bottom: 8px;
+      @include all-caps-label;
+    }
+  }
+  .artist__bio-read-more {
+    position: relative;
+    top: -12px;
+    vertical-align: middle;
+    text-align: right;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    @include transition(all 0.2s ease-in);
+    @include opacity(0);
+    .read-more-fade-out {
+      @include linear-gradient(rgba(255, 255, 255, 0), #fcfcfc);
+      min-height: 80px;
+      width: 100%;
+      position: absolute;
+      bottom: 20px;
+    }
+    .text {
+      padding-right: 3px;
+    }
+    .fa {
+      font-size: 0.9rem;
+    }
+  }
+}
+.artist-profile {
+  position: relative;
+  padding: 0 10px 10px;
+  .media {
+    @extend .gto-list;
+  }
+  .artist__studio .body {
+    .map-link {
+      margin-left: 5px;
+    }
+    > div {
+      min-height: 1.4rem;
+      line-height: 1.4rem;
+    }
+  }
+  favorite-this {
+    .ico.ico-invert {
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+  }
+
+  .artist__links {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    .link {
+      margin: 5px;
+      display: block;
+      .ico {
+        font-size: 2.4rem;
+      }
+    }
+  }
+  .header .title {
+    margin-top: 0px;
+  }
+  .artist-profile__edit {
+    top: 0;
+  }
+  .artist__image {
+    position: relative;
+    .artist__image-footer {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+    .artist__image-footer__favorite {
+      flex: 1;
+    }
+    .artist__image-footer__member-since {
+      font-size: 0.8rem;
+      flex: 3;
+      text-align: right;
+    }
+    .os-violator {
+      position: absolute;
+      bottom: 37px;
+      right: 2px;
+      display: inline-block;
+      background-image: url("../../../images/os_violator.svg");
+      background-color: rgba(245, 245, 245, 0.95);
+      width: 75px;
+      height: 80px;
+      background-size: contain;
+    }
+  }
+  .artist-profile__image {
+    width: 100%;
+  }
+  .artist-links > div {
+    @include ellipsis;
+    min-height: 1.1rem;
+    > span {
+      display: inline-block;
+      width: 20%;
+      min-width: 80px;
+    }
+  }
+  .action-icons {
+    margin-top: 20px;
+  }
+}
+.bio-container {
+  overflow: auto;
+  padding-right: 20px;
+  &.empty {
+    h4,
+    p {
+      color: lighten($gto_gray, 20%);
+    }
+  }
+  p:first-child {
+    margin-top: 0;
+  }
+}
+.bio-container,
+.bio-container p {
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+}
+.artist-profile {
+  overflow: hidden;
+}
+ul.favorite-thumbs,
+ul.favorite-thumbs li {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+}
+.favorite-thumbs li {
+  .favorite-thumb {
+    display: none;
+  }
+  .favorite-thumb-icon {
+    display: block;
+    margin-right: 3px;
+  }
+  @media screen and (min-width: $screen-sm-max) {
+    .favorite-thumb {
+      display: block;
+      margin: 0.2rem;
+      height: 50px;
+      width: 50px;
+      box-shadow: 0 0 1px 1px #eee;
+      @include background-cover;
+    }
+    .favorite-thumb-icon {
+      display: none;
+    }
+  }
+}
+
+.roster {
+  .roster__list {
+    margin-top: 20px;
+  }
+  .chunk {
+    margin-bottom: 20px;
+  }
+  .name {
+    @include ellipsis;
+    line-height: 1.3em;
+    height: 1.3em;
+  }
+  @media screen and (max-width: $screen-sm-max) {
+    .chunk {
+      margin-bottom: 0px;
+    }
+  }
+}
+
+.name-switcher {
+  text-align: right;
+  .prefix {
+    font-size: 0.7rem;
+    vertical-align: top;
+    text-transform: uppercase;
+    line-height: 26px;
+    margin-right: 3px;
+  }
+  .button-group {
+    vertical-align: top;
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+    amrgin: 0;
+    white-space: nowrap;
+    li {
+      padding: 0;
+      margin: 0;
+    }
+    .button {
+      float: left;
+      @include light-gray-button;
+      border-right-width: 0;
+      &:first-child {
+        @include round-left-corners-only(3px);
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-right: 0;
+      }
+      &:last-child {
+        @include round-right-corners-only(3px);
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-left: 0;
+        border-right-width: 1px;
+      }
+      &.current {
+        background-color: $x-light-gray;
+      }
+    }
+  }
+}

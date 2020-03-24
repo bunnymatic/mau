@@ -14,9 +14,9 @@
           h4.role
             = role.role.capitalize
             .admin-table__controls
-              = link_to_icon edit_admin_role_path(role), 'pencil', title: 'manage'
+              = link_to_icon edit_admin_role_path(role), 'edit', title: 'manage'
               '
-              = link_to_icon admin_role_path(role), 'close', title: 'destroy', :confirm => 'Are you sure?', :method => :delete
+              = link_to_icon admin_role_path(role), 'times', title: 'destroy', :confirm => 'Are you sure?', :method => :delete
 
           ul.role_members
             - (@users_by_role[role.role] || []).each do |u|

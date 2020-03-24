@@ -1,0 +1,47 @@
+$black: #000;
+$bluegray: #738294;
+$darkbluegray: #223;
+$error_red: #f33;
+$gto_dark_blue: #315077;
+$gto_dark_teal: #175b5b;
+$gto_gray: #5a636a;
+$gto_orange: #d7682b;
+$gto_red: #b33e43;
+$gto_teal: #368283;
+$gto_yellow: #c39f06;
+$lightbluegray: #c6c7d6;
+$white: #fff;
+
+$base-background-color: lighten($gto_gray, 60);
+$border-gray: darken($gto_gray, 9%);
+$darkgray: darken($gto_gray, 23%);
+$light-gray: lighten($gto_gray, 31%);
+$medium-gray: lighten($gto_gray, 24%);
+$x-light-gray: lighten($gto_gray, 47%);
+$xx-light-gray: lighten($gto_gray, 58%);
+$light-gray-background: $xx-light-gray;
+
+$all_colors: (
+  "base-background-color": $base-background-color,
+  "black": $black,
+  "bluegray": $bluegray,
+  "border-gray": $border-gray,
+  "bordergray": $border-gray,
+  "darkbluegray": $darkbluegray,
+  "darkgray": $darkgray,
+  "error_red": $error_red,
+  "gto_dark_blue": $gto_dark_blue,
+  "gto_dark_teal": $gto_dark_teal,
+  "gto_gray": $gto_gray,
+  "gto_orange": $gto_orange,
+  "gto_red": $gto_red,
+  "gto_teal": $gto_teal,
+  "gto_yellow": $gto_yellow,
+  "light-gray-background": $light-gray-background,
+  "light-gray": $light-gray,
+  "lightbluegray": $lightbluegray,
+  "medium-gray": $medium-gray,
+  "white": $white,
+  "x-light-gray": $x-light-gray,
+  "$xx-light-gray": $xx-light-gray,
+);

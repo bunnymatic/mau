@@ -5,7 +5,6 @@ ruby '2.6.5'
 gem 'actionmailer-text'
 gem 'active_model_serializers'
 gem 'authlogic'
-gem 'autoprefixer-rails'
 gem 'aws-sdk-s3'
 gem 'browser'
 gem 'browserslist_useragent'
@@ -13,7 +12,6 @@ gem 'capistrano'
 gem 'capistrano-bundler'
 gem 'capistrano-rails'
 gem 'capistrano-rbenv'
-gem 'coffee-rails' # not sure who needs this...
 gem 'dalli'
 gem 'dotenv-rails'
 gem 'elasticsearch'
@@ -21,7 +19,6 @@ gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'faraday'
 gem 'faraday_middleware'
-gem 'font-awesome-rails'
 gem 'formtastic'
 gem 'friendly_id'
 gem 'geokit'
@@ -30,17 +27,14 @@ gem 'gibbon' # mailchimp connect
 gem 'hashie'
 gem 'htmlentities'
 gem 'jbuilder' # non-html output (rss, atom)
-gem 'jquery-rails'
 gem 'listen'
 gem 'lograge'
 gem 'mime-types'
 gem 'mojo_magick'
 gem 'mysql2'
 gem 'newrelic_rpm' # moitoring
-gem 'ngannotate-rails'
 gem 'nokogiri'
 gem 'paperclip'
-gem 'pickadate-rails'
 gem 'postmark'
 gem 'postmark-rails'
 gem 'qr4r'
@@ -51,11 +45,9 @@ gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
 gem 'rosie'
-gem 'sassc-rails'
 gem 'slim-rails'
-gem 'sprockets', '~> 3.7.2'
-gem 'uglifier'
 gem 'unicorn' # webserver
+gem "webpacker"
 gem 'xmlrpc' # after ruby 2.4 upgrade
 
 group :test do
@@ -93,8 +85,6 @@ group :test, :development do
   gem 'factory_bot', require: false
   gem 'factory_bot_rails', require: false
   gem 'faker'
-  gem 'jslint_on_rails'
-  gem 'phantomjs'
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
@@ -104,7 +94,6 @@ group :test, :development do
   gem 'rubocop-rails', require: false
   gem 'shoulda-matchers'
   gem 'simplecov'
-  gem 'spring-commands-teaspoon'
-  gem 'teaspoon-jasmine'
   gem 'test-prof'
 end
+

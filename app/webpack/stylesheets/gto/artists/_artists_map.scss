@@ -1,0 +1,68 @@
+@import "mau-mixins";
+@import "gto/gto-mixins";
+.open_studios.show,
+.artists.map_page {
+  #map-canvas {
+    height: 400px;
+    margin-bottom: 20px;
+  }
+  .map__artist {
+    @include ellipsis;
+  }
+  /* offset for cluster count */
+  /* .cluster { */
+  /*   > div[aria-label] { */
+  /*     top: 10px; */
+  /*   } */
+  /* } */
+  .gm-style-iw {
+    min-width: 260px !important;
+    overflow: visible !important;
+    white-space: nowrap;
+    .map__info-window-art {
+      vertical-align: top;
+      display: inline-block;
+      padding: 4px;
+      .thumb {
+        width: 100px;
+        height: 100px;
+        @include background-cover;
+        @include box-shadow(0 0 5px 0px rgba(200, 200, 200, 0.5));
+      }
+    }
+    .map__info-window-text {
+      margin-left: 10px;
+      padding: 10px;
+      height: 100px;
+      vertical-align: top;
+      display: inline-block;
+      white-space: nowrap;
+      @include ellipsis;
+      a,
+      > div {
+        @include ellipsis;
+      }
+    }
+    button[title="Close"] {
+      top: 0px !important;
+      right: 0px !important;
+    }
+    p {
+      margin: 5px 0;
+    }
+  }
+  .map__list-of-artists {
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      font-size: 0.9rem;
+    }
+    margin-bottom: 15px;
+    .header {
+      @include section-header;
+    }
+  }
+}

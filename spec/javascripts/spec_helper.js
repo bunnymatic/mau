@@ -43,5 +43,5 @@ angular.module("TestApp", [
   "angularSlideables",
   "mau.models",
   "mau.services",
-  "mau.directives"
+  "mau.directives",
 ]);

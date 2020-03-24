@@ -1,0 +1,43 @@
+<div class="open-studios-modal__container" id="open-studios-registration-form">
+  <div class="open-studios-modal__header popup-header">
+    <div class="open-studios-modal__title popup-title">
+      Register For Open Studios
+    </div>
+    <div class="open-studios-modal__close popup-close">
+      <a href="#" ng-click="closeThisDialog()"><i class="fa fa-times"></i></a>
+    </div>
+  </div>
+  <div class="open-studios-modal__content popup-text">
+    <p>
+      You are registering to participate as an Open Studios artist {{dateRange}}.
+    </p>
+    <p>
+      This means you are committing to:
+      <ol>
+        <li>
+          Hang some art at your studio - {{location}}
+        </li>
+        <li>
+          Be there to receive the public Saturday and Sunday, {{dateRange}} from {{startTime}} to {{endTime}}.
+        </li>
+        <li>
+          Promote your art and your studio’s participation in the event. (We’ll send you tools if you need them)
+        </li>
+      </ol>
+    </p>
+    <p>
+      Continue with registration?
+    </p>
+    <div class="actions open-studios-registration-form__actions">
+      <div class="open-studios-registration-form__action-item">
+        <button class="pure-button button-primary" ng-click="acceptRegistration()">Yes</button>
+      </div>
+      <div class="open-studios-registration-form__action-item">
+        <button class="pure-button button-secondary" ng-click="declineRegistration()">No</button>
+      </div>
+      <div class="open-studios-registration-form__action-item">
+        <button class="pure-button button-secondary" ng-click="handleHasQuestions()">I have questions</button>
+      </div>
+    </div>
+  </div>
+</div>

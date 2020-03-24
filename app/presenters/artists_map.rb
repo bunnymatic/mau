@@ -35,7 +35,8 @@ class ArtistsMap < ArtistsPresenter
       lat: artist.lat,
       lng: artist.lng,
       infowindow: artist.map_info,
-      artist_id: artist.id,
+      artistId: artist.id,
+      artistName: artist.full_name,
     }
   end
 
