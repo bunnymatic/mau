@@ -1,11 +1,11 @@
 import jQuery from "jquery";
 
-const ajaxSetup = jq => {
+const ajaxSetup = (jq) => {
   let token = jq('meta[name="csrf-token"]').attr("content");
   jq.ajaxSetup({
-    beforeSend: function(xhr) {
+    beforeSend: function (xhr) {
       xhr.setRequestHeader("X-CSRF-Token", token);
-    }
+    },
   });
 };
 
@@ -15,7 +15,7 @@ const request = (method, url, data, ajaxOptions = {}) => {
     method,
     url,
     data,
-    ...ajaxOptions
+    ...ajaxOptions,
   };
   return jQuery.ajax(options);
 };

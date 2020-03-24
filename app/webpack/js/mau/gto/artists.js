@@ -1,25 +1,23 @@
 import $ from "jquery";
 import { get } from "@js/mau_ajax";
 
-(function() {
-  $(function() {
+(function () {
+  $(function () {
     var $bio, $more, $win, fetchArtists, fetching, url;
     if ($(".artists.show").length) {
       $bio = $(".artist__bio");
       if ($bio.length) {
         $bio.toggleClass("overflowing", $bio.isOverflowing());
       }
-      $bio.next(".js-read-more").on("click", function(ev) {
+      $bio.next(".js-read-more").on("click", function (ev) {
         var t;
         ev.preventDefault();
         $bio.toggleClass("open");
         $bio.scrollTop(0);
         t = $bio.hasClass("open") ? "Read Less" : "Read More";
-        return $(this)
-          .find("span.text")
-          .html(t);
+        return $(this).find("span.text").html(t);
       });
-      $("#js-hide-artist-details").on("click", function(_ev) {
+      $("#js-hide-artist-details").on("click", function (_ev) {
         var $columns, $left, $right, btnText;
         $left = $("#about");
         $right = $("#art");
@@ -45,24 +43,22 @@ import { get } from "@js/mau_ajax";
     if ($(".artists.index, .open_studios.show").length) {
       fetching = false;
 
-      fetchArtists = function(url) {
+      fetchArtists = function (url) {
         var $content, nextPage, pagination;
         if (fetching) {
           return;
         }
         fetching = true;
         $content = $(".js-artists-scroll-wrapper");
-        pagination = $(".js-pagination-state")
-          .last()
-          .data();
+        pagination = $(".js-pagination-state").last().data();
         if (pagination.hasMore) {
           nextPage = pagination.nextPage;
           get(url, {
             s: pagination.sortOrder,
             l: pagination.currentLetter,
             p: nextPage,
-            os_only: pagination.osOnly
-          }).done(function(data) {
+            os_only: pagination.osOnly,
+          }).done(function (data) {
             $("#js-scroll-load-more").remove();
             if (data) {
               $content = $(".js-artists-scroll-wrapper");
@@ -74,7 +70,7 @@ import { get } from "@js/mau_ajax";
       };
       url = $(".artists.index")[0] != null ? "/artists" : "/open_studios";
       $win = $(window);
-      $win.scroll(function() {
+      $win.scroll(function () {
         if ($win.scrollTop() === $(document).height() - $win.height()) {
           return fetchArtists(url);
         }

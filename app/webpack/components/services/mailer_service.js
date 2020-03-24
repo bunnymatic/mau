@@ -1,12 +1,12 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var mailerService;
 
-  mailerService = ngInject(function() {
+  mailerService = ngInject(function () {
     return {
-      mailToLink: function(subject, user, domain) {
+      mailToLink: function (subject, user, domain) {
         if (!user || ["www", "info", "feedback", "mau"].indexOf(user) === -1) {
           user = "www";
         }
@@ -16,7 +16,7 @@ import ngInject from "@js/ng-inject";
           lnk += "?subject=" + escape(subject);
         }
         return lnk;
-      }
+      },
     };
   });
 

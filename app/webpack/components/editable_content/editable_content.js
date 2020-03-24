@@ -1,31 +1,31 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var editableContent;
 
-  editableContent = ngInject(function(objectRoutingService) {
+  editableContent = ngInject(function (objectRoutingService) {
     return {
       restrict: "A",
       transclude: true,
       scope: {
         page: "@",
         section: "@",
-        cmsid: "@"
+        cmsid: "@",
       },
       templateUrl: "editable_content/index.html",
-      link: function($scope, _el, _attrs) {
+      link: function ($scope, _el, _attrs) {
         if ($scope.cmsid) {
           $scope.editPage = objectRoutingService.editCmsDocumentPath({
-            id: $scope.cmsid
+            id: $scope.cmsid,
           });
         } else {
           $scope.editPage = objectRoutingService.newCmsDocumentPath({
             page: $scope.page,
-            section: $scope.section
+            section: $scope.section,
           });
         }
-      }
+      },
     };
   });
 

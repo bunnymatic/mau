@@ -1,29 +1,29 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var emailChangedEventsService;
 
-  emailChangedEventsService = ngInject(function($q, ApplicationEventsService) {
+  emailChangedEventsService = ngInject(function ($q, ApplicationEventsService) {
     var filterByChangedEmail;
-    filterByChangedEmail = function(data) {
-      return _.find(data, function(event) {
+    filterByChangedEmail = function (data) {
+      return _.find(data, function (event) {
         return /updated.*email/.test(event.message);
       });
     };
     return {
-      list: function(params) {
+      list: function (params) {
         var events, ref;
         events = ApplicationEventsService.list(params);
         return (ref = events.$promise) != null
-          ? ref.then(function(data) {
+          ? ref.then(function (data) {
               var defer;
               defer = $q.defer();
               defer.resolve(filterByChangedEmail(data));
               return defer.promise;
             })
           : void 0;
-      }
+      },
     };
   });
 

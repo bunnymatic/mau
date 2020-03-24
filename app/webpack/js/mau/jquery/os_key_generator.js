@@ -11,7 +11,7 @@ class OsKeyGenerator {
       {
         start_date_field: "#open_studios_event_start_date",
         end_date_field: "#open_studios_event_start_date",
-        key_field: "#open_studios_event_key"
+        key_field: "#open_studios_event_key",
       },
       opts
     );

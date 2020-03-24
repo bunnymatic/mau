@@ -3,8 +3,8 @@ import dt from "datatables";
 
 const DATATABLES_CONFIG = {
   artists_index: {
-    order: [[3, "desc"]]
-  }
+    order: [[3, "desc"]],
+  },
 };
 
 class MauDatatables {
@@ -45,7 +45,7 @@ class MauDatatables {
           {
             aaSorting: [],
             paging: false,
-            info: false
+            info: false,
           },
           cfg($table.attr("id"))
         );
@@ -63,7 +63,7 @@ class MauDatatables {
             aaSorting: [],
             paging: false,
             info: false,
-            searching: false
+            searching: false,
           },
           cfg($table.attr("id"))
         );

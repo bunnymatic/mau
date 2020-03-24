@@ -1,10 +1,10 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var applicationEventsService;
 
-  applicationEventsService = ngInject(function($resource) {
+  applicationEventsService = ngInject(function ($resource) {
     var applicationEvents;
     applicationEvents = $resource(
       "/admin/application_events.json",
@@ -14,23 +14,23 @@ import ngInject from "@js/ng-inject";
           method: "GET",
           cache: true,
           isArray: true,
-          transformResponse: function(data, _header) {
+          transformResponse: function (data, _header) {
             var ref;
             return (ref = angular.fromJson(data)) != null
               ? ref.application_events
               : void 0;
-          }
-        }
+          },
+        },
       }
     );
     return {
-      list: function(params) {
+      list: function (params) {
         var args;
         args = {
-          "query[since]": params.since
+          "query[since]": params.since,
         };
         return applicationEvents.index(args);
-      }
+      },
     };
   });
 

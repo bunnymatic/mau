@@ -1,9 +1,9 @@
 import jQuery from "jquery";
 import QueryStringParser from "./query_string_parser";
 import Spinner from "./mau_spinner.js";
-(function() {
-  jQuery(function() {
-    jQuery("#account_type_chooser").bind("change", function() {
+(function () {
+  jQuery(function () {
+    jQuery("#account_type_chooser").bind("change", function () {
       var newform, spinner, uri_parser;
       newform = jQuery(this).val();
       uri_parser = new QueryStringParser("/users/new");

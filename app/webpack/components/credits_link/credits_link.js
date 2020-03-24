@@ -1,30 +1,30 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var controller, Credits;
 
-  controller = ngInject(function($scope, $attrs, $element, ngDialog) {
-    $scope.launchModal = function($event) {
+  controller = ngInject(function ($scope, $attrs, $element, ngDialog) {
+    $scope.launchModal = function ($event) {
       $event.stopPropagation();
       $event.preventDefault();
       ngDialog.open({
         templateUrl: "credits_link/credits__modal.html",
         scope: $scope,
         className: "ngdialog-theme-default credits__modal",
-        showClose: false
+        showClose: false,
       });
     };
   });
 
-  Credits = ngInject(function() {
+  Credits = ngInject(function () {
     return {
       restrict: "E",
       scope: {
-        versionString: "@"
+        versionString: "@",
       },
       templateUrl: "credits_link/index.html",
-      controller: controller
+      controller: controller,
     };
   });
 

@@ -1,11 +1,11 @@
 import $ from "jquery";
 import { post } from "@js/mau_ajax";
 
-(function() {
-  $(function() {
+(function () {
+  $(function () {
     var $win, NUM_IMAGES, fetchArtists;
     NUM_IMAGES = 12;
-    fetchArtists = function(_ev) {
+    fetchArtists = function (_ev) {
       var $content, offset, seed;
       $content = $(".js-sampler");
       if (!$content.find("#js-scroll-load-more").length) {
@@ -16,8 +16,8 @@ import { post } from "@js/mau_ajax";
       post("/main/sampler", {
         seed: seed,
         offset: offset,
-        number_of_images: NUM_IMAGES
-      }).done(function(data) {
+        number_of_images: NUM_IMAGES,
+      }).done(function (data) {
         var $insertion, $more;
         if (data && !/^\s+$/.test(data)) {
           $insertion = $content.find("#js-scroll-load-more");
@@ -35,7 +35,7 @@ import { post } from "@js/mau_ajax";
     };
     if ($("#sampler").length) {
       $win = $(window);
-      $win.scroll(function() {
+      $win.scroll(function () {
         if ($win.scrollTop() === $(document).height() - $win.height()) {
           return fetchArtists();
         }

@@ -1,7 +1,7 @@
 import $ from "jquery";
 
-(function() {
-  $(function() {
+(function () {
+  $(function () {
     if (!($(".users.edit, .artists.edit").length > 0)) {
       return;
     }

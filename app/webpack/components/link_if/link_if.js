@@ -1,17 +1,17 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   angular.module("mau.directives").directive(
     "linkIf",
-    ngInject(function() {
+    ngInject(function () {
       return {
         restrict: "E",
         scope: {
           href: "=",
-          label: "="
+          label: "=",
         },
-        templateUrl: "link_if/index.html"
+        templateUrl: "link_if/index.html",
       };
     })
   );

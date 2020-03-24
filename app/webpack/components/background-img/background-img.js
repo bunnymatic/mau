@@ -1,21 +1,21 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var backgroundImg;
 
-  backgroundImg = ngInject(function() {
+  backgroundImg = ngInject(function () {
     return {
       restrict: "A",
-      link: function(scope, element, attrs) {
+      link: function (scope, element, attrs) {
         var url;
         url = attrs.backgroundImg;
         return element.css({
           "background-image": 'url("' + url + '")',
           "background-size": "cover",
-          "background-position": "center center"
+          "background-position": "center center",
         });
-      }
+      },
     };
   });
 

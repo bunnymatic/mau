@@ -92,7 +92,7 @@ ujs.start();
 //= require c3/c3.min
 //= require_tree ./admin
 
-(function() {
+(function () {
   angular
     .module("MauAdminApp", [
       "templates",
@@ -102,10 +102,10 @@ ujs.start();
       "angularSlideables",
       "mau.models",
       "mau.services",
-      "mau.directives"
+      "mau.directives",
     ])
     .config(
-      ngInject(function($httpProvider) {
+      ngInject(function ($httpProvider) {
         var base, csrfToken;
         csrfToken = $("meta[name=csrf-token]").attr("content");
         $httpProvider.defaults.headers.post["X-CSRF-Token"] = csrfToken;

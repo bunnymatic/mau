@@ -1,23 +1,23 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var notificationService;
 
-  notificationService = ngInject(function($http, deviceDetector) {
+  notificationService = ngInject(function ($http, deviceDetector) {
     return {
-      sendInquiry: function(data, successCb, errorCb) {
+      sendInquiry: function (data, successCb, errorCb) {
         data = _.extend(data, {
           os: deviceDetector.os,
           browser: deviceDetector.browser,
-          device: deviceDetector.device
+          device: deviceDetector.device,
         });
         return $http
           .post("/api/notes", {
-            feedback_mail: data
+            feedback_mail: data,
           })
           .then(successCb, errorCb);
-      }
+      },
     };
   });
 

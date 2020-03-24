@@ -6,3 +6,4 @@ package-lock.json
 coverage
 browsers.json
 tmp
+spec/javascripts/

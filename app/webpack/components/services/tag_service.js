@@ -1,10 +1,10 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var tagService;
 
-  tagService = ngInject(function($resource) {
+  tagService = ngInject(function ($resource) {
     var tags;
     tags = $resource(
       "/art_piece_tags/:id",
@@ -12,16 +12,16 @@ import ngInject from "@js/ng-inject";
       {
         get: {
           method: "GET",
-          cache: true
-        }
+          cache: true,
+        },
       }
     );
     return {
-      get: function(id) {
+      get: function (id) {
         return tags.get({
-          id: id
+          id: id,
         });
-      }
+      },
     };
   });
 

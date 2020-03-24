@@ -1,11 +1,11 @@
 import jQuery from "jquery";
 
-jQuery(function() {
+jQuery(function () {
   var layout = jQuery(".admin #layout"),
     menu = jQuery(".admin #menu"),
     menuLink = jQuery(".admin #menu-link");
 
-  menuLink.on("click", function(e) {
+  menuLink.on("click", function (e) {
     var active = "active";
 
     e.preventDefault();

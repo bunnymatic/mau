@@ -4,7 +4,7 @@ import $ from "jquery";
 let MAU = (window.MAU = window.MAU || {});
 
 /** setup hash change observer */
-(function() {
+(function () {
   var curHash = window.location.hash;
   function doHashChange() {
     if (window.location.hash != curHash) {
@@ -20,23 +20,23 @@ let MAU = (window.MAU = window.MAU || {});
 })();
 
 /*** jquery on load */
-$(function() {
+$(function () {
   var flashNotice = ".notice, .flash, .flash__notice, .flash__error";
-  $("body").on("click", flashNotice, function(_ev) {
+  $("body").on("click", flashNotice, function (_ev) {
     var $_that = $(this);
     $_that.fadeOut({
-      complete: function() {
+      complete: function () {
         $_that.remove();
-      }
+      },
     });
   });
   $(flashNotice)
     .not(".flash__error")
-    .each(function() {
+    .each(function () {
       var _that = this;
       var timeout = _.min([20000, _.max([5000, 120 * this.innerText.length])]);
 
-      setTimeout(function() {
+      setTimeout(function () {
         $(_that).fadeOut();
       }, timeout);
     });

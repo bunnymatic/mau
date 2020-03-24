@@ -23,10 +23,10 @@ import { post } from "@js/mau_ajax";
  *  })
  *
  */
-(function($) {
+(function ($) {
   var settings;
 
-  jQuery.fn.feedback = function(callerSettings) {
+  jQuery.fn.feedback = function (callerSettings) {
     settings = $.extend(
       {
         main: "feedback",
@@ -36,7 +36,7 @@ import { post } from "@js/mau_ajax";
         modalContent: "feedback_modal_content",
         form: "feedback_form",
         formUrl: "/feedbacks/new",
-        overlay: "feedback_overlay"
+        overlay: "feedback_overlay",
       },
       callerSettings || {}
     );
@@ -75,12 +75,12 @@ import { post } from "@js/mau_ajax";
       );
     }
 
-    jQuery(settings.tabControls).click(function() {
+    jQuery(settings.tabControls).click(function () {
       loading();
-      jQuery(settings.modalContent).load(settings.formUrl, null, function() {
+      jQuery(settings.modalContent).load(settings.formUrl, null, function () {
         jQuery(settings.form).submit(submitFeedback);
 
-        jQuery(settings.closeBtn).on("click", function() {
+        jQuery(settings.closeBtn).on("click", function () {
           hideFeedback();
           return false;
         });
@@ -89,48 +89,46 @@ import { post } from "@js/mau_ajax";
     });
   };
 
-  var submitFeedback = function() {
+  var submitFeedback = function () {
     jQuery("input[name=feedback\\[page\\]]").val(location.href);
     var data = jQuery(settings.form).serialize();
     var url = $.trim(jQuery(settings.form).attr("action"));
     post(url, data, {
-      success: function(msg, _status) {
+      success: function (msg, _status) {
         jQuery(settings.modalContent).html(msg);
-        setTimeout(function() {
-          jQuery(settings.modalWindow).fadeOut(500, function() {
+        setTimeout(function () {
+          jQuery(settings.modalWindow).fadeOut(500, function () {
             hideFeedback();
           });
         }, 3000);
       },
-      error: function(xhr, _status, _a) {
+      error: function (xhr, _status, _a) {
         jQuery(settings.modalContent).html(xhr.responseText);
         jQuery(settings.form).submit(submitFeedback);
-      }
+      },
     });
     return false;
   };
 
-  var initOverlay = function() {
+  var initOverlay = function () {
     if (jQuery(settings.overlay).length == 0)
       jQuery("body").append(settings.overlayHtml);
-    return jQuery(settings.overlay)
-      .hide()
-      .addClass("feedback_overlayBG");
+    return jQuery(settings.overlay).hide().addClass("feedback_overlayBG");
   };
 
-  var showOverlay = function() {
+  var showOverlay = function () {
     initOverlay().show();
   };
 
-  var hideOverlay = function() {
+  var hideOverlay = function () {
     if (jQuery(settings.overlay).length == 0) return false;
     jQuery(settings.overlay).remove();
   };
 
-  var initFeedback = function() {
+  var initFeedback = function () {
     if (jQuery(settings.main).length == 0) {
       jQuery("body").append(settings.feedbackHtml);
-      jQuery(settings.main).on("click", settings.closeLink, function() {
+      jQuery(settings.main).on("click", settings.closeLink, function () {
         hideFeedback();
         return false;
       });
@@ -139,17 +137,17 @@ import { post } from "@js/mau_ajax";
     return jQuery(settings.main);
   };
 
-  var showFeedback = function() {
+  var showFeedback = function () {
     initFeedback().show();
   };
 
-  var hideFeedback = function() {
+  var hideFeedback = function () {
     jQuery(settings.main).hide();
     jQuery(settings.main).remove();
     hideOverlay();
   };
 
-  var setBoxPosition = function() {
+  var setBoxPosition = function () {
     var scrollTop, clientHeight;
     if (self.pageYOffset) {
       scrollTop = self.pageYOffset;
@@ -174,11 +172,11 @@ import { post } from "@js/mau_ajax";
       clientHeight = document.body.clientHeight;
     }
     jQuery(settings.modalWindow).css({
-      top: scrollTop + clientHeight / 10 + "px"
+      top: scrollTop + clientHeight / 10 + "px",
     });
   };
 
-  var loading = function() {
+  var loading = function () {
     showOverlay();
     initFeedback();
     showFeedback();

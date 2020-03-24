@@ -2,9 +2,9 @@ import { ellipsize } from "@js/mau/utils";
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
-  var SearchHit = ngInject(function(objectRoutingService) {
-    return function(hit) {
+(function () {
+  var SearchHit = ngInject(function (objectRoutingService) {
+    return function (hit) {
       var obj, ref, src;
       this.hit = hit;
       src = this.hit._source;
@@ -44,7 +44,7 @@ import ngInject from "@js/ng-inject";
           this.icon_class = "fa-picture-o";
           this.link = objectRoutingService.artPiecePath(obj);
           this.tags = obj.tags;
-          this.tagsForDisplay = function() {};
+          this.tagsForDisplay = function () {};
           this.medium = obj.medium;
       }
     };

@@ -1,16 +1,16 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var directive;
 
-  directive = ngInject(function() {
+  directive = ngInject(function () {
     var compile;
-    compile = function(el, attrs) {
+    compile = function (el, attrs) {
       var delim, delimHtml, html;
       delim = attrs.repeaterDelimiter || ",";
       delimHtml = "<span ng-show=' ! $last '>" + delim + "</span>";
-      html = el.html().replace(/(\s*$)/i, function(whitespace) {
+      html = el.html().replace(/(\s*$)/i, function (whitespace) {
         return delimHtml + whitespace;
       });
       return el.html(html);
@@ -18,7 +18,7 @@ import ngInject from "@js/ng-inject";
     return {
       compile: compile,
       priority: 1001,
-      restrict: "A"
+      restrict: "A",
     };
   });
 

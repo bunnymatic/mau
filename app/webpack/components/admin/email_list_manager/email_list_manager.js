@@ -1,59 +1,59 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var controller, emailListManager;
 
-  controller = ngInject(function($scope, $attrs, emailsService, Email) {
+  controller = ngInject(function ($scope, $attrs, emailsService, Email) {
     var clearForm, fetchEmails;
     $scope.info = $attrs.listInfo;
     $scope.title = $attrs.listTitle;
     $scope.emailListId = $attrs.listId;
     $scope.addEmailFormVisible = false;
-    clearForm = function() {
+    clearForm = function () {
       return ($scope.newEmail = {});
     };
-    fetchEmails = function(listId) {
+    fetchEmails = function (listId) {
       return emailsService.query(
         {
-          email_list_id: listId
+          email_list_id: listId,
         },
-        function(data) {
-          return ($scope.emails = _.map(data, function(email) {
+        function (data) {
+          return ($scope.emails = _.map(data, function (email) {
             return new Email(email);
           }));
         }
       );
     };
     fetchEmails($scope.emailListId);
-    $scope.removeEmail = function(id) {
+    $scope.removeEmail = function (id) {
       return emailsService.remove(
         {
           email_list_id: $scope.emailListId,
-          id: id
+          id: id,
         },
-        function() {
+        function () {
           return fetchEmails($scope.emailListId);
         },
-        function() {}
+        function () {}
       );
     };
-    $scope.addEmail = function() {
+    $scope.addEmail = function () {
       $scope.errors = null;
       if ($scope.newEmail != null) {
         emailsService.save(
           {
-            email_list_id: $scope.emailListId
+            email_list_id: $scope.emailListId,
           },
           {
-            email: $scope.newEmail
+            email: $scope.newEmail,
           },
-          function() {
+          function () {
             fetchEmails($scope.emailListId);
             clearForm();
             return $scope.toggleAddEmailForm();
           },
-          function(response) {
+          function (response) {
             $scope.errors = response.data.errors;
             $scope.toggleAddEmailForm();
             return $scope.toggleAddEmailForm();
@@ -63,21 +63,21 @@ import ngInject from "@js/ng-inject";
     };
   });
 
-  emailListManager = ngInject(function($timeout) {
+  emailListManager = ngInject(function ($timeout) {
     return {
       restrict: "E",
       templateUrl: "admin/email_list_manager/index.html",
       controller: controller,
       scope: {},
-      link: function($scope, $el, _$attrs, _$ctrl) {
-        return ($scope.toggleAddEmailForm = function() {
-          return $timeout(function() {
+      link: function ($scope, $el, _$attrs, _$ctrl) {
+        return ($scope.toggleAddEmailForm = function () {
+          return $timeout(function () {
             return angular
               .element($el[0].querySelector("[slide-toggle]"))
               .triggerHandler("click");
           }, 0);
         });
-      }
+      },
     };
   });
 

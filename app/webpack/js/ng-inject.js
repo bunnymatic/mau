@@ -1,1 +1,1 @@
-export default f => f;
+export default (f) => f;

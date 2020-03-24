@@ -18,15 +18,15 @@ const randomizePosition = (marker, maxRandomDistance = null) => {
   return { lat, lng };
 };
 
-const transformMarker = marker => {
+const transformMarker = (marker) => {
   const { lat, lng, artistName } = marker;
   return {
     position: randomizePosition({ lat, lng }, MAX_RANDOM_DISTANCE),
-    title: artistName
+    title: artistName,
   };
 };
 
-const decorateMarker = marker => {
+const decorateMarker = (marker) => {
   return { ...marker, animation: google.maps.Animation.DROP };
 };
 
@@ -40,12 +40,12 @@ const openInfoWindow = (infoWindow, map, pin) => {
 };
 const addMarkers = (map, markers) => {
   return markers
-    .filter(x => !!x)
-    .map(marker => {
+    .filter((x) => !!x)
+    .map((marker) => {
       const gmapMarker = decorateMarker(transformMarker(marker));
       const pin = new google.maps.Marker({ ...gmapMarker, map: map });
       const infoWindow = new google.maps.InfoWindow({
-        content: marker.infowindow
+        content: marker.infowindow,
       });
       pin.addListener("click", () => openInfoWindow(infoWindow, map, pin));
       return pin;
@@ -58,7 +58,7 @@ const addBoundaryPolygon = (map, bounds) => {
     strokeColor: "#36828F3",
     strokeOpacity: 0.1,
     fillColor: "#c39f06",
-    fillOpacity: 0.1
+    fillOpacity: 0.1,
   });
   poly.setMap(map);
   return poly;
@@ -66,8 +66,8 @@ const addBoundaryPolygon = (map, bounds) => {
 
 const getMarkerBounds = (markers, missionBounds) => {
   const bounds = new google.maps.LatLngBounds();
-  missionBounds.forEach(bound => bounds.extend(bound));
-  markers.forEach(marker => bounds.extend(marker));
+  missionBounds.forEach((bound) => bounds.extend(bound));
+  markers.forEach((marker) => bounds.extend(marker));
   return bounds;
 };
 
@@ -76,12 +76,12 @@ const cluster = (map, markers) => {
     imagePath: "/images/google_maps/js-marker-clusterer/",
     zoomOnClick: true,
     maxZoom: 17,
-    gridSize: 20
+    gridSize: 20,
   });
   return markerCluster;
 };
 
-const renderMap = mapElementId => {
+const renderMap = (mapElementId) => {
   const missionBounds = MAU.map_bounds;
   const markers = MAU.map_markers;
   const markerBounds = getMarkerBounds(markers, missionBounds);
@@ -96,7 +96,7 @@ const renderMap = mapElementId => {
 
 jQuery(() => {
   let map;
-  jQuery(document).on("show.bs.tab", ev => {
+  jQuery(document).on("show.bs.tab", (ev) => {
     if (ev.target.hash === "#map" && !map) {
       map = renderMap("map-canvas");
     }

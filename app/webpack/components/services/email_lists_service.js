@@ -1,10 +1,10 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var emailListsService;
 
-  emailListsService = ngInject(function($resource) {
+  emailListsService = ngInject(function ($resource) {
     var email_lists;
     email_lists = $resource(
       "/admin/email_lists/:email_list_id/emails/:id.json",
@@ -13,26 +13,26 @@ import ngInject from "@js/ng-inject";
         get: {
           method: "GET",
           cache: true,
-          transformResponse: function(data, _header) {
+          transformResponse: function (data, _header) {
             var ref;
             return (ref = angular.fromJson(data)) != null
               ? ref.email_lists
               : void 0;
-          }
-        }
+          },
+        },
       }
     );
     return {
-      get: function(id) {
+      get: function (id) {
         return email_lists.get({
-          id: id
+          id: id,
         });
       },
-      list: function(artistId) {
+      list: function (artistId) {
         return email_lists.index({
-          id: artistId
+          id: artistId,
         });
-      }
+      },
     };
   });
 

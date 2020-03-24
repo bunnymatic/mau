@@ -1,22 +1,22 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var artPieceTag;
 
-  artPieceTag = ngInject(function(objectRoutingService) {
+  artPieceTag = ngInject(function (objectRoutingService) {
     return {
       restrict: "E",
       scope: {
-        tag: "="
+        tag: "=",
       },
       templateUrl: "art_piece_tag/index.html",
-      link: function($scope, _el, _attrs) {
+      link: function ($scope, _el, _attrs) {
         var tag;
         tag = $scope.tag;
         $scope.tagPath = objectRoutingService.urlForModel("art_piece_tag", tag);
         return ($scope.tagName = tag.name);
-      }
+      },
     };
   });
 

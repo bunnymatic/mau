@@ -1,8 +1,8 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
-  const controller = ngInject(function(
+(function () {
+  const controller = ngInject(function (
     $scope,
     $attrs,
     $location,
@@ -11,17 +11,17 @@ import ngInject from "@js/ng-inject";
     studiosService,
     objectRoutingService
   ) {
-    const initializeCurrent = function() {
+    const initializeCurrent = function () {
       if ($scope.artPieces && $scope.initialArtPiece) {
         return ($scope.current = _.map($scope.artPieces, "id").indexOf(
           $scope.initialArtPiece.id
         ));
       }
     };
-    const updateUrl = function() {
+    const updateUrl = function () {
       return $location.hash($scope.artPiece.id);
     };
-    const setCurrentArtPiece = function() {
+    const setCurrentArtPiece = function () {
       if (!$scope.artPieces) {
         return;
       }
@@ -31,7 +31,7 @@ import ngInject from "@js/ng-inject";
       $scope.artPiece = $scope.artPieces[$scope.current];
       return updateUrl();
     };
-    const limitPosition = function(pos) {
+    const limitPosition = function (pos) {
       var nPieces;
       nPieces = $scope.artPieces.length;
       if (pos < 0) {
@@ -39,21 +39,21 @@ import ngInject from "@js/ng-inject";
       }
       return Math.min(Math.max(0, pos), nPieces) % nPieces;
     };
-    $scope.prev = function() {
+    $scope.prev = function () {
       return ($scope.current = limitPosition($scope.current - 1));
     };
-    $scope.next = function() {
+    $scope.next = function () {
       return ($scope.current = limitPosition($scope.current + 1));
     };
-    $scope.currentArtPath = function() {
+    $scope.currentArtPath = function () {
       return objectRoutingService.artPiecePath($scope.artPiece);
     };
-    $scope.currentArtistPath = function() {
+    $scope.currentArtistPath = function () {
       if ($scope.artist) {
         return objectRoutingService.artistPath($scope.artist);
       }
     };
-    $scope.hasArtistProfile = function() {
+    $scope.hasArtistProfile = function () {
       var ref, ref1;
       return !!((ref = $scope.artist) != null
         ? (ref1 = ref.profile_images) != null
@@ -61,14 +61,14 @@ import ngInject from "@js/ng-inject";
           : void 0
         : void 0);
     };
-    $scope.profilePath = function(size) {
+    $scope.profilePath = function (size) {
       var ref;
       if (size == null) {
         size = "medium";
       }
       return (ref = $scope.artist) != null ? ref.profile_images[size] : void 0;
     };
-    $scope.onKeyDown = function(ev) {
+    $scope.onKeyDown = function (ev) {
       if (ev.which === 37) {
         $scope.prev();
       }
@@ -77,51 +77,53 @@ import ngInject from "@js/ng-inject";
       }
       return $scope.$apply();
     };
-    $scope.isCurrent = function(artPieceId) {
+    $scope.isCurrent = function (artPieceId) {
       var ref;
       return ((ref = $scope.artPiece) != null ? ref.id : void 0) === artPieceId;
     };
-    $scope.setCurrent = function($event, $index) {
+    $scope.setCurrent = function ($event, $index) {
       $event.preventDefault();
       $scope.current = $index;
     };
-    $scope.hasAddress = function() {
+    $scope.hasAddress = function () {
       var ref;
       return !!((ref = $scope.artist) != null ? ref.street_address : void 0);
     };
-    $scope.hasYear = function() {
+    $scope.hasYear = function () {
       var ref;
       return !!((ref = $scope.artPiece) != null ? ref.year : void 0);
     };
-    $scope.hasDimensions = function() {
+    $scope.hasDimensions = function () {
       var ref;
       return !!((ref = $scope.artPiece) != null ? ref.dimensions : void 0);
     };
-    $scope.hasMedia = function() {
+    $scope.hasMedia = function () {
       var ref;
       return !!((ref = $scope.artPiece) != null ? ref.medium : void 0);
     };
-    $scope.hasTags = function() {
+    $scope.hasTags = function () {
       var ref;
       return (
         ((ref = $scope.artPiece) != null ? ref.tags : void 0) &&
         $scope.artPiece.tags.length > 0
       );
     };
-    const init = function() {
+    const init = function () {
       var artPieceId, artistId;
       artistId = $attrs.artistId;
       artPieceId = $location.hash() || $attrs.artPieceId;
-      artistsService.get(artistId).$promise.then(function(data) {
+      artistsService.get(artistId).$promise.then(function (data) {
         $scope.artist = data;
-        return studiosService.get(data.studio_id).$promise.then(function(data) {
-          return ($scope.studio = data);
-        });
+        return studiosService
+          .get(data.studio_id)
+          .$promise.then(function (data) {
+            return ($scope.studio = data);
+          });
       });
-      artPiecesService.list(artistId).$promise.then(function(data) {
+      artPiecesService.list(artistId).$promise.then(function (data) {
         return ($scope.artPieces = data);
       });
-      artPiecesService.get(artPieceId).$promise.then(function(data) {
+      artPiecesService.get(artPieceId).$promise.then(function (data) {
         $scope.artPiece = data;
         return ($scope.initialArtPiece = data);
       });
@@ -132,19 +134,19 @@ import ngInject from "@js/ng-inject";
     return init();
   });
 
-  const artPiecesBrowser = ngInject(function($document) {
+  const artPiecesBrowser = ngInject(function ($document) {
     return {
       restrict: "E",
       scope: {
         artistId: "@",
-        artPieceId: "@"
+        artPieceId: "@",
       },
       templateUrl: "art_pieces_browser/index.html",
       controller: controller,
       controllerAs: "c",
-      link: function($scope, _$el, _$attr, _$ctrl) {
+      link: function ($scope, _$el, _$attr, _$ctrl) {
         $document.on("keydown", $scope.onKeyDown);
-      }
+      },
     };
   });
 

@@ -1,22 +1,22 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var medium;
 
-  medium = ngInject(function() {
+  medium = ngInject(function () {
     return {
       restrict: "E",
       scope: {
         mediumId: "@",
         mediumSlug: "@",
-        mediumName: "@"
+        mediumName: "@",
       },
       templateUrl: "medium/index.html",
-      link: function($scope, _el, _attrs) {
+      link: function ($scope, _el, _attrs) {
         return ($scope.mediumPath =
           "/media/" + ($scope.mediumSlug || $scope.mediumId));
-      }
+      },
     };
   });
   angular.module("mau.directives").directive("medium", medium);

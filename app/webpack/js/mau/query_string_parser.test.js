@@ -1,7 +1,7 @@
 import expect from "expect";
 import QueryStringParser, {
   hashToQueryString,
-  queryStringToHash
+  queryStringToHash,
 } from "./query_string_parser";
 
 describe("hashToQueryString", () => {
@@ -17,44 +17,44 @@ describe("queryStringToHash", () => {
     expect(queryStringToHash("x=xval&z=zval&y=")).toEqual({
       x: "xval",
       z: "zval",
-      y: ""
+      y: "",
     });
   });
 });
 
-describe("QueryStringParser", function() {
+describe("QueryStringParser", function () {
   let url, parser;
-  beforeEach(function() {
+  beforeEach(function () {
     url =
       "http://this.com/path/subpath?a=1&b=2&c=%2Fprojects%2Fmau%2Fspec%2F#ABC";
     parser = new QueryStringParser(url);
   });
-  describe("#constructor", function() {
-    it("provides access to url", function() {
+  describe("#constructor", function () {
+    it("provides access to url", function () {
       expect(parser.url).toEqual(url);
     });
-    it("provides access to origin", function() {
+    it("provides access to origin", function () {
       expect(parser.origin).toEqual("http://this.com");
     });
-    it("provides access to protocol", function() {
+    it("provides access to protocol", function () {
       expect(parser.protocol).toEqual("http:");
     });
-    it("provides access to hash", function() {
+    it("provides access to hash", function () {
       expect(parser.hash).toEqual("#ABC");
     });
-    it("provides access to pathname", function() {
+    it("provides access to pathname", function () {
       expect(parser.pathname).toEqual("/path/subpath");
     });
-    it("provides access to query params", function() {
+    it("provides access to query params", function () {
       expect(parser.query_params).toEqual({
         a: "1",
         b: "2",
-        c: "%2Fprojects%2Fmau%2Fspec%2F"
+        c: "%2Fprojects%2Fmau%2Fspec%2F",
       });
     });
   });
-  describe("#toString", function() {
-    it("reconstitutes the url properly", function() {
+  describe("#toString", function () {
+    it("reconstitutes the url properly", function () {
       var s;
       parser.query_params["blue"] = "red";
       delete parser.query_params["c"];

@@ -1,9 +1,9 @@
 import jQuery from "jquery";
 
-(function() {
+(function () {
   var MAU,
-    bind = function(fn, me) {
-      return function() {
+    bind = function (fn, me) {
+      return function () {
         return fn.apply(me, arguments);
       };
     };
@@ -12,7 +12,7 @@ import jQuery from "jquery";
 
   MAU.WhatsThis =
     MAU.WhatsThis ||
-    (function() {
+    (function () {
       function WhatsThis(trigger) {
         this.popup = bind(this.popup, this);
         var $trigger;
@@ -25,15 +25,15 @@ import jQuery from "jquery";
         jQuery(this.helpTextDiv).bind("click", this.popup);
       }
 
-      WhatsThis.prototype.popup = function() {
+      WhatsThis.prototype.popup = function () {
         return jQuery(this.helpTextDiv).fadeToggle();
       };
 
       return WhatsThis;
     })();
 
-  jQuery(function() {
-    return jQuery(".js-help").each(function() {
+  jQuery(function () {
+    return jQuery(".js-help").each(function () {
       return new MAU.WhatsThis(this);
     });
   });

@@ -16,7 +16,7 @@ const SPINNER_OPTIONS = {
   hwaccel: false,
   className: "spinner",
   zIndex: 2e9,
-  top: "250px"
+  top: "250px",
 };
 
 class Spinner {

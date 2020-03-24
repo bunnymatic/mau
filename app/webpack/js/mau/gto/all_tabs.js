@@ -1,7 +1,7 @@
 import $ from "jquery";
 
-(function() {
-  $(function() {
+(function () {
+  $(function () {
     var $tabs;
     $tabs = $(".js-tabs");
     if (!($tabs.length === 0)) {

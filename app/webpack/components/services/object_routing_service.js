@@ -1,12 +1,12 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var objectRoutingService;
 
-  objectRoutingService = ngInject(function() {
+  objectRoutingService = ngInject(function () {
     return {
-      newCmsDocumentPath: function(obj) {
+      newCmsDocumentPath: function (obj) {
         return (
           "/admin/cms_documents/new?cms_document[page]=" +
           obj.page +
@@ -14,22 +14,22 @@ import ngInject from "@js/ng-inject";
           obj.section
         );
       },
-      editCmsDocumentPath: function(obj) {
+      editCmsDocumentPath: function (obj) {
         return "/admin/cms_documents/" + obj.id + "/edit";
       },
-      artistPath: function(obj) {
+      artistPath: function (obj) {
         return this.urlForModel("artist", obj);
       },
-      studioPath: function(obj) {
+      studioPath: function (obj) {
         return this.urlForModel("studio", obj);
       },
-      artPiecePath: function(obj) {
+      artPiecePath: function (obj) {
         return this.urlForModel("art_piece", obj);
       },
-      urlForModel: function(model, obj) {
+      urlForModel: function (model, obj) {
         return "/" + model + "s/" + this.toParam(obj);
       },
-      toParam: function(obj) {
+      toParam: function (obj) {
         if (obj != null ? obj.slug : void 0) {
           return obj.slug;
         } else if (obj != null ? obj.id : void 0) {
@@ -37,7 +37,7 @@ import ngInject from "@js/ng-inject";
         } else {
           return obj;
         }
-      }
+      },
     };
   });
 

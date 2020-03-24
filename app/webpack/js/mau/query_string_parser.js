@@ -1,20 +1,20 @@
 import map from "lodash/map";
 import reduce from "lodash/reduce";
 
-const hashToQueryString = function(hash) {
-  return map(hash, function(v, k) {
+const hashToQueryString = function (hash) {
+  return map(hash, function (v, k) {
     if (typeof v !== "undefined" && v !== null) {
       return [k, v].join("=");
     }
   })
-    .filter(x => !!x)
+    .filter((x) => !!x)
     .join("&");
 };
 
-const queryStringToHash = function(query) {
+const queryStringToHash = function (query) {
   return reduce(
     query.split("&"),
-    function(memo, params) {
+    function (memo, params) {
       var kv;
       kv = params.split("=");
       memo[kv[0]] = kv[1];

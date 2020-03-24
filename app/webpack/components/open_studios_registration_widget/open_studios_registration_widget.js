@@ -1,10 +1,10 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var controller, modalController, openStudiosRegistrationWidget;
 
-  modalController = ngInject(function(
+  modalController = ngInject(function (
     $scope,
     $element,
     $q,
@@ -12,7 +12,7 @@ import ngInject from "@js/ng-inject";
     mailerService,
     openStudiosRegistrationService
   ) {
-    $scope.handleHasQuestions = function() {
+    $scope.handleHasQuestions = function () {
       $scope.closeThisDialog();
       $window.location = mailerService.mailToLink(
         "I have questions about registering for Open Studios"
@@ -30,36 +30,36 @@ import ngInject from "@js/ng-inject";
     function setRegistration(participation) {
       openStudiosRegistrationService.register(
         {
-          participation: participation
+          participation: participation,
         },
         success,
         error
       );
     }
 
-    $scope.declineRegistration = function() {
+    $scope.declineRegistration = function () {
       setRegistration(false);
       $scope.$emit("changedRegistration", { participation: false });
     };
 
-    $scope.acceptRegistration = function() {
+    $scope.acceptRegistration = function () {
       setRegistration(true);
       $scope.$emit("changedRegistration", { participation: true });
     };
   });
 
-  controller = ngInject(function(
+  controller = ngInject(function (
     $scope,
     $attrs,
     $element,
     ngDialog,
     envService
   ) {
-    $scope.$on("changedRegistration", function(event, data) {
+    $scope.$on("changedRegistration", function (event, data) {
       $scope.setMessage(data.participation);
     });
 
-    $scope.setMessage = function(participation) {
+    $scope.setMessage = function (participation) {
       $scope.currentMessage =
         "Will you be opening your doors for Open Studios on " +
         $scope.dateRange +
@@ -74,7 +74,7 @@ import ngInject from "@js/ng-inject";
       }
     };
 
-    $scope.openModal = function() {
+    $scope.openModal = function () {
       ngDialog.open({
         templateUrl:
           "open_studios_registration_widget/open_studios_registration__modal.html",
@@ -84,19 +84,19 @@ import ngInject from "@js/ng-inject";
         width: "80%",
         showClose: false,
         closeByDocument: false,
-        disableAnimation: envService.isTest()
+        disableAnimation: envService.isTest(),
       });
     };
 
-    $scope.launchModal = function($event) {
+    $scope.launchModal = function ($event) {
       $event.stopPropagation();
       $event.preventDefault();
       $scope.openModal();
       return false;
     };
 
-    $scope.participation = $attrs.hasOwnProperty("participation");
-    $scope.autoRegister = $attrs.hasOwnProperty("autoRegister");
+    $scope.participation = $attrs.has("participation");
+    $scope.autoRegister = $attrs.has("autoRegister");
     $scope.location = $scope.studioName || $scope.address;
     $scope.setMessage($scope.participation);
 
@@ -105,7 +105,7 @@ import ngInject from "@js/ng-inject";
     }
   });
 
-  openStudiosRegistrationWidget = ngInject(function() {
+  openStudiosRegistrationWidget = ngInject(function () {
     return {
       restrict: "E",
       scope: {
@@ -113,10 +113,10 @@ import ngInject from "@js/ng-inject";
         dateRange: "@",
         startTime: "@",
         endTime: "@",
-        address: "@"
+        address: "@",
       },
       templateUrl: "open_studios_registration_widget/index.html",
-      controller: controller
+      controller: controller,
     };
   });
 

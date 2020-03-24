@@ -2,20 +2,20 @@ import angular from "angular";
 import ngInject from "@js/ng-inject";
 import { hashToQueryString } from "@js/mau/query_string_parser";
 
-(function() {
+(function () {
   var controller, shareButton;
 
-  controller = ngInject(function($scope, $attrs, $location) {
+  controller = ngInject(function ($scope, $attrs, $location) {
     let location_origin;
     location_origin = $location.protocol() + "://" + $location.host();
     if ($location.port() != null && $location.port() !== 80) {
       location_origin += ":" + $location.port();
     }
     $scope.domain = $attrs.domain || location_origin;
-    $scope.artPieceLink = function() {
+    $scope.artPieceLink = function () {
       return this.domain + "/art_pieces/" + this.artPiece.id;
     };
-    $scope.description = function() {
+    $scope.description = function () {
       return (
         "Check out " +
         $scope.artPiece.title +
@@ -24,16 +24,16 @@ import { hashToQueryString } from "@js/mau/query_string_parser";
         " on Mission Artists"
       );
     };
-    $scope.facebookLink = function() {
+    $scope.facebookLink = function () {
       const safeUrl = encodeURIComponent($scope.artPieceLink());
       return (
         "https://www.facebook.com/sharer/sharer.php?" +
         hashToQueryString({
-          u: safeUrl
+          u: safeUrl,
         })
       );
     };
-    $scope.twitterLink = function() {
+    $scope.twitterLink = function () {
       const safeDesc = encodeURIComponent($scope.description());
       const artPieceUrl = encodeURIComponent($scope.artPieceLink());
       return (
@@ -41,11 +41,11 @@ import { hashToQueryString } from "@js/mau/query_string_parser";
         hashToQueryString({
           text: safeDesc,
           via: "sfmau",
-          url: artPieceUrl
+          url: artPieceUrl,
         })
       );
     };
-    $scope.pinterestLink = function() {
+    $scope.pinterestLink = function () {
       const artPiece = $scope.artPiece;
       const artPieceImage = encodeURIComponent("" + artPiece.image_urls.large);
       const artPieceUrl = encodeURIComponent($scope.artPieceLink());
@@ -57,22 +57,22 @@ import { hashToQueryString } from "@js/mau/query_string_parser";
           url: artPieceUrl,
           media: artPieceImage,
           title: title,
-          description: desc
+          description: desc,
         })
       );
     };
-    $scope.link = function() {
+    $scope.link = function () {
       const method = $attrs.type + "Link";
       return $scope[method]();
     };
-    $scope.target = function() {
+    $scope.target = function () {
       if ($attrs.type === "favorite") {
         return "_self";
       } else {
         return "_blank";
       }
     };
-    $scope.title = function() {
+    $scope.title = function () {
       switch ($attrs.type) {
         case "favorite":
           return "Add this to your favorites";
@@ -84,17 +84,17 @@ import { hashToQueryString } from "@js/mau/query_string_parser";
           return "Pin it";
       }
     };
-    return ($scope.iconClass = function() {
+    return ($scope.iconClass = function () {
       return "ico-" + $attrs.type;
     });
   });
 
-  shareButton = function() {
+  shareButton = function () {
     return {
       restrict: "E",
       templateUrl: "social_buttons/index.html",
       controller: controller,
-      controllerAs: "c"
+      controllerAs: "c",
     };
   };
 

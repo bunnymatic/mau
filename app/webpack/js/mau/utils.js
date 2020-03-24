@@ -1,10 +1,10 @@
-const ellipsize = function(str, max, ellipse, chars, truncate) {
+const ellipsize = function (str, max, ellipse, chars, truncate) {
   var DEFAULTS, c, i, last, len, ref;
   DEFAULTS = {
     ellipse: "…",
     chars: [" ", "-"],
     max: 140,
-    truncate: true
+    truncate: true,
   };
   max || (max = DEFAULTS.max);
   chars || (chars = DEFAULTS.chars);
@@ -29,7 +29,7 @@ const ellipsize = function(str, max, ellipse, chars, truncate) {
         return (ref = !truncate) != null
           ? ref
           : {
-              "": str.substring(0, max - 1) + ellipse
+              "": str.substring(0, max - 1) + ellipse,
             };
       }
       return str.substring(0, last) + ellipse;
@@ -37,14 +37,14 @@ const ellipsize = function(str, max, ellipse, chars, truncate) {
   }
   return str;
 };
-const debounce = function(func, threshold, execAsap) {
+const debounce = function (func, threshold, execAsap) {
   var timeout;
   timeout = null;
-  return function() {
+  return function () {
     var args, delayed, obj;
     obj = this;
     args = arguments;
-    delayed = function() {
+    delayed = function () {
       if (!execAsap) {
         func.apply(obj, args);
       }

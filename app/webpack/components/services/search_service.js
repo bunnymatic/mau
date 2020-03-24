@@ -1,12 +1,12 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var searchService;
 
-  searchService = ngInject(function($http) {
+  searchService = ngInject(function ($http) {
     return {
-      query: function(searchParams) {
+      query: function (searchParams) {
         var error, success;
         success = searchParams.success;
         error = searchParams.error;
@@ -15,14 +15,14 @@ import ngInject from "@js/ng-inject";
         }
         searchParams.q = searchParams.query;
         return $http.post("/search.json", searchParams).then(
-          function(resp) {
+          function (resp) {
             return success(resp.data);
           },
-          function(resp) {
+          function (resp) {
             return error(resp.data);
           }
         );
-      }
+      },
     };
   });
 

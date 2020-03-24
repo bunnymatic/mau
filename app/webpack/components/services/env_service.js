@@ -1,20 +1,20 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var envService;
 
-  envService = ngInject(function($window) {
+  envService = ngInject(function ($window) {
     return {
-      isTest: function() {
+      isTest: function () {
         return $window.__env === "test";
       },
-      isDevelopment: function() {
+      isDevelopment: function () {
         return $window.__env === "development";
       },
-      isProduction: function() {
+      isProduction: function () {
         return !this.isTest() && !this.isDevelopment();
-      }
+      },
     };
   });
 

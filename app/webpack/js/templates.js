@@ -17,12 +17,12 @@ import search_results_index_html from "../components/search_results/index.html";
 import social_buttons_favorite_html from "../components/social_buttons/favorite.html";
 import social_buttons_index_html from "../components/social_buttons/index.html";
 
-(function() {
+(function () {
   "use strict";
 
   angular.module("templates", []).run([
     "$templateCache",
-    function($templateCache) {
+    function ($templateCache) {
       $templateCache.put(
         "email_list_manager/index.html",
         email_list_manager_index_html
@@ -79,6 +79,6 @@ import social_buttons_index_html from "../components/social_buttons/index.html";
         "social_buttons/index.html",
         social_buttons_index_html
       );
-    }
+    },
   ]);
 })();

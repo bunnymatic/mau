@@ -1,19 +1,19 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function() {
+(function () {
   var openStudiosRegistrationService;
 
   function registerUrl(artist) {
     return "/api/artists/" + artist + "/register_for_open_studios";
   }
-  openStudiosRegistrationService = ngInject(function(
+  openStudiosRegistrationService = ngInject(function (
     $http,
     currentUserService
   ) {
     return {
-      register: function(data, successCb, errorCb) {
-        return currentUserService.get().then(function(currentUserData) {
+      register: function (data, successCb, errorCb) {
+        return currentUserService.get().then(function (currentUserData) {
           var currentUser = currentUserData.current_user;
           if (currentUser && currentUser.slug) {
             return $http
@@ -21,7 +21,7 @@ import ngInject from "@js/ng-inject";
               .then(successCb, errorCb);
           }
         });
-      }
+      },
     };
   });
 
