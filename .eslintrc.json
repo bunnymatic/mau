@@ -14,16 +14,10 @@
     "ClusterIcon": true,
     "compileTemplate": true,
     "d3": true,
-    "fixture": true,
     "google": true,
-    "Gmaps": true,
-    "inject": true,
     "jQuery": true,
     "MAU": true,
-    "module": true,
-    "moment": true,
-    "Spinner": true,
-    "zxcvbn": true
+    "module": true
   },
   "parserOptions": {
     "ecmaVersion": 9,

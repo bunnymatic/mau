@@ -4,15 +4,11 @@ window.jQuery = jQuery;
 window.$ = jQuery;
 
 import "lodash/lodash";
-import "moment/moment";
-import "moment-timezone/moment-timezone";
-import "./timezones";
 import "angular/angular";
 import "@components/angular_modules";
 import "angular-resource";
 import "angular-sanitize";
 import "angular-animate";
-import "angular-moment/angular-moment";
 import "./vendor/angular-mailchimp";
 import "angular-ui-utils/modules/keypress/keypress";
 import "re-tree";

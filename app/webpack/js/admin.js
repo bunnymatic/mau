@@ -86,12 +86,6 @@ import "pickadate/lib/picker.time";
 import ujs from "@rails/ujs";
 ujs.start();
 
-//  Template includes both application.js and admin.js
-//
-//= require d3/dist/d3.min
-//= require c3/c3.min
-//= require_tree ./admin
-
 (function () {
   angular
     .module("MauAdminApp", [

@@ -14,11 +14,10 @@
 @import "toggle_button";
 @import "c3/c3.min.css";
 
-@import "purecss";
+@import "purecss/build/pure";
+@import "purecss/build/grids-responsive";
 @import "pure-customizations";
-@import "mau-mixins";
 
-@import "gto/_variables.scss";
 @import "gto/_admin_nav.scss";
 @import "gto/_cms_documents.scss";
 @import "gto/_content_pages.scss";
@@ -45,7 +44,6 @@
 @import "gto/error.scss";
 @import "gto/feedback_form.scss";
 @import "gto/font.scss";
-@import "gto/gto-mixins.scss";
 @import "gto/layout.scss";
 @import "gto/mailchimp_form.scss";
 @import "gto/media.scss";

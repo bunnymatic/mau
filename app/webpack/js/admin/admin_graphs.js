@@ -1,4 +1,7 @@
 import jQuery from "jquery";
+import c3 from "c3";
+import { format } from "d3-format";
+import moment from "moment";
 
 (function () {
   jQuery(function () {
@@ -63,7 +66,7 @@ import jQuery from "jquery";
                     position: "outer-center",
                   },
                   tick: {
-                    format: d3.format("d"),
+                    format: format("d"),
                   },
                 },
                 x: {
