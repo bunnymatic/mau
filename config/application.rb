@@ -5,7 +5,7 @@ require File.expand_path('boot', __dir__)
 # Unrolled `rails/all.rb` from https://github.com/rails/rails/blob/master/railties/lib/rails/all.rb as of 03/23/2020
 
 # rubocop:disable Style/RedundantBegin
-# rubocop:disable Style/SuppressedException
+# rubocop:disable Lint/SuppressedException
 require 'rails'
 
 [
@@ -26,7 +26,7 @@ require 'rails'
   rescue LoadError
   end
 end
-# rubocop:enable Style/SuppressedException
+# rubocop:enable Lint/SuppressedException
 # rubocop:enable Style/RedundantBegin
 
 # Require the gems listed in Gemfile, including any gems
