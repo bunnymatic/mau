@@ -116,7 +116,7 @@ jobs:
           shell: /bin/bash
           name: Rubocop
           command: |-
-            bundle exec rubocop js:lint
+            bundle exec rake rubocop js:lint
       - run:
           name: JS Tests
           command: |-
