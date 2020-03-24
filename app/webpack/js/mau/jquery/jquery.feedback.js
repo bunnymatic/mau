@@ -24,22 +24,20 @@ import { post } from "@js/mau_ajax";
  *
  */
 (function ($) {
-  var settings;
+  let settings;
 
   jQuery.fn.feedback = function (callerSettings) {
-    settings = $.extend(
-      {
-        main: "feedback",
-        closeLink: "feedback_close_link",
-        closeBtn: "feedback_close_btn",
-        modalWindow: "feedback_modal_window",
-        modalContent: "feedback_modal_content",
-        form: "feedback_form",
-        formUrl: "/feedbacks/new",
-        overlay: "feedback_overlay",
-      },
-      callerSettings || {}
-    );
+    settings = {
+      main: "feedback",
+      closeLink: "feedback_close_link",
+      closeBtn: "feedback_close_btn",
+      modalWindow: "feedback_modal_window",
+      modalContent: "feedback_modal_content",
+      form: "feedback_form",
+      formUrl: "/feedbacks/new",
+      overlay: "feedback_overlay",
+      ...(callerSettings || {}),
+    };
 
     settings.feedbackHtml =
       '<div id="' +
@@ -89,10 +87,10 @@ import { post } from "@js/mau_ajax";
     });
   };
 
-  var submitFeedback = function () {
+  const submitFeedback = function () {
     jQuery("input[name=feedback\\[page\\]]").val(location.href);
-    var data = jQuery(settings.form).serialize();
-    var url = $.trim(jQuery(settings.form).attr("action"));
+    const data = jQuery(settings.form).serialize();
+    const url = $.trim(jQuery(settings.form).attr("action"));
     post(url, data, {
       success: function (msg, _status) {
         jQuery(settings.modalContent).html(msg);
@@ -110,22 +108,22 @@ import { post } from "@js/mau_ajax";
     return false;
   };
 
-  var initOverlay = function () {
+  const initOverlay = function () {
     if (jQuery(settings.overlay).length == 0)
       jQuery("body").append(settings.overlayHtml);
     return jQuery(settings.overlay).hide().addClass("feedback_overlayBG");
   };
 
-  var showOverlay = function () {
+  const showOverlay = function () {
     initOverlay().show();
   };
 
-  var hideOverlay = function () {
+  const hideOverlay = function () {
     if (jQuery(settings.overlay).length == 0) return false;
     jQuery(settings.overlay).remove();
   };
 
-  var initFeedback = function () {
+  const initFeedback = function () {
     if (jQuery(settings.main).length == 0) {
       jQuery("body").append(settings.feedbackHtml);
       jQuery(settings.main).on("click", settings.closeLink, function () {
@@ -137,17 +135,17 @@ import { post } from "@js/mau_ajax";
     return jQuery(settings.main);
   };
 
-  var showFeedback = function () {
+  const showFeedback = function () {
     initFeedback().show();
   };
 
-  var hideFeedback = function () {
+  const hideFeedback = function () {
     jQuery(settings.main).hide();
     jQuery(settings.main).remove();
     hideOverlay();
   };
 
-  var setBoxPosition = function () {
+  const setBoxPosition = function () {
     var scrollTop, clientHeight;
     if (self.pageYOffset) {
       scrollTop = self.pageYOffset;
@@ -176,7 +174,7 @@ import { post } from "@js/mau_ajax";
     });
   };
 
-  var loading = function () {
+  const loading = function () {
     showOverlay();
     initFeedback();
     showFeedback();
