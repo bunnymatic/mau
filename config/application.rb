@@ -64,13 +64,6 @@ module Mau
 
     config.action_mailer.delivery_method = :file
 
-    # Enable the asset pipeline
-    # config.assets.enabled = true
-    # config.assets.initialize_on_precompile = true
-
-    # Version of your assets, change this if you want to expire all your assets
-    # config.assets.version = '1.3'
-
     # config.i18n.enforce_available_locales = true
 
     # config.filter_parameters += [:password, :password_confirmation]
