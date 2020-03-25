@@ -1,5 +1,6 @@
 const { environment } = require("@rails/webpacker");
-const customConfig = require("./custom");
+const directoryAliases = require("./custom/directoryAliases");
+const buildOptimizations = require("./custom/buildOptimizations");
 
 const htmlLoader = {
   test: /\.html$/,
@@ -35,7 +36,9 @@ environment.loaders.append("imports-loader", importsLoader);
 //     )
 //   })
 // );
+[directoryAliases, buildOptimizations].forEach((cfg) =>
+  environment.config.merge(cfg)
+);
 
-environment.config.merge(customConfig);
-// environment.loaders.forEach( loader => console.log("Using loader: " + loader.key))
+// console.log("WEBPACK CONFIG", environment);
 module.exports = environment;
