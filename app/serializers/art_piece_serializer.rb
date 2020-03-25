@@ -11,8 +11,8 @@ class ArtPieceSerializer < MauSerializer
 
   def image_urls
     urls = if object.photo?
-             (MauImage::Paperclip::STANDARD_STYLES.keys + [:original]).each_with_object({}) do |key, memo|
-               memo[key] = object.photo.url(key, timestamp: false)
+             (MauImage::Paperclip::STANDARD_STYLES.keys + [:original]).index_with do |key|
+               object.photo.url(key, timestamp: false)
              end
            else
              object.image_paths
