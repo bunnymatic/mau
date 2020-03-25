@@ -24,9 +24,7 @@ class OpenStudiosMigrator
 
   def migrate_open_studios_participation
     infos = ArtistInfo.where.not(deprecated_open_studios_participation: nil).includes(:artist)
-    os_events = OpenStudiosEvent.all.each_with_object({}) do |entry, memo|
-      memo[entry.key] = entry
-    end
+    os_events = OpenStudiosEvent.all.index_by(&:key)
     infos.each do |info|
       artist = info.artist
       info.deprecated_open_studios_participation.split('|').each do |key|

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if Rails.env != 'test'
+if !Rails.env.test?
   opts = {
     storage: :s3,
     url: ':s3_domain_url',

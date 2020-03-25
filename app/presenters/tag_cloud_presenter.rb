@@ -23,7 +23,7 @@ class TagCloudPresenter < ViewPresenter
   def tags_lut
     @tags_lut ||=
       begin
-        Hash[tags.map { |t| [t.slug, t] }]
+        tags.index_by(&:slug)
       end
   end
 

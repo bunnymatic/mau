@@ -107,6 +107,9 @@ Rails/TimeZone:
   Exclude:
     - tztest.rb
 
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
@@ -152,3 +155,4 @@ Style/TrailingCommaInHashLiteral:
 
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
+

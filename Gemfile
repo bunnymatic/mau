@@ -4,7 +4,7 @@ ruby '2.6.5'
 
 gem 'actionmailer-text'
 gem 'active_model_serializers'
-gem 'authlogic'
+gem 'authlogic', '~> 5.x'
 gem 'aws-sdk-s3'
 gem 'browser'
 gem 'browserslist_useragent'
@@ -88,7 +88,7 @@ group :test, :development do
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
-  gem 'rspec-rails', '4.0.0.rc1'
+  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false

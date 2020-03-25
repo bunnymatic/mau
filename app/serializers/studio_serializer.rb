@@ -7,7 +7,7 @@ class StudioSerializer < MauSerializer
   include ActionView::Helpers::UrlHelper
 
   def artists
-    object.artists.active.map { |a| Hash[%i[id slug full_name firstname lastname].map { |k| [k, a.send(k)] }] }
+    object.artists.active.map { |a| %i[id slug full_name firstname lastname].index_with { |k| a.send(k) } }
   end
 
   def url
