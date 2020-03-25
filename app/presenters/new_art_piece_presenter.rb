@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 class NewArtPiecePresenter
-  attr_reader :artist, :art_piece, :studio, :open_studios
+  attr_reader :artist, :art_piece, :studio, :current_open_studios
 
   def initialize(art_piece)
     @art_piece = ArtPiecePresenter.new(art_piece)
     @artist = @art_piece.artist
     @studio = StudioPresenter.new(@artist.studio || IndependentStudio.new)
-    @open_studios = OpenStudiosEventPresenter.new(OpenStudiosEvent.current) if OpenStudiosEvent.current
+    @current_open_studios = OpenStudiosEventPresenter.new(OpenStudiosEvent.current) if OpenStudiosEvent.current
   end
 
   def open_studios_info
-    return if after_current_os?
+    return unless include_os_info?
 
-    "See more at #{studio_address} during Open Studios #{open_studios.date_range}"
+    "See more at #{studio_address} during Open Studios #{current_open_studios.date_range}"
   end
 
   def hash_tags
@@ -51,8 +51,7 @@ class NewArtPiecePresenter
   end
 
   def tags_for_open_studios
-    return [] unless artist.doing_open_studios?
-    return [] if after_current_os?
+    return [] unless include_os_info?
 
     if art_span_os?
       ['SFOS', "SFOS#{current_os_start.year}", 'SFopenstudios']
@@ -69,6 +68,10 @@ class NewArtPiecePresenter
     %w[#missionartists #sfart]
   end
 
+  def include_os_info?
+    current_os? && !after_current_os? && artist.doing_open_studios?
+  end
+
   def after_current_os?
     current_os? && Time.current > current_os_end
   end
@@ -79,14 +82,14 @@ class NewArtPiecePresenter
   end
 
   def current_os?
-    @open_studios.present?
+    current_open_studios.present? && current_open_studios.promote?
   end
 
   def current_os_end
-    current_os? && Time.zone.parse(@open_studios.end_date + ' 18:00:00')
+    current_os? && Time.zone.parse(current_open_studios.end_date + ' 18:00:00')
   end
 
   def current_os_start
-    current_os? && Time.zone.parse(@open_studios.start_date)
+    current_os? && Time.zone.parse(current_open_studios.start_date)
   end
 end
