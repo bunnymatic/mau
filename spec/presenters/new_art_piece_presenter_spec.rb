@@ -4,20 +4,22 @@ require 'rails_helper'
 
 describe NewArtPiecePresenter do
   let(:os_end_date) { Time.current - 1.day }
+  let(:promoted) { true }
   let!(:open_studios_event) do
     create(:open_studios_event,
            start_date: os_end_date - 1.day,
-           end_date: os_end_date)
+           end_date: os_end_date,
+           promote: promoted)
   end
   let(:artist) { create(:artist, :active, :with_studio) }
   let(:medium) { create(:medium, name: 'My Medium') }
   let(:art_piece) do
     create(:art_piece, :with_tags, artist: artist, medium: medium)
   end
+  let(:current_time) {}
+
   subject(:presenter) { described_class.new(art_piece) }
 
-  let(:current_time) do
-  end
   before do
     travel_to(current_time ? Time.zone.parse(current_time) : Time.current)
   end
@@ -27,11 +29,13 @@ describe NewArtPiecePresenter do
 
     context 'artist is doing open studios' do
       let(:artist) { create(:artist, :active, :with_studio, doing_open_studios: open_studios_event) }
+
       context 'and it is during spring open studios' do
         let(:current_time) { '2017-03-01 17:00:00' }
         let(:os_end_date) { Time.zone.parse('2017-03-01') }
         its(:open_studios_info) { is_expected.to_not be_nil }
       end
+
       context 'and it is before spring  open studios' do
         let(:current_time) { '2017-03-01' }
         let(:os_end_date) { Time.zone.parse('2017-05-01') }
@@ -48,6 +52,12 @@ describe NewArtPiecePresenter do
             expect(presenter.open_studios_info).to include "See more at #{artist.address} during Open Studios"
           end
         end
+      end
+
+      context 'and it is during spring open studios but os is not promoted' do
+        let(:current_time) { '2017-03-01 17:00:00' }
+        let(:promoted) { false }
+        its(:open_studios_info) { is_expected.to be_nil }
       end
     end
   end
@@ -107,6 +117,7 @@ describe NewArtPiecePresenter do
           expect(os_tags.all? { |tag| presenter.hash_tags.include?(tag) }).to eq true
         end
       end
+
       context 'in the fall (before june)' do
         let(:current_time) { '2017-07-01' }
         let(:os_end_date) { Time.zone.parse('2017-11-01') }
@@ -132,6 +143,19 @@ describe NewArtPiecePresenter do
             '#springopenstudios',
           ]
           expect(os_tags.none? { |tag| presenter.hash_tags.include?(tag) }).to eq true
+        end
+      end
+
+      context 'and os is not promoted' do
+        let(:current_time) { '2017-03-01 17:00:00' }
+        let(:promoted) { false }
+        it 'does not include os tags' do
+          ['#SFOS',
+           '#SFopenstudios',
+           '#missionopenstudios',
+           '#springopenstudios'].each do |tag|
+            expect(presenter.hash_tags).not_to include tag
+          end
         end
       end
     end

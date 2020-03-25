@@ -7,6 +7,7 @@ FactoryBot.define do
     start_time { 'noon' }
     end_time { '6p' }
     key { start_date.strftime('%Y%m') }
+    promote { true }
     trait :future do
       start_date { Time.zone.now + 1.week }
     end
