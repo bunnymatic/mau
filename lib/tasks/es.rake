@@ -21,7 +21,7 @@ namespace :es do
   task create_indices: [:environment] do
     [Artist, Studio, ArtPiece].each do |model|
       puts "Creating index: #{model.index_name}"
-      Search::EsClient.indices.create index: model.index_name
+      Search::EsClient.client.indices.create index: model.index_name, body: { settings: Search::Indexer::INDEX_SETTINGS }
     end
   end
 end
