@@ -16,6 +16,23 @@ class Artist < User
 
   __elasticsearch__.client = Search::EsClient.root_es_client
 
+  index_name name.underscore.pluralize
+  document_type name.underscore
+
+  settings(
+    analysis: Search::Indexer::ANALYZERS_TOKENIZERS,
+    index: Search::Indexer::INDEX_SETTINGS,
+  ) do
+    mapping dynamic: false do
+      indexes :"artist.artist_name", analyzer: :mau_ngram_analyzer
+      indexes :"artist.firstname", analyzer: :mau_ngram_analyzer
+      indexes :"artist.lastname", analyzer: :mau_ngram_analyzer
+      indexes :"artist.nomdeplume", analyzer: :mau_ngram_analyzer
+      indexes :"artist.studio_name", analyzer: :mau_ngram_analyzer
+      indexes :"artist.bio", index: false
+    end
+  end
+
   after_commit :add_to_search_index, on: :create
   after_commit :remove_from_search_index, on: :destroy
   # after_commit :refresh_in_search_index, on: :update
@@ -26,17 +43,6 @@ class Artist < User
 
   def remove_from_search_index
     Search::Indexer.remove(self)
-  end
-
-  settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2 }) do
-    mappings(_all: { analyzer: :mau_snowball_analyzer }) do
-      indexes :artist_name, analyzer: :mau_snowball_analyzer
-      indexes :firstname, analyzer: :mau_snowball_analyzer
-      indexes :lastname, analyzer: :mau_snowball_analyzer
-      indexes :nomdeplume, analyzer: :mau_snowball_analyzer
-      indexes :studio_name, analyzer: :mau_snowball_analyzer
-      indexes :bio, index: false
-    end
   end
 
   def as_indexed_json(_opts = {})
