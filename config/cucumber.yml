@@ -6,3 +6,4 @@ if (File.exist? "./.env.test")
 end
 std_opts += " " + data %>
 default: <%= std_opts %> features
+rerun: "--format rerun --out failed-feature-examples.txt"

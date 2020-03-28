@@ -38,14 +38,21 @@ class ArtPiece < ApplicationRecord
 
   __elasticsearch__.client = Search::EsClient.root_es_client
 
-  settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2 }) do
-    mappings(_all: { analyzer: :mau_snowball_analyzer }) do
-      indexes :title, analyzer: :mau_snowball_analyzer
-      indexes :year
-      indexes :medium, analyzer: :mau_snowball_analyzer
-      indexes :artist_name, analyzer: :mau_snowball_analyzer
-      indexes :studio_name, analyzer: :mau_snowball_analyzer
-      indexes :tags, analyzer: :mau_snowball_analyzer
+  index_name name.underscore.pluralize
+  document_type name.underscore
+
+  settings(
+    analysis: Search::Indexer::ANALYZERS_TOKENIZERS,
+    index: Search::Indexer::INDEX_SETTINGS,
+  ) do
+    mappings(dynamic: false) do
+      indexes :"art_piece.title", analyzer: 'english'
+      indexes :"art_piece.title_ngram", analyzer: :mau_ngram_analyzer
+      indexes :"art_piece.year"
+      indexes :"art_piece.medium", analyzer: :mau_ngram_analyzer
+      indexes :"art_piece.artist_name", analyzer: :mau_ngram_analyzer
+      indexes :"art_piece.studio_name", analyzer: :mau_ngram_analyzer
+      indexes :"art_piece.tags", analyzer: 'english'
     end
   end
 
@@ -62,8 +69,9 @@ class ArtPiece < ApplicationRecord
 
     idxd = as_json(only: %i[title year])
     extras = {}
+    extras['title_ngram'] = title
     extras['medium'] = medium.try(:name)
-    extras['tags'] = tags.map(&:name).join(', ')
+    extras['tags'] = tags.map(&:name).join(' ')
     extras['images'] = image_paths
     # guard against bad data
     extras['artist_name'] = artist.full_name

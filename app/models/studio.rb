@@ -9,10 +9,16 @@ class Studio < ApplicationRecord
 
   __elasticsearch__.client = Search::EsClient.root_es_client
 
-  settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2 }) do
-    mappings(_all: { analyzer: :mau_snowball_analyzer }) do
-      indexes :name, analyzer: :mau_snowball_analyzer
-      indexes :address, analyzer: :mau_snowball_analyzer
+  index_name name.underscore.pluralize
+  document_type name.underscore
+
+  settings(
+    analysis: Search::Indexer::ANALYZERS_TOKENIZERS,
+    index: Search::Indexer::INDEX_SETTINGS,
+  ) do
+    mappings(dynamic: false) do
+      indexes :"studio.name", analyzer: :mau_ngram_analyzer
+      indexes :"studio.address", analyzer: :mau_ngram_analyzer
     end
   end
 

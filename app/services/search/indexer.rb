@@ -2,20 +2,22 @@
 
 module Search
   class Indexer
+    INDEX_SETTINGS = {
+      max_ngram_diff: 13,
+      number_of_shards: 1,
+    }.freeze
+
     ANALYZERS = {
-      mau_snowball_analyzer: {
-        type: 'snowball',
-        language: 'English',
-      },
       mau_ngram_analyzer: {
         tokenizer: :mau_ngram_tokenizer,
+        filter: ['lowercase'],
       },
     }.freeze
     TOKENIZERS = {
       mau_ngram_tokenizer: {
-        type: 'nGram',
-        min_gram: 4,
-        max_gram: 10,
+        type: 'edge_ngram',
+        min_gram: 3,
+        max_gram: 12,
         token_chars: %i[letter digit],
       },
     }.freeze

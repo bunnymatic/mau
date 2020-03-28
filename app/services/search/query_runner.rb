@@ -18,22 +18,23 @@ module Search
         query: {
           multi_match: {
             query: @query,
-            fields: ['_all', 'studio.name^5', 'artist.artist_name^5', 'art_piece.title^3', 'art_piece.artist_name^3'],
+            fields: ['studio.name^5', 'artist.artist_name^5', 'art_piece.title^5', 'art_piece.title_ngram^3', 'art_piece.artist_name^3'],
             type: 'most_fields',
-            fuzziness: 1,
+            fuzziness: 0,
           },
         },
         size: 100,
-        highlight: {
-          fields: {
-            'name' => {},
-            'tags' => {},
-            'title' => {},
-            'artist_name' => {},
-            'artist_bio' => {},
-            'bio' => {},
-          },
-        },
+        # highlight: {
+        #   fields: {
+        #     'studio.name' => {},
+        #     'artist.artist_name' => {},
+        #     'art_piece.title' => {},
+        #     'art_piece.tags' => {},
+        #     'art_piece.medium' => {},
+        #     'art_piece.title' => {},
+        #     'artist.artist_name' => {},
+        #   },
+        # },
       }
       EsClient.client.search(
         index: %i[art_pieces studios artists].join(','),
