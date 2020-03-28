@@ -18,7 +18,17 @@ module Search
         query: {
           multi_match: {
             query: @query,
-            fields: ['studio.name^5', 'artist.artist_name^5', 'art_piece.title^5', 'art_piece.title_ngram^3', 'art_piece.artist_name^3'],
+            fields: [
+              'studio.name^5',
+              'artist.artist_name^5',
+              'art_piece.title^5',
+              'art_piece.title_ngram^3',
+              'art_piece.artist_name^3',
+              'artist.firstname',
+              'artist.lastname',
+              'art_piece.medium',
+              'art_piece.tags',
+            ],
             type: 'most_fields',
             fuzziness: 0,
           },

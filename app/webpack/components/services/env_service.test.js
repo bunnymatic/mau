@@ -1,17 +1,25 @@
+import expect from "expect";
+import angular from "angular";
+import "angular-mocks";
+import "./env_service";
+
 describe("mau.services.envService", function () {
-  var svc;
-  svc = null;
-  beforeEach(module("mau.services"));
+  let svc;
+
+  beforeEach(angular.mock.module("mau.services"));
 
   describe("when window.__env is test", function () {
     beforeEach(
-      module(function ($provide) {
+      angular.mock.module(function ($provide) {
         $provide.value("$window", { __env: "test" });
       })
     );
-    beforeEach(inject(function (envService) {
-      svc = envService;
-    }));
+    beforeEach(
+      angular.mock.inject(function (envService) {
+        svc = envService;
+      })
+    );
+
     it("isTest returns true", function () {
       expect(svc.isTest()).toBeTruthy();
     });
@@ -25,13 +33,15 @@ describe("mau.services.envService", function () {
 
   describe("when window.__env is development", function () {
     beforeEach(
-      module(function ($provide) {
+      angular.mock.module(function ($provide) {
         $provide.value("$window", { __env: "development" });
       })
     );
-    beforeEach(inject(function (envService) {
-      svc = envService;
-    }));
+    beforeEach(
+      angular.mock.inject(function (envService) {
+        svc = envService;
+      })
+    );
     it("isTest returns false", function () {
       expect(svc.isTest()).toBeFalsy();
     });
@@ -45,13 +55,15 @@ describe("mau.services.envService", function () {
 
   describe("when window.__env is acceptance", function () {
     beforeEach(
-      module(function ($provide) {
+      angular.mock.module(function ($provide) {
         $provide.value("$window", { __env: "acceptance" });
       })
     );
-    beforeEach(inject(function (envService) {
-      svc = envService;
-    }));
+    beforeEach(
+      angular.mock.inject(function (envService) {
+        svc = envService;
+      })
+    );
     it("isTest returns false", function () {
       expect(svc.isTest()).toBeFalsy();
     });
@@ -65,13 +77,15 @@ describe("mau.services.envService", function () {
 
   describe("when window.__env is production", function () {
     beforeEach(
-      module(function ($provide) {
+      angular.mock.module(function ($provide) {
         $provide.value("$window", { __env: "production" });
       })
     );
-    beforeEach(inject(function (envService) {
-      svc = envService;
-    }));
+    beforeEach(
+      angular.mock.inject(function (envService) {
+        svc = envService;
+      })
+    );
     it("isTest returns false", function () {
       expect(svc.isTest()).toBeFalsy();
     });

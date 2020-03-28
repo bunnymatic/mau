@@ -1,4 +1,4 @@
-const ellipsize = function (str, max, ellipse, chars, truncate) {
+const ellipsizeParagraph = function (str, max, ellipse, chars, truncate) {
   var DEFAULTS, c, i, last, len, ref;
   DEFAULTS = {
     ellipse: "…",
@@ -59,4 +59,4 @@ const debounce = function (func, threshold, execAsap) {
   };
 };
 
-export { debounce, ellipsize };
+export { debounce, ellipsizeParagraph };

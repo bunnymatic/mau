@@ -1,33 +1,29 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function () {
-  var mailer;
+const mailer = ngInject(function ($window, mailerService) {
+  return {
+    restrict: "E",
+    scope: {
+      text: "@",
+      name: "@",
+      domain: "@",
+      subject: "@",
+    },
+    template: "<a>{{text}}</a>",
+    link: function ($scope, el, _attrs) {
+      const $el = angular.element(el);
 
-  mailer = ngInject(function ($window, mailerService) {
-    return {
-      restrict: "E",
-      scope: {
-        text: "@",
-        name: "@",
-        domain: "@",
-        subject: "@",
-      },
-      templateUrl: "mailer/index.html",
-      link: function ($scope, el, _attrs) {
-        var $el = angular.element(el);
+      $scope.openMailer = function (_ev) {
+        $window.location = mailerService.mailToLink(
+          $scope.subject,
+          $scope.name,
+          $scope.domain
+        );
+      };
 
-        $scope.openMailer = function (_ev) {
-          $window.location = mailerService.mailToLink(
-            $scope.subject,
-            $scope.name,
-            $scope.domain
-          );
-        };
-
-        $el.bind("click", $scope.openMailer);
-      },
-    };
-  });
-  angular.module("mau.directives").directive("mailer", mailer);
-}.call(this));
+      $el.bind("click", $scope.openMailer);
+    },
+  };
+});
+angular.module("mau.directives").directive("mailer", mailer);

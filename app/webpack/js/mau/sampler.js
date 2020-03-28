@@ -1,46 +1,44 @@
-import $ from "jquery";
+import jQuery from "jquery";
 import { post } from "@js/mau_ajax";
 
-(function () {
-  $(function () {
-    var $win, NUM_IMAGES, fetchArtists;
-    NUM_IMAGES = 12;
-    fetchArtists = function (_ev) {
-      var $content, offset, seed;
-      $content = $(".js-sampler");
-      if (!$content.find("#js-scroll-load-more").length) {
-        return;
-      }
-      seed = $content.data("seed");
-      offset = $content.data("offset") || 0;
-      post("/main/sampler", {
-        seed: seed,
-        offset: offset,
-        number_of_images: NUM_IMAGES,
-      }).done(function (data) {
-        var $insertion, $more;
-        if (data && !/^\s+$/.test(data)) {
-          $insertion = $content.find("#js-scroll-load-more");
-          $(data).insertBefore($insertion);
-          $content.data("offset", 0 + offset + NUM_IMAGES);
-          $more = $("#js-scroll-load-more");
-          if ($more.length && $more.position().top < $win.height()) {
-            return fetchArtists();
-          }
-        } else {
-          $("#js-scroll-load-more").remove();
-          return $("#the-end").removeAttr("hidden");
-        }
-      });
-    };
-    if ($("#sampler").length) {
-      $win = $(window);
-      $win.scroll(function () {
-        if ($win.scrollTop() === $(document).height() - $win.height()) {
+const NUM_IMAGES = 12;
+
+jQuery(function () {
+  const fetchArtists = function (_ev) {
+    const $content = jQuery(".js-sampler");
+    if (!$content.find("#js-scroll-load-more").length) {
+      return;
+    }
+    const seed = $content.data("seed");
+    const offset = $content.data("offset") || 0;
+    post("/main/sampler", {
+      seed: seed,
+      offset: offset,
+      number_of_images: NUM_IMAGES,
+    }).done(function (data) {
+      if (data && !/^\s+$/.test(data)) {
+        const $win = jQuery(window);
+        const $insertion = $content.find("#js-scroll-load-more");
+        jQuery(data).insertBefore($insertion);
+        $content.data("offset", 0 + offset + NUM_IMAGES);
+        const $more = jQuery("#js-scroll-load-more");
+        if ($more.length && $more.position().top < $win.height()) {
           return fetchArtists();
         }
-      });
-      return fetchArtists();
-    }
-  });
-}.call(this));
+      } else {
+        jQuery("#js-scroll-load-more").remove();
+        return jQuery("#the-end").removeAttr("hidden");
+      }
+    });
+  };
+
+  if (jQuery("#sampler").length) {
+    const $win = jQuery(window);
+    $win.scroll(function () {
+      if ($win.scrollTop() === jQuery(document).height() - $win.height()) {
+        return fetchArtists();
+      }
+    });
+    return fetchArtists();
+  }
+});

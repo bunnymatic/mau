@@ -1,22 +1,30 @@
-describe("mau.services.mailerService", function () {
-  var svc;
-  svc = null;
-  beforeEach(module("mau.services"));
-  beforeEach(inject(function (mailerService) {
-    return (svc = mailerService);
-  }));
-  describe("#mailToLink", function () {
-    it("returns the right email link with all things specified", function () {
-      return expect(
+import expect from "expect";
+import angular from "angular";
+import "angular-mocks";
+import "./mailer_service";
+
+describe("mau.services.mailerService", () => {
+  let svc;
+
+  beforeEach(angular.mock.module("mau.services"));
+  beforeEach(
+    angular.mock.inject(function (mailerService) {
+      svc = mailerService;
+    })
+  );
+
+  describe("#mailToLink", () => {
+    it("returns the right email link with all things specified", () => {
+      expect(
         svc.mailToLink("the subject", "email_user", "email_domain")
       ).toEqual("mailto:www@email_domain?subject=the%20subject");
     });
-    it("falls back to missionartists.org if no domain is specified", function () {
-      return expect(svc.mailToLink("the subject", "email_user")).toEqual(
+    it("falls back to missionartists.org if no domain is specified", () => {
+      expect(svc.mailToLink("the subject", "email_user")).toEqual(
         "mailto:www@missionartists.org?subject=the%20subject"
       );
     });
-    it("falls back to www if the user is not info, www, feedback, or mau", function () {
+    it("falls back to www if the user is not info, www, feedback, or mau", () => {
       expect(svc.mailToLink("the subject", "email_user")).toEqual(
         "mailto:www@missionartists.org?subject=the%20subject"
       );

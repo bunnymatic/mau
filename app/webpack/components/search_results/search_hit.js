@@ -1,4 +1,4 @@
-import { ellipsize } from "@js/mau/utils";
+import { ellipsizeParagraph } from "@js/mau/utils";
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
@@ -24,7 +24,7 @@ const SearchHit = ngInject(function (objectRoutingService) {
         this.name = obj.artist_name;
         this.icon_class = "fa fa-user";
         if (obj.bio != null) {
-          this.description = ellipsize(obj.bio);
+          this.description = ellipsizeParagraph(obj.bio);
         }
         this.link = objectRoutingService.artistPath(obj);
         break;

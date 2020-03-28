@@ -3,6 +3,7 @@ import Spinner from "@js/mau/mau_spinner";
 import QueryStringParser from "@js/mau/query_string_parser";
 import angular from "angular";
 import ngInject from "@js/ng-inject";
+import template from "./index.html";
 
 const controller = ngInject(function (
   $scope,
@@ -56,10 +57,10 @@ const searchResults = ngInject(function () {
   return {
     restrict: "E",
     controller: controller,
-    templateUrl: "search_results/index.html",
-    link: function ($scope, el, _attrs) {
+    template: template,
+    link: function ($scope, $el, _attrs) {
       let ref;
-      const $form = $(el).find("form");
+      const $form = $el.find("form");
       const path = new QueryStringParser(location.href);
       if (path) {
         $scope.queryString = (
@@ -67,8 +68,8 @@ const searchResults = ngInject(function () {
         ).replace(/\+/, " ");
       }
       $scope.$watch("queryString", debounce($scope.submitQuery, 350, false));
-      $(el).find("input").focus();
-      return $form.on("submit", function (ev) {
+      $el.find("input")[0].focus();
+      $form.bind("submit", function (ev) {
         ev.preventDefault();
         $scope.search($scope.queryString);
         return false;

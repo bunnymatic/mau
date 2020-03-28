@@ -9,8 +9,7 @@ When(/^I search for the first art piece by artist name$/) do
 end
 
 When(/^I search for "(.*?)"$/) do |query|
-  find('#search_query').set(query)
-  page.execute_script("$('.js-main-container form').submit()")
+  find('#search_query').send_keys(query)
 end
 
 Then(/^I see "([^"]*)" in the search results$/) do |keyword|

@@ -1,6 +1,7 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 import map from "lodash/map";
+import template from "./index.html";
 
 const controller = ngInject(function (
   $scope,
@@ -139,7 +140,7 @@ const artPiecesBrowser = ngInject(function ($document) {
       artistId: "@",
       artPieceId: "@",
     },
-    templateUrl: "art_pieces_browser/index.html",
+    template: template,
     controller: controller,
     controllerAs: "c",
     link: function ($scope, _$el, _$attr, _$ctrl) {

@@ -1,77 +1,71 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
 
-(function () {
-  var favoritesService;
+const MUST_LOGIN_MESSAGE = "You need to login before you can favorite things";
 
-  var MUST_LOGIN_MESSAGE = "You need to login before you can favorite things";
-
-  favoritesService = ngInject(function ($resource, $q, currentUserService) {
-    var favorites;
-    favorites = $resource(
-      "/users/:userId/favorites",
-      {
-        userId: "@userId",
+const favoritesService = ngInject(function ($resource, $q, currentUserService) {
+  const favorites = $resource(
+    "/users/:userId/favorites",
+    {
+      userId: "@userId",
+    },
+    {
+      add: {
+        method: "POST",
+        params: {},
       },
-      {
-        add: {
-          method: "POST",
-          params: {},
-        },
-      }
-    );
-    return {
-      add: function (type, id) {
-        return currentUserService
-          .get()
-          .then(function (data) {
-            var userInfo = data.current_user;
-            if (userInfo.slug) {
-              return favorites
-                .add(
-                  {
-                    userId: userInfo.slug,
+    }
+  );
+  return {
+    add: function (type, id) {
+      return currentUserService
+        .get()
+        .then(function (data) {
+          const { slug } = data.current_user;
+          if (slug) {
+            return favorites
+              .add(
+                {
+                  userId: slug,
+                },
+                {
+                  favorite: {
+                    type: type,
+                    id: id,
                   },
-                  {
-                    favorite: {
-                      type: type,
-                      id: id,
-                    },
-                  }
-                )
-                .$promise.then(function (data) {
-                  return {
-                    message:
-                      data.message ||
-                      "Great choice for a favorite!  We added it to your collection.",
-                  };
-                })
-                ["catch"](function (err) {
-                  return {
-                    message:
-                      err.message ||
-                      "That item doesn't seem to be available to favorite.  If you think it should be, please drop us a note and we'll look into it.",
-                  };
-                });
-            } else {
-              return $q.when({
-                message: MUST_LOGIN_MESSAGE,
+                }
+              )
+              .$promise.then(function ({ message }) {
+                return {
+                  message:
+                    message ||
+                    "Great choice for a favorite!  We added it to your collection.",
+                };
+              })
+              ["catch"](function ({ message }) {
+                return {
+                  message:
+                    message ||
+                    "That item doesn't seem to be available to favorite.  If you think it should be, please drop us a note and we'll look into it.",
+                };
               });
-            }
-          })
-          ["catch"](function (_err) {
-            return $q.when(
-              {
-                message: MUST_LOGIN_MESSAGE,
-              },
-              {
-                message: MUST_LOGIN_MESSAGE,
-              }
-            );
+          }
+          return $q.when({
+            message: MUST_LOGIN_MESSAGE,
           });
-      },
-    };
-  });
+        })
+        ["catch"](function (_err) {
+          return $q.when(
+            {
+              message: MUST_LOGIN_MESSAGE,
+            },
+            {
+              message: MUST_LOGIN_MESSAGE,
+            }
+          );
+        });
+    },
+  };
+});
 
-  angular.module("mau.services").factory("favoritesService", favoritesService);
-}.call(this));
+angular.module("mau.services").factory("favoritesService", favoritesService);
