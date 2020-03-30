@@ -1,24 +1,22 @@
-import $ from "jquery";
+import jQuery from "jquery";
 
-(function () {
-  $(function () {
-    var $window;
-    $window = $(window);
+jQuery(function () {
+  var $window;
+  $window = jQuery(window);
 
-    $window.on("scroll", function (_ev) {
-      var top;
-      top = $window.scrollTop();
-      return $(".back-to-top").toggleClass("shown", top > 2000);
-    });
-
-    $(".back-to-top").on("click", function () {
-      $("body,html").animate(
-        {
-          scrollTop: 0,
-        },
-        800
-      );
-      return false;
-    });
+  $window.on("scroll", function (_ev) {
+    var top;
+    top = $window.scrollTop();
+    return jQuery(".back-to-top").toggleClass("shown", top > 2000);
   });
-}.call(this));
+
+  jQuery(".back-to-top").on("click", function () {
+    jQuery("body,html").animate(
+      {
+        scrollTop: 0,
+      },
+      800
+    );
+    return false;
+  });
+});

@@ -1,5 +1,6 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
+import template from "./index.html";
 
 const controller = ngInject(function ($scope, $attrs, emailsService, Email) {
   $scope.info = $attrs.listInfo;
@@ -60,7 +61,7 @@ const controller = ngInject(function ($scope, $attrs, emailsService, Email) {
 const emailListManager = ngInject(function ($timeout) {
   return {
     restrict: "E",
-    templateUrl: "admin/email_list_manager/index.html",
+    template: template,
     controller: controller,
     scope: {},
     link: function ($scope, $el, _$attrs, _$ctrl) {

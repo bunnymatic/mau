@@ -1,32 +1,31 @@
 import angular from "angular";
 import ngInject from "@js/ng-inject";
+import modalTemplate from "./credits__modal.html";
+import template from "./index.html";
 
-(function () {
-  var controller, Credits;
+const controller = ngInject(function ($scope, $attrs, $element, ngDialog) {
+  $scope.launchModal = function ($event) {
+    $event.stopPropagation();
+    $event.preventDefault();
+    ngDialog.open({
+      className: "ngdialog-theme-default credits__modal",
+      plain: true,
+      scope: $scope,
+      showClose: false,
+      template: modalTemplate,
+    });
+  };
+});
 
-  controller = ngInject(function ($scope, $attrs, $element, ngDialog) {
-    $scope.launchModal = function ($event) {
-      $event.stopPropagation();
-      $event.preventDefault();
-      ngDialog.open({
-        templateUrl: "credits_link/credits__modal.html",
-        scope: $scope,
-        className: "ngdialog-theme-default credits__modal",
-        showClose: false,
-      });
-    };
-  });
+const credits = ngInject(function () {
+  return {
+    restrict: "E",
+    scope: {
+      versionString: "@",
+    },
+    template: template,
+    controller: controller,
+  };
+});
 
-  Credits = ngInject(function () {
-    return {
-      restrict: "E",
-      scope: {
-        versionString: "@",
-      },
-      templateUrl: "credits_link/index.html",
-      controller: controller,
-    };
-  });
-
-  angular.module("mau.directives").directive("creditsLink", Credits);
-}.call(this));
+angular.module("mau.directives").directive("creditsLink", credits);

@@ -1,5 +1,6 @@
 import some from "lodash/some";
 import ngInject from "@js/ng-inject";
+import template from "./index.html";
 
 const controller = ngInject(function (
   $scope,
@@ -21,7 +22,7 @@ const controller = ngInject(function (
 const eventsNotificationBell = ngInject(function () {
   return {
     restrict: "E",
-    templateUrl: "admin/events_notification_bell/index.html",
+    template: template,
     controller: controller,
     scope: {},
   };

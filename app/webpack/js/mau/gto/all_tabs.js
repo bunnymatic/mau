@@ -1,11 +1,8 @@
-import $ from "jquery";
+import jQuery from "jquery";
 
-(function () {
-  $(function () {
-    var $tabs;
-    $tabs = $(".js-tabs");
-    if (!($tabs.length === 0)) {
-      return $tabs.tab();
-    }
-  });
-}.call(this));
+jQuery(function () {
+  const $tabs = jQuery(".js-tabs");
+  if (!($tabs.length === 0)) {
+    return $tabs.tab();
+  }
+});

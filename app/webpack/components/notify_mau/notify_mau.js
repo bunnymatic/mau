@@ -1,6 +1,8 @@
 import Flash from "@js/mau/jquery/flash";
 import angular from "angular";
 import ngInject from "@js/ng-inject";
+import inquiryFormTemplate from "./inquiry_form.html";
+import inquiryTemplate from "./inquiry.html";
 
 const modalController = ngInject(function (
   $scope,
@@ -44,7 +46,8 @@ const controller = ngInject(function ($scope, $attrs, $element, ngDialog) {
     $scope.inquiry.inquiry = "";
     $scope.inquiry.note_type = $scope.noteType || "inquiry";
     return ngDialog.open({
-      templateUrl: "notify_mau/inquiry_form.html",
+      template: inquiryFormTemplate,
+      plain: true,
       scope: $scope,
       showClose: false,
       controller: modalController,
@@ -70,7 +73,7 @@ const notifyMau = ngInject(function () {
     restrict: "E",
     controller: controller,
     scope: {},
-    templateUrl: "notify_mau/inquiry.html",
+    template: inquiryTemplate,
     link: function (_$scope, _el, _attrs) {},
   };
 });

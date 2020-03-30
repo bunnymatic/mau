@@ -20,7 +20,6 @@ import "re-tree";
 import "ua-device-detector";
 import "ng-device-detector";
 import "ng-dialog/js/ngDialog";
-import "./templates";
 
 import "@components/angular_modules.js";
 import "@components/admin/email_list_manager/email_list_manager.js";
@@ -34,24 +33,25 @@ import "@components/art_piece_tag/art_piece_tag.js";
 import "@components/time_ago/time_ago.js";
 import "@components/repeater_delimiter/repeater_delimiter.js";
 import "@components/image_fader/image_fader.js";
-import "@components/services/email_changed_events_service.js";
-import "@components/services/object_routing_service.js";
-import "@components/services/notification_service.js";
-import "@components/services/tag_service.js";
-import "@components/services/currentUserService.js";
-import "@components/services/studios_service.js";
-import "@components/services/mailer_service.js";
-import "@components/services/favorites_service.js";
-import "@components/services/env_service.js";
-import "@components/services/email_lists_service.js";
-import "@components/services/art_pieces_service.js";
-import "@components/services/artists_service.js";
-import "@components/services/open_studios_registration_service.js";
-import "@components/services/search_service.js";
-import "@components/services/emails_service.js";
-import "@components/services/application_events_service.js";
 import "@components/link_if/link_if.js";
 import "@components/editable_content/editable_content.js";
+
+import "@services/email_changed_events_service.js";
+import "@services/object_routing_service.js";
+import "@services/notification_service.js";
+import "@services/tag_service.js";
+import "@services/currentUserService.js";
+import "@services/studios_service.js";
+import "@services/mailer_service.js";
+import "@services/favorites_service.js";
+import "@services/env_service.js";
+import "@services/email_lists_service.js";
+import "@services/art_pieces_service.js";
+import "@services/artists_service.js";
+import "@services/open_studios_registration_service.js";
+import "@services/search_service.js";
+import "@services/emails_service.js";
+import "@services/application_events_service.js";
 
 import "./mau/jquery/arrange_art.js";
 import "./mau/jquery/jquery.isOverflowing.js";
@@ -85,31 +85,27 @@ import "pickadate/lib/picker.time";
 import ujs from "@rails/ujs";
 ujs.start();
 
-(function () {
-  angular
-    .module("MauAdminApp", [
-      "templates",
-      "angularMoment",
-      "ngSanitize",
-      "ngDialog",
-      "angularSlideables",
-      "mau.models",
-      "mau.services",
-      "mau.directives",
-    ])
-    .config(
-      ngInject(function ($httpProvider) {
-        var base, csrfToken;
-        csrfToken = $("meta[name=csrf-token]").attr("content");
-        $httpProvider.defaults.headers.post["X-CSRF-Token"] = csrfToken;
-        $httpProvider.defaults.headers.post["Content-Type"] =
-          "application/json";
-        $httpProvider.defaults.headers.put["X-CSRF-Token"] = csrfToken;
-        $httpProvider.defaults.headers.patch["X-CSRF-Token"] = csrfToken;
-        (base = $httpProvider.defaults.headers)["delete"] ||
-          (base["delete"] = {});
-        $httpProvider.defaults.headers["delete"]["X-CSRF-Token"] = csrfToken;
-        return null;
-      })
-    );
-}.call(this));
+angular
+  .module("MauAdminApp", [
+    "angularMoment",
+    "ngSanitize",
+    "ngDialog",
+    "angularSlideables",
+    "mau.models",
+    "mau.services",
+    "mau.directives",
+  ])
+  .config(
+    ngInject(function ($httpProvider) {
+      var base, csrfToken;
+      csrfToken = $("meta[name=csrf-token]").attr("content");
+      $httpProvider.defaults.headers.post["X-CSRF-Token"] = csrfToken;
+      $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
+      $httpProvider.defaults.headers.put["X-CSRF-Token"] = csrfToken;
+      $httpProvider.defaults.headers.patch["X-CSRF-Token"] = csrfToken;
+      (base = $httpProvider.defaults.headers)["delete"] ||
+        (base["delete"] = {});
+      $httpProvider.defaults.headers["delete"]["X-CSRF-Token"] = csrfToken;
+      return null;
+    })
+  );
