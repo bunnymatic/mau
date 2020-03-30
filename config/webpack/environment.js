@@ -40,5 +40,7 @@ environment.loaders.append("imports-loader", importsLoader);
   environment.config.merge(cfg)
 );
 
+environment.splitChunks();
+
 // console.log("WEBPACK CONFIG", environment);
 module.exports = environment;

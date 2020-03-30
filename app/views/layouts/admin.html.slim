@@ -4,8 +4,8 @@ html
     = render '/extra_html_head'
     = render '/title'
     = csrf_meta_tags
-    = stylesheet_pack_tag 'admin'
-    = javascript_pack_tag 'admin'
+    = stylesheet_packs_with_chunks_tag 'admin'
+    = javascript_packs_with_chunks_tag 'admin'
   - body_class = application_body_class(@current_controller, @body_classes)
   body.admin class=([@browser_as_class, body_class].join " ")
     #layout ng-app='MauAdminApp'
