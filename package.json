@@ -27,7 +27,7 @@
     "@fortawesome/fontawesome-free": "^5.12.1",
     "@google/markerclustererplus": "^5.0.3",
     "@rails/ujs": "^6.0.2-1",
-    "@rails/webpacker": "5.0.0",
+    "@rails/webpacker": "^5.0.0",
     "angular": "1.7.9",
     "angular-animate": "1.7.9",
     "angular-mocks": "1.7.9",
