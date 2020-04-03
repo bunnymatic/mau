@@ -11,13 +11,14 @@
     "webpack-dev-server": "^3.10.3"
   },
   "scripts": {
-    "eslint-fix": "eslint --fix app/**/*.js spec/**/*.js",
-    "eslint-lint": "eslint app/**/*.js spec/**/*.js",
+    "eslint-fix": "eslint --fix app/**/*.js",
+    "eslint-lint": "eslint app/**/*.js",
     "lint": "npm run eslint-lint && npm run prettier-lint",
     "lint-fix": "npm run eslint-fix && npm run prettier-fix",
-    "prettier-fix": "prettier --write app/**/*.js spec/**/*.js app/**/*.scss **/*.json",
-    "prettier-lint": "prettier --list-different app/**/*.js spec/**/*.js app/**/*.scss **/*.json",
-    "test": "jest"
+    "prettier-fix": "prettier --write app/**/*.js app/**/*.scss **/*.json",
+    "prettier-lint": "prettier --list-different app/**/*.js app/**/*.scss **/*.json",
+    "test": "jest app",
+    "test-watch": "jest app --watch"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
@@ -47,6 +48,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-standard": "^4.0.1",
     "html-loader": "^1.0.0",
+    "humps": "^2.0.1",
     "import-glob-loader": "^1.1.0",
     "imports-loader": "^0.8.0",
     "jquery": "^3.4.1",
@@ -76,14 +78,22 @@
       "^.+\\.js$": "babel-jest",
       "^.+\\.html$": "<rootDir>/jest/support/html_loader.js"
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(spin.js)/)"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/config/"
+    ],
     "setupFiles": [
       "./jest/setupFiles.js"
     ],
     "moduleNameMapper": {
       "@js/(.*)$": "<rootDir>/app/webpack/js/$1",
-      "@components/(.*)$": "<rootDir>/app/webpack/components/$1",
-      "@services/(.*)$": "<rootDir>/app/webpack/components/services/$1",
-      "@support/(.*)$": "<rootDir>/jest/support/$1"
+      "@angularjs/(.*)$": "<rootDir>/app/webpack/angularjs/$1",
+      "@components/(.*)$": "<rootDir>/app/webpack/angularjs/components/$1",
+      "@services/(.*)$": "<rootDir>/app/webpack/angularjs/services/$1",
+      "@support/(.*)$": "<rootDir>/jest/support/$1",
+      "@fixtures/(.*)$": "<rootDir>/spec/fixtures/$1"
     }
   }
 }

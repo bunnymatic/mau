@@ -5,6 +5,9 @@ module Search
     INDEX_SETTINGS = {
       max_ngram_diff: 8,
       number_of_shards: 1,
+      blocks: {
+        read_only_allow_delete: 'false',
+      },
     }.freeze
 
     ANALYZERS = {

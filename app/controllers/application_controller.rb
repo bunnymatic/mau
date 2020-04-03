@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
 
   def store_location(location = nil)
     return unless request.format == 'text/html'
+    return if request.xhr?
 
     session[:return_to] =
       begin

@@ -1,60 +1,37 @@
 {
-  "took": 83,
+  "took": 10,
   "timed_out": false,
   "_shards": {
-    "total": 6,
-    "successful": 6,
+    "total": 3,
+    "successful": 3,
+    "skipped": 0,
     "failed": 0
   },
   "hits": {
-    "total": 415,
-    "max_score": 1.1415441,
+    "total": 18,
+    "max_score": 13.79262,
     "hits": [
-      {
-        "_index": "art_pieces",
-        "_type": "art_piece",
-        "_id": "3456",
-        "_score": 1.1415441,
-        "_source": {
-          "art_piece": {
-            "title": "O'RJacobs, Zboncak and Wisozk",
-            "year": 2011,
-            "medium": "Medium 2",
-            "tags": "",
-            "artist_name": "Ferry Inc",
-            "studio_name": "O'RMorissette-Hintz",
-            "images": {
-              "thumb": "/system/art_pieces/photos/000/003/456/thumb/new-studio.jpg?1448985420",
-              "small": "/system/art_pieces/photos/000/003/456/small/new-studio.jpg?1448985420",
-              "medium": "/system/art_pieces/photos/000/003/456/medium/new-studio.jpg?1448985420",
-              "large": "/system/art_pieces/photos/000/003/456/large/new-studio.jpg?1448985420",
-              "original": "/system/art_pieces/photos/000/003/456/original/new-studio.jpg?1448985420"
-            },
-            "os_participant": false
-          }
-        }
-      },
       {
         "_index": "artists",
         "_type": "artist",
-        "_id": "1963",
-        "_score": 0.92429185,
+        "_id": "5",
+        "_score": 13.79262,
         "_source": {
           "artist": {
-            "firstname": "name1",
-            "lastname": "Frederick",
-            "nomdeplume": "Ferry Inc",
-            "slug": "theodora0001",
-            "artist_name": "Ferry Inc",
-            "studio_name": "O'RMorissette-Hintz",
+            "firstname": "Jon",
+            "lastname": "Rogers",
+            "nomdeplume": null,
+            "slug": "jon_rogers",
+            "artist_name": "Jon Rogers",
+            "studio_name": "Mr Rogers Neighborhood",
             "images": {
-              "thumb": "/system/art_pieces/photos/000/003/455/thumb/new-studio.jpg?1448985420",
-              "small": "/system/art_pieces/photos/000/003/455/small/new-studio.jpg?1448985420",
-              "medium": "/system/art_pieces/photos/000/003/455/medium/new-studio.jpg?1448985420",
-              "large": "/system/art_pieces/photos/000/003/455/large/new-studio.jpg?1448985420",
-              "original": "/system/art_pieces/photos/000/003/455/original/new-studio.jpg?1448985420"
+              "thumb": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/thumb/bunnymatic_signup_list.png?1584567661",
+              "small": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/small/bunnymatic_signup_list.png?1584567661",
+              "medium": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/medium/bunnymatic_signup_list.png?1584567661",
+              "large": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/large/bunnymatic_signup_list.png?1584567661",
+              "original": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/original/bunnymatic_signup_list.png?1584567661"
             },
-            "bio": "Sed corrupti ipsam. Quaerat ad voluptatibus autem. Est sint quod cum natus alias pariatur nemo.",
+            "bio": " statement My work explores the relationship between gender politics and life as performance. With influences as diverse as Rousseau and John Cage, new tensions are distilled from both explicit and implicit layers. Ever since I was a student I have been fascinated by the theoretical limits of the moment. What starts out as hope soon becomes debased into a tragedy of temptation, leaving only a sense of dread and the unlikelihood of a new understanding. As wavering replicas become transformed through studious and academic practice, the viewer is left with a hymn to the inaccuracies of our future.",
             "os_participant": false
           }
         }
@@ -62,20 +39,45 @@
       {
         "_index": "studios",
         "_type": "studio",
-        "_id": "439",
-        "_score": 0.6032415,
+        "_id": "3",
+        "_score": 5.807312,
         "_source": {
           "studio": {
-            "name": "O'RMorissette-Hintz",
-            "slug": "o-rmorissette-hintz",
-            "address": "Karlie Park 78946",
+            "slug": "mr-rogers-neighborhood",
+            "name": "Mr Rogers Neighborhood",
+            "address": "Johns Plains 87776",
             "images": {
-              "thumb": "/system/studios/photos/000/000/439/thumb/new-studio.jpg?1448985420",
-              "small": "/system/studios/photos/000/000/439/small/new-studio.jpg?1448985420",
-              "medium": "/system/studios/photos/000/000/439/medium/new-studio.jpg?1448985420",
-              "large": "/system/studios/photos/000/000/439/large/new-studio.jpg?1448985420",
-              "original": "/system/studios/photos/000/000/439/original/new-studio.jpg?1448985420"
+              "thumb": "https://mission-artists-development.s3.amazonaws.com/studios/photos/000/000/003/thumb/new-studio.jpg?1582347316",
+              "small": "https://mission-artists-development.s3.amazonaws.com/studios/photos/000/000/003/small/new-studio.jpg?1582347316",
+              "medium": "https://mission-artists-development.s3.amazonaws.com/studios/photos/000/000/003/medium/new-studio.jpg?1582347316",
+              "large": "https://mission-artists-development.s3.amazonaws.com/studios/photos/000/000/003/large/new-studio.jpg?1582347316",
+              "original": "https://mission-artists-development.s3.amazonaws.com/studios/photos/000/000/003/original/new-studio.jpg?1582347316"
             },
+            "os_participant": true
+          }
+        }
+      },
+      {
+        "_index": "art_pieces",
+        "_type": "art_piece",
+        "_id": "34",
+        "_score": 5.677946,
+        "_source": {
+          "art_piece": {
+            "title": "the latest thing that i've painted",
+            "year": 2011,
+            "title_ngram": "the latest thing that i've painted",
+            "medium": "Book Arts",
+            "tags": "her that whatever",
+            "images": {
+              "thumb": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/thumb/bunnymatic_signup_list.png?1584567661",
+              "small": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/small/bunnymatic_signup_list.png?1584567661",
+              "medium": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/medium/bunnymatic_signup_list.png?1584567661",
+              "large": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/large/bunnymatic_signup_list.png?1584567661",
+              "original": "https://mission-artists-development.s3.amazonaws.com/art_pieces/photos/000/000/034/original/bunnymatic_signup_list.png?1584567661"
+            },
+            "artist_name": "Jon Rogers",
+            "studio_name": "Mr Rogers Neighborhood",
             "os_participant": false
           }
         }

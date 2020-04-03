@@ -24,3 +24,8 @@
               = select_tag 'account_type_chooser', user_signup_select_options(@user, @type)
         #signup_form
           = render 'signup_form', type: @type, user: @user, studios: @studios || []
+
+javascript:
+  jQuery(function () {
+    new MAU.AccountTypeChooser('#account_type_chooser');
+  });

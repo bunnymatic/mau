@@ -23,3 +23,7 @@
       = form_for [:admin, @role], :html => {:class => 'js-hook hidden pure-form'} do |f|
         = select_tag 'user', options_from_collection_for_select(@users, :id, :full_name)
         = f.submit "add user", :class => 'pure-button'
+javascript:
+  jQuery(function () {
+    new MAU.AdminRoleManager("#role_mgr")
+  });

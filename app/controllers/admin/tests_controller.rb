@@ -16,8 +16,6 @@ module Admin
       @artists = @map_info.with_addresses
     end
 
-    def markdown; end
-
     def social_icons; end
 
     def flash_test

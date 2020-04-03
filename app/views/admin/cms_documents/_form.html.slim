@@ -30,10 +30,11 @@
         | Find more about Markdown here
         '
         a href="http://daringfireball.net/projects/markdown/basics" target="_blank" markdown basics
-        '
-        | or on our
-        '
-        a href=markdown_admin_tests_path markdown test page.
     #preview.tab-pane
       .markdown#processed_markdown
         = MarkdownService.markdown cms_document.article
+
+javascript:
+  jQuery(() => {
+    new MAU.MarkItDown('#cms_document_article', '#processed_markdown', 250);
+  })

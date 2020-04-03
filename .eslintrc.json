@@ -20,6 +20,7 @@
   },
   "plugins": ["standard", "prettier"],
   "rules": {
+    "no-duplicate-imports": ["error", { "includeExports": true }],
     "no-unused-vars": [
       "error",
       {

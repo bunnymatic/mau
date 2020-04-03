@@ -37,3 +37,33 @@
         .graph
           h4 Favorites Per Day
           #favorites_per_day.c3-graph
+javascript:
+  $(function () {
+    MAU.GraphPerDay.load(
+      "#artists_per_day",
+      "/admin/stats/artists_per_day",
+      "artists"
+    );
+    MAU.GraphPerDay.load(
+      "#user_visits_per_day",
+      "/admin/stats/user_visits_per_day",
+      "visits"
+    );
+    MAU.GraphPerDay.load(
+      "#favorites_per_day",
+      "/admin/stats/favorites_per_day",
+      "favorites"
+    );
+    MAU.GraphPerDay.load(
+      "#art_pieces_per_day",
+      "/admin/stats/art_pieces_per_day",
+      "pieces"
+    );
+    MAU.GraphPerDay.load("#os_signups", "/admin/stats/os_signups", "sign ups");
+    MAU.PlainGraph.load(
+      "#art_pieces_histogram",
+      "/admin/stats/art_pieces_count_histogram",
+      "# pieces",
+      "# artists"
+    );
+  });

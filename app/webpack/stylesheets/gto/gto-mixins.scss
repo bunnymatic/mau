@@ -195,3 +195,17 @@ $sampler-thumbnail-size: 250px;
     }
   }
 }
+
+@mixin os-violator {
+  background-image: url("../../images/os_violator_tiny.svg");
+  background-color: rgba(245, 245, 245, 0.85);
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  background-position: center;
+  width: 40px;
+  height: 40px;
+  @include round-corners(4px);
+  &.with-image {
+    background: none;
+  }
+}

@@ -19,3 +19,9 @@
       - else
         .pure-u-1-1.empty
           h4 This artist has no art to show.
+
+javascript:
+  $(function() {
+    new MAU.ArtistBioToggler('.artist__bio', '.js-read-more');
+    new MAU.ArtistDetailsToggler('#js-hide-artist-details');
+  });
