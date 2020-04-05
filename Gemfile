@@ -8,10 +8,6 @@ gem 'authlogic', '~> 5.x'
 gem 'aws-sdk-s3'
 gem 'browser'
 gem 'browserslist_useragent'
-gem 'capistrano'
-gem 'capistrano-bundler'
-gem 'capistrano-rails'
-gem 'capistrano-rbenv'
 gem 'dalli'
 gem 'dotenv-rails'
 gem 'elasticsearch'
@@ -69,6 +65,11 @@ group :development do
   gem 'awesome_print'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rbenv', require: false
+  gem "capistrano-local-precompile", "~> 1.2", require: false
   gem 'capistrano3-unicorn'
   gem 'letter_opener'
   gem 'rails_best_practices'
@@ -96,4 +97,5 @@ group :test, :development do
   gem 'simplecov'
   gem 'test-prof'
 end
+
 

@@ -26,11 +26,10 @@ test: &test
   database: mau_test
   pool: 5
 
+# we need these for cap tasks and other things that might run in acceptance
+# or production environments locally and need to think their ok
 acceptance:
   <<: *dev
 
-design:
+production:
   <<: *dev
-
-cucumber:
-  <<: *test
