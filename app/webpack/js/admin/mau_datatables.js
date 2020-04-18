@@ -1,5 +1,5 @@
-import extend from "lodash/extend";
 import dt from "datatables";
+import extend from "lodash/extend";
 
 const DATATABLES_CONFIG = {
   artists_index: {

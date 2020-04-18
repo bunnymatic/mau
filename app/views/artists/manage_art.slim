@@ -54,3 +54,7 @@
           .actions
             input.pure-button.pure-button-primary type="submit" value="Delete Selected Images"
             a.pure-button href=artist_path(@artist) Cancel
+javascript:
+  $(function () {
+    new MAU.ArrangeArtForm("#arrange_art_form");
+  });

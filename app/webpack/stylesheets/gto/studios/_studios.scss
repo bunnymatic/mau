@@ -58,12 +58,7 @@
 
 .studio-card {
   .os-violator {
-    background-image: url("../../../images/os_violator_tiny.svg");
-    background-size: 40px 40px;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
+    @include os-violator;
     position: absolute;
     bottom: 24px;
     right: 24px;

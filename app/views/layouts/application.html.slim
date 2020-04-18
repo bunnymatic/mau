@@ -38,6 +38,13 @@ html
       .main-container.js-main-container
         = render '/flash_notice_error'
         = yield
+    javascript:
+      jQuery( () => {
+        new MAU.BackToTop('.back-to-top')
+        jQuery('.js-help').each( function(_, el) {
+          new MAU.WhatsThisPopup(el);
+        });
+      })
 
   = render '/ganalytics'
   = render '/footer_javascripts'

@@ -11,3 +11,7 @@ html
     #layout ng-app='MauAdminApp'
       = render '/admin/admin_nav', revision: @revision
       = yield
+javascript:
+  jQuery(function () {
+    new MAU.MauDatatables(jQuery).setupDataTables("body.admin .js-data-tables");
+  });

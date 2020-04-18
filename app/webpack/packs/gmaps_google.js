@@ -17,4 +17,4 @@
 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import "@js/mau/gto/map.js";
+import "@js/app/map";

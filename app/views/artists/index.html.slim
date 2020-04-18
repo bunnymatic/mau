@@ -34,3 +34,8 @@
           h4 = @gallery.empty_message
       - else
         = render 'artist_list', gallery: @gallery
+
+javascript:
+  $(function() {
+    new MAU.ArtistListInfiniteScroller('/artists');
+  });

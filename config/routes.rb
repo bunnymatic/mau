@@ -101,7 +101,6 @@ Mau::Application.routes.draw do
       get :flash_test
       get :qr
       post :qr
-      get :markdown
       get :social_icons
       get :map
     end

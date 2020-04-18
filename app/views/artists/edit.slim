@@ -26,3 +26,9 @@
           = render '/users/edit/password', form: form
       .panel.panel-default
         = render '/users/edit/deactivate'
+
+javascript:
+  $(function () {
+    new MAU.PaypalDonateForm("#donate_for_openstudios", "#paypal_donate_openstudios")
+    new MAU.AccordionShowSectionGivenHash();
+  })

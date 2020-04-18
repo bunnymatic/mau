@@ -8,3 +8,7 @@ table#js-studio-arranger.pure-table.pure-table-striped
         td = studio.name
         td = studio.street
         td = "#{studio.artists.count} artists/#{studio.open_studios_artists.count} os"
+javascript:
+  $(function() {
+    new MAU.StudioArranger('#js-studio-arranger');
+  });

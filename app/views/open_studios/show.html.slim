@@ -1,7 +1,7 @@
 .pure-g.sticky-header
   .pure-u-1-1.header.padded-content.with-action-button.bordered-header
     h2.title #{open_studios_page_title}
-    - if @presenter.promote?    
+    - if @presenter.promote?
       .action-button
         = link_to "Register to Participate", register_open_studios_path, class: "pure-button-primary pure-button"
 
@@ -44,3 +44,8 @@
         = render '/artists/artist_list', gallery: @gallery
     .pure-u-1-1.tab-pane.padded-content#map
       = render 'map', map_info: @map_info
+
+javascript:
+  $(function() {
+    new MAU.ArtistListInfiniteScroller('/open_studios');
+  });

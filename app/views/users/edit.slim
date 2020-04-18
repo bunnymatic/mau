@@ -4,7 +4,6 @@
 
 .pure-g
   .pure-u-1-1.pure-u-lg-4-5.padded-content
-    = render '/paypal_donation_form'
     #user-accordion.panel-group
       = semantic_form_for @user.model, url: user_path(@user.model), html: { class: 'js-edit-artist-form primary-form', multipart: true } do |form|
         .panel.panel-default
@@ -18,3 +17,8 @@
           = render '/users/edit/password', form: form
       .panel.panel-default
         = render '/users/edit/deactivate'
+
+javascript:
+  jQuery(function () {
+    new MAU.AccordionShowSectionGivenHash();
+  });

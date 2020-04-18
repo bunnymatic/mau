@@ -22,3 +22,10 @@
           = f.submit class: 'pure-button pure-button-primary'
           = link_to 'Cancel', admin_open_studios_events_path, class: 'pure-button'
 
+javascript:
+  $(function() {
+    $(".js-datepicker").pickadate({
+      min: new Date(), 
+    });
+    new MAU.OsKeyGenerator(".js-open-studios-event-editor form");
+  });
