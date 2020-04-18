@@ -1,9 +1,10 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
 import "ua-device-detector";
 import "ng-device-detector";
 import "./notification.service";
+
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.services.notificationService", function () {
   let svc, http;

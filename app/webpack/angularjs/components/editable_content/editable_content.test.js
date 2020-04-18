@@ -1,9 +1,10 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
-import { compileTemplate } from "@support/angular_helpers";
 import "@services/object_routing.service";
 import "./editable_content";
+
+import { compileTemplate } from "@support/angular_helpers";
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.directives.editableContent", () => {
   let routingService;

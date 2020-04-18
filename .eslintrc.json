@@ -18,7 +18,7 @@
     "ecmaVersion": 9,
     "sourceType": "module"
   },
-  "plugins": ["standard", "prettier"],
+  "plugins": ["standard", "simple-import-sort", "prettier"],
   "rules": {
     "no-duplicate-imports": ["error", { "includeExports": true }],
     "no-unused-vars": [
@@ -27,7 +27,14 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "prettier/prettier": 2
+    "prettier/prettier": 2,
+    "import/no-unresolved": 0,
+    "simple-import-sort/sort": "error"
   },
-  "extends": ["eslint:recommended", "prettier"]
+  "extends": [
+    "eslint:recommended",
+    "prettier",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ]
 }

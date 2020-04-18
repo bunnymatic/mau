@@ -1,6 +1,6 @@
 import jQuery from "jquery";
-import min from "lodash/min";
 import max from "lodash/max";
+import min from "lodash/min";
 
 jQuery(function () {
   const flashNotice = ".notice, .flash, .flash__notice, .flash__error";

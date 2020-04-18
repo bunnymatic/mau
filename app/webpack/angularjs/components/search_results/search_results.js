@@ -1,8 +1,9 @@
-import { debounce } from "@js/app/utils";
-import Spinner from "@js/app/spinner";
-import QueryStringParser from "@js/app/query_string_parser";
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
+import QueryStringParser from "@js/app/query_string_parser";
+import Spinner from "@js/app/spinner";
+import { debounce } from "@js/app/utils";
+import angular from "angular";
+
 import template from "./index.html";
 
 const controller = ngInject(function (

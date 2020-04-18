@@ -1,5 +1,6 @@
 import expect from "expect";
 import jQuery from "jquery";
+
 import ApplicationEventsDetailsForm from "./application_events_details_form";
 
 jest.dontMock("jquery");

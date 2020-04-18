@@ -1,5 +1,6 @@
-import some from "lodash/some";
 import ngInject from "@angularjs/ng-inject";
+import some from "lodash/some";
+
 import template from "./index.html";
 
 const controller = ngInject(function (

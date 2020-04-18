@@ -1,6 +1,6 @@
-import jQuery from "jquery";
-import { ajaxSetup } from "@js/mau_ajax";
 import { debounce } from "@js/app/utils";
+import { ajaxSetup } from "@js/mau_ajax";
+import jQuery from "jquery";
 
 const markItDown = (input, output) => {
   var $input = jQuery(input);

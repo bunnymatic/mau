@@ -1,9 +1,10 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
 import "./mailer";
 import "@services/mailer.service";
+
 import { compileTemplate } from "@support/angular_helpers";
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.directives.mailer", function () {
   let $location;

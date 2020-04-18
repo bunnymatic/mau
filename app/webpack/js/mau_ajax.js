@@ -1,6 +1,6 @@
-import jQuery from "jquery";
 import angular from "angular";
 import { camelize, camelizeKeys } from "humps";
+import jQuery from "jquery";
 
 const ajaxSetup = (jq) => {
   let token = jq('meta[name="csrf-token"]').attr("content");

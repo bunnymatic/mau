@@ -1,7 +1,9 @@
+import "@js/app/spinner";
+
 import expect from "expect";
 import jQuery from "jquery";
+
 import AccountTypeChooser from "./account_type_chooser";
-import "@js/app/spinner";
 
 jest.dontMock("jquery");
 

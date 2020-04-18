@@ -1,5 +1,5 @@
-import jQuery from "jquery";
 import { post } from "@js/mau_ajax";
+import jQuery from "jquery";
 
 jQuery.fn.feedback = function () {
   const formId = "feedback_form";

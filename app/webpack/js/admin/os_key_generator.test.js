@@ -1,5 +1,6 @@
 import expect from "expect";
 import jQuery from "jquery";
+
 import OsKeyGenerator from "./os_key_generator";
 
 jest.dontMock("jquery");

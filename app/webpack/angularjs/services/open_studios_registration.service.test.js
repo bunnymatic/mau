@@ -1,8 +1,9 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
 import "./current_user.service";
 import "./open_studios_registration.service";
+
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.services.openStudiosRegistrationService", () => {
   let service, http;

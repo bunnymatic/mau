@@ -1,7 +1,7 @@
 import expect from "expect";
-import Spinner from "./spinner";
-
 import { Spinner as SpinJS } from "spin.js";
+
+import Spinner from "./spinner";
 
 jest.mock("spin.js");
 

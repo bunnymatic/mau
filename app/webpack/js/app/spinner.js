@@ -1,6 +1,6 @@
-import { Spinner as SpinJS } from "spin.js";
 import jQuery from "jquery";
 import extend from "lodash/extend";
+import { Spinner as SpinJS } from "spin.js";
 
 const SPINNER_OPTIONS = {
   color: "#5a636a",

@@ -1,6 +1,8 @@
+import "@js/app/utils";
+
 import expect from "expect";
 import jQuery from "jquery";
-import "@js/app/utils";
+
 import MarkItDown from "./mark_it_down";
 
 jest.mock("@js/app/utils", () => ({

@@ -1,7 +1,8 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
 import "./search.service";
+
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.services.searchService", function () {
   let service, http;

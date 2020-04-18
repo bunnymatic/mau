@@ -1,6 +1,7 @@
-import jQuery from "jquery";
-import QueryStringParser from "./query_string_parser";
 import Spinner from "@js/app/spinner";
+import jQuery from "jquery";
+
+import QueryStringParser from "./query_string_parser";
 
 class AccountTypeChooser {
   constructor(chooser) {

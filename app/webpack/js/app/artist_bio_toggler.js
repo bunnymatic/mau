@@ -1,5 +1,5 @@
-import jQuery from "jquery";
 import { isOverflowing } from "@js/app/jquery/jquery.isOverflowing";
+import jQuery from "jquery";
 
 class ArtistBioToggler {
   constructor(elementSelector, triggerSelector) {

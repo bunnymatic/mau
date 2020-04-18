@@ -1,6 +1,7 @@
+import "./jquery.feedback";
+
 import expect from "expect";
 import jQuery from "jquery";
-import "./jquery.feedback";
 
 jest.dontMock("jquery");
 

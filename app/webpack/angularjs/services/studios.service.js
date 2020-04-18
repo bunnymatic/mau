@@ -1,6 +1,6 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
 import { responseTransformer } from "@js/mau_ajax";
+import angular from "angular";
 
 const studiosService = ngInject(function ($resource) {
   const studios = $resource(

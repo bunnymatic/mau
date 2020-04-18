@@ -1,5 +1,5 @@
-import jQuery from "jquery";
 import { get } from "@js/mau_ajax";
+import jQuery from "jquery";
 
 class ArtistListInfiniteScroller {
   constructor(url) {

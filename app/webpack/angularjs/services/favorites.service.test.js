@@ -1,8 +1,9 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
 import "./current_user.service";
 import "./favorites.service";
+
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.services.favoriteService", function () {
   let httpBackend, service;

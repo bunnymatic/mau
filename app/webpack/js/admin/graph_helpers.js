@@ -1,8 +1,8 @@
-import jQuery from "jquery";
+import { get } from "@js/mau_ajax";
 import c3 from "c3";
 import { format } from "d3-format";
+import jQuery from "jquery";
 import moment from "moment";
-import { get } from "@js/mau_ajax";
 
 function dateFromSeconds(seconds) {
   const date = new Date(0);

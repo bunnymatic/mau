@@ -1,6 +1,6 @@
+import ngInject from "@angularjs/ng-inject";
 import { ellipsizeParagraph } from "@js/app/utils";
 import angular from "angular";
-import ngInject from "@angularjs/ng-inject";
 
 const SearchHit = ngInject(function (objectRoutingService) {
   return function (hit) {

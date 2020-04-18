@@ -1,5 +1,5 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
+import angular from "angular";
 
 const registerUrl = (artist) =>
   `/api/artists/${artist}/register_for_open_studios`;

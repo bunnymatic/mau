@@ -1,5 +1,6 @@
 import expect from "expect";
 import jQuery from "jquery";
+
 import Flash from "./flash";
 
 jest.dontMock("jquery");

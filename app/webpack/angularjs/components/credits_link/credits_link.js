@@ -1,5 +1,6 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
+import angular from "angular";
+
 import modalTemplate from "./credits__modal.html";
 import template from "./index.html";
 

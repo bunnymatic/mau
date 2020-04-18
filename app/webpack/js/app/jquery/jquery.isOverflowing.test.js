@@ -1,4 +1,5 @@
 import expect from "expect";
+
 import { isOverflowing } from "./jquery.isOverflowing";
 
 jest.dontMock("jquery");

@@ -1,10 +1,11 @@
-import jQuery from "jquery";
-import { post } from "@js/mau_ajax";
-import Flash from "@js/app/jquery/flash";
-import map from "lodash/map";
 import "jquery-ui";
 import "jquery-ui/ui/widgets/sortable";
 import "jquery-ui/ui/widgets/draggable";
+
+import Flash from "@js/app/jquery/flash";
+import { post } from "@js/mau_ajax";
+import jQuery from "jquery";
+import map from "lodash/map";
 
 class StudioArranger {
   constructor(selector) {

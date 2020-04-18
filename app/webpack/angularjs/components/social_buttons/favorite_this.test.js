@@ -1,10 +1,11 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
 import "@services/current_user.service";
 import "@services/favorites.service";
-import { compileTemplate, triggerEvent } from "@support/angular_helpers";
 import "./favorite_this";
+
+import { compileTemplate, triggerEvent } from "@support/angular_helpers";
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.directives.favoriteThis", function () {
   const objectTemplate = (type, id) =>

@@ -1,5 +1,5 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
+import angular from "angular";
 import zxcvbn from "zxcvbn";
 
 const passwordStrength = ngInject(function ($compile) {

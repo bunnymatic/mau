@@ -1,5 +1,5 @@
-import jQuery from "jquery";
 import { post } from "@js/mau_ajax";
+import jQuery from "jquery";
 
 const NUM_IMAGES = 12;
 

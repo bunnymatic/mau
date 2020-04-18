@@ -1,8 +1,9 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
 import "./repeater_delimiter";
+
 import { compileTemplate } from "@support/angular_helpers";
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.directives.repeater_delimiter", function () {
   // ng-repeat can't be at the root node so we add `.container`

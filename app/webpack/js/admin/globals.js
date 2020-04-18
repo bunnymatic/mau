@@ -8,12 +8,12 @@
 import AdminRoleManager from "./admin_role_manager";
 import ApplicationEventsDetailsForm from "./application_events_details_form";
 import ArtistsAdminIndex from "./artists_admin_index";
+import { GraphPerDay, PlainGraph } from "./graph_helpers";
 import MarkItDown from "./mark_it_down";
 import MauDatatables from "./mau_datatables";
 import OsKeyGenerator from "./os_key_generator";
 import SlideToggler from "./slide_toggler";
 import StudioArranger from "./studio_arranger";
-import { GraphPerDay, PlainGraph } from "./graph_helpers";
 
 const globals = {
   AdminRoleManager,

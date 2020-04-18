@@ -1,9 +1,10 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
-import { compileTemplate } from "@support/angular_helpers";
 import "./notify_mau";
 import "@services/notification.service";
+
+import { compileTemplate } from "@support/angular_helpers";
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.directives.notifyMau", function () {
   const notifyTemplate = (type, linkText, withIcon) =>

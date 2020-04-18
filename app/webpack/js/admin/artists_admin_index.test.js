@@ -1,5 +1,6 @@
 import expect from "expect";
 import jQuery from "jquery";
+
 import ArtistsAdminIndex from "./artists_admin_index";
 
 jest.dontMock("jquery");

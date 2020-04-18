@@ -1,6 +1,7 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
 import { hashToQueryString } from "@js/app/query_string_parser";
+import angular from "angular";
+
 import template from "./index.html";
 
 const ALLOWED_TYPES = ["twitter", "facebook", "pinterest"];

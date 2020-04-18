@@ -1,6 +1,7 @@
-import jQuery from "jquery";
-import MauDatatables from "./mau_datatables";
 import { ajaxSetup } from "@js/mau_ajax";
+import jQuery from "jquery";
+
+import MauDatatables from "./mau_datatables";
 
 class ArtistsAdminIndex {
   constructor(tabPaneSelector, dataTablesSelector = ".js-data-tables") {

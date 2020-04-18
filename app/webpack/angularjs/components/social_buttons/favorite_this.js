@@ -1,6 +1,7 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
 import Flash from "@js/app/jquery/flash";
+import angular from "angular";
+
 import template from "./favorite.html";
 
 const controller = ngInject(function ($scope, favoritesService) {

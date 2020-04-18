@@ -1,5 +1,5 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
+import angular from "angular";
 
 const currentUserService = ngInject(function ($q, $http) {
   this.currentUser = null;

@@ -1,4 +1,5 @@
 import expect from "expect";
+
 import { ellipsizeParagraph } from "./utils";
 
 describe("ellipsizeParagragh", () => {

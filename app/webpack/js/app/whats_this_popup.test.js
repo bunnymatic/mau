@@ -1,5 +1,6 @@
 import expect from "expect";
 import jQuery from "jquery";
+
 import WhatsThisPopup from "./whats_this_popup";
 
 jest.dontMock("jquery");

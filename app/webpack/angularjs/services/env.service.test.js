@@ -1,7 +1,8 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
 import "./env.service";
+
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.services.envService", function () {
   let svc;

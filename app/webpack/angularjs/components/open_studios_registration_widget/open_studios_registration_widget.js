@@ -1,7 +1,8 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
-import modalTemplate from "./open_studios_registration__modal.html";
+import angular from "angular";
+
 import template from "./index.html";
+import modalTemplate from "./open_studios_registration__modal.html";
 
 const modalController = ngInject(function (
   $scope,

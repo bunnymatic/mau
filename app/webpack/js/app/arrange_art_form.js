@@ -1,8 +1,9 @@
-import jQuery from "jquery";
 import "jquery-ui";
 import "jquery-ui/ui/widgets/sortable";
-import { postForm } from "@js/mau_ajax";
+
 import Flash from "@js/app/jquery/flash";
+import { postForm } from "@js/mau_ajax";
+import jQuery from "jquery";
 
 class ArrangeArtForm {
   constructor(formSelector) {

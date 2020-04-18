@@ -1,5 +1,5 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
+import angular from "angular";
 
 const directive = ngInject(function () {
   const compile = function (el, attrs) {

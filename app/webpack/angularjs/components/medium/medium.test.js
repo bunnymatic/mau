@@ -1,9 +1,10 @@
-import expect from "expect";
-import angular from "angular";
 import "angular-mocks";
 import "./medium";
 import "@services/object_routing.service";
+
 import { compileTemplate } from "@support/angular_helpers";
+import angular from "angular";
+import expect from "expect";
 
 describe("mau.directives.medium", function () {
   beforeEach(angular.mock.module("mau.directives"));

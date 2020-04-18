@@ -1,5 +1,6 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
+import angular from "angular";
+
 import template from "./index.html";
 
 const editableContent = ngInject(function (objectRoutingService) {

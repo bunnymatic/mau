@@ -1,5 +1,5 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
+import angular from "angular";
 
 const MUST_LOGIN_MESSAGE = "You need to login before you can favorite things";
 

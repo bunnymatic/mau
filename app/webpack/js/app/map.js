@@ -1,6 +1,6 @@
 import MarkerClusterer from "@google/markerclustererplus";
-import isNumber from "lodash/isNumber";
 import jQuery from "jquery";
+import isNumber from "lodash/isNumber";
 
 const random = (min, max) => Math.random() * (max - min) + min;
 const MAX_RANDOM_DISTANCE = 6;

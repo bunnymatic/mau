@@ -1,6 +1,7 @@
-import angular from "angular";
 import ngInject from "@angularjs/ng-inject";
+import angular from "angular";
 import map from "lodash/map";
+
 import template from "./index.html";
 
 const controller = ngInject(function (
