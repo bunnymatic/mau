@@ -2,7 +2,7 @@ import expect from "expect";
 import angular from "angular";
 import "angular-mocks";
 import { compileTemplate } from "@support/angular_helpers";
-import "./notify_mau.js";
+import "./notify_mau";
 import "@services/notification.service";
 
 describe("mau.directives.notifyMau", function () {

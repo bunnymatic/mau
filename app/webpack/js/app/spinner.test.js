@@ -1,5 +1,5 @@
 import expect from "expect";
-import Spinner from "./spinner.js";
+import Spinner from "./spinner";
 
 import { Spinner as SpinJS } from "spin.js";
 

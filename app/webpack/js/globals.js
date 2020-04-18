@@ -7,8 +7,8 @@ import ArtistListInfiniteScroller from "./app/artist_list_infinite_scroller";
 import ArtPieceForm from "./app/art_piece_form";
 import BackToTop from "./app/back_to_top";
 import PaypalDonateForm from "./app/paypal_donate_form";
-import MobileNavigation from "./app/mobile_navigation.js";
-import Navigation from "./app/navigation.js";
+import MobileNavigation from "./app/mobile_navigation";
+import Navigation from "./app/navigation";
 import Sampler from "./app/sampler";
 import WhatsThisPopup from "./app/whats_this_popup";
 

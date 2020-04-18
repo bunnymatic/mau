@@ -1,5 +1,5 @@
 import jQuery from "jquery";
-import MauDatatables from "./mau_datatables.js";
+import MauDatatables from "./mau_datatables";
 import { ajaxSetup } from "@js/mau_ajax";
 
 class ArtistsAdminIndex {
