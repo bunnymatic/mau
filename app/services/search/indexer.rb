@@ -3,8 +3,9 @@
 module Search
   class Indexer
     INDEX_SETTINGS = {
-      max_ngram_diff: 8,
+      max_ngram_diff: 5,
       number_of_shards: 1,
+      number_of_replicas: 0,
       blocks: {
         read_only_allow_delete: 'false',
       },
@@ -20,7 +21,7 @@ module Search
       mau_ngram_tokenizer: {
         type: 'nGram',
         min_gram: 2,
-        max_gram: 8,
+        max_gram: 6,
         token_chars: %i[letter digit],
       },
     }.freeze
