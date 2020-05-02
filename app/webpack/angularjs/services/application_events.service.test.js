@@ -1,9 +1,10 @@
+import "moment-timezone";
 import "angular-mocks";
 import "./application_events.service";
 
 import angular from "angular";
 import expect from "expect";
-import moment from "moment-timezone";
+import moment from "moment";
 
 describe("mau.services.applicationEventsService", function () {
   let service, http;
