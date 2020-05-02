@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Address
-  attr_reader :lat, :lng, :street, :city, :state, :zip
+  attr_reader :lat, :lng, :street, :city, :state, :zipcode
 
   def initialize(model)
     model = with_studio?(model) ? model.studio : model
@@ -11,7 +11,7 @@ class Address
     @street = model.street
     @city = fetch_with_default('San Francisco') { model.city }
     @state = fetch_with_default('CA') { get_state(model) }
-    @zip = fetch_with_default('94110') { model.zip }
+    @zipcode = fetch_with_default('94110') { model.zipcode }
   rescue NoMethodError
     raise ArgumentError, 'the model does not appear to have address like attributes'
   end
@@ -29,7 +29,7 @@ class Address
   def to_s(full = nil)
     return '' if empty?
 
-    full ? [street, city, state, zip].join(', ') : [street, zip].join(' ')
+    full ? [street, city, state, zipcode].join(', ') : [street, zipcode].join(' ')
   end
 
   def ==(other)
@@ -39,7 +39,7 @@ class Address
   protected
 
   def _state
-    [lat, lng, street, state, zip]
+    [lat, lng, street, state, zipcode]
   end
 
   private

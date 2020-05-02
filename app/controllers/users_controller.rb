@@ -42,11 +42,9 @@ class UsersController < ApplicationController
       flash.now[:error] = 'The account you were looking for was not found.'
       redirect_to(artists_path) && return
     end
-    if @fan.artist?
-      redirect_to(artist_path(@fan)) && return
-    else
-      @page_title = PageInfoService.title(sprintf('Fan: %s', @fan.get_name(true)))
-    end
+    redirect_to(artist_path(@fan)) && return if @fan.artist?
+
+    @page_title = PageInfoService.title(sprintf('Fan: %s', @fan.get_name(true)))
     @fan = UserPresenter.new(@fan)
   end
 
@@ -83,11 +81,9 @@ class UsersController < ApplicationController
     recaptcha = true # && verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
     secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
     @user.state = 'pending'
-    if secret && recaptcha && @user.save
-      redirect_after_create && return
-    else
-      render_on_failed_create && return
-    end
+    redirect_after_create && return if secret && recaptcha && @user.save
+
+    render_on_failed_create
   end
 
   # Change user passowrd

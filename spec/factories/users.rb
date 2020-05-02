@@ -88,21 +88,35 @@ FactoryBot.define do
 
     trait :in_the_mission do
       after(:create) do |artist|
-        artist.artist_info.assign_attributes(street: '1890 bryant st', city: 'sf', addr_state: 'ca', zip: '94110', lat: 37.763232, lng: -122.410636)
+        artist.artist_info.assign_attributes(
+          street: '1890 bryant st',
+          city: 'sf',
+          addr_state: 'ca',
+          zipcode: '94110',
+          lat: 37.763232,
+          lng: -122.410636,
+        )
         artist.artist_info.save(validate: false)
       end
     end
 
     trait :out_of_the_mission do
       after(:create) do |artist|
-        artist.artist_info.assign_attributes(street: '100 main', city: 'nyc', addr_state: 'ny', zip: '10011', lat: 20, lng: 20)
+        artist.artist_info.assign_attributes(
+          street: '100 main',
+          city: 'nyc',
+          addr_state: 'ny',
+          zipcode: '10011',
+          lat: 20,
+          lng: 20,
+        )
         artist.artist_info.save(validate: false)
       end
     end
 
     trait :without_address do
       after(:create) do |artist|
-        artist.artist_info.update(street: nil, city: nil, addr_state: nil, zip: nil, lat: nil, lng: nil)
+        artist.artist_info.update(street: nil, city: nil, addr_state: nil, zipcode: nil, lat: nil, lng: nil)
       end
     end
     trait :with_tagged_art do

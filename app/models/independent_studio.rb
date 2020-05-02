@@ -11,13 +11,13 @@ class IndependentStudio
 
   attr_reader :studio
 
-  delegate :id, :name, :street, :city, :state, :cross_street, :phone, :zip, :lat, :lng, to: :studio
+  delegate :id, :name, :street, :city, :state, :cross_street, :phone, :zipcode, :lat, :lng, to: :studio
 
   class InnerStudio < Struct.new(:id, :name, :street, :city, :state,
-                                 :cross_street, :phone, :zip, :profile_image, :lat, :lng)
+                                 :cross_street, :phone, :zipcode, :profile_image, :lat, :lng)
     def initialize(attrs)
       super(*attrs.values_at(:id, :name, :street, :city, :state,
-                             :cross_street, :phone, :zip, :profile_image, :lat, :lng))
+                             :cross_street, :phone, :zipcode, :profile_image, :lat, :lng))
     end
 
     def to_param
@@ -46,7 +46,7 @@ class IndependentStudio
                               street: 'The Mission District',
                               city: 'San Francisco',
                               state: 'CA',
-                              zip: '94110',
+                              zipcode: '94110',
                               profile_image: ImageContainer.new('/studiodata/0/profile/independent-studios.jpg'),
                               cross_street: nil,
                               phone: nil,
