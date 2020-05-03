@@ -49,7 +49,7 @@ describe Address do
     its(:state) { is_expected.to eq studio.state }
     its(:lat) { is_expected.to eq studio.lat }
     its(:lng) { is_expected.to eq studio.lng }
-    its(:to_s) { is_expected.to eq([studio.street, studio.zip].join(' ')) }
+    its(:to_s) { is_expected.to eq([studio.street, studio.zipcode].join(' ')) }
     its(:present?) { is_expected.to eq true }
     its(:empty?) { is_expected.to eq false }
   end

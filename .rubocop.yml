@@ -36,6 +36,15 @@ AllCops:
     - features/step_definitions/shared_steps.rb
     - features/step_definitions/user_steps.rb
 
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
 Lint/SuppressedException:
   Exclude:
     - lib/tasks/*.rake
@@ -115,6 +124,9 @@ Style/Documentation:
 
 Style/DoubleNegation:
   Enabled: false
+
+Style/ExponentialNotation:
+  Enabled: true
 
 Style/FormatStringToken:
   Enabled: false

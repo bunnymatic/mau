@@ -64,6 +64,7 @@ module Admin
     def unaffiliate_artist
       artist = Artist.find(params[:artist_id])
       redirect_to_edit(error: 'You cannot unaffiliate yourself') && return if artist == current_artist
+
       msg = if StudioArtist.new(@studio, artist).unaffiliate
               { notice: "#{artist.full_name} is no longer associated with #{@studio.name}." }
             else
@@ -85,7 +86,7 @@ module Admin
     private
 
     def studio_params
-      params.require(:studio).permit(:name, :street, :city, :state, :zip,
+      params.require(:studio).permit(:name, :street, :city, :state, :zipcode,
                                      :url, :lat, :lng, :cross_street, :phone, :photo)
     end
 

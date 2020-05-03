@@ -6,7 +6,7 @@ FactoryBot.define do
     street { Faker::Address.street_name }
     city { Faker::Address.city }
     state { Faker::Address.state }
-    zip { Faker::Address.zip_code }
+    zipcode { Faker::Address.zip_code }
     lat { 37.75 }
     lng { -122.41 }
     url { Faker::Internet.url }

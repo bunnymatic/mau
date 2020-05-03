@@ -43,6 +43,7 @@ class MainController < ApplicationController
       section: section,
     }
     render && return unless doc
+
     @content[:content] = MarkdownService.markdown(doc.article)
     @content[:cmsid] = doc.id
   end
@@ -57,6 +58,7 @@ class MainController < ApplicationController
       section: section,
     }
     render && return unless doc
+
     @content[:content] = MarkdownService.markdown(doc.article)
     @content[:cmsid] = doc.id
 

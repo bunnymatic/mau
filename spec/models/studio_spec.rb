@@ -31,7 +31,7 @@ describe Studio do
       allow(Geokit::Geocoders::MultiGeocoder).to receive(:geocode)
     end
     it 'recomputes geocode if address changes' do
-      studio.update(zip: 12_345)
+      studio.update(zipcode: 12_345)
       expect(Geokit::Geocoders::MultiGeocoder).to have_received(:geocode)
     end
 

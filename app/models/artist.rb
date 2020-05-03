@@ -98,7 +98,7 @@ class Artist < User
     lng
     max_pieces
     street
-    zip
+    zipcode
   ].each do |delegat|
     delegate delegat, to: :artist_info, allow_nil: true
   end
