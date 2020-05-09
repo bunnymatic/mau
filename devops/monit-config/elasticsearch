@@ -1,0 +1,5 @@
+check process elasticsearch with pidfile /run/elasticsearch/elasticsearch.pid
+    start program = "/usr/sbin/service elasticsearch start" with timeout 40 seconds
+    stop program  = "/usr/sbin/service elasticsearch stop"
+    if cpu usage > 95% for 3 cycles then alert
+    if failed port 9200 protocol http then restart
