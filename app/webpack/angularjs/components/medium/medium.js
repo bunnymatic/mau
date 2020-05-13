@@ -13,6 +13,17 @@ const medium = ngInject(function (objectRoutingService) {
 
       $scope.path = objectRoutingService.urlForModel("medium", medium);
       $scope.name = medium.name;
+
+      $scope.$watch(
+        "medium",
+        function (newMedium, oldMedium) {
+          if (newMedium.id !== oldMedium.id) {
+            $scope.name = newMedium.name;
+            $scope.path = objectRoutingService.urlForModel("medium", newMedium);
+          }
+        },
+        true
+      );
     },
   };
 });
