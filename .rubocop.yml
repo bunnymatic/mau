@@ -36,8 +36,14 @@ AllCops:
     - features/step_definitions/shared_steps.rb
     - features/step_definitions/user_steps.rb
 
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true 
 
 Lint/RaiseException:
   Enabled: true
@@ -152,6 +158,9 @@ Style/RegexpLiteral:
     - percent_r
   AllowInnerSlashes: false
 
+Style/SlicingWithRange:
+  Enabled: true
+
 Style/StructInheritance:
   Exclude:
     - 'app/models/independent_studio.rb'
@@ -167,4 +176,5 @@ Style/TrailingCommaInHashLiteral:
 
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
+
 

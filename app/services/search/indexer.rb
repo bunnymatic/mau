@@ -33,6 +33,7 @@ module Search
 
     class ObjectSearchService
       attr_reader :object
+
       def initialize(object)
         @object = object
       end

@@ -12,7 +12,7 @@ namespace :debug do
       start_date = Time.current + 2.months
       end_date = start_date + 2.days
       key = start_date.strftime('%Y%m')
-      placeholder_logo = Rails.root.join("app", "assets", "images", "debug_os_placeholder.png")
+      placeholder_logo = Rails.root.join('app', 'assets', 'images', 'debug_os_placeholder.png')
       OpenStudiosEvent.create!(start_date: start_date, end_date: end_date, key: key, logo: File.open(placeholder_logo))
       puts "Created new OpenStudiosEvent: #{key}"
     end

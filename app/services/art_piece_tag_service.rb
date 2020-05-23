@@ -4,6 +4,7 @@ class ArtPieceTagService
   class TagWithFrequency
     FIELDS = %i[tag frequency].freeze
     attr_accessor(*FIELDS)
+
     def initialize(tag, count)
       @tag = tag
       @frequency = count.try(:to_f)
