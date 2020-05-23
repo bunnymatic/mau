@@ -2,6 +2,7 @@
 
 class ArtPiecePresenter < ViewPresenter
   attr_reader :model
+
   delegate :id, :year, :photo, :medium, :artist, :title, :updated_at, :to_param, to: :model
 
   def initialize(model)

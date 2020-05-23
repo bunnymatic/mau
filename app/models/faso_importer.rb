@@ -53,6 +53,6 @@ class FasoImporter
   end
 
   def pipe_split(row)
-    (row.split '|').map { |entry| entry.gsub(/^"/, '').gsub(/"$/, '') }
+    (row.split '|').map { |entry| entry.delete_prefix('"').delete_suffix('"') }
   end
 end

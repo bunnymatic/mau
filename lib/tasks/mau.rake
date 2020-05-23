@@ -21,8 +21,8 @@ namespace :mau do
   desc 'check status and email if there are issues'
   task check_and_notify_server_status: [:environment] do
     status = ServerStatus.run
-    if (!status[:main] || !status[:elasticsearch])
-      puts "ERROR"
+    if !status[:main] || !status[:elasticsearch]
+      puts 'ERROR'
       puts status
       AdminMailer.server_trouble(status).deliver_now
     end
@@ -30,7 +30,7 @@ namespace :mau do
 
   desc 'clean up studio 0 artists'
   task indy_studio_artist_cleanup: [:environment] do
-    Artists.where(studio_id: 0).each { |a| a.update_attributes(studio_id: nil) }
+    Artists.where(studio_id: 0).each { |a| a.update(studio_id: nil) }
   end
 
   desc 'initiate studio slugs'

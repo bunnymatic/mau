@@ -69,7 +69,7 @@ class Studio < ApplicationRecord
     elsif b.nil?
       -1
     else
-      a.name.downcase.gsub(/^the /, '') <=> b.name.downcase.gsub(/^the /, '')
+      a.name.downcase.delete_prefix('the ') <=> b.name.downcase.delete_prefix('the ')
     end
   end
 

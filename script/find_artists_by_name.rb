@@ -4,7 +4,7 @@
 puts 'Searching...'
 artists = []
 $stdin.read.split("\n").each do |line|
-  next if line.blank? || (line =~ /^#/)
+  next if line.blank? || line.starts_with?('#')
 
   line.split(',').each do |item|
     name_bits = item.split
