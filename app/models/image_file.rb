@@ -9,8 +9,6 @@ class ImageFile
     return '' if fname.empty?
 
     prefix = MauImage::ImageSize.find(size).prefix
-    # idx = fname.hash % @@IMG_SERVERS.length
-    # svr = @@IMG_SERVERS[idx]
     File.join(dir, prefix + fname)
   end
 

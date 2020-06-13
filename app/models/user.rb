@@ -44,14 +44,6 @@ class User < ApplicationRecord
 
   validates_attachment_content_type :photo, content_type: %r{\Aimage\/.*\Z}, if: :"photo?"
 
-  # I was initially worried about routes here - i think we should be fine moving forward
-  #
-  # RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','delete_art',
-  #                            'deactivate','add','new','view','create','update',
-  #                            'arrange_art', 'setarrangement',
-  #                            'admin','root','mau', 'mauadmin','maudev',
-  #                            'jon','mrrogers','trish','trishtunney' ]
-
   include User::Authentication
   include User::Authorization
 

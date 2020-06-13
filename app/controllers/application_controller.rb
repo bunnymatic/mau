@@ -8,10 +8,8 @@ class ApplicationController < ActionController::Base
   include OpenStudiosEventShim
   include UserControllerHelpers
 
-  # helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  # include MobilizedStyles
   before_action :append_view_paths
   before_action :init_body_classes, :set_controller_and_action_names
   before_action :check_browser, unless: :format_json?
