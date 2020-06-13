@@ -6,7 +6,7 @@ end
 
 Then(/^I see all the favorites in a table$/) do
   expect(page).to have_content 'Favorites!'
-  favs = User.all.map(&:favorites).sort_by(&:length).flatten.map(&:to_obj)
+  favs = User.all.map(&:favorites).sort_by(&:length).flatten.map(&:favoritable)
   totals = StatsCalculator.histogram(favs.map { |f| f.class.name })
   within 'tr.totals' do
     expect(page).to have_content 'Total'
