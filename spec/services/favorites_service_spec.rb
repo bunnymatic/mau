@@ -7,15 +7,15 @@ describe FavoritesService do
   let(:fan) { create(:fan) }
   subject(:service) { described_class }
   before do
-    Favorite.create(favoritable_type: 'Artist', favoritable_id: artist.id, user_id: fan.id)
-    Favorite.create(favoritable_type: 'ArtPiece', favoritable_id: artist.art_pieces.first.id, user_id: fan.id)
+    create_favorite(fan, artist)
+    create_favorite(fan, artist.art_pieces.first)
   end
 
   describe '.add' do
     context 'an artist' do
       it 'adds the artist favorite' do
         service.add fan, artist
-        expect(fan.favorites.map(&:to_obj)).to include(artist)
+        expect(fan.favorites.map(&:favoritable)).to include(artist)
       end
       it 'notifies the artist' do
         expect(FavoritesService).to receive(:notify_favorited_user).with(artist, fan)
@@ -31,7 +31,7 @@ describe FavoritesService do
     context 'an art piece' do
       it 'adds the art piece favorite' do
         service.add fan, artist.art_pieces.last
-        expect(fan.favorites.map(&:to_obj)).to include(artist.art_pieces.last)
+        expect(fan.favorites.map(&:favoritable)).to include(artist.art_pieces.last)
       end
     end
     context 'a something else' do

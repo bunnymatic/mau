@@ -75,10 +75,12 @@ class UserPresenter < ViewPresenter
   def who_favorites_me
     @who_favorites_me ||=
       begin
-        favs = favorites_of_me.to_a.flatten
-        user_ids = favs.map(&:user_id).compact.uniq
-        User.active.where(id: user_ids)
-      end
+          Favorite.where(favoritable_type: model.class.name, favoritable_id: model.id)
+                  .includes(:owner)
+                  .order('created_at desc')
+                  .distinct(:owner)
+                  .map(&:owner).flatten
+        end
   end
 
   def facebook?
@@ -115,10 +117,6 @@ class UserPresenter < ViewPresenter
         match = %r{twitter.com/(.*)}.match(model.twitter.to_s)
         match&.captures&.first
       end
-  end
-
-  def favorites_of_me
-    @favorites_of_me ||= Favorite.users.where(favoritable_id: id).order('created_at desc')
   end
 
   def valid?

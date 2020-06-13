@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module FavoriteCreator
-  def create_favorite(favoritee, favorite)
-    Favorite.create(user_id: favoritee.id, favoritable_type: favorite.class.name, favoritable_id: favorite.id)
+  def create_favorite(owner, favorite)
+    Favorite.create(owner_id: owner.id, favoritable_type: favorite.class.name, favoritable_id: favorite.id)
   end
 end
 

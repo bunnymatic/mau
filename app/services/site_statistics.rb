@@ -99,7 +99,7 @@ class SiteStatistics
     {
       favorited_art_pieces: Favorite.art_pieces.count,
       favorited_artists: Favorite.artists.count,
-      favorites_users_using: Favorite.distinct('user_id').pluck(:user_id).count,
+      favorites_users_using: Favorite.select('owner_id').distinct.count,
     }
   end
 

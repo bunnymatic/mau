@@ -10,15 +10,21 @@ describe Favorite, 'named scopes' do
 
   it 'does not allow duplicates' do
     create_favorite fan, jesse
-    f = Favorite.new user_id: fan.id, favoritable_type: jesse.class.name, favoritable_id: jesse.id
+    f = Favorite.new owner_id: fan.id, favoritable_type: jesse.class.name, favoritable_id: jesse.id
     expect(f).to_not be_valid
-    expect(f.errors[:user]).to have(1).item
+    expect(f.errors[:owner]).to have(1).item
   end
 
-  it 'destroys unused ones as necessary' do
-    f = Favorite.create(favoritable_type: 'Artist', favoritable_id: 55_555)
-    f.to_obj
-    expect(Favorite.where(favoritable_type: 'Artist', favoritable_id: 55_555)).to be_empty
+  it 'requires valid favoritable object' do
+    expect do
+      Favorite.create!(owner_id: fan.id, favoritable_type: 'Artist', favoritable_id: 55_555)
+    end.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
+  it 'requires an owner' do
+    expect do
+      Favorite.create!(favoritable_type: 'Artist', favoritable_id: anna.id)
+    end.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   describe 'scopes' do
@@ -33,14 +39,12 @@ describe Favorite, 'named scopes' do
     it '#artists fetches artists and #art_pieces fetches art pieces' do
       expect(Favorite.artists.count).to be > 0
       Favorite.artists.all.each do |f|
-        expect(f.artist?).to eq(true)
-        expect(f.art_piece?).to eq false
+        expect(f.favoritable).to be_a_kind_of(Artist)
       end
 
       expect(Favorite.art_pieces.count).to be > 0
       Favorite.art_pieces.all.each do |f|
-        expect(f.artist?).to eq false
-        expect(f.art_piece?).to eq(true)
+        expect(f.favoritable).to be_a_kind_of(ArtPiece)
       end
     end
   end

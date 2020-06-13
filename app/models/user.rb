@@ -86,7 +86,7 @@ class User < ApplicationRecord
     a.lastname.downcase <=> b.lastname.downcase
   end
 
-  has_many :favorites, dependent: :destroy, inverse_of: :user, class_name: 'Favorite'
+  has_many :favorites, inverse_of: :owner, foreign_key: 'owner_id', class_name: 'Favorite', dependent: :destroy
 
   belongs_to :studio, optional: true
   has_many :roles_users
