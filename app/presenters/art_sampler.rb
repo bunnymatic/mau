@@ -24,7 +24,7 @@ class ArtSampler
   end
 
   def random_pieces
-    ArtPiece.includes(:artist)
+    ArtPiece.includes({ artist: :open_studios_events })
             .where(users: { state: :active })
             .order(Arel.sql("rand(#{seed})"))
             .limit(@number_of_images_per_fetch)

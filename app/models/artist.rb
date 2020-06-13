@@ -136,7 +136,7 @@ class Artist < User
 
   def representative_piece
     piece_id = SafeCache.read(representative_art_cache_key)
-    piece = ArtPiece.find_by id: piece_id
+    piece = ArtPiece.find_by id: piece_id if piece_id
 
     if piece.blank?
       piece = art_pieces.min_by { |ap| [ap.position.to_i, -ap.created_at.to_i] }

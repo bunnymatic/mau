@@ -5,6 +5,6 @@ class ArtistFavoritePresenter
 
   def initialize(favorite)
     @favorite = favorite
-    @artist = ArtistPresenter.new(@favorite.to_obj)
+    @artist = ArtistPresenter.new(@favorite.favoritable)
   end
 end

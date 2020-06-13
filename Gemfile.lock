@@ -412,6 +412,8 @@ GEM
     ruby-progressbar (1.10.1)
     rubyzip (2.3.0)
     safe_yaml (1.0.5)
+    scout_apm (2.6.7)
+      parser
     scrypt (3.0.7)
       ffi-compiler (>= 1.0, < 2.0)
     selenium-webdriver (3.142.7)
@@ -561,6 +563,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rails
+  scout_apm (~> 2.6)
   selenium-webdriver
   shoulda-matchers
   simplecov
