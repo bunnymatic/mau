@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_02_203211) do
+ActiveRecord::Schema.define(version: 2020_06_10_040034) do
 
   create_table "application_events", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "type"
@@ -121,8 +121,8 @@ ActiveRecord::Schema.define(version: 2020_05_02_203211) do
     t.datetime "updated_at"
     t.integer "favoritable_id"
     t.string "favoritable_type"
-    t.integer "user_id"
-    t.index ["favoritable_type", "favoritable_id", "user_id"], name: "index_favorites_uniq_on_user_and_favorite", unique: true
+    t.integer "owner_id"
+    t.index ["favoritable_type", "favoritable_id", "owner_id"], name: "index_favorites_uniq_on_user_and_favorite", unique: true
   end
 
   create_table "feedbacks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

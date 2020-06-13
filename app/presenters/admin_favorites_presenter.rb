@@ -36,24 +36,20 @@ class AdminFavoritesPresenter
 
   private
 
-  def user_key(fav)
-    User.find(fav.user_id)
-  end
-
   def increment(type, entry)
     k = type.tableize.to_sym
     entry[k] += 1 if entry.key? k
   end
 
   def tally_favorites(tally, fav)
-    key = user_key(fav)
+    key = fav.owner
     tally[key] ||= { artists: 0, art_pieces: 0, favorited: 0 }
     increment(fav.favoritable_type, tally[key])
 
     # favorited
     return unless fav.favoritable_type == 'Artist'
 
-    key = User.find(fav.favoritable_id)
+    key = fav.favoritable
     tally[key] ||= { artists: 0, art_pieces: 0, favorited: 0 }
     tally[key][:favorited] += 1
   end

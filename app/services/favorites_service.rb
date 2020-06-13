@@ -46,31 +46,36 @@ class FavoritesService
     end
 
     def remove_favorite(user, obj)
+      # Don't convert to `favoritable: obj` because for Artists it get's class name `User`
+      # making this query fail
       user.favorites.where(favoritable_type: obj.class.name, favoritable_id: obj.id).destroy_all
       obj
     end
 
-    def add_favorite(user, obj)
+    def add_favorite(owner, obj)
       # can't favorite yourself
       obj.class.transaction do
-        return if trying_to_favorite_yourself?(user, obj)
+        return if trying_to_favorite_yourself?(owner, obj)
 
+        # Don't convert to `favoritable: obj` because for Artists it get's class name `User`
+        # making this query fail
+        #
         # don't add dups
         favorite_params = {
           favoritable_type: obj.class.name,
           favoritable_id: obj.id,
-          user_id: user.id,
+          owner_id: owner.id,
         }
         f = Favorite.create(favorite_params)
-        notify_favorited_user(obj, user) if f
+        notify_favorited_user(obj, owner) if f
       end
       obj
     end
 
-    def trying_to_favorite_yourself?(user, obj)
+    def trying_to_favorite_yourself?(owner, obj)
       false if obj.nil?
-      ((obj.is_a?(User) || obj.is_a?(Artist)) && obj.id == user.id) ||
-        (obj.is_a?(ArtPiece) && obj.artist.id == user.id)
+      ((obj.is_a?(User) || obj.is_a?(Artist)) && obj.id == owner.id) ||
+        (obj.is_a?(ArtPiece) && obj.artist.id == owner.id)
     end
   end
 end
