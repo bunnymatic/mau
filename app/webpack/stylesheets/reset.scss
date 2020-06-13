@@ -113,17 +113,17 @@ html {
   box-sizing: inherit;
 }
 
-.clearfix {
-  zoom: 1;
-  &:before,
-  &:after {
-    content: " "; /* 1 */
-    display: table; /* 2 */
-  }
-  &:after {
-    clear: both;
-  }
-}
+/* .clearfix { */
+/*   zoom: 1; */
+/*   &:before, */
+/*   &:after { */
+/*     content: " "; /\* 1 *\/ */
+/*     display: table; /\* 2 *\/ */
+/*   } */
+/*   &:after { */
+/*     clear: both; */
+/*   } */
+/* } */
 
 body {
   background-color: $base-background-color;

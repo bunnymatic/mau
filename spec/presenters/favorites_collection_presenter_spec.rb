@@ -5,13 +5,13 @@ require 'rails_helper'
 describe FavoritesCollectionPresenter do
   let(:artist) { instance_double(Artist) }
   let(:current_user) { nil }
-  let(:favorite_artists) { [] }
-  let(:favorite_art_pieces) { [] }
+  let(:favorite_artists) { Artist.none }
+  let(:favorite_art_pieces) { ArtPiece.none }
   subject(:presenter) { FavoritesCollectionPresenter.new(artist, current_user) }
 
   before do
-    allow(artist).to receive_message_chain(:favorites, :artists).and_return(favorite_artists)
-    allow(artist).to receive_message_chain(:favorites, :art_pieces).and_return(favorite_art_pieces)
+    allow(artist).to receive_message_chain(:favorites, :artists, :includes).and_return(favorite_artists)
+    allow(artist).to receive_message_chain(:favorites, :art_pieces, :includes).and_return(favorite_art_pieces)
   end
 
   context 'with favorites' do
@@ -20,7 +20,7 @@ describe FavoritesCollectionPresenter do
         instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: true),
         instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: true),
         instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: false),
-      ].map { |artist| instance_double(Favorite, to_obj: artist, favoritable: artist) }
+      ].map { |artist| instance_double(Favorite, favoritable: artist) }
     end
     let(:favorite_art_pieces) do
       [
@@ -28,7 +28,7 @@ describe FavoritesCollectionPresenter do
         instance_double(ArtPiece, artist: instance_double(Artist, active?: true)),
         instance_double(ArtPiece, artist: instance_double(Artist, active?: false)),
         instance_double(ArtPiece),
-      ].map { |art| instance_double(Favorite, to_obj: art, favoritable: art) }
+      ].map { |art| instance_double(Favorite, favoritable: art) }
     end
 
     describe '#art_pieces' do
@@ -48,7 +48,7 @@ describe FavoritesCollectionPresenter do
         [
           instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: true),
           instance_double(Artist, representative_piece: instance_double(ArtPiece), active?: false),
-        ].map { |artist| instance_double(Favorite, to_obj: artist, favoritable: artist) }
+        ].map { |artist| instance_double(Favorite, favoritable: artist) }
       end
       describe '#artists' do
         it 'has 1 artist' do
@@ -59,8 +59,8 @@ describe FavoritesCollectionPresenter do
   end
 
   context 'when the artist has no favorites' do
-    let(:favorite_artists) { [] }
-    let(:favorite_art_pieces) { [] }
+    let(:favorite_artists) { Artist.none }
+    let(:favorite_art_pieces) { ArtPiece.none }
     describe '#art_pieces' do
       subject { super().art_pieces }
       it { is_expected.to be_empty }

@@ -73,6 +73,7 @@ group :development do
   gem 'capistrano3-unicorn'
   gem 'letter_opener'
   gem 'rails_best_practices'
+  gem "scout_apm", "~> 2.6"
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'unicorn-rails'
@@ -97,5 +98,6 @@ group :test, :development do
   gem 'simplecov'
   gem 'test-prof'
 end
+
 
 

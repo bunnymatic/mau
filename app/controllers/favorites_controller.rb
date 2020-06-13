@@ -36,14 +36,14 @@ class FavoritesController < ApplicationController
 
   def destroy
     fav = Favorite.find(params[:id])
-    obj = fav.to_obj
+    obj = fav.favoritable
     fav.destroy
     if request.xhr?
       render json: { message: 'Removed a favorite' }
       nil
     else
       flash[:notice] = "#{obj.get_name(true)} has been removed from your favorites."
-      redirect_to(request.referer || user_path(obj))
+      redirect_to(request.referer || root_path)
     end
   rescue InvalidFavoriteTypeError => e
     render_not_found(message: e.message)

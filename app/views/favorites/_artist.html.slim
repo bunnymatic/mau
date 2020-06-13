@@ -2,7 +2,7 @@
 - owner_is_current_user ||= false
 - class_overrides ||= %w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4).join(" ")
 - artist = artist_favorite.artist
-.artist-card class=class_overrides
+.artist-card.artist-card--in-favorites class=class_overrides
   - if logged_in? && owner_is_current_user
     .card__controls
       .artist-card__remove-favorite

@@ -163,6 +163,13 @@
     right: 12px;
   }
 }
+.artist-card--in-favorites {
+  .os-violator {
+    top: auto;
+    right: auto;
+  }
+}
+
 .art-card,
 .artist-card {
   .artist-card__remove-favorite,
