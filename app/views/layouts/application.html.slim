@@ -9,8 +9,8 @@ html
       window = window || {}
       window['__env'] = "#{Rails.env}";
 
-    = stylesheet_pack_tag 'application'
-    = javascript_pack_tag "application"
+    = stylesheet_packs_with_chunks_tag 'application'
+    = javascript_packs_with_chunks_tag "application"
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
   body class=classes ng-app="MauApp"
