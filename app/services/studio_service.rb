@@ -9,7 +9,7 @@ class StudioService
   MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio || 3)
 
   def self.all
-    Studio.by_position.all
+    Studio.by_position.all.includes({ artists: :art_pieces })
   end
 
   def self.all_studios
@@ -28,7 +28,7 @@ class StudioService
         Studio.indy
       else
         begin
-          Studio.friendly.find(id)
+          Studio.friendly.includes({ artists: :art_pieces }).find(id)
         rescue StandardError
           nil
         end

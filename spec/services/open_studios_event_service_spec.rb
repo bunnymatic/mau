@@ -65,9 +65,9 @@ describe OpenStudiosEventService do
 
     it 'removes all the future, past and current caches' do
       service.clear_cache
-      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::FUTURE_CACHE_KEY)
-      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::PAST_CACHE_KEY)
-      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::CURRENT_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(described_class::FUTURE_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(described_class::PAST_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(described_class::CURRENT_CACHE_KEY)
     end
 
     it 'removes the event cache based on key if it exists' do
@@ -76,9 +76,37 @@ describe OpenStudiosEventService do
       expect(SafeCache).to have_received(:delete).with('os_event_100')
       expect(SafeCache).to have_received(:delete).with('os_event_12345')
 
-      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::FUTURE_CACHE_KEY)
-      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::PAST_CACHE_KEY)
-      expect(SafeCache).to have_received(:delete).with(OpenStudiosEventService::CURRENT_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(described_class::FUTURE_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(described_class::PAST_CACHE_KEY)
+      expect(SafeCache).to have_received(:delete).with(described_class::CURRENT_CACHE_KEY)
+    end
+  end
+
+  describe '#tally_os' do
+    before do
+      FactoryBot.create(:artist, :active, :with_studio, :with_art)
+    end
+    it 'tallies today\'s os participants' do
+      expect { described_class.tally_os }.to change(OpenStudiosTally, :count).by(1)
+    end
+    it 'only records 1 entry per day' do
+      expect do
+        2.times { described_class.tally_os }
+      end.to change(OpenStudiosTally, :count).by(1)
+    end
+
+    it 'updates the record if it runs more than once 1 entry per day' do
+      described_class.tally_os
+      a = Artist.all.reject(&:doing_open_studios?).first
+      t = OpenStudiosTally.last
+      a.open_studios_events << current_os
+      described_class.tally_os
+      expect(OpenStudiosTally.last.count).to eql(t.count + 1)
+    end
+
+    it 'does nothing if there are no open studios events' do
+      OpenStudiosEvent.all.destroy_all
+      expect { described_class.tally_os }.to change(OpenStudiosTally, :count).by(0)
     end
   end
 end

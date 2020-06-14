@@ -106,7 +106,7 @@ namespace :mau do
 
   desc 'record todays OS count'
   task daily_os_signup: [:environment] do
-    Artist.tally_os
+    OpenStudiosEventService.tally_os
   end
 
   desc 'import scammer emails from FASO'
