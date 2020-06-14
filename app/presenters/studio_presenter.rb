@@ -65,7 +65,7 @@ class StudioPresenter < ViewPresenter
   def open_studios_artists
     return Artist.none if OpenStudiosEventService.current.blank?
 
-    artists.where(id: OpenStudiosEventService.current.artists.map(&:id))
+    OpenStudiosEventService.current.artists
   end
 
   def artists_with_art?
@@ -75,7 +75,7 @@ class StudioPresenter < ViewPresenter
   def artists_with_art
     @artists_with_art ||=
       begin
-        artists.select { |a| a.art_pieces.present? }.map { |artist| ArtistPresenter.new(artist) }
+        artists.joins(:art_pieces).map { |artist| ArtistPresenter.new(artist) }
       end
   end
 
@@ -96,7 +96,7 @@ class StudioPresenter < ViewPresenter
   end
 
   def artists
-    @artists ||= @studio.artists.active
+    @artists ||= @studio.artists.active.includes(:artist_info, :art_pieces, :open_studios_events)
   end
 
   def indy?
