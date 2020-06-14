@@ -19,10 +19,7 @@ class ArtPieceTagPresenter
   private
 
   def tagged_art_pieces
-    @tagged_art_pieces ||= ArtPiecesTag.includes(:art_piece)
-                                       .where(art_piece_tag_id: tag.id)
-                                       .map(&:art_piece)
-                                       .compact.select { |ap| ap.artist.try(:active?) }
+    @tagged_art_pieces ||= tag.art_pieces.compact.select { |ap| ap.artist.try(:active?) }
   end
 
   def by_artist?
@@ -35,7 +32,7 @@ class ArtPieceTagPresenter
         {}.tap do |artists_works|
           tagged_art_pieces.each do |art|
             artist = art.try(:artist)
-            artists_works[artist] = art if artist&.active? && !artists_works.key?(artist)
+            artists_works[artist] = art unless artists_works.key?(artist)
           end
         end.values
       end

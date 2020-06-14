@@ -19,7 +19,7 @@ class MediaController < ApplicationController
   end
 
   def show
-    @medium = Medium.friendly.find(params[:id])
+    @medium = Medium.friendly.includes(art_pieces: :artist).find(params[:id])
     page = medium_params[:p].to_i
     mode = medium_params[:m]
 
