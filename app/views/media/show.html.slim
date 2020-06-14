@@ -2,7 +2,7 @@
   .pure-u-1-1.header.padded-content
     h2.title
       = "Medium:"
-      ' 
+      '
       span.medium__name = @medium.name
 .pure-g
   .pure-u-1-2.pure-u-sm-1-3.pure-u-lg-1-5.padded-content
@@ -12,8 +12,8 @@
     .pure-g
       .pure-u-1-1.tagcloud
         ul
-          - @media_cloud.media_for_display.each do |medium|
-            li
+          - @media_cloud.each do |medium|
+            li class=(@media_cloud.current_medium?(medium) ? 'tagmatch' : '')
               span.clouditem
                 = link_to medium.name, medium
 

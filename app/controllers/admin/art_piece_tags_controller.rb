@@ -3,7 +3,7 @@
 module Admin
   class ArtPieceTagsController < ::BaseAdminController
     def index
-      @tags = ArtPieceTagService.tags_sorted_by_frequency
+      @tags = ArtPieceTagService.tags_sorted_by_frequency.to_a + ArtPieceTagService.unused_tags
     end
 
     def cleanup

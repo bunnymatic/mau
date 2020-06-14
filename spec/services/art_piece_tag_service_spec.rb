@@ -10,25 +10,36 @@ describe ArtPieceTagService do
   end
 
   describe '.tags_sorted_by_frequency' do
-    let!(:art_pieces) { [create(:art_piece, :with_tags)] }
-    let!(:tags) { FactoryBot.create_list(:art_piece_tag, 1) }
+    let!(:art_pieces) { create_list :art_piece, 6, :with_tags }
+    let!(:tags) { FactoryBot.create_list :art_piece_tag, 5 }
+    let!(:extra_tags) { FactoryBot.create_list :art_piece_tag, 2 }
+    before do
+      art_pieces.each_with_index do |ap, idx|
+        ap.tags = tags[0..(5 - idx)]
+        ap.save!
+      end
+    end
+
     it 'returns tags with their count' do
       freq = service.tags_sorted_by_frequency
-      expect(freq.first.frequency).to be >= 1
-      expect(freq.last.frequency).to eql 0.0
+      expect(freq.first.frequency).to eq 6
+      expect(freq.last.frequency).to eq 2
     end
   end
 
   describe '.most_popular_tag' do
-    before do
-      art_piece_tags = [
+    let(:art_pieces) { create_list :art_piece, 3 }
+    let(:tags) do
+      [
         create(:art_piece_tag, name: 'hello'),
         create(:art_piece_tag, name: 'hello a'),
-        create(:art_piece_tag, name: 'hello b'),
       ]
-      tags = art_piece_tags.shuffle.map { |t| ArtPieceTagService::TagWithFrequency.new(t.slug, 10) }
-
-      allow(described_class).to receive(:compute_tag_usage).and_return(tags)
+    end
+    before do
+      art_pieces.each_with_index do |ap, idx|
+        ap.tags = tags[0..(2 - idx)]
+        ap.save!
+      end
     end
     it 'returns most popular tag by frequency and medium' do
       expect(described_class.most_popular_tag).to eql(ArtPieceTag.find('hello'))
@@ -41,7 +52,7 @@ describe ArtPieceTagService do
       FactoryBot.create_list :art_piece_tag, 5
       expect do
         service.delete_unused_tags
-        expect(service.tags_sorted_by_frequency.size).to eq 1
+        expect(service.tags_sorted_by_frequency.to_a.size).to eq 1
       end.to change(ArtPieceTag, :count).by(-5)
     end
   end
@@ -58,47 +69,6 @@ describe ArtPieceTagService do
       end.to change(ArtPieceTag, :count).by(-3).and(
         change(ArtPiecesTag, :count).by(-2),
       )
-    end
-  end
-
-  describe 'frequency' do
-    let!(:art_pieces) { create_list :art_piece, 6, :with_tags }
-    let!(:tags) { FactoryBot.create_list :art_piece_tag, 5 }
-    before do
-      art_pieces.each_with_index do |ap, idx|
-        ap.tags = tags[0..(5 - idx)]
-        ap.save!
-      end
-    end
-
-    it 'returns normalized frequency correctly' do
-      f = service.frequency
-      cts = f.map(&:frequency)
-      expect(cts).to eql [1.0, 0.8333333333333334, 0.6666666666666666, 0.5, 0.3333333333333333]
-    end
-    it 'returns un-normalized frequency correctly' do
-      f = service.frequency(false)
-      cts = f.map(&:frequency)
-      expect(cts).to eql [6.0, 5.0, 4.0, 3.0, 2.0]
-    end
-
-    it 'tries the cache on the first hit' do
-      expect(SafeCache).to receive(:read).with([:tagfreq, true]).and_return(nil)
-      expect(SafeCache).to receive(:write)
-      service.frequency(true)
-    end
-    it 'does not update the cache if it succeeds' do
-      expect(SafeCache).to receive(:read).with([:tagfreq, true]).and_return(frequency: 'stuff')
-      expect(SafeCache).not_to receive(:write)
-      service.frequency(true)
-    end
-  end
-
-  describe 'flush_cache' do
-    it 'flushes the cache' do
-      expect(SafeCache).to receive(:delete).with([:tagfreq, true])
-      expect(SafeCache).to receive(:delete).with([:tagfreq, false])
-      ArtPieceTagService.flush_cache
     end
   end
 end

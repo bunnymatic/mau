@@ -10,7 +10,7 @@ When(/^I destroy the first tag$/) do
 end
 
 Then(/^I see a list of artists who have art in the most popular tag$/) do
-  @first_tag = ArtPieceTagService.tags_sorted_by_frequency.first.tag
+  @first_tag = ArtPieceTagService.tags_sorted_by_frequency.first
 
   expect(page).to have_css('h2.title', text: 'Tag')
 
@@ -24,7 +24,7 @@ Then(/^I see a list of artists who have art in the most popular tag$/) do
 end
 
 Then(/^I see more artists who have art in the most popular tag$/) do
-  @first_tag = ArtPieceTagService.tags_sorted_by_frequency.first.tag
+  @first_tag = ArtPieceTagService.tags_sorted_by_frequency.first
 
   expect(page).to have_css('h2.title', text: 'Tag')
   expect(page).to have_css('.tag__name', text: @first_tag.name)

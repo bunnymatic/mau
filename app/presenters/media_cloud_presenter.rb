@@ -1,39 +1,23 @@
 # frozen_string_literal: true
 
 class MediaCloudPresenter < ViewPresenter
-  include TagsHelper
+  include Enumerable
 
-  attr_reader :frequency, :mode
-
-  # medium is the selected one
-  def initialize(media, selected, mode)
-    @media = media
+  def initialize(selected, mode)
+    @media = MediaService.media_sorted_by_frequency
     @selected = selected
-    @frequency = Medium.frequency(true)
     @mode = mode
   end
 
+  def current_medium?(medium)
+    @selected == medium
+  end
+
   def medium_path(medium)
-    url_helpers.medium_path(medium, m: mode)
+    url_helpers.medium_path(medium, m: @mode)
   end
 
-  def find_medium(id)
-    media_lut[id]
-  end
-
-  def media_lut
-    @media_lut ||= Medium.all.index_by(&:id)
-  end
-
-  def media_for_display
-    @media_for_display ||=
-      begin
-        frequency.map do |entry|
-          medium = find_medium(entry['medium'])
-          next unless medium
-
-          medium
-        end.select(&:present?)
-      end
+  def each(&block)
+    @media.each(&block)
   end
 end

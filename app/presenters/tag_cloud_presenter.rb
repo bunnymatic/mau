@@ -2,56 +2,28 @@
 
 class TagCloudPresenter < ViewPresenter
   include Enumerable
-  include TagsHelper
 
-  attr_reader :frequency, :current_tag, :mode
+  MAX_SHOW_TAGS = 40
 
-  def initialize(model, tag, mode)
-    @model = model
-    @frequency = ArtPieceTagService.frequency(true)
-    @current_tag = tag
+  def initialize(selected, mode)
+    @all_tags = ArtPieceTagService.tags_sorted_by_frequency
+    @selected = selected
     @mode = mode
   end
 
-  def tags
-    @tags ||=
-      begin
-        ArtPieceTag.where(slug: frequency.map(&:tag))
-      end
-  end
-
-  def tags_lut
-    @tags_lut ||=
-      begin
-        tags.index_by(&:slug)
-      end
-  end
-
-  def find_tag(slug)
-    tags_lut[slug]
-  end
-
   def current_tag?(tag)
-    current_tag == tag
+    @selected == tag
   end
 
   def tag_path(tag)
-    url_helpers.art_piece_tag_path(tag, m: mode)
+    url_helpers.art_piece_tag_path(tag, m: @mode)
   end
 
-  def tags_for_display
-    @tags_for_display ||=
-      begin
-        frequency.map do |entry|
-          tag = find_tag(entry.tag)
-          next unless tag
-
-          tag
-        end.compact
-      end
+  def tags
+    @all_tags.limit(MAX_SHOW_TAGS)
   end
 
   def each(&block)
-    tags_for_display.each(&block)
+    tags.each(&block)
   end
 end

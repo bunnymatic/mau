@@ -11,7 +11,6 @@ describe MainController do
 
   before do
     # seems like we have leaky database records
-    fix_leaky_fixtures
     artist
     prolific_artist
     FactoryBot.create(:open_studios_event, :future)
