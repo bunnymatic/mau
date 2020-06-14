@@ -224,29 +224,6 @@ describe Artist do
     end
   end
 
-  describe '#tally_os' do
-    before do
-      artist
-    end
-    it 'tallies today\'s os participants' do
-      expect { Artist.tally_os }.to change(OpenStudiosTally, :count).by(1)
-    end
-    it 'only records 1 entry per day' do
-      expect do
-        2.times { Artist.tally_os }
-      end.to change(OpenStudiosTally, :count).by(1)
-    end
-
-    it 'updates the record if it runs more than once 1 entry per day' do
-      Artist.tally_os
-      a = Artist.all.reject(&:doing_open_studios?).first
-      t = OpenStudiosTally.last
-      a.open_studios_events << open_studios_event
-      Artist.tally_os
-      expect(OpenStudiosTally.last.count).to eql(t.count + 1)
-    end
-  end
-
   describe 'doing_open_studios?' do
     let(:past_artist) { create(:artist) }
     before do

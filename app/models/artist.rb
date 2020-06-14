@@ -136,10 +136,10 @@ class Artist < User
 
   def representative_piece
     piece_id = SafeCache.read(representative_art_cache_key)
-    piece = ArtPiece.find_by id: piece_id if piece_id
+    piece = art_pieces.find(piece_id) if piece_id
 
     if piece.blank?
-      piece = art_pieces.min_by { |ap| [ap.position.to_i, -ap.created_at.to_i] }
+      piece = art_pieces.first
       SafeCache.write(representative_art_cache_key, piece.id, expires_in: 0) unless piece.nil?
     end
     piece
@@ -147,21 +147,6 @@ class Artist < User
 
   def representative_art_cache_key
     @representative_art_cache_key ||= CacheKeyService.representative_art(self)
-  end
-
-  class << self
-    # tally up today's open studios count
-    def tally_os
-      today = Time.zone.now.to_date
-      count = OpenStudiosEventService.current.try(:artists).count
-
-      o = OpenStudiosTally.find_by(recorded_on: today)
-      if o
-        o.update(oskey: current_open_studios_key, count: count)
-      else
-        OpenStudiosTally.create!(oskey: current_open_studios_key, count: count, recorded_on: today)
-      end
-    end
   end
 
   protected

@@ -4,86 +4,20 @@ require 'rails_helper'
 
 describe SocialCatalogPresenter do
   include PresenterSpecHelpers
-  def gen_links
-    {
-      facebook: Faker::Internet.url,
-      website: Faker::Internet.url,
-      twitter: Faker::Internet.url,
-      instagram: Faker::Internet.url,
-    }
-  end
-
-  def fake_art(opts = {})
-    instance_double(ArtPiece, opts.merge(
-                                persisted?: true,
-                                title: 'title',
-                                photo: 'the-image.jpg',
-                                medium: nil,
-                                tags: [],
-                                uniq_tags: [],
-                                updated_at: rand.days.ago,
-                              ))
-  end
 
   let!(:open_studios_event) { FactoryBot.create :open_studios_event }
-  let(:studio) { build_stubbed(:studio) }
+  let(:studio) { create(:studio) }
   let(:listed_indy_artist) do
-    name = Faker::Name.name
-    art_pieces = [fake_art]
-    attrs = attributes_for(:artist).merge(gen_links).merge(
-      artist?: true,
-      art_pieces: art_pieces,
-      artist_info: build_stubbed(:artist_info),
-      doing_open_studios?: true,
-      full_name: name,
-      get_name: name,
-      in_the_mission?: true,
-      is_a?: true,
-      max_pieces: 4,
-      representative_piece: art_pieces.first,
-      sortable_name: 'joe',
-      studio: nil,
-    )
-    User.stored_attributes[:links].each do |attr|
-      attrs[attr] = nil
-    end
-    instance_double(Artist, **attrs)
+    create(:artist, :active, :in_the_mission, :with_links, :with_art, { doing_open_studios: true })
   end
   let(:listed_studio_artists) do
-    Array.new(5).map do
-      name = Faker::Name.name
-      art_pieces = [fake_art]
-      attrs = attributes_for(:artist).merge(gen_links).merge(
-        artist?: true,
-        art_pieces: [instance_double(ArtPiece, persisted?: true)],
-        artist_info: build_stubbed(:artist_info, max_pieces: 4),
-        doing_open_studios?: true,
-        full_name: name,
-        get_name: name,
-        in_the_mission?: true,
-        is_a?: true,
-        max_pieces: 4,
-        representative_piece: art_pieces.first,
-        sortable_name: 'joe',
-        studio: studio,
-      )
-      User.stored_attributes[:links].each do |attr|
-        attrs[attr] = nil
-      end
-      instance_double(Artist, **attrs)
-    end
+    create_list(:artist, 5, :active, :in_the_mission, :with_links, :with_art, doing_open_studios: true, studio: studio)
   end
 
   let!(:artists) do
     [listed_indy_artist] + listed_studio_artists
   end
   let(:parsed) { CSV.parse(subject.csv, headers: true) }
-
-  before do
-    mock_os = instance_double(OpenStudiosEvent, key: open_studios_event.key)
-    allow(mock_os).to receive_message_chain(:artists, :in_the_mission).and_return(artists)
-    allow(OpenStudiosEventService).to receive(:current).and_return(mock_os)
-  end
 
   describe '#artists' do
     it 'returns artists who are doing os (and in the mission) and have art' do

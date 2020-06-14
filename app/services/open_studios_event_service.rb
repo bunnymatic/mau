@@ -107,6 +107,21 @@ class OpenStudiosEventService
     SafeCache.delete(event_cache_key(event.key))
   end
 
+  # tally up today's open studios count
+  def self.tally_os
+    return unless current
+
+    today = Time.zone.now.to_date
+    count = current.try(:artists).count
+
+    o = OpenStudiosTally.find_by(recorded_on: today)
+    if o
+      o.update(oskey: current.key, count: count)
+    else
+      OpenStudiosTally.create!(oskey: current.key, count: count, recorded_on: today)
+    end
+  end
+
   def self.event_cache_key(id)
     "os_event_#{id}"
   end
