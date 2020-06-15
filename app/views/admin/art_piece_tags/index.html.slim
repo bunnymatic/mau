@@ -2,7 +2,7 @@
   .pure-u-1-1.padded-content
     .admin-table
       h1
-        = "Art Piece Tags (#{@tags.count})"
+        = "Art Piece Tags (#{@tags.to_a.size})"
       .admin-table__controls
         a.pure-button.pure-button-sm.button-warning href=cleanup_admin_art_piece_tags_path delete unused tags
   .pure-u-1-1.padded-content
@@ -13,13 +13,13 @@
           th Count
           th data-orderable="false"
       tbody
-        - @tags.each_with_index do |tf, idx|
-          - clz = ' error-msg' if tf.frequency <= 0
+        - @tags.each_with_index do |tag, idx|
+          - clz = ' error-msg' if tag.frequency <= 0
           tr class=clz.to_s
             td
-              = link_to tf.tag.name, tf.tag
-            td.input-name.ct = tf.frequency
+              = link_to tag.name, tag
+            td.input-name.ct = tag.frequency
             td.admin-controls
               .remove.btn
-                = link_to [:admin, tf.tag], confirm: 'Are you sure?', method: :delete, title: 'Remove' do
+                = link_to [:admin, tag], confirm: 'Are you sure?', method: :delete, title: 'Remove' do
                   = far_icon 'times-circle'

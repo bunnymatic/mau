@@ -121,10 +121,6 @@ describe ArtPiecesController do
           post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
           expect(flash[:notice]).to eql "You've got new art!"
         end
-        it 'flushes the cache' do
-          expect_any_instance_of(ArtPiecesController).to receive(:flush_cache)
-          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
-        end
         it 'publishes a message' do
           expect_any_instance_of(Messager).to receive(:publish)
           post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
@@ -177,10 +173,6 @@ describe ArtPiecesController do
       it 'sets a flash message on success' do
         post :update, params: { id: art_piece.id, art_piece: { title: 'new title' } }
         expect(flash[:notice]).to eql 'The art has been updated.'
-      end
-      it 'flushes the cache' do
-        expect_any_instance_of(ArtPiecesController).to receive(:flush_cache)
-        post :update, params: { id: art_piece.id, art_piece: { title: 'new title' } }
       end
       it 'publishes a message' do
         expect_any_instance_of(Messager).to receive(:publish)

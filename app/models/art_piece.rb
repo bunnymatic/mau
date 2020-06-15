@@ -8,8 +8,6 @@ class ArtPiece < ApplicationRecord
 
   belongs_to :medium, optional: true
 
-  include TagsHelper
-
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
   validates_attachment_presence :photo
   validates_attachment_content_type :photo,

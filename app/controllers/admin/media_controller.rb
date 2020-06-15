@@ -21,7 +21,6 @@ module Admin
       @medium = Medium.new(medium_params)
 
       if @medium.save
-        Medium.flush_cache
         flash[:notice] = 'Medium was successfully created.'
         redirect_to admin_media_path
       else
@@ -33,7 +32,6 @@ module Admin
       @medium = Medium.find(params[:id])
 
       if @medium.update(medium_params)
-        Medium.flush_cache
         flash[:notice] = 'Medium was successfully updated.'
         redirect_to admin_media_path
       else
@@ -45,7 +43,6 @@ module Admin
       @medium = Medium.find(params[:id])
       @medium.destroy
 
-      Medium.flush_cache
       redirect_to(admin_media_url)
     end
 

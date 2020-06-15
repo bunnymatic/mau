@@ -22,11 +22,11 @@ describe MediaController do
     end
     context 'with no frequency' do
       before do
-        allow(Medium).to receive(:frequency).and_return([])
+        allow(MediaService).to receive(:media_sorted_by_frequency).and_return(Medium.none)
       end
       it 'redirect to show first' do
         get :index, params: { format: :html }
-        expect(response).to redirect_to Medium.first
+        expect(response).to be_not_found
       end
     end
   end
@@ -61,16 +61,6 @@ describe MediaController do
         end
         it 'assigns pieces' do
           expect(paginator.items.size).to be >= 1
-        end
-        it 'assigns all media' do
-          expect(assigns(:media).size).to be >= 1
-        end
-        it 'assigns frequency' do
-          expect(assigns(:frequency).size).to be >= 1
-        end
-        it 'assigns frequency' do
-          freq = assigns(:frequency)
-          expect(freq).to be_present
         end
         it 'pieces are in order of art_piece updated_date' do
           expect(paginator.items.map(&:updated_at)).to be_monotonically_decreasing

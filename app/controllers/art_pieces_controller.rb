@@ -8,13 +8,6 @@ class ArtPiecesController < ApplicationController
   before_action :load_art_piece, only: %i[show destroy edit update]
   before_action :load_media, only: %i[edit create update]
 
-  after_action :flush_cache, only: %i[create update destroy]
-
-  def flush_cache
-    Medium.flush_cache
-    ArtPieceTagService.flush_cache
-  end
-
   def show
     respond_to do |format|
       format.html do

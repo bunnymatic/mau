@@ -6,8 +6,7 @@ describe ArtPieceTagsController do
   describe '#index' do
     describe 'format=html' do
       before do
-        allow(ArtPieceTagService).to receive(:frequency).and_return([])
-        allow(ArtPieceTagService).to receive(:most_popular_tag).and_return(nil)
+        allow(ArtPieceTagService).to receive(:tags_sorted_by_frequency).and_return(ArtPieceTag.none)
       end
       context 'when there are no tags' do
         before do
