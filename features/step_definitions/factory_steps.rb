@@ -108,6 +108,8 @@ Given /there are tags on the art/ do
   @art_piece_tags = FactoryBot.create_list(:art_piece_tag, 10)
   @art_pieces.each_with_index do |art, idx|
     art.tags = @art_piece_tags[0..(idx % 10)]
+    art.created_at = art.created_at - idx.days
+    art.updated_at = art.updated_at - idx.days
     art.save!
   end
 end

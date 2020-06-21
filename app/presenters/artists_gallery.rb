@@ -3,18 +3,17 @@
 class ArtistsGallery < ArtistsPresenter
   include Rails.application.routes.url_helpers
 
-  PER_PAGE = Rails.env.development? ? 5 : 20
   ELLIPSIS = '&hellip;'
   LETTERS_REGEX = /[a-zA-Z]/.freeze
   attr_reader :pagination, :per_page, :letter, :ordering
 
   delegate :items, :more?, :current_page, :next_page, to: :pagination
 
-  def initialize(os_only, letter, ordering, current_page, per_page = PER_PAGE)
+  def initialize(os_only, letter, ordering, current_page, per_page = nil)
     super os_only
     @letter = letter.try(:downcase)
     @ordering = %i[lastname firstname].include?(ordering.try(:to_sym)) ? ordering.to_sym : :lastname
-    @per_page = per_page
+    @per_page = per_page || Conf.pagination['artists']['per_page']
     @current_page = current_page.to_i
     @pagination = ArtistsPagination.new(artists, @current_page, @per_page)
   end
@@ -28,7 +27,13 @@ class ArtistsGallery < ArtistsPresenter
     return [] unless name
 
     letters = ArtPiece.joins(:artist).where(users: { state: 'active' }).group("lcase(left(users.#{name},1))").count.keys
-    letters.select { |l| LETTERS_REGEX =~ l } + [ELLIPSIS]
+
+    lettered_entries = letters.select { |l| LETTERS_REGEX =~ l }
+    if letters.count > lettered_entries.count
+      lettered_entries + [ELLIPSIS]
+    else
+      lettered_entries
+    end
   end
 
   def path_to(desired_params, current_params)

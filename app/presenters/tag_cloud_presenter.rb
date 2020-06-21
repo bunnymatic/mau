@@ -5,10 +5,9 @@ class TagCloudPresenter < ViewPresenter
 
   MAX_SHOW_TAGS = 40
 
-  def initialize(selected, mode)
+  def initialize(selected)
     @all_tags = ArtPieceTagService.tags_sorted_by_frequency
     @selected = selected
-    @mode = mode
   end
 
   def current_tag?(tag)
@@ -16,7 +15,7 @@ class TagCloudPresenter < ViewPresenter
   end
 
   def tag_path(tag)
-    url_helpers.art_piece_tag_path(tag, m: @mode)
+    url_helpers.art_piece_tag_path(tag)
   end
 
   def tags

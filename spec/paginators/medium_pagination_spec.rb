@@ -9,11 +9,10 @@ describe MediumPagination, type: :controller do
   let(:per_page) { 3 }
   let(:current_page) { 0 }
   let(:medium) { build_stubbed(:medium) }
-  let(:page_mode) {}
 
   subject(:paginator) do
     MediumPagination.new(Array.new(num_items) { |x| x + 1 },
-                         medium, current_page, page_mode, per_page)
+                         medium, current_page, per_page)
   end
 
   its(:previous_title) { should eq 'previous' }
@@ -38,12 +37,6 @@ describe MediumPagination, type: :controller do
     anchor = lnk.find('a')
     expect(anchor['href']).to eql subject.previous_link
     expect(anchor['title']).to eql subject.previous_title
-  end
-
-  context 'with different mode' do
-    let(:page_mode) { 's' }
-    its(:next_link) { is_expected.to eq medium_path(medium, m: 's', p: 1) }
-    its(:previous_link) { is_expected.to eq medium_path(medium, m: 's', p: 0) }
   end
 
   context 'with different current page' do

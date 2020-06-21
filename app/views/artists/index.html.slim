@@ -15,7 +15,7 @@
   .pure-u-1-1.header.padded-content>
     ul.paginator.gallery-paginator
       - @letters.each do |letter|
-        li.page class=(letter==@gallery.letter)?'current':''
+        li.paginator__page class=class_names( "paginator__page--current": (letter==@gallery.letter))
           = link_to letter.html_safe, @gallery.path_to({l: letter}, params)
     .name-switcher
       span.prefix by name
