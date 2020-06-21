@@ -11,17 +11,17 @@ ul.paginator {
   li {
     display: inline-block;
     margin-bottom: 5px;
-    &.page {
-      a {
-        display: inline-block;
-        margin: 2px;
-        @include light-gray-button;
-      }
-    }
-    &.current.page {
-      a {
-        background-color: $x-light-gray;
-      }
-    }
+  }
+}
+.paginator__page {
+  a {
+    display: inline-block;
+    margin: 2px;
+    @include light-gray-button;
+  }
+}
+.paginator__page--current {
+  a {
+    background-color: $x-light-gray;
   }
 }

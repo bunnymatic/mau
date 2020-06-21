@@ -9,7 +9,7 @@ class MediaPresenter
     @medium = medium
     @page = (page || 0).to_i
     @mode_string = mode || 'p'
-    @per_page = per_page || 12
+    @per_page = per_page
   end
 
   def all_art_pieces

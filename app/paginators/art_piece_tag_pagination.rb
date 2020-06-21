@@ -3,10 +3,12 @@
 class ArtPieceTagPagination < Pagination
   include ArtistOrPiece
 
-  def initialize(art_pieces, current_tag, current_page, mode_string = 'p', per_page = 12)
+  PER_PAGE = 24
+
+  def initialize(art_pieces, current_tag, current_page, mode_string = 'p', per_page = nil)
     @mode_string = mode_string
     @current_tag = current_tag
-    super art_pieces, current_page, per_page, next_label: '>', previous_label: '<'
+    super art_pieces, current_page, per_page || PER_PAGE, next_label: '>', previous_label: '<'
   end
 
   def page_link(page)
