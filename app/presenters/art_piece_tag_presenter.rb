@@ -3,38 +3,23 @@
 class ArtPieceTagPresenter
   attr_reader :tag
 
-  def initialize(tag, mode)
+  def initialize(tag, page = nil, per_page = nil)
     @tag = tag
-    @mode = mode || 'p'
+    @page = (page || 0).to_i
+    @per_page = per_page
   end
 
   def art_pieces
-    @art_pieces ||=
-      begin
-        pieces = (by_artist? ? pieces_by_artist : tagged_art_pieces).compact.sort_by(&:updated_at).reverse
-        pieces.map { |p| ArtPiecePresenter.new(p) }
-      end
+    @art_pieces ||= tagged_art_pieces.map { |piece| ArtPiecePresenter.new(piece) }
+  end
+
+  def paginator
+    ArtPieceTagPagination.new(art_pieces, @tag, @page, @per_page)
   end
 
   private
 
   def tagged_art_pieces
-    @tagged_art_pieces ||= tag.art_pieces.compact.select { |ap| ap.artist.try(:active?) }
-  end
-
-  def by_artist?
-    @mode != 'p'
-  end
-
-  def pieces_by_artist
-    @pieces_by_artist ||=
-      begin
-        {}.tap do |artists_works|
-          tagged_art_pieces.each do |art|
-            artist = art.try(:artist)
-            artists_works[artist] = art unless artists_works.key?(artist)
-          end
-        end.values
-      end
+    @tagged_art_pieces ||= tag.art_pieces.joins(:artist).where(users: { state: :active }).order(updated_at: :desc)
   end
 end

@@ -20,7 +20,7 @@ Then(/^I see a list of artists who have art in the most popular tag$/) do
   expect(page).to have_css('.tag__name', text: @first_tag.name)
   expect(page).to have_css '.paginator'
   expect(page).to have_content '>'
-  expect(page).to have_css '.paginator .current', text: '1'
+  expect(page).to have_css '.paginator__page--current', text: '1'
 end
 
 Then(/^I see more artists who have art in the most popular tag$/) do
@@ -29,15 +29,13 @@ Then(/^I see more artists who have art in the most popular tag$/) do
   expect(page).to have_css('h2.title', text: 'Tag')
   expect(page).to have_css('.tag__name', text: @first_tag.name)
   expect(page).to have_css '.paginator'
-  expect(page).to have_css '.paginator .current', text: '2'
+  expect(page).to have_css '.paginator__page--current', text: '2'
 
-  # this preload/call (for some reason) sets this test up for success
-  @first_tag.art_pieces.all
+  pieces = @first_tag.art_pieces.all.order(created_at: :desc)
 
   name_tags = page.all('.search-results .desc .name')
-
-  expect(name_tags.any? { |el| el.text =~ /#{@first_tag.art_pieces.first.title}/ }).to eq true
-  expect(name_tags.any? { |el| el.text =~ /#{@first_tag.art_pieces.last.title}/ }).to eq false
+  expect(name_tags.any? { |el| el.text =~ /#{pieces.first.title}/ }).to eq false
+  expect(name_tags.any? { |el| el.text =~ /#{pieces.last.title}/ }).to eq true
 end
 
 When(/^I click on the first tag$/) do

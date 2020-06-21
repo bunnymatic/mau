@@ -42,14 +42,10 @@ class ArtPieceTagsController < ApplicationController
     end
 
     page = show_tag_params[:p].to_i
-    mode = show_tag_params[:m]
 
-    @tag_presenter = ArtPieceTagPresenter.new(@tag, mode)
-    @tag_cloud_presenter = TagCloudPresenter.new(@tag, mode)
-    @paginator = ArtPieceTagPagination.new(@tag_presenter.art_pieces, @tag, page, mode)
-
-    @by_artists_link = art_piece_tag_url(@tag, m: 'a')
-    @by_pieces_link = art_piece_tag_url(@tag, m: 'p')
+    @tag_presenter = ArtPieceTagPresenter.new(@tag, page)
+    @tag_cloud_presenter = TagCloudPresenter.new(@tag)
+    @paginator = @tag_presenter.paginator
   end
 
   private
@@ -73,7 +69,7 @@ class ArtPieceTagsController < ApplicationController
   end
 
   def show_tag_params
-    params.permit(:p, :m)
+    params.permit(:p)
   end
 
   def query_input_params

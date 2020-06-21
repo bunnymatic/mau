@@ -5,7 +5,6 @@ require 'rails_helper'
 describe MediaCloudPresenter, type: :controller do
   include PresenterSpecHelpers
 
-  let(:mode) { 'a' }
   let(:artist) { FactoryBot.create :artist, :with_art, number_of_art_pieces: 7 }
   let!(:media) do
     mediums = FactoryBot.create_list(:medium, 3)
@@ -16,7 +15,7 @@ describe MediaCloudPresenter, type: :controller do
   end
   let(:current) { media[1] }
 
-  subject(:presenter) { described_class.new(current, mode) }
+  subject(:presenter) { described_class.new(current) }
 
   describe '#media' do
     it 'returns media that have frequency' do
@@ -24,14 +23,7 @@ describe MediaCloudPresenter, type: :controller do
     end
   end
 
-  it 'returns the tag path' do
-    expect(presenter.medium_path(current)).to eql medium_path(current, m: mode)
-  end
-
-  context 'when the mode is art_pieces' do
-    let(:mode) { 'p' }
-    it 'returns the tag path' do
-      expect(presenter.medium_path(current)).to eql medium_path(current, m: mode)
-    end
+  it 'returns the medium path' do
+    expect(presenter.medium_path(current)).to eql medium_path(current)
   end
 end

@@ -35,36 +35,20 @@ describe MediaController do
     let(:medium) { Artist.active.map(&:art_pieces).flatten.map(&:medium).first }
     context 'for valid medium' do
       let(:paginator) { assigns(:paginator) }
+      before do
+        get :show, params: { id: medium }
+      end
+      it 'assigns pieces' do
+        expect(paginator.items.size).to be >= 1
+      end
+      it 'pieces are in order of art_piece updated_date' do
+        expect(paginator.items.map(&:updated_at)).to be_monotonically_decreasing
+      end
       context 'with pretty url' do
         before do
           get :show, params: { id: medium.slug }
         end
         it { expect(response).to be_successful }
-      end
-      context 'by artist' do
-        before do
-          get :show, params: { id: medium.id, m: 'a' }
-        end
-        it 'page is in artists mode' do
-          expect(assigns(:media_presenter)).to be_by_artists
-        end
-        it 'assigns pieces' do
-          expect(paginator.items.size).to be >= 1
-        end
-      end
-      context 'by art piece' do
-        before do
-          get :show, params: { id: medium }
-        end
-        it 'page is in pieces mode' do
-          expect(assigns(:media_presenter)).to be_by_pieces
-        end
-        it 'assigns pieces' do
-          expect(paginator.items.size).to be >= 1
-        end
-        it 'pieces are in order of art_piece updated_date' do
-          expect(paginator.items.map(&:updated_at)).to be_monotonically_decreasing
-        end
       end
     end
   end

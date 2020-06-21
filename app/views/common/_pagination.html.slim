@@ -2,10 +2,10 @@
 - if paginator.should_paginate?
   .navlinks.paginator
     ul
-      li
+      li.paginator__page
         = paginator.link_to_previous
       - paginator.pages.each do |page|
-        li.page class=(paginator.current_page?(page) ? 'current' : '')
+        li.paginator__page class=(class_names("paginator__page--current": paginator.current_page?(page)))
           = paginator.link_to_page(page)
-      li.page
+      li.paginator__page
         = paginator.link_to_next

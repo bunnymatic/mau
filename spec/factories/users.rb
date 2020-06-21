@@ -129,7 +129,7 @@ FactoryBot.define do
       active
       after(:create) do |artist, ctx|
         ctx.number_of_art_pieces.to_i.times.each do |idx|
-          FactoryBot.create(:art_piece, artist: artist, created_at: idx.weeks.ago)
+          FactoryBot.create(:art_piece, artist: artist, created_at: idx.weeks.ago, updated_at: idx.weeks.ago)
         end
         artist.reload
       end

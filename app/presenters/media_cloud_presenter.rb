@@ -3,18 +3,15 @@
 class MediaCloudPresenter < ViewPresenter
   include Enumerable
 
-  def initialize(selected, mode)
+  delegate :medium_path, to: :url_helpers
+
+  def initialize(selected)
     @media = MediaService.media_sorted_by_frequency
     @selected = selected
-    @mode = mode
   end
 
   def current_medium?(medium)
     @selected == medium
-  end
-
-  def medium_path(medium)
-    url_helpers.medium_path(medium, m: @mode)
   end
 
   def each(&block)

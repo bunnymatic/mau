@@ -26,4 +26,16 @@ module ApplicationHelper
   def background_image_style(img)
     "background-image: url(\"#{img}\");"
   end
+
+  if Gem::Version.new(Rails.version) < Gem::Version.new('6.1.0')
+    def class_names(*args)
+      args.each_with_object([]) do |arg, memo|
+        if arg.is_a? Hash
+          arg.select { |_k, v| v }.each_key { |k| memo << k }
+        else
+          memo << arg
+        end
+      end.join(' ')
+    end
+  end
 end

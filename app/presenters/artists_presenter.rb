@@ -3,8 +3,6 @@
 # This presenter fetches a list of artists
 # and makes them easily accessible as ArtistPresenter objects
 class ArtistsPresenter < ViewPresenter
-  PER_PAGE = 28
-
   attr_reader :os_only
 
   def initialize(os_only = nil)

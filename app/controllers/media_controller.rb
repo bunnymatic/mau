@@ -22,20 +22,16 @@ class MediaController < ApplicationController
     end
 
     page = medium_params[:p].to_i
-    mode = medium_params[:m]
 
-    @media_presenter = MediaPresenter.new(@medium, page, mode)
-    @media_cloud = MediaCloudPresenter.new(@medium, mode)
+    @media_presenter = MediaPresenter.new(@medium, page)
+    @media_cloud = MediaCloudPresenter.new(@medium)
     @paginator = @media_presenter.paginator
-    # still in use
-    @by_artists_link = medium_path(@medium, m: 'a')
-    @by_pieces_link = medium_path(@medium, m: 'p')
   end
 
   private
 
   def medium_params
-    params.permit(:p, :m)
+    params.permit(:p)
   end
 
   def redirect_to_most_popular_medium(redirect_opts = {})

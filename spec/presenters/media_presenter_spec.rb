@@ -12,16 +12,10 @@ describe MediaPresenter do
     pieces.each { |ap| ap.update(medium: select_medium) }
   end
   let(:page) { 1 }
-  let(:mode) { nil }
   let(:per_page) { 2 }
   let(:select_medium) { media.last }
 
-  subject(:presenter) { MediaPresenter.new(select_medium, page, mode, per_page) }
-
-  it 'returns by pieces by default' do
-    expect(presenter.by_artists?).to eq false
-    expect(presenter.by_pieces?).to eq true
-  end
+  subject(:presenter) { MediaPresenter.new(select_medium, page, per_page) }
 
   describe '#all_art_pieces' do
     before do
