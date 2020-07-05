@@ -22,6 +22,10 @@ development:
   pagination:
     artists:
       per_page: 5
+    media:
+      per_page: 12
+    tags:
+      per_page: 12
 
 acceptance:
   S3_DOMAIN: 'us-west-1'
