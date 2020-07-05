@@ -3,7 +3,7 @@
     .header
       h2.title Sign In
     = semantic_form_for @user_session, name: "Sign In", url: user_session_path do |f|
-      = render '/form_errors', form: f
+      = render '/common/form_errors', form: f
       = f.inputs do
         = f.input :login, placeholder: 'username or email', label: 'Username/Email', input_html: { required: true, autofocus: true }
         = f.input :password, placeholder: 'password', input_html: { required: true }

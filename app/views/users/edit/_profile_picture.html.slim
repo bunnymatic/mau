@@ -5,7 +5,7 @@
 
 .panel-collapse.collapse#profile_picture role="tabpanel"
   .panel-body
-    = render '/artist_profile_image', artist: UserPresenter.new(form.object)
+    = render '/common/artist_profile_image', artist: UserPresenter.new(form.object)
     = form.inputs do
       .pure-g
         .pure-u-1-1.pure-u-sm-1-2
