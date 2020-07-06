@@ -26,7 +26,7 @@ html
         .sidenav__main
           a.brand href=root_path title="Mission Artists"
             .sidebar-logo title="Mission Artists" class="#{Date.today.month == 6 ? 'sidebar-logo--pride' : ''}"
-          = render '/navigation'
+          = render '/common/navigation'
           .push
         .sidenav__footer
           .back-to-top title="Back to top"
@@ -46,5 +46,5 @@ html
         });
       })
 
-  = render '/ganalytics'
-  = render '/footer_javascripts'
+  = render '/common/ganalytics'
+  = render '/common/footer_javascripts'

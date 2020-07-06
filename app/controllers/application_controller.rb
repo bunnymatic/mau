@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  before_action :append_view_paths
   before_action :init_body_classes, :set_controller_and_action_names
   before_action :check_browser, unless: :format_json?
   before_action :set_version
@@ -20,10 +19,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_open_studios
   helper_method :current_open_studios_key, :available_open_studios_keys # from OpenStudiosEventShim
   helper_method :supported_browser?
-
-  def append_view_paths
-    append_view_path 'app/views/common'
-  end
 
   def store_location(location = nil)
     return unless request.format == 'text/html'
@@ -125,14 +120,6 @@ class ApplicationController < ActionController::Base
   end
 
   def supported_browser?
-    browsers_json_file = Rails.root.join('browsers.json')
-    return true if !File.exist?(browsers_json_file) || Rails.env.test?
-
-    @supported_browser ||=
-      begin
-        browsers ||= JSON.parse(File.open(browsers_json_file).read)
-        matcher = BrowserslistUseragent::Match.new(browsers, request.user_agent)
-        (matcher.browser? && matcher.version?(allow_higher: true))
-      end
+    SupportedBrowserService.supported?(request.user_agent)
   end
 end
