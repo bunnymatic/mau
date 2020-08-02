@@ -107,7 +107,7 @@ describe Admin::StudiosController do
         artists = studio.reload.artists
         expect(artists).not_to be_empty, 'You need to have a couple artists on that studio in your fixtures'
         make_destroy_call
-        users = User.where(id: artists.pluck(:id))
+        users = User.where(id: artists.select(:id))
         expect(users.select { a.studio.present? }).to be_empty, 'Not all the artists were moved into the "Indy" studio'
       end
     end

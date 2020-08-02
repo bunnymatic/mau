@@ -33,6 +33,7 @@ class Artist < User
     end
   end
 
+  before_create :make_activation_code
   after_commit :add_to_search_index, on: :create
   after_commit :remove_from_search_index, on: :destroy
   # after_commit :refresh_in_search_index, on: :update
@@ -86,8 +87,6 @@ class Artist < User
   accepts_nested_attributes_for :artist_info, update_only: true
 
   has_many :art_pieces, -> { order(position: :asc, created_at: :desc) }, inverse_of: :artist
-
-  before_create :make_activation_code
 
   %i[
     addr_state

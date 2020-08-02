@@ -33,7 +33,7 @@ end
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require_relative '../app/lib/app_config.rb'
+require_relative '../app/lib/app_config'
 
 c = AppConfig.new
 c.use_file! File.expand_path('../config/config.yml', __dir__)

@@ -4,12 +4,9 @@ require 'active_model'
 
 class FeedbackMail
   include ActiveModel::Model
-  # include ActiveModel::Validations
-  # include ActiveModel::Conversion
-  # extend ActiveModel::Naming
 
   attr_accessor :note_type, :email, :email_confirm,
-                :inquiry, :current_user, :operating_system, :browser, :device
+                :question, :current_user, :operating_system, :browser, :device
 
   VALID_NOTE_TYPES = %w[help inquiry].freeze
 
@@ -19,7 +16,7 @@ class FeedbackMail
   validates :email, presence: true
   validates :email_confirm, presence: true
 
-  validates :inquiry, presence: true
+  validates :question, presence: true
 
   validate :emails_must_match
 
@@ -58,7 +55,7 @@ class FeedbackMail
           comment << "Browser: #{browser}"
           comment << "Device: #{device}"
           comment << "From: #{email}"
-          comment << "Question: #{inquiry}"
+          comment << "Question: #{question}"
         end.join("\n")
       end
   end

@@ -6,6 +6,7 @@ AllCops:
   # Only runs checks on specific directories. Could be expanded to
   # include more directories.
   TargetRubyVersion: 2.5
+  NewCops: enable
 
   Exclude:
     - .spec
@@ -43,7 +44,7 @@ Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 
 Lint/DeprecatedOpenSSLConstant:
-  Enabled: true 
+  Enabled: true
 
 Lint/RaiseException:
   Enabled: true
@@ -176,5 +177,3 @@ Style/TrailingCommaInHashLiteral:
 
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
-
-

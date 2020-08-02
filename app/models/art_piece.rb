@@ -16,6 +16,10 @@ class ArtPiece < ApplicationRecord
   validates :artist_id, presence: true
   include Elasticsearch::Model
 
+  # after_destroy :remove_images
+  after_destroy :clear_tags_and_favorites
+  after_save :clear_caches
+  after_save :remove_old_art
   after_commit :add_to_search_index, on: :create
   after_commit :refresh_in_search_index, on: :update
   after_commit :remove_from_search_index, on: :destroy
@@ -53,11 +57,6 @@ class ArtPiece < ApplicationRecord
       indexes :"art_piece.tags", analyzer: 'english'
     end
   end
-
-  # after_destroy :remove_images
-  after_destroy :clear_tags_and_favorites
-  after_save :remove_old_art
-  after_save :clear_caches
 
   validates :title, presence: true
   validates :title, length: { within: 2..80 }

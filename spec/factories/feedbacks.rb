@@ -19,7 +19,7 @@ FactoryBot.define do
     note_type { 'help' }
     email { 'jon@wherever.com' }
     email_confirm { 'jon@wherever.com' }
-    inquiry { Faker::Lorem.paragraphs(number: 1).join }
+    question { Faker::Lorem.paragraphs(number: 1).join }
     operating_system { 'MacOSX - Mavericks' }
     browser { 'IE7' }
     device { 'unk' }

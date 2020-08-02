@@ -4,15 +4,15 @@ class AdminArtistUpdateService
   def self.bulk_update_os(os_status_by_artist_id)
     current_os = OpenStudiosEventService.current
 
-    return [false, alert: "You must have an Open Studios Event in the future before you can set artists' status."] if current_os.nil?
+    return [false, { alert: "You must have an Open Studios Event in the future before you can set artists' status." }] if current_os.nil?
 
-    return [false, notice: 'Nothing to do... Did you mean to tell me who you wanted to update?'] if os_status_by_artist_id.empty?
+    return [false, { notice: 'Nothing to do... Did you mean to tell me who you wanted to update?' }] if os_status_by_artist_id.empty?
 
     updated_count, skipped_count = run_update(os_status_by_artist_id, current_os)
 
     msg = "Updated setting for #{updated_count} artists"
     msg += sprintf(' and skipped %d artists who are not in the mission or have an invalid address', skipped_count) if skipped_count.positive?
-    [true, notice: msg]
+    [true, { notice: msg }]
   end
 
   class << self

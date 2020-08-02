@@ -73,7 +73,7 @@ describe Api::NotesController do
           post :create, xhr: true, params: {
             feedback_mail: {
               note_type: 'inquiry',
-              inquiry: 'cool note',
+              question: 'cool note',
               email: 'a@b.com',
               email_confirm: 'a@b.com',
             },
@@ -89,7 +89,7 @@ describe Api::NotesController do
           post :create, xhr: true, params: {
             feedback_mail: {
               note_type: 'help',
-              inquiry: 'cool note',
+              question: 'cool note',
               email: 'a@b.com',
               email_confirm: 'a@b.com',
             },

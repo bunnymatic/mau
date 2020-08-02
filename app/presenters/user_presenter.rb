@@ -165,8 +165,8 @@ class UserPresenter < ViewPresenter
       formatted_site = format_link(site)
       site_display = format_link_for_display(site)
       link_icon_class = self.class.icon_link_class(key, site)
-      content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
-        content_tag(:i, '', class: link_icon_class)
+      tag.a(href: formatted_site, title: site_display, target: '_blank') do
+        tag.i('', class: link_icon_class)
       end
     end.compact
   end
@@ -209,7 +209,7 @@ class UserPresenter < ViewPresenter
 
   class << self
     def strip_http_from_link(link)
-      link.gsub %r{^https?:\/\/}, ''
+      link.gsub %r{^https?://}, ''
     end
   end
 

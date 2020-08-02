@@ -23,12 +23,12 @@ Then('I see the update my registration message') do
 end
 
 Then(/^I see the open studios cms content/) do
-  within '.section.markdown[data-section=summary]' do
+  within '.section.markdown[data-section="summary"]' do
     expect(page).to have_selector 'h1', text: 'this is an h1'
     expect(page).to have_selector 'h2', text: 'this is an h2'
     expect(page).to have_selector 'p'
   end
-  within '.section.markdown[data-section=preview_reception]' do
+  within '.section.markdown[data-section="preview_reception"]' do
     expect(page).to have_selector 'h1', text: 'this is an h1'
     expect(page).to have_selector 'h2', text: 'this is an h2'
     expect(page).to have_selector 'p'
@@ -73,7 +73,7 @@ def set_start_end_date_on_open_studios_form(_start_date, _end_date)
   page.execute_script("$('#open_studios_event_start_date').trigger('change');")
 end
 
-Then /I change the date to next month and the title to \"(.*)\"/ do |title|
+Then /I change the date to next month and the title to "(.*)"/ do |title|
   @start_date = Time.zone.now + 1.month
   @end_date = @start_date + 1.day
   set_start_end_date_on_open_studios_form(@start_date, @end_date)
@@ -84,7 +84,7 @@ Then /I change the date to next month and the title to \"(.*)\"/ do |title|
   click_on 'Update'
 end
 
-Then /I see the open studios event with the title \"(.*)\"$/ do |title|
+Then /I see the open studios event with the title "(.*)"$/ do |title|
   within table_row_matching(title) do
     expect(page).to have_content @start_date.strftime('%Y%m')
   end
@@ -97,7 +97,7 @@ When(/^I click delete on the "([^"]*)" titled open studios event$/) do |title|
   step %(I close the flash)
 end
 
-Then /^I fill in the open studios event form for next weekend with the title \"(.*)\"$/ do |title|
+Then /^I fill in the open studios event form for next weekend with the title "(.*)"$/ do |title|
   dt = Time.zone.now.beginning_of_week + 11.days
   @os_title = 'Fall OS'
   @start_date = dt
@@ -110,7 +110,7 @@ Then /^I fill in the open studios event form for next weekend with the title \"(
   click_on 'Create'
 end
 
-Then /^I see that the open studios event titled \"(.*)\" is no longer there$/ do |title|
+Then /^I see that the open studios event titled "(.*)" is no longer there$/ do |title|
   within('.os-events tbody') do
     expect(page).not_to have_content(title)
   end

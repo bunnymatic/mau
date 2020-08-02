@@ -16,6 +16,6 @@ class ViewPresenter
   end
 
   def csv_safe(val)
-    (val || '').gsub(/\"\',/, '')
+    (val || '').gsub(/"',/, '')
   end
 end

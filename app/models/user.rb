@@ -42,7 +42,7 @@ class User < ApplicationRecord
 
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
-  validates_attachment_content_type :photo, content_type: %r{\Aimage\/.*\Z}, if: :"photo?"
+  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :"photo?"
 
   include User::Authentication
   include User::Authorization
@@ -226,7 +226,7 @@ class User < ApplicationRecord
   def _add_http_to_link(link)
     return if link.blank?
 
-    %r{^https?:\/\/}.match?(link) ? link : ('http://' + link)
+    %r{^https?://}.match?(link) ? link : ('http://' + link)
   end
 
   def add_http_to_links

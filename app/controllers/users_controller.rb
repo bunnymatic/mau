@@ -247,9 +247,10 @@ class UsersController < ApplicationController
   def build_user_from_params
     return if user_params.empty?
 
-    if @type == 'Artist'
+    case @type
+    when 'Artist'
       Artist.new(user_params)
-    elsif @type == 'MauFan' || @type == 'User'
+    when 'MauFan', 'User'
       attrs = user_params
       attrs[:login] = attrs[:login] || attrs[:email]
       MauFan.new(attrs)

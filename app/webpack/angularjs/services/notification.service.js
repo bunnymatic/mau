@@ -3,7 +3,7 @@ import angular from "angular";
 
 const notificationService = ngInject(function ($http, deviceDetector) {
   return {
-    sendInquiry: function (data, successCb, errorCb) {
+    sendInquiry: function ({ inquiry, ...rest }, successCb, errorCb) {
       const extras = {
         os: deviceDetector.os,
         browser: deviceDetector.browser,
@@ -11,7 +11,8 @@ const notificationService = ngInject(function ($http, deviceDetector) {
       };
 
       const postData = {
-        ...data,
+        question: inquiry,
+        ...rest,
         ...extras,
       };
       return $http

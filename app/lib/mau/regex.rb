@@ -2,7 +2,7 @@
 
 module Mau
   class Regex
-    LOGIN = /\A\w[\w\-_\.@]+\z/.freeze # ASCII, strict
+    LOGIN = /\A\w[\w\-_.@]+\z/.freeze # ASCII, strict
     BAD_LOGIN_MESSAGE = 'should include only letters, numbers.  No whitespace or special characters.'
 
     EMAIL_NAME  = '[\w\.%\+\-]+'

@@ -123,7 +123,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def map_info
-    content_tag('div', map_info_contents, class: 'map__info-window')
+    tag.div(map_info_contents, class: 'map__info-window')
   end
 
   def representative_piece
@@ -151,16 +151,16 @@ class ArtistPresenter < UserPresenter
   end
 
   def map_info_contents
-    thumb = content_tag('div', linked_thumb, class: 'map__info-window-art')
+    thumb = tag.div(linked_thumb, class: 'map__info-window-art')
     safe_join([thumb, map_info_name_address].compact)
   end
 
   def map_info_name_address
-    content_tag 'div', class: 'map__info-window-text' do
-      name = content_tag 'a', get_name, href: url_helpers.artist_path(model)
+    tag.div(class: 'map__info-window-text') do
+      name = tag.a(get_name, href: url_helpers.artist_path(model))
       html = [name]
-      html << content_tag('div', artist.try(:studio).try(:name), class: 'studio') if artist.studio
-      html << content_tag('div', address.street)
+      html << tag.div(artist.try(:studio).try(:name), class: 'studio') if artist.studio
+      html << tag.div(address.street)
       safe_join(html)
     end
   end
@@ -170,7 +170,7 @@ class ArtistPresenter < UserPresenter
                     if bio.present?
                       MarkdownService.markdown(bio, :filter_html)
                     else
-                      content_tag('h4', "No artist's statement")
+                      tag.h4("No artist's statement")
                     end
                   end
   end
@@ -186,12 +186,12 @@ class ArtistPresenter < UserPresenter
   end
 
   def map_thumb_image
-    @map_thumb_image ||= content_tag('div', '', class: 'thumb', style: background_image_style(map_thumb))
+    @map_thumb_image ||= tag.div('', class: 'thumb', style: background_image_style(map_thumb))
   end
 
   def linked_thumb
     return unless representative_piece
 
-    @linked_thumb ||= content_tag('a', map_thumb_image, href: url_helpers.artist_path(model))
+    @linked_thumb ||= tag.a(map_thumb_image, href: url_helpers.artist_path(model))
   end
 end
