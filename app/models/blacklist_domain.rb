@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BlacklistDomain < ApplicationRecord
-  DOMAIN_REGEX = /\A[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}\z/.freeze
+  DOMAIN_REGEX = /\A[a-z0-9]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,6}\z/.freeze
   DOMAIN_MESSAGE = 'This domain does not appear to be valid.'
 
   before_validation :downcase_domain
@@ -9,7 +9,7 @@ class BlacklistDomain < ApplicationRecord
   validates :domain, format: { with: DOMAIN_REGEX, message: DOMAIN_MESSAGE }
 
   def self.allowed?(email_or_domain)
-    domain = (email_or_domain.to_s.gsub(/^(.*)\@/, '') || '').downcase
+    domain = (email_or_domain.to_s.gsub(/^(.*)@/, '') || '').downcase
     !(domain.empty? || BlacklistDomain.find_by(domain: domain))
   end
 

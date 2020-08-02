@@ -59,7 +59,7 @@ describe ArtPiecesController do
       context 'getting unknown art piece page' do
         it 'should redirect to error page' do
           get :show, params: { id: 'bogusid' }
-          expect(flash[:error]).to match(/couldn\'t find that art/)
+          expect(flash[:error]).to match(/couldn't find that art/)
           expect(response).to redirect_to '/error'
         end
       end

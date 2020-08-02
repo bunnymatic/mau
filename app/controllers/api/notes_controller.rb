@@ -4,18 +4,11 @@ module Api
   class NotesController < ApiController
     def create
       f = FeedbackMail.new(feedback_mail_params.merge(current_user: current_user))
-      data = {}
-      if f.save
-        data = { success: true }
-        status = 200
-      else
-        data = {
-          success: false,
-          error_messages: f.errors.full_messages,
-        }
-        status = 400
+      unless f.save
+        render json: { success: false, error_messages: f.errors.full_messages }, status: :bad_request
+        return
       end
-      render json: data, status: status
+      render json: { success: true }, status: :ok
     end
 
     private
@@ -24,7 +17,7 @@ module Api
       params.require(:feedback_mail).permit(
         :email,
         :email_confirm,
-        :inquiry,
+        :question,
         :note_type,
         :os,
         :browser,

@@ -39,7 +39,7 @@ Mau::Application.routes.draw do
   get '/signup' => 'users#new', as: :signup
   get '/activate/:activation_code' => 'users#activate', as: :activate
   match 'reset/:reset_code' => 'users#reset', as: :reset, via: %i[get post]
-  match 'reset' => 'users#reset', as: :submit_reset, via: [:post]
+  post 'reset' => 'users#reset', as: :submit_reset
 
   resources :users do
     resources :favorites, only: %i[index create destroy]

@@ -31,7 +31,7 @@ describe FeedbackMail, type: :model do
 
   context "if it's an inquiry" do
     subject(:feedback_mail) { FactoryBot.build(:feedback_mail, note_type: 'inquiry') }
-    it { should validate_presence_of :inquiry }
+    it { should validate_presence_of :question }
   end
 
   context 'when saving' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/middleware/disable_animations.rb'
+require_relative '../../lib/middleware/disable_animations'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.

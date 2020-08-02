@@ -6,7 +6,7 @@ describe ImageFile do
   %w[original orig].each do |size|
     it "get_path for #{size} returns a file name with no prefix" do
       fname = ImageFile.get_path('dir', size, 'myfile.jpg')
-      expect(fname).to match(%r{dir\/myfile\.jpg$})
+      expect(fname).to match(%r{dir/myfile\.jpg$})
     end
   end
   ['large'].each do |size|

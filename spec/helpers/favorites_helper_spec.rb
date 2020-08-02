@@ -26,7 +26,7 @@ describe FavoritesHelper do
 
     context 'for an art piece' do
       it 'returns the small iamge' do
-        expect(img).to match(%r{art_pieces\/photos\/.*\/small\/new-art-piece.jpg})
+        expect(img).to match(%r{art_pieces/photos/.*/small/new-art-piece.jpg})
       end
       it 'returns the path to the art picee' do
         expect(path).to eq art_piece_path(favorite)
@@ -45,7 +45,7 @@ describe FavoritesHelper do
       context 'who has a profile image' do
         let(:favorite) { create :artist, :with_photo }
         it 'returns the small profile image' do
-          expect(img).to match(%r{artists\/photos\/.*\/small\/new-profile.jpg})
+          expect(img).to match(%r{artists/photos/.*/small/new-profile.jpg})
         end
         it 'returns the path to the artist' do
           expect(path).to eq user_path(favorite)

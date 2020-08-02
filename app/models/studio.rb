@@ -22,6 +22,9 @@ class Studio < ApplicationRecord
     end
   end
 
+  before_save :normalize_phone_number
+  before_create :compute_geocode
+  before_update :compute_geocode
   after_commit :add_to_search_index, on: :create
   after_commit :refresh_in_search_index, on: :update
   after_commit :remove_from_search_index, on: :destroy
@@ -44,9 +47,6 @@ class Studio < ApplicationRecord
   has_many :artists, dependent: :nullify
 
   acts_as_mappable
-  before_create :compute_geocode
-  before_update :compute_geocode
-  before_save :normalize_phone_number
 
   validates :name, presence: true, uniqueness: { case_sensitive: true }
   validates :street, presence: true
@@ -54,7 +54,7 @@ class Studio < ApplicationRecord
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
   validates_attachment_presence :photo
-  validates_attachment_content_type :photo, content_type: %r{\Aimage\/.*\Z}, if: :"photo?"
+  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :"photo?"
 
   def self.by_position
     order(

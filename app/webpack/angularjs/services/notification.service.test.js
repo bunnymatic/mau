@@ -15,7 +15,7 @@ describe("mau.services.notificationService", function () {
     os: "ms-dos",
   };
 
-  const data = { whatever: "man" };
+  const data = { whatever: "man", inquiry: "The question" };
   const successCb = jest.fn();
   const errorCb = jest.fn();
 
@@ -46,7 +46,11 @@ describe("mau.services.notificationService", function () {
       beforeEach(() => {
         http
           .expect("POST", "/api/notes", {
-            feedback_mail: { ...data, ...browserData },
+            feedback_mail: {
+              question: "The question",
+              whatever: "man",
+              ...browserData,
+            },
           })
           .respond({ success: true });
       });
@@ -65,7 +69,11 @@ describe("mau.services.notificationService", function () {
       beforeEach(() => {
         http
           .expect("POST", "/api/notes", {
-            feedback_mail: { ...data, ...browserData },
+            feedback_mail: {
+              question: "The question",
+              whatever: "man",
+              ...browserData,
+            },
           })
           .respond(400, {
             success: false,
