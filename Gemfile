@@ -20,7 +20,6 @@ gem 'friendly_id'
 gem 'geokit'
 gem 'geokit-rails'
 gem 'gibbon' # mailchimp connect
-gem 'hashie'
 gem 'htmlentities'
 gem 'jbuilder' # non-html output (rss, atom)
 gem 'listen'
@@ -36,15 +35,14 @@ gem 'postmark-rails'
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 6.0.x'
+gem 'rails', require: false
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
-gem 'rosie'
 gem 'slim-rails'
 gem 'unicorn' # webserver
 gem "webpacker"
-gem 'xmlrpc' # after ruby 2.4 upgrade
+#gem 'xmlrpc' # after ruby 2.4 upgrade
 
 group :test do
   gem 'capybara'

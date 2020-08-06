@@ -365,7 +365,6 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.4)
-    rosie (0.0.9)
     rqrcode (1.1.2)
       chunky_png (~> 1.0)
       rqrcode_core (~> 0.1)
@@ -484,7 +483,6 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xmlrpc (0.3.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.0)
@@ -532,7 +530,6 @@ DEPENDENCIES
   geokit
   geokit-rails
   gibbon
-  hashie
   htmlentities
   jbuilder
   launchy
@@ -551,13 +548,12 @@ DEPENDENCIES
   racc
   rack-cors
   rack-handlers
-  rails (~> 6.0.x)
+  rails
   rails-controller-testing
   rails_best_practices
   rdiscount
   recaptcha
   responders
-  rosie
   rspec-collection_matchers
   rspec-its
   rspec-rails
@@ -579,7 +575,6 @@ DEPENDENCIES
   webdrivers
   webmock
   webpacker
-  xmlrpc
 
 RUBY VERSION
    ruby 2.6.5p114

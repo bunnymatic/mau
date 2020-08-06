@@ -10,13 +10,13 @@ require 'rails'
 
 [
   'active_record/railtie',
-  'active_storage/engine',
+  # 'active_storage/engine',
   'action_controller/railtie',
   'action_view/railtie',
   'action_mailer/railtie',
-  'action_mailbox/engine',
+  # 'action_mailbox/engine',
   'action_text/engine',
-  'rails/test_unit/railtie',
+  # 'rails/test_unit/railtie',
   #  "active_job/railtie",
   #  "action_cable/engine",
   #  "sprockets/railtie",
@@ -31,8 +31,9 @@ end
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(*Rails.groups)
 
+Bundler.require(*Rails.groups)
+require 'webpacker/helper'
 require_relative '../app/lib/app_config'
 
 c = AppConfig.new
