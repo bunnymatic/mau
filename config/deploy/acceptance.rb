@@ -25,7 +25,7 @@ server 'mau.rcode5.com',
        }
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-set :branch, 'master'
+set :branch, 'main'
 set :deploy_to, '/home/deploy/deployed/mau'
 # set :rails_env, 'acceptance'                  # If the environment differs from the stage name
 
