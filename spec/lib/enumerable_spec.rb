@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'ostruct'
 
 describe Enumerable do
   describe '#uniq_by' do
-    let(:testdata) { Array.new(4) { |n| Hashie::Mash.new(name: 'obj', idx: n) } }
+    let(:testdata) { Array.new(4) { |n| OpenStruct.new(name: 'obj', idx: n) } }
     it 'returns a uniq list of objects uniq\'d by a proc like name' do
       expect(testdata.uniq_by(&:name).size).to eq(1)
     end

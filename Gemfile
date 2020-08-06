@@ -9,7 +9,6 @@ gem 'aws-sdk-s3'
 gem 'browser'
 gem 'browserslist_useragent'
 gem 'dalli'
-gem 'dotenv-rails'
 gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
@@ -20,7 +19,6 @@ gem 'friendly_id'
 gem 'geokit'
 gem 'geokit-rails'
 gem 'gibbon' # mailchimp connect
-gem 'hashie'
 gem 'htmlentities'
 gem 'jbuilder' # non-html output (rss, atom)
 gem 'listen'
@@ -36,15 +34,13 @@ gem 'postmark-rails'
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 6.0.x'
+gem 'rails', require: false
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
-gem 'rosie'
 gem 'slim-rails'
 gem 'unicorn' # webserver
 gem "webpacker"
-gem 'xmlrpc' # after ruby 2.4 upgrade
 
 group :test do
   gem 'capybara'
@@ -83,6 +79,7 @@ group :test, :development do
   gem 'bundle-audit'
   gem 'byebug'
   gem 'database_cleaner'
+  gem 'dotenv-rails'
   gem 'elasticsearch-extensions', require: nil
   gem 'factory_bot', require: false
   gem 'factory_bot_rails', require: false
@@ -102,6 +99,6 @@ end
 
 
 
-#gem "derailed", "~> 0.1.0"
-#gem "stackprof", "~> 0.2.15"
-#gem "derailed_benchmarks", "~> 1.7"
+# gem "derailed", "~> 0.1.0"
+# gem "stackprof", "~> 0.2.15"
+# gem "derailed_benchmarks", "~> 1.7"

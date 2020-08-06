@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+DATE_FORMAT = '%Y %b'
+REVERSE_START_DATE_FORMAT = '%b %-d-'
+END_DATE_WITHIN_MONTH_FORMAT = '%-d %Y'
+END_DATE_OUTSIDE_MONTH_FORMAT = '%b %-d %Y'
+
 class OpenStudiosEvent < ApplicationRecord
   validates :key, presence: true, uniqueness: { case_sensitive: true }
   validates :start_date, presence: true
@@ -11,13 +16,13 @@ class OpenStudiosEvent < ApplicationRecord
 
   def for_display(reverse = false)
     if !reverse
-      start_date.strftime('%Y %b')
+      start_date.strftime(DATE_FORMAT)
     else
-      date = start_date.strftime('%b %-d-')
+      date = start_date.strftime(REVERSE_START_DATE_FORMAT)
       if start_date.month == end_date.month
-        date + end_date.strftime('%-d %Y')
+        date + end_date.strftime(END_DATE_WITHIN_MONTH_FORMAT)
       else
-        date + end_date.strftime('%b %-d %Y')
+        date + end_date.strftime(END_DATE_OUTSIDE_MONTH_FORMAT)
       end
     end
   end
