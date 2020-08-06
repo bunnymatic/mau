@@ -33,7 +33,6 @@ end
 # you've limited to :test, :development, or :production.
 
 Bundler.require(*Rails.groups)
-require 'webpacker/helper'
 require_relative '../app/lib/app_config'
 
 c = AppConfig.new
