@@ -2,9 +2,13 @@
 
 module Api
   class ApiController < ApplicationController
-    before_action :require_authorization
+    before_action :require_authorization, :add_x_robots_header
 
     helper_method :current_user_session, :current_user
+
+    def add_x_robots_header
+      response.set_header('X-Robots-Tag', 'noindex')
+    end
 
     def current_user_session
       return @current_user_session if defined? @current_user_session

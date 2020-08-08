@@ -15,5 +15,10 @@ describe Api::V2::ArtPiecesController do
       expect(response).to be_successful
       expect(response.body).to eq '{}'
     end
+
+    it 'includes no robot headers' do
+      get :index, params: { artist_id: 123, format: :json }
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+    end
   end
 end
