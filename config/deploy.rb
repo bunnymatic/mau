@@ -53,11 +53,6 @@ set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/sys
 set :rails_env, (fetch(:rails_env) || fetch(:stage))
 
 namespace :deploy do
-  desc 'Restart application'
-  task :restart do
-    invoke 'unicorn:reload'
-  end
-
   desc 'Reindex Elasticsearch indeces'
   task :es_reindex do
     on roles(:app) do
