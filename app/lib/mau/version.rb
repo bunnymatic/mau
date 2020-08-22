@@ -6,7 +6,7 @@ module Mau
       name: 'Coronet',
       major: '8',
       minor: '0',
-      rev: '0',
+      rev: '1',
       build: 'unk',
     }.freeze
 
