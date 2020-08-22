@@ -31,7 +31,7 @@ gem 'nokogiri'
 gem 'paperclip'
 gem 'postmark'
 gem 'postmark-rails'
-gem "puma", "~> 4.3"
+gem "puma"
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
@@ -103,4 +103,3 @@ end
 # gem "derailed", "~> 0.1.0"
 # gem "stackprof", "~> 0.2.15"
 # gem "derailed_benchmarks", "~> 1.7"
-

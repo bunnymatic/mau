@@ -48,7 +48,8 @@ set :assets_roles, %i[web app] # Defaults to [:web]
 set :linked_files, %w[config/database.yml config/config.keys.yml config/secrets.yml]
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system .bundle]
+set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets public/system]
+append :linked_dirs, '.bundle'
 
 set :rails_env, (fetch(:rails_env) || fetch(:stage))
 
@@ -66,6 +67,7 @@ namespace :deploy do
 
   after :publishing, :es_reindex
   after :publishing, :restart
+  after 'deploy:published', 'bundler:clean'
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do

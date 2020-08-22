@@ -540,7 +540,7 @@ DEPENDENCIES
   paperclip
   postmark
   postmark-rails
-  puma (~> 4.3)
+  puma
   qr4r
   racc
   rack-cors
