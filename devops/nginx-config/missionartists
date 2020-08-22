@@ -1,0 +1,121 @@
+upstream app {
+    # Path to Puma SOCK file, as defined previously
+    server unix:///home/deploy/deployed/mau/shared/tmp/sockets/puma.sock fail_timeout=0;
+}
+
+server {
+    listen 80;
+    server_name *.missionartists.com *.missionartistsunited.com *.missionartistsunited.org missionartistsunited.com missionartistsunited.org;
+    return 301 http://www.missionartists.org$request_uri;
+}
+
+server {
+    server_name missionartists.org;
+    return 301 https://www.missionartists.org$request_uri;
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/www.missionartists.org/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/www.missionartists.org/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+    server_name www.missionartists.org;
+    root /home/deploy/deployed/mau/current/public;
+
+    location ~ (\.php|.aspx|.asp|myadmin) {
+        return 404;
+    }
+
+    location ^~ /.well-known/ {
+    }
+
+    location ~ /.well-known/acme-challenge/ {
+        root /var/www/letsencrypt/;
+    }
+
+    location ^~ /assets/ {
+        gzip_static on;
+        expires max;
+        add_header Cache-Control public;
+
+        if ($request_filename ~* \.(eot|woff|ttf|svg)$) {
+            add_header Access-Control-Allow-Origin *;
+        }
+        if ($request_filename ~* \.(woff2)$) {
+            add_header Access-Control-Allow-Origin *;
+            add_header Content-Type "application/woff2";
+        }
+    }
+
+    location ^~ /packs/ {
+        gzip_static on;
+        expires max;
+        add_header Cache-Control public;
+
+        if ($request_filename ~* \.(eot|woff|ttf|svg)$) {
+            add_header Access-Control-Allow-Origin *;
+        }
+        if ($request_filename ~* \.(woff2)$) {
+            add_header Access-Control-Allow-Origin *;
+            add_header Content-Type "application/woff2";
+        }
+    }
+
+    try_files $uri/index.html $uri @app;
+    location @app {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-SSL-Client-Cert $ssl_client_cert;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass http://app;
+    }
+
+    error_page 500 502 503 504 /500.html;
+    client_max_body_size 20M;
+    keepalive_timeout 10;
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/www.missionartists.org/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/www.missionartists.org/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+
+    # Redirect non-https traffic to https
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+
+}
+
+
+server {
+    if ($host = missionartists.org) {
+        return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+
+        listen 80;
+        server_name missionartists.org;
+        return 404; # managed by Certbot
+
+
+}
+
+server {
+    if ($host = www.missionartists.org) {
+        return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+
+        listen 80 default_server deferred;
+        server_name www.missionartists.org;
+        return 404; # managed by Certbot
+
+
+}
