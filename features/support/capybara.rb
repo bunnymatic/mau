@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'rack/handler/unicorn'
-Capybara.register_server(:unicorn) do |app, port, _host|
-  Rack::Handler::Unicorn.run(app, Port: port)
-end
-Capybara.server = :unicorn
+# #require 'rack/handler/unicorn'
+# Capybara.register_server(:unicorn) do |app, port, _host|
+# Rack::Handler::Unicorn.run(app, Port: port)
+# end
+# Capybara.server = :unicorn
 
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app,

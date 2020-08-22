@@ -9,7 +9,7 @@ set :stages, %w[production acceptance]
 set :rbenv_type, :user # or :system, depends on your rbenv setup
 set :rbenv_ruby, File.read('.ruby-version').strip
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-set :rbenv_map_bins, %w[rake gem bundle ruby rails]
+set :rbenv_map_bins, %w[rake gem bundle ruby rails puma]
 set :rbenv_roles, :all # default value
 
 set :application, 'MAU'
@@ -48,16 +48,12 @@ set :assets_roles, %i[web app] # Defaults to [:web]
 set :linked_files, %w[config/database.yml config/config.keys.yml config/secrets.yml]
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system .bundle]
+set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets public/system]
+append :linked_dirs, '.bundle'
 
 set :rails_env, (fetch(:rails_env) || fetch(:stage))
 
 namespace :deploy do
-  desc 'Restart application'
-  task :restart do
-    invoke 'unicorn:reload'
-  end
-
   desc 'Reindex Elasticsearch indeces'
   task :es_reindex do
     on roles(:app) do
@@ -71,6 +67,7 @@ namespace :deploy do
 
   after :publishing, :es_reindex
   after :publishing, :restart
+  after 'deploy:published', 'bundler:clean'
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do

@@ -31,6 +31,7 @@ gem 'nokogiri'
 gem 'paperclip'
 gem 'postmark'
 gem 'postmark-rails'
+gem "puma"
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
@@ -39,7 +40,7 @@ gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
 gem 'slim-rails'
-gem 'unicorn' # webserver
+#gem 'unicorn' # webserver
 gem "webpacker"
 
 group :test do
@@ -66,13 +67,13 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rbenv', require: false
   gem "capistrano-local-precompile", "~> 1.2", require: false
-  gem 'capistrano3-unicorn'
+  gem 'capistrano3-puma',   require: false
   gem 'letter_opener'
   gem 'rails_best_practices'
   gem "scout_apm", "~> 2.6"
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'unicorn-rails'
+  #gem 'unicorn-rails'
 end
 
 group :test, :development do

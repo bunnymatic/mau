@@ -9,10 +9,11 @@ require 'capistrano/rbenv'
 require 'capistrano/bundler'
 require 'capistrano/rails/migrations'
 require 'capistrano/scm/git'
-require 'capistrano3/unicorn'
+require 'capistrano/puma'
 require 'capistrano/local_precompile'
 
 install_plugin Capistrano::SCM::Git
+install_plugin Capistrano::Puma
 
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
 Dir.glob('./config/capistrano/tasks/*.cap').each { |r| import r }
