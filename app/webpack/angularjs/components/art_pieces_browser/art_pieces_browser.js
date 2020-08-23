@@ -14,11 +14,12 @@ const controller = ngInject(function (
   objectRoutingService
 ) {
   const initializeCurrent = function () {
-    if ($scope.artPieces && $scope.initialArtPiece) {
-      return ($scope.current = map($scope.artPieces, "id").indexOf(
-        $scope.initialArtPiece.id
-      ));
+    if (!($scope.artPieces && $scope.initialArtPiece)) {
+      return -1;
     }
+    return ($scope.current = map($scope.artPieces, "id").indexOf(
+      $scope.initialArtPiece.id
+    ));
   };
   const updateUrl = function () {
     return $location.hash($scope.artPiece.id);
@@ -51,9 +52,9 @@ const controller = ngInject(function (
     return objectRoutingService.artPiecePath($scope.artPiece);
   };
   $scope.currentArtistPath = function () {
-    if ($scope.artist) {
-      return objectRoutingService.artistPath($scope.artist);
-    }
+    return $scope.artist
+      ? objectRoutingService.artistPath($scope.artist)
+      : null;
   };
   $scope.hasArtistProfile = function () {
     var ref, ref1;
@@ -64,11 +65,8 @@ const controller = ngInject(function (
       : void 0);
   };
   $scope.profilePath = function (size) {
-    var ref;
-    if (size == null) {
-      size = "medium";
-    }
-    return (ref = $scope.artist) != null ? ref.profile_images[size] : void 0;
+    size = size || "medium";
+    return $scope.artist && $scope.artist.profile_images[size];
   };
   $scope.onKeyDown = function (ev) {
     if (ev.which === 37) {
