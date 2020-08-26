@@ -2,6 +2,8 @@
 @import "variables";
 @import "mau-mixins";
 
+$input-width: 90%;
+
 .success-msg,
 .error-msg {
   padding: 12px;
@@ -28,7 +30,7 @@ tr.error-msg {
   }
 }
 .inline-hints {
-  width: 90%;
+  width: $input-width;
   font-size: 85%;
   font-style: italic;
   line-height: 1rem;
@@ -53,7 +55,7 @@ tr.error-msg {
   }
 }
 .inputs textarea {
-  width: 90%;
+  width: $input-width;
 }
 .required {
   [title="required"] {
@@ -81,10 +83,7 @@ tr.error-msg {
     padding: 10px;
     border-radius: 2px;
     border: 1px solid $x-light-gray;
-  }
-  .selectize-control,
-  input {
-    width: 90%;
+    width: $input-width;
   }
   .input {
     &.boolean input {
@@ -178,6 +177,13 @@ tr.error-msg {
   }
 }
 
-/* .mau-note-link { */
-/*   cursor: pointer; */
-/* } */
+.select2-container .select2-selection--multiple .select2-selection__choice {
+  background-color: lighten($gto_yellow, 55%) !important;
+}
+.select2-container--default
+  .select2-results__option--highlighted[aria-selected] {
+  background-color: $gto_yellow !important;
+}
+.select2-container {
+  width: $input-width !important;
+}

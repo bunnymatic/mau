@@ -61,6 +61,7 @@
     "re-tree": "^0.1.7",
     "regenerator-runtime": "^0.13.5",
     "resolve-url-loader": "^3.1.1",
+    "select2": "^4.0.13",
     "selectize": "^0.12.6",
     "spin.js": "^4.1.0",
     "webpack-merge": "^4.2.2",

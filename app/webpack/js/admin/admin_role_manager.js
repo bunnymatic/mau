@@ -8,7 +8,7 @@ class AdminRoleManager {
 
     $btn.bind("click", function () {
       $ctrls.find("form.js-hook").toggleClass("hidden");
-      $ctrls.find("select").selectize({
+      $ctrls.find("select").select2({
         sortField: "text",
         onItemAdd: function () {
           return this.blur();

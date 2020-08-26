@@ -1,9 +1,6 @@
 import { map } from "@js/app/helpers";
 import Spinner from "@js/app/spinner";
-import { post } from "@js/mau_ajax";
 import jQuery from "jquery";
-
-const selectizeMapper = (input) => ({ value: input, text: input });
 
 class ArtPieceForm {
   constructor(selector) {
@@ -14,32 +11,24 @@ class ArtPieceForm {
   }
 
   initializeMediumChooser() {
-    this.$form.find("#art_piece_medium_id").selectize();
+    this.$form.find("#art_piece_medium_id").select2();
   }
 
   initializeTagChooser() {
-    this.$form.find("#art_piece_tag_ids").selectize({
-      delimiter: ",",
-      persist: false,
-      sortField: "text",
-      create: selectizeMapper,
-      render: (data, _escape) => data,
-      load: function (query, callback) {
-        if (query.length < 3) {
-          callback();
-        }
-        return post(
-          "/art_piece_tags/autosuggest",
-          {
-            q: query,
-          },
-          {
-            error: callback,
-            success: function (results) {
-              return callback(map(results, selectizeMapper));
-            },
-          }
-        );
+    this.$form.find("#art_piece_tag_ids").select2({
+      tags: true,
+      ajax: {
+        method: "post",
+        url: "/art_piece_tags/autosuggest",
+        data: (params) => ({ q: params.term }),
+        delay: 200,
+        processResults: ({ art_piece_tags }) => {
+          const results = (art_piece_tags || []).map(({ id, name }) => ({
+            id,
+            text: name,
+          }));
+          return { results };
+        },
       },
     });
   }

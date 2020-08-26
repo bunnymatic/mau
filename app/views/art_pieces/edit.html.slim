@@ -14,7 +14,7 @@
         = f.input :dimensions, placeholder: 'e.g. 8&quot; x 12&quot;'.html_safe
         = f.input :year, placeholder: 'e.g. 2013'
         = f.input :medium, as: :select, collection: [['None', 0]] + @media.map{|u| [u.name,u.id]}
-        = f.input :tags, input_html: { value: tags_to_s(@art_piece.tags) }, as: :string
+        = f.input :tags, input_html: { value: tags_to_s(@art_piece.tags) }, multiple: true
       = f.actions do
         = f.submit 'Update', class: 'pure-button button-large pure-button-primary'
         = f.submit 'Cancel', class: 'pure-button button-large'
