@@ -44,5 +44,7 @@ module Admin
       Qr4r.encode(params['string_to_encode'], f.to_s, opts)
       @qrfile = '/' + base_file
     end
+
+    def react_with_typescript; end
   end
 end
