@@ -17,10 +17,11 @@ describe ArtPieceServiceTagsHandler do
 
   describe '#prepare_tags_params' do
     context 'with tags' do
-      let(:params) { { 'tags' => "#{existing_tag.name}, that, the other" } }
+      let(:params) { { tags_ids: [existing_tag.id.to_s, 'that', 'the other'] } }
       it 'returns tags' do
         subject.prepare_tags_params
         prepared_params = subject.instance_variable_get('@params'.to_sym)
+        puts prepared_params
         tags = prepared_params[:tags]
         expect(tags).to have(3).items
         expect(tags.all? { |tag| tag.is_a? ArtPieceTag }).to be_truthy
