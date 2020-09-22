@@ -2,7 +2,7 @@ import { get } from "@js/mau_ajax";
 import c3 from "c3";
 import { format } from "d3-format";
 import jQuery from "jquery";
-import moment from "moment";
+import { DateTime } from "luxon";
 
 function dateFromSeconds(seconds) {
   const date = new Date(0);
@@ -11,7 +11,7 @@ function dateFromSeconds(seconds) {
 }
 
 function dateFormatter(ts) {
-  return moment(dateFromSeconds(ts)).format("YYYY-MM-DD");
+  return DateTime.fromMillis(ts * 1000).toISODate();
 }
 
 function appendNoDataMessage(selector) {

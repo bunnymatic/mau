@@ -5,15 +5,11 @@ import jQuery from "jquery";
 window.jQuery = jQuery;
 window.$ = jQuery;
 
-import "moment/moment";
-import "moment-timezone/moment-timezone";
-import "./timezones";
 import "angular/angular";
 import "@angularjs/angular_modules";
 import "angular-resource";
 import "angular-sanitize";
 import "angular-animate";
-import "angular-moment/angular-moment";
 import "./vendor/angular-mailchimp";
 import "angular-ui-utils/modules/keypress/keypress";
 import "ng-dialog/js/ngDialog";
@@ -55,7 +51,6 @@ ujs.start();
 
 angular
   .module("MauAdminApp", [
-    "angularMoment",
     "ngSanitize",
     "ngDialog",
     "angularSlideables",
