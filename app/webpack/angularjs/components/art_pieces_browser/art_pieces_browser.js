@@ -1,6 +1,6 @@
 import ngInject from "@angularjs/ng-inject";
+import { map } from "@js/app/helpers";
 import angular from "angular";
-import map from "lodash/map";
 
 import template from "./index.html";
 

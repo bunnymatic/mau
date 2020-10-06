@@ -1,6 +1,6 @@
 import ngInject from "@angularjs/ng-inject";
+import { omit } from "@js/app/helpers";
 import angular from "angular";
-import omit from "lodash/omit";
 
 const noop = () => null;
 const searchService = ngInject(function ($http) {

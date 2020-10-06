@@ -1,5 +1,5 @@
 import ngInject from "@angularjs/ng-inject";
-import some from "lodash/some";
+import { some } from "@js/app/helpers";
 
 import template from "./index.html";
 
@@ -12,9 +12,13 @@ const controller = ngInject(function (
   const since = moment().subtract(7, "days");
   EmailChangedEventsService.list({
     since: since.format(),
-  }).then(function (data) {
-    return ($scope.hasNotifications = some(data));
-  });
+  })
+    .then(function (data) {
+      $scope.hasNotifications = some(data);
+    })
+    .catch(function (e) {
+      console.error(e);
+    });
 });
 
 const eventsNotificationBell = ngInject(function () {
