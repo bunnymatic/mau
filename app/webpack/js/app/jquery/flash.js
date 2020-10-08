@@ -1,6 +1,5 @@
+import { intersection, map } from "@js/app/helpers";
 import jQuery from "jquery";
-import intersection from "lodash/intersection";
-import map from "lodash/map";
 
 const Flash = (function () {
   function Flash() {}

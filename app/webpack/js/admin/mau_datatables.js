@@ -1,10 +1,15 @@
 import dt from "datatables";
-import extend from "lodash/extend";
 
 const DATATABLES_CONFIG = {
   artists_index: {
     order: [[3, "desc"]],
   },
+};
+
+const DEFAULT_OPTIONS = {
+  aaSorting: [],
+  paging: false,
+  info: false,
 };
 
 class MauDatatables {
@@ -38,17 +43,8 @@ class MauDatatables {
     this.jQuery(selector)
       .filter(this.isSearchableTable.bind(this))
       .each((_idx, el) => {
-        var $table, opts;
-        $table = jq(el);
-        opts = extend(
-          {},
-          {
-            aaSorting: [],
-            paging: false,
-            info: false,
-          },
-          cfg($table.attr("id"))
-        );
+        const $table = jq(el);
+        const opts = { ...DEFAULT_OPTIONS, ...cfg($table.attr("id")) };
         jq($table).dataTable(opts);
       });
 
@@ -57,16 +53,11 @@ class MauDatatables {
       .each((_idx, el) => {
         var $table, opts;
         $table = jq(el);
-        opts = extend(
-          {},
-          {
-            aaSorting: [],
-            paging: false,
-            info: false,
-            searching: false,
-          },
-          cfg($table.attr("id"))
-        );
+        opts = {
+          ...DEFAULT_OPTIONS,
+          ...cfg($table.attr("id")),
+          searching: false,
+        };
         jq($table).dataTable(opts);
       });
   }

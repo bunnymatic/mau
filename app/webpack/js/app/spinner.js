@@ -1,5 +1,4 @@
 import jQuery from "jquery";
-import extend from "lodash/extend";
 import { Spinner as SpinJS } from "spin.js";
 
 const SPINNER_OPTIONS = {
@@ -24,7 +23,7 @@ class Spinner {
   constructor(opts) {
     this.opts = opts || {};
     this.el = jQuery(this.opts.element || "#spinner")[0];
-    this.spinOpts = extend({}, SPINNER_OPTIONS, this.opts);
+    this.spinOpts = { ...SPINNER_OPTIONS, ...this.opts };
   }
 
   spin() {

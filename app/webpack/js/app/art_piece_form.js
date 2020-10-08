@@ -1,7 +1,7 @@
+import { map } from "@js/app/helpers";
 import Spinner from "@js/app/spinner";
 import { post } from "@js/mau_ajax";
 import jQuery from "jquery";
-import map from "lodash/map";
 
 const selectizeMapper = (input) => ({ value: input, text: input });
 

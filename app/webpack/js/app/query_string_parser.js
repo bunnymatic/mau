@@ -1,5 +1,4 @@
-import map from "lodash/map";
-import reduce from "lodash/reduce";
+import { map } from "@js/app/helpers";
 
 const hashToQueryString = function (hash) {
   return map(hash, function (v, k) {
@@ -12,16 +11,12 @@ const hashToQueryString = function (hash) {
 };
 
 const queryStringToHash = function (query) {
-  return reduce(
-    query.split("&"),
-    function (memo, params) {
-      var kv;
-      kv = params.split("=");
-      memo[kv[0]] = kv[1];
-      return memo;
-    },
-    {}
-  );
+  return query.split("&").reduce(function (memo, params) {
+    var kv;
+    kv = params.split("=");
+    memo[kv[0]] = kv[1];
+    return memo;
+  }, {});
 };
 
 class QueryStringParser {

@@ -1,11 +1,10 @@
 import MarkerClusterer from "@google/markerclustererplus";
 import jQuery from "jquery";
-import isNumber from "lodash/isNumber";
 
 const random = (min, max) => Math.random() * (max - min) + min;
 const MAX_RANDOM_DISTANCE = 6;
 const randomizePosition = (marker, maxRandomDistance = null) => {
-  if (!isNumber(maxRandomDistance)) {
+  if (!Number.isInteger(maxRandomDistance)) {
     return marker;
   }
   const MAGIC_DIVISOR = 6378137;
