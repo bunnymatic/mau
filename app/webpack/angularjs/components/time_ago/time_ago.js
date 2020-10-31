@@ -1,7 +1,8 @@
 import ngInject from "@angularjs/ng-inject";
 import angular from "angular";
+import { DateTime } from "luxon";
 
-const timeAgo = ngInject(function (moment) {
+const timeAgo = ngInject(function () {
   return {
     restrict: "E",
     scope: {
@@ -10,8 +11,13 @@ const timeAgo = ngInject(function (moment) {
     template:
       "<span class='time-ago' title={{pacificTime}}>{{formattedTime}}</span>",
     link: function ($scope, _el, _attrs) {
-      $scope.pacificTime = moment($scope.time).tz("America/Los_Angeles");
-      $scope.formattedTime = moment($scope.time).fromNow();
+      if ($scope.time) {
+        $scope.pacificTime = DateTime.fromFormat(
+          $scope.time,
+          "yyyy-MM-dd HH:mm:ss z"
+        );
+        $scope.formattedTime = $scope.pacificTime.toRelative();
+      }
     },
   };
 });

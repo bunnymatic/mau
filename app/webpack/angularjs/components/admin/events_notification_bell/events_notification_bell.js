@@ -1,24 +1,20 @@
 import ngInject from "@angularjs/ng-inject";
 import { some } from "@js/app/helpers";
+import { DateTime } from "luxon";
 
 import template from "./index.html";
 
 const controller = ngInject(function (
   $scope,
   $attrs,
-  EmailChangedEventsService,
-  moment
+  EmailChangedEventsService
 ) {
-  const since = moment().subtract(7, "days");
+  const since = DateTime.local().minus({ days: 7 });
   EmailChangedEventsService.list({
-    since: since.format(),
-  })
-    .then(function (data) {
-      $scope.hasNotifications = some(data);
-    })
-    .catch(function (e) {
-      console.error(e);
-    });
+    since: since.toISO(),
+  }).then(function (data) {
+    $scope.hasNotifications = some(data);
+  });
 });
 
 const eventsNotificationBell = ngInject(function () {
