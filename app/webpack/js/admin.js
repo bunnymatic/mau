@@ -5,6 +5,7 @@ import jQuery from "jquery";
 window.jQuery = jQuery;
 window.$ = jQuery;
 
+import "select2";
 import "angular/angular";
 import "@angularjs/angular_modules";
 import "angular-resource";
@@ -13,7 +14,6 @@ import "angular-animate";
 import "./vendor/angular-mailchimp";
 import "angular-ui-utils/modules/keypress/keypress";
 import "ng-dialog/js/ngDialog";
-import "select2";
 import "@components/admin/email_list_manager/email_list_manager";
 import "@components/admin/events_notification_bell/events_notification_bell";
 import "@components/mailer/mailer";

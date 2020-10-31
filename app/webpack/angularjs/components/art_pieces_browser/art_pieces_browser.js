@@ -1,5 +1,5 @@
 import ngInject from "@angularjs/ng-inject";
-import { map } from "@js/app/helpers";
+import { map, pluck_function } from "@js/app/helpers";
 import angular from "angular";
 
 import template from "./index.html";
@@ -17,9 +17,10 @@ const controller = ngInject(function (
     if (!($scope.artPieces && $scope.initialArtPiece)) {
       return -1;
     }
-    return ($scope.current = map($scope.artPieces, "id").indexOf(
-      $scope.initialArtPiece.id
-    ));
+    return ($scope.current = map(
+      $scope.artPieces,
+      pluck_function("id")
+    ).indexOf($scope.initialArtPiece.id));
   };
   const updateUrl = function () {
     return $location.hash($scope.artPiece.id);

@@ -1,4 +1,3 @@
-import { map } from "@js/app/helpers";
 import Spinner from "@js/app/spinner";
 import jQuery from "jquery";
 
