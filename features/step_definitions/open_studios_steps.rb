@@ -68,7 +68,7 @@ Then /^I see a new open studios form$/ do
 end
 
 def set_pickadate_date(pickadate_selector, date)
-  page.execute_script("$('#{pickadate_selector}').pickadate('picker').set('select', [#{date.year}, #{date.month}, #{date.day}]);")
+  page.execute_script("$('#{pickadate_selector}').pickadate('picker').set('select', [#{date.year}, #{date.month - 1}, #{date.day}]);")
 end
 
 def set_start_end_date_on_open_studios_form(start_date, end_date)
@@ -101,7 +101,7 @@ When(/^I click delete on the "([^"]*)" titled open studios event$/) do |title|
 end
 
 Then /^I fill in the open studios event form for next weekend with the title "(.*)"$/ do |title|
-  dt = Time.zone.now.beginning_of_week + 11.days
+  dt = Time.zone.now.beginning_of_month.next_month + 2.days
   @os_title = 'Fall OS'
   @start_date = dt
   @end_date = dt + 2.days
