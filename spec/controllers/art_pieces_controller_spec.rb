@@ -106,10 +106,10 @@ describe ArtPiecesController do
       end
 
       context 'with successful save' do
-        let(:tags) { "this, that, #{existing_tag.name}" }
+        let(:tags) { ['this', 'that', existing_tag.name] }
 
         it 'redirects to show page on success' do
-          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tags: tags) }
+          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tag_ids: tags) }
           expect(response).to redirect_to art_piece_path(ArtPiece.find_by(title: art_piece_attributes[:title]))
         end
         it 'creates a piece of art' do
@@ -126,13 +126,13 @@ describe ArtPiecesController do
           post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
         end
         it 'correctly adds tags to the art piece' do
-          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tags: tags) }
+          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tag_ids: tags) }
           expect(ArtPiece.last.tags.count).to eql 3
         end
         it 'only adds the new tags' do
           tags
           expect do
-            post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tags: tags) }
+            post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tag_ids: tags) }
           end.to change(ArtPieceTag, :count).by 2
         end
       end
@@ -163,7 +163,7 @@ describe ArtPiecesController do
         expect(response).to redirect_to art_piece
       end
       it 'updates tags given a string of comma separated items' do
-        post :update, params: { id: art_piece.id, art_piece: { title: art_piece.title, tags: 'this, that, the other, this, that' } }
+        post :update, params: { id: art_piece.id, art_piece: { title: art_piece.title, tag_ids: ['this', 'that', 'the other', 'this', 'that'] } }
         tag_names = art_piece.reload.tags.map(&:name)
         expect(tag_names.size).to eq(3)
         expect(tag_names).to include 'this'
