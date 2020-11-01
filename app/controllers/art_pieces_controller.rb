@@ -102,6 +102,6 @@ class ArtPiecesController < ApplicationController
   def art_piece_params
     params.require(:art_piece).permit(:title, :dimensions,
                                       :year, :medium, :medium_id,
-                                      :description, :position, :photo, :tags)
+                                      :description, :position, :photo, :tags, tag_ids: [])
   end
 end

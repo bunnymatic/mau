@@ -24,7 +24,7 @@ Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
 end
 
 When(/^I update the medium to the last medium$/) do
-  selectize_single_select 'art_piece_medium_id', Medium.last.name
+  select2 Medium.last.name, from: 'Medium'
 end
 
 Then(/^I see that my art medium was updated to the last medium$/) do
@@ -34,7 +34,7 @@ Then(/^I see that my art medium was updated to the last medium$/) do
 end
 
 When(/^I update the art piece tags to:/) do |data|
-  selectize_multi_select 'art_piece_tag_ids', data.raw
+  select2(*data.raw.flatten, from: 'Tags', tag: true)
 end
 
 Then(/^I see that my art tags are:$/) do |data|
@@ -52,8 +52,8 @@ When(/^I fill out the add art form$/) do
   fill_in 'Title', with: 'Mona Lisa'
   fill_in 'Dimensions', with: '4 x 3'
   fill_in 'Year', with: '1515'
-  selectize_single_select 'art_piece_medium_id', @medium.name
-  selectize_multi_select 'art_piece_tag_ids', %w[superfragile complimicated]
+  select2 @medium.name, from: 'Medium', exact: true
+  select2 'superfragile', 'complimicated', from: 'Tags', tag: true
 end
 
 Then /^I see that my art was added$/ do

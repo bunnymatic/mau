@@ -47,7 +47,7 @@ end
 
 When(/^I choose the last user in the user list$/) do
   @new_editor = User.all.last
-  selectize_single_select('user', @new_editor.full_name)
+  select2 @new_editor.full_name, css: '.add-user-role form'
 end
 
 Then(/^I expect to see the last user is now an editor$/) do

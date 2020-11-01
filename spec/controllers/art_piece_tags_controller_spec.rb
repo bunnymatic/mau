@@ -43,9 +43,8 @@ describe ArtPieceTagsController do
   end
 
   describe '#autosuggest' do
-    let(:tags) { FactoryBot.build_stubbed_list(:art_piece_tag, 3) }
+    let(:tags) { FactoryBot.create_list(:art_piece_tag, 3) }
     before do
-      allow(ArtPieceTag).to receive(:all).and_return(tags)
       get :autosuggest, params: { format: 'json', input: tags.first.name.downcase }
     end
     it_behaves_like 'successful json'
@@ -67,12 +66,13 @@ describe ArtPieceTagsController do
     end
 
     it 'uses the cache there is data' do
+      tag = ArtPieceTag.last
       expect(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key'])
-                                           .and_return([{ 'text' => ArtPieceTag.last.name, 'id' => ArtPieceTag.last.id }])
+                                           .and_return([{ 'name' => tag.name, 'id' => tag.id }])
       expect(Rails.cache).not_to receive(:write)
       get :autosuggest, params: { format: :json, input: 'tag' }
       j = JSON.parse(response.body)
-      expect(j.first).to eql ArtPieceTag.last.name
+      expect(j.first).to eql({ 'id' => tag.id, 'name' => tag.name })
     end
   end
 

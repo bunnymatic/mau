@@ -14,9 +14,9 @@ class ArtPieceTagsController < ApplicationController
     if q.present?
       # filter with input prefix
       inp = q.downcase
-      tags = tags.select { |tag| tag['text'].downcase.starts_with? inp }
+      tags = tags.select { |tag| tag.name.downcase.starts_with? inp }
     end
-    render json: tags.map { |t| t['text'] }, serializer: ActiveModel::Serializer::CollectionSerializer
+    render json: tags, root: 'art_piece_tags', serializer: ActiveModel::Serializer::CollectionSerializer
   end
 
   def index
@@ -53,7 +53,7 @@ class ArtPieceTagsController < ApplicationController
   def fetch_tags_for_autosuggest
     tags = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless tags
-      tags = ArtPieceTag.all.map { |t| { 'text' => t.name, 'id' => t.id } }
+      tags = ArtPieceTag.select('id', 'name')
       SafeCache.write(AUTOSUGGEST_CACHE_KEY, tags, expires_in: AUTOSUGGEST_CACHE_EXPIRY) if tags.present?
     end
     tags

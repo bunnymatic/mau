@@ -3,6 +3,7 @@ import jQuery from "jquery";
 window.jQuery = jQuery;
 window.$ = jQuery;
 
+import "select2";
 import "angular/angular";
 import "@angularjs/angular_modules";
 import "angular-resource";
@@ -54,7 +55,6 @@ import "./app/jquery/jquery.feedback";
 import "./app/jquery/jquery.isOverflowing";
 import "./vendor/angularSlideables";
 import "./mau_app";
-import "selectize/dist/js/standalone/selectize";
 import "./vendor/bootstrap/transition";
 import "./vendor/bootstrap/tab";
 import "./vendor/bootstrap/collapse";

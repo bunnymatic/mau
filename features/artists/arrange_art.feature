@@ -5,8 +5,6 @@ Feature: Artists can arrange their art
 Background:
   Given I login as an artist
 
-# javascript doesn't work in poltergeist :(
-# https://github.com/jonleighton/poltergeist/issues/402
 @javascript
 Scenario: Arrange Art
   When I visit my home page

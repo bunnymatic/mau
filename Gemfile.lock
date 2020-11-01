@@ -144,6 +144,7 @@ GEM
     capybara-screenshot (1.0.24)
       capybara (>= 1.0, < 4)
       launchy
+    capybara-select-2 (0.5.1)
     case_transform (0.2)
       activesupport
     childprocess (3.0.0)
@@ -503,6 +504,7 @@ DEPENDENCIES
   capybara
   capybara-email
   capybara-screenshot
+  capybara-select-2
   cucumber
   cucumber-rails
   dalli

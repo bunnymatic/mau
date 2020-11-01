@@ -10,11 +10,11 @@ describe UpdateArtPieceService do
   subject(:service) { described_class.new(art, params) }
 
   context 'with params[:tags]' do
-    let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name].join(', ') }
+    let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name] }
     let(:params) do
       {
         title: Faker::Lorem.words(number: 4).join(' '),
-        tags: tag_params,
+        tag_ids: tag_params,
       }
     end
 

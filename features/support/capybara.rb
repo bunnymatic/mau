@@ -37,7 +37,7 @@ end
 
 module JavascriptDriverChecker
   def running_js?
-    %i[selenium webkit chrome headless_chrome poltergeist].include?(Capybara.current_driver)
+    %i[selenium webkit chrome headless_chrome].include?(Capybara.current_driver)
   end
 end
 
@@ -47,3 +47,6 @@ Around('@javascript') do |_scenario, block|
   Capybara.reset_sessions!
   block.call
 end
+
+World CapybaraSelect2
+World CapybaraSelect2::Helpers # if need specific helpers
