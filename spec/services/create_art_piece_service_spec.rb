@@ -46,9 +46,9 @@ describe CreateArtPieceService do
   end
 
   context 'with tags' do
-    let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name].join(', ') }
+    let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name] }
     let(:params) do
-      attributes_for(:art_piece).merge(tags: tag_params)
+      attributes_for(:art_piece).merge(tag_ids: tag_params)
     end
 
     it 'creates new tags as needed' do
@@ -62,9 +62,9 @@ describe CreateArtPieceService do
   end
 
   context 'with invalid data' do
-    let(:tag_params) { ['supertag', existing_tag.name].join(', ') }
+    let(:tag_params) { ['supertag', existing_tag.name] }
     let(:params) do
-      attrs = attributes_for(:art_piece).merge(tags: tag_params)
+      attrs = attributes_for(:art_piece).merge(tag_ids: tag_params)
       attrs.delete :title
       attrs.delete :photo_file_name
       attrs
