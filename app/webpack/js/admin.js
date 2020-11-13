@@ -72,6 +72,3 @@ angular
       return null;
     })
   );
-
-// React Components/
-import "../reactjs/components/admin/tests";

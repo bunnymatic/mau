@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-interface WelcomeProps {
-  message: string
+type WelcomeProps = {
+    message: string
 }
 
 export const Welcome: React.FC<WelcomeProps> = ({ message }) => (
@@ -9,3 +9,6 @@ export const Welcome: React.FC<WelcomeProps> = ({ message }) => (
       Click on me!
     </button>
 )
+
+
+

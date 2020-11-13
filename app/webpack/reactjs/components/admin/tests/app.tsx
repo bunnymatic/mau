@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Welcome} from "./hello_react";
+import {Welcome} from "./welcome";
 
 interface AppProps {
     message: string

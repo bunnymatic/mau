@@ -1,4 +1,4 @@
-import {App} from "./app";
-import mount from "../../../helpers/mount"
+import mount from "../../../helpers/mount";
+import { App } from "./app";
 
-mount(App,'welcome-button');
+mount(App, "welcome-button");
