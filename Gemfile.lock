@@ -241,6 +241,7 @@ GEM
       concurrent-ruby (~> 1.0)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
+    jemalloc (1.0.1)
     jmespath (1.4.0)
     json (2.3.1)
     jsonapi-renderer (0.2.2)
@@ -526,6 +527,7 @@ DEPENDENCIES
   gibbon
   htmlentities
   jbuilder
+  jemalloc
   launchy
   letter_opener
   listen

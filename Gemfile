@@ -21,6 +21,7 @@ gem 'geokit-rails'
 gem 'gibbon' # mailchimp connect
 gem 'htmlentities'
 gem 'jbuilder' # non-html output (rss, atom)
+gem 'jemalloc'
 gem 'listen'
 gem 'lograge'
 gem 'mime-types'
