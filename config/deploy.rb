@@ -45,7 +45,7 @@ set :assets_roles, %i[web app] # Defaults to [:web]
 # set :keep_releases, 5
 
 # Default value for :linked_files is []
-set :linked_files, %w[config/database.yml config/config.keys.yml config/secrets.yml]
+set :linked_files, %w[config/database.yml config/config.keys.yml config/secrets.yml config/puma.rb]
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets public/system]
