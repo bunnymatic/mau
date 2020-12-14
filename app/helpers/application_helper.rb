@@ -27,6 +27,11 @@ module ApplicationHelper
     "background-image: url(\"#{img}\");"
   end
 
+  def react_component(name, props)
+    tag(:div, { id: name, data: { react_props: props } }) do
+    end
+  end
+
   if Gem::Version.new(Rails.version) < Gem::Version.new('6.1.0')
     def class_names(*args)
       args.each_with_object([]) do |arg, memo|
