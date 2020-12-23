@@ -29,9 +29,9 @@ describe Api::V2::ArtistsController do
         allow(controller).to receive(:require_authorization).and_return true
         make_request
       end
-      it_behaves_like 'successful json'
+      it_behaves_like 'successful api json'
       it 'returns only artists in the studio' do
-        artists = JSON.parse(response.body)['artists'].count
+        artists = JSON.parse(response.body)['data'].count
         expect(artists).to eql studio.artists.active.count
         expect(studio.artists.count).not_to eql studio.artists.active.count
       end

@@ -4,12 +4,17 @@ require 'rails_helper'
 
 describe EmailSerializer do
   let(:email) { build(:email) }
-  let(:serializer) { ActiveModelSerializers::SerializableResource.new(email) }
+  subject(:serialized) do
+    serialize(email, described_class)
+  end
 
+  it 'includes type: email' do
+    expect(serialized[:data][:type]).to eql :email
+  end
   it 'includes email' do
-    expect(JSON.parse(serializer.to_json)['email']['email']).to eql email.email
+    expect(serialized[:data][:attributes][:email]).to eql email.email
   end
   it 'includes name' do
-    expect(JSON.parse(serializer.to_json)['email']['name']).to eql email.name
+    expect(serialized[:data][:attributes][:name]).to eql email.name
   end
 end

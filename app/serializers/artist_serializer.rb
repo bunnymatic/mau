@@ -2,30 +2,30 @@
 
 class ArtistSerializer < MauSerializer
   attributes :full_name, :doing_open_studios, :profile_images,
-             :id, :url, :studio_id,
+             :url, :studio_id,
              :street_address, :city, :map_url, :firstname, :lastname,
              :nomdeplume, :slug, :art_pieces, :artist_info, :link
 
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
 
-  def art_pieces
-    object.art_pieces.map { |a| [:id].index_with { |k| a.send(k) } }
+  attribute :art_pieces do
+    @object.art_pieces.map { |a| [:id].index_with { |k| a.send(k) } }
   end
 
-  def link
-    artist_path(object)
+  attribute :link do
+    artist_path(@object)
   end
 
-  def street_address
-    object.address.street
+  attribute :street_address do
+    @object.address.street
   end
 
-  def city
-    object.address.city
+  attribute :city do
+    @object.address.city
   end
 
-  def map_url
-    object.map_link
+  attribute :map_url do
+    @object.map_link
   end
 end

@@ -4,10 +4,10 @@
       <span class="art-piece__title" ng-bind-html="artPiece.title"></span
       ><span class="art-piece__byline-conjunction">by Artist</span
       ><span class="art-piece__byline"
-        ><a ng-href="{{currentArtistPath()}}">{{ ::artist.full_name }}</a></span
+        ><a ng-href="{{currentArtistPath()}}">{{ ::artist.fullName }}</a></span
       ><a
         href="/open_studios"
-        ng-show="artist.doing_open_studios"
+        ng-show="artist.doingOpenStudios"
         title="I&#39;m doing Open Studios"
       >
         <div class="os-violator"></div>
@@ -29,7 +29,7 @@
             class="fa fa-user"
             ng-if="!hasArtistProfile()"
           ></i></a
-        ><a href="/open_studios" ng-if="artist.doing_open_studios">
+        ><a href="/open_studios" ng-if="artist.doingOpenStudios">
           <div class="os-violator"></div>
         </a>
       </div>
@@ -43,8 +43,8 @@
       </div>
       <div class="studio-address ngwrapper" ng-if="hasAddress()">
         <div class="studio-street">
-          {{::artist.street_address}}
-          <a ng-href="{{artist.map_url}}" target="_blank" title="map"
+          {{::artist.streetAddress}}
+          <a ng-href="{{artist.mapUrl}}" target="_blank" title="map"
             ><i class="fa fa-map-marker"></i
           ></a>
         </div>
@@ -106,7 +106,7 @@
     <div class="art-piece__wrapper">
       <div
         class="art-piece__image"
-        style='background-image: url("{{artPiece.image_urls.large}}");'
+        style='background-image: url("{{artPiece.imageUrls.large}}");'
       ></div>
     </div>
   </div>
@@ -123,7 +123,7 @@
         >
           <div
             class="image"
-            background-img="{{piece.image_urls.small}}"
+            background-img="{{piece.imageUrls.small}}"
           ></div>
         </a>
       </div>

@@ -24,7 +24,7 @@ describe Admin::StudiosController do
     end
 
     describe '#create' do
-      let(:studio_attrs) { FactoryBot.attributes_for(:studio, photo: fixture_file_upload('/files/art.png', 'image/png')) }
+      let(:studio_attrs) { FactoryBot.attributes_for(:studio, photo: fixture_file_upload('art.png', 'image/png')) }
       it 'setups up a new studio' do
         expect do
           put :create, params: { studio: studio_attrs }

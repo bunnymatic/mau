@@ -17,7 +17,7 @@ module Admin
           @events_by_type = events
         end
         format.json do
-          render json: events.values.flatten, root: 'application_events'
+          render json: { application_events: events.values.flatten }
         end
       end
     end

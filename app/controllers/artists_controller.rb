@@ -152,7 +152,7 @@ class ArtistsController < ApplicationController
         end
       end
       format.json do
-        render json: @artist
+        render jsonapi: @artist
       end
     end
   end

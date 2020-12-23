@@ -1,5 +1,6 @@
 import ngInject from "@angularjs/ng-inject";
-import { map, pluck_function } from "@js/app/helpers";
+import { api } from "@js/api";
+import { map, pluck_function, some } from "@js/app/helpers";
 import angular from "angular";
 
 import template from "./index.html";
@@ -8,9 +9,6 @@ const controller = ngInject(function (
   $scope,
   $attrs,
   $location,
-  artPiecesService,
-  artistsService,
-  studiosService,
   objectRoutingService
 ) {
   const initializeCurrent = function () {
@@ -58,16 +56,11 @@ const controller = ngInject(function (
       : null;
   };
   $scope.hasArtistProfile = function () {
-    var ref, ref1;
-    return !!((ref = $scope.artist) != null
-      ? (ref1 = ref.profile_images) != null
-        ? ref1.medium
-        : void 0
-      : void 0);
+    return $scope.artist && some(Object.values($scope.artist.profileImages));
   };
   $scope.profilePath = function (size) {
     size = size || "medium";
-    return $scope.artist && $scope.artist.profile_images[size];
+    return $scope.artist && $scope.artist.profileImages[size];
   };
   $scope.onKeyDown = function (ev) {
     if (ev.which === 37) {
@@ -79,53 +72,49 @@ const controller = ngInject(function (
     return $scope.$apply();
   };
   $scope.isCurrent = function (artPieceId) {
-    var ref;
-    return ((ref = $scope.artPiece) != null ? ref.id : void 0) === artPieceId;
+    return $scope.artPiece && $scope.artPiece.id === artPieceId;
   };
   $scope.setCurrent = function ($event, $index) {
     $event.preventDefault();
     $scope.current = $index;
   };
   $scope.hasAddress = function () {
-    var ref;
-    return !!((ref = $scope.artist) != null ? ref.street_address : void 0);
+    return Boolean($scope.artist && $scope.artist.streetAddress);
   };
   $scope.hasYear = function () {
-    var ref;
-    return !!((ref = $scope.artPiece) != null ? ref.year : void 0);
+    return Boolean($scope.artPiece && $scope.artPiece.year);
   };
   $scope.hasDimensions = function () {
-    var ref;
-    return !!((ref = $scope.artPiece) != null ? ref.dimensions : void 0);
+    return Boolean($scope.artPiece && $scope.artPiece.dimensions);
   };
   $scope.hasMedia = function () {
-    var ref;
-    return !!((ref = $scope.artPiece) != null ? ref.medium : void 0);
+    return Boolean($scope.artPiece && $scope.artPiece.medium);
   };
   $scope.hasTags = function () {
-    var ref;
-    return (
-      ((ref = $scope.artPiece) != null ? ref.tags : void 0) &&
-      $scope.artPiece.tags.length > 0
-    );
+    return Boolean($scope.artPiece && $scope.artPiece.tags);
   };
   const init = function () {
     var artPieceId, artistId;
     artistId = $attrs.artistId;
     artPieceId = $location.hash() || $attrs.artPieceId;
-    artistsService.get(artistId).$promise.then(function (data) {
-      $scope.artist = data;
-      return studiosService.get(data.studio_id).$promise.then(function (data) {
-        return ($scope.studio = data);
-      });
-    });
-    artPiecesService.list(artistId).$promise.then(function (data) {
-      return ($scope.artPieces = data);
-    });
-    artPiecesService.get(artPieceId).$promise.then(function (data) {
-      $scope.artPiece = data;
-      return ($scope.initialArtPiece = data);
-    });
+    const requests = [
+      api.artists.get(artistId).then((data) => {
+        $scope.artist = data;
+        return api.studios.get(data.studioId).then((data) => {
+          $scope.studio = data;
+        });
+      }),
+      api.artPieces.index(artistId).then((data) => {
+        $scope.artPieces = data;
+      }),
+      api.artPieces.get(artPieceId).then((data) => {
+        $scope.artPiece = data;
+        $scope.initialArtPiece = data;
+      }),
+    ];
+    Promise.all(requests)
+      .then(() => $scope.$apply())
+      .catch(console.error);
     $scope.$watch("current", setCurrentArtPiece);
     $scope.$watch("artPieces", initializeCurrent);
     return $scope.$watch("initialArtPiece", initializeCurrent);

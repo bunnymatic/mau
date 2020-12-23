@@ -35,7 +35,7 @@ describe ArtPieceTagsController do
         end
         it_behaves_like 'successful json'
         it 'returns all tags as json' do
-          j = JSON.parse(response.body)['art_piece_tags']
+          j = JSON.parse(response.body)['data']
           expect(j.size).to eq(1)
         end
       end
@@ -47,10 +47,10 @@ describe ArtPieceTagsController do
     before do
       get :autosuggest, params: { format: 'json', input: tags.first.name.downcase }
     end
-    it_behaves_like 'successful json'
+    it_behaves_like 'successful api json'
     it 'returns all tags as json' do
-      j = JSON.parse(response.body)
-      expect(j.all?(&:present?)).to eq true
+      j = JSON.parse(response.body)['data']
+      expect(j).to have(3).tags
     end
 
     it 'writes to the cache if theres nothing there' do
@@ -61,18 +61,25 @@ describe ArtPieceTagsController do
 
     it 'returns tags using the input' do
       get :autosuggest, params: { format: :json, input: tags.first.name.downcase }
-      j = JSON.parse(response.body)
+      j = JSON.parse(response.body)['data']
       expect(j).to be_present
     end
 
     it 'uses the cache there is data' do
-      tag = ArtPieceTag.last
+      art_tag = ArtPieceTag.last
       expect(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key'])
-                                           .and_return([{ 'name' => tag.name, 'id' => tag.id }])
+                                           .and_return([{ 'name' => art_tag.name, 'id' => art_tag.id }])
       expect(Rails.cache).not_to receive(:write)
       get :autosuggest, params: { format: :json, input: 'tag' }
       j = JSON.parse(response.body)
-      expect(j.first).to eql({ 'id' => tag.id, 'name' => tag.name })
+      tags = j['data']
+      expect(tags).to have(1).tag
+      tag = tags.first
+      expect(tag).to eq({
+                          'id' => art_tag.id.to_s,
+                          'type' => 'art_piece_tag',
+                          'attributes' => { 'name' => art_tag.name },
+                        })
     end
   end
 

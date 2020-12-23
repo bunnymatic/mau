@@ -15,8 +15,8 @@ describe("mau.directives.shareButton", function () {
   let artPiece = {
     id: 12,
     title: "Mona Lisa",
-    artist_name: "Leo",
-    image_urls: {
+    artistName: "Leo",
+    imageUrls: {
       large: "the_image.jpg",
     },
   };

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../serializers/art_piece_tag_serializer'
+
 class ArtPieceTagsController < ApplicationController
   class NoTagsError < StandardError; end
 
@@ -16,7 +18,7 @@ class ArtPieceTagsController < ApplicationController
       inp = q.downcase
       tags = tags.select { |tag| tag.name.downcase.starts_with? inp }
     end
-    render json: tags, root: 'art_piece_tags', serializer: ActiveModel::Serializer::CollectionSerializer
+    render json: { "art_piece_tags": tags.map { |t| t.class == ArtPieceTag ? t : ArtPieceTag.new(t) } }
   end
 
   def index
@@ -24,7 +26,7 @@ class ArtPieceTagsController < ApplicationController
       format.html { redirect_to_most_popular_tag }
       format.json do
         tags = ArtPieceTag.all
-        render json: tags
+        render jsonapi: tags
       end
     end
   end

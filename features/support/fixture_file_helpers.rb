@@ -1,4 +1,9 @@
 # frozen_string_literal: true
 
-require_relative '../../spec/support/fixture_file_helpers'
+module FixtureFileHelpers
+  def fixture_file(file)
+    Rails.root.join("spec/fixtures/#{file}")
+  end
+end
+
 World FixtureFileHelpers

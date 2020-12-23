@@ -1,7 +1,9 @@
 export const identity = (x) => x;
+export const isArray = Array.isArray;
 export function isFunction(func) {
   return Boolean(func && typeof func === "function");
 }
+
 export function each(data, cb) {
   if (Array.isArray(data)) {
     data.forEach(cb);
@@ -83,3 +85,17 @@ export function intersection(arr1, arr2) {
 export function pluck_function(field) {
   return (data) => data[field];
 }
+
+/* ripped from https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_get */
+export const dig = (obj, path, defaultValue = undefined) => {
+  const travel = (regexp) =>
+    String.prototype.split
+      .call(path, regexp)
+      .filter(Boolean)
+      .reduce(
+        (res, key) => (res !== null && res !== undefined ? res[key] : res),
+        obj
+      );
+  const result = travel(/[,[\]]+?/) || travel(/[,[\].]+?/);
+  return result === undefined || result === obj ? defaultValue : result;
+};

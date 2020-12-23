@@ -6,6 +6,8 @@ module Api
 
     helper_method :current_user_session, :current_user
 
+    include JsonapiSerializerConcerns
+
     def add_x_robots_header
       response.set_header('X-Robots-Tag', 'noindex')
     end

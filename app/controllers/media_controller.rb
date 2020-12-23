@@ -9,7 +9,7 @@ class MediaController < ApplicationController
       format.html { redirect_to_most_popular_medium }
       format.json do
         media = Medium.all
-        render json: media
+        render jsonapi: media
       end
     end
   end
