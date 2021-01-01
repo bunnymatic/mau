@@ -2,8 +2,8 @@ import ngInject from "@angularjs/ng-inject";
 import Flash from "@js/app/jquery/flash";
 import angular from "angular";
 
-import inquiryFormTemplate from "./inquiry_form.html";
 import inquiryTemplate from "./inquiry.html";
+import inquiryFormTemplate from "./inquiry_form.html";
 
 const modalController = ngInject(function (
   $scope,

@@ -55,5 +55,5 @@ class QueryStringParser {
   }
 }
 
-export { queryStringToHash, hashToQueryString };
+export { hashToQueryString, queryStringToHash };
 export default QueryStringParser;
