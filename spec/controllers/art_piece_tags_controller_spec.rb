@@ -47,9 +47,9 @@ describe ArtPieceTagsController do
     before do
       get :autosuggest, params: { format: 'json', input: tags.first.name.downcase }
     end
-    it_behaves_like 'successful api json'
+    it_behaves_like 'successful json'
     it 'returns all tags as json' do
-      j = JSON.parse(response.body)['data']
+      j = JSON.parse(response.body)['art_piece_tags']
       expect(j).to have(3).tags
     end
 
@@ -61,7 +61,7 @@ describe ArtPieceTagsController do
 
     it 'returns tags using the input' do
       get :autosuggest, params: { format: :json, input: tags.first.name.downcase }
-      j = JSON.parse(response.body)['data']
+      j = JSON.parse(response.body)['art_piece_tags']
       expect(j).to be_present
     end
 
@@ -72,14 +72,10 @@ describe ArtPieceTagsController do
       expect(Rails.cache).not_to receive(:write)
       get :autosuggest, params: { format: :json, input: 'tag' }
       j = JSON.parse(response.body)
-      tags = j['data']
+      tags = j['art_piece_tags']
       expect(tags).to have(1).tag
       tag = tags.first
-      expect(tag).to eq({
-                          'id' => art_tag.id.to_s,
-                          'type' => 'art_piece_tag',
-                          'attributes' => { 'name' => art_tag.name },
-                        })
+      expect(tag).to eq({ 'art_piece_tag' => ArtPieceTag.new(name: art_tag.name, id: art_tag.id).attributes })
     end
   end
 
