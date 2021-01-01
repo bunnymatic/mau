@@ -25,21 +25,6 @@ describe ArtPieceTagsController do
         end
       end
     end
-    describe 'format=json' do
-      before do
-        allow(ArtPieceTag).to receive(:all).and_return([FactoryBot.build_stubbed(:art_piece_tag)])
-      end
-      context 'default' do
-        before do
-          get :index, params: { format: :json }
-        end
-        it_behaves_like 'successful json'
-        it 'returns all tags as json' do
-          j = JSON.parse(response.body)['data']
-          expect(j.size).to eq(1)
-        end
-      end
-    end
   end
 
   describe '#autosuggest' do
@@ -66,16 +51,16 @@ describe ArtPieceTagsController do
     end
 
     it 'uses the cache there is data' do
-      art_tag = ArtPieceTag.last
+      tag = ArtPieceTag.last
       expect(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key'])
-                                           .and_return([{ 'name' => art_tag.name, 'id' => art_tag.id }])
+                                           .and_return([{ 'name' => tag.name, 'id' => tag.id }])
       expect(Rails.cache).not_to receive(:write)
       get :autosuggest, params: { format: :json, input: 'tag' }
       j = JSON.parse(response.body)
       tags = j['art_piece_tags']
       expect(tags).to have(1).tag
-      tag = tags.first
-      expect(tag).to eq({ 'art_piece_tag' => ArtPieceTag.new(name: art_tag.name, id: art_tag.id).attributes })
+      result = tags.first['art_piece_tag']
+      expect(result).to include({ 'name' => tag.name, 'id' => tag.id })
     end
   end
 

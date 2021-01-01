@@ -1,4 +1,3 @@
-import { dig } from "@js/app/helpers";
 import angular from "angular";
 import { camelize, camelizeKeys } from "humps";
 import jQuery from "jquery";
@@ -23,8 +22,8 @@ const request = (method, url, data, ajaxOptions = {}) => {
   return jQuery.ajax(options);
 };
 
-const get = (url, data, ajaxOptions = {}) => {
-  return request("get", url, data, ajaxOptions);
+const get = (url, data) => {
+  return request("get", url, data);
 };
 
 const post = (url, data, ajaxOptions = {}) => {
@@ -41,14 +40,14 @@ const postForm = (formSelector) => {
 // common pattern for angular $resource fetches
 const responseTransformer = (key, fallbackReturnValue = null) => (data) => {
   const json = angular.fromJson(data);
-  return json ? dig(json, key) : fallbackReturnValue;
+  return json ? json[key] : fallbackReturnValue;
 };
 
 const responseCamelizeTransformer = (key, fallbackReturnValue = null) => (
   data
 ) => {
   const json = camelizeKeys(angular.fromJson(data));
-  return json ? dig(json, camelize(key)) : fallbackReturnValue;
+  return json ? json[camelize(key)] : fallbackReturnValue;
 };
 
 export {

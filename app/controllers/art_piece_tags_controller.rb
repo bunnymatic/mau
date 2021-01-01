@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../serializers/art_piece_tag_serializer'
-
 class ArtPieceTagsController < ApplicationController
   class NoTagsError < StandardError; end
 
@@ -24,10 +22,6 @@ class ArtPieceTagsController < ApplicationController
   def index
     respond_to do |format|
       format.html { redirect_to_most_popular_tag }
-      format.json do
-        tags = ArtPieceTag.all
-        render jsonapi: tags
-      end
     end
   end
 

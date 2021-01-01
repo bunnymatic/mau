@@ -7,7 +7,6 @@
 class ApplicationController < ActionController::Base
   include OpenStudiosEventShim
   include UserControllerHelpers
-  include JsonapiSerializerConcerns
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 

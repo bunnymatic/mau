@@ -7,10 +7,6 @@ class MediaController < ApplicationController
   def index
     respond_to do |format|
       format.html { redirect_to_most_popular_medium }
-      format.json do
-        media = Medium.all
-        render jsonapi: media
-      end
     end
   end
 
