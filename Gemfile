@@ -27,7 +27,7 @@ gem 'mime-types'
 gem 'mojo_magick'
 gem 'mysql2'
 gem 'newrelic_rpm' # moitoring
-gem 'nokogiri'
+gem 'nokogiri', '1.11.0.rc4'
 gem 'paperclip'
 gem 'postmark'
 gem 'postmark-rails'
