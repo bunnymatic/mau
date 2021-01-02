@@ -26,6 +26,7 @@ class ArtistPresenter < UserPresenter
            :max_pieces,
            :os_participation,
            :pending?,
+           :slug,
            :studio,
            :studio_id,
            :studionumber,

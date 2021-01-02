@@ -16,7 +16,7 @@ const modalController = ngInject(function (
       $scope.closeThisDialog();
       flash = new Flash();
       flash.clear();
-      return flash.show({
+      flash.show({
         notice:
           "Thanks for your inquiry.  We'll get back to you as soon as we can.",
       });
@@ -30,7 +30,10 @@ const modalController = ngInject(function (
         .element(inputs)
         .prepend("<div class='error-msg'>" + errs.join("") + "</div>");
     };
-    return notificationService.sendInquiry($scope.inquiry, success, error);
+    return notificationService
+      .sendInquiry($scope.inquiry)
+      .then(success)
+      .catch(error);
   };
 });
 

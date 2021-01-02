@@ -32,22 +32,27 @@ const controller = ngInject(function (
 
     const success = (data) => {
       $scope.hits = data
-        .filter((x) => !!x)
+        .filter((x) => Boolean(x))
         .map((datum) => new SearchHit(datum));
       stopSpinner();
+      $scope.$apply();
     };
 
-    const error = (_data) => stopSpinner();
+    const error = (_data) => {
+      stopSpinner();
+      $scope.$apply();
+    };
 
     pageSize || (pageSize = 20);
     page || (page = 0);
-    return searchService.query({
-      query: query,
-      size: pageSize,
-      page: page,
-      success: success,
-      error: error,
-    });
+    return searchService
+      .query({
+        query: query,
+        size: pageSize,
+        page: page,
+      })
+      .then(success)
+      .catch(error);
   };
 });
 

@@ -5,7 +5,6 @@ angular
   .module("MauApp", [
     "ngSanitize",
     "ngDialog",
-    "ng.deviceDetector",
     "mailchimp",
     "angularSlideables",
     "ui.keypress",

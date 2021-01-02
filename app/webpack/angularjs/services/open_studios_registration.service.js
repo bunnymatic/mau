@@ -1,26 +1,17 @@
-import ngInject from "@angularjs/ng-inject";
+import { api } from "@js/services/api";
 import angular from "angular";
 
-const registerUrl = (artist) =>
-  `/api/artists/${artist}/register_for_open_studios`;
-
-const openStudiosRegistrationService = ngInject(function (
-  $http,
-  currentUserService
-) {
+const openStudiosRegistrationService = function () {
   return {
-    register: function (data, successCb, errorCb) {
-      return currentUserService.get().then(function (currentUserData) {
-        const currentUser = currentUserData.current_user;
+    register: function (data) {
+      return api.users.whoami().then(function ({ currentUser }) {
         if (currentUser && currentUser.slug) {
-          return $http
-            .post(registerUrl(currentUser.slug), data)
-            .then(successCb, errorCb);
+          return api.users.registerForOs(currentUser.slug, data);
         }
       });
     },
   };
-});
+};
 
 angular
   .module("mau.services")

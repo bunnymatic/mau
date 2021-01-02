@@ -1,4 +1,4 @@
-import { get } from "@js/mau_ajax";
+import { get } from "@js/services/mau_ajax";
 import c3 from "c3";
 import { format } from "d3-format";
 import jQuery from "jquery";

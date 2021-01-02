@@ -17,9 +17,3 @@ Scenario: Visitors can submit inquiries
   And I fill in the inquiry form
   Then I see that my inquiry was submitted
   And the system knows that my inquiry was submitted
-
-  When I visit the "faq" page
-  And I click on the "envelope" icon
-  And I fill in the help form
-  Then I see that my inquiry was submitted
-  And the system knows that my help was submitted

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'MainController Routes' do
-  %i[faq venues privacy about contact version].each do |endpoint|
+  %i[venues privacy about contact version].each do |endpoint|
     it "routes #{endpoint} to the main##{endpoint}" do
       expect(get: "/#{endpoint}").to route_to(controller: 'main', action: endpoint.to_s)
     end

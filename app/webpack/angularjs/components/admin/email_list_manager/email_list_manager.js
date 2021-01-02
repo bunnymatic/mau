@@ -1,9 +1,10 @@
 import ngInject from "@angularjs/ng-inject";
+import { api } from "@js/services/api";
 import angular from "angular";
 
 import template from "./index.html";
 
-const controller = ngInject(function ($scope, $attrs, emailsService, Email) {
+const controller = ngInject(function ($scope, $attrs, Email) {
   $scope.info = $attrs.listInfo;
   $scope.title = $attrs.listTitle;
   $scope.emailListId = $attrs.listId;
@@ -12,49 +13,36 @@ const controller = ngInject(function ($scope, $attrs, emailsService, Email) {
     $scope.newEmail = {};
   };
   const fetchEmails = function (listId) {
-    return emailsService.query(
-      {
-        email_list_id: listId,
-      },
-      function (data) {
-        $scope.emails = data.map((email) => new Email(email.email));
-      }
-    );
+    return api.emailLists.emails
+      .index(listId)
+      .then(function ({ emails }) {
+        $scope.emails = emails.map((email) => new Email(email.email));
+      })
+      .always(() => $scope.$apply());
   };
   fetchEmails($scope.emailListId);
   $scope.removeEmail = function (id) {
-    return emailsService.remove(
-      {
-        email_list_id: $scope.emailListId,
-        id: id,
-      },
-      function () {
+    return api.emailLists.emails
+      .remove(id, $scope.emailListId)
+      .then(function () {
         return fetchEmails($scope.emailListId);
-      },
-      function () {}
-    );
+      })
+      .always(() => $scope.$apply());
   };
   $scope.addEmail = function () {
     $scope.errors = null;
     if ($scope.newEmail != null) {
-      emailsService.save(
-        {
-          email_list_id: $scope.emailListId,
-        },
-        {
-          email: $scope.newEmail,
-        },
-        function () {
+      api.emailLists.emails
+        .save($scope.emailListId, { email: $scope.newEmail })
+        .then(function () {
           fetchEmails($scope.emailListId);
           clearForm();
-          return $scope.toggleAddEmailForm();
-        },
-        function (response) {
-          $scope.errors = response.data.errors;
           $scope.toggleAddEmailForm();
-          return $scope.toggleAddEmailForm();
-        }
-      );
+        })
+        .catch((resp) => {
+          $scope.errors = resp.responseJSON.errors;
+        })
+        .always(() => $scope.$digest());
     }
   };
 });

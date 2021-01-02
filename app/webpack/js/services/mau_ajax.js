@@ -30,6 +30,10 @@ const post = (url, data, ajaxOptions = {}) => {
   return request("post", url, data, ajaxOptions);
 };
 
+const destroy = (url, data, ajaxOptions = {}) => {
+  return request("delete", url, data, ajaxOptions);
+};
+
 const postForm = (formSelector) => {
   const $form = jQuery(formSelector);
   const formData = $form.serialize();
@@ -52,6 +56,7 @@ const responseCamelizeTransformer = (key, fallbackReturnValue = null) => (
 
 export {
   ajaxSetup,
+  destroy,
   get,
   post,
   postForm,

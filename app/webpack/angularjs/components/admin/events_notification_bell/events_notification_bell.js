@@ -12,9 +12,15 @@ const controller = ngInject(function (
   const since = DateTime.local().minus({ days: 7 });
   EmailChangedEventsService.list({
     since: since.toISO(),
-  }).then(function (data) {
-    $scope.hasNotifications = some(data);
-  });
+  })
+    .then(function (data) {
+      console.log(data);
+      $scope.hasNotifications = some(data);
+      $scope.$apply();
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
 });
 
 const eventsNotificationBell = ngInject(function () {

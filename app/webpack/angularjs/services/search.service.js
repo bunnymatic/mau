@@ -1,27 +1,18 @@
-import ngInject from "@angularjs/ng-inject";
 import { omit } from "@js/app/helpers";
+import { api } from "@js/services/api";
 import angular from "angular";
 
-const noop = () => null;
-const searchService = ngInject(function ($http) {
+const searchService = function () {
   return {
     query: async function (searchParams) {
-      const success = searchParams.success || noop;
-      const error = searchParams.error || noop;
       if (!searchParams.query) {
-        return success([]);
+        return Promise.resolve([]);
       }
-      searchParams.q = searchParams.query;
-      return $http.post("/search.json", omit(searchParams, "query")).then(
-        function (resp) {
-          return success(resp.data);
-        },
-        function (resp) {
-          return error(resp.data);
-        }
-      );
+      const params = omit(searchParams, "query");
+      params.q = searchParams.query;
+      return api.search.query(params);
     },
   };
-});
+};
 
 angular.module("mau.services").factory("searchService", searchService);

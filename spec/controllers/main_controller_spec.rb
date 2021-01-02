@@ -53,13 +53,6 @@ describe MainController do
     it { expect(response).to be_successful }
   end
 
-  describe '#faq' do
-    before do
-      get :faq
-    end
-    it { expect(response).to be_successful }
-  end
-
   describe '#main/venues' do
     context 'while not logged in' do
       before do
