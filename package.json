@@ -55,7 +55,7 @@
     "html-loader": "^1.0.0",
     "humps": "^2.0.1",
     "import-glob-loader": "^1.1.0",
-    "imports-loader": "^1.0.0",
+    "imports-loader": "^0.8.0",
     "jquery": "^3.5.0",
     "jquery-ui": "^1.12.1",
     "luxon": "^1.25.0",
