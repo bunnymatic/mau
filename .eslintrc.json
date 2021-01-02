@@ -29,7 +29,8 @@
     ],
     "prettier/prettier": 2,
     "import/no-unresolved": 0,
-    "simple-import-sort/sort": "error"
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   },
   "extends": [
     "eslint:recommended",
