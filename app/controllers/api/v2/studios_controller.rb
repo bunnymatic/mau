@@ -9,7 +9,8 @@ module Api
         if !studio
           head 400
         else
-          render json: studio, serializer: StudioSerializer
+          render jsonapi: studio
+
         end
       end
     end

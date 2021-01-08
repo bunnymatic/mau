@@ -21,7 +21,7 @@ class StudioArranger {
               return jQuery(row).data("studioId");
             }
           );
-          post("/admin/studios/reorder", { studios: studioIds })
+          return post("/admin/studios/reorder", { studios: studioIds })
             .done(function (_data) {
               new Flash().show({
                 notice: "Studio Order has been updated",

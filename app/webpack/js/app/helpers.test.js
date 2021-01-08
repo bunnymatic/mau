@@ -150,4 +150,20 @@ describe("helpers", () => {
       expect(helpers.intersection(arr1, arr2)).toEqual([5]);
     });
   });
+
+  describe("dig", () => {
+    const testObject = { a: [{ b: { c: 3 } }] };
+    it("digs out existing values", () => {
+      expect(helpers.dig(testObject, "a[0].b.c", 1)).toEqual(3);
+    });
+    it("falls back to the default", () => {
+      expect(helpers.dig(testObject, "a[0].b.d", 1)).toEqual(1);
+    });
+    it("safely navigates an unknown path", () => {
+      expect(helpers.dig(testObject, "a.b.c.d", 1)).toEqual(1);
+    });
+    it("works without a default", () => {
+      expect(helpers.dig(testObject, "a.b")).toBeUndefined();
+    });
+  });
 });

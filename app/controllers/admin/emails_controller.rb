@@ -4,7 +4,7 @@ module Admin
   class EmailsController < ::BaseAdminController
     def index
       load_email_list
-      render json: @email_list.emails
+      render json: { emails: @email_list.emails }
     end
 
     def destroy
@@ -33,9 +33,9 @@ module Admin
         end
       end
       if errors.present?
-        render json: { success: false, errors: errors }, status: :bad_request
+        render json: { errors: errors }, status: :bad_request
       else
-        render json: { success: true, emails: @email_list.reload.emails }
+        render json: { emails: @email_list.reload.emails }
       end
     end
 

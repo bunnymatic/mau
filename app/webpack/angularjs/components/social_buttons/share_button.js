@@ -26,11 +26,11 @@ const controller = ngInject(function ($scope, $attrs, $location) {
 
   const domain = $attrs.domain || location_origin;
   const artPieceLink = `${domain}/art_pieces/${artPiece.id}`;
-  const description = `Check out ${artPiece.title} by ${artPiece.artist_name} on Mission Artists`;
+  const description = `Check out ${artPiece.title} by ${artPiece.artistName} on Mission Artists`;
 
   const safeArtPieceLink = encodeURIComponent(artPieceLink);
   const safeDescription = encodeURIComponent(description);
-  const safeArtPieceImage = encodeURIComponent("" + artPiece.image_urls.large);
+  const safeArtPieceImage = encodeURIComponent("" + artPiece.imageUrls.large);
   const safeTitle = encodeURIComponent(artPiece.title);
 
   const linkInfo = {

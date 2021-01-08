@@ -99,6 +99,7 @@
       "@js/(.*)$": "<rootDir>/app/webpack/js/$1",
       "@angularjs/(.*)$": "<rootDir>/app/webpack/angularjs/$1",
       "@components/(.*)$": "<rootDir>/app/webpack/angularjs/components/$1",
+      "@models/(.*)$": "<rootDir>/app/webpack/js/app/models/$1",
       "@services/(.*)$": "<rootDir>/app/webpack/angularjs/services/$1",
       "@support/(.*)$": "<rootDir>/jest/support/$1",
       "@fixtures/(.*)$": "<rootDir>/spec/fixtures/$1"

@@ -6,7 +6,11 @@ const emailChangedEventsService = ngInject(function (
   applicationEventsService
 ) {
   const filterByChangedEmail = (data) => {
-    return data.filter((event) => /update.*email/.test(event.message));
+    return data.filter(
+      (data) =>
+        data.user_changed_event &&
+        /update.*email/.test(data.user_changed_event.message)
+    );
   };
   return {
     list: function (params) {

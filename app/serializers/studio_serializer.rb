@@ -1,28 +1,34 @@
 # frozen_string_literal: true
 
 class StudioSerializer < MauSerializer
-  attributes :id, :name, :street_address, :city, :map_url, :url, :artists, :slug
+  attributes :name, :street_address, :city, :map_url, :url, :slug
 
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
 
-  def artists
-    object.artists.active.map { |a| %i[id slug full_name firstname lastname].index_with { |k| a.send(k) } }
+  has_many :artists, class: StudioArtistSerializer do
+    data do
+      @object.artists.active
+    end
+
+    meta do
+      { count: @object.artists.active.count }
+    end
   end
 
-  def url
-    studio_path(object) unless object.is_a? IndependentStudio
+  attribute :url do
+    studio_path(@object) unless @object.is_a? IndependentStudio
   end
 
-  def street_address
-    object.address.street
+  attribute :street_address do
+    @object.address.street
   end
 
-  def city
-    object.address.city
+  attribute :city do
+    @object.address.city
   end
 
-  def map_url
-    object.map_link
+  attribute :map_url do
+    @object.map_link
   end
 end

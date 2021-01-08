@@ -17,7 +17,7 @@ const controller = ngInject(function ($scope, $attrs, emailsService, Email) {
         email_list_id: listId,
       },
       function (data) {
-        $scope.emails = data.map((email) => new Email(email));
+        $scope.emails = data.map((email) => new Email(email.email));
       }
     );
   };

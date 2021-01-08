@@ -271,13 +271,6 @@ describe ArtistsController, elasticsearch: :stub do
       end
       it { expect(response).to be_successful }
     end
-
-    describe 'json' do
-      before do
-        get :show, params: { id: artist.id, format: 'json' }
-      end
-      it_behaves_like 'successful json'
-    end
   end
 
   # describe 'qrcode' do

@@ -37,14 +37,14 @@ describe Api::V2::StudiosController do
         end
       end
       context 'for a known studio' do
-        it_behaves_like 'successful json'
+        it_behaves_like 'successful api json'
         it 'uses the StudioSerializer' do
           expect(StudioSerializer).to have_received(:new)
         end
       end
       context 'for independent studio' do
         let(:studio) { IndependentStudio.new }
-        it_behaves_like 'successful json'
+        it_behaves_like 'successful api json'
         it 'uses the StudioSerializer' do
           expect(StudioSerializer).to have_received(:new)
         end

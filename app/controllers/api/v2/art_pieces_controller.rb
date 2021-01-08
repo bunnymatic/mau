@@ -6,14 +6,14 @@ module Api
       def index
         artist = Artist.find(params[:artist_id])
         art = artist.art_pieces
-        render json: art
+        render jsonapi: art, include: %i[medium tags]
       rescue ActiveRecord::RecordNotFound
         render json: {}
       end
 
       def show
         art = ArtPiece.find(params[:id])
-        render json: art
+        render jsonapi: art, include: %i[medium tags]
       end
     end
   end

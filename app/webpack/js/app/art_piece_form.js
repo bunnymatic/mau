@@ -22,10 +22,12 @@ class ArtPieceForm {
         data: (params) => ({ q: params.term }),
         delay: 200,
         processResults: ({ art_piece_tags }) => {
-          const results = (art_piece_tags || []).map(({ id, name }) => ({
-            id,
-            text: name,
-          }));
+          const results = (art_piece_tags || []).map(
+            ({ art_piece_tag: { id, name } }) => ({
+              id,
+              text: name,
+            })
+          );
           return { results };
         },
       },

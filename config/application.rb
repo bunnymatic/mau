@@ -57,7 +57,7 @@ module Mau
     # config.i18n.default_locale = :de
     config.load_defaults 6.0
 
-    config.cache_store = :dalli_store, { namespace: "mau#{Rails.env}" }
+    config.cache_store = :mem_cache_store, { namespace: "mau#{Rails.env}" }
 
     # app_paths = %w(services lib mailers presenters paginators models/concerns)
     # config.autoload_paths += app_paths.map{|path| File.join(Rails.root,'app', path)}

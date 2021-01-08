@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ArtPieceSerializer < MauSerializer
-  attributes :id, :artist, :medium, :tags, :artist_name, :favorites_count,
+  attributes :artist_name, :favorites_count,
              :year, :dimensions, :title, :artist_id, :image_urls
 
   # note: image_urls used by angular photo browser
@@ -9,13 +9,13 @@ class ArtPieceSerializer < MauSerializer
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
 
-  def image_urls
-    urls = if object.photo?
+  attribute :image_urls do
+    urls = if @object.photo?
              (MauImage::Paperclip::STANDARD_STYLES.keys + [:original]).index_with do |key|
-               object.photo.url(key, timestamp: false)
+               @object.photo.url(key, timestamp: false)
              end
            else
-             object.image_paths
+             @object.image_paths
            end
 
     urls.each_with_object({}) do |(sz, path), memo|
@@ -23,31 +23,18 @@ class ArtPieceSerializer < MauSerializer
     end
   end
 
-  def artist
-    object.artist.try(:id)
+  has_one :artist
+
+  has_many :tags
+
+  has_one :medium
+
+  attribute :artist_name do
+    @object.artist.get_name(true)
   end
 
-  def medium
-    @medium ||= object.try(:medium).try(:attributes)
-  end
-
-  def tags
-    @tags ||=
-      begin
-        return if object.tags.blank?
-
-        tag_attrs = object.tags.map(&:attributes)
-        tag_attrs.each { |t| t['name'] = HtmlEncoder.encode t['name'] }
-        tag_attrs
-      end
-  end
-
-  def artist_name
-    @artist_name ||= object.artist.get_name(true)
-  end
-
-  def favorites_count
-    @favorites_count ||= Favorite.art_pieces.where(favoritable_id: object.id).count
-    @favorites_count if @favorites_count.positive?
+  attribute :favorites_count do
+    ct = Favorite.art_pieces.where(favoritable_id: @object.id).count
+    ct if ct.positive?
   end
 end

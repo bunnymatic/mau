@@ -16,16 +16,12 @@ class ArtPieceTagsController < ApplicationController
       inp = q.downcase
       tags = tags.select { |tag| tag.name.downcase.starts_with? inp }
     end
-    render json: tags, root: 'art_piece_tags', serializer: ActiveModel::Serializer::CollectionSerializer
+    render json: { "art_piece_tags": tags.map { |t| t.class == ArtPieceTag ? t : ArtPieceTag.new(t) } }
   end
 
   def index
     respond_to do |format|
       format.html { redirect_to_most_popular_tag }
-      format.json do
-        tags = ArtPieceTag.all
-        render json: tags
-      end
     end
   end
 

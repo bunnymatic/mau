@@ -19,12 +19,12 @@ describe Admin::EmailsController do
       post :create, xhr: true, params: { email_list_id: feedback_email_list.id, email: email_attrs }
     end
     it 'returns 200 on success' do
-      make_request
       expect(response).to be_successful
     end
     it 'returns json' do
       make_request
       expect(response.content_type.to_s).to eql 'application/json; charset=utf-8'
+      expect(JSON.parse(response.body)).to have_key('emails')
     end
     it 'adds a new email to the email list' do
       expect do

@@ -3,8 +3,7 @@ source 'https://rubygems.org'
 ruby '2.6.5'
 
 gem 'actionmailer-text'
-gem 'active_model_serializers'
-gem 'authlogic', '~> 5.x'
+gem 'authlogic'
 gem 'aws-sdk-s3'
 gem 'browser'
 gem 'browserslist_useragent'
@@ -21,6 +20,7 @@ gem 'geokit-rails'
 gem 'gibbon' # mailchimp connect
 gem 'htmlentities'
 gem 'jbuilder' # non-html output (rss, atom)
+gem 'jsonapi-rails'
 gem 'listen'
 gem 'lograge'
 gem 'mime-types'
@@ -35,10 +35,11 @@ gem "puma"
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', require: false
+gem 'rails', "6.1.0", require: false
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
+gem 'scrypt'
 gem 'slim-rails'
 #gem 'unicorn' # webserver
 gem "webpacker"

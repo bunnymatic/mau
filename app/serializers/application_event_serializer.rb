@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationEventSerializer < MauSerializer
-  attributes :user, :message, :type
+  attributes :user, :message, :type, :created_at
 
-  def user
-    object.data.fetch('user', nil)
+  attribute :user do
+    @object.data.fetch('user', nil)
   end
 end

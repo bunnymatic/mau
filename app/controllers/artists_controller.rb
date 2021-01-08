@@ -151,9 +151,6 @@ class ArtistsController < ApplicationController
           set_artist_meta
         end
       end
-      format.json do
-        render json: @artist
-      end
     end
   end
 

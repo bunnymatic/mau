@@ -11,7 +11,7 @@ describe ArtPiecesController do
                               artist: nil,
                               title: 'TheBestArtInTheWorld',
                               medium_id: medium.id,
-                              photo: fixture_file_upload('/files/art.png', 'image/jpeg'))
+                              photo: fixture_file_upload('art.jpg', 'image/jpeg'))
   end
   let(:admin) { FactoryBot.create(:artist, :admin) }
   let(:fan) { FactoryBot.create(:fan, :active) }
@@ -108,7 +108,7 @@ describe ArtPiecesController do
       context 'with successful save' do
         let(:tags) { ['this', 'that', existing_tag.name] }
 
-        it 'redirects to show page on success' do
+        it 'redirects to show page' do
           post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tag_ids: tags) }
           expect(response).to redirect_to art_piece_path(ArtPiece.find_by(title: art_piece_attributes[:title]))
         end
@@ -117,7 +117,7 @@ describe ArtPiecesController do
             post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
           end.to change(ArtPiece, :count).by 1
         end
-        it 'sets a flash message on success' do
+        it 'sets a flash message' do
           post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
           expect(flash[:notice]).to eql "You've got new art!"
         end
