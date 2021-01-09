@@ -1,4 +1,3 @@
-import ngInject from "@angularjs/ng-inject";
 import angular from "angular";
 import jQuery from "jquery";
 
@@ -52,17 +51,20 @@ angular
     "mau.services",
     "mau.directives",
   ])
-  .config(
-    ngInject(function ($httpProvider) {
-      var base, csrfToken;
-      csrfToken = $("meta[name=csrf-token]").attr("content");
-      $httpProvider.defaults.headers.post["X-CSRF-Token"] = csrfToken;
-      $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
-      $httpProvider.defaults.headers.put["X-CSRF-Token"] = csrfToken;
-      $httpProvider.defaults.headers.patch["X-CSRF-Token"] = csrfToken;
-      (base = $httpProvider.defaults.headers)["delete"] ||
-        (base["delete"] = {});
-      $httpProvider.defaults.headers["delete"]["X-CSRF-Token"] = csrfToken;
-      return null;
-    })
-  );
+  .config(function () {
+    return null;
+  });
+// Leaving this here until we are sure we're done with angular
+//
+// ngInject(function ($httpProvider) {
+//   var base, csrfToken;
+//   csrfToken = $("meta[name=csrf-token]").attr("content");
+//   $httpProvider.defaults.headers.post["X-CSRF-Token"] = csrfToken;
+//   $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
+//   $httpProvider.defaults.headers.put["X-CSRF-Token"] = csrfToken;
+//   $httpProvider.defaults.headers.patch["X-CSRF-Token"] = csrfToken;
+//   (base = $httpProvider.defaults.headers)["delete"] ||
+//     (base["delete"] = {});
+//   $httpProvider.defaults.headers["delete"]["X-CSRF-Token"] = csrfToken;
+//   return null;
+// })
