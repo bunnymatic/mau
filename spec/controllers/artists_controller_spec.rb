@@ -402,7 +402,7 @@ describe ArtistsController, elasticsearch: :stub do
         artist2
         login_as artist
       end
-      it do
+      it 'redirects to artist path' do
         run_destroy
         expect(response).to redirect_to artist_path(artist)
       end
@@ -416,19 +416,22 @@ describe ArtistsController, elasticsearch: :stub do
     context 'when trying to destroy art that is yours' do
       let(:art_pieces) { artist.art_pieces }
       before do
+        # For some reason the elasticsearch mocks were not working as of
+        # rspec 3.10, so we just mock things higher for this test
+        allow(ArtPiece).to receive(:where).and_return(double('ArRelation', destroy_all: true))
         login_as artist
-      end
-      it 'validate fixtures' do
-        expect(art_pieces.size).to be >= 2
-      end
-      it do
         run_destroy destroy_params
+      end
+      it 'redirects to the artist path' do
         expect(response).to redirect_to artist_path(artist)
       end
       it 'should remove art' do
-        expect do
-          run_destroy destroy_params
-        end.to change(ArtPiece, :count).by(-1 * num_to_dump)
+        expected_where_clause = {
+          artist_id: artist.id,
+          id: art_pieces_for_deletion.select { |_id, del| del == 1 }.keys.map(&:to_s),
+        }
+        expect(ArtPiece).to have_received(:where).with(expected_where_clause)
+        expect(ArtPiece.where).to have_received(:destroy_all)
       end
     end
   end

@@ -27,7 +27,7 @@ gem 'mime-types'
 gem 'mojo_magick'
 gem 'mysql2'
 gem 'newrelic_rpm' # moitoring
-gem 'nokogiri', '1.11.0.rc4'
+gem 'nokogiri'
 gem 'paperclip'
 gem 'postmark'
 gem 'postmark-rails'
@@ -35,7 +35,7 @@ gem "puma"
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', "6.1.0", require: false
+gem 'rails', "~>6.x", require: false
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
@@ -91,9 +91,10 @@ group :test, :development do
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails'
-  gem 'rubocop', require: false
+  gem 'rubocop', "0.88.0", require: false
+  gem 'rubocop-ast', "0.3.0", require: false
   gem 'rubocop-performance', require: false
-  gem 'rubocop-rails', require: false
+  gem 'rubocop-rails', "2.7.1", require: false
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'test-prof'
