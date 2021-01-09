@@ -1,79 +1,71 @@
 import "angular-mocks";
 import "./search.service";
 
-import angular from "angular";
+import { api } from "@js/services/api";
 import expect from "expect";
 
+jest.mock("@js/services/api");
+
 describe("mau.services.searchService", function () {
-  let service, http;
-  const successCb = jest.fn();
-  const errorCb = jest.fn();
+  let service;
   const successPayload = ["search_results"];
-  const errorPayload = ["whatever"];
 
   beforeEach(() => {
     jest.resetAllMocks();
   });
   beforeEach(angular.mock.module("mau.services"));
   beforeEach(
-    angular.mock.inject(function ($httpBackend, searchService) {
+    angular.mock.inject(function (searchService) {
       service = searchService;
-      http = $httpBackend;
     })
   );
-  afterEach(function () {
-    http.verifyNoOutstandingExpectation();
-    http.verifyNoOutstandingRequest();
-  });
   describe(".query", function () {
     it("calls the apps search endpoint", function () {
+      api.search.query = jest.fn().mockResolvedValue(successPayload);
       const query = "the query string";
       const extras = { whatever: "man" };
       const expectedParams = { q: query, ...extras };
-      http.expectPOST("/search.json", expectedParams).respond(successPayload);
       const response = service.query({
         query,
-        success: successCb,
-        error: errorCb,
         ...extras,
       });
-      http.flush();
-      response.then(function (_data) {
-        expect(successCb).toHaveBeenCalledWith(successPayload);
+      response.then((resp) => {
+        expect(api.search.query).toHaveBeenCalledWith(expectedParams);
+        expect(resp).toEqual(successPayload);
       });
     });
 
-    it("returns empty string if there is no query", function () {
+    it("returns empty array if there is no query", function () {
       const query = "";
       const extras = { whatever: "man" };
       const response = service.query({
         query,
-        success: successCb,
-        error: errorCb,
         ...extras,
       });
-      response.then(function (_data) {
-        expect(successCb).toHaveBeenCalledWith([]);
+      response.then(function (data) {
+        expect(api.search.query).not.toHaveBeenCalled();
+        expect(data).toEqual([]);
       });
     });
 
-    it("when there is an error it calls the error callback", function () {
+    it("when there is an error it raises", function () {
       const query = "the query string";
       const extras = { whatever: "man" };
       const expectedParams = { q: query, ...extras };
-      http
-        .expectPOST("/search.json", expectedParams)
-        .respond(404, errorPayload);
+      api.search.query = jest.fn().mockRejectedValue(new Error("oops"));
       const response = service.query({
         query,
-        success: successCb,
-        error: errorCb,
         ...extras,
       });
-      http.flush();
-      response.then(function (_data) {
-        expect(errorCb).toHaveBeenCalledWith(errorPayload);
-      });
+      response
+        .then(() => {
+          // should not end up here
+          expect(true).toEqual(false);
+        })
+        .catch(function (_data) {
+          expect(api.search.query).toHaveBeenCalledWith(expectedParams);
+          expect(_data).toEqual(new Error("oops"));
+        });
     });
   });
 });

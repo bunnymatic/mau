@@ -1,13 +1,14 @@
 import ngInject from "@angularjs/ng-inject";
+import { api } from "@js/services/api";
 import angular from "angular";
+import Bowser from "bowser";
 
-const notificationService = ngInject(function ($http, deviceDetector) {
+const notificationService = ngInject(function ($window) {
   return {
-    sendInquiry: function ({ inquiry, ...rest }, successCb, errorCb) {
+    sendInquiry: function ({ inquiry, ...rest }) {
+      const browser = Bowser.parse($window.navigator.userAgent);
       const extras = {
-        os: deviceDetector.os,
-        browser: deviceDetector.browser,
-        device: deviceDetector.device,
+        ...browser,
       };
 
       const postData = {
@@ -15,11 +16,8 @@ const notificationService = ngInject(function ($http, deviceDetector) {
         ...rest,
         ...extras,
       };
-      return $http
-        .post("/api/notes", {
-          feedback_mail: postData,
-        })
-        .then(successCb, errorCb);
+
+      return api.notes.create({ feedback_mail: postData });
     },
   };
 });

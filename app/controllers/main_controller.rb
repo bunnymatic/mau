@@ -10,8 +10,6 @@ class MainController < ApplicationController
 
   def contact; end
 
-  def faq; end
-
   def sampler
     sampler = ArtSampler.new(seed: sampler_params[:seed],
                              offset: sampler_params[:offset],

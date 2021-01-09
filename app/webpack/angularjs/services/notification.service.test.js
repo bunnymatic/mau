@@ -1,89 +1,70 @@
 import "angular-mocks";
-import "ua-device-detector";
-import "ng-device-detector";
 import "./notification.service";
 
+import { api } from "@js/services/api";
 import angular from "angular";
 import expect from "expect";
 
-describe("mau.services.notificationService", function () {
-  let svc, http;
+jest.mock("@js/services/api");
 
-  const browserData = {
-    browser: "Lynx",
-    device: "TRS-80",
-    os: "ms-dos",
-  };
+describe("mau.services.notificationService", function () {
+  let svc;
 
   const data = { whatever: "man", inquiry: "The question" };
-  const successCb = jest.fn();
-  const errorCb = jest.fn();
 
   beforeEach(angular.mock.module("mau.services"));
   beforeEach(
-    angular.mock.inject(function (
-      $httpBackend,
-      deviceDetector,
-      notificationService
-    ) {
-      http = $httpBackend;
+    angular.mock.module(function ($provide) {
+      $provide.value("$window", {
+        navigator: {
+          userAgent:
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.2 Safari/605.1.15",
+        },
+      });
+    })
+  );
+
+  beforeEach(
+    angular.mock.inject(function (notificationService) {
       svc = notificationService;
-      deviceDetector.browser = browserData.browser;
-      deviceDetector.device = browserData.device;
-      deviceDetector.os = browserData.os;
     })
   );
   beforeEach(() => {
     jest.resetAllMocks();
   });
-  afterEach(function () {
-    http.verifyNoOutstandingExpectation();
-    http.verifyNoOutstandingRequest();
-  });
 
   describe("sendInquiry", function () {
     describe("when /api/notes works", () => {
       beforeEach(() => {
-        http
-          .expect("POST", "/api/notes", {
-            feedback_mail: {
-              question: "The question",
-              whatever: "man",
-              ...browserData,
-            },
-          })
-          .respond({ success: true });
+        api.notes.create = jest.fn().mockResolvedValue({});
       });
 
-      it("posts to /api/notes", () => {
-        svc.sendInquiry(data, successCb, errorCb);
-        http.flush();
-      });
-      it("calls the success callback", () => {
-        svc.sendInquiry(data, successCb, errorCb);
-        http.flush();
-        expect(successCb).toHaveBeenCalled();
+      it("posts to /api/notes", async () => {
+        await svc.sendInquiry(data);
+        expect(api.notes.create).toHaveBeenCalledWith({
+          feedback_mail: {
+            browser: { name: "Safari", version: "14.0.2" },
+            engine: { name: "WebKit", version: "605.1.15" },
+            os: { name: "macOS", version: "10.14.6", versionName: "Mojave" },
+            platform: { type: "desktop", vendor: "Apple" },
+            question: "The question",
+            whatever: "man",
+          },
+        });
       });
     });
     describe("when the notes api fails", () => {
       beforeEach(() => {
-        http
-          .expect("POST", "/api/notes", {
-            feedback_mail: {
-              question: "The question",
-              whatever: "man",
-              ...browserData,
-            },
-          })
-          .respond(400, {
-            success: false,
-            error_messages: ["whatever failed"],
-          });
+        api.notes.create = jest.fn().mockRejectedValue(new Error("crap"));
       });
-      it("calls the error callback", () => {
-        svc.sendInquiry(data, successCb, errorCb);
-        http.flush();
-        expect(errorCb).toHaveBeenCalled();
+      it("raises error callback", async () => {
+        try {
+          await svc.sendInquiry(data);
+          // never hits here
+          expect(true).toEqual(false);
+        } catch (e) {
+          expect(e).toEqual(new Error("crap"));
+        }
       });
     });
   });

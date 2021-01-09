@@ -1,29 +1,24 @@
-import ngInject from "@angularjs/ng-inject";
+import { api } from "@js/services/api";
 import angular from "angular";
 
-const emailChangedEventsService = ngInject(function (
-  $q,
-  applicationEventsService
-) {
-  const filterByChangedEmail = (data) => {
-    return data.filter(
-      (data) =>
-        data.user_changed_event &&
-        /update.*email/.test(data.user_changed_event.message)
-    );
+const emailChangedEventsService = function () {
+  const filterByChangedEmail = (events) => {
+    return (events || []).filter((event) => {
+      if (event && event.userChangedEvent && event.userChangedEvent.message) {
+        const message = event.userChangedEvent.message;
+        return message && /update.*email/.test(message);
+      }
+      return false;
+    });
   };
   return {
     list: function (params) {
-      const events = applicationEventsService.list(params);
-      return events.$promise.then(function (data) {
-        const defer = $q.defer();
-        const filtered = filterByChangedEmail(data);
-        defer.resolve(filtered);
-        return defer.promise;
-      });
+      return api.applicationEvents
+        .index(params)
+        .then((data) => filterByChangedEmail((data || {}).applicationEvents));
     },
   };
-});
+};
 
 angular
   .module("mau.services")

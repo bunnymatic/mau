@@ -1,4 +1,4 @@
-import { ajaxSetup } from "@js/mau_ajax";
+import { ajaxSetup } from "@js/services/mau_ajax";
 import jQuery from "jquery";
 
 import MauDatatables from "./mau_datatables";

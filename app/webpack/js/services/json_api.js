@@ -1,4 +1,4 @@
-import { get as ajaxGet } from "@js/mau_ajax";
+import { get as ajaxGet } from "@js/services/mau_ajax";
 import { ArtPiece } from "@models/art_piece.model";
 import { Artist } from "@models/artist.model";
 import { Studio } from "@models/studio.model";

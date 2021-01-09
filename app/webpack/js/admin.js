@@ -1,4 +1,3 @@
-import ngInject from "@angularjs/ng-inject";
 import angular from "angular";
 import jQuery from "jquery";
 
@@ -25,14 +24,11 @@ import "@components/editable_content/editable_content";
 import "@services/email_changed_events.service";
 import "@services/object_routing.service";
 import "@services/notification.service";
-import "@services/current_user.service";
 import "@services/mailer.service";
 import "@services/favorites.service";
 import "@services/env.service";
 import "@services/open_studios_registration.service";
 import "@services/search.service";
-import "@services/emails.service";
-import "@services/application_events.service";
 import "./app/flash_binding";
 import "./vendor/angularSlideables";
 import "./vendor/bootstrap/transition";
@@ -55,17 +51,20 @@ angular
     "mau.services",
     "mau.directives",
   ])
-  .config(
-    ngInject(function ($httpProvider) {
-      var base, csrfToken;
-      csrfToken = $("meta[name=csrf-token]").attr("content");
-      $httpProvider.defaults.headers.post["X-CSRF-Token"] = csrfToken;
-      $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
-      $httpProvider.defaults.headers.put["X-CSRF-Token"] = csrfToken;
-      $httpProvider.defaults.headers.patch["X-CSRF-Token"] = csrfToken;
-      (base = $httpProvider.defaults.headers)["delete"] ||
-        (base["delete"] = {});
-      $httpProvider.defaults.headers["delete"]["X-CSRF-Token"] = csrfToken;
-      return null;
-    })
-  );
+  .config(function () {
+    return null;
+  });
+// Leaving this here until we are sure we're done with angular
+//
+// ngInject(function ($httpProvider) {
+//   var base, csrfToken;
+//   csrfToken = $("meta[name=csrf-token]").attr("content");
+//   $httpProvider.defaults.headers.post["X-CSRF-Token"] = csrfToken;
+//   $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
+//   $httpProvider.defaults.headers.put["X-CSRF-Token"] = csrfToken;
+//   $httpProvider.defaults.headers.patch["X-CSRF-Token"] = csrfToken;
+//   (base = $httpProvider.defaults.headers)["delete"] ||
+//     (base["delete"] = {});
+//   $httpProvider.defaults.headers["delete"]["X-CSRF-Token"] = csrfToken;
+//   return null;
+// })

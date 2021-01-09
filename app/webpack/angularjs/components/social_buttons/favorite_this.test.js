@@ -1,5 +1,4 @@
 import "angular-mocks";
-import "@services/current_user.service";
 import "@services/favorites.service";
 import "./favorite_this";
 
@@ -12,17 +11,13 @@ describe("mau.directives.favoriteThis", function () {
     `<favorite-this object-type='${type}' object-id='${id}'></favorite-this>`;
   const blankTemplate = "<favorite-this></favorite-this>";
 
-  let favService, userService;
+  let favService;
   beforeEach(angular.mock.module("mau.directives"));
   beforeEach(angular.mock.module("mau.services"));
   beforeEach(
-    angular.mock.inject(function (currentUserService, favoritesService) {
+    angular.mock.inject(function (favoritesService) {
       favService = favoritesService;
-      userService = currentUserService;
 
-      jest
-        .spyOn(userService, "get")
-        .mockResolvedValue({ current_user: "bmatic" });
       jest
         .spyOn(favService, "add")
         .mockResolvedValue({ artist: { id: "artistid" } });

@@ -28,13 +28,12 @@ const modalController = ngInject(function (
   }
 
   function setRegistration(participation) {
-    openStudiosRegistrationService.register(
-      {
+    openStudiosRegistrationService
+      .register({
         participation: participation,
-      },
-      success,
-      error
-    );
+      })
+      .then(success)
+      .catch(error);
   }
 
   $scope.declineRegistration = function () {
