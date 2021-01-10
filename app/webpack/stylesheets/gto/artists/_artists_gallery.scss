@@ -1,0 +1,33 @@
+.artists-gallery {
+  &.sticky-gallery-paginator {
+    @media (min-width: $screen-sm-max) {
+      position: sticky;
+      top: 90px;
+      z-index: 1;
+      background-color: $base-background-color;
+    }
+  }
+  .name-switcher,
+  .gallery-paginator {
+    .page a {
+      text-transform: uppercase;
+    }
+    .page:last-of-type {
+      margin-right: 20px;
+    }
+  }
+  .name-switcher {
+    flex: 1;
+  }
+}
+
+.artists-gallery__header__container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-top: -15px;
+  @media (min-width: $screen-md-min) {
+    flex-direction: row;
+  }
+}

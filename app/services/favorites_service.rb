@@ -54,21 +54,19 @@ class FavoritesService
 
     def add_favorite(owner, obj)
       # can't favorite yourself
-      obj.class.transaction do
-        return if trying_to_favorite_yourself?(owner, obj)
+      return if trying_to_favorite_yourself?(owner, obj)
 
-        # Don't convert to `favoritable: obj` because for Artists it get's class name `User`
-        # making this query fail
-        #
-        # don't add dups
-        favorite_params = {
-          favoritable_type: obj.class.name,
-          favoritable_id: obj.id,
-          owner_id: owner.id,
-        }
-        f = Favorite.create(favorite_params)
-        notify_favorited_user(obj, owner) if f
-      end
+      # Don't convert to `favoritable: obj` because for Artists it get's class name `User`
+      # making this query fail
+      #
+      # don't add dups
+      favorite_params = {
+        favoritable_type: obj.class.name,
+        favoritable_id: obj.id,
+        owner_id: owner.id,
+      }
+      f = Favorite.create(favorite_params)
+      notify_favorited_user(obj, owner) if f
       obj
     end
 

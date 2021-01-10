@@ -11,22 +11,23 @@
         = fa_icon "search"
         .text< search
 
-.pure-g.sticky-gallery-paginator
+.pure-g.artists-gallery.artists-gallery__header.sticky-gallery-paginator
   .pure-u-1-1.header.padded-content>
-    ul.paginator.gallery-paginator
-      - @letters.each do |letter|
-        li.paginator__page class=class_names( "paginator__page--current": (letter==@gallery.letter))
-          = link_to letter.html_safe, @gallery.path_to({l: letter}, params)
-    .name-switcher
-      span.prefix by name
-      ul.button-group
-        li.button(class=(@gallery.ordered_by_lastname? ? '':'current'))
-          =link_to "first", @gallery.path_to({s: :firstname}, params), title: 'organize by first name'
-        li.button(class=(@gallery.ordered_by_lastname? ? 'current':''))
-          =link_to "last", @gallery.path_to({s: :lastname}, params), title: 'organize by last'
+    .artists-gallery__header__container
+      ul.paginator.gallery-paginator
+        - @letters.each do |letter|
+          li.paginator__page class=class_names( "paginator__page--current": (letter==@gallery.letter))
+            = link_to letter.html_safe, @gallery.path_to({l: letter}, params)
+      .name-switcher
+        span.prefix by name
+        ul.button-group
+          li.button(class=(@gallery.ordered_by_lastname? ? '':'current'))
+            =link_to "first", @gallery.path_to({s: :firstname}, params), title: 'organize by first name'
+          li.button(class=(@gallery.ordered_by_lastname? ? 'current':''))
+            =link_to "last", @gallery.path_to({s: :lastname}, params), title: 'organize by last'
 
 
-.pure-g
+.pure-g.artists-gallery
   .pure-u-1-1.padded-content
     .pure-g.js-artists-scroll-wrapper.artists-scroll
       - if @gallery.items.count == 0
