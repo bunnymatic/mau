@@ -9,8 +9,9 @@ class ArtistSerializer < MauSerializer
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
 
+  INDEX_WITH_ID = %i[id].freeze
   attribute :art_pieces do
-    @object.art_pieces.map { |a| [:id].index_with { |k| a.send(k) } }
+    @object.art_pieces.map { |a| INDEX_WITH_ID.index_with { |k| a.send(k) } }
   end
 
   attribute :link do
