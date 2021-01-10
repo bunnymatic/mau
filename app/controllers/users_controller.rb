@@ -284,10 +284,7 @@ class UsersController < ApplicationController
     elsif scammer_emails.include? note_info['email']
       note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect scammer email address'
-    elsif /Morning,I would love to purchase/i.match?(note_info['comment'])
-      note_info['artist_id'] = id
-      note_info['reason'] = 'matches suspect spam intro'
-    elsif /\s+details..i/i.match?(note_info['comment'])
+    elsif /Morning,I would love to purchase/i.match?(note_info['comment']) || /\s+details..i/i.match?(note_info['comment'])
       note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect spam intro'
     end

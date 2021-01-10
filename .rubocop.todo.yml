@@ -1,5 +1,2 @@
-Lint/DuplicateBranch:
-  Enabled: false
-
 Lint/UnexpectedBlockArity:
   Enabled: false

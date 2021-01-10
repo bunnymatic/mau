@@ -49,10 +49,10 @@ module MauImage
           :small
         when 'thumbnail'
           :thumb
-        when 'med', 'm', 'standard', 'std'
-          :medium
         when 'l'
           :large
+        # when 'med', 'm', 'standard', 'std'
+        #   :medium
         else
           :medium
         end
