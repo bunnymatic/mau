@@ -26,8 +26,9 @@ class ArtistsMap < ArtistsPresenter
     artist.address.to_s if artist.address.present?
   end
 
+  LAT_LNG_KEYS = %i[lat lng].freeze
   def bounds
-    MissionBoundaries::BOUNDS.values.map { |bound| Hash[%i[lat lng].zip(bound)] }.to_json
+    MissionBoundaries::BOUNDS.values.map { |bound| Hash[LAT_LNG_KEYS.zip(bound)] }.to_json
   end
 
   def map_marker(artist)

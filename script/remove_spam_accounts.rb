@@ -62,7 +62,7 @@ spam_accounts.each do |acct|
   email = m[1]
   a = Artist.find_by(email: email)
   if a
-    puts 'Removing artist ' + a.email
+    puts "Removing artist #{a.email}"
     a.destroy
   end
 end

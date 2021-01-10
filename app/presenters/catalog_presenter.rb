@@ -6,7 +6,7 @@ class CatalogPresenter < ViewPresenter
   include OpenStudiosEventShim
 
   def csv_filename
-    @csv_filename ||= (['mau_catalog', current_open_studios_key].compact.join('_') + '.csv')
+    @csv_filename ||= "#{['mau_catalog', current_open_studios_key].compact.join('_')}.csv"
   end
 
   def csv
@@ -46,16 +46,16 @@ class CatalogPresenter < ViewPresenter
   def artists_by_studio
     @artists_by_studio ||=
       begin
-      artists = {}
-      group_studio_artists.each do |a|
-        artists[a.studio] = [] unless artists[a.studio]
-        artists[a.studio] << a
+        artists = {}
+        group_studio_artists.each do |a|
+          artists[a.studio] = [] unless artists[a.studio]
+          artists[a.studio] << a
+        end
+        artists.each_value do |artist_list|
+          artist_list.sort!(&Artist::SORT_BY_LASTNAME)
+        end
+        artists
       end
-      artists.each_value do |artist_list|
-        artist_list.sort!(&Artist::SORT_BY_LASTNAME)
-      end
-      artists
-    end
   end
 
   def preview_reception_data

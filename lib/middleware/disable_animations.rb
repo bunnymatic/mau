@@ -43,6 +43,6 @@ class DisableAnimations
          }
       </style>
     CSS
-    fragment.gsub(%r{</head>}, disable_animations + '</head>')
+    fragment.gsub(%r{</head>}, "#{disable_animations}</head>")
   end
 end

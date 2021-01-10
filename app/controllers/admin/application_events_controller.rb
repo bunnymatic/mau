@@ -8,7 +8,7 @@ module Admin
       if query.valid?
         @query = query
       else
-        flash.now[:error] = query.errors.full_messages.to_sentence + '. Falling back to the defaults.' unless application_event_params.empty?
+        flash.now[:error] = "#{query.errors.full_messages.to_sentence}. Falling back to the defaults." unless application_event_params.empty?
         @query = ApplicationEventQuery.new
       end
       events = ApplicationEventFetcher.run(@query)

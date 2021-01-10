@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require File.dirname(__FILE__) + '/../config/boot'
+require "#{File.dirname(__FILE__)}/../config/boot"
 require 'geokit'
 Rails::Initializer.run do |config|
 end

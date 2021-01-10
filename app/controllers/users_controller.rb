@@ -128,12 +128,12 @@ class UsersController < ApplicationController
     id = destroy_params[:id]
     u = safe_find_user(id)
     if u
-      if u.id != current_user.id
+      if u.id == current_user.id
+        flash[:error] = "You can't delete yourself."
+      else
         name = u.login
         u.delete!
         flash[:notice] = "The account for login #{name} has been deactivated."
-      else
-        flash[:error] = "You can't delete yourself."
       end
     else
       flash[:error] = "Couldn't find user #{id}"
@@ -186,12 +186,12 @@ class UsersController < ApplicationController
     flash[:notice] = "We've sent email with instructions on how to reset your password."\
                      '  Please check your email.'
     if user
-      if !user.active?
+      if user.active?
+        user.create_reset_code
+      else
         flash[:notice] = nil
         flash[:error] = 'That account is not yet active.  Have you responded to the activation email we'\
                         ' already sent?  Enter your email below if you need us to send you a new activation email.'
-      else
-        user.create_reset_code
       end
     end
     redirect_to login_path

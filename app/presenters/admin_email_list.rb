@@ -13,7 +13,7 @@ class AdminEmailList < ViewPresenter
   end
 
   def csv_filename
-    @csv_filename ||= (['email'] + list_names).compact.uniq.join('_') + '.csv'
+    @csv_filename ||= "#{(['email'] + list_names).compact.uniq.join('_')}.csv"
   end
 
   def artists
@@ -75,7 +75,7 @@ class AdminEmailList < ViewPresenter
     when 'active', 'pending'
       Artist.send(list_names.first).all
     when 'no_profile'
-      Artist.active.where('profile_image is null')
+      Artist.active.where(profile_image: nil)
     when 'no_images'
       Artist.active.reject { |a| a.art_pieces.count.positive? }
     when *available_open_studios_keys

@@ -38,7 +38,7 @@ class SocialCatalogPresenter < ArtistsPresenter
   end
 
   def csv_filename
-    @csv_filename ||= (['mau_social_artists', current_open_studios_key].compact.join('_') + '.csv')
+    @csv_filename ||= "#{['mau_social_artists', current_open_studios_key].compact.join('_')}.csv"
   end
 
   def os
@@ -50,16 +50,16 @@ class SocialCatalogPresenter < ArtistsPresenter
   def artists_by_studio
     @artists_by_studio ||=
       begin
-      artists = {}
-      group_studio_artists.each do |a|
-        artists[a.studio] = [] unless artists[a.studio]
-        artists[a.studio] << a
+        artists = {}
+        group_studio_artists.each do |a|
+          artists[a.studio] = [] unless artists[a.studio]
+          artists[a.studio] << a
+        end
+        artists.each_value do |artist_list|
+          artist_list.sort!(&Artist::SORT_BY_LASTNAME)
+        end
+        artists
       end
-      artists.each_value do |artist_list|
-        artist_list.sort!(&Artist::SORT_BY_LASTNAME)
-      end
-      artists
-    end
   end
 
   def csv_headers

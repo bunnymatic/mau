@@ -226,7 +226,7 @@ class User < ApplicationRecord
   def _add_http_to_link(link)
     return if link.blank?
 
-    %r{^https?://}.match?(link) ? link : ('http://' + link)
+    %r{^https?://}.match?(link) ? link : "http://#{link}"
   end
 
   def add_http_to_links

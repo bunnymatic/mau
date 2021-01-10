@@ -10,7 +10,7 @@ class UserNavigation < Navigation
   end
 
   def current_artist
-    current_user if current_user&.is_a?(Artist)
+    current_user if current_user.is_a?(Artist)
   end
 
   def items

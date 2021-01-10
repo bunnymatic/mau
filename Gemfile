@@ -91,10 +91,9 @@ group :test, :development do
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails'
-  gem 'rubocop', "0.88.0", require: false
-  gem 'rubocop-ast', "0.3.0", require: false
+  gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
-  gem 'rubocop-rails', "2.7.1", require: false
+  gem 'rubocop-rails', require: false
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'test-prof'

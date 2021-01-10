@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-if !Rails.env.test?
+if Rails.env.test?
+  Paperclip::Attachment.default_options[:storage] = :filesystem
+else
   opts = {
     storage: :s3,
     url: ':s3_domain_url',
@@ -12,6 +14,4 @@ if !Rails.env.test?
   opts.each do |k, v|
     Paperclip::Attachment.default_options[k] = v
   end
-else
-  Paperclip::Attachment.default_options[:storage] = :filesystem
 end

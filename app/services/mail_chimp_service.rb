@@ -39,7 +39,7 @@ class MailChimpService
   end
 
   def list_id
-    @list_id ||= @user.class == Artist ? ARTIST_LIST_ID : FAN_LIST_ID
+    @list_id ||= @user.instance_of?(Artist) ? ARTIST_LIST_ID : FAN_LIST_ID
   end
 
   def subscribe

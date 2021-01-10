@@ -108,11 +108,11 @@ class ArtistPresenter < UserPresenter
 
   def studio_number
     number = artist.artist_info.try(:studionumber)
-    number.present? ? ('#' + number) : ''
+    number.present? ? "##{number}" : ''
   end
 
   def studio_with_number
-    studio_name.present? ? studio_name + ' ' + studio_number : ''
+    studio_name.present? ? "#{studio_name} #{studio_number}" : ''
   end
 
   def map_url
@@ -168,12 +168,12 @@ class ArtistPresenter < UserPresenter
 
   def bio_html
     @bio_html ||= begin
-                    if bio.present?
-                      MarkdownService.markdown(bio, :filter_html)
-                    else
-                      tag.h4("No artist's statement")
-                    end
-                  end
+      if bio.present?
+        MarkdownService.markdown(bio, :filter_html)
+      else
+        tag.h4("No artist's statement")
+      end
+    end
   end
 
   def self.keyed_links

@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 class TestMailerList < EmailList; end
+
 class WhateverMailList < EmailList; end
 
 describe EmailList do

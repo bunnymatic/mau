@@ -44,11 +44,11 @@ class FasoImporter
   end
 
   def parse_row(row)
-    if !@headers
+    if @headers
+      Hash[@headers.zip(pipe_split(row))]
+    else
       @headers = pipe_split(row)
       nil
-    else
-      Hash[@headers.zip(pipe_split(row))]
     end
   end
 

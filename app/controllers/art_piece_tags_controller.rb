@@ -16,7 +16,7 @@ class ArtPieceTagsController < ApplicationController
       inp = q.downcase
       tags = tags.select { |tag| tag.name.downcase.starts_with? inp }
     end
-    render json: { "art_piece_tags": tags.map { |t| t.class == ArtPieceTag ? t : ArtPieceTag.new(t) } }
+    render json: { "art_piece_tags": tags.map { |t| t.instance_of?(ArtPieceTag) ? t : ArtPieceTag.new(t) } }
   end
 
   def index

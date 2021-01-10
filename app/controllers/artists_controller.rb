@@ -50,14 +50,14 @@ class ArtistsController < ApplicationController
   end
 
   def update_os_status_message(status, artist, os_event)
-    if !status
-      "You're account needs more info before you can "\
-      'register for Open Studios (probably an address or studio).'
-    else
+    if status
       "Thanks for participating in Open Studios #{os_event.for_display(true)}!\n"\
       "Please confirm your studio address: #{artist.address}.\n"\
       "Look for an email with more info.\n"\
       "It's FREE to participate, we are completely donation and volunteer supported."
+    else
+      "You're account needs more info before you can "\
+      'register for Open Studios (probably an address or studio).'
     end
   end
 
@@ -144,11 +144,11 @@ class ArtistsController < ApplicationController
     @artist = active_artist_from_params
     respond_to do |format|
       format.html do
-        if !@artist
-          redirect_to artists_path, error: 'We were unable to find the artist you were looking for.'
-        else
+        if @artist
           @artist = ArtistPresenter.new(@artist)
           set_artist_meta
+        else
+          redirect_to artists_path, error: 'We were unable to find the artist you were looking for.'
         end
       end
     end
@@ -202,7 +202,7 @@ class ArtistsController < ApplicationController
   def active_artist_from_params
     artist = safe_find_artist(params[:id])
     if artist && !artist.active?
-      flash.now[:error] = "The artist '" + artist.get_name(true) + "' is no longer with us."
+      flash.now[:error] = "The artist '#{artist.get_name(true)}' is no longer with us."
       artist = nil
     end
     artist
