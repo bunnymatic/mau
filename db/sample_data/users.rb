@@ -26,6 +26,6 @@ FavoritesService.add(artist, admin)
 
 puts '--> Adding lots of artists with last names that start with A'
 30.times do |_idx|
-  username = 'A' + Faker::Internet.username(6..10)
-  ensure_user(username, :artist, :active, :with_art, lastname: 'A' + username)
+  username = "A#{Faker::Internet.username(6..10)}"
+  ensure_user(username, :artist, :active, :with_art, lastname: "A#{username}")
 end

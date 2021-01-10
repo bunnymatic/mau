@@ -13,7 +13,7 @@ class Medium < ApplicationRecord
   def hashtag
     return name.parameterize.underscore unless /^painting/i.match?(name)
 
-    name.split('-').map(&:strip).reverse.join('').downcase
+    name.split('-').map(&:strip).reverse.join.downcase
   end
 
   def self.options_for_select

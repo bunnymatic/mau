@@ -42,7 +42,7 @@ module Admin
     GRAPH_LOOKBACK = '1 YEAR'
 
     def compute_art_piece_count_histogram
-      sql = <<-SQL
+      sql = <<-SQL.squish
         select bucket, count(*) as ct
         from (
            select count(*) as bucket

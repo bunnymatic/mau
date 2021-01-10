@@ -14,7 +14,7 @@ end
 
 Then(/^I see "([^"]*)" in the search results$/) do |keyword|
   within 'search-results' do
-    expect(page).to have_content(/#{keyword}/i)
+    expect(page).to have_content(/#{Regexp.quote(keyword)}/i)
   end
 end
 

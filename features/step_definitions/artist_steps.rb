@@ -15,7 +15,7 @@ end
 Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
   wait_until do
     title = all('.title').map(&:text).join
-    /#{new_title}/i =~ title
+    /#{Regexp.quote(new_title)}/i =~ title
   end
   within '.title' do
     expect(page).to_not have_content 'Mona Lisa'

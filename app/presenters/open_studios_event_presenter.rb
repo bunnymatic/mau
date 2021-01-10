@@ -24,7 +24,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def time_range
-    (model.start_time + ' &mdash; ' + model.end_time).html_safe
+    "#{model.start_time} &mdash; #{model.end_time}".html_safe
   end
 
   def title
@@ -32,20 +32,18 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def link_text
-    date_range + ' ' + model.start_date.strftime('%Y')
+    "#{date_range} #{model.start_date.strftime('%Y')}"
   end
 
   def date_range_with_year
-    date_range + ' ' + year.to_s
+    "#{date_range} #{year}"
   end
 
   def date_range(separator: '-')
     return model.start_date.strftime('%b %-d') if same_day
 
     if same_month
-      model.start_date.strftime('%b') +
-        ' ' +
-        model.start_date.strftime('%-d') + separator + model.end_date.strftime('%-d')
+      "#{model.start_date.strftime('%b')} #{model.start_date.strftime('%-d')}#{separator}#{model.end_date.strftime('%-d')}"
     else
       model.start_date.strftime('%b %-d') + separator + model.end_date.strftime('%b %-d')
     end

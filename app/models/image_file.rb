@@ -13,7 +13,7 @@ class ImageFile
   end
 
   def image_paths(image_info)
-    file_match = Regexp.new(destfile + '$')
+    file_match = Regexp.new("#{destfile}$")
     %i[large medium small thumb].index_with do |sz|
       image_info.path.gsub(file_match, MauImage::ImageSize.find(sz).prefix + destfile)
     end

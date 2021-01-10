@@ -16,9 +16,9 @@ class FavoritesCollectionPresenter < ViewPresenter
 
   def title
     if current_user_is_user?
-      safe_join([(link_to 'My', url_helpers.user_path(current_user)) + ' Favorites'])
+      safe_join([(link_to 'My', url_helpers.user_path(current_user)), ' Favorites'])
     else
-      safe_join([(link_to "#{user.get_name}'s", url_helpers.user_path(user)) + ' Favorites'])
+      safe_join([(link_to "#{user.get_name}'s", url_helpers.user_path(user)), ' Favorites'])
     end
   end
 

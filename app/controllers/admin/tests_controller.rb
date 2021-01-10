@@ -42,7 +42,7 @@ module Admin
       f = Rails.root.join("public/#{base_file}")
       FileUtils.mkdir_p(File.dirname(f))
       Qr4r.encode(params['string_to_encode'], f.to_s, opts)
-      @qrfile = '/' + base_file
+      @qrfile = "/#{base_file}"
     end
 
     def react_with_typescript; end

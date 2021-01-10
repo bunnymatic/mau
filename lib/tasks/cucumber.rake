@@ -11,7 +11,7 @@ unless ARGV.any? { |a| a.starts_with?('gems') } # Don't load anything when runni
   vendored_cucumber_bin = Dir[
     Rails.root.join('vendor/{gems,plugins}/cucumber*/bin/cucumber')
   ].first
-  $LOAD_PATH.unshift(File.dirname(vendored_cucumber_bin) + '/../lib') unless vendored_cucumber_bin.nil?
+  $LOAD_PATH.unshift("#{File.dirname(vendored_cucumber_bin)}/../lib") unless vendored_cucumber_bin.nil?
 
   begin
     require 'cucumber/rake/task'

@@ -21,12 +21,12 @@ class ApplicationEventQuery
     return if val.blank?
 
     @since = begin
-               if val.respond_to?(:strftime)
-                 val
-               else
-                 Time.zone.parse(val).to_date
-               end
-             end
+      if val.respond_to?(:strftime)
+        val
+      else
+        Time.zone.parse(val).to_date
+      end
+    end
   end
 
   def number_of_records=(val)

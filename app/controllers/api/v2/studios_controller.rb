@@ -6,10 +6,10 @@ module Api
       respond_to :json, :xml
       def show
         studio = StudioService.find(params[:id])
-        if !studio
-          head 400
-        else
+        if studio
           render jsonapi: studio
+        else
+          head 400
 
         end
       end

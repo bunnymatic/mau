@@ -61,7 +61,7 @@ describe AdminEmailList do
 
     it 'gets artists without profile images' do
       emails
-      expect(active_relation).to have_received(:where).with('profile_image is null')
+      expect(active_relation).to have_received(:where).with({ profile_image: nil })
     end
   end
 
@@ -131,7 +131,7 @@ describe AdminEmailList do
       artists.last.open_studios_events << os2019
     end
 
-    its(:csv_filename) { is_expected.to eql 'email_' + listname.join('_') + '.csv' }
+    its(:csv_filename) { is_expected.to eql "email_#{listname.join('_')}.csv" }
 
     it 'returns emails that have been in both open studios' do
       expect(emails.map(&:email)).to match_array [artists.first.email, artists.last.email]

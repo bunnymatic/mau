@@ -14,7 +14,7 @@ class StudioImage < ProfileImage
 
     # get path for image of size
     # size should be either "thumb","small", or "medium"
-    dir = '/studiodata/' + studio.id.to_s + '/profile/'
+    dir = "/studiodata/#{studio.id}/profile/"
     if studio.profile_image?
       fname = File.basename(studio.profile_image)
       ImageFile.get_path(dir, size, fname)

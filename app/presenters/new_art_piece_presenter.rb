@@ -86,7 +86,7 @@ class NewArtPiecePresenter
   end
 
   def current_os_end
-    current_os? && Time.zone.parse(current_open_studios.end_date + ' 18:00:00')
+    current_os? && Time.zone.parse("#{current_open_studios.end_date} 18:00:00")
   end
 
   def current_os_start

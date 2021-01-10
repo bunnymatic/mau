@@ -22,7 +22,7 @@
 #
 #
 
-require File.dirname(__FILE__) + '/../config/environment'
+require "#{File.dirname(__FILE__)}/../config/environment"
 require 'fcgi_handler'
 
 RailsFCGIHandler.process! '/usr/local/apache/logs/railsfcgi_crash.log'
