@@ -76,21 +76,21 @@ GEM
       request_store (~> 1.0)
     awesome_print (1.8.0)
     aws-eventstream (1.1.0)
-    aws-partitions (1.320.0)
-    aws-sdk-core (3.96.1)
+    aws-partitions (1.415.0)
+    aws-sdk-core (3.110.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.31.0)
-      aws-sdk-core (~> 3, >= 3.71.0)
+    aws-sdk-kms (1.40.0)
+      aws-sdk-core (~> 3, >= 3.109.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.66.0)
-      aws-sdk-core (~> 3, >= 3.96.1)
+    aws-sdk-s3 (1.87.0)
+      aws-sdk-core (~> 3, >= 3.109.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.1.3)
-      aws-eventstream (~> 1.0, >= 1.0.2)
+    aws-sigv4 (1.2.2)
+      aws-eventstream (~> 1, >= 1.0.2)
     backports (3.17.2)
     better_errors (2.9.1)
       coderay (>= 1.0.0)
@@ -238,8 +238,6 @@ GEM
     htmlentities (4.3.4)
     i18n (1.8.7)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.10.0)
-      activesupport (>= 5.0.0)
     jmespath (1.4.0)
     json (2.5.1)
     jsonapi-deserializable (0.2.0)
@@ -275,7 +273,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.0512)
+    mime-types-data (3.2020.1104)
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
@@ -377,7 +375,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.4)
-    rqrcode_core (0.1.2)
+    rqrcode_core (0.2.0)
     rspec-collection_matchers (1.2.0)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.10.1)
@@ -423,7 +421,7 @@ GEM
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.2)
     rubyzip (2.3.0)
-    scout_apm (2.6.10)
+    scout_apm (4.0.0)
       parser
     scrypt (3.0.7)
       ffi-compiler (>= 1.0, < 2.0)
@@ -536,7 +534,6 @@ DEPENDENCIES
   geokit-rails
   gibbon
   htmlentities
-  jbuilder
   jsonapi-rails
   launchy
   letter_opener
@@ -568,7 +565,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rails
-  scout_apm (~> 2.6)
+  scout_apm
   scrypt
   selenium-webdriver
   shoulda-matchers

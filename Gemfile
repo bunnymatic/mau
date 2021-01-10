@@ -19,7 +19,6 @@ gem 'geokit'
 gem 'geokit-rails'
 gem 'gibbon' # mailchimp connect
 gem 'htmlentities'
-gem 'jbuilder' # non-html output (rss, atom)
 gem 'jsonapi-rails'
 gem 'listen'
 gem 'lograge'
@@ -72,7 +71,7 @@ group :development do
   gem 'capistrano3-puma',   require: false
   gem 'letter_opener'
   gem 'rails_best_practices'
-  gem "scout_apm", "~> 2.6"
+  gem "scout_apm"
   gem 'spring'
   gem 'spring-commands-rspec'
   #gem 'unicorn-rails'
