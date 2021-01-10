@@ -1,9 +1,6 @@
 Lint/DuplicateBranch:
   Enabled: false
 
-Lint/NoReturnInBeginEndBlocks:
-  Enabled: false
-
 Style/OptionalBooleanParameter:
   Enabled: false
 
