@@ -16,6 +16,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   include OpenStudiosEventShim
 
   def initialize(os_event)
+    super()
     @model = os_event
   end
 

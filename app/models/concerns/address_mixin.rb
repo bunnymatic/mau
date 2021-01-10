@@ -25,7 +25,7 @@ module AddressMixin
     respond_to?(:addr_state) ? addr_state : state
   end
 
-  def compute_geocode(force = false)
+  def compute_geocode(force: false)
     return unless (should_recompute? || force) && address.present?
 
     begin

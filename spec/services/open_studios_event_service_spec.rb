@@ -29,7 +29,7 @@ describe OpenStudiosEventService do
       expect(service.for_display('201104')).to eql '2011 Apr'
     end
     it 'reverses the date given reverse = true' do
-      expect(service.for_display('201104', true)).to eql 'Apr 2011'
+      expect(service.for_display('201104', reverse: true)).to eql 'Apr 2011'
     end
   end
 
@@ -43,7 +43,7 @@ describe OpenStudiosEventService do
   describe '.parse_key' do
     it 'returns the year month as a string and can return it reversed' do
       expect(service.parse_key('201410')).to eql '2014 Oct'
-      expect(service.parse_key('201410', true)).to eql 'Oct 2014'
+      expect(service.parse_key('201410', reverse: true)).to eql 'Oct 2014'
     end
   end
 

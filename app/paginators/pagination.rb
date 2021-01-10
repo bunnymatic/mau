@@ -6,6 +6,7 @@ class Pagination < ViewPresenter
   attr_reader :per_page
 
   def initialize(array, current, per_page, opts = nil)
+    super()
     raise PaginationError, 'per_page must be present and greater than 0' unless per_page&.to_i&.positive?
 
     @array = array

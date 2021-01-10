@@ -6,6 +6,7 @@ class MediaCloudPresenter < ViewPresenter
   delegate :medium_path, to: :url_helpers
 
   def initialize(selected)
+    super()
     @media = MediaService.media_sorted_by_frequency
     @selected = selected
   end

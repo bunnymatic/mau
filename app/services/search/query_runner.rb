@@ -2,7 +2,7 @@
 
 module Search
   class QueryRunner
-    def initialize(query = nil, _include_highlight = true)
+    def initialize(query = nil, _include_highlight: true)
       @query = query
     end
 

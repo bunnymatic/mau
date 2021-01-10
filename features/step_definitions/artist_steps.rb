@@ -223,7 +223,7 @@ end
 
 Then(/^I see open studios artists on the artists list$/) do
   expect(page).to have_css '.artist-card'
-  expect(page).to have_css 'h2', text: "Artists in #{OpenStudiosEventService.current.for_display(true)} Open Studios"
+  expect(page).to have_css 'h2', text: "Artists in #{OpenStudiosEventService.current.for_display(reverse: true)} Open Studios"
 end
 
 Then(/^the meta description includes the artist's bio$/) do

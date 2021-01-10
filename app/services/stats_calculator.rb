@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
+require 'delegate'
 class StatsCalculator
-  class Histogram < Hash
+  class Histogram < SimpleDelegator
     class ValueError < StandardError; end
 
     def initialize(hash = nil)
       raise ValueError, "#{hash.inspect} is not a valid histogram initalize (Hash required)" if hash.present? && !hash.is_a?(Hash)
 
-      merge!(hash || {})
+      super(hash || Hash.new { 0 })
     end
 
     def add(val)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 When /I click on the current open studios link/ do
-  os_link_text = OpenStudiosEventService.current.for_display(true)
+  os_link_text = OpenStudiosEventService.current.for_display(reverse: true)
   click_on_first os_link_text
 end
 

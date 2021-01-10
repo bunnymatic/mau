@@ -9,6 +9,7 @@ class AdminEmailList < ViewPresenter
   attr_accessor :list_names
 
   def initialize(list_names)
+    super()
     @list_names = [list_names].flatten.map(&:to_s)
   end
 
@@ -121,7 +122,7 @@ class AdminEmailList < ViewPresenter
     [
       csv_safe(artist.firstname),
       csv_safe(artist.lastname),
-      artist.get_name(false),
+      artist.get_name(escape: false),
       artist.email,
       artist.studio ? artist.studio.name : '',
     ] + available_open_studios_keys.map do |os_tag|

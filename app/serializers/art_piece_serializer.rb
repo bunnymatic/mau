@@ -30,7 +30,7 @@ class ArtPieceSerializer < MauSerializer
   has_one :medium
 
   attribute :artist_name do
-    @object.artist.get_name(true)
+    @object.artist.get_name(escape: true)
   end
 
   attribute :favorites_count do

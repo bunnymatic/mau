@@ -100,7 +100,7 @@ class ArtPiece < ApplicationRecord
     tags.uniq_by(&:name)
   end
 
-  def get_name(escape = false)
+  def get_name(escape: false)
     escape ? safe_title : title
   end
 

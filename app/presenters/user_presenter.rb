@@ -34,6 +34,7 @@ class UserPresenter < ViewPresenter
            allow_nil: true
 
   def initialize(user)
+    super()
     @model = user
   end
 

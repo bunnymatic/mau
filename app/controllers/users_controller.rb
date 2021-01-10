@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     end
     redirect_to(artist_path(@fan)) && return if @fan.artist?
 
-    @page_title = PageInfoService.title(sprintf('Fan: %s', @fan.get_name(true)))
+    @page_title = PageInfoService.title(sprintf('Fan: %s', @fan.get_name(escape: true)))
     @fan = UserPresenter.new(@fan)
   end
 
@@ -284,10 +284,7 @@ class UsersController < ApplicationController
     elsif scammer_emails.include? note_info['email']
       note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect scammer email address'
-    elsif /Morning,I would love to purchase/i.match?(note_info['comment'])
-      note_info['artist_id'] = id
-      note_info['reason'] = 'matches suspect spam intro'
-    elsif /\s+details..i/i.match?(note_info['comment'])
+    elsif /Morning,I would love to purchase/i.match?(note_info['comment']) || /\s+details..i/i.match?(note_info['comment'])
       note_info['artist_id'] = id
       note_info['reason'] = 'matches suspect spam intro'
     end

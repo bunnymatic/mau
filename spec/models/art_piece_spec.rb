@@ -31,4 +31,12 @@ describe ArtPiece do
       art_piece.save
     end
   end
+
+  describe 'get_name' do
+    it 'allows escaping' do
+      ap = FactoryBot.build(:art_piece, title: "\"Hey\" That's Joe's")
+      escaped = ap.get_name(escape: true)
+      expect(escaped).to eq(HtmlEncoder.encode(ap.get_name))
+    end
+  end
 end

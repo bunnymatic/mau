@@ -6,6 +6,7 @@ class TagCloudPresenter < ViewPresenter
   MAX_SHOW_TAGS = 40
 
   def initialize(selected)
+    super()
     @all_tags = ArtPieceTagService.tags_sorted_by_frequency
     @selected = selected
   end
