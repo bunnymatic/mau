@@ -9,6 +9,7 @@ class AdminEmailList < ViewPresenter
   attr_accessor :list_names
 
   def initialize(list_names)
+    super()
     @list_names = [list_names].flatten.map(&:to_s)
   end
 

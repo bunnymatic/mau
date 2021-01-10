@@ -6,6 +6,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
   attr_reader :next_img, :prev_img, :current_index
 
   def initialize(artist, current_piece)
+    super()
     @artist = artist
     @current_piece = current_piece
     thumbs # need this to init current index etc

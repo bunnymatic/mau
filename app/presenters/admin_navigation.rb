@@ -4,6 +4,7 @@ class AdminNavigation < ViewPresenter
   attr_reader :current_user
 
   def initialize(user)
+    super()
     @current_user = user
   end
 

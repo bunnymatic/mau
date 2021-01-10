@@ -10,6 +10,7 @@ class StudioPresenter < ViewPresenter
            :city, :street, :cross_street, :url, :url?, :to_param, to: :studio
 
   def initialize(studio)
+    super()
     @studio = studio
   end
 

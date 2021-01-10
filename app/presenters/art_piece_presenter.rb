@@ -6,6 +6,7 @@ class ArtPiecePresenter < ViewPresenter
   delegate :id, :year, :photo, :medium, :artist, :title, :updated_at, :to_param, to: :model
 
   def initialize(model)
+    super()
     @model = model
   end
 

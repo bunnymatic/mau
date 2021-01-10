@@ -6,6 +6,7 @@ class ArtistsPresenter < ViewPresenter
   attr_reader :os_only
 
   def initialize(os_only = nil)
+    super()
     @os_only = !!os_only
   end
 

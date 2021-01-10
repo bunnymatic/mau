@@ -6,6 +6,7 @@ class FavoritesCollectionPresenter < ViewPresenter
   include Enumerable
 
   def initialize(user, current_user = nil)
+    super()
     @user = user
     @current_user = current_user
   end
