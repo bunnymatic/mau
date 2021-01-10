@@ -74,7 +74,8 @@ describe UserPresenter do
 
   describe '#links_html' do
     it 'shows html links' do
-      expect(presenter.links_html.join).to match(/#{user.links.first}/)
+      links = Nokogiri::HTML(presenter.links_html.first)
+      expect(links.css("a[href=\"#{user.links.first[1]}\"] i")).to have(1).item
     end
   end
 

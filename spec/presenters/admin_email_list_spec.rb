@@ -61,7 +61,7 @@ describe AdminEmailList do
 
     it 'gets artists without profile images' do
       emails
-      expect(active_relation).to have_received(:where).with('profile_image is null')
+      expect(active_relation).to have_received(:where).with({ profile_image: nil })
     end
   end
 
