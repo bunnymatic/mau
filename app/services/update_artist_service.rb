@@ -67,7 +67,7 @@ class UpdateArtistService
 
   def trigger_os_signup_event(participating)
     msg = "#{@artist.full_name} set their os status to" \
-          " #{participating} for #{@current_os.for_display(true)} open studios"
+          " #{participating} for #{@current_os.for_display(reverse: true)} open studios"
     data = { 'user' => @artist.login, 'user_id' => @artist.id }
     OpenStudiosSignupEvent.create(message: msg,
                                   data: data)

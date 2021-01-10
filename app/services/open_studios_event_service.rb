@@ -6,25 +6,25 @@ class OpenStudiosEventService
   FUTURE_CACHE_KEY = :future_os_events
   PAST_CACHE_KEY = :past_os_events
 
-  def self.for_display(os_key, reverse = false)
+  def self.for_display(os_key, reverse: false)
     os = find_by_key(os_key)
-    return os.for_display(reverse) if os
+    return os.for_display(reverse: reverse) if os
 
-    parse_key(os_key, reverse) || 'n/a'
+    parse_key(os_key, reverse: reverse) || 'n/a'
   end
 
   def self.date(os_key)
     os = find_by_key(os_key)
     return os.start_date if os
 
-    parsed = parse_key(os_key, true)
+    parsed = parse_key(os_key, reverse: true)
     return Time.zone.parse(parsed) if parsed
 
     # fallback
     Time.zone.now - 10.years
   end
 
-  def self.parse_key(os_key, reverse = false)
+  def self.parse_key(os_key, reverse: false)
     return nil if os_key.blank?
 
     os_key = os_key.to_s
@@ -79,8 +79,8 @@ class OpenStudiosEventService
     OpenStudiosEvent.where(*args)
   end
 
-  def self.find_by_key(key, use_cache = true)
-    if use_cache
+  def self.find_by_key(key, cached: true)
+    if cached
       event = SafeCache.read(event_cache_key(key))
       unless event
         event = OpenStudiosEvent.find_by(key: key)

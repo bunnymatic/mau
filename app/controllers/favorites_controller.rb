@@ -25,7 +25,7 @@ class FavoritesController < ApplicationController
     begin
       obj = FavoritesService.get_object(type, id)
       result = FavoritesService.add(current_user, obj)
-      msg = "#{obj.get_name(true)} has been added to your favorites."
+      msg = "#{obj.get_name(escape: true)} has been added to your favorites."
       msg = "We love you too, but you can't favorite yourself." unless result
       render(json: { message: msg }) && return
     rescue InvalidFavoriteTypeError, NameError
@@ -42,7 +42,7 @@ class FavoritesController < ApplicationController
       render json: { message: 'Removed a favorite' }
       nil
     else
-      flash[:notice] = "#{obj.get_name(true)} has been removed from your favorites."
+      flash[:notice] = "#{obj.get_name(escape: true)} has been removed from your favorites."
       redirect_to(request.referer || root_path)
     end
   rescue InvalidFavoriteTypeError => e

@@ -7,6 +7,7 @@ AllCops:
   # include more directories.
   TargetRubyVersion: 2.5
   NewCops: enable
+  SuggestExtensions: false
 
   Exclude:
     - .spec

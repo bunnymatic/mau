@@ -1,6 +1,6 @@
 / expects artist
 .artist-card(class=%w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4 pure-u-xl-1-5).join(" "))
-  = link_to artist_path(artist), title: artist.get_name(true)
+  = link_to artist_path(artist), title: artist.get_name(escape: true)
     - if artist.doing_open_studios?
       .os-violator title="Open Studios Participant!"
     .image style=background_image_style(artist.representative_piece.path)

@@ -122,10 +122,8 @@ class User < ApplicationRecord
     full_name || login
   end
 
-  def get_name(htmlsafe = false)
-    return full_name unless htmlsafe
-
-    HtmlEncoder.encode(full_name)
+  def get_name(escape: false)
+    escape ? HtmlEncoder.encode(full_name) : full_name
   end
 
   def sortable_name

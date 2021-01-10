@@ -1,4 +1,5 @@
 .admin.users,
+.admin.mau_fans,
 .admin.artists {
   .no-address {
     font-size: 0.8rem;
@@ -20,15 +21,8 @@
     }
   }
   table {
-    font-size: 85%;
     td.date-field {
       white-space: nowrap;
-    }
-    .user-state {
-      font-size: 150%;
-      .tooltip-content {
-        font-size: 75%;
-      }
     }
     .forgot-password-link,
     .activation-link {

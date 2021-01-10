@@ -1,8 +1,5 @@
 Lint/DuplicateBranch:
   Enabled: false
 
-Style/OptionalBooleanParameter:
-  Enabled: false
-
 Lint/UnexpectedBlockArity:
   Enabled: false

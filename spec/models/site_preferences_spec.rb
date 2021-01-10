@@ -24,7 +24,7 @@ RSpec.describe SitePreferences, type: :model do
         allow(SitePreferences).to receive(:first)
         allow(SitePreferences).to receive(:create)
         allow(SafeCache).to receive(:read).and_return(build_stubbed(:site_preferences).to_json)
-        SitePreferences.instance(true)
+        SitePreferences.instance(check_cache: true)
         expect(SitePreferences).to_not have_received(:first)
         expect(SitePreferences).to_not have_received(:create)
       end

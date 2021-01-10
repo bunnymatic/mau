@@ -1,6 +1,6 @@
 / expects artist
 .artist-card class=class_overrides
-  = link_to artist_path(artist), title: artist.get_name(true)
+  = link_to artist_path(artist), title: artist.get_name(escape: true)
     - if artist.doing_open_studios?
       .os-violator title="Open Studios Participant!"
     .image style=background_image_style(artist.representative_piece.path)

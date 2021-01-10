@@ -51,7 +51,7 @@ class ArtistsController < ApplicationController
 
   def update_os_status_message(status, artist, os_event)
     if status
-      "Thanks for participating in Open Studios #{os_event.for_display(true)}!\n"\
+      "Thanks for participating in Open Studios #{os_event.for_display(reverse: true)}!\n"\
       "Please confirm your studio address: #{artist.address}.\n"\
       "Look for an email with more info.\n"\
       "It's FREE to participate, we are completely donation and volunteer supported."
@@ -202,7 +202,7 @@ class ArtistsController < ApplicationController
   def active_artist_from_params
     artist = safe_find_artist(params[:id])
     if artist && !artist.active?
-      flash.now[:error] = "The artist '#{artist.get_name(true)}' is no longer with us."
+      flash.now[:error] = "The artist '#{artist.get_name(escape: true)}' is no longer with us."
       artist = nil
     end
     artist
@@ -211,7 +211,7 @@ class ArtistsController < ApplicationController
   def build_page_description(artist)
     if artist
       trim_bio = (artist.bio || '').truncate(500)
-      return "Mission Artists Artist : #{artist.get_name(true)} : " + trim_bio if trim_bio.present?
+      return "Mission Artists Artist : #{artist.get_name(escape: true)} : " + trim_bio if trim_bio.present?
     end
     @page_description
   end
@@ -267,8 +267,8 @@ class ArtistsController < ApplicationController
     artist_names = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless artist_names
       artist_names = Artist.active.map do |a|
-        name = a.get_name(true)
-        { 'value' => a.get_name(true), 'info' => a.id } if name.present?
+        name = a.get_name(escape: true)
+        { 'value' => name, 'info' => a.id } if name.present?
       end.compact
       SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, expires_in: AUTOSUGGEST_CACHE_EXPIRY) if artist_names.present?
     end

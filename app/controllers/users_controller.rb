@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     end
     redirect_to(artist_path(@fan)) && return if @fan.artist?
 
-    @page_title = PageInfoService.title(sprintf('Fan: %s', @fan.get_name(true)))
+    @page_title = PageInfoService.title(sprintf('Fan: %s', @fan.get_name(escape: true)))
     @fan = UserPresenter.new(@fan)
   end
 

@@ -61,7 +61,7 @@ class NewArtPiecePresenter
   end
 
   def custom_tags
-    (SitePreferences.instance(true).social_media_tags || '').split(/,|\s/).select(&:present?)
+    (SitePreferences.instance(check_cache: true).social_media_tags || '').split(/,|\s/).select(&:present?)
   end
 
   def base_tags
