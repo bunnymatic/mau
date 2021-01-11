@@ -81,8 +81,21 @@ Once you think things are running, you can try running the test suite:
 
     rake
 
+## Development
 
-# Git Flow and Committing code
+### React
+
+As we move to React (from angular/jquery), here is the way to add a new component.
+
+* Add a component file in `webpack/reactjs/components`
+* When the component is ready and tested, if it will be mounted by Rails with `react_component`, add it to the registry (`webpack/reactjs/components/index.js`).  This file will compartmentalize the imports of the components that Rails needs to know about.  Testing should use `react-testing-library` which is already installed.  Test files can sit next the component and should be suffixed with `.test.ts` or `.test.tsx` as appropriate
+* Add it to a view using `react_component` helper
+```
+ = react_component(id: "the-dom-tag-id", component: "MyNewComponent", props: { whatever: "props you need" })
+```
+* If you need styles, add a scss file under `stylesheets/gto/components/ with the same name as the component, then add that import to `stylesheets/gto/components/index.scss` (we don't have scss globs setup)
+* If it's shareable, add it to the `react_styleguide.slim` page under `/admin/tests/`
+
 
 Here is the preferred git flow for adding to the code:
 
@@ -149,11 +162,11 @@ will push the `master` branches respectively to the `mau.rcode5.com` or `www`.
 
 # Supported Browsers
 
-We keep track of the supported list in `app/assets/stylesheets/.browserlistrc`.   This is used by 
+We keep track of the supported list in `app/assets/stylesheets/.browserlistrc`.   This is used by
 `autoprefixer-rails`.  We also have a `supported_browser?` method which is reading a local list
 of browsers which should use the same rules.
 
-To generate a new `browsers.json` file, run 
+To generate a new `browsers.json` file, run
 
 ```bash
 yarn install
@@ -176,7 +189,3 @@ You'll need to create a `config/config.keys.yml` file - use config.keys.yml.exam
 * Facebook App - '1568875043351573',
 * Google Maps - keys under rcode5 google accounts
 * Google ReCaptcha - key under bunnymatic google account - should be moved
-
-
-
-

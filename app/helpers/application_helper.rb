@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Used by javascript automount to find all react components
+REACT_COMPONENT_CLASS = 'react-component'
+
 module ApplicationHelper
   def application_body_class(controller, body)
     [controller, body].flatten.compact.uniq.join ' '
@@ -27,9 +30,8 @@ module ApplicationHelper
     "background-image: url(\"#{img}\");"
   end
 
-  def react_component(name, props)
-    tag(:div, { id: name, data: { react_props: props } }) do
-    end
+  def react_component(id:, component:, props: {}, wrapper_tag: 'div')
+    tag.send(wrapper_tag, { id: id, "class": REACT_COMPONENT_CLASS, data: { component: component, react_props: props } }) {}
   end
 
   if Gem::Version.new(Rails.version) < Gem::Version.new('6.1.0')

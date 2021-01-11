@@ -52,6 +52,7 @@ import "./vendor/bootstrap/transition";
 import "./vendor/bootstrap/tab";
 import "./vendor/bootstrap/collapse";
 import "./globals";
+import "@reactjs";
 
 import ujs from "@rails/ujs";
 ujs.start();

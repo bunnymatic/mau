@@ -2,11 +2,19 @@
 @import "variables";
 @import url("//fonts.googleapis.com/css?family=Raleway:200,300,500,700,900");
 
-html body {
+html {
   color: $gto_gray;
-  * {
-    font-family: $font;
-  }
+}
+
+html * {
+  font-family: $font;
+}
+
+html pre,
+code,
+kbd,
+samp {
+  font-family: monospace;
 }
 
 p {

@@ -102,7 +102,7 @@ Mau::Application.routes.draw do
       post :qr
       get :social_icons
       get :map
-      get :react_with_typescript
+      get :react_styleguide
     end
 
     get :os_status
