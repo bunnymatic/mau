@@ -79,11 +79,14 @@
   },
   "jest": {
     "moduleFileExtensions": [
+      "ts",
+      "tsx",
       "js",
       "html"
     ],
     "transform": {
-      "^.+\\.js$": "babel-jest",
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "babel-jest",
       "^.+\\.html$": "<rootDir>/jest/support/html_loader.js"
     },
     "transformIgnorePatterns": [

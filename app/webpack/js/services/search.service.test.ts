@@ -1,31 +1,24 @@
-import "angular-mocks";
-import "./search.service";
+import * as searchService from "./search.service";
 
 import { api } from "@js/services/api";
+import { describe, it } from "@jest/globals";
 import expect from "expect";
 
 jest.mock("@js/services/api");
 
-describe("mau.services.searchService", function () {
-  let service;
+describe("mau.services.searchService", function() {
   const successPayload = ["search_results"];
 
   beforeEach(() => {
     jest.resetAllMocks();
   });
-  beforeEach(angular.mock.module("mau.services"));
-  beforeEach(
-    angular.mock.inject(function (searchService) {
-      service = searchService;
-    })
-  );
-  describe(".query", function () {
-    it("calls the apps search endpoint", function () {
+  describe(".query", function() {
+    it("calls the apps search endpoint", function() {
       api.search.query = jest.fn().mockResolvedValue(successPayload);
       const query = "the query string";
       const extras = { whatever: "man" };
       const expectedParams = { q: query, ...extras };
-      const response = service.query({
+      const response = searchService.query({
         query,
         ...extras,
       });
@@ -35,25 +28,25 @@ describe("mau.services.searchService", function () {
       });
     });
 
-    it("returns empty array if there is no query", function () {
+    it("returns empty array if there is no query", function() {
       const query = "";
       const extras = { whatever: "man" };
-      const response = service.query({
+      const response = searchService.query({
         query,
         ...extras,
       });
-      response.then(function (data) {
+      response.then(function(data) {
         expect(api.search.query).not.toHaveBeenCalled();
         expect(data).toEqual([]);
       });
     });
 
-    it("when there is an error it raises", function () {
+    it("when there is an error it raises", function() {
       const query = "the query string";
       const extras = { whatever: "man" };
       const expectedParams = { q: query, ...extras };
       api.search.query = jest.fn().mockRejectedValue(new Error("oops"));
-      const response = service.query({
+      const response = searchService.query({
         query,
         ...extras,
       });
@@ -62,7 +55,7 @@ describe("mau.services.searchService", function () {
           // should not end up here
           expect(true).toEqual(false);
         })
-        .catch(function (_data) {
+        .catch(function(_data) {
           expect(api.search.query).toHaveBeenCalledWith(expectedParams);
           expect(_data).toEqual(new Error("oops"));
         });
