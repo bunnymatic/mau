@@ -89,15 +89,6 @@
   }
 }
 
-.sticky-gallery-paginator {
-  @media (min-width: $screen-sm-max) {
-    position: sticky;
-    top: 90px;
-    z-index: 1;
-    background-color: $base-background-color;
-  }
-}
-
 .favorites.index,
 .users.show,
 .search-results,
@@ -109,29 +100,6 @@
   @include search-filter;
   .title .letter {
     text-transform: uppercase;
-  }
-  .name-switcher,
-  .gallery-paginator {
-    margin-top: -15px;
-    @media (min-width: $screen-md-min) {
-      display: inline-block;
-    }
-    .page a {
-      text-transform: uppercase;
-    }
-    .page:last-of-type {
-      margin-right: 20px;
-    }
-  }
-  .name-switcher {
-    text-align: left;
-    vertical-align: top;
-    display: block;
-    margin-top: 8px;
-    @media (min-width: $screen-md-min) {
-      margin-top: -3px;
-      display: inline-block;
-    }
   }
   .header .title {
     .os-violator {
