@@ -15,7 +15,8 @@ class ArtistsPresenter < ViewPresenter
       begin
         base_artists = Artist.active.includes(:studio, :artist_info, :art_pieces, :open_studios_events)
         if os_only
-          base_artists.in_the_mission.select(&:doing_open_studios?)
+          OpenStudiosEvent.current.artists.active.in_the_mission
+          # base_artists.in_the_mission.select(&:doing_open_studios?)
         else
           base_artists
         end.sort_by(&:sortable_name)
