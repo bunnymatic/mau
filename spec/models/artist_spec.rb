@@ -90,7 +90,7 @@ describe Artist do
       it 'returns empty for address' do
         expect(nobody.send(:address)).to be_empty
       end
-      it { expect(nobody).to_not be_address }
+      it { expect(nobody.address).to be_empty }
     end
   end
   describe 'in_the_mission?' do
@@ -100,7 +100,6 @@ describe Artist do
         allow(artist_without_studio.artist_info).to receive(:lng).and_return(-122.41)
       end
       it 'returns true' do
-        expect(artist_without_studio).to be_address
         expect(artist_without_studio).to be_in_the_mission
       end
     end
@@ -112,24 +111,22 @@ describe Artist do
         allow(artist.studio).to receive(:lng).and_return(-122.41)
       end
       it 'returns true' do
-        expect(artist).to be_address
         expect(artist).to be_in_the_mission
       end
     end
     it 'returns false for artist with wayout address' do
-      expect(wayout_artist).to be_address
+      expect(wayout_artist.address).to be_present
       expect(wayout_artist).to_not be_in_the_mission
     end
     context 'for artist not in the mission but in a studio in the mission' do
       before do
         studio = FactoryBot.create(:studio)
+        # don't update lat in factory because `compute_geocode` takes over
+        studio.update(lat: 37.75, lng: -122.41)
         wayout_artist.update studio: studio
         wayout_artist.reload
-        allow(wayout_artist.studio).to receive(:lat).and_return(37.75)
-        allow(wayout_artist.studio).to receive(:lng).and_return(-122.41)
       end
       it 'returns true' do
-        expect(wayout_artist).to be_address
         expect(wayout_artist).to be_in_the_mission
       end
     end
@@ -144,10 +141,10 @@ describe Artist do
       let(:artist_info) { artist_without_studio.artist_info }
 
       it 'returns correct street' do
-        expect(artist_info.street).to eql artist.street
+        expect(artist_info.street).to eql artist_without_studio.address.street
       end
       it 'returns correct address' do
-        expect(artist_without_studio.address.to_s).to include artist.street
+        expect(artist_without_studio.address.to_s).to include artist_without_studio.address.street
       end
       it 'returns correct lat/lng' do
         expect(artist_info.lat).to be
@@ -162,8 +159,8 @@ describe Artist do
         expect(artist.address.to_s).to eql studio.address.to_s
       end
       it 'returns correct lat/lng' do
-        expect(artist.lat).to be_within(0.001).of(studio.lat)
-        expect(artist.lng).to be_within(0.001).of(studio.lng)
+        expect(artist.address.lat).to be_within(0.001).of(studio.lat)
+        expect(artist.address.lng).to be_within(0.001).of(studio.lng)
       end
     end
   end

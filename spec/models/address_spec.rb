@@ -3,35 +3,27 @@
 require 'rails_helper'
 
 describe Address do
-  let(:artist) { create :artist }
+  let(:artist_info) { create(:artist).artist_info }
   let(:studio) { create :studio }
-  let(:model) { Artist.new }
+  let(:model) { ArtistInfo.new }
   subject(:address) { described_class.new(model) }
 
-  describe 'for an artist' do
+  describe 'for an artist_info' do
     context 'with an address' do
-      let(:model) { artist }
+      let(:model) { artist_info }
 
       its(:geocoded?) { is_expected.to eq true }
-      its(:street) { is_expected.to eq artist.street }
-      its(:city) { is_expected.to eq artist.city }
-      its(:state) { is_expected.to eq artist.addr_state }
-      its(:lat) { is_expected.to eq artist.lat }
-      its(:lng) { is_expected.to eq artist.lng }
-      its(:to_s) { is_expected.to eq([artist.street, '94110'].join(' ')) }
+      its(:street) { is_expected.to eq artist_info.street }
+      its(:city) { is_expected.to eq artist_info.city }
+      its(:state) { is_expected.to eq artist_info.addr_state }
+      its(:lat) { is_expected.to eq artist_info.lat }
+      its(:lng) { is_expected.to eq artist_info.lng }
+      its(:to_s) { is_expected.to eq([artist_info.street, '94110'].join(' ')) }
       its(:present?) { is_expected.to eq true }
       its(:empty?) { is_expected.to eq false }
-
-      context 'who is in a studio' do
-        let(:model) { create :artist, studio: studio }
-
-        it 'returns the address information of the studio' do
-          expect(address).to eq studio.address
-        end
-      end
     end
     context 'without an address' do
-      let(:model) { create :artist, :without_address }
+      let(:model) { create(:artist, :without_address).artist_info }
 
       its(:geocoded?) { is_expected.to eq false }
       its(:street) { is_expected.to be_blank }

@@ -18,7 +18,7 @@ describe ArtistSerializer do
     it 'includes a bunch of default attributes' do
       expect(parsed_artist[:firstname]).to eql artist.firstname
       expect(parsed_artist[:full_name]).to eql artist.full_name
-      expect(parsed_artist[:street_address]).to eql artist.street
+      expect(parsed_artist[:street_address]).to eql artist.address.street
       expect(parsed_artist[:city]).to eql artist.address.city
       expect(parsed_artist[:map_url]).to eql artist.map_link
     end

@@ -14,7 +14,6 @@ class ArtistPresenter < UserPresenter
            :==,
            :active?,
            :address,
-           :address?,
            :artist?,
            :artist_info,
            :at_art_piece_limit?,
@@ -116,11 +115,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def map_url
-    if model.studio
-      model.studio.map_link
-    else
-      model.map_link
-    end
+    @map_url ||= model.map_link
   end
 
   def map_info

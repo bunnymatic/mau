@@ -6,9 +6,7 @@ class Artist < User
   MAX_PIECES = 20
 
   include MissionBoundaries
-  include AddressMixin
   include OpenStudiosEventShim
-
   include Elasticsearch::Model
 
   extend FriendlyId
@@ -89,17 +87,17 @@ class Artist < User
   has_many :art_pieces, -> { order(position: :asc, created_at: :desc) }, inverse_of: :artist
 
   %i[
-    addr_state
     bio
     bio=
-    city
-    lat
-    lng
     max_pieces
-    street
-    zipcode
   ].each do |delegat|
     delegate delegat, to: :artist_info, allow_nil: true
+  end
+
+  delegate :full_address, :map_link, to: :address_holder, allow_nil: true
+
+  def address
+    address_holder&.address
   end
 
   def at_art_piece_limit?
@@ -118,7 +116,7 @@ class Artist < User
   end
 
   def in_the_mission?
-    return false unless address?
+    return false unless address.present? && address.geocoded?
 
     within_bounds?(address.lat, address.lng)
   end
@@ -148,13 +146,13 @@ class Artist < User
     @representative_art_cache_key ||= CacheKeyService.representative_art(self)
   end
 
-  protected
+  private
 
-  def call_address_method(method)
-    if (studio_id != 0) && studio
-      studio.send method
+  def address_holder
+    if studio
+      studio
     elsif artist_info
-      artist_info.send method
+      artist_info
     end
   end
 end

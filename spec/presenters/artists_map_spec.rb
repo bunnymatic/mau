@@ -28,8 +28,8 @@ describe ArtistsMap do
       expect(map_data).to have(2).items
       expected_data = artists.map do |a|
         {
-          'lat' => a.lat,
-          'lng' => a.lng,
+          'lat' => a.address.lat,
+          'lng' => a.address.lng,
           'artistId' => a.id,
           'artistName' => a.full_name,
           'infowindow' => ArtistPresenter.new(a).map_info,
@@ -43,7 +43,7 @@ describe ArtistsMap do
     describe '#grouped_by_address' do
       it 'returns artists grouped by address' do
         expected = map.artists.map do |a|
-          a.address.to_s if a.address?
+          a.address.to_s if a.address.present?
         end.compact.uniq
         expect(subject.grouped_by_address.size).to eq(expected.count)
       end
@@ -51,7 +51,7 @@ describe ArtistsMap do
 
     describe '#with_addresses' do
       it 'returns all artists with addresses' do
-        expect(subject.with_addresses.count).to eq map.artists.count(&:address?)
+        expect(subject.with_addresses.count).to eq(map.artists.count { |a| a.address.present? })
       end
     end
 

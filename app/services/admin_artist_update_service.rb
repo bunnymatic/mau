@@ -43,7 +43,7 @@ class AdminArtistUpdateService
 
     # return ternary - nil if the artist was skipped, else true if the artist setting was changed, false if not
     def update_artist_os_standing(artist, current_os, doing_it)
-      return nil unless artist.address?
+      return nil if artist.address.blank?
       return false if artist.doing_open_studios? == doing_it
 
       if doing_it
