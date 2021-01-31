@@ -28,4 +28,22 @@ describe StudioPresenter do
       expect(presenter.formatted_phone).to eql '(415) 617-1234'
     end
   end
+
+  describe 'open_studios_artists' do
+    let(:all_os_artists) do
+      [
+        create(:artist, doing_open_studios: true),
+        create(:artist, studio: studio, doing_open_studios: true),
+      ]
+    end
+    before do
+      create(:open_studios_event, :future)
+      all_os_artists
+    end
+    it 'returns all open studios artists in this studio' do
+      expect(Artist.count).to eq 5
+      expect(presenter.artists.count).to eq 2
+      expect(presenter.open_studios_artists).to eq [all_os_artists[1]]
+    end
+  end
 end
