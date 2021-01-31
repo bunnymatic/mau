@@ -140,6 +140,7 @@ FactoryBot.define do
       after(:create) do |artist|
         studio = Studio.first || FactoryBot.create(:studio)
         artist.update studio: studio
+        artist.update artist_info_attributes: { lat: nil, lng: nil }
       end
     end
   end

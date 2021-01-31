@@ -48,8 +48,8 @@ class AdminArtistList < ViewPresenter
       csv_safe(artist.firstname),
       csv_safe(artist.lastname),
       artist.get_name,
-      artist.studio ? artist.studio.name : '',
-      artist.address.street,
+      artist.studio&.name || '',
+      artist.address&.street || '',
       artist.studionumber,
       artist.email,
     ]

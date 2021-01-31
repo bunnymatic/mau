@@ -27,7 +27,7 @@
                 = link_to artist.studio_name, artist.studio
               .studio-address
                 | #{artist.address.street} #{artist.studio_number}
-                - if artist.address?
+                - if artist.address.present?
                   = link_to artist.map_url, title: :map, class: 'map-link' do
                     i.fa.fa-map-marker
                 .studio-city #{artist.studio.city}
@@ -35,7 +35,7 @@
               .studio-name #{IndependentStudio.new.name.singularize}
               .studio-address
                 | #{artist.address.street}
-                - if artist.address?
+                - if artist.address.present?
                   = link_to artist.map_url, title: :map, class: 'map-link' do
                     i.fa.fa-map-marker
                   .studio-city #{artist.address.city}

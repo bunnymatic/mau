@@ -33,8 +33,8 @@ class ArtistsMap < ArtistsPresenter
 
   def map_marker(artist)
     {
-      lat: artist.lat,
-      lng: artist.lng,
+      lat: artist.address.lat,
+      lng: artist.address.lng,
       infowindow: artist.map_info,
       artistId: artist.id,
       artistName: artist.full_name,

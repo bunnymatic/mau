@@ -4,8 +4,6 @@ class Address
   attr_reader :lat, :lng, :street, :city, :state, :zipcode
 
   def initialize(model)
-    model = with_studio?(model) ? model.studio : model
-
     @lat = model.lat
     @lng = model.lng
     @street = model.street
@@ -43,10 +41,6 @@ class Address
   end
 
   private
-
-  def with_studio?(model)
-    model.respond_to?(:studio_id) && model.studio
-  end
 
   def get_state(model)
     return model.addr_state if model.respond_to?(:addr_state)
