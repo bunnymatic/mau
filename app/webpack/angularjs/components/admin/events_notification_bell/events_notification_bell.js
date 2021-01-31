@@ -14,7 +14,6 @@ const controller = ngInject(function (
     since: since.toISO(),
   })
     .then(function (data) {
-      console.log(data);
       $scope.hasNotifications = some(data);
       $scope.$apply();
     })
