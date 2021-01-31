@@ -35,15 +35,15 @@ class StudioPresenter < ViewPresenter
   end
 
   def profile_image?
-    @studio.get_profile_image(:small).present?
+    studio.get_profile_image(:small).present?
   end
 
   def image(size = 'small')
-    @studio.get_profile_image(size) || '/images/default-studio.png'
+    studio.get_profile_image(size) || '/images/default-studio.png'
   end
 
   def street_with_cross
-    [@studio.street, ("(@ #{studio.cross_street})" if @studio.cross_street?)].compact.join(' ')
+    [studio.street, ("(@ #{studio.cross_street})" if studio.cross_street?)].compact.join(' ')
   end
 
   def artists_count_label
@@ -66,7 +66,7 @@ class StudioPresenter < ViewPresenter
   def open_studios_artists
     return Artist.none if OpenStudiosEventService.current.blank?
 
-    OpenStudiosEventService.current.artists
+    OpenStudiosEventService.current.artists.where(studio: studio)
   end
 
   def artists_with_art?
