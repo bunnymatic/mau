@@ -65,9 +65,8 @@ namespace :deploy do
     end
   end
 
-  after :publishing, :es_reindex
-  after :publishing, :restart
   after 'deploy:published', 'bundler:clean'
+  after :finished, 'deploy:es_reindex', 'cache:clear', 'deploy:restart'
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -90,5 +89,3 @@ namespace :cache do
     end
   end
 end
-
-after 'deploy:updated', 'cache:clear'
