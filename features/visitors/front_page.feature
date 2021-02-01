@@ -19,3 +19,8 @@ Scenario:  Visiting the home page
   And the page meta name "keywords" includes "art is the mission"
   And the page meta name "keywords" includes "artists"
   And the page meta name "keywords" includes "san francisco"
+  And I can get to the about page from the footer
+  And I can get to the privacy page from the footer
+  And I can get to the contact page from the footer
+  And I can send feedback via the footer link
+  And I can see the credits from the footer link

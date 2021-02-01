@@ -1,5 +1,7 @@
+import { FC } from "react";
 import { Welcome } from "./admin/tests/welcome";
 import { Mailer } from "./mailer";
+import { CreditsModal } from './credits_modal';
 
 class UnregisteredComponentError extends Error {
   constructor(message) {
@@ -13,8 +15,10 @@ this serves as the registry.  All react components
 that will be mounted at their root should be included here.
 **/
 export const reactComponents = {
+  CreditsModal,
   Mailer,
   Welcome,
+
 };
 
 export const lookup = (componentName: string): FC<any> => {

@@ -58,3 +58,24 @@
                 pre
                   code
                     | = react_component id: 'welcome', component: "Welcome", props: {message: "Here's your secret message"}
+
+  .pure-u-1-1.padded-content
+    .pure-g
+      .pure-u-1-1
+        h3 CreditsModal
+    .pure-g
+      .pure-u-1-1
+        table.pure-table
+          thead
+            tr
+              th Component
+              th Code Sample
+          tbody
+            tr
+              td
+                p Not including here. It should not be shared and is only built for the main app because it depends on application styling/classnames.
+              td
+                pre
+                  code
+                    | = react_component id: 'credits-modal', component: "CreditsModal",
+                      props: {version: "1.0 Premiere Version"}

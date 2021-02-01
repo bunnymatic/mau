@@ -295,3 +295,51 @@ Then(/^the page meta property "([^"]*)" includes "([^"]*)"$/) do |tag, content|
   entry = find "head meta[property='#{tag}']", visible: false
   expect(entry['content']).to include content
 end
+
+Then(/^I can get to the about page from the footer$/) do
+  within '.sidenav__footer .fine-print-links' do
+    click_on 'about'
+    expect(current_path).to eq '/about'
+    page.go_back
+  end
+end
+
+Then(/^I can get to the privacy page from the footer$/) do
+  within '.sidenav__footer .fine-print-links' do
+    click_on 'privacy'
+    expect(current_path).to eq '/privacy'
+    page.go_back
+  end
+end
+
+Then(/^I can get to the contact page from the footer$/) do
+  within '.sidenav__footer .fine-print-links' do
+    click_on 'contact'
+    expect(current_path).to eq '/contact'
+    page.go_back
+  end
+end
+
+Then(/^I can send feedback via the footer link$/) do
+  within '.sidenav__footer .fine-print-links' do
+    click_on 'feedback'
+  end
+  step %(I fill out and submit the feedback form)
+end
+
+Then(/^I can see the credits from the footer link$/) do
+  within '.sidenav__footer .fine-print-links' do
+    click_on 'credits'
+  end
+  expect(page).to have_content 'Built at MAU Headquarters'
+  click_on 'close'
+  expect(page).not_to have_content 'Built at MAU Headquarters'
+end
+
+When(/^I fill out and submit the feedback form$/) do
+  within '#feedback' do
+    fill_in 'Email', with: 'whomever@example.com'
+    fill_in 'Comment', with: 'This site rules!'
+    click_on 'Send'
+  end
+end
