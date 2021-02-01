@@ -17,7 +17,6 @@ import "@components/notify_mau/notify_mau";
 import "@components/art_pieces_browser/art_pieces_browser";
 import "@components/search_results/search_hit";
 import "@components/search_results/search_results";
-import "@components/credits_link/credits_link";
 import "@components/admin/events_notification_bell/events_notification_bell";
 import "@components/medium/medium";
 import "@components/social_buttons/share_button";

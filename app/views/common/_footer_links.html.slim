@@ -10,4 +10,4 @@
     li
       = link_to "contact", contact_path
     li
-      credits-link version-string=revision
+      = react_component id: 'credits-modal', component: "CreditsModal", props: {version: revision}

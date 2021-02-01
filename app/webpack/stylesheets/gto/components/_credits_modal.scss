@@ -3,11 +3,19 @@
 @import "gto/mau_modal";
 @import "colors";
 
-.credits-modal__container {
-  @include mau-modal__window;
+.credits-modal__overlay {
+  @include mau-modal__overlay;
 }
+
+.credits-modal__container {
+  @include mau-modal__container;
+  & {
+    @include popup-elements;
+  }
+}
+
 .credits-modal__img {
   img {
-    width: 384px;
+    width: 100%;
   }
 }
