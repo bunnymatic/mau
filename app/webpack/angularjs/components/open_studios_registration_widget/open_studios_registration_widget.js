@@ -1,4 +1,5 @@
 import ngInject from "@angularjs/ng-inject";
+import { mailToLink } from "@js/services/mailer.service";
 import angular from "angular";
 
 import template from "./index.html";
@@ -9,12 +10,11 @@ const modalController = ngInject(function (
   $element,
   $q,
   $window,
-  mailerService,
   openStudiosRegistrationService
 ) {
   $scope.handleHasQuestions = function () {
     $scope.closeThisDialog();
-    $window.location = mailerService.mailToLink(
+    $window.location = mailToLink(
       "I have questions about registering for Open Studios"
     );
   };
