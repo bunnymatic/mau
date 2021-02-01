@@ -39,12 +39,12 @@ html
         = render '/flash_notice_error'
         = yield
     javascript:
-      jQuery( () => {
+      jQuery( function() {
         new MAU.BackToTop('.back-to-top')
         jQuery('.js-help').each( function(_, el) {
           new MAU.WhatsThisPopup(el);
         });
-      })
+      });
 
   = render '/common/ganalytics'
   = render '/common/footer_javascripts'

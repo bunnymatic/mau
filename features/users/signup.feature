@@ -3,6 +3,8 @@ Feature: As a user I can sign up
 Background:
   Given there is a studio named "1990"
   Given I visit the signup page
+
+@javascript
 Scenario: sign up as a fan
   Given I visit the fan signup page
   When I click "Sign up"
@@ -14,6 +16,7 @@ Scenario: sign up as a fan
   And I click the fan signup button
   Then I see that "billybob" is a new fan
 
+@javascript
 Scenario: sign up as a artist
   Given mailchimp is handled
   When I click "Sign up"
@@ -28,6 +31,7 @@ Scenario: sign up as a artist
   And I click on "Sign up" in the "form"
   Then I see that "billybob" is a new active artist
 
+@javascript
 Scenario: sign up as a artist with a studio
   Given mailchimp is handled
   When I choose "Mission Artist" from "I am a"

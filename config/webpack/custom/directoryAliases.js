@@ -9,6 +9,7 @@ module.exports = {
       "@components": path.resolve(webpackRootDir, "angularjs/components"),
       "@models": "js/app/models",
       "@services": path.resolve(webpackRootDir, "angularjs/services"),
+      "@reactjs": path.resolve(webpackRootDir, "reactjs/"),
     },
   },
 };

@@ -18,7 +18,7 @@
     "ecmaVersion": 9,
     "sourceType": "module"
   },
-  "plugins": ["standard", "simple-import-sort", "prettier"],
+  "plugins": ["standard", "simple-import-sort", "prettier", "jest-dom"],
   "rules": {
     "no-duplicate-imports": ["error", { "includeExports": true }],
     "no-unused-vars": [

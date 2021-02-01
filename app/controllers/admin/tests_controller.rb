@@ -45,6 +45,6 @@ module Admin
       @qrfile = "/#{base_file}"
     end
 
-    def react_with_typescript; end
+    def react_styleguide; end
   end
 end

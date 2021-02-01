@@ -22,14 +22,14 @@ When(/^I change my email to "(.*?)"$/) do |new_email|
 end
 
 Then('I see the secret word email link') do
-  expect(find('mailer[text="contact us via email"]')).to be_present
+  expect(find('#secret-word-mailer a')).to be_present
 end
 
 When(/^I add a photo to upload$/) do
   attach_file 'Photo', Rails.root.join('spec/fixtures/files/profile.png')
 end
 
-When(%r{^I fill in the login form with "([^\/]*)\/([^\"]*)"}) do |login, pass|
+When(%r{^I fill in the login form with "([^/]*)/([^"]*)"}) do |login, pass|
   fill_in_login_form login, pass
 end
 
@@ -46,7 +46,7 @@ When(/^I fill in valid credentials$/) do
 end
 
 Then(/^I see that I'm logged in$/) do
-  expect(page).to have_flash :notice, /you\'re in/i
+  expect(page).to have_flash :notice, /you're in/i
   within('.nav') do
     expect(page).to have_content 'My Account'
   end
