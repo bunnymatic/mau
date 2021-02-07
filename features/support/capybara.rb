@@ -13,8 +13,9 @@ Capybara.register_driver :chrome do |app|
 end
 
 Capybara.register_driver :headless_chrome do |app|
+  args = %w[headless disable-gpu no-sandbox --enable-features=NetworkService,NetworkServiceInProcess]
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w[headless disable-gpu] },
+    chromeOptions: { args: args },
   )
 
   Capybara::Selenium::Driver.new app,
