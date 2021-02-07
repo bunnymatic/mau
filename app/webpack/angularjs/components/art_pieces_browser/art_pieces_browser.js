@@ -91,7 +91,10 @@ const controller = ngInject(function (
     return Boolean($scope.artPiece && $scope.artPiece.medium);
   };
   $scope.hasTags = function () {
-    return Boolean($scope.artPiece && $scope.artPiece.tags);
+    return Boolean($scope.artPiece && some($scope.artPiece.tags));
+  };
+  $scope.hasPrice = function () {
+    return Boolean($scope.artPiece && $scope.artPiece.displayPrice);
   };
   const init = function () {
     var artPieceId, artistId;
@@ -106,10 +109,9 @@ const controller = ngInject(function (
       }),
       api.artPieces.index(artistId).then((data) => {
         $scope.artPieces = data;
-      }),
-      api.artPieces.get(artPieceId).then((data) => {
-        $scope.artPiece = data;
-        $scope.initialArtPiece = data;
+        const currentPiece = data.find((piece) => piece.id === artPieceId);
+        $scope.artPiece = currentPiece;
+        $scope.initialArtPiece = currentPiece;
       }),
     ];
     Promise.all(requests)

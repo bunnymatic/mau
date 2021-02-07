@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class ArtPieceSerializer < MauSerializer
-  attributes :artist_name, :favorites_count,
+  attributes :artist_name, :favorites_count, :price, :display_price,
              :year, :dimensions, :title, :artist_id, :image_urls
-
   # NOTE: image_urls used by angular photo browser
   include ImageFileHelpers
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
+  include ActionView::Helpers::NumberHelper
 
   attribute :image_urls do
     urls = if @object.photo?
@@ -28,6 +28,10 @@ class ArtPieceSerializer < MauSerializer
   has_many :tags
 
   has_one :medium
+
+  attribute :display_price do
+    @object.price && number_to_currency(@object.price)
+  end
 
   attribute :artist_name do
     @object.artist.get_name(escape: true)

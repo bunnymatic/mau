@@ -52,6 +52,7 @@ When(/^I fill out the add art form$/) do
   fill_in 'Title', with: 'Mona Lisa'
   fill_in 'Dimensions', with: '4 x 3'
   fill_in 'Year', with: '1515'
+  fill_in 'Price', with: '100'
   select2 @medium.name, from: 'Medium', exact: true
   select2 'superfragile', 'complimicated', from: 'Tags', tag: true
 end
@@ -60,6 +61,7 @@ Then /^I see that my art was added$/ do
   expect(page).to have_content 'Mona Lisa'
   expect(page).to have_content 'complimicated, superfragile'
   expect(page).to have_content @medium.name
+  expect(page).to have_content '$100'
 end
 
 Then /^I see that my art was not added$/ do

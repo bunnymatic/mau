@@ -9,11 +9,18 @@ describe ArtPieceSerializer do
   let(:parsed_art_piece) { parsed[:data][:attributes] }
   let(:relationships) { parsed[:data][:relationships] }
 
+  include ActionView::Helpers::NumberHelper
+
   describe 'to_json' do
     it 'includes the fields we care about' do
       %i[title artist_id year image_urls artist_name].each do |expected|
         expect(parsed_art_piece).to have_key expected
       end
+    end
+
+    it 'includes price and formatted price' do
+      expect(parsed_art_piece[:price]).to eq art_piece.price
+      expect(parsed_art_piece[:display_price]).to eq number_to_currency(art_piece.price)
     end
 
     it 'includes paths to the images' do
