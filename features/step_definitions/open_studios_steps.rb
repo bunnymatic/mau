@@ -142,3 +142,14 @@ Then(/^I see stars for all open studios participants$/) do
   participants = OpenStudiosParticipant.count
   expect(page).to have_css('.fa.fa-star', count: participants)
 end
+
+When('I visit the first artist\'s open studios page') do
+  @artist = Artist.active.joins(:open_studios_events).first
+  visit artist_open_studios_path(@artist)
+end
+
+Then('I see that artist\'s open studios pieces') do
+  expect(page).to have_content(@artist.name)
+  expect(@artist.art_pieces).to have_at_least(1).art_piece
+  expect(page).to have_css('.art-piece', count: @artist.art_pieces.count)
+end

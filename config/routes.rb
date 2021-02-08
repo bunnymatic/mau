@@ -11,7 +11,7 @@ Mau::Application.routes.draw do
 
   resources :studios, only: %i[index show]
 
-  resource :open_studios, only: [:show] do
+  resources :open_studios, only: [:index] do
     collection do
       get :register
     end
@@ -76,6 +76,7 @@ Mau::Application.routes.draw do
       get :manage_art
       post :notify_featured
       post :update
+      resource :open_studios, only: [:show], as: :artist_open_studios
       # get :qrcode
     end
   end

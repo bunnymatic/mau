@@ -89,6 +89,16 @@
   }
 }
 
+.os-violator--title {
+  background-size: 25px 25px;
+  margin-left: 4px;
+  display: inline-block;
+  vertical-align: middle;
+  height: 28px;
+  width: 28px;
+  background-color: transparent;
+}
+
 .favorites.index,
 .users.show,
 .search-results,
@@ -100,17 +110,6 @@
   @include search-filter;
   .title .letter {
     text-transform: uppercase;
-  }
-  .header .title {
-    .os-violator {
-      background-size: 25px 25px;
-      margin-left: 4px;
-      display: inline-block;
-      vertical-align: middle;
-      height: 28px;
-      width: 28px;
-      background-color: transparent;
-    }
   }
 
   #about,
@@ -385,15 +384,9 @@
       text-align: right;
     }
     .os-violator {
-      position: absolute;
+      @include artist-image-os-violator;
       bottom: 37px;
       right: 2px;
-      display: inline-block;
-      background-image: url("../../../images/os_violator.svg");
-      background-color: rgba(245, 245, 245, 0.95);
-      width: 75px;
-      height: 80px;
-      background-size: contain;
     }
   }
   .artist-profile__image {

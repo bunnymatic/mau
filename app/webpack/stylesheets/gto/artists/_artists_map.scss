@@ -1,5 +1,7 @@
 @import "mau-mixins";
 @import "gto/gto-mixins";
+
+.open_studios.index,
 .open_studios.show,
 .artists.map_page {
   #map-canvas {
@@ -9,12 +11,6 @@
   .map__artist {
     @include ellipsis;
   }
-  /* offset for cluster count */
-  /* .cluster { */
-  /*   > div[aria-label] { */
-  /*     top: 10px; */
-  /*   } */
-  /* } */
   .gm-style-iw {
     min-width: 260px !important;
     overflow: visible !important;
