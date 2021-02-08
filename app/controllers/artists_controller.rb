@@ -156,15 +156,7 @@ class ArtistsController < ApplicationController
 
   def update
     if request.xhr?
-      open_studios_event = OpenStudiosEvent.current
-      os_status = UpdateArtistService.new(current_artist, os_status_params).update_os_status
-      message = update_os_status_message(os_status, current_artist, open_studios_event)
-      render json: {
-        success: true,
-        os_status: os_status,
-        current_os: OpenStudiosEventService.current,
-        message: message,
-      }
+      handle_xhr_update
     else
       if commit_is_cancel
         redirect_to user_path(current_user)
@@ -177,12 +169,26 @@ class ArtistsController < ApplicationController
       else
         @user = ArtistPresenter.new(current_artist.reload)
         @studios = StudioService.all
+        @artist_info = current_artist.artist_info
+        @open_studios_event = OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
         render :edit
       end
     end
   end
 
   protected
+
+  def handle_xhr_update
+    open_studios_event = OpenStudiosEvent.current
+    os_status = UpdateArtistService.new(current_artist, os_status_params).update_os_status
+    message = update_os_status_message(os_status, current_artist, open_studios_event)
+    render json: {
+      success: true,
+      os_status: os_status,
+      current_os: OpenStudiosEventService.current,
+      message: message,
+    }
+  end
 
   def safe_find_artist(id)
     Artist.friendly.find id

@@ -136,7 +136,7 @@ Then(/^I see that the studio "(.*?)" has an artist called "(.*?)"$/) do |studio_
 end
 
 Then(/^I see an error in the form "(.*?)"$/) do |msg|
-  within 'form' do
+  within first('form', minimum: 1) do
     expect(page).to have_selector '.error', text: msg
   end
 end
