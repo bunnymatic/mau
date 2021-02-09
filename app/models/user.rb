@@ -17,7 +17,6 @@ class User < ApplicationRecord
   validates :email, format: { with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE }
   validates :firstname, length: { maximum: 100, allow_nil: true }
   validates :lastname, length: { maximum: 100, allow_nil: true }
-
   validates :password,
             confirmation: { if: :require_password? },
             length: {
@@ -43,9 +42,11 @@ class User < ApplicationRecord
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
   validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :"photo?"
+  validates :phone, phone_number: true
 
   include User::Authentication
   include User::Authorization
+  include PhoneNumberMixin
 
   scope :fan, -> { where.not(type: 'Artist') }
   scope :active, -> { where(state: :active) }
@@ -211,6 +212,7 @@ class User < ApplicationRecord
   def normalize_attributes
     self.login = login.try(:downcase)
     self.email = email.try(:downcase)
+    self.phone = normalize_phone_number(phone)
   end
 
   def notify_user_about_state_change

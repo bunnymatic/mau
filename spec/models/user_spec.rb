@@ -11,11 +11,6 @@ describe User, elasticsearch: :stub do
   let(:manager) { FactoryBot.create(:artist, :manager, :with_studio) }
   let(:editor) { FactoryBot.create(:artist, :editor) }
   let(:managing_editor) { FactoryBot.create(:artist, :manager, :editor) }
-  let!(:roles) do
-    FactoryBot.create :role, :admin
-    FactoryBot.create :role, :editor
-    FactoryBot.create :role, :manager
-  end
 
   subject(:user) { FactoryBot.build(:user, :active) }
 
@@ -44,6 +39,13 @@ describe User, elasticsearch: :stub do
 
   it { is_expected.to validate_length_of(:firstname).is_at_most(100) }
   it { is_expected.to validate_length_of(:lastname).is_at_most(100) }
+
+  it 'validates and cleans phone number on validate' do
+    user = FactoryBot.build(:user)
+    user.phone = '1 (415) 123 - 4567'
+    expect(user).to be_valid
+    expect(user.phone).to eq '14151234567'
+  end
 
   context '.login_or_email_finder' do
     let!(:artist) { create :artist, login: 'whatever_yo', email: 'yo_whatever@example.com' }
@@ -129,10 +131,6 @@ describe User, elasticsearch: :stub do
     end
   end
   describe 'new' do
-    it 'validates' do
-      expect(user).to be_valid
-    end
-
     context 'with a bad email' do
       it "should not allow 'bogus email' for email address" do
         user = FactoryBot.build(:user, email: 'bogus email')
@@ -208,6 +206,12 @@ describe User, elasticsearch: :stub do
   end
 
   describe 'roles' do
+    let!(:roles) do
+      FactoryBot.create :role, :admin
+      FactoryBot.create :role, :editor
+      FactoryBot.create :role, :manager
+    end
+
     it 'without admin role user is not admin' do
       expect(artist).not_to be_admin
     end

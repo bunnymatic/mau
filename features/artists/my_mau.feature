@@ -14,8 +14,8 @@ Scenario: I can edit my profile
 
   When I click on "Personal Info"
   And I update my personal information with:
-  | artist_firstname | artist_lastname |
-  | joe              | 蕭秋芬          |
+  | artist_firstname | artist_lastname | artist_phone            |
+  | joe              | 蕭秋芬           | 1 (415) 555 1212 |
   And I click on "Save Changes"
 
   Then I see a flash notice including "has been updated"
@@ -24,8 +24,8 @@ Scenario: I can edit my profile
 
   When I click on "Personal Info"
   Then I see my updated personal information as:
-  | artist_firstname | artist_lastname |
-  | joe              | 蕭秋芬          |
+  | artist_firstname | artist_lastname | artist_phone           |
+  | joe              | 蕭秋芬           | 415.555.1212        |
 
   When I update my personal information with:
   | artist_firstname |
@@ -64,3 +64,30 @@ Scenario: I can update my os status
   And I see the registration dialog
   And I click on "Yes" in the ".ngdialog"
   Then I see the update my registration message
+
+Scenario: I can see when I make a mistake
+  When I visit my artist profile edit page
+  Then I see my profile edit form
+
+  When I click on "Personal Info"
+  And I update my personal information with:
+  | artist_email   | artist_phone |
+  |                |  123 44      |
+  And I click on "Save Changes"
+
+  Then I see a flash error including "We had trouble updating your profile."
+  Then I see an error in the form "can't be blank"
+  Then I see an error in the form "10 or 11 digits"
+
+  When I close the flash
+  And I update my personal information with:
+  | artist_email               | artist_phone   |
+  | leodvinci@example.com     | 1 234 444 5555 |
+  And I click on "Save Changes"
+
+  When I click on "Personal Info"
+  And I see my updated personal information as:
+  | artist_email               | artist_phone   |
+  | leodvinci@example.com     | 234.444.5555     |
+
+  Then I see a flash notice including "has been updated"

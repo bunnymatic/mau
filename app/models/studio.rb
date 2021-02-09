@@ -2,6 +2,7 @@
 
 require 'uri'
 class Studio < ApplicationRecord
+  include PhoneNumberMixin
   include AddressMixin
   include Geokit::ActsAsMappable
 
@@ -22,7 +23,7 @@ class Studio < ApplicationRecord
     end
   end
 
-  before_save :normalize_phone_number
+  before_validation :normalize_attributes
   before_create :compute_geocode
   before_update :compute_geocode
   after_commit :add_to_search_index, on: :create
@@ -50,6 +51,7 @@ class Studio < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { case_sensitive: true }
   validates :street, presence: true
+  validates :phone, phone_number: true, allow_nil: true
 
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
@@ -77,10 +79,6 @@ class Studio < ApplicationRecord
     slug || id
   end
 
-  def normalize_phone_number
-    phone&.gsub!(/\D+/, '')
-  end
-
   def as_indexed_json(_opts = {})
     idxd = as_json(only: %i[name slug])
     extras = {}
@@ -102,5 +100,9 @@ class Studio < ApplicationRecord
 
   def image_paths
     @image_paths ||= StudioImage.paths(self)
+  end
+
+  def normalize_attributes
+    self.phone = normalize_phone_number(phone)
   end
 end

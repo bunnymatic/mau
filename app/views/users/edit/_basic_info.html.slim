@@ -1,3 +1,4 @@
+/ expects form and model as inputs
 .panel-heading
   h4.panel-title
     = link_to 'Personal Info', '#info', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
@@ -13,6 +14,8 @@
         .pure-u-1-1.pure-u-sm-1-2
           = form.input :login, label: 'Username'
           = form.input :email, placeholder: 'e.g. leoDaVinci@example.com'
+          - if model.class == Artist
+            = form.input :phone, hint: "We will never show this or use this without your permission", input_html: { value: pretty_phone_number(model.phone)}
     .pure-g
       .pure-u-1-1
         = form.actions do

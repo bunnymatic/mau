@@ -1,3 +1,4 @@
+@javascript
 Feature: MAU Fans
   As an fan
   I can see my page with my art and a menu of useful actions
@@ -5,7 +6,6 @@ Feature: MAU Fans
 Background:
   Given I login as a fan
 
-@javascript
 Scenario:
   When I visit my user profile edit page
   Then I see my fan profile edit form
@@ -28,3 +28,23 @@ Scenario:
   And I click "Save Changes"
   And I click on "Profile Picture"
   Then I see that I have a new profile picture
+
+Scenario: I can update my account info even if i make a mistake first
+  When I visit my user profile edit page
+  Then I see my fan profile edit form
+
+  When I click on "Personal Info"
+  And I update my personal information with:
+  | user_firstname | user_lastname | user_email |
+  | joe            | blow          |     |
+  And I click on "Save Changes"
+
+  Then I see a flash error including "We had trouble updating your profile."
+  And I see an error in the form "can't be blank"
+
+  When I close the flash
+  And I update my personal information with:
+  | user_firstname | user_lastname | user_email |
+  | joe            | blow          | superfan@example.com |
+  And I click on "Save Changes"
+  Then I see a flash notice including "has been updated"
