@@ -80,9 +80,15 @@
         </h4>
         <div class="tags">
           <span ng-repeat="tag in artPiece.tags" repeater-delimiter=","
-            ><art-piece-tag tag="tag"></art-piece-tag>
+          ><art-piece-tag tag="tag"></art-piece-tag>
           </span>
         </div>
+      </div>
+      <div class="desc__item ngwrapper" ng-if="hasPrice()">
+        <h4 class="art-piece__info-title">
+          Price
+        </h4>
+        <div class="price" ng-bind-html="artPiece.displayPrice">div>
       </div>
     </section>
     <div class="push">

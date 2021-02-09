@@ -14,6 +14,8 @@ class ArtPiece < ApplicationRecord
                                     content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
                                     message: 'Only JPEG, PNG, and GIF images are allowed'
   validates :artist_id, presence: true
+  validates :price, numericality: { greater_than_or_equal_to: 0.01 }, allow_nil: true
+
   include Elasticsearch::Model
 
   # after_destroy :remove_images

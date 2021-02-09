@@ -9,6 +9,7 @@
     = f.input :year, placeholder: "e.g. 2013"
     = f.input :medium, as: :select, collection: Medium.options_for_select
     = f.input :tags, input_html: { value: tags_to_s(art_piece.tags) }, multiple: true
+    = f.input :price
   = f.actions do
     = f.submit "Add", class: "pure-button button-large pure-button-primary"
     a.pure-button href=artist_path(artist) Cancel
