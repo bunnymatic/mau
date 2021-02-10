@@ -62,14 +62,16 @@ class UsersController < ApplicationController
       redirect_to user_path(current_user)
       return
     end
-    msg = {}
     if current_user.update(user_params)
       Messager.new.publish "/artists/#{current_user.id}/update", 'updated artist info'
-      msg['notice'] = 'Your profile has been updated'
+      flash[:notice] = 'Your profile has been updated'
+      redirect_to edit_user_url(current_user)
     else
-      msg['error'] = ex.to_s
+      flash[:error] = 'We had trouble updating your profile.'
+      @user = UserPresenter.new(current_user)
+
+      render :edit
     end
-    redirect_to edit_user_url(current_user), flash: msg
   end
 
   def create

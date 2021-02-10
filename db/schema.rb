@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_07_014036) do
+ActiveRecord::Schema.define(version: 2021_02_09_033016) do
 
   create_table "application_events", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "type"
@@ -280,6 +280,7 @@ ActiveRecord::Schema.define(version: 2021_02_07_014036) do
     t.integer "photo_file_size"
     t.datetime "photo_updated_at"
     t.text "links"
+    t.string "phone"
     t.index ["last_request_at"], name: "index_users_on_last_request_at"
     t.index ["login"], name: "index_artists_on_login", unique: true
     t.index ["persistence_token"], name: "index_users_on_persistence_token"

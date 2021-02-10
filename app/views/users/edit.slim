@@ -7,7 +7,7 @@
     #user-accordion.panel-group
       = semantic_form_for @user.model, url: user_path(@user.model), html: { class: 'js-edit-artist-form primary-form', multipart: true } do |form|
         .panel.panel-default
-          = render '/users/edit/basic_info', form: form
+          = render '/users/edit/basic_info', form: form, model: @user.model
         .panel.panel-default
           = render '/users/edit/profile_picture', form: form
         .panel.panel-default
@@ -21,4 +21,5 @@
 javascript:
   jQuery(function () {
     new MAU.AccordionShowSectionGivenHash();
+    new MAU.AccordionShowSectionWithErrors();
   });
