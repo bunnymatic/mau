@@ -17,8 +17,11 @@ class OpenStudiosController < ApplicationController
   end
 
   def show
-    artist = active_artist_from_params
+    artist = Artist.active.joins(:open_studios_events).friendly.find(params[:id])
     @artist = ArtistPresenter.new(artist) if artist&.doing_open_studios?
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = "It doesn't look like that artist is doing open studios" unless artist
+    redirect_to open_studios_path
   end
 
   def register
@@ -28,17 +31,5 @@ class OpenStudiosController < ApplicationController
       store_location(register_for_current_open_studios_artists_path)
       redirect_to sign_in_path
     end
-  end
-
-  private
-
-  def active_artist_from_params
-    artist = begin
-      Artist.active.joins(:open_studios_events).friendly.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      nil
-    end
-    flash.now[:error] = "We couldn't find who you were looking for" unless artist
-    artist
   end
 end
