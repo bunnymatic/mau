@@ -1,4 +1,5 @@
 @import "mau-mixins";
+@import "gto/gto-mixins";
 
 art-pieces-browser {
   .art-piece,
@@ -22,15 +23,9 @@ art-pieces-browser {
     .artist__image {
       position: relative;
       .os-violator {
-        position: absolute;
+        @include artist-image-os-violator;
         bottom: 2px;
         right: 2px;
-        display: inline-block;
-        background-image: url("../../../images/os_violator.svg");
-        background-color: rgba(245, 245, 245, 0.95);
-        width: 75px;
-        height: 80px;
-        background-size: contain;
       }
       @media screen and (max-width: $screen-xs-max) {
         display: none;
