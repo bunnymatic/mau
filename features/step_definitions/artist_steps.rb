@@ -46,6 +46,16 @@ Then(/^I see that my art tags are:$/) do |data|
   end
 end
 
+Then('I see that my art is marked sold') do
+  expect(page).to have_css('.desc__item--sold')
+end
+
+Then('I see the sold checkmark is checked') do
+  within 'form' do
+    expect(page).to have_css('#art_piece_sold[checked]')
+  end
+end
+
 When(/^I fill out the add art form$/) do
   @medium = Medium.first
   attach_file 'Photo', Rails.root.join('spec/fixtures/files/art.png')

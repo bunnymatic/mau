@@ -16,6 +16,7 @@
         = f.input :medium, as: :select, collection: [['None', 0]] + @media.map{|u| [u.name,u.id]}
         = f.input :tags, input_html: { value: tags_to_s(@art_piece.tags) }, multiple: true
         = f.input :price
+        = f.input :sold, as: :boolean, input_html: { checked: @art_piece.sold_at.present? }
       = f.actions do
         = f.submit 'Update', class: 'pure-button button-large pure-button-primary'
         = f.submit 'Cancel', class: 'pure-button button-large'

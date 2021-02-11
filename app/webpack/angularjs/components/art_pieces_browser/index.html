@@ -84,11 +84,11 @@
           </span>
         </div>
       </div>
-      <div class="desc__item ngwrapper" ng-if="hasPrice()">
+      <div ng-class="{'desc__item': true, ngwrapper: true, 'desc__item--sold': wasSold()}" ng-if="hasPrice() || wasSold()">
         <h4 class="art-piece__info-title">
           Price
         </h4>
-        <div class="price" ng-bind-html="artPiece.displayPrice">div>
+        <div class="price" ng-bind-html="artPiece.displayPrice"/>
       </div>
     </section>
     <div class="push">

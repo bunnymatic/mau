@@ -40,4 +40,24 @@ describe ArtPiece do
       expect(escaped).to eq(HtmlEncoder.encode(ap.get_name))
     end
   end
+
+  describe 'sold' do
+    it 'sets sold_at to now if true when you save' do
+      freeze_time do
+        now = Time.current
+        art_piece.sold = true
+        art_piece.save
+        art_piece.reload
+        expect(art_piece.sold_at).to eq now
+      end
+    end
+
+    it 'sets sold_at to nil if it was set and then sold is marked false' do
+      art_piece.update({ sold_at: Time.current })
+      art_piece.sold = false
+      art_piece.save
+      art_piece.reload
+      expect(art_piece.sold_at).to be_nil
+    end
+  end
 end
