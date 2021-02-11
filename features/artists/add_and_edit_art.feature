@@ -34,3 +34,15 @@ Scenario: "Editing Art"
   And I see that my art tags are:
     | new tag | other tag |
   And I see a flash notice "art has been updated"
+
+  When I click on "My Art" in the sidebar menu
+  And I click on "edit"
+  And I click on the first "edit this art" button
+  And I check "Sold"
+  And I click "Update"
+  Then I see that my art is marked sold
+
+  When I click on "My Art" in the sidebar menu
+  And I click on "edit"
+  And I click on the first "edit this art" button
+  Then I see the sold checkmark is checked

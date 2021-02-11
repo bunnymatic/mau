@@ -2,7 +2,7 @@
 
 class ArtPieceSerializer < MauSerializer
   attributes :artist_name, :favorites_count, :price, :display_price,
-             :year, :dimensions, :title, :artist_id, :image_urls
+             :year, :dimensions, :title, :artist_id, :image_urls, :sold_at
   # NOTE: image_urls used by angular photo browser
   include ImageFileHelpers
   include Rails.application.routes.url_helpers

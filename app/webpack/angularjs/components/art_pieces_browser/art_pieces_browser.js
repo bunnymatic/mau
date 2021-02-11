@@ -96,6 +96,10 @@ const controller = ngInject(function (
   $scope.hasPrice = function () {
     return Boolean($scope.artPiece && $scope.artPiece.displayPrice);
   };
+  $scope.wasSold = function () {
+    return Boolean($scope.artPiece && $scope.artPiece.soldAt);
+  };
+
   const init = function () {
     var artPieceId, artistId;
     artistId = $attrs.artistId;

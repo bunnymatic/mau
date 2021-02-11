@@ -13,7 +13,7 @@ describe ArtPieceSerializer do
 
   describe 'to_json' do
     it 'includes the fields we care about' do
-      %i[title artist_id year image_urls artist_name].each do |expected|
+      %i[title artist_id year image_urls artist_name price sold_at].each do |expected|
         expect(parsed_art_piece).to have_key expected
       end
     end

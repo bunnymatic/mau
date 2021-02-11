@@ -18,6 +18,8 @@ class ArtPiece < ApplicationRecord
 
   include Elasticsearch::Model
 
+  attr_accessor :sold
+
   # after_destroy :remove_images
   after_destroy :clear_tags_and_favorites
   after_save :clear_caches
@@ -25,6 +27,10 @@ class ArtPiece < ApplicationRecord
   after_commit :add_to_search_index, on: :create
   after_commit :refresh_in_search_index, on: :update
   after_commit :remove_from_search_index, on: :destroy
+
+  before_save do
+    self.sold_at = sold ? Time.current : nil
+  end
 
   def add_to_search_index
     Search::Indexer.index(self)

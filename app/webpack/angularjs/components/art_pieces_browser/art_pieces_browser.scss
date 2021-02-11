@@ -1,5 +1,6 @@
 @import "mau-mixins";
 @import "gto/gto-mixins";
+@import "colors";
 
 art-pieces-browser {
   .art-piece,
@@ -76,6 +77,19 @@ art-pieces-browser {
   .card__controls,
   .desc {
     flex: 1;
+  }
+  .desc__item--sold {
+    text-decoration: line-through;
+    position: relative;
+    &:after {
+      color: $gto-yellow;
+      content: "SOLD";
+      font-size: 0.8rem;
+      font-weight: bold;
+      position: absolute;
+      top: 1px;
+      right: 1px;
+    }
   }
   .studio,
   .studio-address,
