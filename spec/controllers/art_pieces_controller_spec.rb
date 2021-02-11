@@ -157,7 +157,6 @@ describe ArtPiecesController do
         expect(response).to render_template 'edit'
         expect(assigns(:art_piece).errors.size).to be >= 1
       end
-
       it 'redirects to show page on success' do
         post :update, params: { id: art_piece.id, art_piece: { title: 'new title' } }
         expect(response).to redirect_to art_piece
@@ -186,6 +185,31 @@ describe ArtPiecesController do
         ap = artist2.art_pieces.first
         post :update, params: { id: ap.id, art_piece: { title: 'new title' } }
         expect(response).to redirect_to(ap)
+      end
+      it 'sets sold_at if sold is set' do
+        freeze_time do
+          now = Time.current
+          post :update, params: { id: art_piece.id, art_piece: { sold: '1', title: 'i got updated' } }
+          expect(response).to redirect_to(art_piece)
+          art_piece.reload
+          expect(art_piece.title).to eq 'i got updated'
+          expect(art_piece.reload.sold_at).to eq now
+        end
+      end
+      it 'does not set sold_at if sold is not checked (form sends "0")' do
+        post :update, params: { id: art_piece.id, art_piece: { sold: '0', title: 'the new thing' } }
+        expect(response).to redirect_to(art_piece)
+        art_piece.reload
+        expect(art_piece.sold_at).to be_nil
+        expect(art_piece.title).to eq 'the new thing'
+      end
+      it 'unsets sold_at if sold is not checked (form sends "0")' do
+        art_piece.update(sold_at: Time.current, title: 'the new thing')
+        post :update, params: { id: art_piece.id, art_piece: { sold: '0' } }
+        expect(response).to redirect_to(art_piece)
+        art_piece.reload
+        expect(art_piece.sold_at).to be_nil
+        expect(art_piece.title).to eq 'the new thing'
       end
     end
   end

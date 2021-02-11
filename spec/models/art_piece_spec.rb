@@ -42,10 +42,10 @@ describe ArtPiece do
   end
 
   describe 'sold' do
-    it 'sets sold_at to now if true when you save' do
+    it 'sets sold_at to now if sold = "1" when you save' do
       freeze_time do
         now = Time.current
-        art_piece.sold = true
+        art_piece.sold = '1'
         art_piece.save
         art_piece.reload
         expect(art_piece.sold_at).to eq now
@@ -55,6 +55,14 @@ describe ArtPiece do
     it 'sets sold_at to nil if it was set and then sold is marked false' do
       art_piece.update({ sold_at: Time.current })
       art_piece.sold = false
+      art_piece.save
+      art_piece.reload
+      expect(art_piece.sold_at).to be_nil
+    end
+
+    it 'sets sold_at to nil if sold is not "1"' do
+      art_piece.update({ sold_at: Time.current })
+      art_piece.sold = '0'
       art_piece.save
       art_piece.reload
       expect(art_piece.sold_at).to be_nil

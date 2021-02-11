@@ -28,8 +28,9 @@ class ArtPiece < ApplicationRecord
   after_commit :refresh_in_search_index, on: :update
   after_commit :remove_from_search_index, on: :destroy
 
-  before_save do
-    self.sold_at = sold ? Time.current : nil
+  before_validation do
+    # checkbox from formastic uses '1' for true
+    self.sold_at = sold == '1' ? Time.current : nil
   end
 
   def add_to_search_index
