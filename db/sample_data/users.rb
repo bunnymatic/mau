@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 def ensure_user(login, *factory_args)
   user = User.find_by(login: login)
   return user if User.find_by(login: login)

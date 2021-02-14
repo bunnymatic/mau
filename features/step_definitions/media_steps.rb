@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Then(/^I see the admin media list$/) do
   expect(current_path).to eql admin_media_path
 end

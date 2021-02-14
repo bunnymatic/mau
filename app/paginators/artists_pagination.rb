@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ArtistsPagination < Pagination
   def previous_link
     url_helpers.artists_path(p: previous_page)

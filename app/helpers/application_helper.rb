@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 # Used by javascript automount to find all react components
-REACT_COMPONENT_CLASS = 'react-component'
+REACT_COMPONENT_CLASS = 'react-component'.freeze
 
 module ApplicationHelper
   def application_body_class(controller, body)

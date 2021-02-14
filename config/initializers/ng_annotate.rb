@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Rails.application.configure do
 #   config.ng_annotate.paths = [
 #     Rails.root.join('app/assets/components').to_s,

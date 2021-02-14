@@ -147,6 +147,10 @@ Style/FormatString:
   SupportedStyles:
     - sprintf
     - format
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
 Style/HashEachMethods:
   Enabled: true
 

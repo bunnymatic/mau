@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 if Rails.env.test?
   Paperclip::Attachment.default_options[:storage] = :filesystem
 else

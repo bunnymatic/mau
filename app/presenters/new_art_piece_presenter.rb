@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class NewArtPiecePresenter
   attr_reader :artist, :art_piece, :studio, :current_open_studios
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 begin
   namespace :spec do
     task enable_coverage: [:environment] do

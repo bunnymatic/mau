@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'capistrano/bundler'
 
 lock '~> 3.15.0'

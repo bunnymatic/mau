@@ -1,9 +1,7 @@
-# frozen_string_literal: true
-
 class ArtistsGallery < ArtistsPresenter
   include Rails.application.routes.url_helpers
 
-  ELLIPSIS = '&hellip;'
+  ELLIPSIS = '&hellip;'.freeze
   LETTERS_REGEX = /[a-zA-Z]/.freeze
   attr_reader :pagination, :per_page, :letter, :ordering
 

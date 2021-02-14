@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'simplecov'
 
 # Writes the coverage stat to a file to be used by Cane.

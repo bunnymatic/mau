@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module MissionBoundaries
   # thanks, http://www.gps-coordinates.net/
   # order is important for the js overlay

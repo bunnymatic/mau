@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class PaginationError < StandardError; end
 
 class Pagination < ViewPresenter

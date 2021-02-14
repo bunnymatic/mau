@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 FactoryBot.define do
   factory :art_piece do
     title { "#{Faker::Name.initials} #{Faker::BossaNova.song}" }

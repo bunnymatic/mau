@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ImageFileHelpers
   FILENAME_CLEANER = /[\#|*()\[\]{}&<>$!?;']/.freeze
   def clean_filename(fname)

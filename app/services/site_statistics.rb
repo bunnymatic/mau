@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SiteStatistics
   attr_accessor :last_30_days, :last_week, :yesterday, :totals
 
@@ -41,10 +39,10 @@ class SiteStatistics
     compute_totals
   end
 
-  CREATED_CLAUSE = 'created_at >= ?'
-  ACTIVATED_CLAUSE = 'activated_at >= ?'
-  LAST_SEEN_CLAUSE = 'last_request_at >= ?'
-  LAST_LOGIN_CLAUSE = 'current_login_at >= ?'
+  CREATED_CLAUSE = 'created_at >= ?'.freeze
+  ACTIVATED_CLAUSE = 'activated_at >= ?'.freeze
+  LAST_SEEN_CLAUSE = 'last_request_at >= ?'.freeze
+  LAST_LOGIN_CLAUSE = 'current_login_at >= ?'.freeze
   def queries(clause = CREATED_CLAUSE)
     {
       last_30_days: [clause, 30.days.ago],

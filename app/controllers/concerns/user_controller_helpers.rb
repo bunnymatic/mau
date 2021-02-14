@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module UserControllerHelpers
   extend ActiveSupport::Concern
 

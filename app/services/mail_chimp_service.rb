@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class MailChimpService
   API_KEY = Conf.mailchimp_api_key
   FAN_LIST_ID = Conf.mailchimp_fan_list_id

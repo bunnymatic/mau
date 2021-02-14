@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ArtPieceSerializer < MauSerializer
   attributes :artist_name, :favorites_count, :price, :display_price,
              :year, :dimensions, :title, :artist_id, :image_urls, :sold_at

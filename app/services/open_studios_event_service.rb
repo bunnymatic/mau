@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # manage caching the list of open studios events
 class OpenStudiosEventService
   CURRENT_CACHE_KEY = :current_os_event

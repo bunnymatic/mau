@@ -1,9 +1,7 @@
-# frozen_string_literal: true
-
-DATE_FORMAT = '%Y %b'
-REVERSE_START_DATE_FORMAT = '%b %-d-'
-END_DATE_WITHIN_MONTH_FORMAT = '%-d %Y'
-END_DATE_OUTSIDE_MONTH_FORMAT = '%b %-d %Y'
+DATE_FORMAT = '%Y %b'.freeze
+REVERSE_START_DATE_FORMAT = '%b %-d-'.freeze
+END_DATE_WITHIN_MONTH_FORMAT = '%-d %Y'.freeze
+END_DATE_OUTSIDE_MONTH_FORMAT = '%b %-d %Y'.freeze
 
 class OpenStudiosEvent < ApplicationRecord
   validates :key, presence: true, uniqueness: { case_sensitive: true }

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 When(/^I fill in the new studio information for "(.*)"$/) do |name|
   within '#new_studio' do
     fill_in 'Name', with: name

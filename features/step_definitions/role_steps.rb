@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Then(/^I see the admin roles page$/) do
   expect(page).to have_content 'Roles & Members'
   expect(page).to have_selector '.editor.role-container .role_members li', count: Role.editor.users.count

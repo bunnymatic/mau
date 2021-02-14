@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 unless Rails.env.production?
   namespace :db do
     desc 'Load set of data so that the application can start in a useful state'

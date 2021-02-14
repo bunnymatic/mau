@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# frozen_string_literal: true
-
 puts 'Searching...'
 artists = []
 $stdin.read.split("\n").each do |line|

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class FavoritesController < ApplicationController
   before_action :user_required, only: %i[create destroy]
   before_action :user_must_be_you, only: %i[create destroy]

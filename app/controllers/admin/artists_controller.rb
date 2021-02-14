@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class ArtistsController < ::BaseAdminController
     before_action :admin_required, only: %i[suspend index edit update]

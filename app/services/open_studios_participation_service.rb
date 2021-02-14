@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # manage caching the list of open studios events
 class OpenStudiosParticipationService
   def self.participate(artist, open_studios_event)

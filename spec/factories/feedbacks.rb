@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 FactoryBot.define do
   sequence(:subject) { |n| "Subject of Feedback #{n}" }
   factory :feedback do

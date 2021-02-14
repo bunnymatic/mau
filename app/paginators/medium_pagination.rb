@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class MediumPagination < Pagination
   def initialize(art_pieces, current_medium, current_page, per_page = nil)
     @current_medium = current_medium

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 FactoryBot.define do
   factory :site_preferences do
     social_media_tags { '#whatever' }

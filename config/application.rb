@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require File.expand_path('boot', __dir__)
 
 # Unrolled `rails/all.rb` from https://github.com/rails/rails/blob/master/railties/lib/rails/all.rb as of 03/23/2020

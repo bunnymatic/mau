@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ApplicationEventSerializer < MauSerializer
   attributes :user, :message, :type, :created_at
 

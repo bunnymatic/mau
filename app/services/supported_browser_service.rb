@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SupportedBrowserService
   @browsers_json_file = Rails.root.join('browsers.json')
 

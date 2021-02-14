@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UserMailer < MauMailer
   def activation(user)
     setup_email(user)

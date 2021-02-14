@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module WaitUntil
   def wait_until(time = 1)
     Timeout.timeout(time) do

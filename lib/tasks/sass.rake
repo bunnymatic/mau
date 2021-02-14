@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 namespace :sass do
   task sass_environment: :environment do
     Sass::Plugin.on_updating_stylesheet { |template, css| puts "Building #{css} from #{template}" }

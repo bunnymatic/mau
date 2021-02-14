@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class RolesController < ::BaseAdminController
   def destroy
     remove_role_from_user params[:id], params[:user_id] if params[:id] && params[:user_id]

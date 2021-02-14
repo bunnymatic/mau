@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative '../support/test_users_helper'
 
 FactoryBot.define do

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This presenter adds helpful display/view related methods
 # to make it easy to draw user data on a page
 

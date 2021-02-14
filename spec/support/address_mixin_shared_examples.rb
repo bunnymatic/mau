@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 shared_examples_for AddressMixin do
   let(:the_state) do
     Faker::Address.state

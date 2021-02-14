@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Address
   attr_reader :lat, :lng, :street, :city, :state, :zipcode
 

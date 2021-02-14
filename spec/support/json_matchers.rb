@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 RSpec::Matchers.define :be_json do
   match do |actual|
     expect(actual.content_type.to_s).to eql 'application/json'

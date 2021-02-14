@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative '../../lib/middleware/disable_animations'
 
 Rails.application.configure do

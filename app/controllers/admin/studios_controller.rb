@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class StudiosController < ::BaseAdminController
     before_action :manager_required

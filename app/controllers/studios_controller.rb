@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'studio'
 class StudiosController < ApplicationController
   before_action :load_studio_list, only: %i[index show]

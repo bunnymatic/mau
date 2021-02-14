@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 namespace :jest do
   desc 'run Jest tests'
   task test: [:environment] do

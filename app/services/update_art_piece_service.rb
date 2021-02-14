@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UpdateArtPieceService
   attr_reader :art_piece, :params
 

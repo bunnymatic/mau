@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class StatsController < ::BaseAdminController
     def art_pieces_per_day
@@ -39,7 +37,7 @@ module Admin
       data.to_json
     end
 
-    GRAPH_LOOKBACK = '1 YEAR'
+    GRAPH_LOOKBACK = '1 YEAR'.freeze
 
     def compute_art_piece_count_histogram
       sql = <<-SQL.squish

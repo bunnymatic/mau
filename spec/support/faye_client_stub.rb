@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 RSpec.configure do |config|
   config.before do
     stub_request(:post, 'http://localhost:3030/maumessages')

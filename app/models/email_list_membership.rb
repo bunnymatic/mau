@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class EmailListMembership < ApplicationRecord
   belongs_to :email_list
   belongs_to :email

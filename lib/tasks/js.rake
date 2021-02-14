@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 namespace :js do
   desc 'Runs the javascript linter'
   task lint: [:environment] do

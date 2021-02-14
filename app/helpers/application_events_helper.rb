@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ApplicationEventsHelper
   def link_to_event_user(event)
     data = (event.data || {}).with_indifferent_access

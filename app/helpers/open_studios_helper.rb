@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module OpenStudiosHelper
   def open_studios_nav_title
     OpenStudiosEventService.current.try(:for_display, reverse: true) || 'Open Studios'

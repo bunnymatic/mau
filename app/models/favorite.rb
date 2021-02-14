@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Favorite < ApplicationRecord
   belongs_to :owner, class_name: 'User', inverse_of: :favorites
   belongs_to :favoritable, polymorphic: true

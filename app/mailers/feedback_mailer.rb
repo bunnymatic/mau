@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class FeedbackMailer < MauMailer
   def feedback(feedback)
     emails = 'feedback@missionartists.org', 'trish@trishtunney.com' # just in case
