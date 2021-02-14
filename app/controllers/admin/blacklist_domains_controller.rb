@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class BlacklistDomainsController < ::BaseAdminController
     before_action :admin_required

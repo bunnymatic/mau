@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 When(/^I search for the first art piece by title$/) do
   step %(I search for "#{ArtPiece.first.title.split.first}")
 end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 FactoryBot.define do
   factory :application_event do
     message { Faker::Lorem.words(number: 5).join(' ') }

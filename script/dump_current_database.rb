@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
-# frozen_string_literal: true
-
 require 'yaml'
 
-MYSQL_DUMP_EXEC = 'mysqldump'
+MYSQL_DUMP_EXEC = 'mysqldump'.freeze
 
 class DbDumper
   def db_config

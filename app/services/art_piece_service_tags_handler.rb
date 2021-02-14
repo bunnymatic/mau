@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ArtPieceServiceTagsHandler
   def prepare_tags_params
     return unless @params[:tag_ids]

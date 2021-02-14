@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ApiAuthorizor
   def self.authorize(request)
     auth_key = request.headers['HTTP_AUTHORIZATION']

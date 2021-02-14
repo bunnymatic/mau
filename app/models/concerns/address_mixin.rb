@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module AddressMixin
   # for models with street, city, zipcode, lat, lng and either state or addr_state
 

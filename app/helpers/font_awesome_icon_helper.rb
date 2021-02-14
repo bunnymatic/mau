@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module FontAwesomeIconHelper
   # Creates an icon tag given an icon name and possible icon
   # modifiers.

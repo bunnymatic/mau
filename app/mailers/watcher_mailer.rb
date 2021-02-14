@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class WatcherMailer < MauMailer
   def notify_new_art_piece(art_piece, to)
     @new_art = NewArtPiecePresenter.new(art_piece)

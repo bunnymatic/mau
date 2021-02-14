@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module UsersHelper
   def user_signup_select_options(user, type)
     user.password = user.password_confirmation = nil

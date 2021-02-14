@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 When(/^I fill in the feedback form$/) do
   expect(page).to have_css '.popup-close'
   within '#feedback' do

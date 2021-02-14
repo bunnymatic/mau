@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'qr4r'
 
 class Artist < User

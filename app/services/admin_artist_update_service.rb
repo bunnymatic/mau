@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AdminArtistUpdateService
   def self.bulk_update_os(os_status_by_artist_id)
     current_os = OpenStudiosEventService.current

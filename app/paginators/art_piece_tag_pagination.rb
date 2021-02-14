@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ArtPieceTagPagination < Pagination
   def initialize(art_pieces, current_tag, current_page, per_page = nil)
     @current_tag = current_tag

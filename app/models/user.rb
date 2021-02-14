@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'digest/sha1'
 require 'json'
 require Rails.root.join('lib/authlogic/crypto_providers/restful_auth_sha1.rb')

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module MockSearchService
   def stub_query_runner!
     runner = Search::QueryRunner.new('query')

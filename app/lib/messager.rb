@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # require 'faye'
 
 FAYE_SERVER_URL = Conf.messaging_server || 'http://localhost:3030/maumessages'

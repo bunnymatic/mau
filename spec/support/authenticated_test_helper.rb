@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module AuthenticatedTestHelper
   # Sets the current artist in the session from the artist factories
   def login_as(user, session_stubs = nil)

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UsersController < ApplicationController
   class UserNotFoundError < StandardError; end
 
@@ -8,7 +6,7 @@ class UsersController < ApplicationController
   before_action :user_required, only: %i[edit update deactivate
                                          change_password_update]
 
-  DEFAULT_ACCOUNT_TYPE = 'MauFan'
+  DEFAULT_ACCOUNT_TYPE = 'MauFan'.freeze
 
   def index
     redirect_to artists_path

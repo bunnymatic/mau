@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ArtistsMap < ArtistsPresenter
   def with_addresses
     @with_addresses ||= grouped_by_address.values.flatten.compact

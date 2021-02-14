@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class SitePreferencesController < ::BaseAdminController
     before_action :load_site_preferences, only: %i[edit update]

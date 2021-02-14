@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 class OpenStudiosPresenter
-  PAGE = 'main_openstudios'
+  PAGE = 'main_openstudios'.freeze
 
   delegate :promote?, to: :current_os
 

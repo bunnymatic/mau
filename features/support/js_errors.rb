@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 After do |scenario|
   # errors = page.driver.browser.manage.logs.get(:browser)
   # if errors.present?

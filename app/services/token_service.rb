@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class TokenService
   def self.secure_digest(*args)
     Digest::SHA1.hexdigest(args.flatten.join('--'))

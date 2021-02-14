@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class IndependentStudio
   extend  ActiveModel::Naming
   extend  ActiveModel::Translation

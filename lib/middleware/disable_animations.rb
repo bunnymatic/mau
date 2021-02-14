@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Disable CSS animations for speed and consistency. This Rack middleware is
 # only for test environments. It is added in config/environments/test.rb.
 

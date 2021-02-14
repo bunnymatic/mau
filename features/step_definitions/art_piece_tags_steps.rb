@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Then(/^I don't see the first tag anymore$/) do
   expect(page).to_not have_selector('.tagcloud .clouditem a', text: /\A@first_tag.name\Z/)
 end

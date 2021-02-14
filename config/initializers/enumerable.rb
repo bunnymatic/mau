@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Enumerable
   def uniq_by
     h = {}

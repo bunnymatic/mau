@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require Rails.root.join('app/lib/safe_cache')
 
 class SitePreferences < ApplicationRecord

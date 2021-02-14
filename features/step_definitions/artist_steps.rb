@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 When(/^I visit my home page$/) do
   visit artist_path(@artist)
 end

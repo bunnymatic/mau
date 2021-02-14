@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# frozen_string_literal: true
-
 spam_accounts = ['attonhayd John <slip23572@tom.com>',
                  'halermary aifseng <casteelwof@hotmail.com>',
                  'ciavarinpatri billaa <dlu0494599774516@163.com>',

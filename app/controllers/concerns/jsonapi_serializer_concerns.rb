@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 SERIALIZEABLE_AR_MODELS = %i[
   Artist
   ArtPiece

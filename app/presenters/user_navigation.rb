@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UserNavigation < Navigation
   EVENT_REGISTER_COUNTDOWN = 12.weeks
 

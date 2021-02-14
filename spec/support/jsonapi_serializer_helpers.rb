@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module JsonapiSerializerHelpers
   def serialize(obj, serializer)
     r = JSONAPI::Serializable::Renderer.new

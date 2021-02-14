@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # #require 'rack/handler/unicorn'
 # Capybara.register_server(:unicorn) do |app, port, _host|
 # Rack::Handler::Unicorn.run(app, Port: port)

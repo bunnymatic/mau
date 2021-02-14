@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 FactoryBot.define do
   factory(:artist_feed) do
     feed { Faker::Internet.url }

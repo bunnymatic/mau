@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Search
   class EsClient
     def self.root_es_client

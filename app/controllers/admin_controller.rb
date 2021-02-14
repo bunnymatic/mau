@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AdminController < BaseAdminController
   before_action :admin_required, except: [:index]
 

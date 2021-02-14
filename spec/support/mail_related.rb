@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module MailRelated
   def stub_mailer_email(mailer, email)
     letter = instance_double(ActionMailer::MessageDelivery,

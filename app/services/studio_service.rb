@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Serve as a studio finder service
 #
 # this should help normalize and compartmentalize all the places

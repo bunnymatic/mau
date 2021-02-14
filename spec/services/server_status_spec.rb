@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
 describe ServerStatus, vcr: { cassette_name: 'server_status', record: :none } do

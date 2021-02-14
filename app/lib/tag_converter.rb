@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class TagConverter
   def initialize(tagstr)
     @tag_string = tagstr

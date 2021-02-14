@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class StudioSerializer < MauSerializer
   attributes :name, :street_address, :city, :map_url, :url, :slug
 

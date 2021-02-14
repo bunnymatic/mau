@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class HaveBodyText
   def initialize(expected_text)
     @expected_text = expected_text

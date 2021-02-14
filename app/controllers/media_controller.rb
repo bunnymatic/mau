@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class MediaController < ApplicationController
   before_action :admin_required, except: %i[index show]
   class NoMediaError < StandardError; end

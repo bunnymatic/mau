@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # AuthLogic user sessions controller
 class UserSessionsController < ApplicationController
   before_action :require_no_user, only: %i[new create]

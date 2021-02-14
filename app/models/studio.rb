@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'uri'
 class Studio < ApplicationRecord
   include PhoneNumberMixin

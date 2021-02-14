@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Search
   class QueryRunner
     def initialize(query = nil, _include_highlight: true)

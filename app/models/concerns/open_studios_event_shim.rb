@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # shim to handle migration between oskey/oslive from conf and OpenStudiosEvent.current
 module OpenStudiosEventShim
   extend ActiveSupport::Concern

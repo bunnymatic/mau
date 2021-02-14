@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class StudioImage < ProfileImage
   def self.paths(studio)
     @paths ||= Hash[MauImage::ImageSize.allowed_sizes.map do |kk|

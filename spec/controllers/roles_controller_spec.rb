@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 describe RolesController do
   let(:editor) { FactoryBot.create(:artist, :editor, :active) }

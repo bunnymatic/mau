@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module MauImage
   class ImageSize
     attr_reader :name, :width, :height, :prefix
