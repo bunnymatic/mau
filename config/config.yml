@@ -4,6 +4,8 @@
 test:
   mailchimp_api_key: bogus-key
   min_artists_per_studio: 1
+  features:
+    virtual_open_studios: true
   pagination:
     media:
       per_page: 12
@@ -13,12 +15,13 @@ test:
       per_page: 12
 
 development:
+  features:
+    virtual_open_studios: true
   cache_expiry:
     feed: 300
     search: 20
     objects: 0
     new_art: 300
-  oslive: 201404
   pagination:
     artists:
       per_page: 5
@@ -28,6 +31,8 @@ development:
       per_page: 12
 
 acceptance:
+  features:
+    virtual_open_studios: true
   S3_DOMAIN: 'us-west-1'
 
 production:
@@ -38,6 +43,8 @@ production:
     new_art: 86400
 
 common:
+  features:
+    virtual_open_studios: false
   pagination:
     media:
       per_page: 24
@@ -53,9 +60,6 @@ common:
 
   cache_server: localhost:11211
   signup_secret_word: eat-shit-hackers
-  feedback_emails:
-    - feedback@missionartists.org
-    - maufeedback@bunnymatic.com
   cache_expiry:
     feed: 300
     search: 20
