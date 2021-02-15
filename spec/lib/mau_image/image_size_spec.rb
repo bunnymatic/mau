@@ -5,7 +5,7 @@ describe MauImage::ImageSize do
     let(:all) { MauImage::ImageSize.all }
 
     it 'returns allowed image sizes with details' do
-      expect(all.size).to eq(5)
+      expect(all.size).to eq(4)
     end
   end
 
@@ -53,12 +53,6 @@ describe MauImage::ImageSize do
     it 'returns original for "orig"' do
       expect(MauImage::ImageSize.send(:keymap, :orig)).to eql :original
       expect(MauImage::ImageSize.send(:keymap, 'orig')).to eql :original
-    end
-    it 'returns thumb for thumbnail & thumb' do
-      %w[thumb thumbnail].each do |sz|
-        expect(MauImage::ImageSize.send(:keymap, sz)).to eql :thumb
-        expect(MauImage::ImageSize.send(:keymap, sz.to_sym)).to eql :thumb
-      end
     end
     it 'returns small for s or sm' do
       %w[s sm].each do |sz|

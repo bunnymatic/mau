@@ -3,8 +3,6 @@ module MauImage
     attr_reader :name, :width, :height, :prefix
 
     SIZES = {
-      thumb: [100, 100, 't_'],
-      #:cropped_thumb => [127, 127, 'ct_'],
       small: [200, 200, 's_'],
       medium: [400, 400, 'm_'],
       large: [800, 800, 'l_'],
@@ -45,12 +43,8 @@ module MauImage
           :original
         when 'sm', 's'
           :small
-        when 'thumbnail'
-          :thumb
         when 'l'
           :large
-        # when 'med', 'm', 'standard', 'std'
-        #   :medium
         else
           :medium
         end
