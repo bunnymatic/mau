@@ -22,7 +22,7 @@ describe ArtPieceSerializer do
     end
 
     it 'includes paths to the images' do
-      sizes = %i[large medium original small thumb]
+      sizes = %i[large medium original small]
       files = parsed_art_piece[:image_urls]
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|

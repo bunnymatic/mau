@@ -19,19 +19,10 @@ describe ImageFile do
       expect(fname).to match(%r{dir/m_myfile\.jpg$})
     end
   end
-  %w[thumb thumbnail].each do |size|
-    it "get_path for #{size} returns a file name with m_ as a prefix" do
-      fname = ImageFile.get_path('dir', size, 'myfile.jpg')
-      expect(fname).to match(%r{dir/t_myfile\.jpg$})
-    end
-  end
 
   describe '#get_path' do
     let(:directory) { Faker::Files.dir }
     let(:file) { Faker::Files.file }
-    it 'returns the right path where size is thumb' do
-      expect(ImageFile.get_path(directory, :thumb, file)).to eql([directory, "t_#{file}"].join('/'))
-    end
     it 'returns the right path where size is small' do
       expect(ImageFile.get_path(directory, :small, file)).to eql([directory, "s_#{file}"].join('/'))
     end
