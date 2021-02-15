@@ -1,5 +1,27 @@
+import Flash from "@js/app/jquery/flash";
 import Spinner from "@js/app/spinner";
 import jQuery from "jquery";
+
+const MAX_FILE_SIZE_MB = 4;
+
+const validateFileSize = (event) => {
+  const fileInput = event.currentTarget;
+  if (fileInput.type != "file" || !fileInput.files.length) {
+    return;
+  }
+
+  let ii = 0;
+  for (; ii < fileInput.files.length; ++ii) {
+    const size = fileInput.files.item(ii).size;
+    const sizeKb = Math.round(size / 1024);
+    const sizeMb = Math.round(size / (1024 * 1024));
+    console.log({ size, sizeKb, sizeMb });
+    if (sizeMb > MAX_FILE_SIZE_MB) {
+      const flash = new Flash();
+      flash.show({ error: "Files should be no larger than 4MB." });
+    }
+  }
+};
 
 class ArtPieceForm {
   constructor(selector) {
@@ -7,6 +29,13 @@ class ArtPieceForm {
     this.initializeMediumChooser();
     this.initializeTagChooser();
     this.initializeSubmitSpinner();
+    this.initializeFileSizeValidator();
+  }
+
+  initializeFileSizeValidator() {
+    const $file = this.$form.find("#art_piece_photo[type=file]");
+    $file.on("change", validateFileSize);
+    $file.on("click", () => new Flash().clear());
   }
 
   initializeMediumChooser() {
