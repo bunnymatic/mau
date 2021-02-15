@@ -5,10 +5,12 @@ describe ArtPiece do
   let(:artist) { FactoryBot.create(:artist, :active, :with_art) }
   let(:art_piece) { artist.art_pieces.first }
 
-  it { should validate_presence_of(:title) }
-  it { should validate_length_of(:title).is_at_least(2).is_at_most(80) }
-  it { should validate_numericality_of(:price).allow_nil.is_greater_than_or_equal_to(0.01) }
-
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to validate_length_of(:title).is_at_least(2).is_at_most(80) }
+    it { is_expected.to validate_numericality_of(:price).allow_nil.is_greater_than_or_equal_to(0.01) }
+    it { is_expected.to validate_attachment_size(:photo).less_than(4.megabytes) }
+  end
   describe 'new' do
     it 'allows quotes' do
       p = valid_attrs.merge(title: 'what"ever')
