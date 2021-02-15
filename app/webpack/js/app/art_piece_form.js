@@ -13,9 +13,7 @@ const validateFileSize = (event) => {
   let ii = 0;
   for (; ii < fileInput.files.length; ++ii) {
     const size = fileInput.files.item(ii).size;
-    const sizeKb = Math.round(size / 1024);
     const sizeMb = Math.round(size / (1024 * 1024));
-    console.log({ size, sizeKb, sizeMb });
     if (sizeMb > MAX_FILE_SIZE_MB) {
       const flash = new Flash();
       flash.show({ error: "Files should be no larger than 4MB." });
