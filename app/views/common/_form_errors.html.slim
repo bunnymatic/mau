@@ -1,4 +1,9 @@
 - if form.try(:object).try(:errors).present?
   .error-msg
-    - form.object.errors.full_messages.each do |msg|
-      .err = msg
+    - form.object.errors.each do |err|
+      - # filtering out detail errors from paperclip.
+      - # more reason to get off paperclip
+      - # https://www.pivotaltracker.com/story/show/172394498
+      - # https://github.com/thoughtbot/paperclip/commit/2aeb491fa79df886a39c35911603fad053a201c0
+      - next if (/_file_size/ =~ err.attribute) || /_content_type/ =~ err.attribute
+      .err = err.full_message

@@ -77,8 +77,12 @@ class User < ApplicationRecord
     Favorite.artists.where(favoritable_id: id).delete_all
   end
 
-  %i[studionumber studionumber=].each do |delegat|
-    delegate delegat, to: :artist_info, allow_nil: true
+  def studionumber
+    artist_info&.studionumber
+  end
+
+  def studionumber=(val)
+    artist_info && artist_info.studionumber = val
   end
 
   SORT_BY_LASTNAME = lambda do |a, b|

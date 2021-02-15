@@ -1,7 +1,2 @@
-module FixtureFileHelpers
-  def fixture_file(file)
-    Rails.root.join("spec/fixtures/#{file}")
-  end
-end
-
+require_relative '../../spec/support/fixture_file_helpers'
 World FixtureFileHelpers
