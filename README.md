@@ -96,7 +96,24 @@ As we move to React (from angular/jquery), here is the way to add a new componen
 * If you need styles, add a scss file under `stylesheets/gto/components/ with the same name as the component, then add that import to `stylesheets/gto/components/index.scss` (we don't have scss globs setup)
 * If it's shareable, add it to the `react_styleguide.slim` page under `/admin/tests/`
 
+### Webpack
 
+We've moved off sprockets and are using webpack exclusively.
+
+During development you can run
+```
+rails server
+```
+by itself and everything should work.  But webpack file changes will get recompiled between each change which makes for slow frontend feedback.
+
+To speed this up, in another terminal, use
+```
+bin/webpack-dev-server
+```
+and this will give you the dev server which will push incremental changes as you change front-end concerns.
+
+
+### Branching/Dev flow
 Here is the preferred git flow for adding to the code:
 
 Get on your local master branch
