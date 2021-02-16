@@ -1,6 +1,41 @@
 .react-styleguide-page {
-  table {
-    td, th: {
-    }
+}
+
+.react-styleguide__header {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid $x-light-gray;
+}
+
+.react-styleguide__component {
+  border-bottom: 1px solid $x-light-gray;
+  margin-bottom: 30px;
+}
+
+.react-styleguide__example {
+  display: flex;
+}
+
+.react-styleguide__impl {
+  margin: 10px 10px 10px 0;
+}
+
+.react-styleguide__code {
+  margin: 10px;
+  flex: 1;
+  background-color: $darkbluegray;
+  color: $lightbluegray;
+  pre {
+    margin: 20px;
+    padding: 20px;
+    white-space: pre;
+    text-shadow: 0 1px 0 #000;
+    font: 14px/20px "Courier New", Courier, "Lucida Sans Typewriter",
+      "Lucida Typewriter", monospace;
   }
+}
+
+.react-styleguide__component-title {
+  text-align: center;
+  font-size: 20px;
 }

@@ -15,14 +15,16 @@
         '
         | section below.
     - else
-      open-studios-registration-widget [
-        participation=current_user.doing_open_studios?
-        studio-name=current_user.studio_with_number
-        date-range=current_open_studios.date_range_with_year
-        start-time=current_open_studios.start_time
-        end-time=current_open_studios.end_time
-        address=current_user.address.to_s
-        auto-register=registering_for_open_studios ]
+      = react_component id: "os-registration", component: "OpenStudiosRegistration", props: { \
+          participating: current_user.doing_open_studios?, \
+          auto_register: registering_for_open_studios, \
+          location: (current_user.studio.present? ? current_user.studio.name : current_user.address.to_s), \
+          open_studios_event: { \
+            date_range: current_open_studios.date_range_with_year, \
+            start_time: current_open_studios.start_time, \
+            end_time: current_open_studios.end_time, \
+          }\
+        }
 
       .donate
         And if you'd like to donate to help with our Open Studios promotion and keep this system running, you can donate via Paypal.  Just click below.  Thanks!

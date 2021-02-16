@@ -38,9 +38,9 @@ export const api = {
     },
   },
   users: {
-    registerForOs: (artistSlug, data) => {
+    registerForOs: (artistSlug, status) => {
       const url = `/api/artists/${artistSlug}/register_for_open_studios`;
-      return post(url, data).then(camelize);
+      return post(url, { participation: status }).then(camelize);
     },
     whoami: () => get("/users/whoami").then(camelize),
   },

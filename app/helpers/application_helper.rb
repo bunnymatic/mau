@@ -29,7 +29,8 @@ module ApplicationHelper
   end
 
   def react_component(id:, component:, props: {}, wrapper_tag: 'div')
-    tag.send(wrapper_tag, { id: id, "class": REACT_COMPONENT_CLASS, data: { component: component, react_props: props } }) {}
+    camel_props = props.deep_transform_keys { |key| key.to_s.camelize(:lower) }
+    tag.send(wrapper_tag, { id: id, "class": REACT_COMPONENT_CLASS, data: { component: component, react_props: camel_props } }) {}
   end
 
   if Gem::Version.new(Rails.version) < Gem::Version.new('6.1.0')

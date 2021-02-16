@@ -1,14 +1,11 @@
-import * as React from 'react';
+import React, {FC} from 'react';
 
-type WelcomeProps = {
-    message: string
+interface WelcomeProps {
+  message: string;
 }
 
-export const Welcome: React.FC<WelcomeProps> = ({ message }) => (
-    <button onClick={() => alert(message)}>
-      Click on me!
-    </button>
+export const Welcome: FC<WelcomeProps> = ({ message }) => (
+  <button onClick={() => alert(message)}>
+    Click on me!
+  </button>
 )
-
-
-
