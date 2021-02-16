@@ -18,7 +18,6 @@ export const reactComponents = {
   CreditsModal,
   Mailer,
   Welcome,
-
 };
 
 export const lookup = (componentName: string): FC<any> => {

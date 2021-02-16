@@ -1,0 +1,14 @@
+Description:
+    Creates a React component file and test file in the app/webpack/reactjs/components directory.
+
+Example:
+    bin/rails generate react_component Thing
+
+    This will create:
+         app/webpack/reactjs/components/thing.tsx
+         app/webpack/reactjs/components/thing.test.tsx
+
+    You must add it manually to the `react/components/index.ts` if you need it
+    to be automounted from a `.slim` file.  If it is only used within other
+    React components, it doesn't need to be registered there because it can
+    be included with webpack `imports`.
