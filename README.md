@@ -96,6 +96,17 @@ As we move to React (from angular/jquery), here is the way to add a new componen
 * If you need styles, add a scss file under `stylesheets/gto/components/ with the same name as the component, then add that import to `stylesheets/gto/components/index.scss` (we don't have scss globs setup)
 * If it's shareable, add it to the `react_styleguide.slim` page under `/admin/tests/`
 
+We have a simple `scaffold` task that can help to get things rolling faster and to help keep us consistent.
+
+```
+rails g react_component ComponentName
+```
+
+Will create the `ComponentName.tsx` file and it's corresponding test file in the `reactjs/components` directory.
+
+If you plan to use this component in a slim file and want it to be automounted, don't froget to add it to 
+the `reactjs/components/index.ts` so it'll be in the registry used by the `react_component` rails helper.
+
 ### Webpack
 
 We've moved off sprockets and are using webpack exclusively.
