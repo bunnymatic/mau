@@ -30,7 +30,7 @@ class UpdateArtistService
   def update_os_status
     participating = to_boolean(@params[:os_participation])
     unless @artist.can_register_for_open_studios?
-      logger.info("#{@artist.login} isn't eligible to register to #{@current_os}")
+      Rails.logger.info("#{@artist.login} isn't eligible to register to #{@current_os}")
       return false
     end
     if participating != @artist.doing_open_studios?

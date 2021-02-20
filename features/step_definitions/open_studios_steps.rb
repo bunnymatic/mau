@@ -11,7 +11,7 @@ end
 
 Then('I see the registration message') do
   expect(page).not_to have_css('.ReactModal__Content')
-  expect(page).to have_content('Will you be opening your doors for Open Studios on')
+  expect(page).to have_content('Will you be participating in Open Studios on')
   expect(page).to have_button('Yes - Register Me')
 end
 
