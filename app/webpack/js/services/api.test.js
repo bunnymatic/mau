@@ -26,14 +26,12 @@ describe("api", () => {
   describe("users", () => {
     describe("registerForOs", () => {
       it("calls the right endpoint", async () => {
-        const resp = await api.users.registerForOs("the-slug", {
-          the_data: "is here",
-        });
+        const resp = await api.users.registerForOs("the-slug", false);
         expect(resp).toEqual(camelizeKeys(mockResp));
         expect(jQuery.ajax).toHaveBeenCalledWith({
           url: "/api/artists/the-slug/register_for_open_studios",
           method: "post",
-          data: { the_data: "is here" },
+          data: { participation: false },
         });
       });
     });

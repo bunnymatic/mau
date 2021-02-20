@@ -8,5 +8,5 @@ interface MauButtonProps {
 };
 
 export const MauButton:FC<MauButtonProps> = ({primary, secondary, onClick, children}) => {
-  return <button className={cx(['pure-button', {"button-primary": Boolean(primary), "button-secondary": Boolean(secondary)}])} onClick={onClick}>{children}</button>
+  return <button role="button" className={cx(['pure-button', {"button-primary": Boolean(primary), "button-secondary": Boolean(secondary)}])} onClick={onClick}>{children}</button>
 }

@@ -62,7 +62,7 @@ const OpenStudiosRegistrationWindow:FC<OpenStudiosRegistrationWindowProps> = ({l
     </div>
     <div className="open-studios-modal__content popup-text">
       <p>
-        You are registering to participate as an Open Studios artist {dateRange}.
+        You are registering to participate as an Open Studios artist for {dateRange}.
       </p>
       <p>
         This means you are committing to:
