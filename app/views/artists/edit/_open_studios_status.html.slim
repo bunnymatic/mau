@@ -15,10 +15,11 @@
         '
         | section below.
     - else
-      = react_component id: "os-registration", component: "OpenStudiosRegistration", props: { \
-          participating: current_user.doing_open_studios?, \
+      = react_component id: "os-registration", component: "OpenStudiosRegistrationSection", props: { \
           auto_register: registering_for_open_studios, \
           location: (current_user.studio.present? ? current_user.studio.name : current_user.address.to_s), \
+          artist_id: current_user.id, \
+          participant: current_user.current_open_studios_participant.as_json(root:false), \
           open_studios_event: { \
             date_range: current_open_studios.date_range_with_year, \
             start_time: current_open_studios.start_time, \
@@ -27,6 +28,6 @@
         }
 
       .donate
-        And if you'd like to donate to help with our Open Studios promotion and keep this system running, you can donate via Paypal.  Just click below.  Thanks!
+        .note If you'd like to donate, here is our paypal link.  And Thanks!
         .form-group
           a.pure-button.button-secondary#donate_for_openstudios href="#" Donate

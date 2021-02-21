@@ -21,6 +21,7 @@ describe ArtistPresenter do
       expect(presenter.studio_name).to eql artist.studio.name
       expect(presenter.art?).to eql true
       expect(presenter.show_url).to match %r{/artists/#{artist.login}$}
+      expect(presenter.current_open_studios_participant).to eq artist.current_open_studios_participant
     end
 
     it 'has a good map div for google maps' do

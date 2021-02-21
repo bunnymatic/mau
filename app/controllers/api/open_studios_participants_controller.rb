@@ -6,11 +6,9 @@ module Api
 
     def update
       @participant = OpenStudiosParticipant.find(params[:id])
-      head :unauthorized if @participant.user != current_artist
-
       render json: {}, status: :unauthorized if (current_artist.id != @participant.user_id) && return
 
-      if @participant&.update(open_studios_participant_params)
+      if @participant.update(open_studios_participant_params)
         render json: @participant
       else
         render json: { errors: @participant.errors }, status: :bad_request

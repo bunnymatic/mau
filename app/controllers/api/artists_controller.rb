@@ -7,7 +7,12 @@ module Api
     def register_for_open_studios
       if current_artist.can_register_for_open_studios?
         participant = UpdateArtistService.new(current_artist, os_participation: params[:participation]).update_os_status
-        render json: { success: true, participating: params[:participation] == '1', participant: participant }
+
+        render json: {
+          success: true,
+          participating: !!participant,
+          participant: participant.as_json(root: false),
+        }
       else
         render json: { success: false, participating: false }, status: :bad_request
       end

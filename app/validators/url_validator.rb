@@ -8,6 +8,9 @@ class UrlValidator < ActiveModel::EachValidator
     rescue URI::InvalidURIError
       false
     end
-    record.errors.add(attribute, options[:message] || 'is not a valid URL') unless valid
+    return if valid
+
+    record.errors.add(attribute,
+                      options[:message] || 'is not a valid URL. Did you remember including http:// or https:// at the beginning?')
   end
 end

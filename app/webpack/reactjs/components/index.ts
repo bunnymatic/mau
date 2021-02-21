@@ -4,7 +4,7 @@ import { Welcome } from "./admin/tests/welcome";
 import { CreditsModal } from "./credits_modal";
 import { Mailer } from "./mailer";
 import { MauButton } from "./mau_button";
-import { OpenStudiosRegistration } from "./open_studios_registration";
+import { OpenStudiosRegistrationSection } from "./open_studios/open_studios_registration_section";
 
 class UnregisteredComponentError extends Error {
   constructor(message) {
@@ -21,7 +21,7 @@ export const reactComponents = {
   CreditsModal,
   Mailer,
   MauButton,
-  OpenStudiosRegistration,
+  OpenStudiosRegistrationSection,
   Welcome,
 };
 

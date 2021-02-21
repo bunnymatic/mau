@@ -25,7 +25,7 @@ Scenario: "when I'm not logged in"
   And I see the registration dialog
 
   When I click on "Yes" in the ".ReactModal__Content"
-  Then I see the update my registration message
+  Then I see the open studios info form
 
 Scenario: "when I'm logged in"
   When I login as "artist"
@@ -35,8 +35,32 @@ Scenario: "when I'm logged in"
   Then I see my profile edit form
 
   When I click on "Yes" in the ".ReactModal__Content"
-  Then I see the update my registration message
+  Then I see the open studios info form
   And I see the "events" profile panel is open
+
+  When I fill in the "#open_studios_info_form" form with:
+    | shopUrl        | videoConferenceUrl |
+    | what | |
+  And I click on "Update my details"
+  Then I see a flash error "There was a problem"
+  And I see "not a valid URL" on the page
+
+  When I fill in the "#open_studios_info_form" form with:
+    | shopUrl        | videoConferenceUrl |
+    | https://www.rcode5.com  | https://www.youtube.com/watch?v=2SyPyBHJmiI |
+  And I click on "Update my details"
+  Then I see a flash notice "Got it"
+
+  When I refresh the page
+  And I open the "Open Studios" profile section
+  Then I see the "#open_studios_info_form" form has:
+    | shopUrl        | videoConferenceUrl |
+    | https://www.rcode5.com  | https://www.youtube.com/watch?v=2SyPyBHJmiI |
+
+  When I click on "Nope - not this time"
+  Then I see a flash notice "Maybe next time! :)"
+  Then I see "Yes - Register Me" on the page
+
 
 Scenario: "when I auto register but i'm not allowed (no address)"
   When I login as "no_address"

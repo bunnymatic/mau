@@ -179,11 +179,11 @@ class ArtistsController < ApplicationController
 
   def handle_xhr_update
     open_studios_event = OpenStudiosEvent.current
-    os_status = UpdateArtistService.new(current_artist, os_status_params).update_os_status
+    os_participant = UpdateArtistService.new(current_artist, os_status_params).update_os_status
     message = update_os_status_message(os_status, current_artist, open_studios_event)
     render json: {
       success: true,
-      os_status: os_status,
+      os_status: !!os_participant,
       current_os: OpenStudiosEventService.current,
       message: message,
     }

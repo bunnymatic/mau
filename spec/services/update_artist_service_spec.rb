@@ -93,9 +93,6 @@ describe UpdateArtistService do
       let(:artist) { create(:artist, :without_address) }
 
       subject(:update_os) { service.update_os_status }
-      it 'returns false' do
-        expect(update_os).to eq false
-      end
       it 'does not email the artist' do
         update_os
         expect(ArtistMailer).to_not have_received :welcome_to_open_studios
@@ -103,6 +100,10 @@ describe UpdateArtistService do
 
       it 'does not save an open studios sign up event' do
         expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(0)
+      end
+
+      it 'returns nothing' do
+        expect(update_os).to be_nil
       end
     end
 
@@ -124,6 +125,10 @@ describe UpdateArtistService do
         it 'does not save an open studios sign up event' do
           expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(0)
         end
+
+        it 'returns their new open studios participant record' do
+          expect(update_os).to eq artist.open_studios_participants.where(open_studios_event: OpenStudiosEvent.current).take
+        end
       end
 
       context 'and they update the status to "not doing" it' do
@@ -139,6 +144,9 @@ describe UpdateArtistService do
         end
         it 'saves the open studios sign up event' do
           expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(1)
+        end
+        it 'returns nil' do
+          expect(update_os).to be_nil
         end
       end
     end

@@ -50,7 +50,7 @@ describe UrlValidator do
     it "should not allow invalid urls like #{test}" do
       subject.url = test
       subject.validate
-      expect(subject.errors[:url]).to include('is not a valid URL')
+      expect(subject.errors[:url]).to include('is not a valid URL. Did you remember including http:// or https:// at the beginning?')
     end
   end
 end

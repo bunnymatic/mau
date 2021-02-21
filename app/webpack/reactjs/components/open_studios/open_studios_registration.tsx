@@ -1,29 +1,28 @@
-import { isNil } from "@js/app/helpers";
-import Flash from "@js/app/jquery/flash";
-import { api } from "@js/services/api";
+import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
+import { OpenStudiosInfoForm } from "@reactjs/components/open_studios/open_studios_info_form";
+import { MauButton } from "@reactjs/components/mau_button";
 import { mailToLink } from "@js/services/mailer.service";
 import { useModalState } from "@reactjs/hooks/useModalState";
-import { OpenStudiosEventType } from "@reactjs/types";
-import { Field, Form, Formik, FormikProps } from "formik";
-import React, { FC, useEffect, useState } from "react";
+import { api } from "@js/services/api";
+import * as types from "@reactjs/types";
+import Flash from "@js/app/jquery/flash";
+import { isNil } from "@js/app/helpers";
+import cx from "classnames";
+import React, { FC, useState, useEffect } from "react";
 
-import { MauButton } from "./mau_button";
-import { MauCheckboxField } from "./mau_checkbox_field";
-import { MauModal, setAppElement } from "./mau_modal";
+interface OpenStudiosRegWindowCloseFnArgs {
+  updated: boolean;
+  participant?: types.Nullable<types.OpenStudiosParticipant>;
+}
+type OpenStudiosRegWindowCloseFn = (
+  args: OpenStudiosRegWindowCloseFnArgs
+) => void;
 
 interface OpenStudiosRegistrationWindowProps {
   location: string;
   dateRange: string;
-  onClose: () => void;
+  onClose: OpenStudiosRegWindowCloseFn;
 }
-
-const submitRegistrationStatus = (status: boolean) => {
-  return api.users.whoami().then(function ({ currentUser }) {
-    if (currentUser && currentUser.slug) {
-      return api.users.registerForOs(currentUser.slug, status);
-    }
-  });
-};
 
 const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
   location,
@@ -32,15 +31,16 @@ const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
 }) => {
   const setRegistration = (status: boolean) => {
     const flash = new Flash();
-    return submitRegistrationStatus(status)
-      .then(() => {
-        onClose(status);
+    return api.openStudios
+      .submitRegistrationStatus(status)
+      .then((data) => {
+        onClose({ updated: true, participant: data.participant });
         flash.show({
           notice: "We've updated your registration status",
         });
       })
       .catch(() => {
-        onClose(status);
+        onClose({ updated: false });
         flash.show({
           error:
             "We had problems updating your open studios status.  Please try again later",
@@ -51,7 +51,7 @@ const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
   const decline = () => setRegistration(false);
 
   const hasQuestions = () => {
-    onClose();
+    onClose({ updated: false });
     window.location = mailToLink(
       "I have questions about registering for Open Studios"
     );
@@ -70,7 +70,7 @@ const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
             href="#"
             onClick={(ev) => {
               ev.preventDefault;
-              onClose();
+              onClose({ updated: false });
             }}
           >
             <i className="fa fa-times"></i>
@@ -119,24 +119,32 @@ const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
 
 interface OpenStudiosRegistrationProps {
   location: string;
-  openStudiosEvent: OpenStudiosEventType;
-  participating: boolean;
-  autoRegister: boolean;
+  openStudiosEvent: types.OpenStudiosEvent;
+  autoRegister: Boolean;
+  artistId: number;
+  participant: types.OpenStudiosParticipant;
+  onUpdateParticipant: (participant: OpenStudiosParticipant) => void;
 }
 
-export const OpenStudiosRegistration: FC<{
-  location: string;
-  openStudiosEvent: OpenStudiosEventType;
-  participating: boolean;
-  autoRegister: boolean;
-}> = ({ participating, location, openStudiosEvent, autoRegister }) => {
-  let message: string;
-  let buttonText: string;
-
+export const OpenStudiosRegistration: FC<OpenStudiosRegistrationProps> = ({
+  location,
+  openStudiosEvent,
+  autoRegister,
+  artistId,
+  onUpdateParticipant,
+}) => {
   const { isOpen, open, close } = useModalState();
-  const [isParticipating, setIsParticipating] = useState<boolean>(
-    participating
-  );
+
+  const handleClose: OpenStudiosRegWindowCloseFn = ({
+    updated,
+    participant,
+  }) => {
+    if (updated) {
+      onUpdateParticipant(participant);
+    }
+    close();
+  };
+  const buttonText = "Yes - Register Me";
 
   useEffect(() => {
     if (autoRegister) {
@@ -144,25 +152,10 @@ export const OpenStudiosRegistration: FC<{
     }
   }, [autoRegister]);
 
-  const handleClose = (result?: boolean) => {
-    if (!isNil(result)) {
-      setIsParticipating(result);
-    }
-    close();
-  };
-  if (isParticipating) {
-    message = `Yay! You are currently registered for Open Studios on ${openStudiosEvent.dateRange}`;
-    buttonText = "Update my registration status";
-  } else {
-    message = `Will you be participating in Open Studios on ${openStudiosEvent.dateRange}`;
-    buttonText = "Yes - Register Me";
-  }
-
   setAppElement("body");
 
   return (
     <>
-      <p>{message}</p>
       <div id="open-studios-registration-button">
         <MauButton
           primary

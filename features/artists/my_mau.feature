@@ -54,16 +54,13 @@ Scenario: I can update my os status
   And I click on "Personal Info"
 
   When I click on the current open studios edit section
-  And I click on "Update my registration status"
-
-  Then I see the registration dialog
-  And I click on "No" in the ".ReactModal__Content"
+  And I click on "Nope - not this time"
   Then I see the registration message
 
   When I click on "Yes - Register Me"
   And I see the registration dialog
   And I click on "Yes" in the ".ReactModal__Content"
-  Then I see the update my registration message
+  Then I see the open studios info form
 
 Scenario: I can see when I make a mistake
   When I visit my artist profile edit page

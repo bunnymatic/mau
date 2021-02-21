@@ -1,0 +1,40 @@
+@import "mau-mixins";
+@import "gto/gto-mixins";
+
+.open-studios-info-form {
+  margin: 15px 15px 15px 0;
+  padding: 15px;
+  border: 1px solid $lightbluegray;
+  @include round-corners();
+  > p:first-child {
+    margin-top: 0;
+  }
+  h4 {
+    border-bottom: 1px solid $lightbluegray;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+}
+
+.open-studios-info-form__title {
+  font-weight: $font-weight-light;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.open-studios-info-form__subtitle {
+  font-weight: $font-weight-normal;
+  font-size: 1rem;
+}
+
+.open-studios-info-form__input {
+  margin-bottom: 10px;
+}
+.open-studios-info-form__input--checkbox {
+  align-self: center;
+}
+.open-studios-info-form__actions {
+  display: flex;
+  justify-content: space-between;
+}

@@ -219,6 +219,9 @@ describe Artist do
     end
   end
 
+  describe 'open_studios_participant' do
+  end
+
   describe 'doing_open_studios?' do
     let(:past_artist) { create(:artist) }
     before do
@@ -230,12 +233,6 @@ describe Artist do
     it 'returns true for an artist doing this open studios (with no args)' do
       doing, notdoing = Artist.all.partition(&:doing_open_studios?)
       expect(doing).to eq([artist])
-      expect(notdoing.size).to eq(2)
-    end
-
-    it 'returns true for an artist doing this a past open studios' do
-      doing, notdoing = Artist.all.partition { |artist| artist.doing_open_studios?(past_open_studios_event.key) }
-      expect(doing).to eq([past_artist])
       expect(notdoing.size).to eq(2)
     end
   end

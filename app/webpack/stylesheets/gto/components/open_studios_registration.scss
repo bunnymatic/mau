@@ -3,10 +3,6 @@
 
 .open-studios-registration__modal {
   padding-top: 20px;
-
-  .ngdialog-content {
-    max-width: 900px;
-  }
 }
 
 .open-studios-modal__container {
@@ -32,4 +28,8 @@
       margin-left: 10px;
     }
   }
+}
+
+.open-studios-registration--participating {
+  margin-bottom: 40px;
 }
