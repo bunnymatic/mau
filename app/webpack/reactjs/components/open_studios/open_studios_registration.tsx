@@ -1,10 +1,9 @@
-import { MauModal, setAppElement } from "./mau_modal";
+import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
 import { OpenStudiosEventType } from '@reactjs/types';
-import { MauButton } from './mau_button';
+import { OpenStudiosInfoForm } from "@reactjs/components/open_studios/open_studios_info_form"
+import { MauButton } from '@reactjs/components/mau_button';
 import { mailToLink } from "@js/services/mailer.service";
 import { useModalState } from "@reactjs/hooks/useModalState";
-import { Field, Form, Formik, FormikProps } from 'formik';
-import { MauCheckboxField } from './mau_checkbox_field'
 import { api } from "@js/services/api";
 import Flash from "@js/app/jquery/flash";
 import { isNil } from "@js/app/helpers";
@@ -142,6 +141,7 @@ export const OpenStudiosRegistration:FC<{
     <p>
       { message }
     </p>
+    { isParticipating ? <OpenStudiosInfoForm/> : null }
     <div id="open-studios-registration-button">
       <MauButton primary onClick={(ev) => { ev.preventDefault(); open() }} >
         {buttonText}

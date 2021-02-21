@@ -3,7 +3,7 @@ import { FC } from "react";
 import { CreditsModal } from './credits_modal';
 import { Mailer } from "./mailer";
 import { MauButton } from './mau_button';
-import { OpenStudiosRegistration } from "./open_studios_registration";
+import { OpenStudiosRegistration } from "./open_studios/open_studios_registration";
 import { Welcome } from "./admin/tests/welcome";
 
 class UnregisteredComponentError extends Error {

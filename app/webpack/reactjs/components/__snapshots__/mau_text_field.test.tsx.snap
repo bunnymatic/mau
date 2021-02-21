@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MauTextField matches the snapshot 1`] = `
+<div>
+  <div
+    class="string input optional "
+  >
+    <label
+      for="the_name"
+    >
+      The Label
+    </label>
+    <input
+      name="the_name"
+      placeholder="e.g. like this"
+      type="text"
+      value="the value"
+    />
+    <div
+      class="inline-hints"
+    >
+      <span>
+        here is a clue
+      </span>
+    </div>
+  </div>
+</div>
+`;

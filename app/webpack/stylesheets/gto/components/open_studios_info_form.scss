@@ -1,0 +1,46 @@
+@import "mau-mixins";
+@import "gto/gto-mixins";
+
+.open-studios-info-form {
+  margin: 15px;
+  padding: 15px;
+  border: 1px solid $lightbluegray;
+  @include round-corners();
+  h4 {
+    border-bottom: 1px solid $lightbluegray;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+}
+
+.open-studios-info-form__input {
+  margin-bottom: 10px;
+}
+.open-studios-info-form__input--checkbox {
+  align-self: center;
+}
+
+.open-studios-info-form__input--shop-url {
+  order: 1;
+  @media screen and (max-width: $screen-xs-max) {
+    order: 1;
+  }
+}
+.open-studios-info-form__input--video-url {
+  order: 3;
+  @media screen and (max-width: $screen-xs-max) {
+    order: 2;
+  }
+}
+.open-studios-info-form__input--show-email {
+  order: 2;
+  @media screen and (max-width: $screen-xs-max) {
+    order: 3;
+  }
+}
+.open-studios-info-form__input--show-phone {
+  order: 4;
+  @media screen and (max-width: $screen-xs-max) {
+    order: 4;
+  }
+}
