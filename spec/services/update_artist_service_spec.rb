@@ -154,9 +154,13 @@ describe UpdateArtistService do
           update_os
           expect(ArtistMailer).to have_received(:welcome_to_open_studios).with(artist, current_os)
         end
-
         it 'saves an open studios sign up event' do
           expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(1)
+        end
+        it 'returns the new OpenStudiosParticipant record' do
+          participant = update_os
+          # this find forces the artist_info reload
+          expect(participant).to eq OpenStudiosParticipant.where(user: artist, open_studios_event: current_os).take
         end
       end
 
@@ -175,6 +179,10 @@ describe UpdateArtistService do
 
         it 'does not save the open studios sign up event' do
           expect { update_os }.to change(OpenStudiosSignupEvent, :count).by(0)
+        end
+
+        it 'returns nil' do
+          expect(update_os).to be_nil
         end
       end
     end
