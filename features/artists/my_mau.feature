@@ -57,12 +57,12 @@ Scenario: I can update my os status
   And I click on "Update my registration status"
 
   Then I see the registration dialog
-  And I click on "No" in the ".ngdialog"
+  And I click on "No" in the ".ReactModal__Content"
   Then I see the registration message
 
   When I click on "Yes - Register Me"
   And I see the registration dialog
-  And I click on "Yes" in the ".ngdialog"
+  And I click on "Yes" in the ".ReactModal__Content"
   Then I see the update my registration message
 
 Scenario: I can see when I make a mistake

@@ -1,7 +1,10 @@
 import { FC } from "react";
-import { Welcome } from "./admin/tests/welcome";
-import { Mailer } from "./mailer";
+
 import { CreditsModal } from './credits_modal';
+import { Mailer } from "./mailer";
+import { MauButton } from './mau_button';
+import { OpenStudiosRegistration } from "./open_studios_registration";
+import { Welcome } from "./admin/tests/welcome";
 
 class UnregisteredComponentError extends Error {
   constructor(message) {
@@ -17,6 +20,8 @@ that will be mounted at their root should be included here.
 export const reactComponents = {
   CreditsModal,
   Mailer,
+  MauButton,
+  OpenStudiosRegistration,
   Welcome,
 };
 

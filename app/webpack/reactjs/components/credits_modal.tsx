@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react'
+import { useModalState } from '@reactjs/hooks/useModalState';
 import ReactModal from 'react-modal'
 
 type CreditsWindowProps = {
@@ -41,20 +42,18 @@ type CreditsModalProps = {
 
 export const CreditsModal: FC<CreditsModalProps> = ({version}) => {
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const {isOpen, open, close} = useModalState();
 
-  const openModal = () => setIsOpen(true)
-  const closeModal = () => setIsOpen(false)
   ReactModal.setAppElement('body')
 
   return (
     <>
       <div className="credits">
-        <a href="#" onClick={(ev) => { ev.preventDefault(); openModal() }}>credits</a>
+        <a href="#" onClick={(ev) => { ev.preventDefault(); open() }}>credits</a>
       </div>
       <ReactModal isOpen={isOpen} className="credits-modal__container"
                   overlayClassName="credits-modal__overlay">
-        <CreditsWindow handleClose={closeModal} version={version} />
+        <CreditsWindow handleClose={close} version={version} />
       </ReactModal>
     </>
   );

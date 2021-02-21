@@ -4,78 +4,115 @@
   .pure-u-1-1.padded-content
     .pure-g
       .pure-u-1-1
-        h3 Mailer
-    .pure-g
-      .pure-u-1-1
-        table.pure-table
-          thead
-            tr
-              th Component
-              th Code Sample
-          tbody
-            tr
-              td
-                = react_component id: 'mailer', component: "Mailer", props: {text: 'prompt an email to mau'}
-              td
-                pre
-                  code
-                    | = react_component id: 'mailer', component: "Mailer", props: {text: 'prompt an email to mau'}
-            tr
-              td
-                = react_component id: 'mailer2', component: "Mailer", props: {text: 'Email feedback@www.missionartists.org with the subject "my question"', subject: "my question", domain: "www.missionartists.org", name: "feedback" }
-              td
-                pre
-                  code
-                    | = react_component id: 'mailer2', component: "Mailer", props: {
-                        text: 'Email feedback@www.missionartists.org with the subject "my question"',
-                        subject: "my question",
-                        domain: "www.missionartists.org",
-                        name: "feedback" }
-            tr
-              td
-                = react_component id: 'mailer', component: "Mailer", wrapper_tag: "h2", props: {text: 'with wrapper_tag h2'}
-              td
-                pre
-                  code
-                    | = react_component id: 'mailer', component: "Mailer", wrapper_tag: "h2", props: {text: 'with wrapper_tag h2'}
+        .react-styleguide__component
+          .react-styleguide__header
+            h3.react-styleguide__component-title Mailer
+          .react-styleguide__example
+            .react-styleguide__impl
+              = react_component id: 'mailer', component: "Mailer", props: {text: 'prompt an email to mau'}
+            .react-styleguide__code
+              pre
+                code
+                  | = react_component
+                    id: 'mailer',
+                    component: "Mailer",
+                    props: {text: 'prompt an email to mau'}
+          .react-styleguide__example
+            .react-styleguide__impl
+              = react_component id: 'mailer2', component: "Mailer", props: {text: 'Email feedback@www.missionartists.org with the subject "my question"', subject: "my question", domain: "www.missionartists.org", name: "feedback" }
+            .react-styleguide__code
+              pre
+                code
+                  | = react_component id: 'mailer2', component: "Mailer", props: {
+                      text: 'Email feedback@www.missionartists.org with the subject "my question"',
+                      subject: "my question",
+                      domain: "www.missionartists.org",
+                      name: "feedback" }
+          .react-styleguide__example
+            .react-styleguide__impl
+              = react_component id: 'mailer', component: "Mailer", wrapper_tag: "h2", props: {text: 'with wrapper_tag h2'}
+            .react-styleguide__code
+              pre
+                code
+                  | = react_component id: 'mailer', component: "Mailer",
+                    wrapper_tag: "h2", props: {text: 'with wrapper_tag h2'}
 
-  .pure-u-1-1.padded-content
-    .pure-g
-      .pure-u-1-1
-        h3 Welcome
-    .pure-g
-      .pure-u-1-1
-        table.pure-table
-          thead
-            tr
-              th Component
-              th Code Sample
-          tbody
-            tr
-              td
+        .react-styleguide__component
+          .react-styleguide__header
+            h3.react-styleguide__component-title Welcome
+          .react-styleguide__example
+            .react-styleguide__impl
                 = react_component id: 'welcome', component: "Welcome", props: {message: "Here's your secret message"}
-              td
-                pre
-                  code
-                    | = react_component id: 'welcome', component: "Welcome", props: {message: "Here's your secret message"}
+            .react-styleguide__code
+              pre
+                code
+                  | = react_component id: 'welcome',
+                    component: "Welcome",
+                    props: {message: "Here's your secret message"}
 
-  .pure-u-1-1.padded-content
-    .pure-g
-      .pure-u-1-1
-        h3 CreditsModal
-    .pure-g
-      .pure-u-1-1
-        table.pure-table
-          thead
-            tr
-              th Component
-              th Code Sample
-          tbody
-            tr
-              td
-                p Not including here. It should not be shared and is only built for the main app because it depends on application styling/classnames.
-              td
+        .react-styleguide__component
+          .react-styleguide__header
+            h3.react-styleguide__component-title CreditsModal
+          .react-styleguide__example
+            .react-styleguide__impl
+                p Example not included here. It should not be shared and is only built for the main app because it depends on application styling/classnames.
+                p In time it's styles should probably be less intertwined with the app.
+            .react-styleguide__code
                 pre
                   code
                     | = react_component id: 'credits-modal', component: "CreditsModal",
                       props: {version: "1.0 Premiere Version"}
+
+        .react-styleguide__component
+          .react-styleguide__header
+            h3.react-styleguide__component-title MauButton
+          .react-styleguide__example
+            .react-styleguide__impl
+                = react_component id: "mau-button-1", component: "MauButton", props: { children: "here we go" }
+                p Note: this component also has `onClick` but will not work if you render this directly with the automount because it's a js function and passing that through the template logic is going to get goofy.
+            .react-styleguide__code
+                pre
+                  code
+                    | = react_component id: "mau-button-1",
+                      component: "MauButton", props: { children: "here we go" }
+
+          .react-styleguide__example
+            .react-styleguide__impl
+                = react_component id: "mau-button-2", component: "MauButton", props: { primary: true, children: "this is a primary button" }
+            .react-styleguide__code
+                pre
+                  code
+                    | = react_component
+                      id: "mau-button-2", component: "MauButton",
+                        props: { primary: true }, children: "this is a primary button"
+          .react-styleguide__example
+            .react-styleguide__impl
+                = react_component id: "mau-button-3", component: "MauButton", props: { secondary: true, children: "this is a secondary button" }
+            .react-styleguide__code
+                pre
+                  code
+                    | = react_component
+                      id: "mau-button-3", component: "MauButton",
+                        props: { secondary: true }, children: "this is a secondary button"
+
+        .react-styleguide__component
+          .react-styleguide__header
+            h3.react-styleguide__component-title OpenStudiosRegistration
+          .react-styleguide__example
+            .react-styleguide__impl
+                = react_component id: "os-reg-participating", component: "OpenStudiosRegistration", props: { participating: true }
+            .react-styleguide__code
+                pre
+                  code
+                    | = react_component id: "os-reg-participating",
+                      component: "OpenStudiosRegistration",
+                      props: { participating: true }
+          .react-styleguide__example
+            .react-styleguide__impl
+                = react_component id: "os-reg-participating", component: "OpenStudiosRegistration", props: { participating: false }
+            .react-styleguide__code
+                pre
+                  code
+                    | = react_component id: "os-reg-not-participating",
+                      component: "OpenStudiosRegistration",
+                      props: { participating: false }

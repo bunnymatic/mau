@@ -24,7 +24,7 @@ Scenario: "when I'm not logged in"
   Then I see my profile edit form
   And I see the registration dialog
 
-  When I click on "Yes" in the ".ngdialog"
+  When I click on "Yes" in the ".ReactModal__Content"
   Then I see the update my registration message
 
 Scenario: "when I'm logged in"
@@ -34,7 +34,7 @@ Scenario: "when I'm logged in"
 
   Then I see my profile edit form
 
-  When I click on "Yes" in the ".ngdialog"
+  When I click on "Yes" in the ".ReactModal__Content"
   Then I see the update my registration message
   And I see the "events" profile panel is open
 

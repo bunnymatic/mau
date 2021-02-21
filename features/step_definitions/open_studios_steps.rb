@@ -4,19 +4,19 @@ When /I click on the current open studios link/ do
 end
 
 Then('I see the registration dialog') do
-  expect(page).to have_css('.ngdialog')
+  expect(page).to have_css('.ReactModal__Content')
   expect(page).to have_content('You are registering to participate as an Open Studios artist')
   expect(page).to have_content('I have questions')
 end
 
 Then('I see the registration message') do
-  expect(page).not_to have_css('.ngdialog')
-  expect(page).to have_content('Will you be opening your doors for Open Studios on')
+  expect(page).not_to have_css('.ReactModal__Content')
+  expect(page).to have_content('Will you be participating in Open Studios on')
   expect(page).to have_button('Yes - Register Me')
 end
 
 Then('I see the update my registration message') do
-  expect(page).to have_content('You are currently registered for Open Studio')
+  expect(page).to have_content('You are currently registered for Open Studios')
   expect(page).to have_button('Update my registration status')
 end
 

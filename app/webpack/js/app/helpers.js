@@ -1,4 +1,5 @@
 export const identity = (x) => x;
+export const isNil = (x) => x == null;
 export const isArray = Array.isArray;
 export function isFunction(func) {
   return Boolean(func && typeof func === "function");

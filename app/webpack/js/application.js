@@ -28,7 +28,6 @@ import "@components/repeater_delimiter/repeater_delimiter";
 import "@components/image_fader/image_fader";
 import "@components/password_strength/passwordStrength.directive";
 import "@components/link_if/link_if";
-import "@components/open_studios_registration_widget/open_studios_registration_widget";
 import "@components/editable_content/editable_content";
 import "@services/email_changed_events.service";
 import "@services/object_routing.service";

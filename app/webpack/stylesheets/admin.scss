@@ -42,6 +42,7 @@
 @import "gto/media.scss";
 @import "gto/ngdialog-customizations.scss";
 @import "gto/venues.scss";
+@import "gto/components/index.scss";
 
 @import "gto_admin/admin-table.scss";
 @import "gto_admin/datatables_overrides.scss";
@@ -62,6 +63,7 @@
 @import "gto_admin/studios.scss";
 @import "gto_admin/tests/markdown.scss";
 @import "gto_admin/tests/social_icons.scss";
+@import "gto_admin/tests/react_styleguide.scss";
 @import "gto_admin/users.scss";
 
 @import "@components/admin/email_list_manager/email_list_manager.scss";
