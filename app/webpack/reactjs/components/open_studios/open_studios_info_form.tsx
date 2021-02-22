@@ -10,6 +10,9 @@ interface OpenStudiosInfoFormProps {};
 
 export const OpenStudiosInfoForm:FC<OpenStudiosInfoFormProps> = () => {
   const handleSubmit = (values, actions) => {
+    actions.setSubmitting(true)
+
+
     console.log(values, actions)
   }
 

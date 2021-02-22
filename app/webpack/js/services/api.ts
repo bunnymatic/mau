@@ -1,7 +1,8 @@
 import { destroy, get, post } from "@js/services/mau_ajax";
 import { camelizeKeys } from "humps";
-
+import * as types from "@js/types/apiTypes"
 const camelize = (data) => camelizeKeys(data);
+
 
 export const api = {
   applicationEvents: {

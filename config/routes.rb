@@ -173,6 +173,11 @@ Mau::Application.routes.draw do
         post :register_for_open_studios
       end
     end
+    resources :open_studios_participant, only: [:update]
+
+    # these routes were originally designed for 1890 bryant's consumption.
+    # which is why they are in `v2`  This could likely be removed now
+    # because there are no more external consumers.
     namespace :v2 do
       resources :studios, only: [:show]
       resources :artists, only: %i[index show] do
