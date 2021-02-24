@@ -11,7 +11,7 @@ class ArtPiece < ApplicationRecord
   validates_attachment_content_type :photo,
                                     content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
                                     message: 'Only JPEG, PNG, and GIF images are allowed'
-  validates_attachment_size :photo, less_than: 5.megabytes
+  validates_attachment_size :photo, less_than: 8.megabytes
   validates :artist_id, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0.01 }, allow_nil: true
 

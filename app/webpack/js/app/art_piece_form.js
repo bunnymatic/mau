@@ -2,7 +2,7 @@ import Flash from "@js/app/jquery/flash";
 import Spinner from "@js/app/spinner";
 import jQuery from "jquery";
 
-const MAX_FILE_SIZE_MB = 4;
+const MAX_FILE_SIZE_MB = 6;
 
 const validateFileSize = (event) => {
   const fileInput = event.currentTarget;
@@ -16,7 +16,9 @@ const validateFileSize = (event) => {
     const sizeMb = Math.round(size / (1024 * 1024));
     if (sizeMb > MAX_FILE_SIZE_MB) {
       const flash = new Flash();
-      flash.show({ error: "Files should be no larger than 4MB." });
+      flash.show({
+        error: "That file is a little too big. 4MB or smaller is ideal.",
+      });
     }
   }
 };
