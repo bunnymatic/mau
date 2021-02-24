@@ -1,5 +1,5 @@
 import { RenderResult, render } from "@testing-library/react";
-import { Formik } from 'formik'
+import { Formik } from "formik";
 import React, { ReactElement } from "react";
 
 export interface ServicesRenderResult extends RenderResult {
@@ -8,23 +8,19 @@ export interface ServicesRenderResult extends RenderResult {
 }
 
 interface RenderInFormConfig {
-  onSubmit: () => void
-  initialValues: Record<string, unknown>
+  onSubmit: () => void;
+  initialValues: Record<string, unknown>;
 }
 
 export const defaultConfig: RenderInFormConfig = {
   onSubmit: jest.fn(),
-  initialValues: {}
-}
+  initialValues: {},
+};
 
 export const renderInForm = (
   component: ReactElement,
-  config: RenderInFormConfig = defaultConfig,
+  config: RenderInFormConfig = defaultConfig
 ): RenderResult => {
-  const rendered = render(
-    <Formik { ...config } >
-    { component }
-    < /Formik>
-  )
-  return rendered
+  const rendered = render(<Formik {...config}>{component}</Formik>);
+  return rendered;
 };

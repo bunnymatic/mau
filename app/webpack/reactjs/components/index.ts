@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-import { CreditsModal } from './credits_modal';
-import { Mailer } from "./mailer";
-import { MauButton } from './mau_button';
-import { OpenStudiosRegistration } from "./open_studios_registration";
 import { Welcome } from "./admin/tests/welcome";
+import { CreditsModal } from "./credits_modal";
+import { Mailer } from "./mailer";
+import { MauButton } from "./mau_button";
+import { OpenStudiosRegistration } from "./open_studios_registration";
 
 class UnregisteredComponentError extends Error {
   constructor(message) {
@@ -27,7 +27,9 @@ export const reactComponents = {
 
 export const lookup = (componentName: string): FC<any> => {
   if (!(componentName in reactComponents)) {
-    throw new UnregisteredComponentError(`Unable to find component ${componentName}.  Has it been registered in the reactComponents index?`)
+    throw new UnregisteredComponentError(
+      `Unable to find component ${componentName}.  Has it been registered in the reactComponents index?`
+    );
   }
-  return reactComponents[componentName]
-}
+  return reactComponents[componentName];
+};

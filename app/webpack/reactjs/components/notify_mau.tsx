@@ -70,7 +70,7 @@ export const NotifyMauWindow: FC<NotifyMauWindowProps> = ({ handleClose, noteTyp
                   <Field name="email_confirm" type="email" required/>
                 </li>
                 <li>
-                  <Field name="inquiry"  component=“textarea” />
+                  <Field name="inquiry"  component="textarea" />
                 </li>
               </ol>
             </fieldset>

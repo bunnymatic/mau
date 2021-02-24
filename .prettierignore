@@ -7,3 +7,6 @@ coverage
 browsers.json
 tmp
 spec/javascripts/
+
+# temporary
+app/webpack/reactjs/components/notify_mau.tsx
