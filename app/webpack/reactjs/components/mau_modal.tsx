@@ -1,10 +1,9 @@
-import React, {FC} from 'react'
-
-import ReactModal from 'react-modal'
+import React, { FC } from "react";
+import ReactModal from "react-modal";
 
 type MauModalProps = ReactModal.Props;
 
-const MauModal:FC<MauModalProps> = ({children, ...props}) => {
+const MauModal: FC<MauModalProps> = ({ children, ...props }) => {
   const style = {
     overlay: {
       display: "flex",
@@ -17,11 +16,15 @@ const MauModal:FC<MauModalProps> = ({children, ...props}) => {
       left: "auto",
       right: "auto",
       bottom: "auto",
-    }
-  }
-  return <ReactModal {...props } style={ style }>{children}</ReactModal>
-}
+    },
+  };
+  return (
+    <ReactModal {...props} style={style}>
+      {children}
+    </ReactModal>
+  );
+};
 
 const setAppElement = ReactModal.setAppElement;
 
-export { MauModal, setAppElement}
+export { MauModal, setAppElement };

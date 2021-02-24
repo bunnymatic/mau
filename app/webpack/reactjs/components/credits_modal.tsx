@@ -1,20 +1,30 @@
-import React, { FC } from 'react'
-import { useModalState } from '@reactjs/hooks/useModalState';
-import ReactModal from 'react-modal'
+import { useModalState } from "@reactjs/hooks/useModalState";
+import React, { FC } from "react";
+import ReactModal from "react-modal";
 
 type CreditsWindowProps = {
-  version: string,
-  handleClose: () => void
-}
+  version: string;
+  handleClose: () => void;
+};
 
-export const CreditsWindow: FC<CreditsWindowProps> = ({ handleClose, version }) => (
+export const CreditsWindow: FC<CreditsWindowProps> = ({
+  handleClose,
+  version,
+}) => (
   <>
     <div className="credits-modal__header popup-header">
-      <div className="credits-modal__title popup-title">
-        Credits
-      </div>
+      <div className="credits-modal__title popup-title">Credits</div>
       <div className="credits-modal__close popup-close">
-        <a title="close" href="#" onClick={(ev) => { ev.preventDefault(); handleClose() }}><i className="fa fa-times"></i></a>
+        <a
+          title="close"
+          href="#"
+          onClick={(ev) => {
+            ev.preventDefault();
+            handleClose();
+          }}
+        >
+          <i className="fa fa-times"></i>
+        </a>
       </div>
     </div>
     <div className="credits-modal__content popup-text">
@@ -29,32 +39,40 @@ export const CreditsWindow: FC<CreditsWindowProps> = ({ handleClose, version }) 
         {" and "}
         <span>Liwei Xu</span>
       </p>
-      <div className="release_version">
-        Version: { version }
-      </div>
+      <div className="release_version">Version: {version}</div>
     </div>
   </>
-)
+);
 
 type CreditsModalProps = {
-  version: string
-}
+  version: string;
+};
 
-export const CreditsModal: FC<CreditsModalProps> = ({version}) => {
+export const CreditsModal: FC<CreditsModalProps> = ({ version }) => {
+  const { isOpen, open, close } = useModalState();
 
-  const {isOpen, open, close} = useModalState();
-
-  ReactModal.setAppElement('body')
+  ReactModal.setAppElement("body");
 
   return (
     <>
       <div className="credits">
-        <a href="#" onClick={(ev) => { ev.preventDefault(); open() }}>credits</a>
+        <a
+          href="#"
+          onClick={(ev) => {
+            ev.preventDefault();
+            open();
+          }}
+        >
+          credits
+        </a>
       </div>
-      <ReactModal isOpen={isOpen} className="credits-modal__container"
-                  overlayClassName="credits-modal__overlay">
+      <ReactModal
+        isOpen={isOpen}
+        className="credits-modal__container"
+        overlayClassName="credits-modal__overlay"
+      >
         <CreditsWindow handleClose={close} version={version} />
       </ReactModal>
     </>
   );
-}
+};
