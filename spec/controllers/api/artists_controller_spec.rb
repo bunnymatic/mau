@@ -37,7 +37,10 @@ describe Api::ArtistsController, elasticsearch: false do
           get :register_for_open_studios, params: { id: artist.id, participation: '1' }
           expect(artist.reload).to_not be_doing_open_studios
           expect(response).to be_bad_request
-          expect(JSON.parse(response.body)).to eq('success' => false, 'participating' => false)
+          expect(JSON.parse(response.body)).to eq({
+                                                    'success' => false,
+                                                    'participating' => false,
+                                                  })
         end
       end
 
@@ -48,14 +51,23 @@ describe Api::ArtistsController, elasticsearch: false do
           get :register_for_open_studios, params: { id: artist.id, participation: '1' }
           expect(artist.reload).to be_doing_open_studios
           expect(response).to be_successful
-          expect(JSON.parse(response.body)).to eq('success' => true, 'participating' => true)
+          expect(JSON.parse(response.body)).to eq(
+            'success' => true,
+            'participating' => true,
+            'participant' => OpenStudiosParticipant.find_by(user: artist,
+                                                            open_studios_event: OpenStudiosEvent.current).as_json,
+          )
         end
 
         it "updates your os status to false and redirects to your edit page if you're logged in" do
           get :register_for_open_studios, params: { id: artist.id, participation: '0' }
           expect(artist.reload).not_to be_doing_open_studios
           expect(response).to be_successful
-          expect(JSON.parse(response.body)).to eq('success' => true, 'participating' => false)
+          expect(JSON.parse(response.body)).to eq(
+            'success' => true,
+            'participant' => nil,
+            'participating' => false,
+          )
         end
       end
     end
