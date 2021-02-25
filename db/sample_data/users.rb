@@ -17,13 +17,17 @@ admin = ensure_user('administrator', :artist, :admin, :with_art)
 fan = ensure_user('artfan', :fan)
 
 puts '--> Adding favorites'
-FavoritesService.add(fan, artist.art_pieces.first)
-FavoritesService.add(fan, artist)
-FavoritesService.add(addressless, artist)
-FavoritesService.add(artist, admin)
-
-puts '--> Adding lots of artists with last names that start with A'
-30.times do |_idx|
-  username = "A#{Faker::Internet.username(6..10)}"
-  ensure_user(username, :artist, :active, :with_art, lastname: "A#{username}")
+begin
+  FavoritesService.add(fan, artist.art_pieces.first)
+  FavoritesService.add(fan, artist)
+  FavoritesService.add(addressless, artist)
+  FavoritesService.add(artist, admin)
+rescue StandardError
+  puts 'Failed to add some favorites - moving on'
 end
+
+# puts '--> Adding lots of artists with last names that start with A'
+# 30.times do |_idx|
+#   username = "A#{Faker::Internet.username(6..10)}"
+#   ensure_user(username, :artist, :active, :with_art, lastname: "A#{username}")
+# end
