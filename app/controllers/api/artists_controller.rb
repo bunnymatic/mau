@@ -10,11 +10,10 @@ module Api
 
         render json: {
           success: true,
-          participating: !!participant,
           participant: participant.as_json(root: false),
         }
       else
-        render json: { success: false, participating: false }, status: :bad_request
+        render json: { success: false, participant: nil }, status: :bad_request
       end
     end
   end

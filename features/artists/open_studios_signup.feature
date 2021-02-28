@@ -58,7 +58,7 @@ Scenario: "when I'm logged in"
     | https://www.rcode5.com  | https://www.youtube.com/watch?v=2SyPyBHJmiI |
 
   When I click on "Nope - not this time"
-  Then I see a flash notice "Maybe next time! :)"
+  Then I see a flash notice "Maybe next time! :\)"
   Then I see "Yes - Register Me" on the page
 
 

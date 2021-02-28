@@ -152,11 +152,11 @@ Then(/^I see an error message "(.*?)"$/) do |msg|
 end
 
 Then(/^I see a flash error (including\s+)?"(.*?)"$/) do |_, msg|
-  expect(page).to have_flash(:error, Regexp.new(Regexp.quote(msg)))
+  expect(page).to have_flash(:error, Regexp.new(msg))
 end
 
 Then(/^I see a flash notice (including\s+)?"(.*?)"$/) do |_, msg|
-  expect(page).to have_flash(:notice, Regexp.new(Regexp.quote(msg)))
+  expect(page).to have_flash(:notice, Regexp.new(msg))
 end
 
 Then(/^I close the notice$/) do

@@ -219,9 +219,6 @@ describe Artist do
     end
   end
 
-  describe 'open_studios_participant' do
-  end
-
   describe 'doing_open_studios?' do
     let(:past_artist) { create(:artist) }
     before do

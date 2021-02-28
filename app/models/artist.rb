@@ -123,8 +123,10 @@ class Artist < User
     open_studios_participants.find_by(open_studios_event: OpenStudiosEventService.current)
   end
 
-  def doing_open_studios?
-    !!current_open_studios_participant
+  def doing_open_studios?(key = nil)
+    return !!current_open_studios_participant unless key
+
+    open_studios_events.find_by(key: key)
   end
 
   alias doing_open_studios doing_open_studios?

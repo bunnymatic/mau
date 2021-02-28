@@ -6,7 +6,7 @@ import { MauCheckboxField } from "./mau_checkbox_field";
 describe("MauCheckboxField", () => {
   it("matches the snapshot", () => {
     const { container } = renderInForm(
-      <MauCheckboxField label="The Label" name="the_name" value={true} />
+      <MauCheckboxField label="The Label" name="the_name" />
     );
     expect(container).toMatchSnapshot();
   });

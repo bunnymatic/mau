@@ -39,7 +39,7 @@ describe Api::ArtistsController, elasticsearch: false do
           expect(response).to be_bad_request
           expect(JSON.parse(response.body)).to eq({
                                                     'success' => false,
-                                                    'participating' => false,
+                                                    'participant' => nil,
                                                   })
         end
       end
@@ -53,9 +53,8 @@ describe Api::ArtistsController, elasticsearch: false do
           expect(response).to be_successful
           expect(JSON.parse(response.body)).to eq(
             'success' => true,
-            'participating' => true,
             'participant' => OpenStudiosParticipant.find_by(user: artist,
-                                                            open_studios_event: OpenStudiosEvent.current).as_json,
+                                                            open_studios_event: OpenStudiosEvent.current).as_json(root: false),
           )
         end
 
@@ -66,7 +65,6 @@ describe Api::ArtistsController, elasticsearch: false do
           expect(JSON.parse(response.body)).to eq(
             'success' => true,
             'participant' => nil,
-            'participating' => false,
           )
         end
       end

@@ -153,41 +153,25 @@ class ArtistsController < ApplicationController
   end
 
   def update
-    if request.xhr?
-      handle_xhr_update
+    if commit_is_cancel
+      redirect_to user_path(current_user)
+      return
+    end
+    if UpdateArtistService.new(current_artist, artist_params).update
+      Messager.new.publish "/artists/#{current_artist.id}/update", 'updated artist info'
+      flash[:notice] = 'Your profile has been updated'
+      redirect_to edit_artist_url(current_user)
     else
-      if commit_is_cancel
-        redirect_to user_path(current_user)
-        return
-      end
-      if UpdateArtistService.new(current_artist, artist_params).update
-        Messager.new.publish "/artists/#{current_artist.id}/update", 'updated artist info'
-        flash[:notice] = 'Your profile has been updated'
-        redirect_to edit_artist_url(current_user)
-      else
-        @user = ArtistPresenter.new(current_artist.reload)
-        @studios = StudioService.all
-        @artist_info = current_artist.artist_info
-        @open_studios_event = OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
-        flash[:error] = 'We had trouble updating your profile.  Errors will be indicated below.'
-        render :edit
-      end
+      @user = ArtistPresenter.new(current_artist.reload)
+      @studios = StudioService.all
+      @artist_info = current_artist.artist_info
+      @open_studios_event = OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
+      flash[:error] = 'We had trouble updating your profile.  Errors will be indicated below.'
+      render :edit
     end
   end
 
   protected
-
-  def handle_xhr_update
-    open_studios_event = OpenStudiosEvent.current
-    os_participant = UpdateArtistService.new(current_artist, os_status_params).update_os_status
-    message = update_os_status_message(os_status, current_artist, open_studios_event)
-    render json: {
-      success: true,
-      os_status: !!os_participant,
-      current_os: OpenStudiosEventService.current,
-      message: message,
-    }
-  end
 
   def safe_find_artist(id)
     Artist.friendly.find id

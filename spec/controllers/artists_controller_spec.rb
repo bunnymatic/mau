@@ -187,26 +187,6 @@ describe ArtistsController, elasticsearch: :stub do
           put :update, params: { id: artist, commit: 'submit', artist: { artist_info_attributes: { street: 'wherever' } } }
         end
       end
-      context 'update os status' do
-        before do
-          create(:open_studios_event)
-        end
-        it 'updates artists os status to true' do
-          put :update, xhr: true, params: { id: artist, artist: { 'os_participation' => '1' } }
-          expect(artist.open_studios_events).to include OpenStudiosEvent.current
-        end
-
-        it 'sets false if artist has no address' do
-          put :update, xhr: true, params: { id: without_address, commit: 'submit', artist: { 'os_participation' => '1' } }
-          expect(without_address.open_studios_events).not_to include OpenStudiosEvent.current
-        end
-        it 'saves an OpenStudiosSignupEvent when the user sets their open studios status to true' do
-          stub_request(:get, Regexp.new("http:\/\/example.com\/openstudios.*"))
-          expect do
-            put :update, xhr: true, params: { id: artist, commit: 'submit', artist: { 'os_participation' => '1' } }
-          end.to change(OpenStudiosSignupEvent, :count).by(1)
-        end
-      end
     end
   end
 
