@@ -11,14 +11,14 @@ describe("MauHint", () => {
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
+        <p
           class="inline-hints"
         >
           <span>
             stuff
           </span>
            here
-        </div>
+        </p>
       </div>
     `);
   });

@@ -4,7 +4,7 @@ interface MauHintProps {}
 
 export const MauHint: FC<MauHintProps> = ({ children }) => {
   if (children) {
-    return <div className="inline-hints">{children}</div>;
+    return <p className="inline-hints">{children}</p>;
   }
   return null;
 };

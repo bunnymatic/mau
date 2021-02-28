@@ -50,7 +50,12 @@ describe Api::OpenStudiosParticipantsController do
 
         expect(response).to be_ok
         expect(participant.shop_url).to eq(new_attrs[:shop_url])
+        expect(participant.youtube_url).to eq(new_attrs[:youtube_url])
+        expect(participant.video_conference_url).to eq(new_attrs[:video_conference_url])
+        expect(participant.show_email).to eq(new_attrs[:show_email])
+        expect(participant.show_phone_number).to eq(new_attrs[:show_phone_number])
       end
+
       it 'returns json errors if data is bad' do
         bad_attrs = new_attrs.merge(shop_url: 'httwhatever')
         participant = artist.open_studios_participants.first

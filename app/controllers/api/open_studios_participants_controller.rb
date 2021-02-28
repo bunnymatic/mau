@@ -26,6 +26,7 @@ module Api
         :video_conference_url,
         :show_email,
         :show_phone_number,
+        :youtube_url,
       )
     end
   end

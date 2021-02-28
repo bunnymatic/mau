@@ -55,6 +55,7 @@ describe("OpenStudiosInfoForm", () => {
     it("shows a form", () => {
       expect(findField("Shopping Cart Link")).toBeInTheDocument();
       expect(findField("Meeting Link (Zoom or other)")).toBeInTheDocument();
+      expect(findField("Youtube Video Link")).toBeInTheDocument();
       expect(findField("Show my e-mail")).toBeInTheDocument();
       expect(findField("Show my phone number")).toBeInTheDocument();
       expect(findButton("Update my details")).toBeInTheDocument();
@@ -75,6 +76,9 @@ describe("OpenStudiosInfoForm", () => {
       act(() => {
         const shopUrl = findField("Shopping Cart Link");
         fillIn(shopUrl, "http://www.whatever.com");
+
+        const youtubeUrl = findField("Youtube Video Link");
+        fillIn(youtubeUrl, "http://www.youtube.com/watch?v=the-video");
       });
       await waitFor(() => {
         button = findButton("Update my details");
@@ -90,6 +94,7 @@ describe("OpenStudiosInfoForm", () => {
           openStudiosParticipant: {
             ...participant,
             shopUrl: "http://www.whatever.com",
+            youtubeUrl: "http://www.youtube.com/watch?v=the-video",
           },
         });
         expect(mockOnUpdateParticipant).toHaveBeenCalledWith(participant);

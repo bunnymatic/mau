@@ -17,13 +17,13 @@ exports[`MauTextField matches the snapshot 1`] = `
       type="text"
       value=""
     />
-    <div
+    <p
       class="inline-hints"
     >
       <span>
         here is a clue
       </span>
-    </div>
+    </p>
   </div>
 </div>
 `;
@@ -45,13 +45,13 @@ exports[`MauTextField matches the snapshot if id is provided 1`] = `
       type="text"
       value=""
     />
-    <div
+    <p
       class="inline-hints"
     >
       <span>
         here is a clue
       </span>
-    </div>
+    </p>
   </div>
 </div>
 `;
