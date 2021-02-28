@@ -1,9 +1,29 @@
-import { destroy, get, post } from "@js/services/mau_ajax";
-import { camelizeKeys } from "humps";
-
+import { destroy, get, post, put } from "@js/services/mau_ajax";
+import { camelizeKeys, decamelizeKeys } from "humps";
+import * as types from "@reactjs/types";
 const camelize = (data) => camelizeKeys(data);
 
 export const api = {
+  openStudios: {
+    submitRegistrationStatus: (status: boolean) => {
+      return api.users.whoami().then(function ({ currentUser }) {
+        if (currentUser && currentUser.slug) {
+          return api.users.registerForOs(currentUser.slug, status);
+        }
+      });
+    },
+    participants: {
+      update: ({
+        id,
+        artistId,
+        openStudiosParticipant,
+      }: types.OpenStudiosParticipantUpdateRequest) => {
+        return put(`/api/artists/${artistId}/open_studios_participants/${id}`, {
+          openStudiosParticipant,
+        }).then(camelize);
+      },
+    },
+  },
   applicationEvents: {
     index: ({ since }) =>
       get("/admin/application_events.json", { "query[since]": since }).then(

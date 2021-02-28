@@ -1,5 +1,6 @@
-import angular from "angular";
 import "angular-mocks";
+
+import angular from "angular";
 
 export const compileTemplate = function (template, inputScope) {
   let elm, $elm;

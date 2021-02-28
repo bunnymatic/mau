@@ -13,8 +13,10 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-standard": "^5.0.0",
+    "faker": "^5.4.0",
     "jest": "^26.0.0",
     "prettier": "^2.0.0",
+    "rosie": "^2.0.1",
     "webpack-dev-server": "^3.10.3"
   },
   "scripts": {
@@ -94,7 +96,7 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       "^.+\\.tsx?$": "babel-jest",
-      "^.+\\.html$": "<rootDir>/jest/support/html_loader.js"
+      "^.+\\.html$": "<rootDir>/app/webpack/test/support/html_loader.js"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(spin.js)/)"
@@ -112,7 +114,7 @@
       "@components/(.*)$": "<rootDir>/app/webpack/angularjs/components/$1",
       "@models/(.*)$": "<rootDir>/app/webpack/js/app/models/$1",
       "@services/(.*)$": "<rootDir>/app/webpack/angularjs/services/$1",
-      "@support/(.*)$": "<rootDir>/jest/support/$1",
+      "@test/(.*)$": "<rootDir>/app/webpack/test/$1",
       "@fixtures/(.*)$": "<rootDir>/spec/fixtures/$1"
     }
   }

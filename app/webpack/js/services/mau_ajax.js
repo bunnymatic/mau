@@ -1,5 +1,6 @@
+import { isNil } from "@js/app/helpers";
 import angular from "angular";
-import { camelize, camelizeKeys } from "humps";
+import { camelize, camelizeKeys, decamelizeKeys } from "humps";
 import jQuery from "jquery";
 
 const ajaxSetup = (jq) => {
@@ -13,10 +14,11 @@ const ajaxSetup = (jq) => {
 
 const request = (method, url, data, ajaxOptions = {}) => {
   ajaxSetup(jQuery);
+  const cleanData = isNil(data) ? undefined : decamelizeKeys(data);
   const options = {
     method,
     url,
-    data,
+    data: cleanData,
     ...ajaxOptions,
   };
   return jQuery.ajax(options);
@@ -28,6 +30,10 @@ const get = (url, data) => {
 
 const post = (url, data, ajaxOptions = {}) => {
   return request("post", url, data, ajaxOptions);
+};
+
+const put = (url, data, ajaxOptions = {}) => {
+  return request("put", url, data, ajaxOptions);
 };
 
 const destroy = (url, data, ajaxOptions = {}) => {
@@ -60,6 +66,7 @@ export {
   get,
   post,
   postForm,
+  put,
   responseCamelizeTransformer,
   responseTransformer,
 };

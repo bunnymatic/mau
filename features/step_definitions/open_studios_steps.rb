@@ -15,9 +15,10 @@ Then('I see the registration message') do
   expect(page).to have_button('Yes - Register Me')
 end
 
-Then('I see the update my registration message') do
-  expect(page).to have_content('You are currently registered for Open Studios')
-  expect(page).to have_button('Update my registration status')
+Then('I see the open studios info form') do
+  expect(page).to have_css('input[name=shopUrl]')
+  expect(page).to have_css('input[name=showEmail]')
+  expect(page).to have_button('Nope - not this time')
 end
 
 Then(/^I see the open studios cms content/) do

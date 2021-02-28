@@ -2,7 +2,7 @@ import "angular-mocks";
 import "./notify_mau";
 import "@services/notification.service";
 
-import { compileTemplate } from "@support/angular_helpers";
+import { compileTemplate } from "@test/support/angular_helpers";
 import angular from "angular";
 import expect from "expect";
 

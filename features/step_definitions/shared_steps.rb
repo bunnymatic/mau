@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative '../../spec/support/mobile_setup'
 
 def fill_in_login_form(login, pass)
@@ -260,6 +258,15 @@ When(/^I fill in the "([^"]*?)" form with:$/) do |form_locator, table|
   end
 end
 
+Then(/^I see the "([^"]*?)" form has:$/) do |form_locator, table|
+  within form_locator do
+    info = table.hashes.first
+    info.each do |field, val|
+      expect(find_field(field).value).to eql val
+    end
+  end
+end
+
 When(/^I choose "([^"]*?)" from "(.*?)"$/) do |option, select|
   select option, from: select
 end
@@ -342,4 +349,8 @@ When(/^I fill out and submit the feedback form$/) do
     fill_in 'Comment', with: 'This site rules!'
     click_on 'Send'
   end
+end
+
+When(/^I refresh the page$/) do
+  visit current_path
 end

@@ -2,7 +2,7 @@ import "angular-mocks";
 import "@services/favorites.service";
 import "./favorite_this";
 
-import { compileTemplate, triggerEvent } from "@support/angular_helpers";
+import { compileTemplate, triggerEvent } from "@test/support/angular_helpers";
 import angular from "angular";
 import expect from "expect";
 

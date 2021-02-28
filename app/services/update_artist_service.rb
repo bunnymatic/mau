@@ -28,15 +28,14 @@ class UpdateArtistService
   end
 
   def update_os_status
-    participation_record = nil
     participating = to_boolean(@params[:os_participation])
     unless @artist.can_register_for_open_studios?
       Rails.logger.info("#{@artist.login} isn't eligible to register to #{@current_os}")
-      return false
+      return
     end
     if participating != @artist.doing_open_studios?
       if participating
-        participation_record = OpenStudiosParticipationService.participate(@artist, @current_os)
+        OpenStudiosParticipationService.participate(@artist, @current_os)
       else
         OpenStudiosParticipationService.refrain(@artist, @current_os)
       end
@@ -44,7 +43,7 @@ class UpdateArtistService
       refresh_in_search_index
       ArtistMailer.welcome_to_open_studios(@artist, @current_os).deliver_later if participating
     end
-    participation_record
+    @artist.current_open_studios_participant
   end
 
   private

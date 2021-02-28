@@ -232,12 +232,6 @@ describe Artist do
       expect(doing).to eq([artist])
       expect(notdoing.size).to eq(2)
     end
-
-    it 'returns true for an artist doing this a past open studios' do
-      doing, notdoing = Artist.all.partition { |artist| artist.doing_open_studios?(past_open_studios_event.key) }
-      expect(doing).to eq([past_artist])
-      expect(notdoing.size).to eq(2)
-    end
   end
 
   describe 'art piece helpers' do

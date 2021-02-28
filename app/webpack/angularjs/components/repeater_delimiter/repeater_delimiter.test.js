@@ -1,7 +1,7 @@
 import "angular-mocks";
 import "./repeater_delimiter";
 
-import { compileTemplate } from "@support/angular_helpers";
+import { compileTemplate } from "@test/support/angular_helpers";
 import angular from "angular";
 import expect from "expect";
 
