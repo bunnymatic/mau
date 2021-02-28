@@ -18,11 +18,11 @@ describe OpenStudiosPresenter do
 
   before do
     allow(OpenStudiosEventService).to receive(:current).and_return(open_studios_event)
-    allow(open_studios_event).to receive_message_chain(:artists, :in_the_mission)
+    allow(open_studios_event).to receive_message_chain(:artists)
       .and_return(
         [
-          instance_double(Artist, studio: instance_double(Studio, name: 'studio')),
-          instance_double(Artist, studio: instance_double(Studio, name: 'axe')),
+          instance_double(Artist, studio: instance_double(Studio, name: 'studio'), lastname: 'Bill'),
+          instance_double(Artist, studio: instance_double(Studio, name: 'axe'), lastname: 'Illionga'),
           instance_double(Artist, studio: nil, address: 'mission', lastname: 'Rogers'),
           instance_double(Artist, studio: nil, address: 'mission', lastname: 'Jill'),
         ],
@@ -66,6 +66,15 @@ describe OpenStudiosPresenter do
     end
     it 'in order by artist last name' do
       expect(subject.participating_indies.map(&:lastname).map(&:downcase)).to be_monotonically_increasing
+    end
+  end
+
+  describe '#participating_artists' do
+    it 'has all the artists' do
+      expect(presenter.participating_artists.size).to eq(4)
+    end
+    it 'are in order artist last name' do
+      expect(subject.participating_artists.map { |a| a.lastname.downcase }).to be_monotonically_increasing
     end
   end
 end

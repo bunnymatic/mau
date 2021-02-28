@@ -5,47 +5,16 @@
       .action-button
         = link_to "Register to Participate", register_open_studios_path, class: "pure-button-primary pure-button"
 
-- if @gallery.items.any?
-  .pure-g
-    .pure-u-1-1.padded-content
-      ul.js-tabs.tabs.tabs__horizontal.open-studios-content-tabs
-        li.active
-          a href="#about" data-toggle="tab" about
-        li
-          a href="#participants" data-toggle="tab" participants
-        li
-          a href="#map" data-toggle="tab" map
 .pure-g.tab-content
-  .pure-u-1-1#about.tab-pane.active
+  .pure-u-1-1#about
     .pure-g
       .pure-u-1-1.pure-u-md-2-3.pure-u-lg-3-5.padded-content
         = render_cms_content @presenter.packaged_summary
         = render_cms_content @presenter.packaged_preview_reception
-        .section
-          h4 Participating Group Studios
-          ul.participant_list
-            - @presenter.participating_studios.each do |s|
+        .section.open-studios-index__section
+          h4 Participating Artists
+          ul.open-studios-index__partipipant-list
+            - @presenter.participating_artists.each do |artist|
               li
-                = link_to(s.name,s)
-                '
-                = "(#{pluralize(s.artists.to_a.count(&:doing_open_studios?), 'artist')})"
-        .section
-          h4 Participating Independent Artists
-          ul.participant_list
-            - @presenter.participating_indies.each do |a|
-              li
-                = link_to(a.get_name, a)
-                '
-                = a.street
+                = link_to(artist.get_name, artist)
           = render :partial => '/main/info_footer'
-  - if @gallery.items.any?
-    .pure-u-1-1.tab-pane.padded-content#participants
-      .pure-g.js-artists-scroll-wrapper.artists-scroll
-        = render '/artists/artist_list', gallery: @gallery
-    .pure-u-1-1.tab-pane.padded-content#map
-      = render 'map', map_info: @map_info
-
-javascript:
-  $(function() {
-    new MAU.ArtistListInfiniteScroller('/open_studios');
-  });
