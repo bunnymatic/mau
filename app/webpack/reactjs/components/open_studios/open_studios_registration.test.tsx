@@ -46,7 +46,7 @@ describe("OpenStudiosRegistration", () => {
     renderComponent({ autoRegister: true });
     expect(
       screen.queryByText(
-        "You are registering to participate as an Open Studios artist for The dates of the event.",
+        "You are registering to participate as an Open Studios artist",
         { exact: false }
       )
     ).toBeInTheDocument();
