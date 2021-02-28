@@ -79,20 +79,17 @@ const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
       </div>
       <div className="open-studios-modal__content popup-text">
         <p>
-          You are registering to participate as an Open Studios artist for{" "}
+          You are registering to participate as an Open Studios artist{" "}
           {dateRange}.
         </p>
         <p>This means you are committing to:</p>
         <ol>
-          <li>Hang some art at your studio - {location}</li>
+          <li>Update the images on your profile with fresh, available art.</li>
           <li>
-            Be there to receive the public during your (possibly) scheduled
-            video conference time
+            Decide how you will participate and fill out the Open Studios
+            Information form.
           </li>
-          <li>
-            Promote your art and your studio’s participation in the event.
-            (We’ll send you tools if you need them)
-          </li>
+          <li>Promote the event to your mailing list and social fans.</li>
         </ol>
         <p>Continue with registration?</p>
         <div className="actions open-studios-registration-form__actions">

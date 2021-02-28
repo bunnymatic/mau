@@ -13,31 +13,31 @@
 </p>
 <p>
   <ul>
-    <li> hang some art at your studio - <%= @studio_address %> </li>
-    <li> be there to receive the public Saturday and Sunday, <%= @current_os.for_display(reverse: true) %>
-      from <%= @current_os.start_time %> to <%= @current_os.end_time %>.</li>
+    <li><%= link_to "Update the images on your profile", @upload_url, target: "_blank" %> with fresh, available art. </li>
+
+    <li> Decide how you will participate and <%= link_to "fill out the Open Studios Information form", @artist_os_section_url, target: "_blank" %>. Your participation options are:
+      <ol>
+        <li>Share a shopping cart link</li>
+        <li>Host a live meeting link May 8 & 9 between noon-4pm (Zoom or other platform).</li>
+        <li>Share a YouTube video link: studio tour, art demo etc.</li>
+        <li>Host a live stream event between @current_os.for_display(reverse: true) (artist talk, demo, class, happy hour, etc.)</li>
+        <li>Share your contact information during the event</li>
+      </ol>
+    </li>
+    <li>
+      Promote the event to your mailing list and social fans.
+    </li>
+    <li>
+      Connect with MissionArtists on
+      <%= link_to "Facebook", Conf.social_links['facebook'], target: "_blank" %>,
+      <%= link_to "Twitter", Conf.social_links['twitter'], target: "_blank" %>,
+      <%= link_to "Instagram", Conf.social_links['instagram'], target: "_blank" %>.
+    </li>
   </ul>
 </p>
 
 <p>
-Here are some things you can do to make your Open Studios great:
-<ul>
-  <li>
-    <%= link_to "upload new images of your artwork", @upload_url, target: "_blank" %>
-  </li>
-  <li>promote the event on your social media channels</li>
-  <li>invite your mailing list</li>
-  <li>
-    get connected with MissionArtists on
-    <%= link_to "Facebook", Conf.social_links['facebook'], target: "_blank" %>,
-    <%= link_to "Twitter", Conf.social_links['twitter'], target: "_blank" %>,
-    <%= link_to "Instagram", Conf.social_links['instagram'], target: "_blank" %>.
-  </li>
-</ul>
-
-</p>
-<p>
-Have any questions?  Go ahead and send us an email.  We're here to help.
+  Have any questions?  See <%= link_to Conf.open_studios_help_document_url, Conf.open_studios_help_document_url, target: "_blank" %> or email us.  We're here to help.
 </p>
 <p>
 Mission Artists is entirely volunteer run and does not charge for participation.  If you'd like to help out, you can donate by <a href="<%= @donation_url %>" target="_blank">going to the site</a> and clicking on the "Donate" button.  We uses this money to run the website and support promotion for Open Studios events.
