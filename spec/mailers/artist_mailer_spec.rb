@@ -58,10 +58,13 @@ describe ArtistMailer, elasticsearch: :stub do
     let(:open_studios) { build(:open_studios_event) }
     subject(:mail) { ArtistMailer.welcome_to_open_studios(artist, open_studios) }
     it 'includes a link to the artists profile page' do
-      expect(mail).to have_link_in_body 'upload new images of your artwork', href: manage_art_artist_url(artist)
+      expect(mail).to have_link_in_body 'Update the images on your profile', href: manage_art_artist_url(artist)
     end
     it 'includes a link to the donate button on the artists profile page' do
       expect(mail).to have_link_in_body 'going to the site', href: edit_artist_url(artist, anchor: 'events')
+    end
+    it 'includes a link to your edit events page' do
+      expect(mail).to have_link_in_body 'fill out the Open Studios Information form', href: edit_artist_url(artist, anchor: 'events')
     end
     it "includes links to mau's social media sites" do
       expect(mail).to have_link_in_body 'Facebook', href: Conf.social_links['facebook']
@@ -73,6 +76,9 @@ describe ArtistMailer, elasticsearch: :stub do
     end
     it 'includes the Open Studios date' do
       expect(mail).to have_body_text open_studios.for_display(reverse: true)
+    end
+    it 'includes the links to the help document' do
+      expect(mail).to have_link_in_body Conf.open_studios_help_document_url, href: Conf.open_studios_help_document_url
     end
   end
 end
