@@ -9,8 +9,6 @@ describe AdminController do
   let(:manager) { FactoryBot.create(:artist, :manager, :with_studio) }
   let(:artist2) { manager }
 
-  include OpenStudiosEventShim
-
   context 'authorization' do
     %i[index os_status].each do |endpoint|
       describe 'not logged in' do

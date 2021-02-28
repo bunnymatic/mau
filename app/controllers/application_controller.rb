@@ -3,7 +3,6 @@
 
 # USERAGENT = 'HTTP_USER_AGENT'
 class ApplicationController < ActionController::Base
-  include OpenStudiosEventShim
   include UserControllerHelpers
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -15,7 +14,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user_session, :current_user, :logged_in?, :current_artist
   helper_method :current_open_studios
-  helper_method :current_open_studios_key, :available_open_studios_keys # from OpenStudiosEventShim
   helper_method :supported_browser?
 
   def store_location(location = nil)

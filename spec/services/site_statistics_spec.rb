@@ -2,6 +2,12 @@ require 'rails_helper'
 
 describe SiteStatistics do
   subject(:stats) { SiteStatistics.new }
+  let!(:os) do
+    [
+      create(:open_studios_event, start_date: Time.zone.local(2021, 2, 2)),
+      create(:open_studios_event, start_date: Time.zone.local(2020, 2, 2)),
+    ]
+  end
   let!(:models) do
     freeze_time do
       FactoryBot.create_list(:studio, 2)
@@ -48,6 +54,6 @@ describe SiteStatistics do
     expect(stats.totals[:studios]).to eql 2
   end
   it 'has open studios info' do
-    expect(stats.open_studios.length).to be >= 5
+    expect(stats.open_studios.length).to be >= 2
   end
 end

@@ -11,17 +11,6 @@ class OpenStudiosEventService
     parse_key(os_key, reverse: reverse) || 'n/a'
   end
 
-  def self.date(os_key)
-    os = find_by_key(os_key)
-    return os.start_date if os
-
-    parsed = parse_key(os_key, reverse: true)
-    return Time.zone.parse(parsed) if parsed
-
-    # fallback
-    Time.zone.now - 10.years
-  end
-
   def self.parse_key(os_key, reverse: false)
     return nil if os_key.blank?
 
