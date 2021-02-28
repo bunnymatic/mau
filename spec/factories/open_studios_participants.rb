@@ -5,6 +5,7 @@ FactoryBot.define do
 
     shop_url { Faker::Internet.url }
     video_conference_url { Faker::Internet.url }
+    youtube_url { 'http://m.youtube.com/watch?v=abcdefg' }
     show_email { [true, false].sample }
     show_phone_number { [true, false].sample }
   end

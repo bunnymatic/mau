@@ -6,4 +6,5 @@ class OpenStudiosParticipant < ApplicationRecord
 
   validates :shop_url, url: true
   validates :video_conference_url, url: true
+  validates :youtube_url, youtube_url: true
 end

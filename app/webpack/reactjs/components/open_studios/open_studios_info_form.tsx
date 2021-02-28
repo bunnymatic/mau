@@ -18,9 +18,10 @@ interface OpenStudiosInfoFormProps {
   onUpdateParticipant: (participant: OpenStudiosParticipant) => void;
 }
 
+// Seems to help with proving the controlled v uncontrolled inputs and Formik
 function denullify(participant) {
   const result = { ...participant };
-  ["shopUrl", "videoConferenceUrl"].forEach(
+  ["shopUrl", "videoConferenceUrl", "youtubeUrl"].forEach(
     (field) => (result[field] = participant[field] ?? "")
   );
   ["showPhoneNumber", "showEmail"].forEach(
@@ -111,12 +112,20 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                       hint="This link should point to your shopping cart or online store"
                     />
                   </div>
-                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--video-url">
+                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--video-conference-url">
                     <MauTextField
                       label="Meeting Link (Zoom or other)"
                       name="videoConferenceUrl"
                       placeholder="e.g. https://my.zoom.room.com/me"
                       hint="This link will connect folks to your video conference that you'd be on during Open Studios"
+                    />
+                  </div>
+                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--youtube-url">
+                    <MauTextField
+                      label="Youtube Video Link"
+                      name="youtubeUrl"
+                      placeholder="e.g. https://www.youtube.com/watch?v=abc123"
+                      hint="This could be a studio tour, or art demo or..."
                     />
                   </div>
                   <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--checkbox open-studios-info-form__input--show-email">

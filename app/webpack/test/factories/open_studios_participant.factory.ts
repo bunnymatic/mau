@@ -12,4 +12,5 @@ export const openStudiosParticipantFactory = Factory.define<types.OpenStudiosPar
   .attr("showEmail", randomBoolean)
   .attr("showPhoneNumber", randomBoolean)
   .attr("shopUrl", faker.internet.url)
-  .attr("videoConferenceUrl", faker.internet.url);
+  .attr("videoConferenceUrl", faker.internet.url)
+  .attr("youtubeUrl", `http://www.youtube.com/watch?${faker.lorem.word()}`);

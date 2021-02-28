@@ -9,6 +9,7 @@ export interface OpenStudiosParticipant {
   showPhoneNumber: Nullable<boolean>;
   shopUrl: Nullable<string>;
   videoConferenceUrl: Nullable<string>;
+  youtubeUrl: Nullable<string>;
 }
 
 // Note: this does *not* match the Ruby model OpenStudiosEvent but
