@@ -1,17 +1,15 @@
 class SiteStatistics
   attr_accessor :last_30_days, :last_week, :yesterday, :totals
 
-  include OpenStudiosEventShim
-
   def initialize
     compute
   end
 
   def open_studios
     {}.tap do |os_stats|
-      available_open_studios_keys.sort_by { |k| OpenStudiosEventService.date(k) }.reverse_each do |ostag|
-        key = display_key(ostag)
-        os_stats[key] = OpenStudiosEventService.find_by_key(ostag).try(:artists).try(:count) || 0
+      OpenStudiosEventService.all.reverse_each do |os|
+        key = os.for_display
+        os_stats[key] = os.artists.count
       end
     end
   end
@@ -27,10 +25,6 @@ class SiteStatistics
   end
 
   private
-
-  def display_key(os_key)
-    OpenStudiosEventService.for_display(os_key)
-  end
 
   def compute
     queries.each_key do |k|

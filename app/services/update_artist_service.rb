@@ -1,6 +1,4 @@
 class UpdateArtistService
-  include OpenStudiosEventShim
-
   class Error < StandardError; end
 
   def initialize(artist, params)

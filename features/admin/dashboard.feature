@@ -4,6 +4,7 @@ Feature: Viewing the admin dashboard
 
 Background:
   Given an "admin" account has been created
+  And there are open studios artists with art in the system
   And I login
 
 Scenario:login with good info

@@ -1,7 +1,5 @@
 require 'csv'
 class AdminEmailList < ViewPresenter
-  include OpenStudiosEventShim
-
   BASE_COLUMN_HEADERS = ['First Name', 'Last Name', 'Full Name', 'Email Address', 'Group Site Name'].freeze
 
   attr_accessor :list_names
@@ -9,6 +7,14 @@ class AdminEmailList < ViewPresenter
   def initialize(list_names)
     super()
     @list_names = [list_names].flatten.map(&:to_s)
+  end
+
+  def available_open_studios_events
+    @available_open_studios_events ||= OpenStudiosEvent.all
+  end
+
+  def available_open_studios_keys
+    available_open_studios_events.pluck(:key).sort
   end
 
   def csv_filename
@@ -123,8 +129,8 @@ class AdminEmailList < ViewPresenter
       artist.get_name(escape: false),
       artist.email,
       artist.studio ? artist.studio.name : '',
-    ] + available_open_studios_keys.map do |os_tag|
-      artist.doing_open_studios?(os_tag).to_s
+    ] + available_open_studios_events.map do |os_event|
+      os_event.open_studios_participants.exists?(user: artist)
     end
   end
 end

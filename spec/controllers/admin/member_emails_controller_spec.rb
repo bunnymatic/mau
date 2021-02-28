@@ -28,6 +28,12 @@ describe Admin::MemberEmailsController do
       end
 
       describe 'multiple os keys' do
+        let!(:open_studios_events) do
+          [
+            create(:open_studios_event, start_date: Time.zone.local(2010, 4, 1)),
+            create(:open_studios_event, start_date: Time.zone.local(2010, 10, 10)),
+          ]
+        end
         before do
           get :show, params: { '201004' => 'on', '201010' => 'on' }
         end
@@ -49,6 +55,13 @@ describe Admin::MemberEmailsController do
     end
 
     describe 'csv' do
+      let!(:open_studios_events) do
+        [
+          create(:open_studios_event, start_date: Time.zone.local(2021, 2, 1)),
+          create(:open_studios_event, start_date: Time.zone.local(2020, 12, 1)),
+          create(:open_studios_event, start_date: Time.zone.local(2020, 10, 10)),
+        ]
+      end
       let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge(headers: true) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
       before do
@@ -58,9 +71,8 @@ describe Admin::MemberEmailsController do
       it { expect(response).to be_successful }
       it { expect(response).to be_csv_type }
       it 'includes the right headers' do
-        past_os_event_keys = %w[201004 201010 201104 201110 201204 201210 201304 201310 201404]
         expected_headers = ['First Name', 'Last Name', 'Full Name', 'Email Address', 'Group Site Name']
-        expected_headers += past_os_event_keys
+        expected_headers += open_studios_events.map(&:key).sort
         expect(parsed.headers).to eq(expected_headers)
       end
       it 'includes the right data' do

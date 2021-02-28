@@ -1,5 +1,7 @@
 module Admin
   class StatsController < ::BaseAdminController
+    include OpenStudiosEventShim
+
     def art_pieces_per_day
       apd = compute_art_pieces_per_day
       render json: format_for_graph(apd)

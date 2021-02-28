@@ -31,13 +31,6 @@ describe OpenStudiosEventService do
     end
   end
 
-  describe '.date' do
-    it 'returns the date for a key whether or not there is an event in the db' do
-      expect(service.date('201104')).to eql Time.zone.parse('Apr 2011')
-      expect(service.date(OpenStudiosEvent.first.key)).to eql OpenStudiosEvent.first.start_date
-    end
-  end
-
   describe '.parse_key' do
     it 'returns the year month as a string and can return it reversed' do
       expect(service.parse_key('201410')).to eql '2014 Oct'

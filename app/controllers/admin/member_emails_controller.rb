@@ -14,7 +14,8 @@ module Admin
     private
 
     def build_list_names_from_params
-      list_names = [params[:listname], (params.keys & available_open_studios_keys)].flatten.compact.uniq
+      known_os_keys = OpenStudiosEvent.pluck(:key)
+      list_names = [params[:listname], (params.keys & known_os_keys)].flatten.compact.uniq
       list_names.presence || ['active']
     end
   end
