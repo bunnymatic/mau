@@ -43,7 +43,7 @@ class FasoImporter
 
   def parse_row(row)
     if @headers
-      Hash[@headers.zip(pipe_split(row))]
+      @headers.zip(pipe_split(row)).to_h
     else
       @headers = pipe_split(row)
       nil

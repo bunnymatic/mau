@@ -358,7 +358,7 @@ describe ArtistsController, elasticsearch: :stub do
     let(:number_of_art_pieces) { 2 }
     let(:art_pieces) { ArtPiece.all.reject { |art| art.artist == artist } }
     let(:art_pieces_for_deletion) do
-      Hash[art_pieces.map.with_index { |a, idx| [a.id, idx % 2] }]
+      art_pieces.map.with_index { |a, idx| [a.id, idx % 2] }.to_h
     end
     let(:destroy_params) { { params: { art: art_pieces_for_deletion } } }
     let(:num_to_dump) { art_pieces_for_deletion.values.select { |v| v == 1 }.count }

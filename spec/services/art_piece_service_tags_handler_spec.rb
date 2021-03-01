@@ -18,7 +18,7 @@ describe ArtPieceServiceTagsHandler do
       let(:params) { { tag_ids: ['', existing_tag.name, existing_tag.id.to_s, 'that', 'the other'] } }
       it 'returns tags' do
         subject.prepare_tags_params
-        prepared_params = subject.instance_variable_get('@params'.to_sym)
+        prepared_params = subject.instance_variable_get(:@params)
         tags = prepared_params[:tags]
         expect(tags).to have(3).items
         expect(tags.all? { |tag| tag.is_a? ArtPieceTag }).to be_truthy
@@ -26,7 +26,7 @@ describe ArtPieceServiceTagsHandler do
 
       it 'creates new tags as needed' do
         subject.prepare_tags_params
-        prepared_params = subject.instance_variable_get('@params'.to_sym)
+        prepared_params = subject.instance_variable_get(:@params)
         tags = prepared_params[:tags]
         new_tags = ArtPieceTag.where(name: ['that', 'the other'])
         expect(new_tags).to have(2).items
@@ -35,7 +35,7 @@ describe ArtPieceServiceTagsHandler do
 
       it 'does not create duplicates' do
         subject.prepare_tags_params
-        prepared_params = subject.instance_variable_get('@params'.to_sym)
+        prepared_params = subject.instance_variable_get(:@params)
         tags = prepared_params[:tags]
         new_tags = ArtPieceTag.where(name: [existing_tag.name, existing_tag.id.to_s, 'That', 'that', 'the other'])
         expect(new_tags).to have(3).items
