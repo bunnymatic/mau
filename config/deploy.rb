@@ -1,6 +1,6 @@
 require 'capistrano/bundler'
 
-lock '~> 3.15.0'
+lock '~> 3.16.0'
 
 set :stages, %w[production acceptance]
 
