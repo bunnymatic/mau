@@ -54,7 +54,7 @@ class Studio < ApplicationRecord
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
   validates_attachment_presence :photo
-  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :"photo?"
+  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :photo?
 
   def self.by_position
     order(

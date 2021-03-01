@@ -107,7 +107,7 @@ class AdminEmailList < ViewPresenter
   private
 
   def titles
-    @titles ||= Hash[lists]
+    @titles ||= lists.to_h
   end
 
   def queried_os_tags

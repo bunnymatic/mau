@@ -26,7 +26,7 @@ class ArtistsMap < ArtistsPresenter
 
   LAT_LNG_KEYS = %i[lat lng].freeze
   def bounds
-    MissionBoundaries::BOUNDS.values.map { |bound| Hash[LAT_LNG_KEYS.zip(bound)] }.to_json
+    MissionBoundaries::BOUNDS.values.map { |bound| LAT_LNG_KEYS.zip(bound).to_h }.to_json
   end
 
   def map_marker(artist)

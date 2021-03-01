@@ -105,7 +105,7 @@ class Artist < User
     images = MauImage::ImageSize.allowed_sizes.map do |key|
       [key, get_profile_image(key)]
     end
-    Hash[images]
+    images.to_h
   end
 
   def can_register_for_open_studios?

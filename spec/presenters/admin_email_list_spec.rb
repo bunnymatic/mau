@@ -13,7 +13,7 @@ describe AdminEmailList do
 
   it 'includes the normal lists' do
     %w[all active pending fans no_profile no_images].each do |k|
-      expect(Hash[email_list.lists].keys).to include k
+      expect(email_list.lists.to_h.keys).to include k
     end
   end
 

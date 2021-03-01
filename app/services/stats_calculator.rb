@@ -16,7 +16,7 @@ class StatsCalculator
     end
 
     def sort_by_value_reverse
-      Histogram.new(Hash[sort_by(&:last).reverse])
+      Histogram.new(sort_by(&:last).reverse.to_h)
     end
 
     def append(hist)
