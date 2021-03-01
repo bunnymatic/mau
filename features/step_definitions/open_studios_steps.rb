@@ -48,10 +48,9 @@ When /I click on the open studios page "([^"]*)" tab/ do |tab|
   end
 end
 
-Then /I see the open studios page$/ do
+Then /I see the open studios promo page$/ do
   expect(page).to have_selector 'h2', text: /Open Studios/
-  tabs = page.all('.open-studios-content-tabs a[data-toggle="tab"]').map(&:text)
-  expect(tabs).to match_array %w[about participants map]
+  expect(page).to have_content /participating artists/i
   expect(current_path).to eq open_studios_path
 end
 
@@ -151,4 +150,8 @@ Then('I see that artist\'s open studios pieces') do
   expect(page).to have_content(@artist.name)
   expect(@artist.art_pieces).to have_at_least(1).art_piece
   expect(page).to have_css('.art-piece', count: @artist.art_pieces.count)
+end
+
+When('I hover over a cms section') do
+  page.all('.section.markdown.editable').first.hover
 end

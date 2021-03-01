@@ -21,6 +21,10 @@ class OpenStudiosPresenter
     @participating_indies ||= sort_artists_by_name(os_participants.reject { |a| a.studio || a.address.blank? })
   end
 
+  def participating_artists
+    @participating_artists ||= sort_artists_by_name(os_participants)
+  end
+
   private
 
   def sort_studios_by_name(studios)
@@ -36,6 +40,6 @@ class OpenStudiosPresenter
   end
 
   def os_participants
-    @os_participants ||= current_os.artists.in_the_mission
+    @os_participants ||= current_os.artists
   end
 end

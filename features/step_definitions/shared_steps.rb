@@ -354,3 +354,7 @@ end
 When(/^I refresh the page$/) do
   visit current_path
 end
+
+When(/^I go to the new tab$/) do
+  page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+end
