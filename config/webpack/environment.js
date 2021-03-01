@@ -18,7 +18,7 @@ environment.loaders.get("sass").use.splice(-1, 0, {
 
 const importsLoader = {
   test: /datatables.*/,
-  use: "imports-loader?define=>false",
+  use: "imports-loader?additionalCode=var%20define%20=%20false;",
 };
 
 environment.loaders.append("imports-loader", importsLoader);
