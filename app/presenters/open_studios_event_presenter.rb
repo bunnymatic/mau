@@ -6,12 +6,47 @@ class OpenStudiosEventPresenter < ViewPresenter
            :logo,
            :logo?,
            :promote?,
+           :special_event_end_date,
+           :special_event_end_time,
+           :special_event_start_date,
+           :special_event_start_time,
            :start_date,
            :start_time,
+           :to_param,
            :year,
-           :to_param, to: :model
+           to: :model
 
   include OpenStudiosEventShim
+
+  class DateRangeHelpers
+    class << self
+      def date_range_with_year(start_date, end_date)
+        "#{date_range(start_date, end_date)} #{start_date.year}"
+      end
+
+      def date_range(start_date, end_date, separator: '-')
+        return start_date.strftime('%b %-d') if same_day(start_date, end_date)
+
+        if same_month(start_date, end_date)
+          "#{start_date.strftime('%b')} #{start_date.strftime('%-d')}#{separator}#{end_date.strftime('%-d')}"
+        else
+          start_date.strftime('%b %-d') + separator + end_date.strftime('%b %-d')
+        end
+      end
+
+      def time_range(start_time, end_time)
+        "#{start_time} &mdash; #{end_time}".html_safe
+      end
+
+      def same_month(start_date, end_date)
+        start_date.month == end_date.month
+      end
+
+      def same_day(start_date, end_date)
+        start_date.day == end_date.day
+      end
+    end
+  end
 
   def initialize(os_event)
     super()
@@ -20,10 +55,6 @@ class OpenStudiosEventPresenter < ViewPresenter
 
   def num_participants
     model.open_studios_participants.count
-  end
-
-  def time_range
-    "#{model.start_time} &mdash; #{model.end_time}".html_safe
   end
 
   def title
@@ -35,25 +66,36 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def date_range_with_year
-    "#{date_range} #{year}"
+    DateRangeHelpers.date_range_with_year(model.start_date, model.end_date)
   end
 
   def date_range(separator: '-')
-    return model.start_date.strftime('%b %-d') if same_day
-
-    if same_month
-      "#{model.start_date.strftime('%b')} #{model.start_date.strftime('%-d')}#{separator}#{model.end_date.strftime('%-d')}"
-    else
-      model.start_date.strftime('%b %-d') + separator + model.end_date.strftime('%b %-d')
-    end
+    DateRangeHelpers.date_range(model.start_date, model.end_date, separator: separator)
   end
 
-  def same_month
-    @same_month ||= model.start_date.month == model.end_date.month
+  def time_range
+    DateRangeHelpers.time_range(model.start_time, model.end_time)
   end
 
-  def same_day
-    @same_day ||= model.start_date.day == model.end_date.day
+  def special_event_date_range_with_year
+    return unless model.special_event_start_date && model.special_event_end_date
+
+    DateRangeHelpers.date_range_with_year(model.special_event_start_date,
+                                          model.special_event_end_date)
+  end
+
+  def special_event_date_range(separator: '-')
+    return unless model.special_event_start_date && model.special_event_end_date
+
+    DateRangeHelpers.date_range(model.special_event_start_date, model.special_event_end_date,
+                                separator: separator)
+  end
+
+  def special_event_time_range
+    return unless model.special_event_start_date && model.special_event_end_date
+
+    DateRangeHelpers.time_range(model.special_event_start_time,
+                                model.special_event_end_time)
   end
 
   def for_display
@@ -72,12 +114,12 @@ class OpenStudiosEventPresenter < ViewPresenter
     end
   end
 
-  def year
-    model.start_date.year
-  end
-
   def available?
     !@model.nil?
+  end
+
+  def with_special_event?
+    !!(@model.special_event_start_date && @model.special_event_end_date)
   end
 
   def start_date

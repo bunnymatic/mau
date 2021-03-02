@@ -19,4 +19,11 @@ export interface OpenStudiosEvent {
   dateRange: string;
   startTime: string;
   endTime: string;
+  specialEvent: {
+    dateRange: string;
+    startTime: string;
+    endTime: string;
+    startDate: string;
+    endDate: string;
+  };
 }

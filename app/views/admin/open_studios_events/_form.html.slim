@@ -17,6 +17,20 @@
             = f.input :end_time, as: :string, placeholder: 'choose a time', hint: "Something like 6p.  This is used for display only (not for date/time math)"
         = f.input :key, placeholder: 'e.g. YYYYMM'
         = f.input :promote, as: :boolean, inline_label: true, label: false, hint: "If true, we'll remind artists in navigation to register when we're near (in time) this event."
+
+        .pure-g
+          .pure-u-1-1
+            h4 Optional Special Event Times
+        .pure-g
+          .pure-u-1-2
+            = f.input :special_event_start_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.special_event_start_date.try(:to_s,:admin_date_only) }
+          .pure-u-1-2
+            = f.input :special_event_end_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.special_event_end_date.try(:to_s,:admin_date_only) }
+        .pure-g
+          .pure-u-1-2
+            = f.input :special_event_start_time, as: :string, placeholder: 'hh:mm {am|pm}', hint: "We will use (and validate) these as time strings in the 12hr time format e.g. '1:00pm',  '9:45 am'"
+          .pure-u-1-2
+            = f.input :special_event_end_time, as: :string, placeholder: 'hh:mm {am|pm}', hint: "We will use (and validate) these as time strings in the 12hr time format e.g. '1:00pm',  '9:45 am'"
       = f.actions do
         .form-controls
           = f.submit class: 'pure-button pure-button-primary'

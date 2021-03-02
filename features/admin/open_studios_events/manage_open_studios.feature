@@ -40,5 +40,3 @@ Scenario: Editing an existing open studios event
 
   When I visit the open studios page
   Then I do not see "Register to Participate"
-
-
