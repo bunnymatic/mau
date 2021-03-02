@@ -1,15 +1,15 @@
 / locals os_event
 .pure-g
-  .pure-u-1-1.padded-content.js-open-studios-event-editor
+  .pure-u-1-1.padded-content.js-open-studios-event-editor.admin-open-studios-event-form
     = semantic_form_for [:admin, os_event], multipart: true do |f|
       = render partial: 'common/form_errors', locals: { form: f }
       = f.inputs do
         = f.input :title, placeholder: 'e.g. Spring Open Studios'
         .pure-g
           .pure-u-1-2
-            = f.input :start_date, as: :string, placeholder: 'choose a date', input_html: { class: "js-datepicker", value: os_event.start_date.try(:to_s,:pickadate) }
+            = f.input :start_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.start_date.try(:to_s,:admin_date_only) }
           .pure-u-1-2
-            = f.input :end_date, as: :string, placeholder: 'choose a date', input_html: { class: "js-datepicker", value: os_event.end_date.try(:to_s,:pickadate) }
+            = f.input :end_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.end_date.try(:to_s,:admin_date_only) }
         .pure-g
           .pure-u-1-2
             = f.input :start_time, as: :string, placeholder: 'choose a time', hint: "Something like 12noon or noon or 11a.  This is used for display only (not for date/time math)"
@@ -24,8 +24,5 @@
 
 javascript:
   $(function() {
-    $(".js-datepicker").pickadate({
-      min: new Date(),
-    });
     new MAU.OsKeyGenerator(".js-open-studios-event-editor form");
   });

@@ -1,7 +1,3 @@
-import "pickadate/lib/picker";
-import "pickadate/lib/picker.date";
-import "pickadate/lib/picker.time";
-
 import expect from "expect";
 import jQuery from "jquery";
 
@@ -20,11 +16,10 @@ describe("OsKeyGenerator", function () {
       " </form>" +
       "</div>";
     jQuery("#fixture input").val("");
-    jQuery(".js-datepicker").pickadate({});
   });
   describe("initialization", function () {
     it("sets the key if the start date is set", function () {
-      jQuery("#start_date").pickadate("picker").set("select", [2012, 0, 10]);
+      jQuery("#start_date").val("2012-01-10");
       new OsKeyGenerator(jQuery("form.js-os-key-gen"), {
         start_date_field: "#start_date",
         key_field: "#os_key",

@@ -70,7 +70,6 @@
     "jquery-ui": "^1.12.1",
     "luxon": "^1.25.0",
     "ng-dialog": "^1.4.0",
-    "pickadate": "3.6.2",
     "postcss-preset-env": "^6.7.0",
     "prop-types": "^15.7.2",
     "purecss": "^2.0.0",

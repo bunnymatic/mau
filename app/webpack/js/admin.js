@@ -32,9 +32,6 @@ import "./vendor/angularSlideables";
 import "./vendor/bootstrap/transition";
 import "./vendor/bootstrap/tab";
 import "./vendor/bootstrap/collapse";
-import "pickadate/lib/picker";
-import "pickadate/lib/picker.date";
-import "pickadate/lib/picker.time";
 import "./admin/globals";
 import "@reactjs";
 
