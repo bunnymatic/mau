@@ -61,17 +61,13 @@ end
 
 Then /^I see a new open studios form$/ do
   expect(page).to have_selector 'form'
-  expect(page).to have_selector '#open_studios_event_start_date.js-datepicker'
-  expect(page).to have_selector '#open_studios_event_end_date.js-datepicker'
-end
-
-def set_pickadate_date(pickadate_selector, date)
-  page.execute_script("$('#{pickadate_selector}').pickadate('picker').set('select', [#{date.year}, #{date.month - 1}, #{date.day}]);")
+  expect(page).to have_selector '#open_studios_event_start_date'
+  expect(page).to have_selector '#open_studios_event_end_date'
 end
 
 def set_start_end_date_on_open_studios_form(start_date, end_date)
-  set_pickadate_date('#open_studios_event_start_date', start_date)
-  set_pickadate_date('#open_studios_event_end_date', end_date)
+  fill_in 'Start date', with: start_date
+  fill_in 'End date', with: end_date
 end
 
 Then /I change the date to next month and the title to "(.*)"/ do |title|
