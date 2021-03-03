@@ -17,7 +17,7 @@ const validateFileSize = (event) => {
     if (sizeMb > MAX_FILE_SIZE_MB) {
       const flash = new Flash();
       flash.show({
-        error: "That file is a little too big. 4MB or smaller is ideal.",
+        error: "That file may be a little too big. 4MB or smaller is ideal.",
       });
     }
   }
