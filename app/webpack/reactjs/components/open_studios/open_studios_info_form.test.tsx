@@ -39,27 +39,70 @@ describe("OpenStudiosInfoForm", () => {
   const mockSubmitRegStatus = api.openStudios.submitRegistrationStatus;
 
   describe("without interaction", () => {
-    beforeEach(() => {
-      mockUpdate.mockResolvedValue({});
-      renderComponent();
-    });
+    describe("when there is no special event", () => {
+      beforeEach(() => {
+        mockUpdate.mockResolvedValue({});
+        renderComponent();
+      });
 
-    it("shows instructions", () => {
-      expect(
-        screen.queryByText("You pick how you want to participate", {
+      it("shows instructions", () => {
+        expect(
+          screen.queryByText("You pick how you want to participate", {
+            exact: false,
+          })
+        ).toBeInTheDocument();
+      });
+
+      it("shows 2 dates for the event in fields *and* in the instructions", () => {
+        const dateRanges = screen.queryAllByText(defaultOsEvent.dateRange, {
           exact: false,
-        })
-      ).toBeInTheDocument();
+        });
+
+        expect(dateRanges).toHaveLength(3);
+      });
+
+      it("shows a form", () => {
+        expect(findField("Shopping Cart Link")).toBeInTheDocument();
+        expect(findField("Meeting Link (Zoom or other)")).toBeInTheDocument();
+        expect(findField("Youtube Video Link")).toBeInTheDocument();
+        expect(findField("Show my e-mail")).toBeInTheDocument();
+        expect(findField("Show my phone number")).toBeInTheDocument();
+        expect(findButton("Update my details")).toBeInTheDocument();
+        expect(findButton("Nope - not this time")).toBeInTheDocument();
+      });
     });
 
-    it("shows a form", () => {
-      expect(findField("Shopping Cart Link")).toBeInTheDocument();
-      expect(findField("Meeting Link (Zoom or other)")).toBeInTheDocument();
-      expect(findField("Youtube Video Link")).toBeInTheDocument();
-      expect(findField("Show my e-mail")).toBeInTheDocument();
-      expect(findField("Show my phone number")).toBeInTheDocument();
-      expect(findButton("Update my details")).toBeInTheDocument();
-      expect(findButton("Nope - not this time")).toBeInTheDocument();
+    describe("when there is a special event", () => {
+      beforeEach(() => {
+        const openStudiosEvent = openStudiosEventFactory.build({
+          specialEvent: {
+            dateRange: "some other dates that are important",
+          },
+        });
+        mockUpdate.mockResolvedValue({});
+        renderComponent({ openStudiosEvent });
+      });
+
+      it("shows instructions with the special event date range", () => {
+        expect(
+          screen.queryByText("You pick how you want to participate", {
+            exact: false,
+          })
+        ).toBeInTheDocument();
+        expect(
+          screen.queryByText("some other dates that are important", {
+            exact: false,
+          })
+        ).toBeInTheDocument();
+      });
+
+      it("shows main dates for the events in 2 fields", () => {
+        const dateRanges = screen.queryAllByText(defaultOsEvent.dateRange, {
+          exact: false,
+        });
+
+        expect(dateRanges).toHaveLength(2);
+      });
     });
   });
 

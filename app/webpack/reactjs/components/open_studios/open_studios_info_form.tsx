@@ -52,9 +52,13 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
         flash.show({
           error:
             "We had problems updating your open studios status.  Please try again later",
+          s,
         });
       });
   };
+
+  const specialEventDateRange =
+    event.specialEvent?.dateRange || event.dateRange;
 
   const handleSubmit = (values, actions) => {
     new Flash().clear();
@@ -94,9 +98,9 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
               <p>
                 INSTRUCTIONS: You pick how you want to participate in Virtual
                 Open Studios. Do you have an online shop? Do you want to
-                participate in the Live Video Event May 8-9? Do you have a
-                YouTube video of your studio or your art? Do you want us to
-                display your contact info? For more details,{" "}
+                participate in the Live Video Event {specialEventDateRange}? Do
+                you have a YouTube video of your studio or your art? Do you want
+                us to display your contact info? For more details,{" "}
                 <a href="https://bit.ly/v-openstudios" target="_blank">
                   click here.
                 </a>

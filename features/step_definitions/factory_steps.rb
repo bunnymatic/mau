@@ -67,7 +67,7 @@ Given /there are application events in the system/ do
 end
 
 Given /there is a scheduled Open Studios event/ do
-  FactoryBot.create(:open_studios_event)
+  FactoryBot.create(:open_studios_event, :with_special_event)
 rescue ActiveRecord::RecordInvalid
   # there's already one there
 end

@@ -15,9 +15,8 @@
         tr
           th key
           th title
-          th start date
-          th end date
-          th time
+          th dates
+          th special event dates
           th promoted
           th participants
           th data-orderable="false"
@@ -26,9 +25,19 @@
           tr.os-events__table-row
             td.os-events__table-item.os-events__table-item--key = os_event.key
             td.os-events__table-item.os-events__table-item--title = os_event.title
-            td.os-events__table-item.os-events__table-item--start = os_event.start_date
-            td.os-events__table-item.os-events__table-item--end = os_event.end_date
-            td.os-events__table-item.os-events__table-item--time = os_event.time_range
+            td.os-events__table-item.os-events__table-item--dates
+              .os-events__table-item--dates--item
+                = os_event.date_range
+              .os-events__table-item--dates--item
+                = os_event.time_range
+            td.os-events__table-item.os-events__table-item--special-event-dates
+              - if os_event.with_special_event?
+                .os-events__table-item--dates--item
+                  = os_event.special_event_date_range
+                .os-events__table-item--dates--item
+                  = os_event.special_event_time_range
+              - else
+                | n/a
             td.os-events__table-item.os-events__table-item--promoted = boolean_as_checkmark(os_event.promote?)
             td.os-events__table-item.os-events__table-item--participants = os_event.num_participants
             td.admin-controls

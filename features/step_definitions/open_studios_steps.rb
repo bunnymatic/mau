@@ -16,6 +16,9 @@ Then('I see the registration message') do
 end
 
 Then('I see the open studios info form') do
+  expect(page).to have_content(
+    OpenStudiosEventPresenter.new(OpenStudiosEventService.current).special_event_date_range,
+  )
   expect(page).to have_css('input[name=shopUrl]')
   expect(page).to have_css('input[name=showEmail]')
   expect(page).to have_button('Nope - not this time')
@@ -74,9 +77,6 @@ Then /I change the date to next month and the title to "(.*)"/ do |title|
   @start_date = Time.zone.now + 1.month
   @end_date = @start_date + 1.day
   set_start_end_date_on_open_studios_form(@start_date, @end_date)
-  # fill_in "Start date", with: @start_date.to_date
-  # fill_in "End date", with: @end_date.to_date
-  fill_in 'Key', with: @start_date.strftime('%Y%m')
   fill_in 'Title', with: title
   click_on 'Update'
 end

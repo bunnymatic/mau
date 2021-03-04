@@ -1,3 +1,6 @@
 .os-events__table-item--time {
   white-space: nowrap;
 }
+.os-events__table-item--dates--item + .os-events__table-item--dates--item {
+  margin-top: 6px;
+}
