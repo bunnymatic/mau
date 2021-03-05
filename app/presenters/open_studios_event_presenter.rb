@@ -10,6 +10,7 @@ class OpenStudiosEventPresenter < ViewPresenter
            :special_event_end_time,
            :special_event_start_date,
            :special_event_start_time,
+           :special_event_time_slots,
            :start_date,
            :start_time,
            :to_param,

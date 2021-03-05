@@ -157,3 +157,20 @@ end
 When('I hover over a cms section') do
   page.all('.section.markdown.editable').first.hover
 end
+
+When('I select every other time slot for the video conference schedule') do
+  within '.open-studios-info-form__special-event-schedule' do
+    page.all("[type='checkbox']").each_slice(2) do |cb|
+      cb[0].click
+    end
+  end
+end
+
+When('I see every other time slot for the video conference schedule has been checked') do
+  within '.open-studios-info-form__special-event-schedule' do
+    page.all("[type='checkbox']").each_slice(2) do |cb|
+      expect(cb[0].checked?).to eq true
+      expect(cb[1].checked?).to eq false
+    end
+  end
+end

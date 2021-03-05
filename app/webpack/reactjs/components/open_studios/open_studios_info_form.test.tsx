@@ -38,6 +38,11 @@ describe("OpenStudiosInfoForm", () => {
   const mockUpdate = api.openStudios.participants.update;
   const mockSubmitRegStatus = api.openStudios.submitRegistrationStatus;
 
+  const timeSlotInfo = {
+    "1605128400::1605132000": "1:00 PM - 2:00 PM Nov 11, 2020",
+    "1605132000::1605135600": "2:00 PM - 3:00 PM Nov 11, 2020",
+  };
+
   describe("without interaction", () => {
     describe("when there is no special event", () => {
       beforeEach(() => {
@@ -77,10 +82,19 @@ describe("OpenStudiosInfoForm", () => {
         const openStudiosEvent = openStudiosEventFactory.build({
           specialEvent: {
             dateRange: "some other dates that are important",
+            timeSlots: Object.keys(timeSlotInfo),
           },
         });
         mockUpdate.mockResolvedValue({});
-        renderComponent({ openStudiosEvent });
+        renderComponent({
+          participant: {
+            ...participant,
+            videoConferenceSchedule: {
+              "1605128400::1605132000": true,
+            },
+          },
+          openStudiosEvent,
+        });
       });
 
       it("shows instructions with the special event date range", () => {
@@ -102,6 +116,22 @@ describe("OpenStudiosInfoForm", () => {
         });
 
         expect(dateRanges).toHaveLength(2);
+      });
+
+      it("shows schedule checkboxes for each time slot", () => {
+        const slotLabels = Object.values(timeSlotInfo);
+
+        expect(screen.queryByLabelText(slotLabels[0])).toBeInTheDocument();
+        expect(screen.queryByLabelText(slotLabels[1])).toBeInTheDocument();
+      });
+
+      it("initializes the schedule checkboxes propery", () => {
+        const slotLabels = Object.values(timeSlotInfo);
+        let cb = screen.queryByLabelText(slotLabels[0]);
+
+        expect(cb).toBeChecked();
+        cb = screen.queryByLabelText(slotLabels[1]);
+        expect(cb).not.toBeChecked();
       });
     });
   });
