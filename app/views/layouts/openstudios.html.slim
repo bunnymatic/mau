@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    = render '/extra_html_head'
+
+    title Mission Artists - Virtual Open Stuios
+
+    = csrf_meta_tags
+
+    javascript:
+      window = window || {}
+      window['__env'] = "#{Rails.env}";
+
+    = stylesheet_packs_with_chunks_tag 'application'
+    = javascript_packs_with_chunks_tag "application"
+
+  - classes = [@browser_as_class, controller_name, action_name].join(" ")
+  body class=classes ng-app="MauApp"
+    - unless supported_browser?
+      = render '/old_browser_warning'
+    = render '/noscript_msg'
+    - if current_user.try(:special?)
+      = render '/admin_header'
+    .body-highlight
+    .container
+
+      .main-container.js-main-container
+        = render '/flash_notice_error'
+        = yield
+    javascript:
+      jQuery( function() {
+        new MAU.BackToTop('.back-to-top')
+        jQuery('.js-help').each( function(_, el) {
+          new MAU.WhatsThisPopup(el);
+        });
+      });
+
+  = render '/common/ganalytics'
+  = render '/common/footer_javascripts'

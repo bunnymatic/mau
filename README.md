@@ -75,6 +75,22 @@ which sets all the user passwords for the system to 'bmatic'.
 
 Restart your server and take another look at http://localhost:3000/.  At this point you should see some artists and stuff.
 
+### Virtual Open Studios setup
+
+The Virtual Open Studios can be accessed at the subdomain `openstudios`. In order to point to this location locally you'll have to update your `/ect/hosts` file.
+
+Run `sudo vim /etc/hosts` to open up the file and add
+
+```
+# mau subdomains
+127.0.0.1 mau.local
+127.0.0.1 openstudios.mau.local
+```
+
+Now, we have to tell Rails that we'll be accessing the dev server with the domain name `mau.local`.
+
+Run `rails s -p 3000 -b mau.local` and in your browser go to `mau.local:3000` for the Mission Artists site and `openstudios.mau.local:3000` for the Open Studios site.
+
 ### Running the test suite
 
 Once you think things are running, you can try running the test suite:

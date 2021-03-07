@@ -77,6 +77,8 @@ module Mau
     config.elasticsearch_url = ENV['ELASTICSEARCH_URL'] || 'http://localhost:9200'
 
     config.active_support.test_order = :random
+
+    config.action_dispatch.tld_length = Integer(Conf.TLD_LENGTH || 1)
   end
 end
 
