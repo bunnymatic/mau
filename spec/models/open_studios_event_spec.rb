@@ -26,6 +26,7 @@ describe OpenStudiosEvent do
       expect(os).not_to be_valid
       expect(os.errors[:end_date]).to include 'should be after start date'
     end
+
     it 'requires special event dates to be in order' do
       os = build(:open_studios_event,
                  start_date: Time.zone.today,
@@ -36,6 +37,7 @@ describe OpenStudiosEvent do
       expect(os).not_to be_valid
       expect(os.errors[:special_event_end_date]).to include 'should be after start date'
     end
+
     it 'is invalid if special event start date is defined and end date is not' do
       os = build(:open_studios_event,
                  start_date: Time.zone.today,
@@ -46,6 +48,7 @@ describe OpenStudiosEvent do
       expect(os).not_to be_valid
       expect(os.errors[:special_event_end_date]).to include 'must be present if special event start date is present'
     end
+
     it 'is invalid if special event end date is defined and start date is not' do
       os = build(:open_studios_event,
                  start_date: Time.zone.today,
@@ -98,7 +101,25 @@ describe OpenStudiosEvent do
         expect(os.special_event_time_slots).to have(6).slots
       end
 
-      it 'works if we delete special event data' do
+      it 'adds time slots even if they cross a month boundary' do
+        freeze_time do
+          travel_to(Time.zone.local(2020, 2, 27).in_time_zone(Conf.event_time_zone))
+          now = Time.zone.today
+          later = now + 3.days
+          os = build(:open_studios_event,
+                     start_date: now,
+                     end_date: later,
+                     special_event_start_date: now,
+                     special_event_end_date: later,
+                     special_event_start_time: '10:00 pm',
+                     special_event_end_time: '11:00 pm')
+          os.save
+          os.reload
+          expect(os.special_event_time_slots).to have(4).slots
+        end
+      end
+
+      it 'removes time slots if we delete special event data' do
         os = create(:open_studios_event, :with_special_event)
         expect(os.special_event_time_slots).to have_at_least(1).slot
         os.special_event_start_time = nil
