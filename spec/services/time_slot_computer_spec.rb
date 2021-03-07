@@ -17,4 +17,16 @@ describe TimeSlotComputer do
       expect(slots).to eq expected
     end
   end
+
+  it 'returns nothing if the time spans midnight' do
+    freeze_time do
+      travel_to Time.zone.local(2020, 11, 24, 5, 4, 44)
+      date = Time.current
+      start_time = '11:30 PM'
+      end_time = ' 12:30 AM'
+      slots = TimeSlotComputer.new(date, start_time, end_time).run
+
+      expect(slots).to eq []
+    end
+  end
 end
