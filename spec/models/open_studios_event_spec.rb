@@ -81,6 +81,35 @@ describe OpenStudiosEvent do
     end
   end
 
+  describe 'lifecycle' do
+    describe 'before_save' do
+      it 'generates time slots if special event fields have changed' do
+        now = Time.zone.today
+        later = now + 1.day
+        os = build(:open_studios_event,
+                   start_date: now,
+                   end_date: later,
+                   special_event_start_date: now,
+                   special_event_end_date: later,
+                   special_event_start_time: '11:00 am',
+                   special_event_end_time: '2:00 pm')
+        os.save
+        os.reload
+        expect(os.special_event_time_slots).to have(6).slots
+      end
+
+      it 'works if we delete special event data' do
+        os = create(:open_studios_event, :with_special_event)
+        expect(os.special_event_time_slots).to have_at_least(1).slot
+        os.special_event_start_time = nil
+        os.special_event_end_time = nil
+        os.save
+        os.reload
+        expect(os.special_event_time_slots).to eq []
+      end
+    end
+  end
+
   describe 'scopes' do
     before do
       freeze_time

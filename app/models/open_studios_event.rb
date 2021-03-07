@@ -12,6 +12,10 @@ class OpenStudiosEvent < ApplicationRecord
   validate :special_event_dates_are_both_present_or_both_empty
   validate :special_event_dates_are_within_event_dates
 
+  serialize :special_event_time_slots
+
+  before_save :generate_special_event_time_slots
+
   has_many :open_studios_participants, inverse_of: :open_studios_event, dependent: :destroy
   has_many :artists, through: :open_studios_participants, class_name: 'Artist', source: :user
 
@@ -43,6 +47,17 @@ class OpenStudiosEvent < ApplicationRecord
   end
 
   private
+
+  SPECIAL_EVENT_FIELDS = %w[special_event_start_time special_event_end_time special_event_start_date special_event_end_date].freeze
+  def generate_special_event_time_slots
+    return if (changed & SPECIAL_EVENT_FIELDS).blank?
+
+    time_slots = (special_event_start_date.day..special_event_end_date.day).map.each_with_index do |_day, idx|
+      date = special_event_start_date + idx.days
+      TimeSlotComputer.new(date, special_event_start_time, special_event_end_time).run
+    end.flatten
+    self.special_event_time_slots = time_slots
+  end
 
   def dates_are_in_order
     date_fields_are_in_order(:start_date, :end_date)
