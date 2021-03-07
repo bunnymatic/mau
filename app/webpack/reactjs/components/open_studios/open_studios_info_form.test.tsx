@@ -68,7 +68,7 @@ describe("OpenStudiosInfoForm", () => {
         expect(findField("Show my e-mail")).toBeInTheDocument();
         expect(findField("Show my phone number")).toBeInTheDocument();
         expect(findButton("Update my details")).toBeInTheDocument();
-        expect(findButton("Nope - not this time")).toBeInTheDocument();
+        expect(findButton("Un-Register Me")).toBeInTheDocument();
       });
     });
 
@@ -194,7 +194,7 @@ describe("OpenStudiosInfoForm", () => {
     it("triggers a cancel when i click the cancel button", async () => {
       let cancelButton;
       act(() => {
-        cancelButton = findButton("Nope - not this time");
+        cancelButton = findButton("Un-Register Me");
         fireEvent.click(cancelButton);
       });
       await waitFor(() => {

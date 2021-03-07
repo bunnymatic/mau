@@ -151,7 +151,7 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                   Update my details
                 </MauButton>
                 <MauButton type="cancel" onClick={cancelRegistration}>
-                  Nope - not this time
+                  Un-Register Me
                 </MauButton>
               </div>
             </Form>
