@@ -124,6 +124,21 @@ bin/webpack-dev-server
 and this will give you the dev server which will push incremental changes as you change front-end concerns.
 
 
+### browser suppoort
+
+
+We keep track of the supported list in `app/assets/stylesheets/.browserlistrc`.   This is used by
+`autoprefixer-rails`.  We also have a `supported_browser?` method which is reading a local list
+of browsers which should use the same rules.
+
+To generate a new `browsers.json` file, run
+
+```bash
+yarn install
+BROWSERSLIST_CONFIG=./app/assets/stylesheets/.browserslistrc bin/get-browserlist.js
+```
+
+
 ### Branching/Dev flow
 Here is the preferred git flow for adding to the code:
 
@@ -186,19 +201,34 @@ cap acceptance deploy
 cap production deploy
 ```
 
-will push the `master` branches respectively to the `mau.rcode5.com` or `www`.
+will push the `main` branches respectively to the `mau.rcode5.com` or `www`.
 
-# Supported Browsers
+We're using tags to keep track of what's where so here is a little deploy
+checklist.
 
-We keep track of the supported list in `app/assets/stylesheets/.browserlistrc`.   This is used by
-`autoprefixer-rails`.  We also have a `supported_browser?` method which is reading a local list
-of browsers which should use the same rules.
+```
 
-To generate a new `browsers.json` file, run
+# tag the release
+git checkout main
+git pull
+git tag acceptance_deploy_<YYYYmmdd>
 
-```bash
-yarn install
-BROWSERSLIST_CONFIG=./app/assets/stylesheets/.browserslistrc bin/get-browserlist.js
+# deploy
+cap acceptance deploy
+
+# kick over the server
+ssh root@mau.rcode5.com
+
+service puma stop
+service nginx restart
+service puma start
+
+exit
+
+# if it all worked
+git push --tags
+
+# And add a note in #deploys channel in slack
 ```
 
 # Issues/Versions etc
