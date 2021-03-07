@@ -39,4 +39,4 @@ Scenario: Editing an existing open studios event
   And I see a flash notice "Successfully updated"
 
   When I visit the open studios page
-  Then I do not see "Register to Participate"
+  Then I do not see "Artist Registration"

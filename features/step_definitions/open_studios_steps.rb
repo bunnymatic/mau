@@ -68,6 +68,12 @@ Then /^I see a new open studios form$/ do
   expect(page).to have_selector '#open_studios_event_end_date'
 end
 
+Then /^I see the new Artist OS Info button$/ do
+  within '.action-button' do
+    expect(page).to have_selector '.pure-button-primary', text: 'Artist OS Info'
+  end
+end
+
 def set_start_end_date_on_open_studios_form(start_date, end_date)
   fill_in 'Start date', with: start_date
   fill_in 'End date', with: end_date

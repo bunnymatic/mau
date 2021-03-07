@@ -3,6 +3,10 @@ class OpenStudiosPresenter
 
   delegate :promote?, to: :current_os
 
+  def initialize(current_user)
+    @user = current_user
+  end
+
   def packaged_summary
     section = 'summary'
     @packaged_summary ||= CmsDocument.packaged(PAGE, section)
@@ -23,6 +27,14 @@ class OpenStudiosPresenter
 
   def participating_artists
     @participating_artists ||= sort_artists_by_name(os_participants)
+  end
+
+  def register_for_open_studio_button_text
+    if @user&.artist? && @user&.doing_open_studios?
+      'Artist OS Info'
+    else
+      'Artist Registration'
+    end
   end
 
   private
