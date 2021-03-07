@@ -28,7 +28,7 @@ Follow the post-install instructions to get your MySQL server running.  For easy
 
 Use `homebrew` to install the following packages:
 
-    brew install markdown imagemagick	memcached elasticsearch@2.4
+    brew install markdown imagemagick memcached elasticsearch@6
 
 At this point, you should have all the binary resources you'll need (hopefully).
 
@@ -104,7 +104,7 @@ rails g react_component ComponentName
 
 Will create the `ComponentName.tsx` file and it's corresponding test file in the `reactjs/components` directory.
 
-If you plan to use this component in a slim file and want it to be automounted, don't froget to add it to 
+If you plan to use this component in a slim file and want it to be automounted, don't froget to add it to
 the `reactjs/components/index.ts` so it'll be in the registry used by the `react_component` rails helper.
 
 ### Webpack
