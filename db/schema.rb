@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_02_033543) do
+ActiveRecord::Schema.define(version: 2021_03_07_081730) do
 
   create_table "application_events", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "type"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 2021_03_02_033543) do
     t.datetime "special_event_end_date"
     t.string "special_event_start_time", default: "12:00 PM"
     t.string "special_event_end_time", default: "4:00 PM"
+    t.text "special_event_time_slots"
     t.index ["key"], name: "index_open_studios_events_on_key", unique: true
   end
 

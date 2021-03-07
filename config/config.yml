@@ -43,6 +43,7 @@ production:
     new_art: 86400
 
 common:
+  event_time_zone: America/Los_Angeles
   open_studios_help_document_url: https://bit.ly/v-openstudios
   features:
     virtual_open_studios: false
