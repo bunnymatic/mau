@@ -3,7 +3,7 @@
     h2.title #{open_studios_page_title}
     - if @presenter.promote?
       .action-button
-        = link_to "Register to Participate", register_open_studios_path, class: "pure-button-primary pure-button"
+        = link_to @presenter.register_for_open_studio_button_text, register_open_studios_path, class: "pure-button-primary pure-button"
 
 .pure-g.tab-content
   .pure-u-1-1#about

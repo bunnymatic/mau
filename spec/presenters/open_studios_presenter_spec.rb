@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe OpenStudiosPresenter do
-  subject(:presenter) { described_class.new }
+  let(:user) { build(:user) }
+  subject(:presenter) { described_class.new(user) }
   let(:open_studios_event) { create(:open_studios_event) }
   let!(:summary) do
     create(:cms_document,
@@ -75,6 +76,39 @@ describe OpenStudiosPresenter do
     end
     it 'are in order artist last name' do
       expect(subject.participating_artists.map { |a| a.lastname.downcase }).to be_monotonically_increasing
+    end
+  end
+
+  describe '#register_for_open_studio_button_text' do
+    context 'when the user is not logged in' do
+      let(:user) { nil }
+
+      it 'should show "Artist Registration"' do
+        expect(subject.register_for_open_studio_button_text).to eq('Artist Registration')
+      end
+    end
+
+    context 'when the user is a fan' do
+      let(:user) { build(:fan) }
+
+      it 'shows "Artist OS Info" when current_user is an artist signed up for open studio event' do
+        expect(subject.register_for_open_studio_button_text).to eq('Artist Registration')
+      end
+    end
+
+    context 'when the user is an artist but not signed up yet for os' do
+      let(:user) { build(:artist, doing_open_studios: false) }
+      it 'shows "Artist OS Info" when current_user is an artist signed up for open studio event' do
+        expect(subject.register_for_open_studio_button_text).to eq('Artist Registration')
+      end
+    end
+
+    context 'when the user is an artist that is signed up for th os' do
+      let(:user) { create(:artist, doing_open_studios: true) }
+
+      it 'shows "Artist OS Info" when current_user is an artist signed up for open studio event' do
+        expect(subject.register_for_open_studio_button_text).to eq('Artist OS Info')
+      end
     end
   end
 end

@@ -15,7 +15,7 @@ Background:
 
 Scenario: "when I'm not logged in"
   When I visit the open studios page
-  And I click on "Register to Participate"
+  And I click on "Artist Registration"
   Then I see the login page
 
   When I fill in the login form with "artist/8characters"
@@ -30,7 +30,7 @@ Scenario: "when I'm not logged in"
 Scenario: "when I'm logged in"
   When I login as "artist"
   And I visit the open studios page
-  And I click on "Register to Participate"
+  And I click on "Artist Registration"
 
   Then I see my profile edit form
 
@@ -61,11 +61,18 @@ Scenario: "when I'm logged in"
   Then I see a flash notice "Maybe next time! :\)"
   Then I see "Yes - Register Me" on the page
 
+  When I click on "Yes - Register Me"
+  And I see the registration dialog
+  And I click on "Yes" in the ".ReactModal__Content"
+  Then I see the open studios info form
+
+  When I visit the open studios page
+  Then I see the new Artist OS Info button
 
 Scenario: "when I auto register but i'm not allowed (no address)"
   When I login as "no_address"
   And I visit the open studios page
-  And I click on "Register to Participate"
+  And I click on "Artist Registration"
 
   Then I see my profile edit form
   And I see the "events" profile panel is open
