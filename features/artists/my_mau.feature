@@ -54,7 +54,7 @@ Scenario: I can update my os status
   And I click on "Personal Info"
 
   When I click on the current open studios edit section
-  And I click on "Nope - not this time"
+  And I click on "Un-Register Me"
   Then I see the registration message
 
   When I click on "Yes - Register Me"

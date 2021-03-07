@@ -21,7 +21,7 @@ Then('I see the open studios info form') do
   )
   expect(page).to have_css('input[name=shopUrl]')
   expect(page).to have_css('input[name=showEmail]')
-  expect(page).to have_button('Nope - not this time')
+  expect(page).to have_button('Un-Register Me')
 end
 
 Then(/^I see the open studios cms content/) do
