@@ -1,17 +1,13 @@
-import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
+import { Form, Formik } from "formik";
 import { MauButton } from "@reactjs/components/mau_button";
 import { MauCheckboxField } from "@reactjs/components/mau_checkbox_field";
 import { MauTextField } from "@reactjs/components/mau_text_field";
-import { FieldError } from "@reactjs/components/field_error";
-import { OpenStudiosRegistration } from "@reactjs/components/open_studios/open_studios_registration";
 import { SpecialEventScheduleFields } from "@reactjs/components/open_studios/special_event_schedule_fields";
-import { DateTime } from "luxon";
-import { parseTimeSlot } from "@js/app/time_utils";
 import { api } from "@js/services/api";
 import * as types from "@reactjs/types";
 import Flash from "@js/app/jquery/flash";
 import { camelizeKeys } from "humps";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 
 interface OpenStudiosInfoFormProps {
   location: string;
