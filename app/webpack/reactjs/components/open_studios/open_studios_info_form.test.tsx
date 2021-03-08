@@ -1,5 +1,9 @@
 import { OpenStudiosInfoForm } from "./open_studios_info_form";
 import {
+  formatTimeSlot,
+  parseTimeSlot,
+} from "./special_event_schedule_fields.tsx";
+import {
   openStudiosEventFactory,
   openStudiosParticipantFactory,
 } from "@test/factories";
@@ -38,10 +42,7 @@ describe("OpenStudiosInfoForm", () => {
   const mockUpdate = api.openStudios.participants.update;
   const mockSubmitRegStatus = api.openStudios.submitRegistrationStatus;
 
-  const timeSlotInfo = {
-    "1605128400::1605132000": "1:00 PM - 2:00 PM Nov 11, 2020",
-    "1605132000::1605135600": "2:00 PM - 3:00 PM Nov 11, 2020",
-  };
+  const timeSlots = ["1605128400::1605132000", "1605132000::1605135600"];
 
   describe("without interaction", () => {
     describe("when there is no special event", () => {
@@ -82,7 +83,7 @@ describe("OpenStudiosInfoForm", () => {
         const openStudiosEvent = openStudiosEventFactory.build({
           specialEvent: {
             dateRange: "some other dates that are important",
-            timeSlots: Object.keys(timeSlotInfo),
+            timeSlots,
           },
         });
         mockUpdate.mockResolvedValue({});
@@ -119,19 +120,29 @@ describe("OpenStudiosInfoForm", () => {
       });
 
       it("shows schedule checkboxes for each time slot", () => {
-        const slotLabels = Object.values(timeSlotInfo);
-
-        expect(screen.queryByLabelText(slotLabels[0])).toBeInTheDocument();
-        expect(screen.queryByLabelText(slotLabels[1])).toBeInTheDocument();
+        const scheduleSection = screen.getByTestId(
+          "open-studios-info-form__special-event-schedule"
+        );
+        const inputs = Array.from(
+          scheduleSection.getElementsByTagName("INPUT")
+        );
+        expect(inputs).toHaveLength(2);
       });
 
       it("initializes the schedule checkboxes propery", () => {
-        const slotLabels = Object.values(timeSlotInfo);
-        let cb = screen.queryByLabelText(slotLabels[0]);
+        // I spent considerable effort looking these up by label but was unable to get
+        // RTL to hear me. It also gets tricky with timezones because the browser on
+        // CircleCI is in a different timezone and therefore generates a different label.
+        // In any case...
+        const scheduleSection = screen.getByTestId(
+          "open-studios-info-form__special-event-schedule"
+        );
+        const inputs = Array.from(
+          scheduleSection.getElementsByTagName("INPUT")
+        );
 
-        expect(cb).toBeChecked();
-        cb = screen.queryByLabelText(slotLabels[1]);
-        expect(cb).not.toBeChecked();
+        expect(inputs[0]).toBeChecked();
+        expect(inputs[1]).not.toBeChecked();
       });
     });
   });
