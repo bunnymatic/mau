@@ -12,7 +12,7 @@
         = render_cms_content @presenter.packaged_summary
         = render_cms_content @presenter.packaged_preview_reception
         .section.open-studios-index__section
-          h4 Participating Artists
+          h4.section.open-studios-index__header Participating Artists
           ul.open-studios-index__partipipant-list
             - @presenter.participating_artists.each do |artist|
               li

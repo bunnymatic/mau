@@ -10,12 +10,12 @@
 }
 .open-studios-index__section {
   margin-bottom: 30px;
-  > h4 {
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    font-weight: $font-weight-normal;
-  }
+}
+.open-studios-index__header {
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: $font-weight-bold;
 }
 .open-studios-index__participant-list {
   margin-top: 0;
