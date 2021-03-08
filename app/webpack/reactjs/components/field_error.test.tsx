@@ -1,6 +1,7 @@
-import { FieldError } from "./field_error";
 import { render } from "@testing-library/react";
 import React from "react";
+
+import { FieldError } from "./field_error";
 
 describe("FieldError", () => {
   // This test is corrrect but fails with

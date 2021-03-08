@@ -1,4 +1,5 @@
 import { api } from "@js/services/api";
+import { openStudiosParticipantFactory } from "@test/factories";
 import {
   act,
   fireEvent,
@@ -10,7 +11,6 @@ import expect from "expect";
 import React from "react";
 
 import { OpenStudiosRegistration } from "./open_studios_registration";
-import { openStudiosParticipantFactory } from "@test/factories";
 
 jest.mock("@js/services/api");
 

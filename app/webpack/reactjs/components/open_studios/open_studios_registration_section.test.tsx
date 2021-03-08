@@ -1,16 +1,9 @@
-import { api } from "@js/services/api";
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { openStudiosParticipantFactory } from "@test/factories";
+import { fireEvent, render, screen } from "@testing-library/react";
 import expect from "expect";
 import React from "react";
 
 import { OpenStudiosRegistrationSection } from "./open_studios_registration_section";
-import { openStudiosParticipantFactory } from "@test/factories";
 
 jest.mock("@js/services/api");
 
@@ -57,6 +50,7 @@ describe("OpenStudiosRegistrationSection", () => {
       const button = screen.queryByRole("button", {
         name: "Yes - Register Me",
       });
+      expect(button).toBeInTheDocument();
       expect(
         screen.queryByText("Will you be participating", { exact: false })
       ).toBeInTheDocument();

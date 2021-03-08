@@ -1,13 +1,9 @@
-import { OpenStudiosInfoForm } from "./open_studios_info_form";
-import {
-  formatTimeSlot,
-  parseTimeSlot,
-} from "./special_event_schedule_fields.tsx";
+import { api } from "@js/services/api";
 import {
   openStudiosEventFactory,
   openStudiosParticipantFactory,
 } from "@test/factories";
-import { api } from "@js/services/api";
+import { fillIn, findButton, findField } from "@test/support/dom_finders";
 import {
   act,
   fireEvent,
@@ -15,9 +11,10 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import { findButton, findField, fillIn } from "@test/support/dom_finders";
 import expect from "expect";
 import React from "react";
+
+import { OpenStudiosInfoForm } from "./open_studios_info_form";
 
 jest.mock("@js/services/api");
 

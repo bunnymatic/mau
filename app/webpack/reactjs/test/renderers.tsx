@@ -1,4 +1,4 @@
-import { RenderResult, render } from "@testing-library/react";
+import { render, RenderResult } from "@testing-library/react";
 import { Formik } from "formik";
 import React, { ReactElement } from "react";
 

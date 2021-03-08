@@ -2,6 +2,8 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.3",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.0.0",
     "eslint": "^7.0",
@@ -13,6 +15,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-standard": "^5.0.0",
+    "eslint-plugin-unused-imports": "^1.1.0",
     "faker": "^5.4.0",
     "jest": "^26.0.0",
     "prettier": "^2.0.0",
@@ -20,8 +23,8 @@
     "webpack-dev-server": "^3.10.3"
   },
   "scripts": {
-    "eslint-fix": "eslint --fix app/**/*.js",
-    "eslint-lint": "eslint app/**/*.js",
+    "eslint-fix": "eslint --fix app/**/*.js app/**/*.ts app/**/*.tsx",
+    "eslint-lint": "eslint app/**/*.js app/**/*.ts app/**/*.tsx",
     "lint": "npm run eslint-lint && npm run prettier-lint",
     "lint-fix": "npm run eslint-fix && npm run prettier-fix",
     "prettier-fix": "prettier --write app/**/*.ts app/**/*.tsx app/**/*.js app/**/*.scss **/*.json",
@@ -42,7 +45,7 @@
     "@rails/ujs": "^6.0.2-1",
     "@rails/webpacker": "^5.0.0",
     "@types/faker": "^5.1.7",
-    "@types/react": "^16.9.48",
+    "@types/react": "^17.0.3",
     "@types/react-dom": "^16.9.8",
     "@types/react-modal": "^3.12.0",
     "angular": "^1.8.0",

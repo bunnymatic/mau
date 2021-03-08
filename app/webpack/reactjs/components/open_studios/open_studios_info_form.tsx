@@ -1,16 +1,15 @@
-import { Form, Formik } from "formik";
+import Flash from "@js/app/jquery/flash";
+import { api } from "@js/services/api";
 import { MauButton } from "@reactjs/components/mau_button";
 import { MauCheckboxField } from "@reactjs/components/mau_checkbox_field";
 import { MauTextField } from "@reactjs/components/mau_text_field";
 import { SpecialEventScheduleFields } from "@reactjs/components/open_studios/special_event_schedule_fields";
-import { api } from "@js/services/api";
 import * as types from "@reactjs/types";
-import Flash from "@js/app/jquery/flash";
+import { Form, Formik } from "formik";
 import { camelizeKeys } from "humps";
 import React, { FC } from "react";
 
 interface OpenStudiosInfoFormProps {
-  location: string;
   artistId: number;
   participant: types.OpenStudiosParticipant;
   openStudiosEvent: types.OpenStudiosEvent;
@@ -30,7 +29,6 @@ function denullify(participant) {
 }
 
 export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
-  location,
   artistId,
   participant,
   onUpdateParticipant,
@@ -87,7 +85,7 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
     <section id="open-studios-info-form">
       <h3 className="open-studios-info-form__title">Your Open Studios Info</h3>
       <Formik initialValues={denullify(participant)} onSubmit={handleSubmit}>
-        {({ values, errors, dirty, isSubmitting }) => {
+        {({ dirty, isSubmitting }) => {
           return (
             <Form
               className="open-studios-info-form"
