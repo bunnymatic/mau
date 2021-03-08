@@ -12,6 +12,7 @@ interface TimeSlot {
   start: string;
   end: string;
 }
+
 interface TimeSlotCheckBoxProps {
   timeslot: TimeSlot;
   name: string;
