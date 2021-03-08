@@ -1,6 +1,7 @@
-import { MauHint } from "./mau_hint";
 import { render } from "@testing-library/react";
 import React from "react";
+
+import { MauHint } from "./mau_hint";
 
 describe("MauHint", () => {
   it("matches the snapshot", () => {

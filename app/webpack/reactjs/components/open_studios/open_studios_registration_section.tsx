@@ -1,15 +1,8 @@
-import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
 import { OpenStudiosInfoForm } from "@reactjs/components/open_studios/open_studios_info_form";
 import { OpenStudiosRegistration } from "@reactjs/components/open_studios/open_studios_registration";
-import { MauButton } from "@reactjs/components/mau_button";
-import { mailToLink } from "@js/services/mailer.service";
-import { useModalState } from "@reactjs/hooks/useModalState";
-import { api } from "@js/services/api";
 import * as types from "@reactjs/types";
-import Flash from "@js/app/jquery/flash";
-import { isNil } from "@js/app/helpers";
 import cx from "classnames";
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 
 interface OpenStudiosRegistrationSectionProps {
   location: string;
@@ -26,9 +19,10 @@ export const OpenStudiosRegistrationSection: FC<OpenStudiosRegistrationSectionPr
   artistId,
   participant: initialParticipant,
 }) => {
-  const [participant, setParticipant] = useState<OpenStudiosParticipant | null>(
-    initialParticipant
-  );
+  const [
+    participant,
+    setParticipant,
+  ] = useState<types.OpenStudiosParticipant | null>(initialParticipant);
   const isParticipating = Boolean(participant);
 
   let message: string;

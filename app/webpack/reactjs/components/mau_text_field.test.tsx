@@ -1,6 +1,7 @@
-import { MauTextField } from "./mau_text_field";
 import { renderInForm } from "@reactjs/test/renderers";
 import React from "react";
+
+import { MauTextField } from "./mau_text_field";
 
 describe("MauTextField", () => {
   it("matches the snapshot", () => {

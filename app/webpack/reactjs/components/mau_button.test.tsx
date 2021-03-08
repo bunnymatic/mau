@@ -4,8 +4,6 @@ import React from "react";
 import { MauButton } from "./mau_button";
 
 describe("MauButton", () => {
-  let button;
-
   const renderComponent = ({ children, ...props }) => {
     render(<MauButton {...props}>{children}</MauButton>);
   };

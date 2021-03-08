@@ -1,7 +1,7 @@
-import React, { FC } from "react";
-import { MauHint } from "@reactjs/components/mau_hint";
 import { FieldError } from "@reactjs/components/field_error";
-import { Field, ErrorMessage } from "formik";
+import { MauHint } from "@reactjs/components/mau_hint";
+import { ErrorMessage, Field } from "formik";
+import React, { FC, JSX } from "react";
 
 interface MauTextFieldProps {
   id?: string;
@@ -10,7 +10,6 @@ interface MauTextFieldProps {
   placeholder: string;
   className?: string;
   hint?: string | JSX.Element;
-  errors?: Record<string, unknown>;
 }
 
 export const MauTextField: FC<MauTextFieldProps> = ({
@@ -20,7 +19,6 @@ export const MauTextField: FC<MauTextFieldProps> = ({
   placeholder,
   className,
   hint,
-  errors,
 }) => {
   const classes = className ?? "";
   return (

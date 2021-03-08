@@ -1,5 +1,6 @@
-import { parseTimeSlot } from "./special_event_schedule_fields";
 import { DateTime } from "luxon";
+
+import { parseTimeSlot } from "./special_event_schedule_fields";
 
 describe("parseTimeSlot", () => {
   it("returns timeslots parsed into date times", () => {

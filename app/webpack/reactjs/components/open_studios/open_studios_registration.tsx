@@ -1,14 +1,11 @@
-import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
-import { OpenStudiosInfoForm } from "@reactjs/components/open_studios/open_studios_info_form";
-import { MauButton } from "@reactjs/components/mau_button";
-import { mailToLink } from "@js/services/mailer.service";
-import { useModalState } from "@reactjs/hooks/useModalState";
-import { api } from "@js/services/api";
-import * as types from "@reactjs/types";
 import Flash from "@js/app/jquery/flash";
-import { isNil } from "@js/app/helpers";
-import cx from "classnames";
-import React, { FC, useState, useEffect } from "react";
+import { api } from "@js/services/api";
+import { mailToLink } from "@js/services/mailer.service";
+import { MauButton } from "@reactjs/components/mau_button";
+import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
+import { useModalState } from "@reactjs/hooks/useModalState";
+import * as types from "@reactjs/types";
+import React, { FC, useEffect } from "react";
 
 interface OpenStudiosRegWindowCloseFnArgs {
   updated: boolean;
@@ -25,7 +22,6 @@ interface OpenStudiosRegistrationWindowProps {
 }
 
 const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
-  location,
   dateRange,
   onClose,
 }) => {
@@ -120,14 +116,13 @@ interface OpenStudiosRegistrationProps {
   autoRegister: Boolean;
   artistId: number;
   participant: types.OpenStudiosParticipant;
-  onUpdateParticipant: (participant: OpenStudiosParticipant) => void;
+  onUpdateParticipant: (participant: types.OpenStudiosParticipant) => void;
 }
 
 export const OpenStudiosRegistration: FC<OpenStudiosRegistrationProps> = ({
   location,
   openStudiosEvent,
   autoRegister,
-  artistId,
   onUpdateParticipant,
 }) => {
   const { isOpen, open, close } = useModalState();
