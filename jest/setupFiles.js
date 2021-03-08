@@ -2,6 +2,7 @@
 /* import sorting blows this test setup */
 import angular from "angular";
 import jQuery from "jquery";
+import { DateTime } from "luxon";
 
 import "angular-resource";
 import "angular-sanitize";
@@ -40,3 +41,5 @@ afterAll(() => {
   // `Location` object
   window.location = oldWindowLocation;
 });
+
+DateTime.local().setZone("America/Los_Angeles");
