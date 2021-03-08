@@ -29,8 +29,6 @@ function denullify(participant) {
   return result;
 }
 
-
-
 export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
   location,
   artistId,

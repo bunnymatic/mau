@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 import { MauCheckboxField } from "@reactjs/components/mau_checkbox_field";
-import { parseTimeSlot } from '@js/app/time_utils';
+import { parseTimeSlot } from "@js/app/time_utils";
 import * as types from "@reactjs/types";
-import React, {FC} from 'react';
+import React, { FC } from "react";
 
 interface SpecialEventScheduleFieldsProps {
   specialEvent: types.SpecialEventDetails;
