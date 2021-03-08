@@ -30,7 +30,7 @@ const formatTimeSlot = (timeslot: types.TimeSlot): string => {
 
 const TimeSlotCheckBox: FC<TimeSlotCheckBoxProps> = ({ timeslot, name }) => {
   const label = formatTimeSlot(timeslot);
-  return <MauCheckboxField label={label} name={name} />;
+  return <MauCheckboxField classes="open-studios-info-form__special-event-schedule__timeslot" label={label} name={name} />;
 };
 
 export const SpecialEventScheduleFields: FC<SpecialEventScheduleFieldsProps> = ({
@@ -43,6 +43,9 @@ export const SpecialEventScheduleFields: FC<SpecialEventScheduleFieldsProps> = (
 
   return (
     <div className="open-studios-info-form__special-event-schedule">
+      <div className="open-studios-info-form__special-event-schedule__label">
+        I will be open for virtual visitors the following hours.
+      </div>
       {slots.map((slot: string) => {
         const parsed = parseTimeSlot(slot);
         const slotName = generateSlotFieldName(slot);

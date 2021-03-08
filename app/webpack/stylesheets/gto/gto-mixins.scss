@@ -219,3 +219,10 @@ $sampler-thumbnail-size: 250px;
   height: 80px;
   background-size: contain;
 }
+
+@mixin form-label {
+  display: block;
+  margin-bottom: 5px;
+  color: $medium-gray;
+  font-size: 0.9rem;
+}
