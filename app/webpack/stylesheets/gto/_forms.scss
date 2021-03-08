@@ -1,6 +1,7 @@
 @import "colors";
 @import "variables";
 @import "mau-mixins";
+@import "gto/gto-mixins";
 
 $input-width: 90%;
 
@@ -40,11 +41,11 @@ tr.error-msg {
 .inputs {
   border: none;
   padding: 0;
+  margin-bottom: 10px;
   ol {
     margin: 0;
     padding: 0;
   }
-  margin-bottom: 10px;
   a + a,
   .pure-button + .pure-button {
     margin-left: 5px;
@@ -70,10 +71,7 @@ tr.error-msg {
     margin-bottom: 10px;
   }
   label {
-    display: block;
-    margin-bottom: 5px;
-    color: $medium-gray;
-    font-size: 0.9rem;
+    @include form-label;
   }
   select {
     height: 35px;

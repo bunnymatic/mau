@@ -4,7 +4,7 @@ Feature: Open Studios Signup for Artists
   I have an easy way to get to sign up for open studios
 
 Background:
-  Given there is a scheduled Open Studios event
+  Given there is a scheduled Open Studios event with a special event
   Given the following artists with art are in the system:
     | login      | email              | number_of_art_pieces |
     | artist     | artist@example.com |                    1 |
@@ -48,14 +48,17 @@ Scenario: "when I'm logged in"
   When I fill in the "#open_studios_info_form" form with:
     | shopUrl        | videoConferenceUrl |
     | https://www.rcode5.com  | https://www.youtube.com/watch?v=2SyPyBHJmiI |
+  And I select every other time slot for the video conference schedule
   And I click on "Update my details"
   Then I see a flash notice "Got it"
+  And I see every other time slot for the video conference schedule has been checked
 
   When I refresh the page
   And I open the "Open Studios" profile section
   Then I see the "#open_studios_info_form" form has:
     | shopUrl        | videoConferenceUrl |
     | https://www.rcode5.com  | https://www.youtube.com/watch?v=2SyPyBHJmiI |
+  And I see every other time slot for the video conference schedule has been checked
 
   When I click on "Un-Register Me"
   Then I see a flash notice "Maybe next time! :\)"

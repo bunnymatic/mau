@@ -29,7 +29,11 @@ class TimeSlotComputer
   private
 
   def format_slot(start, finish)
-    "#{start.iso8601}/#{finish.iso8601}"
+    # this becomes a dictionary key in a serialized thing that
+    # goes in the db.  The `::` seems to be the way to get all the
+    # serialize/deserialize between here and the front end to work
+    # out nicely
+    "#{start.to_i}::#{finish.to_i}"
   end
 
   def convert_to_24hr_time(clock_time)

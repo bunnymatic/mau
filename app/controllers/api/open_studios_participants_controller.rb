@@ -23,11 +23,16 @@ module Api
     def open_studios_participant_params
       params.require(:open_studios_participant).permit(
         :shop_url,
-        :video_conference_url,
         :show_email,
         :show_phone_number,
+        :video_conference_url,
         :youtube_url,
-      )
+        video_conference_schedule: {},
+      ).tap do |prms|
+        prms[:video_conference_schedule]&.each do |k, v|
+          prms[:video_conference_schedule][k] = (v == 'true')
+        end
+      end
     end
   end
 end

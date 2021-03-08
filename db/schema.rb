@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_07_081730) do
+ActiveRecord::Schema.define(version: 2021_03_07_213408) do
 
   create_table "application_events", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "type"
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 2021_03_07_081730) do
     t.boolean "show_email"
     t.boolean "show_phone_number"
     t.string "youtube_url"
+    t.text "video_conference_schedule"
     t.index ["open_studios_event_id"], name: "index_open_studios_participants_on_open_studios_event_id"
     t.index ["user_id", "open_studios_event_id"], name: "idx_os_participants_on_user_and_open_studios_event", unique: true
     t.index ["user_id"], name: "index_open_studios_participants_on_user_id"

@@ -1,21 +1,20 @@
-import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
+import { Form, Formik } from "formik";
 import { MauButton } from "@reactjs/components/mau_button";
 import { MauCheckboxField } from "@reactjs/components/mau_checkbox_field";
 import { MauTextField } from "@reactjs/components/mau_text_field";
-import { FieldError } from "@reactjs/components/field_error";
-import { OpenStudiosRegistration } from "@reactjs/components/open_studios/open_studios_registration";
+import { SpecialEventScheduleFields } from "@reactjs/components/open_studios/special_event_schedule_fields";
 import { api } from "@js/services/api";
 import * as types from "@reactjs/types";
 import Flash from "@js/app/jquery/flash";
 import { camelizeKeys } from "humps";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 
 interface OpenStudiosInfoFormProps {
   location: string;
   artistId: number;
   participant: types.OpenStudiosParticipant;
   openStudiosEvent: types.OpenStudiosEvent;
-  onUpdateParticipant: (participant: OpenStudiosParticipant) => void;
+  onUpdateParticipant: (participant: types.OpenStudiosParticipant) => void;
 }
 
 // Seems to help with proving the controlled v uncontrolled inputs and Formik
@@ -52,7 +51,6 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
         flash.show({
           error:
             "We had problems updating your open studios status.  Please try again later",
-          s,
         });
       });
   };
@@ -122,6 +120,9 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                       name="videoConferenceUrl"
                       placeholder="e.g. https://my.zoom.room.com/me"
                       hint="This link will connect folks to your video conference that you'd be on during Open Studios"
+                    />
+                    <SpecialEventScheduleFields
+                      specialEvent={event.specialEvent}
                     />
                   </div>
                   <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--youtube-url">
