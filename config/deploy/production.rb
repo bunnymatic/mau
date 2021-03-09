@@ -22,8 +22,8 @@ server 'www.missionartists.org',
          forward_agent: true,
        }
 
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-set :branch, 'main'
+ask :branch, (proc { `git rev-parse --abbrev-ref HEAD`.chomp })
+# set :branch, 'main'
 set :deploy_to, '/home/deploy/deployed/mau'
 
 # you can set custom ssh options
