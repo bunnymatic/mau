@@ -1,6 +1,5 @@
 import Flash from "@js/app/jquery/flash";
 import { api } from "@js/services/api";
-import { mailToLink } from "@js/services/mailer.service";
 import { MauButton } from "@reactjs/components/mau_button";
 import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
 import { useModalState } from "@reactjs/hooks/useModalState";
@@ -46,12 +45,6 @@ const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
   const accept = () => setRegistration(true);
   const decline = () => setRegistration(false);
 
-  const hasQuestions = () => {
-    onClose({ updated: false });
-    window.location = mailToLink(
-      "I have questions about registering for Open Studios"
-    );
-  };
   return (
     <div
       className="open-studios-modal__container"
@@ -74,20 +67,8 @@ const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
         </div>
       </div>
       <div className="open-studios-modal__content popup-text">
-        <p>
-          You are registering to participate as an Open Studios artist{" "}
-          {dateRange}.
-        </p>
-        <p>This means you are committing to:</p>
-        <ol>
-          <li>Update the images on your profile with fresh, available art.</li>
-          <li>
-            Decide how you will participate and fill out the Open Studios
-            Information form.
-          </li>
-          <li>Promote the event to your mailing list and social fans.</li>
-        </ol>
-        <p>Continue with registration?</p>
+        <p>Open Studios is {dateRange}.</p>
+        <p>Would you like to register as a participating artist?</p>
         <div className="actions open-studios-registration-form__actions">
           <div className="open-studios-registration-form__action-item">
             <MauButton primary onClick={accept}>
@@ -97,11 +78,6 @@ const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
           <div className="open-studios-registration-form__action-item">
             <MauButton secondary onClick={decline}>
               No
-            </MauButton>
-          </div>
-          <div className="open-studios-registration-form__action-item">
-            <MauButton secondary onClick={hasQuestions}>
-              I have questions
             </MauButton>
           </div>
         </div>
