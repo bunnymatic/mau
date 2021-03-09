@@ -61,10 +61,7 @@ describe("OpenStudiosRegistrationSection", () => {
       });
       fireEvent.click(button);
       expect(
-        screen.queryByText(
-          "You are registering to participate as an Open Studios artist The dates of the event.",
-          { exact: false }
-        )
+        screen.queryByText("Would you like to register", { exact: false })
       ).toBeInTheDocument();
     });
   });
@@ -72,10 +69,7 @@ describe("OpenStudiosRegistrationSection", () => {
   it("if autoRegister is true, the modal starts open", () => {
     renderComponent({ autoRegister: true });
     expect(
-      screen.queryByText(
-        "You are registering to participate as an Open Studios artist The dates of the event.",
-        { exact: false }
-      )
+      screen.queryByText("Would you like to register", { exact: false })
     ).toBeInTheDocument();
   });
 });

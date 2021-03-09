@@ -5,8 +5,9 @@ end
 
 Then('I see the registration dialog') do
   expect(page).to have_css('.ReactModal__Content')
-  expect(page).to have_content('You are registering to participate as an Open Studios artist')
-  expect(page).to have_content('I have questions')
+  expect(page).to have_content('Would you like to register as a participating artist?')
+  expect(page).to have_content('Yes')
+  expect(page).to have_content('No')
 end
 
 Then('I see the registration message') do
