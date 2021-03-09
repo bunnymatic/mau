@@ -22,9 +22,9 @@ Scenario: "when I'm not logged in"
   And I click on "Sign In"
 
   Then I see my profile edit form
-  And I see the registration dialog
 
-  When I click on "Yes" in the ".ReactModal__Content"
+  When I click on "Yes - Register Me"
+  And I click on "Yes" in the ".ReactModal__Content"
   Then I see the open studios info form
 
 Scenario: "when I'm logged in"
@@ -34,7 +34,8 @@ Scenario: "when I'm logged in"
 
   Then I see my profile edit form
 
-  When I click on "Yes" in the ".ReactModal__Content"
+  When I click on "Yes - Register Me"
+  And I click on "Yes" in the ".ReactModal__Content"
   Then I see the open studios info form
   And I see the "events" profile panel is open
 
@@ -61,7 +62,8 @@ Scenario: "when I'm logged in"
   And I see every other time slot for the video conference schedule has been checked
 
   When I click on "Un-Register Me"
-  Then I see a flash notice "Maybe next time! :\)"
+  And I click on "No" in the ".ReactModal__Content"
+  Then I see a flash notice "We've updated your registration status"
   Then I see "Yes - Register Me" on the page
 
   When I click on "Yes - Register Me"
@@ -72,7 +74,7 @@ Scenario: "when I'm logged in"
   When I visit the open studios page
   Then I see a "Artist Registration" link
 
-Scenario: "when I auto register but i'm not allowed (no address)"
+Scenario: "when I try to register without an address i'm not allowed"
   When I login as "no_address"
   And I visit the open studios page
   And I click on "Artist Registration"

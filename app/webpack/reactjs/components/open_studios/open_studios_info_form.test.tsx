@@ -229,15 +229,18 @@ describe("OpenStudiosInfoForm", () => {
       mockSubmitRegStatus.mockResolvedValue({});
       renderComponent();
     });
-    it("triggers a cancel when i click the cancel button", async () => {
+    it("opens a registration modal when i click the cancel button", async () => {
       let cancelButton;
       act(() => {
         cancelButton = findButton("Un-Register Me");
         fireEvent.click(cancelButton);
       });
       await waitFor(() => {
-        expect(mockSubmitRegStatus).toHaveBeenCalledWith(false);
-        expect(mockOnUpdateParticipant).toHaveBeenCalledWith(null);
+        expect(
+          screen.queryByText("Would you like to register", { exact: false })
+        ).toBeInTheDocument();
+        expect(screen.queryByText("Yes")).toBeInTheDocument();
+        expect(screen.queryByText("No")).toBeInTheDocument();
       });
     });
   });

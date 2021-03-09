@@ -13,7 +13,6 @@ describe("OpenStudiosRegistrationSection", () => {
   };
   const defaultProps = {
     participating: false,
-    autoRegister: false,
     openStudiosEvent: defaultOsEvent,
     location: "The Location Is Here",
   };
@@ -64,12 +63,5 @@ describe("OpenStudiosRegistrationSection", () => {
         screen.queryByText("Would you like to register", { exact: false })
       ).toBeInTheDocument();
     });
-  });
-
-  it("if autoRegister is true, the modal starts open", () => {
-    renderComponent({ autoRegister: true });
-    expect(
-      screen.queryByText("Would you like to register", { exact: false })
-    ).toBeInTheDocument();
   });
 });

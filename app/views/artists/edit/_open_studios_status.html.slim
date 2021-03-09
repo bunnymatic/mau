@@ -1,5 +1,4 @@
 / expects form, open_studios_event and current_user as presented current logged in user
-/ and registering_for_open_studios to decide whether or not to start the "auto" registration
 .panel-heading
   h4.panel-title
     = link_to "Open Studios #{open_studios_event.link_text}", '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
@@ -16,7 +15,6 @@
         | section below.
     - else
       = react_component id: "os-registration", component: "OpenStudiosRegistrationSection", props: { \
-          auto_register: registering_for_open_studios, \
           location: (current_user.studio.present? ? current_user.studio.name : current_user.address.to_s), \
           artist_id: current_user.id, \
           participant: current_user.current_open_studios_participant.as_json(root:false), \

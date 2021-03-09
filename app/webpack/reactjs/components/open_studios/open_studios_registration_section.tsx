@@ -1,5 +1,5 @@
 import { OpenStudiosInfoForm } from "@reactjs/components/open_studios/open_studios_info_form";
-import { OpenStudiosRegistration } from "@reactjs/components/open_studios/open_studios_registration";
+import { RegistrationModal } from "@reactjs/components/open_studios/registration_modal";
 import * as types from "@reactjs/types";
 import cx from "classnames";
 import React, { FC, useState } from "react";
@@ -7,7 +7,6 @@ import React, { FC, useState } from "react";
 interface OpenStudiosRegistrationSectionProps {
   location: string;
   openStudiosEvent: types.OpenStudiosEvent;
-  autoRegister: Boolean;
   artistId: number;
   participant: types.OpenStudiosParticipant | null;
 }
@@ -15,7 +14,6 @@ interface OpenStudiosRegistrationSectionProps {
 export const OpenStudiosRegistrationSection: FC<OpenStudiosRegistrationSectionProps> = ({
   location,
   openStudiosEvent,
-  autoRegister,
   artistId,
   participant: initialParticipant,
 }) => {
@@ -47,12 +45,13 @@ export const OpenStudiosRegistrationSection: FC<OpenStudiosRegistrationSectionPr
           participant={participant}
         />
       ) : (
-        <OpenStudiosRegistration
+        <RegistrationModal
           artistId={artistId}
-          autoRegister={autoRegister}
           location={location}
           onUpdateParticipant={setParticipant}
           openStudiosEvent={openStudiosEvent}
+          buttonText="Yes - Register Me"
+          buttonStyle={{ primary: true }}
         />
       )}
     </div>
