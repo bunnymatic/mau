@@ -44,7 +44,7 @@ class ArtistsController < ApplicationController
       return
     end
     redirect_to(edit_artist_path(current_user, anchor: 'events'),
-                flash: { registering_for_open_studios: true })
+                flash: { registering_for_open_studios: !current_user.doing_open_studios? })
   end
 
   def update_os_status_message(status, artist, os_event)

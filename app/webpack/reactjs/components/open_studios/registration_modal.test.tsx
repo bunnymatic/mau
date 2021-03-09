@@ -10,11 +10,11 @@ import {
 import expect from "expect";
 import React from "react";
 
-import { OpenStudiosRegistration } from "./open_studios_registration";
+import { RegistrationModal } from "./registration_modal";
 
 jest.mock("@js/services/api");
 
-describe("OpenStudiosRegistration", () => {
+describe("RegistrationModal", () => {
   const defaultOsEvent = {
     dateRange: "The dates of the event",
   };
@@ -29,7 +29,7 @@ describe("OpenStudiosRegistration", () => {
 
   const renderComponent = (props = {}) => {
     const mergedProps = { ...defaultProps, ...props };
-    render(<OpenStudiosRegistration {...mergedProps} />);
+    render(<RegistrationModal {...mergedProps} />);
   };
 
   beforeEach(() => {

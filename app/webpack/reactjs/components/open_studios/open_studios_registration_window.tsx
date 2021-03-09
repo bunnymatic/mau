@@ -1,16 +1,14 @@
 import Flash from "@js/app/jquery/flash";
 import { api } from "@js/services/api";
 import { MauButton } from "@reactjs/components/mau_button";
-import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
-import { useModalState } from "@reactjs/hooks/useModalState";
 import * as types from "@reactjs/types";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 
 interface OpenStudiosRegWindowCloseFnArgs {
   updated: boolean;
   participant?: types.Nullable<types.OpenStudiosParticipant>;
 }
-type OpenStudiosRegWindowCloseFn = (
+export type OpenStudiosRegWindowCloseFn = (
   args: OpenStudiosRegWindowCloseFnArgs
 ) => void;
 
@@ -20,7 +18,7 @@ interface OpenStudiosRegistrationWindowProps {
   onClose: OpenStudiosRegWindowCloseFn;
 }
 
-const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
+export const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
   dateRange,
   onClose,
 }) => {
@@ -83,65 +81,5 @@ const OpenStudiosRegistrationWindow: FC<OpenStudiosRegistrationWindowProps> = ({
         </div>
       </div>
     </div>
-  );
-};
-
-interface OpenStudiosRegistrationProps {
-  location: string;
-  openStudiosEvent: types.OpenStudiosEvent;
-  autoRegister: Boolean;
-  artistId: number;
-  participant: types.OpenStudiosParticipant;
-  onUpdateParticipant: (participant: types.OpenStudiosParticipant) => void;
-}
-
-export const OpenStudiosRegistration: FC<OpenStudiosRegistrationProps> = ({
-  location,
-  openStudiosEvent,
-  autoRegister,
-  onUpdateParticipant,
-}) => {
-  const { isOpen, open, close } = useModalState();
-
-  const handleClose: OpenStudiosRegWindowCloseFn = ({
-    updated,
-    participant,
-  }) => {
-    if (updated) {
-      onUpdateParticipant(participant);
-    }
-    close();
-  };
-  const buttonText = "Yes - Register Me";
-
-  useEffect(() => {
-    if (autoRegister) {
-      open();
-    }
-  }, [autoRegister]);
-
-  setAppElement("body");
-
-  return (
-    <>
-      <div id="open-studios-registration-button">
-        <MauButton
-          primary
-          onClick={(ev) => {
-            ev.preventDefault();
-            open();
-          }}
-        >
-          {buttonText}
-        </MauButton>
-      </div>
-      <MauModal isOpen={isOpen}>
-        <OpenStudiosRegistrationWindow
-          onClose={handleClose}
-          location={location}
-          dateRange={openStudiosEvent?.dateRange}
-        />
-      </MauModal>
-    </>
   );
 };
