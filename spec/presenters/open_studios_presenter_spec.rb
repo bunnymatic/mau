@@ -91,14 +91,14 @@ describe OpenStudiosPresenter do
     context 'when the user is a fan' do
       let(:user) { build(:fan) }
 
-      it 'shows "Artist OS Info" when current_user is an artist signed up for open studio event' do
+      it 'shows "Artist Registration" when current_user is a fan' do
         expect(subject.register_for_open_studio_button_text).to eq('Artist Registration')
       end
     end
 
     context 'when the user is an artist but not signed up yet for os' do
       let(:user) { build(:artist, doing_open_studios: false) }
-      it 'shows "Artist OS Info" when current_user is an artist signed up for open studio event' do
+      it 'shows "Artist Registration" when current_user is an artist signed up for open studio event' do
         expect(subject.register_for_open_studio_button_text).to eq('Artist Registration')
       end
     end
@@ -106,8 +106,8 @@ describe OpenStudiosPresenter do
     context 'when the user is an artist that is signed up for th os' do
       let(:user) { create(:artist, doing_open_studios: true) }
 
-      it 'shows "Artist OS Info" when current_user is an artist signed up for open studio event' do
-        expect(subject.register_for_open_studio_button_text).to eq('Artist OS Info')
+      it 'shows "Artist Registration" when current_user is an artist signed up for open studio event' do
+        expect(subject.register_for_open_studio_button_text).to eq('Artist Registration')
       end
     end
   end

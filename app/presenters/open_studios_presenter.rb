@@ -30,11 +30,7 @@ class OpenStudiosPresenter
   end
 
   def register_for_open_studio_button_text
-    if @user&.artist? && @user&.doing_open_studios?
-      'Artist OS Info'
-    else
-      'Artist Registration'
-    end
+    'Artist Registration'
   end
 
   private

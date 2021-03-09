@@ -70,7 +70,7 @@ Scenario: "when I'm logged in"
   Then I see the open studios info form
 
   When I visit the open studios page
-  Then I see the new Artist OS Info button
+  Then I see a "Artist Registration" link
 
 Scenario: "when I auto register but i'm not allowed (no address)"
   When I login as "no_address"
