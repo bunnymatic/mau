@@ -63,10 +63,11 @@
     }
   }
   &.tabs__horizontal {
+    display: flex;
+    align-items: flex-start;
     margin-top: 10px;
     height: 33px;
     li {
-      display: inline-block;
       &:first-child {
         padding-left: 0;
       }
@@ -105,6 +106,19 @@
       a[data-toggle="tab"] {
         border-color: $gto_orange;
       }
+    }
+  }
+  &.tabs__horizontal--stack-mobile {
+    @media screen and (max-width: $screen-lg-max) {
+    }
+    @media screen and (max-width: $screen-md-max) {
+    }
+    @media screen and (max-width: $screen-sm-max) {
+    }
+    @media screen and (max-width: $screen-xs-max) {
+      flex-direction: column;
+      align-items: initial;
+      height: auto;
     }
   }
 }
