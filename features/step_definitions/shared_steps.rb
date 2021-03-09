@@ -358,3 +358,11 @@ end
 When(/^I go to the new tab$/) do
   page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
 end
+
+When('I see a {string} button') do |string|
+  expect(page).to have_button(string)
+end
+
+When('I see a {string} link') do |string|
+  expect(page).to have_link(string)
+end
