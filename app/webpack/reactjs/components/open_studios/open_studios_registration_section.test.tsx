@@ -60,7 +60,7 @@ describe("OpenStudiosRegistrationSection", () => {
       });
       fireEvent.click(button);
       expect(
-        screen.queryByText("Would you like to register", { exact: false })
+        screen.queryByText("Would you like to continue", { exact: false })
       ).toBeInTheDocument();
     });
   });

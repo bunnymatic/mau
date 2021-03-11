@@ -63,7 +63,6 @@ Scenario: "when I'm logged in"
 
   When I click on "Un-Register Me"
   And I click on "No" in the ".ReactModal__Content"
-  Then I see a flash notice "We've updated your registration status"
   Then I see "Yes - Register Me" on the page
 
   When I click on "Yes - Register Me"

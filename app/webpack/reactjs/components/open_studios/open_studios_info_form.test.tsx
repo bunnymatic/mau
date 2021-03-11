@@ -237,7 +237,7 @@ describe("OpenStudiosInfoForm", () => {
       });
       await waitFor(() => {
         expect(
-          screen.queryByText("Would you like to register", { exact: false })
+          screen.queryByText("Would you like to continue", { exact: false })
         ).toBeInTheDocument();
         expect(screen.queryByText("Yes")).toBeInTheDocument();
         expect(screen.queryByText("No")).toBeInTheDocument();

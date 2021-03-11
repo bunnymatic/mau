@@ -1,5 +1,6 @@
+import { ConfirmModal } from "@reactjs/components/confirm_modal";
 import { OpenStudiosInfoForm } from "@reactjs/components/open_studios/open_studios_info_form";
-import { RegistrationModal } from "@reactjs/components/open_studios/registration_modal";
+import { submitRegistration } from "@reactjs/components/open_studios/submit_registration";
 import * as types from "@reactjs/types";
 import cx from "classnames";
 import React, { FC, useState } from "react";
@@ -13,7 +14,7 @@ interface OpenStudiosRegistrationSectionProps {
 
 export const OpenStudiosRegistrationSection: FC<OpenStudiosRegistrationSectionProps> = ({
   location,
-  openStudiosEvent,
+  openStudiosEvent: event,
   artistId,
   participant: initialParticipant,
 }) => {
@@ -25,10 +26,16 @@ export const OpenStudiosRegistrationSection: FC<OpenStudiosRegistrationSectionPr
 
   let message: string;
   if (isParticipating) {
-    message = `Yay! You are currently registered for Open Studios on ${openStudiosEvent.dateRange}`;
+    message = `Yay! You are currently registered for Open Studios on ${event.dateRange}`;
   } else {
-    message = `Will you be participating in Open Studios on ${openStudiosEvent.dateRange}`;
+    message = `Will you be participating in Open Studios on ${event.dateRange}`;
   }
+
+  const handleRegistration = (registering: boolean) => {
+    return submitRegistration(registering).then((data) => {
+      setParticipant(data.participant);
+    });
+  };
   return (
     <div
       className={cx({
@@ -41,18 +48,21 @@ export const OpenStudiosRegistrationSection: FC<OpenStudiosRegistrationSectionPr
           artistId={artistId}
           location={location}
           onUpdateParticipant={setParticipant}
-          openStudiosEvent={openStudiosEvent}
+          openStudiosEvent={event}
           participant={participant}
         />
       ) : (
-        <RegistrationModal
-          artistId={artistId}
-          location={location}
-          onUpdateParticipant={setParticipant}
-          openStudiosEvent={openStudiosEvent}
+        <ConfirmModal
           buttonText="Yes - Register Me"
-          buttonStyle={{ primary: true }}
-        />
+          buttonStyle="primary"
+          handleConfirm={handleRegistration}
+        >
+          <p>
+            This will register you as a participating artist for Open Studios,{" "}
+            {event.dateRange}.
+          </p>
+          <p>Would you like to continue?</p>
+        </ConfirmModal>
       )}
     </div>
   );

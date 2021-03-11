@@ -1,4 +1,5 @@
 export const identity = (x) => x;
+export const noop = (_) => {};
 export const isNil = (x) => x == null;
 export const isArray = Array.isArray;
 export function isFunction(func) {

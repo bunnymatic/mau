@@ -1,0 +1,19 @@
+.confirm-modal__content--main {
+  max-width: 250px;
+  > p:first-child {
+    margin-top: 0;
+  }
+  margin-bottom: 10px;
+}
+.confirm-modal__actions {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.confirm-modal__action-item {
+}
+
+.confirm-modal__action-item + .confirm-modal__action-item {
+  margin-left: 10px;
+}
