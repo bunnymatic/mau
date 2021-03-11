@@ -1,4 +1,3 @@
-- registering_for_open_studios = !!flash['registering_for_open_studios']
 .pure-g
   .pure-u-1-1.header.padded-content
     h2.title My Account
@@ -16,7 +15,7 @@
           = render '/artists/edit/studio_info', form: form, studios: @studios
         - if OpenStudiosEvent.current
           .panel.panel-default
-            = render '/artists/edit/open_studios_status', form: form, open_studios_event: @open_studios_event, current_user: @user, registering_for_open_studios: registering_for_open_studios
+            = render '/artists/edit/open_studios_status', form: form, open_studios_event: @open_studios_event, current_user: @user
         .panel.panel-default
           = render '/users/edit/links', form: form
         .panel.panel-default

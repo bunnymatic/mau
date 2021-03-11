@@ -3,6 +3,7 @@ import { api } from "@js/services/api";
 import { MauButton } from "@reactjs/components/mau_button";
 import { MauCheckboxField } from "@reactjs/components/mau_checkbox_field";
 import { MauTextField } from "@reactjs/components/mau_text_field";
+import { RegistrationModal } from "@reactjs/components/open_studios/registration_modal";
 import { SpecialEventScheduleFields } from "@reactjs/components/open_studios/special_event_schedule_fields";
 import * as types from "@reactjs/types";
 import { Form, Formik } from "formik";
@@ -34,25 +35,6 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
   onUpdateParticipant,
   openStudiosEvent: event,
 }) => {
-  const cancelRegistration = (ev) => {
-    ev.preventDefault();
-    const flash = new Flash();
-    api.openStudios
-      .submitRegistrationStatus(false)
-      .then(() => {
-        flash.show({
-          notice: "Maybe next time! :)",
-        });
-        onUpdateParticipant(null);
-      })
-      .catch(() => {
-        flash.show({
-          error:
-            "We had problems updating your open studios status.  Please try again later",
-        });
-      });
-  };
-
   const specialEventDateRange =
     event.specialEvent?.dateRange || event.dateRange;
 
@@ -149,9 +131,11 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                 <MauButton type="submit" disabled={!dirty && !isSubmitting}>
                   Update my details
                 </MauButton>
-                <MauButton type="cancel" onClick={cancelRegistration}>
-                  Un-Register Me
-                </MauButton>
+                <RegistrationModal
+                  openStudiosEvent={event}
+                  onUpdateParticipant={onUpdateParticipant}
+                  buttonText="Un-Register Me"
+                />
               </div>
             </Form>
           );

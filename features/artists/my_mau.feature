@@ -47,21 +47,6 @@ Scenario: I can edit my profile
   When I open the "Profile Picture" profile section
   Then I see that I have a new profile picture
 
-Scenario: I can update my os status
-  When I visit my profile edit page
-  Then I see my profile edit form
-
-  And I click on "Personal Info"
-
-  When I click on the current open studios edit section
-  And I click on "Un-Register Me"
-  Then I see the registration message
-
-  When I click on "Yes - Register Me"
-  And I see the registration dialog
-  And I click on "Yes" in the ".ReactModal__Content"
-  Then I see the open studios info form
-
 Scenario: I can see when I make a mistake
   When I visit my artist profile edit page
   Then I see my profile edit form

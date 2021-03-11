@@ -10,26 +10,26 @@ import {
 import expect from "expect";
 import React from "react";
 
-import { OpenStudiosRegistration } from "./open_studios_registration";
+import { RegistrationModal } from "./registration_modal";
 
 jest.mock("@js/services/api");
 
-describe("OpenStudiosRegistration", () => {
+describe("RegistrationModal", () => {
   const defaultOsEvent = {
     dateRange: "The dates of the event",
   };
   const mockOnUpdate = jest.fn();
   const defaultProps = {
-    autoRegister: false,
     openStudiosEvent: defaultOsEvent,
     location: "The Location Is Here",
     onUpdateParticipant: mockOnUpdate,
     artistId: 1,
+    buttonText: "Click Me!",
   };
 
   const renderComponent = (props = {}) => {
     const mergedProps = { ...defaultProps, ...props };
-    render(<OpenStudiosRegistration {...mergedProps} />);
+    render(<RegistrationModal {...mergedProps} />);
   };
 
   beforeEach(() => {
@@ -38,18 +38,8 @@ describe("OpenStudiosRegistration", () => {
 
   it("shows a register button", () => {
     renderComponent();
-    const button = screen.queryByRole("button", { name: "Yes - Register Me" });
+    const button = screen.queryByRole("button", { name: "Click Me!" });
     expect(button).toBeInTheDocument();
-  });
-
-  it("if autoRegister is true, the modal starts open", () => {
-    renderComponent({ autoRegister: true });
-    expect(
-      screen.queryByText(
-        "Would you like to register as a participating artist?",
-        { exact: false }
-      )
-    ).toBeInTheDocument();
   });
 
   describe("when I register", () => {
@@ -64,7 +54,7 @@ describe("OpenStudiosRegistration", () => {
       renderComponent();
       act(() => {
         const modalButton = screen.queryByRole("button", {
-          name: "Yes - Register Me",
+          name: "Click Me!",
         });
         fireEvent.click(modalButton);
       });
