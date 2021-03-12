@@ -1,21 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ConfirmModal when i click the button the modal opens 1`] = `
-<div>
-  <div
-    class="mau-modal confirm-modal__trigger"
-    id="my-modal"
-  >
-    <button
-      class="pure-button button-primary"
-      role="button"
-    >
-      click here to confirm
-    </button>
-  </div>
-</div>
-`;
-
 exports[`ConfirmModal works with button text 1`] = `
 <div>
   <div
