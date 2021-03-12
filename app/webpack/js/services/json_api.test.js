@@ -120,6 +120,24 @@ describe("jsonApi", () => {
           })
         );
       });
+      it("calls for studio 0 if the value is null", async () => {
+        await jsonApi.studios.get(null);
+        expect(jQuery.ajax).toHaveBeenCalledWith(
+          expect.objectContaining({
+            url: "/api/v2/studios/0.json",
+            method: "get",
+          })
+        );
+      });
+      it("calls for studio 0 if the value is undefined", async () => {
+        await jsonApi.studios.get();
+        expect(jQuery.ajax).toHaveBeenCalledWith(
+          expect.objectContaining({
+            url: "/api/v2/studios/0.json",
+            method: "get",
+          })
+        );
+      });
     });
   });
 });
