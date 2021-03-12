@@ -33,7 +33,7 @@ export const jsonApi = {
   },
   studios: {
     get: (id) => {
-      const resp = get(`/api/v2/studios/${id}.json`);
+      const resp = get(`/api/v2/studios/${id || 0}.json`);
       return resp.then((data) => {
         return new Studio(data.data, data.included);
       });
