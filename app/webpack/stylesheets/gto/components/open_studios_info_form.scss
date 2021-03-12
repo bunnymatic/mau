@@ -43,6 +43,21 @@
 .open-studios-info-form__actions {
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: $screen-lg-max) {
+  }
+  @media screen and (max-width: $screen-md-max) {
+  }
+  @media screen and (max-width: $screen-sm-max) {
+  }
+  @media screen and (max-width: $screen-xs-max) {
+    flex-direction: column;
+    & > * {
+      margin-bottom: 10px;
+      &.confirm-modal__trigger > button {
+        width: 100%;
+      }
+    }
+  }
 }
 
 .open-studios-info-form__special-event-schedule__label {
