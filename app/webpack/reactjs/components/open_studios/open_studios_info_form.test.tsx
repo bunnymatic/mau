@@ -224,23 +224,47 @@ describe("OpenStudiosInfoForm", () => {
   });
 
   describe("if i change my mind", () => {
-    beforeEach(() => {
-      jest.resetAllMocks();
-      mockSubmitRegStatus.mockResolvedValue({});
-      renderComponent();
-    });
-    it("opens a registration modal when i click the cancel button", async () => {
-      let cancelButton;
-      act(() => {
-        cancelButton = findButton("Un-Register Me");
-        fireEvent.click(cancelButton);
+    describe("and handle unregistration works fine", () => {
+      beforeEach(() => {
+        jest.resetAllMocks();
+        mockSubmitRegStatus.mockResolvedValue({});
+        renderComponent();
       });
-      await waitFor(() => {
-        expect(
-          screen.queryByText("Would you like to continue", { exact: false })
-        ).toBeInTheDocument();
-        expect(screen.queryByText("Yes")).toBeInTheDocument();
-        expect(screen.queryByText("No")).toBeInTheDocument();
+      it("opens a registration modal when i click the cancel button", async () => {
+        let cancelButton;
+        act(() => {
+          cancelButton = findButton("Un-Register Me");
+          fireEvent.click(cancelButton);
+        });
+        await waitFor(() => {
+          expect(
+            screen.queryByText("Would you like to continue", { exact: false })
+          ).toBeInTheDocument();
+          expect(screen.queryByText("Yes")).toBeInTheDocument();
+          expect(screen.queryByText("No")).toBeInTheDocument();
+        });
+      });
+    });
+    describe("and handle unregistration fails", () => {
+      beforeEach(() => {
+        jest.resetAllMocks();
+        mockSubmitRegStatus.mockResolvedValue({});
+        mockUpdate.mockRejectedValue({});
+        renderComponent();
+      });
+      it("opens a registration modal when i click the cancel button", async () => {
+        let cancelButton;
+        act(() => {
+          cancelButton = findButton("Un-Register Me");
+          fireEvent.click(cancelButton);
+        });
+        await waitFor(() => {
+          expect(
+            screen.queryByText("Would you like to continue", { exact: false })
+          ).toBeInTheDocument();
+          expect(screen.queryByText("Yes")).toBeInTheDocument();
+          expect(screen.queryByText("No")).toBeInTheDocument();
+        });
       });
     });
   });
