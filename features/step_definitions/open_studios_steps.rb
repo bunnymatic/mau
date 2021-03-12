@@ -3,11 +3,20 @@ When /I click on the current open studios link/ do
   click_on_first os_link_text
 end
 
+Then('I see the unregistration dialog') do
+  within('.ReactModal__Content') do
+    expect(page).to have_content 'You will no longer be registered for Open Studios'
+    expect(page).to have_content('Yes')
+    expect(page).to have_content('No')
+  end
+end
+
 Then('I see the registration dialog') do
-  expect(page).to have_css('.ReactModal__Content')
-  expect(page).to have_content('Would you like to register as a participating artist?')
-  expect(page).to have_content('Yes')
-  expect(page).to have_content('No')
+  within('.ReactModal__Content') do
+    expect(page).to have_content 'This will register you as a participating artist for Open Studios'
+    expect(page).to have_content('Yes')
+    expect(page).to have_content('No')
+  end
 end
 
 Then('I see the registration message') do
