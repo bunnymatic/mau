@@ -97,22 +97,15 @@
 
         .react-styleguide__component
           .react-styleguide__header
-            h3.react-styleguide__component-title OpenStudiosRegistration
+            h3.react-styleguide__component-title ConfirmModal
           .react-styleguide__example
             .react-styleguide__impl
-                = react_component id: "os-reg-participating", component: "OpenStudiosRegistration", props: { participating: true }
+                = react_component id: "confirm-modal", component: "ConfirmModal", props: { children: "Are you sure?", buttonText: "Confirm This", buttonStyle: "secondary" }
             .react-styleguide__code
                 pre
                   code
-                    | = react_component id: "os-reg-participating",
-                      component: "OpenStudiosRegistration",
-                      props: { participating: true }
-          .react-styleguide__example
-            .react-styleguide__impl
-                = react_component id: "os-reg-participating", component: "OpenStudiosRegistration", props: { participating: false }
-            .react-styleguide__code
-                pre
-                  code
-                    | = react_component id: "os-reg-not-participating",
-                      component: "OpenStudiosRegistration",
-                      props: { participating: false }
+                    | = react_component
+                      id: "confirm-modal", component: "ConfirmModal",
+                        props: { children: "Are you sure?",
+                          buttonText: "Confirm This",
+                            buttonStyle: "secondary" }

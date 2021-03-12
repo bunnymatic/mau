@@ -1,10 +1,11 @@
 import Flash from "@js/app/jquery/flash";
 import { api } from "@js/services/api";
+import { ConfirmModal } from "@reactjs/components/confirm_modal";
 import { MauButton } from "@reactjs/components/mau_button";
 import { MauCheckboxField } from "@reactjs/components/mau_checkbox_field";
 import { MauTextField } from "@reactjs/components/mau_text_field";
-import { RegistrationModal } from "@reactjs/components/open_studios/registration_modal";
 import { SpecialEventScheduleFields } from "@reactjs/components/open_studios/special_event_schedule_fields";
+import { submitRegistration } from "@reactjs/components/open_studios/submit_registration";
 import * as types from "@reactjs/types";
 import { Form, Formik } from "formik";
 import { camelizeKeys } from "humps";
@@ -37,6 +38,12 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
 }) => {
   const specialEventDateRange =
     event.specialEvent?.dateRange || event.dateRange;
+
+  const handleUnregistration = (unregistering: boolean) => {
+    return submitRegistration(!unregistering).then((data) => {
+      onUpdateParticipant(data.participant);
+    });
+  };
 
   const handleSubmit = (values, actions) => {
     new Flash().clear();
@@ -128,14 +135,20 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                 </div>
               </fieldset>
               <div className="open-studios-info-form__actions actions">
-                <MauButton type="submit" disabled={!dirty && !isSubmitting}>
+                <MauButton
+                  type="submit"
+                  primary
+                  disabled={!dirty && !isSubmitting}
+                >
                   Update my details
                 </MauButton>
-                <RegistrationModal
-                  openStudiosEvent={event}
-                  onUpdateParticipant={onUpdateParticipant}
+                <ConfirmModal
                   buttonText="Un-Register Me"
-                />
+                  handleConfirm={handleUnregistration}
+                >
+                  <p>You will no longer be registered for Open Studios.</p>
+                  <p>Would you like to continue?</p>
+                </ConfirmModal>
               </div>
             </Form>
           );

@@ -60,10 +60,19 @@ Scenario: "when I'm logged in"
     | shopUrl        | videoConferenceUrl |
     | https://www.rcode5.com  | https://www.youtube.com/watch?v=2SyPyBHJmiI |
   And I see every other time slot for the video conference schedule has been checked
+  When I click on "Un-Register Me"
+  And I see the unregistration dialog
+  And I click on "No" in the ".ReactModal__Content"
+  Then I see the open studios info form
 
   When I click on "Un-Register Me"
+  And I see the unregistration dialog
+  And I click on "Yes" in the ".ReactModal__Content"
+  Then I see "Yes - Register Me" on the page
+
+  When I click on "Yes - Register Me"
+  And I see the registration dialog
   And I click on "No" in the ".ReactModal__Content"
-  Then I see a flash notice "We've updated your registration status"
   Then I see "Yes - Register Me" on the page
 
   When I click on "Yes - Register Me"

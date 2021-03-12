@@ -3,5 +3,6 @@
 // so consumers can stay the same.
 
 export * from "./apiTypes";
+export * from "./eventTypes";
 export * from "./modelTypes";
 export * from "./utilTypes";
