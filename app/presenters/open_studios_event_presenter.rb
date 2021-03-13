@@ -54,6 +54,10 @@ class OpenStudiosEventPresenter < ViewPresenter
     @model = os_event
   end
 
+  def empty?
+    !@model
+  end
+
   def num_participants
     model.open_studios_participants.count
   end
