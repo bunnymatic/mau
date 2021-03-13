@@ -1,6 +1,8 @@
 /** settings that affect layout/geometry */
 @import "variables";
 @import "mau-mixins";
+@import "gto/gto-mixins";
+
 html,
 body {
   height: 100%;
@@ -145,7 +147,7 @@ body {
 .pure-g {
   .header {
     &.bordered-header {
-      border-bottom: 1px solid $x-light-gray;
+      @include light-bottom-border;
       margin: 1em 0 0.83em;
       padding-bottom: 10px;
       display: flex;
@@ -174,7 +176,7 @@ body {
     }
     .title {
       font-weight: $font-weight-light;
-      border-bottom: 1px solid $x-light-gray;
+      @include light-bottom-border;
       padding-bottom: 8px;
       padding-left: 2px;
     }

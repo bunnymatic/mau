@@ -8,6 +8,10 @@
     list-style: circle;
   }
 }
+@mixin light-bottom-border {
+  border-bottom: 1px solid $x-light-gray;
+}
+
 @mixin light-gray-button {
   @include transition(all 0.33s ease-in-out);
   @include round-corners(2px);
@@ -89,8 +93,7 @@
   }
   @media screen and (min-width: $screen-md-max) {
     .filter {
-      border-bottom: 1px solid $x-light-gray;
-      margin-top: 22px;
+      @include light-bottom-border margin-top: 22px;
       margin-left: -20px;
       padding-left: 20px;
       padding-bottom: 4px;
@@ -103,8 +106,7 @@
   text-transform: uppercase;
   font-size: 0.8rem;
   margin-bottom: 8px;
-  border-bottom: 1px solid $x-light-gray;
-  @include ellipsis;
+  @include light-bottom-border @include ellipsis;
 }
 
 @mixin popup-elements {
@@ -127,7 +129,7 @@
     padding: 10px 15px 4px;
     margin-bottom: 12px;
     position: relative;
-    border-bottom: 1px solid $x-light-gray;
+    @include light-bottom-border;
   }
   .popup-text {
     line-height: 1.1rem;
