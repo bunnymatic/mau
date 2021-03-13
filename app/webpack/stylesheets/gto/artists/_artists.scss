@@ -296,7 +296,7 @@
       }
     }
     .header {
-      border-bottom: 1px solid $x-light-gray;
+      @include light-bottom-border;
       padding: 4px 2px;
       margin-bottom: 8px;
       @include all-caps-label;

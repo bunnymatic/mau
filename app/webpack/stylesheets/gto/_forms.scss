@@ -80,9 +80,6 @@ tr.error-msg {
   label {
     @include form-label;
   }
-  select {
-    height: 35px;
-  }
   select,
   input {
     padding: 10px;
@@ -92,6 +89,10 @@ tr.error-msg {
     @media screen and (max-width: $screen-xs-max) {
       width: $mobile-input-width;
     }
+  }
+  select {
+    padding: 0 10px;
+    height: 37px;
   }
   .input {
     &.boolean input {

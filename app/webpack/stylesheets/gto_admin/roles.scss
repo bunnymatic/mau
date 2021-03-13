@@ -1,8 +1,10 @@
 @import "colors";
+@import "gto/gto-mixins";
+
 .admin.roles {
   .role-container {
     h4 {
-      border-bottom: 1px solid $x-light-gray;
+      @include light-bottom-border;
     }
 
     ul.role_members {
