@@ -10,9 +10,13 @@
   .sampler__promo {
     width: 40%;
     float: left;
-    &.mod-os {
-      .header {
-        font-size: 3rem;
+    &.mod-virtual-os {
+      background-image: url("../../images/virtual-open-studios-banner.svg");
+      @include background-cover;
+      a {
+        height: 100%;
+        width: 100%;
+        display: block;
       }
     }
   }
@@ -29,20 +33,11 @@
         font-size: 1rem;
         line-height: 1.2rem;
       }
-      &.mod-os {
-        .body {
-          font-size: 2.1rem;
-          line-height: 1.7rem;
-        }
-      }
     }
   }
   @media screen and (max-width: $screen-md-max) {
     .sampler__promo {
       width: 66.66%;
-      &.mod-os {
-        width: 33.3%;
-      }
       .header {
         font-size: 2.2rem;
       }
@@ -54,9 +49,6 @@
   @media screen and (max-width: $screen-sm-max) {
     .sampler__promo {
       width: 100%;
-      &.mod-os {
-        width: 100%;
-      }
     }
   }
   @media screen and (max-width: $screen-xs-max) {
@@ -120,19 +112,6 @@
     .body {
       font-size: 1rem;
       font-weight: $font-weight-light;
-    }
-
-    &.mod-os {
-      .bg {
-        background-image: url("../../images/duotones/car-duotone-orange.jpg");
-      }
-      a {
-        color: $gto_orange !important;
-        .header,
-        .body {
-          color: inherit !important;
-        }
-      }
     }
   }
 }

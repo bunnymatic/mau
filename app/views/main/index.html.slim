@@ -1,19 +1,7 @@
 #main_thumbs
   #sampler.js-sampler data-seed=@seed
-    / .sampler__promo.js-sampler__promo.mod-os
-    /   = link_to open_studios_path
-    /     .bg
-    /     .sampler__promo-contents
-    /       .header Spring Open Studios
-    /       .body
-    /         = open_studios_nav_title
-    /         br
-    /         | noon &mdash; 6
-    .sampler__promo.js-sampler__promo
-      .bg
-      .sampler__promo-contents
-        .header Mission Artists
-        .body Showcasing artists in the Mission District of San Francisco
+    / = render "default_banner"
+    = render 'virtual_os_banner'
     #js-scroll-load-more.scroll-load-more
       .scroll-load-more__contents
         = mau_spinner
