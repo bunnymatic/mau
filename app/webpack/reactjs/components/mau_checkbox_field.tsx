@@ -9,6 +9,7 @@ interface MauCheckboxFieldProps {
   hint?: string | JSX.Element;
   id?: string;
   classes?: string;
+  disabled?: boolean;
 }
 
 export const MauCheckboxField: FC<MauCheckboxFieldProps> = ({
@@ -17,13 +18,19 @@ export const MauCheckboxField: FC<MauCheckboxFieldProps> = ({
   label,
   hint,
   classes,
+  disabled,
 }) => {
   return (
     <div
       className={cx("boolean input optional", { [classes]: Boolean(classes) })}
     >
       <label htmlFor={name}>
-        <Field type="checkbox" name={name} id={id ?? name} />
+        <Field
+          type="checkbox"
+          name={name}
+          id={id ?? name}
+          disabled={disabled}
+        />
         <span>{label}</span>
       </label>
       <MauHint>{hint}</MauHint>

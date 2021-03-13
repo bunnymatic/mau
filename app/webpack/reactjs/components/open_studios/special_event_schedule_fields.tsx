@@ -1,73 +1,121 @@
 import { MauCheckboxField } from "@reactjs/components/mau_checkbox_field";
 import * as types from "@reactjs/types";
+import cx from "classnames";
 import { DateTime } from "luxon";
 import React, { FC } from "react";
-
-interface SpecialEventScheduleFieldsProps {
-  specialEvent: types.SpecialEventDetails;
-}
 
 interface TimeSlot {
   start: string;
   end: string;
 }
 
+const parseTimeSlot = (timeSlot: string): TimeSlot => {
+  const [start, end] = timeSlot
+    .split("::")
+    .map((v) =>
+      DateTime.fromSeconds(parseInt(v, 10), { zone: "America/Los_Angeles" })
+    );
+  return { start, end };
+};
+
+const formatTimeSlot = (timeslot: TimeSlot): string => {
+  const { start, end } = timeslot;
+  return `${start.toLocaleString(DateTime.TIME_SIMPLE)} - ${end.toLocaleString(
+    DateTime.TIME_SIMPLE
+  )}`;
+};
+
 interface TimeSlotCheckBoxProps {
   timeslot: TimeSlot;
   name: string;
+  disabled?: boolean;
 }
 
-export const parseTimeSlot = (timeSlot: string): types.TimeSlot => {
-  const [start, end] = timeSlot
-    .split("::")
-    .map((v) => DateTime.fromSeconds(parseInt(v, 10)));
-  return { start, end };
+const TimeSlotCheckBox: FC<TimeSlotCheckBoxProps> = ({
+  timeslot,
+  name,
+  disabled,
+}) => {
+  const label = formatTimeSlot(timeslot);
+  return (
+    <MauCheckboxField
+      classes="special-event-schedule__timeslot"
+      label={label}
+      name={name}
+      disabled={disabled}
+    />
+  );
 };
 
 const generateSlotFieldName = (timeslot: string): string =>
   `videoConferenceSchedule[${timeslot}]`;
 
-export const formatTimeSlot = (timeslot: types.TimeSlot): string => {
-  const { start, end } = timeslot;
-  return `${start.toLocaleString(DateTime.TIME_SIMPLE)} - ${end.toLocaleString(
-    DateTime.TIME_SIMPLE
-  )} ${start.toLocaleString(DateTime.DATE_MED)} `;
+interface TimeSlotInfo {
+  slot: string;
+  fieldName: string;
+  parsed: TimeSlot;
+}
+
+const timeSlotsByDay = (timeslots: string[]): Record<string, TimeSlotInfo> => {
+  return timeslots.reduce((memo, rawSlot) => {
+    const timeSlot = parseTimeSlot(rawSlot);
+    const day = timeSlot.start.toFormat("cccc, L/d/yy ZZZZ");
+    const info = {
+      parsed: timeSlot,
+      slot: rawSlot,
+      fieldName: generateSlotFieldName(rawSlot),
+    };
+
+    memo[day] ||= [];
+    memo[day].push(info);
+    return memo;
+  }, {});
 };
 
-const TimeSlotCheckBox: FC<TimeSlotCheckBoxProps> = ({ timeslot, name }) => {
-  const label = formatTimeSlot(timeslot);
-  return (
-    <MauCheckboxField
-      classes="open-studios-info-form__special-event-schedule__timeslot"
-      label={label}
-      name={name}
-    />
-  );
-};
+interface SpecialEventScheduleFieldsProps {
+  specialEvent: types.SpecialEventDetails;
+  disabled?: boolean;
+}
 
 export const SpecialEventScheduleFields: FC<SpecialEventScheduleFieldsProps> = ({
   specialEvent,
+  disabled,
 }) => {
   if (!specialEvent?.timeSlots) {
     return null;
   }
-  const slots = specialEvent.timeSlots;
-
   return (
     <div
-      className="open-studios-info-form__special-event-schedule"
-      data-testid="open-studios-info-form__special-event-schedule"
+      className={cx("special-event-schedule", {
+        "special-event-schedule--disabled": disabled,
+      })}
+      data-testid="special-event-schedule"
     >
-      <div className="open-studios-info-form__special-event-schedule__label">
+      <div className="special-event-schedule__label">
         I will be open for virtual visitors the following hours.
       </div>
-      {slots.map((slot: string) => {
-        const parsed = parseTimeSlot(slot);
-        const slotName = generateSlotFieldName(slot);
-        return (
-          <TimeSlotCheckBox key={slotName} timeslot={parsed} name={slotName} />
-        );
-      })}
+      <div className="pure-g">
+        {Object.entries(timeSlotsByDay(specialEvent.timeSlots)).map(
+          ([day, slotInfos]) => {
+            return (
+              <div
+                className="pure-u-1-1 pure-u-sm-1-2 special-event-schedule__section"
+                key={day}
+              >
+                <div className="special-event-schedule__day-title">{day}</div>
+                {slotInfos.map(({ parsed: slot, fieldName }) => (
+                  <TimeSlotCheckBox
+                    key={slot.start}
+                    timeslot={slot}
+                    name={fieldName}
+                    disabled={disabled}
+                  />
+                ))}
+              </div>
+            );
+          }
+        )}
+      </div>
     </div>
   );
 };

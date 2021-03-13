@@ -1,0 +1,24 @@
+.special-event-schedule__day-title {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.special-event-schedule__label {
+  @include form-label;
+  margin-bottom: 8px;
+}
+
+.special-event-schedule__timeslot {
+  margin-bottom: 8px;
+}
+
+.special-event-schedule {
+  opacity: 1;
+  @include transition(opacity 0.3s ease-in-out);
+}
+
+.special-event-schedule--disabled {
+  opacity: 0.4;
+}

@@ -6,6 +6,10 @@ export function isFunction(func) {
   return Boolean(func && typeof func === "function");
 }
 
+export const isEmpty = (obj) =>
+  [Object, Array].includes((obj || {}).constructor) &&
+  !Object.entries(obj || {}).length;
+
 export function each(data, cb) {
   if (Array.isArray(data)) {
     data.forEach(cb);
@@ -55,15 +59,25 @@ export function some(arr, comparator = identity) {
   if (!arr) {
     return false;
   }
+  return arr.some(comparator);
+}
+
+export function all(arr, comparator = identity) {
+  if (!arr) {
+    return false;
+  }
+  if (isEmpty(arr)) {
+    return false;
+  }
   const len = arr.length;
   let ii = 0;
   for (; ii < len; ++ii) {
     const v = arr[ii];
-    if (comparator(v)) {
-      return true;
+    if (!comparator(v)) {
+      return false;
     }
   }
-  return false;
+  return true;
 }
 
 export function omit(obj, keysToOmit) {

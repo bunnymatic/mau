@@ -117,6 +117,7 @@ describe("helpers", () => {
   describe("some", () => {
     it("returns true if any of the entries test true with javascript truthy", () => {
       expect(helpers.some([null, undefined, 0, ""])).toBeFalsy();
+      expect(helpers.some([false, false])).toBeFalsy();
       expect(helpers.some([null, undefined, []])).toBeTruthy();
       expect(helpers.some([1])).toBeTruthy();
     });
@@ -135,6 +136,32 @@ describe("helpers", () => {
     it("returns false if the input is null/undefined", () => {
       expect(helpers.some(null)).toBeFalsy();
       expect(helpers.some(undefined)).toBeFalsy();
+    });
+  });
+
+  describe("all", () => {
+    it("returns true if all of the entries test true with javascript truthy", () => {
+      expect(helpers.all([null, undefined, 0, ""])).toBeFalsy();
+      expect(helpers.all([null, undefined, []])).toBeFalsy();
+      expect(helpers.all([true, false])).toBeFalsy();
+      expect(helpers.all([true, true])).toBeTruthy();
+      expect(helpers.all([1])).toBeTruthy();
+    });
+
+    it("returns false for an empty array", () => {
+      expect(helpers.all([])).toBeFalsy();
+    });
+
+    it("honors a comparator function", () => {
+      const comparator = (v) => v === "this";
+      expect(helpers.all([null, undefined, 0, ""], comparator)).toBeFalsy();
+      expect(helpers.all([null, "this", 0, ""], comparator)).toBeFalsy();
+      expect(helpers.all(["this", "this"], comparator)).toBeTruthy();
+    });
+
+    it("returns false if the input is null/undefined", () => {
+      expect(helpers.all(null)).toBeFalsy();
+      expect(helpers.all(undefined)).toBeFalsy();
     });
   });
 
@@ -178,5 +205,17 @@ describe("helpers", () => {
     it("works without a default", () => {
       expect(helpers.dig(testObject, "a.b")).toBeUndefined();
     });
+  });
+
+  describe("isEmpty", () => {
+    it.each([null, "", {}, []])("returns true for '%s'", (emptyThing) => {
+      expect(helpers.isEmpty(emptyThing)).toBeTruthy();
+    });
+    it.each(["a", { a: 1 }, [null, 0]])(
+      "returns false for '%s'",
+      (fullThing) => {
+        expect(helpers.isEmpty(fullThing)).toBeFalsy();
+      }
+    );
   });
 });
