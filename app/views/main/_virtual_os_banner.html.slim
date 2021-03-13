@@ -1,3 +1,5 @@
+/ expects open_studios_event object
+
 .sampler__promo.js-sampler__promo.mod-virtual-os
-  = link_to open_studios_path
+  = link_to open_studios_path, title: "Mission Open Studios #{open_studios_event.date_range_with_year}"
     | &nbsp;
