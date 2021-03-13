@@ -74,7 +74,7 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
     <section id="open-studios-info-form">
       <h3 className="open-studios-info-form__title">Your Open Studios Info</h3>
       <Formik initialValues={denullify(participant)} onSubmit={handleSubmit}>
-        {({ dirty, isSubmitting }) => {
+        {({ dirty, isSubmitting, values }) => {
           return (
             <Form
               className="open-studios-info-form"
@@ -110,6 +110,7 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                     />
                     <SpecialEventScheduleFields
                       specialEvent={event.specialEvent}
+                      disabled={!values.videoConferenceUrl}
                     />
                   </div>
                   <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--youtube-url">

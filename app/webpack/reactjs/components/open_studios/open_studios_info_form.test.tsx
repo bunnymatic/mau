@@ -117,9 +117,7 @@ describe("OpenStudiosInfoForm", () => {
       });
 
       it("shows schedule checkboxes for each time slot", () => {
-        const scheduleSection = screen.getByTestId(
-          "open-studios-info-form__special-event-schedule"
-        );
+        const scheduleSection = screen.getByTestId("special-event-schedule");
         const inputs = Array.from(
           scheduleSection.getElementsByTagName("INPUT")
         );
@@ -131,9 +129,7 @@ describe("OpenStudiosInfoForm", () => {
         // RTL to hear me. It also gets tricky with timezones because the browser on
         // CircleCI is in a different timezone and therefore generates a different label.
         // In any case...
-        const scheduleSection = screen.getByTestId(
-          "open-studios-info-form__special-event-schedule"
-        );
+        const scheduleSection = screen.getByTestId("special-event-schedule");
         const inputs = Array.from(
           scheduleSection.getElementsByTagName("INPUT")
         );
