@@ -77,7 +77,7 @@ Restart your server and take another look at http://localhost:3000/.  At this po
 
 ### Virtual Open Studios setup
 
-The Virtual Open Studios can be accessed at the subdomain `openstudios`. In order to point to this location locally you'll have to update your `/ect/hosts` file.
+The Virtual Open Studios Catalog can be accessed at the subdomain `openstudios`. In order to point to this location locally you'll have to update your `/etc/hosts` file.
 
 Run `sudo vim /etc/hosts` to open up the file and add
 
