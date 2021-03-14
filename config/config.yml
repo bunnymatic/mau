@@ -34,6 +34,7 @@ acceptance:
   features:
     virtual_open_studios: true
   S3_DOMAIN: 'us-west-1'
+  TLD_LENGTH: 2
 
 production:
   cache_expiry:

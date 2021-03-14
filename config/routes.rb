@@ -1,4 +1,8 @@
 Mau::Application.routes.draw do
+  constraints subdomain: 'openstudios' do
+    instance_eval(File.read(Rails.root.join('config/openstudios_routes.rb')))
+  end
+
   resources :media, only: %i[index show]
 
   resource :user_session, only: %i[new create destroy]
@@ -74,7 +78,6 @@ Mau::Application.routes.draw do
       get :manage_art
       post :notify_featured
       post :update
-      resource :open_studios, only: [:show], as: :artist_open_studios
       # get :qrcode
     end
   end

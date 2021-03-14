@@ -149,7 +149,7 @@ end
 
 When('I visit the first artist\'s open studios page') do
   @artist = Artist.active.joins(:open_studios_events).first
-  visit artist_open_studios_path(@artist)
+  visit "http://openstudios.lvh.me#{artist_open_studio_path(@artist)}"
 end
 
 Then('I see that artist\'s open studios pieces') do
