@@ -18,6 +18,10 @@ Dir[Rails.root.join('features/support/**/*.rb')].sort.each { |f| require f }
 
 require './spec/support/fake_geocoder'
 
+Capybara.configure do |config|
+  config.always_include_port = true
+end
+
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.

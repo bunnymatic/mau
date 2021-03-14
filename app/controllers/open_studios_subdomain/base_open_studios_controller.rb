@@ -1,5 +1,5 @@
 module OpenStudiosSubdomain
   class BaseOpenStudiosController < ApplicationController
-    layout "openstudios"
+    layout 'openstudios'
   end
 end
