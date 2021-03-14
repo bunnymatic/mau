@@ -84,10 +84,17 @@ tr.error-msg {
   input {
     padding: 10px;
     border-radius: 2px;
-    border: 1px solid $x-light-gray;
+    @include light-border;
     width: $input-width;
     @media screen and (max-width: $screen-xs-max) {
       width: $mobile-input-width;
+    }
+    &:focus + span,
+    &:checked + span {
+      color: $darkbluegray;
+    }
+    &:focus {
+      border-color: $gto_dark_teal;
     }
   }
   select {
