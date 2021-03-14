@@ -56,7 +56,16 @@ module Admin
                                                  :special_event_start_date,
                                                  :special_event_start_time,
                                                  :special_event_end_date,
-                                                 :special_event_end_time)
+                                                 :special_event_end_time).tap do |prms|
+        # coerce/force dates to be in Conf.event_time_zone
+        Time.use_zone(Conf.event_time_zone) do
+          %i[start_date end_date special_event_start_date special_event_end_date].each do |fld|
+            next unless prms[fld]
+
+            prms[fld] = Time.zone.parse(prms[fld])
+          end
+        end
+      end
     end
   end
 end
