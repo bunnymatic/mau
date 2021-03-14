@@ -72,7 +72,9 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
 
   return (
     <section id="open-studios-info-form">
-      <h3 className="open-studios-info-form__title">Artist Open Studios Form</h3>
+      <h3 className="open-studios-info-form__title">
+        Artist Open Studios Form
+      </h3>
       <Formik initialValues={denullify(participant)} onSubmit={handleSubmit}>
         {({ dirty, isSubmitting, values }) => {
           return (
@@ -80,9 +82,7 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
               className="open-studios-info-form"
               id="open_studios_info_form"
             >
-              <p>
-                What do you want shown on your open studios page?
-              </p>
+              <p>What do you want shown on your open studios page?</p>
               <fieldset className="inputs">
                 <div className="pure-g">
                   <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--checkbox open-studios-info-form__input--show-email">
@@ -113,8 +113,7 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                   </div>
                   <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--video-conference-url">
                     <MauTextField
-                      label={
-                      `Show my meeting link ${specialEventDateRange} so I can receive virtual visitors (Zoom or other)` }
+                      label={`Show my meeting link ${specialEventDateRange} so I can receive virtual visitors (Zoom or other)`}
                       name="videoConferenceUrl"
                       placeholder="e.g. https://my.zoom.room.com/me"
                     />
