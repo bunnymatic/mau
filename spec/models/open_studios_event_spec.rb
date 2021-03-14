@@ -119,12 +119,21 @@ describe OpenStudiosEvent do
         end
       end
 
-      it 'removes time slots if we delete special event data' do
+      it 'removes time slots if we delete start/end dates from special event data' do
         os = create(:open_studios_event, :with_special_event)
         expect(os.special_event_time_slots).to have_at_least(1).slot
-        os.special_event_start_time = nil
+        os.special_event_start_date = nil
+        os.special_event_end_date = nil
+        os.save!
+        os.reload
+        expect(os.special_event_time_slots).to eq []
+      end
+
+      it 'removes time slots if we delete end time from special event data' do
+        os = create(:open_studios_event, :with_special_event)
+        expect(os.special_event_time_slots).to have_at_least(1).slot
         os.special_event_end_time = nil
-        os.save
+        os.save!
         os.reload
         expect(os.special_event_time_slots).to eq []
       end

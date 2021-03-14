@@ -52,6 +52,11 @@ class OpenStudiosEvent < ApplicationRecord
   def generate_special_event_time_slots
     return if (changed & SPECIAL_EVENT_FIELDS).blank?
 
+    if [special_event_start_date, special_event_end_date, special_event_start_time, special_event_end_time].any?(&:blank?)
+      self.special_event_time_slots = []
+      return
+    end
+
     number_of_days = (special_event_end_date.to_date - special_event_start_date.to_date).to_i
     time_slots = Array.new(number_of_days + 1) do |day_offset|
       date = special_event_start_date + day_offset.days

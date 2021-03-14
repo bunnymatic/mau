@@ -44,6 +44,25 @@ describe Admin::OpenStudiosEventsController do
         expect(event.reload.start_time).to eq 'whatever'
       end
     end
+
+    context 'with special event data' do
+      before do
+        post :update,
+             params: { id: event.id,
+                       open_studios_event: { special_event_start_date: '2020-10-10', special_event_end_date: '2020-10-11', start_date: '2020-10-1',
+                                             end_date: '2020-10-15' } }
+      end
+
+      it 'returns success' do
+        expect(response).to redirect_to admin_open_studios_events_path
+      end
+
+      it 'creates a new open studios event' do
+        event.reload
+        expect(event.special_event_start_date).to eq Time.zone.parse('2020-10-10 00:00:00.000000000 -0700')
+        expect(event.special_event_end_date).to eq Time.zone.parse('2020-10-11 00:00:00.000000000 -0700')
+      end
+    end
   end
 
   describe '#clear_cache' do
