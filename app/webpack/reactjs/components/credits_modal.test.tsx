@@ -17,10 +17,10 @@ describe("CreditsModal", () => {
         />
       );
       expect(screen.queryByText("Credits")).toBeInTheDocument();
-      const trish = screen.queryByText("Trish Tunney", {exact: false});
-      const mrRogers = screen.queryByText("Mr Rogers", {exact: false});
-      const liwei = screen.queryByText("Liwei Xu", {exact: false});
-      const ryan = screen.queryByText("Ryan Workman", {exact: false});
+      const trish = screen.queryByText("Trish Tunney", { exact: false });
+      const mrRogers = screen.queryByText("Mr Rogers", { exact: false });
+      const liwei = screen.queryByText("Liwei Xu", { exact: false });
+      const ryan = screen.queryByText("Ryan Workman", { exact: false });
       expect(ryan).toBeInTheDocument();
       expect(liwei).toBeInTheDocument();
       expect(trish).toBeInTheDocument();
