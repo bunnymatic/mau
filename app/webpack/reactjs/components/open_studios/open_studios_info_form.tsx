@@ -72,7 +72,7 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
 
   return (
     <section id="open-studios-info-form">
-      <h3 className="open-studios-info-form__title">Your Open Studios Info</h3>
+      <h3 className="open-studios-info-form__title">Artist Open Studios Form</h3>
       <Formik initialValues={denullify(participant)} onSubmit={handleSubmit}>
         {({ dirty, isSubmitting, values }) => {
           return (
@@ -81,56 +81,46 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
               id="open_studios_info_form"
             >
               <p>
-                INSTRUCTIONS: You pick how you want to participate in Virtual
-                Open Studios. Do you have an online shop? Do you want to
-                participate in the Live Video Event {specialEventDateRange}? Do
-                you have a YouTube video of your studio or your art? Do you want
-                us to display your contact info? For more details,{" "}
-                <a href="https://bit.ly/v-openstudios" target="_blank">
-                  click here.
-                </a>
+                What do you want shown on your open studios page?
               </p>
-
               <fieldset className="inputs">
                 <div className="pure-g">
-                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--shop-url">
-                    <MauTextField
-                      label="Shopping Cart Link"
-                      name="shopUrl"
-                      placeholder="e.g. https://my-art-store.shopify.com/"
-                      hint="This link should point to your shopping cart or online store"
-                    />
-                  </div>
-                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--video-conference-url">
-                    <MauTextField
-                      label="Meeting Link (Zoom or other)"
-                      name="videoConferenceUrl"
-                      placeholder="e.g. https://my.zoom.room.com/me"
-                      hint="This link will connect folks to your video conference that you'd be on during Open Studios"
-                    />
-                    <SpecialEventScheduleFields
-                      specialEvent={event.specialEvent}
-                      disabled={!values.videoConferenceUrl}
-                    />
-                  </div>
-                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--youtube-url">
-                    <MauTextField
-                      label="Youtube Video Link"
-                      name="youtubeUrl"
-                      placeholder="e.g. https://www.youtube.com/watch?v=abc123"
-                      hint="This could be a studio tour, or art demo or..."
-                    />
-                  </div>
                   <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--checkbox open-studios-info-form__input--show-email">
                     <MauCheckboxField
-                      label={`Show my e-mail during the 2-week Open Studios event (${event.dateRange}).`}
+                      label={`Show my e-mail during the event: ${event.dateRange}.`}
                       name="showEmail"
                     />
                   </div>
                   <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--checkbox open-studios-info-form__input--show-phone">
                     <MauCheckboxField
-                      label={`Show my phone number during the 2-week Open Studios event (${event.dateRange}).`}
+                      label={`Show my phone number during the event: ${event.dateRange}.`}
                       name="showPhoneNumber"
+                    />
+                  </div>
+                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--shop-url">
+                    <MauTextField
+                      label="Show my shopping cart link"
+                      name="shopUrl"
+                      placeholder="e.g. https://my-art-store.shopify.com/"
+                    />
+                  </div>
+                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--youtube-url">
+                    <MauTextField
+                      label="Show my YouTube video"
+                      name="youtubeUrl"
+                      placeholder="e.g. https://www.youtube.com/watch?v=abc123"
+                    />
+                  </div>
+                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--video-conference-url">
+                    <MauTextField
+                      label={
+                      `Show my meeting link ${specialEventDateRange} so I can receive virtual visitors (Zoom or other)` }
+                      name="videoConferenceUrl"
+                      placeholder="e.g. https://my.zoom.room.com/me"
+                    />
+                    <SpecialEventScheduleFields
+                      specialEvent={event.specialEvent}
+                      disabled={!values.videoConferenceUrl}
                     />
                   </div>
                 </div>
@@ -141,7 +131,7 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                   primary
                   disabled={!dirty && !isSubmitting}
                 >
-                  Update my details
+                  Save
                 </MauButton>
                 <ConfirmModal
                   buttonText="Un-Register Me"
@@ -150,6 +140,13 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                   <p>You will no longer be registered for Open Studios.</p>
                   <p>Would you like to continue?</p>
                 </ConfirmModal>
+              </div>
+              <div className="open-studios-info-form__help">
+                <p>
+                  <a href="https://bit.ly/v-openstudios" target="_blank">
+                    Help & more details on participating.
+                  </a>
+                </p>
               </div>
             </Form>
           );

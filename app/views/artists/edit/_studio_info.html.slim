@@ -22,14 +22,14 @@
           | section.  If you are in a group studio that is in the list, we know the address.  If you are in an independent studio, you'll need to provide an address so we can put you on the map.
 
     .pure-g
-      .pure-u-1-2
+      .pure-u-1-1.pure-u-sm-1-2
         h4 Studio
         .studio-address-form
           = form.inputs do
             = form.input :studio_id, as: :select, collection: [['None', 0]] + studios.map{|u| [u.name,u.id]}, selected: current_user.studio_id
             = form.inputs for: :artist_info do |ai_form|
               = ai_form.input :studionumber, label: 'Studio #', placeholder: 'e.g. Room 220'
-      .pure-u-1-2
+      .pure-u-1-1.pure-u-sm-1-2
         h4 Address
         .studio-address-form
           = form.inputs do
