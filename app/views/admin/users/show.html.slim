@@ -3,58 +3,62 @@
     h2.title
       = (@user.artist? ? "Artist: " : "Fan: ") + (@user.name.presence || @user.login)
       - if @user.artist?
-        = link_to edit_admin_artist_path(@user), class: "artist-admin-header-edit-link"
+        = link_to edit_admin_artist_path(@user), class: "artist-admin-header-edit-link", title:"edit artist"
           i.fa.fa-icon.fa-edit
 
 
 .pure-g
   .pure-u-1-2.padded-content
     .admin-user__profile-info.info-block
-      table.table.admin-user__profile-table
-        tr.admin-user__profile-table-row.is-section-start
+      table.table.admin-user__profile-table.admin-user__show-table
+        tr.admin-user__profile-table__row.is-section-start
           td Username
           td = @user.login
-        tr.admin-user__profile-table-row
+        tr.admin-user__profile-table__row
           td Email
           td = @user.email
-        tr.admin-user__profile-table-row
+        tr.admin-user__profile-table__row
           td First Name
           td = @user.firstname
-        tr.admin-user__profile-table-row
+        tr.admin-user__profile-table__row
           td Last Name
           td = @user.lastname
-        tr.admin-user__profile-table-row
+        tr.admin-user__profile-table__row
           td Nom de Plume
           td = @user.nomdeplume
-        tr.admin-user__profile-table-row.is-section-end
+        tr.admin-user__profile-table__row.is-section-end
           td Link To Artist
           td = link_to artist_url(@user), artist_url(@user)
         - if @user.artist?
-          tr.admin-user__profile-table-row.is-section-start
+          tr.admin-user__profile-table__row.is-section-start
             td Studio
             td = (@user.studio.try(:name) || "Indy")
-          tr.admin-user__profile-table-row.is-section-end
+          tr.admin-user__profile-table__row.is-section-end
             td Studio #
             td = @user.studionumber
-          tr.admin-user__profile-table-row.is-section-start.is-section-end
+          tr.admin-user__profile-table__row.is-section-start.is-section-end
             td Address
             td = @user.address
 
         - ArtistPresenter.keyed_links.each.with_index do |key,idx|
           - classes = [ ((idx==0) ? 'is-section-start': '') ]
           - classes << ((idx==(ArtistPresenter.keyed_links.size - 1)) ? 'is-section-end': '')
-          tr.admin-user__profile-table-row class=classes.compact.join(' ')
+          tr.admin-user__profile-table__row class=classes.compact.join(' ')
             td = key
             td = @user.send(key).presence || "none"
-        tr.admin-user__profile-table-row.is-section-start
+        tr.admin-user__profile-table__row.is-section-start
           td Since
           td = @user.member_since
-        tr.admin-user__profile-table-row
+        tr.admin-user__profile-table__row
           td Last Login
           td = @user.last_login
-        tr.admin-user__profile-table-row
+        tr.admin-user__profile-table__row
           td Activation Date
           td = @user.activation_date
+    - if @user.artist? && @user.doing_open_studios?
+      .admin-user__os-info.info-block
+        h3 = "Open Studios Participant Information for #{current_open_studios.date_range_with_year}"
+        = render partial: "open_studios_participation", locals: { open_studios_participant: @user.current_open_studios_participant }
 
   - if @user.artist?
     .pure-u-1-2.padded-content

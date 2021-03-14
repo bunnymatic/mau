@@ -43,7 +43,7 @@ module Admin
 
     def update
       if @artist.update(artist_params)
-        redirect_to admin_user_path(@artist), notice: "#{@artist.get_name} has been updated"
+        redirect_to admin_user_path(@artist)
       else
         render :edit, warning: 'There were problems updating the artist'
       end
@@ -72,11 +72,27 @@ module Admin
 
     def artist_params
       allowed_links = Artist.stored_attributes[:links]
+      open_studios_participant_fields = [
+        :id,
+        :shop_url,
+        :youtube_url,
+        :video_conference_url,
+        :show_phone_number,
+        :show_email,
+        { video_conference_schedule: {} },
+      ]
       params.require(:artist).permit(:firstname, :lastname,
                                      :email, :nomdeplume,
                                      :studio_id,
                                      links: allowed_links,
-                                     artist_info_attributes: %i[studionumber street bio])
+                                     artist_info_attributes: %i[studionumber street bio],
+                                     open_studios_participants_attributes: open_studios_participant_fields).tap do |prms|
+        prms[:open_studios_participants_attributes]&.each do |idx, entry|
+          entry[:video_conference_schedule]&.each do |timeslot, val|
+            prms[:open_studios_participants_attributes][idx][:video_conference_schedule][timeslot] = (val == '1')
+          end
+        end
+      end
     end
   end
 end

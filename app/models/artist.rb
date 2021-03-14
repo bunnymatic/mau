@@ -80,6 +80,7 @@ class Artist < User
   }
   has_one :artist_info, dependent: :destroy
   accepts_nested_attributes_for :artist_info, update_only: true
+  accepts_nested_attributes_for :open_studios_participants, update_only: true
 
   has_many :art_pieces, -> { order(position: :asc, created_at: :desc) }, inverse_of: :artist
 

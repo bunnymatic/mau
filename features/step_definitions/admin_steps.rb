@@ -1,5 +1,5 @@
 def find_admin_user_show_row(title)
-  page.all('.admin-user__profile-table-row').detect { |row| row.text.include? title }
+  page.all('.admin-user__show-table tbody tr').detect { |row| row.text.include? title }
 end
 
 When /^I set all artists to do open studios$/ do
@@ -92,7 +92,23 @@ When(/^I click on the first artist edit button that's not me$/) do
   cell.find('.admin-artist-edit-link').click
 end
 
+When(/^I click on the first open studios artist edit button that's not me$/) do
+  not_me = Artist.active.joins(:open_studios_participants).detect { |a| a.login != (@artist.login || @user.login) }
+  cell = page.all('table tr').detect { |el| el.text.include? not_me.login }
+  cell.find('.admin-artist-edit-link').click
+end
+
 When(/^I see the admin artist show page with updated values:$/) do |expected_values|
+  expect(page.find('.admin.users .artist-admin-header .title')).to have_text(@artist.name || @user.name)
+
+  expected_values.hashes.first.each do |entry, value|
+    row = find_admin_user_show_row(entry)
+    expect(row).to be_present
+    expect(row.all('td').last).to have_content(value)
+  end
+end
+
+When(/^I see the admin artist show page with updated open studios participant values:$/) do |expected_values|
   expect(page.find('.admin.users .artist-admin-header .title')).to have_text(@artist.name || @user.name)
 
   expected_values.hashes.first.each do |entry, value|
@@ -111,4 +127,21 @@ end
 Then(/^I see the "([^"]*)" admin stats$/) do |type|
   type.gsub!(/\s+/, '_')
   expect(page).to have_css(".dashboard__stats-list.#{type} table")
+end
+
+When(/^as an admin I choose every other time slot for the video conference schedule/) do
+  within '.admin-artists-edit__section' do
+    page.all("[type='checkbox']").each_slice(2) do |cb|
+      cb[0].click
+    end
+  end
+end
+
+When('I see that the artist is scheduled for every other time slot') do
+  within '.admin-user__os-info' do
+    page.all("[type='checkbox']").each_slice(2) do |cb|
+      expect(cb[0].checked?).to eq true
+      expect(cb[1].checked?).to eq false
+    end
+  end
 end

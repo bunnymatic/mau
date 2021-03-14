@@ -72,6 +72,12 @@ rescue ActiveRecord::RecordInvalid
   # there's already one there
 end
 
+Given /the current open studios event has a special event/ do
+  os = OpenStudiosEvent.current
+  OpenStudiosEvent.current.update(special_event_start_date: os.start_date, special_event_end_date: os.end_date)
+  Rails.cache.clear
+end
+
 Given /the current open studios is not promoted/ do
   OpenStudiosEvent.current.update!(promote: false)
 end

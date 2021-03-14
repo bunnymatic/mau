@@ -33,3 +33,31 @@ Scenario: Updating artist links
   When I choose "The Rock House" from "Studio"
   And I click on "Update Artist"
   And I see that the admin artist pages shows that artist in studio "The Rock House"
+
+Scenario: Updating artists open studios info
+  Given the current open studios event has a special event
+  And there is an open studios artist
+
+  When I click on "artists" in the admin menu
+  And I click on the first open studios artist edit button that's not me
+  Then I see "OPEN STUDIOS INFO" on the page
+
+  When I fill in "Shop url" with "http://buy.stuff.from.me/please"
+  And I fill in "Video conference url" with "http://zoom.me/please"
+  And I fill in "Youtube url" with "http://not.youtube.com/"
+  And I click on "Update Artist"
+  Then I see an inline form error "does not look like a Youtube link."
+
+  When I fill in "Youtube url" with ""
+  And I click on "Update Artist"
+
+  Then I see "Open Studios Participant Information for" on the page
+
+  And I see the admin artist show page with updated values:
+    | Video Conference URL   | Shop URL                        |
+    | http://zoom.me/please | http://buy.stuff.from.me/please |
+
+  When I click on "edit artist"
+  And as an admin I choose every other time slot for the video conference schedule
+  And I click on "Update Artist"
+  Then I see that the artist is scheduled for every other time slot

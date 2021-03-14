@@ -22,7 +22,7 @@ Scenario: Checking on application events
   And I click "Query"
   Then I see all application events sections
   And I see "(200 records)" on the page
-  When I fill in "10202018\n" for "Since"
+  When I fill in "Since" with "10202018\n"
   # capybara doesn't trigger change event on date inputs so manually set records to 0
   And I choose "" from "Number of records"
   And I click "Query"
