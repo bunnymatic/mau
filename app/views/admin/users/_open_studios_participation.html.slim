@@ -1,0 +1,31 @@
+/ expects an open_studios_participant object
+.admin-user__open-studios-participant-section
+  table.table.admin-user__open-studios-participant-table.admin-user__show-table
+    tr.admin-user__open-studios-participant-table__row.is-section-start
+      td Shop URL
+      td = open_studios_participant.shop_url
+    tr.admin-user__open-studios-participant-table__row
+      td You Tube URL
+      td
+        - if open_studios_participant.youtube_url
+          = link_to open_studios_participant.youtube_url,open_studios_participant.youtube_url, target: "_blank"
+    tr.admin-user__open-studios-participant-table__row
+      td Show Email
+      td
+        = open_studios_participant.show_email
+    tr.admin-user__open-studios-participant-table__row
+      td Show Phone
+      td
+        = open_studios_participant.show_phone_number
+    tr.admin-user__open-studios-participant-table__row
+      td Video Conference URL
+      td = open_studios_participant.video_conference_url
+    tr.admin-user__open-studios-participant-table__row
+      td Video Conference Schedule
+      td
+        - if open_studios_participant.video_conference_url.present?
+          - open_studios_participant.video_conference_time_slots.each do |slot|
+            .admin-user__open-studios-participant-table__time-slot
+              = display_time_slot(slot)
+        - else
+          | n/a

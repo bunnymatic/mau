@@ -4,6 +4,28 @@ describe OpenStudiosEventPresenter do
   let(:os) { build_stubbed(:open_studios_event) }
   subject(:presenter) { described_class.new(os) }
 
+  describe '==' do
+    let(:comparison_event) { build_stubbed(:open_studios_event) }
+    it 'is true for an os event that matches the presented event' do
+      expect(presenter == os).to eq true
+    end
+    it 'is true for the same presenter' do
+      expect(presenter == presenter).to eq true # rubocop:disable Lint/BinaryOperatorWithIdenticalOperands
+    end
+    it "is false if they don't line up" do
+      expect(presenter == comparison_event).to eq false
+    end
+    it "is false if they're not the same thing at all" do
+      expect(presenter == 'whatever').to eq false
+    end
+    it 'is true for 2 presenters that wrap the same os event' do
+      expect(presenter == described_class.new(os))
+    end
+    it 'the equality must start with the presenter otherwise you\'re getting OpenStudiosEvent#==' do
+      expect(os == presenter).to eq false
+    end
+  end
+
   describe '.date_range' do
     context 'if the dates are in the same month' do
       let(:os) do

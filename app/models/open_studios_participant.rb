@@ -9,4 +9,20 @@ class OpenStudiosParticipant < ApplicationRecord
   validates :youtube_url, youtube_url: true
 
   store :video_conference_schedule
+
+  def video_conference_time_slots
+    return [] unless video_conference_url && video_conference_schedule
+
+    video_conference_schedule.select { |_timeslot, val| val }.keys
+  end
+
+  class << self
+    def parse_time_slot(slot)
+      start_time, end_time = slot.split('::')
+      [
+        Time.zone.at(start_time.to_i),
+        Time.zone.at(end_time.to_i),
+      ]
+    end
+  end
 end

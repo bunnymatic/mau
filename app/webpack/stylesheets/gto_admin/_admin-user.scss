@@ -1,0 +1,26 @@
+.admin-user__profile-info {
+}
+.admin-user__profile-table {
+}
+.admin-user__open-studios-participant-table__row,
+.admin-user__profile-table__row {
+  td {
+    padding-right: 10px;
+  }
+  td:first-child {
+    color: $light-gray;
+  }
+  &.is-section-start {
+    td {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dotted $medium-gray;
+    }
+  }
+  &.is-section-end {
+    td {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+    }
+  }
+}

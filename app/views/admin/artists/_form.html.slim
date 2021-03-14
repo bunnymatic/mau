@@ -3,6 +3,7 @@
   = f.inputs do
     .pure-g
       .pure-u-1-1.pure-u-md-1-2.padded-content
+        h3.admin-artists-edit__section-header basic info
         = f.input :email, input_html: { autofocus: true }
         = f.input :firstname
         = f.input :lastname
@@ -14,11 +15,30 @@
             = artist_info.input :street
             = artist_info.input :bio
       .pure-u-1-1.pure-u-md-1-2.padded-content
+        h3.admin-artists-edit__section-header links
         = f.semantic_fields_for :links, OpenStruct.new(artist.links) do |links|
           = links.inputs do
             - link_info.each do |key|
               = links.input key
+      .pure-u-1-1.pure-u-md-1-2.padded-content.admin-artists-edit__section
+        h3.admin-artists-edit__section-header open studios info
+        - unless artist.doing_open_studios?
+          p = "This artist does not appear to be participating in #{current_open_studios.for_display}"
+        - else
+          = f.semantic_fields_for :open_studios_participants do |participant_form|
+            - if current_open_studios == participant_form.object.open_studios_event
+              = participant_form.inputs do
+                = participant_form.input :id, as: :hidden
+                = participant_form.input :show_email
+                = participant_form.input :show_phone_number
+                = participant_form.input :shop_url
+                = participant_form.input :youtube_url
+                = participant_form.input :video_conference_url
+                .admin-artists-edit__open-studios-participant-section
+                  = participant_form.inputs name: "Schedule", for: :video_conference_schedule do |schedule_form|
+                    - (current_open_studios.special_event_time_slots || []).each do |slot|
+                      = schedule_form.input slot, label: display_time_slot(slot), as: :boolean, input_html: {checked: participant_form.object.video_conference_schedule[slot]}
   .pure-g
-    .pure-u-1-1
+    .pure-u-1-1.padded-content
       = f.actions do
         = f.action :submit, as: :button, button_html: { class: 'pure-button' }

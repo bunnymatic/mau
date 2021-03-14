@@ -1,0 +1,14 @@
+@import "gto/gto-mixins";
+
+.admin-artists-edit__section-header {
+  text-transform: uppercase;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  @include light-bottom-border;
+}
+
+.admin-artists-edit__open-studios-participant-section {
+  .inputs > legend {
+    margin-bottom: 8px;
+  }
+}

@@ -13,7 +13,7 @@ Scenario: Showing the media as an admin
 
 Scenario: Editing a media
   When I click on the first "Edit" button
-  And I fill in "blah de blah" for "medium_name"
+  And I fill in "medium_name" with "blah de blah"
   And I click "Update"
   Then I see the admin media list
   And I see the "blah" as a medium

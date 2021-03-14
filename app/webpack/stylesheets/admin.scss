@@ -42,12 +42,14 @@
 @import "gto/components/index.scss";
 
 @import "gto_admin/admin-table.scss";
+@import "gto_admin/admin-user.scss";
 @import "gto_admin/datatables_overrides.scss";
 @import "gto_admin/nav.scss";
 @import "gto_admin/palette.scss";
 @import "gto_admin/tooltips.scss";
 @import "gto_admin/application_events.scss";
 @import "gto_admin/artists.scss";
+@import "gto_admin/artists_edit.scss";
 @import "gto_admin/cms_documents/cms_documents.scss";
 @import "gto_admin/dashboard.scss";
 @import "gto_admin/email_lists.scss";

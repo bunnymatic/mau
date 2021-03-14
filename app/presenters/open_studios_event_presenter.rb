@@ -58,6 +58,13 @@ class OpenStudiosEventPresenter < ViewPresenter
     !@model
   end
 
+  def ==(other)
+    return @model.id == other.model.id if other.is_a? self.class
+    return @model.id == other.id if other.is_a? OpenStudiosEvent
+
+    false
+  end
+
   def num_participants
     model.open_studios_participants.count
   end

@@ -145,6 +145,13 @@ When /^that artist is doing open studios$/ do
   OpenStudiosParticipationService.participate(@artist, OpenStudiosEventService.current)
 end
 
+When /^there is an open studios artist$/ do
+  artists = Artist.all
+  artists = artists.where.not(id: @artist.id) if @artist
+  artist = artists.first
+  OpenStudiosParticipationService.participate(artist, OpenStudiosEventService.current)
+end
+
 When /^I click on the current open studios edit section$/ do
   link_text = OpenStudiosEventPresenter.new(OpenStudiosEventService.current).link_text
   click_on "Open Studios #{link_text}"
