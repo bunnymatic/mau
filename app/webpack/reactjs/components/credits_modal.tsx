@@ -36,8 +36,10 @@ export const CreditsWindow: FC<CreditsWindowProps> = ({
         <a href="http://trishtunney.com">Trish Tunney</a>
         {", "}
         <a href="http://rcode5.com">Mr Rogers</a>
-        {" and "}
+        {", "}
         <span>Liwei Xu</span>
+        {" and "}
+        <span>Ryan Workman</span>
       </p>
       <div className="release_version">Version: {version}</div>
     </div>
