@@ -50,7 +50,7 @@ describe("OpenStudiosInfoForm", () => {
 
       it("shows instructions", () => {
         expect(
-          screen.queryByText("You pick how you want to participate", {
+          screen.queryByText("What do you want shown", {
             exact: false,
           })
         ).toBeInTheDocument();
@@ -65,12 +65,12 @@ describe("OpenStudiosInfoForm", () => {
       });
 
       it("shows a form", () => {
-        expect(findField("Shopping Cart Link")).toBeInTheDocument();
-        expect(findField("Meeting Link (Zoom or other)")).toBeInTheDocument();
-        expect(findField("Youtube Video Link")).toBeInTheDocument();
+        expect(findField("Show my shopping cart link")).toBeInTheDocument();
+        expect(findField("Show my meeting")).toBeInTheDocument();
+        expect(findField("Show my YouTube video")).toBeInTheDocument();
         expect(findField("Show my e-mail")).toBeInTheDocument();
         expect(findField("Show my phone number")).toBeInTheDocument();
-        expect(findButton("Update my details")).toBeInTheDocument();
+        expect(findButton("Save")).toBeInTheDocument();
         expect(findButton("Un-Register Me")).toBeInTheDocument();
       });
     });
@@ -97,7 +97,7 @@ describe("OpenStudiosInfoForm", () => {
 
       it("shows instructions with the special event date range", () => {
         expect(
-          screen.queryByText("You pick how you want to participate", {
+          screen.queryByText("What do you want shown", {
             exact: false,
           })
         ).toBeInTheDocument();
@@ -151,14 +151,14 @@ describe("OpenStudiosInfoForm", () => {
     it("updates my info when i fill in the form and save", async () => {
       let button;
       act(() => {
-        const shopUrl = findField("Shopping Cart Link");
+        const shopUrl = findField("Show my shopping cart link");
         fillIn(shopUrl, "http://www.whatever.com");
 
-        const youtubeUrl = findField("Youtube Video Link");
+        const youtubeUrl = findField("Show my YouTube Video");
         fillIn(youtubeUrl, "http://www.youtube.com/watch?v=the-video");
       });
       await waitFor(() => {
-        button = findButton("Update my details");
+        button = findButton("Save");
         expect(button).not.toBeDisabled();
       });
       act(() => {
@@ -196,11 +196,11 @@ describe("OpenStudiosInfoForm", () => {
     it("tells me when i make a mistake while filling out the form and saving", async () => {
       let button;
       act(() => {
-        const shopUrl = findField("Shopping Cart Link");
+        const shopUrl = findField("Show my shopping cart link");
         fillIn(shopUrl, "blah");
       });
       await waitFor(() => {
-        button = findButton("Update my details");
+        button = findButton("Save");
         expect(button).not.toBeDisabled();
       });
       act(() => {

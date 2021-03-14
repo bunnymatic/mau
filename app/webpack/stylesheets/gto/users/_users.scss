@@ -95,6 +95,16 @@
   }
   .panel-body {
     padding: 20px;
+    @media screen and (max-width: $screen-lg-max) {
+    }
+    @media screen and (max-width: $screen-md-max) {
+    }
+    @media screen and (max-width: $screen-sm-max) {
+      padding: 20px 0;
+    }
+    @media screen and (max-width: $screen-xs-max) {
+    }
+
     ul.help {
       padding-left: 20px;
       margin-bottom: 20px;

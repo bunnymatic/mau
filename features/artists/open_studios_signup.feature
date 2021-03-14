@@ -42,7 +42,7 @@ Scenario: "when I'm logged in"
   When I fill in the "#open_studios_info_form" form with:
     | shopUrl        | videoConferenceUrl |
     | what | |
-  And I click on "Update my details"
+  And I click on "Save"
   Then I see a flash error "There was a problem"
   And I see "not a valid URL" on the page
 
@@ -50,7 +50,7 @@ Scenario: "when I'm logged in"
     | shopUrl        | videoConferenceUrl |
     | https://www.rcode5.com  | https://www.youtube.com/watch?v=2SyPyBHJmiI |
   And I select every other time slot for the video conference schedule
-  And I click on "Update my details"
+  And I click on "Save"
   Then I see a flash notice "Got it"
   And I see every other time slot for the video conference schedule has been checked
 

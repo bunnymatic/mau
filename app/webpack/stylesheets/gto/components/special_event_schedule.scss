@@ -1,13 +1,17 @@
+.special-event-schedule {
+  margin-top: 20px;
+}
+
 .special-event-schedule__day-title {
-  margin-top: 12px;
-  margin-bottom: 12px;
   text-transform: uppercase;
   font-size: 0.9rem;
+  margin-bottom: 8px;
 }
 
 .special-event-schedule__label {
   @include form-label;
-  margin-bottom: 8px;
+  color: $gto_gray;
+  margin-bottom: 12px;
 }
 
 .special-event-schedule__timeslot {
