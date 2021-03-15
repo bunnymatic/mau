@@ -17,4 +17,4 @@
 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import "stylesheets/catalog.scss";
+import "stylesheets/catalog_for_print.scss";

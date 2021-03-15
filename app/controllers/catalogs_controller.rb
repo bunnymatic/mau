@@ -1,5 +1,5 @@
 class CatalogsController < ApplicationController
-  layout 'catalog'
+  layout 'catalog_for_print'
 
   def show
     @catalog = CatalogPresenter.new
