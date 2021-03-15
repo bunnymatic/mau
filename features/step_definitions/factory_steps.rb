@@ -98,11 +98,19 @@ Given /there are open studios artists with art in the system/ do
   end
 end
 
-Given /there is open studios cms content in the system/ do
+Given /there is open studios cms content( in the system)?$/ do |_|
   args = { page: :main_openstudios, section: :preview_reception }
   @os_reception_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
 
   args = { page: :main_openstudios, section: :summary }
+  @os_summary_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
+end
+
+Given /there is open studios catalog cms content( in the system)?$/ do |_|
+  args = { page: :catalog_open_studios, section: :preview_reception, article: 'This is about the catalog preview' }
+  @catalog_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
+
+  args = { page: :catalog_open_studios, section: :summary, article: '## this is going to rock (catalog summary)' }
   @os_summary_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
 end
 
@@ -157,4 +165,8 @@ Given /^the email lists have been created with emails$/ do
     end
     clz.first.emails.create(name: Faker::Name.name, email: Faker::Internet.email)
   end
+end
+
+Given('there is some open studios catalog cms content') do
+  pending # Write code here that turns the phrase above into concrete actions
 end

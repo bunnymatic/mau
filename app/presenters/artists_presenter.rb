@@ -11,12 +11,11 @@ class ArtistsPresenter < ViewPresenter
   def artists
     @artists ||=
       begin
-        base_artists = Artist.active.includes(:studio, :artist_info, :art_pieces, :open_studios_events)
         if os_only
-          OpenStudiosEvent.current.artists.active.in_the_mission
+          OpenStudiosEvent.current.artists.includes(:open_studios_participants).active
           # base_artists.in_the_mission.select(&:doing_open_studios?)
         else
-          base_artists
+          Artist.active.includes(:studio, :artist_info, :art_pieces, :open_studios_events)
         end.sort_by(&:sortable_name)
       end.map { |artist| ArtistPresenter.new(artist) }
   end

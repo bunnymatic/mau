@@ -21,7 +21,7 @@ class ArtistsController < ApplicationController
         cur_letter = params[:l] || @letters.first
 
         # build alphabetical list keyed by first letter
-        @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_sort, cur_page)
+        @gallery = ArtistsGallery.new(os_only: @os_only, letter: cur_letter, ordering: cur_sort, current_page: cur_page)
         @page_title = PageInfoService.title('Artists')
         if request.xhr?
           render partial: 'artist_list', locals: { gallery: @gallery }
