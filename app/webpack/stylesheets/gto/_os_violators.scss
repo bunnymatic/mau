@@ -1,5 +1,4 @@
-@import "mau-mixins";
-@import "gto/gto-mixins";
+@import "mixins";
 
 .os-violator {
   @include os-violator;
