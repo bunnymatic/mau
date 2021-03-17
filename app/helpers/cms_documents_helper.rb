@@ -4,9 +4,10 @@ module CmsDocumentsHelper
     data = cms_content.except(:content)
     editor = current_user.try(:editor?)
     clz = class_names(['section', 'markdown', { editable: editor, "editable--empty": cms_content[:content].blank? }])
-    data[:'editable-content'] = true if editor
 
-    tag.div({ data: data, class: clz }) do
+    tag.div({ class: clz }) do
+      concat react_component(id: "editable-content-#{cms_content[:cmsid]}", component: 'EditableContentTrigger', props: data) if editor
+
       concat cms_content[:content]
       yield if block_given?
     end

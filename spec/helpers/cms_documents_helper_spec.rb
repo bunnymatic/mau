@@ -16,9 +16,6 @@ describe CmsDocumentsHelper do
         content = create(:cms_document)
         tag = helper.render_cms_content(CmsDocument.packaged(content.page, content.section))
         node = Nokogiri::HTML::DocumentFragment.parse(tag).css('div')
-        expect(node.attribute('data-section').value).to eq content.section
-        expect(node.attribute('data-page').value).to eq content.page
-        expect(node.attribute('data-cmsid').value).to eq content.id.to_s
         expect(node.attribute('class').value.split).to match_array(%w[section markdown])
       end
     end
@@ -29,20 +26,27 @@ describe CmsDocumentsHelper do
         content = create(:cms_document)
         tag = helper.render_cms_content(CmsDocument.packaged(content.page, content.section))
         node = Nokogiri::HTML::DocumentFragment.parse(tag).css('div')
-        expect(node.attribute('data-section').value).to eq content.section
-        expect(node.attribute('data-page').value).to eq content.page
-        expect(node.attribute('data-cmsid').value).to eq content.id.to_s
         expect(node.attribute('class').value.split).to match_array(%w[section markdown editable])
+        react_component_node = node.css('.react-component')
+        expect(react_component_node.attribute('data-component').value).to eq 'EditableContentTrigger'
+        expect(react_component_node.attribute('data-react-props').value).to eq({
+          page: content.page,
+          section: content.section,
+          cmsid: content.id,
+        }.to_json)
       end
 
       it 'renders a cms tag for editing with new CMS document' do
-        content = CmsDocument.packaged('SomewhereSection', 'WhereverPage')
+        content = CmsDocument.packaged('WhereverPage', 'SomewhereSection')
         tag = helper.render_cms_content(content)
         node = Nokogiri::HTML::DocumentFragment.parse(tag).css('div')
-        expect(node.attribute('data-section').value).to eq content[:section]
-        expect(node.attribute('data-page').value).to eq content[:page]
-        expect(node.attribute('data-cmsid')).to be_nil
         expect(node.attribute('class').value.split).to match_array(%w[section markdown editable editable--empty])
+        react_component_node = node.css('.react-component')
+        expect(react_component_node.attribute('data-component').value).to eq 'EditableContentTrigger'
+        expect(react_component_node.attribute('data-react-props').value).to eq({
+          page: 'WhereverPage',
+          section: 'SomewhereSection',
+        }.to_json)
       end
     end
   end

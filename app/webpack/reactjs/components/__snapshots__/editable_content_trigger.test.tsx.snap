@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditableContentTrigger renders an edit button 1`] = `
+<div>
+  <a
+    class="editable-content-trigger"
+    href="/admin/cms_documents/new?cms_document[page]=myPage&cms_document[section]=mySection"
+    target="_blank"
+  >
+    edit me
+  </a>
+</div>
+`;

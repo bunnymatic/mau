@@ -3,6 +3,7 @@ import { FC } from "react";
 import { Welcome } from "./admin/tests/welcome";
 import { ConfirmModal } from "./confirm_modal";
 import { CreditsModal } from "./credits_modal";
+import { EditableContentTrigger } from "./editable_content_trigger";
 import { Mailer } from "./mailer";
 import { MauButton } from "./mau_button";
 import { OpenStudiosRegistrationSection } from "./open_studios/open_studios_registration_section";
@@ -21,6 +22,7 @@ that will be mounted at their root should be included here.
 export const reactComponents = {
   ConfirmModal,
   CreditsModal,
+  EditableContentTrigger,
   Mailer,
   MauButton,
   OpenStudiosRegistrationSection,
