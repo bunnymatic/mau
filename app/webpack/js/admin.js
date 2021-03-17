@@ -19,7 +19,6 @@ import "@components/models/email";
 import "@components/time_ago/time_ago";
 import "@components/image_fader/image_fader";
 import "@components/link_if/link_if";
-import "@components/editable_content/editable_content";
 import "@services/email_changed_events.service";
 import "@services/object_routing.service";
 import "@services/notification.service";

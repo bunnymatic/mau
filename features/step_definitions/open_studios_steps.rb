@@ -35,12 +35,13 @@ Then('I see the open studios info form') do
 end
 
 Then(/^I see the open studios cms content/) do
-  within '.section.markdown[data-section="summary"]' do
+  markdown = page.all('.section.markdown')
+  within markdown[0] do
     expect(page).to have_selector 'h1', text: 'this is an h1'
     expect(page).to have_selector 'h2', text: 'this is an h2'
     expect(page).to have_selector 'p'
   end
-  within '.section.markdown[data-section="preview_reception"]' do
+  within markdown[1] do
     expect(page).to have_selector 'h1', text: 'this is an h1'
     expect(page).to have_selector 'h2', text: 'this is an h2'
     expect(page).to have_selector 'p'
@@ -53,6 +54,7 @@ end
 
 Then(/^I see the open studios content is editable/) do
   expect(page).to have_selector '.open_studios .section.markdown.editable'
+  expect(page).to have_selector '.react-component[data-section="preview_reception"]'
 end
 
 When /I click on the open studios page "([^"]*)" tab/ do |tab|

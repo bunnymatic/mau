@@ -1,8 +1,29 @@
 /** models **/
 import { Nullable } from "./utilTypes";
 
-export interface OpenStudiosParticipant {
+interface ActiveRecordModel {
   id: number;
+}
+
+export interface CmsDocument {
+  page: string;
+  section: string;
+  cmsid: number;
+}
+
+export interface Artist extends ActiveRecordModel {
+  slug: string;
+}
+
+export interface Studio extends ActiveRecordModel {
+  slug: string;
+}
+
+export interface ArtPiece extends ActiveRecordModel {
+  slug: string;
+}
+
+export interface OpenStudiosParticipant extends ActiveRecordModel {
   userId: number;
   openStudiosEventId: number;
   showEmail: Nullable<boolean>;
