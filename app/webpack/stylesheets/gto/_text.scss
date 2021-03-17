@@ -1,5 +1,5 @@
 /** settings that are around default font sizes and colors */
-@import "mau-mixins";
+@import "mixins";
 a {
   @include transition(all 0.2s ease);
   @include link_style;
