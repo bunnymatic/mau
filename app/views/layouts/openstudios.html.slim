@@ -12,10 +12,10 @@ html
       window['__env'] = "#{Rails.env}";
 
     = stylesheet_packs_with_chunks_tag 'application'
-    = javascript_packs_with_chunks_tag "application"
+    = javascript_packs_with_chunks_tag 'application'
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
-  body class=classes ng-app="MauApp"
+  body class=classes id="open_studios_subdomain__layout" ng-app="MauApp"
     - unless supported_browser?
       = render '/old_browser_warning'
     = render '/noscript_msg'
@@ -24,6 +24,7 @@ html
     .body-highlight
     .container
 
+      = render '/open_studios_subdomain/container_header'
       .main-container.js-main-container
         = render '/flash_notice_error'
         = yield
