@@ -4,8 +4,9 @@
   min-height: 100%;
   height: auto !important;
   height: 100%;
+  padding-top: $open-studios-header-offset;
 }
 
 .main-container {
-  margin: 0 $openstudios-main-margin;
+  margin: 0 $open-studios-main-margin;
 }

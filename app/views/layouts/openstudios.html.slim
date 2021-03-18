@@ -15,7 +15,7 @@ html
     = javascript_packs_with_chunks_tag 'application'
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
-  body class=classes id="openstudios__layout" ng-app="MauApp"
+  body class=classes id="open_studios_subdomain__layout" ng-app="MauApp"
     - unless supported_browser?
       = render '/old_browser_warning'
     = render '/noscript_msg'

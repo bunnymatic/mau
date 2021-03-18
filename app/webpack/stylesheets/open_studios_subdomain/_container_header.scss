@@ -1,7 +1,11 @@
 .container-header {
-  border-bottom: 2px solid $gto_gray;
+  @include light-bottom-border
   width: 100%;
-  padding: 7px $openstudios-main-margin;
+  padding: $open-studios-main-margin;
+  position: fixed;
+  background-color: $white;
+  top: 0;
+  height: $open-studios-header-offset;
 }
 .container-header__brand {
   float: left;
@@ -11,7 +15,7 @@
 }
 .container-header__mau-title {
   padding-left: 5px;
-  color: $gto_gray;
+  color: $gto_dark_teal;
   text-transform: uppercase;
   font-size: 20px;
 }
@@ -27,4 +31,8 @@
   background-position: top center;
   @include opacity(1);
   @include transition(all 0.3s ease-in-out);
+
+  &--pride {
+    background-image: url("../../images/pride_sidebar_logo_gear_only.svg");
+  }
 }
