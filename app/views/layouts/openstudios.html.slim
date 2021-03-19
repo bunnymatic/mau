@@ -19,8 +19,6 @@ html
     - unless supported_browser?
       = render '/old_browser_warning'
     = render '/noscript_msg'
-    - if current_user.try(:special?)
-      = render '/admin_header'
     .body-highlight
     .container
 
@@ -28,13 +26,6 @@ html
       .main-container.js-main-container
         = render '/flash_notice_error'
         = yield
-    javascript:
-      jQuery( function() {
-        new MAU.BackToTop('.back-to-top')
-        jQuery('.js-help').each( function(_, el) {
-          new MAU.WhatsThisPopup(el);
-        });
-      });
 
   = render '/common/ganalytics'
   = render '/common/footer_javascripts'
