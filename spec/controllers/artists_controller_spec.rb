@@ -44,7 +44,7 @@ describe ArtistsController, elasticsearch: :stub do
     end
     it 'sets up the gallery with the right params' do
       expect(ArtistsGallery).to have_received(:new).with(
-        false, 'b', :lastname, 0
+        os_only: false, letter: 'b', ordering: :lastname, current_page: 0,
       )
     end
 
@@ -54,7 +54,7 @@ describe ArtistsController, elasticsearch: :stub do
       end
       it 'sets up the gallery with the right params' do
         expect(ArtistsGallery).to have_received(:new).with(
-          true, 'd', 'firstname', 5
+          os_only: true, letter: 'd', ordering: 'firstname', current_page: 5,
         )
       end
     end
