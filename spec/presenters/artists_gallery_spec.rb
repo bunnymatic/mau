@@ -21,7 +21,7 @@ describe ArtistsGallery do
   let(:os_only) { false }
   let(:letter) { 'A' }
   let(:ordering) { nil }
-  subject(:presenter) { ArtistsGallery.new(os_only, letter, ordering, current_page, per_page) }
+  subject(:presenter) { ArtistsGallery.new(os_only: os_only, letter: letter, ordering: ordering, current_page: current_page, per_page: per_page) }
 
   before do
     artists

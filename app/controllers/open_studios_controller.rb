@@ -1,7 +1,7 @@
 class OpenStudiosController < ApplicationController
   def index
     @page_title = PageInfoService.title('Open Studios')
-    @presenter = OpenStudiosPresenter.new(current_user)
+    @presenter = OpenStudiosPromoPresenter.new(current_user)
   end
 
   def register

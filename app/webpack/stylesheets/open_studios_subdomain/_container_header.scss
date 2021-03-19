@@ -1,14 +1,16 @@
 .container-header {
-  @include light-bottom-border
-  width: 100%;
+  @include light-bottom-border;
+  align-items: center;
+  background-color: $white;
+  display: flex;
+  height: $open-studios-header-offset;
   padding: $open-studios-main-margin;
   position: fixed;
-  background-color: $white;
   top: 0;
-  height: $open-studios-header-offset;
+  left: 0;
+  right: 0;
 }
 .container-header__brand {
-  float: left;
   position: absolute;
   display: flex;
   align-items: center;
@@ -22,6 +24,7 @@
 .container-header__title {
   text-align: center;
   margin: 0;
+  flex: 1;
 }
 .container-header__logo {
   background-image: url("../../images/yellow_sidebar_logo_gear_only.svg");

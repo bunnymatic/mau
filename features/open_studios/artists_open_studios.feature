@@ -1,7 +1,7 @@
 @javascript
-Feature: Open Studios Signup for Artists
+Feature: Personal Open Studios Page for an artist
   As a visitor
-  I can visit an artists custom open studios page
+  I can visit an artist's custom open studios page
 
 Background:
   Given there are open studios artists with art in the system

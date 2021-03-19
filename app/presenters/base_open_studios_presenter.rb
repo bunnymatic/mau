@@ -1,20 +1,19 @@
-class OpenStudiosPresenter
-  PAGE = 'main_openstudios'.freeze
-
+class BaseOpenStudiosPresenter
   delegate :promote?, to: :current_os
 
-  def initialize(current_user)
+  def initialize(page, current_user)
     @user = current_user
+    @page = page
   end
 
   def packaged_summary
     section = 'summary'
-    @packaged_summary ||= CmsDocument.packaged(PAGE, section)
+    @packaged_summary ||= CmsDocument.packaged(@page, section)
   end
 
   def packaged_preview_reception
     section = 'preview_reception'
-    @packaged_preview_reception ||= CmsDocument.packaged(PAGE, section)
+    @packaged_preview_reception ||= CmsDocument.packaged(@page, section)
   end
 
   def participating_studios

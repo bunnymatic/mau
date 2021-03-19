@@ -1,18 +1,19 @@
 require 'rails_helper'
 
-describe OpenStudiosPresenter do
+describe BaseOpenStudiosPresenter do
+  let(:page) { 'the_cms_page_key' }
   let(:user) { build(:user) }
-  subject(:presenter) { described_class.new(user) }
+  subject(:presenter) { described_class.new(page, user) }
   let(:open_studios_event) { create(:open_studios_event) }
   let!(:summary) do
     create(:cms_document,
-           page: :main_openstudios,
+           page: page,
            section: :summary,
            article: "# spring 2004\n\n## spring 2004 header2 \n\nwhy _spring_.")
   end
   let!(:preview_reception) do
     create(:cms_document,
-           page: :main_openstudios,
+           page: page,
            section: :preview_reception,
            article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
   end
