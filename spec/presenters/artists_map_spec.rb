@@ -8,7 +8,6 @@ describe ArtistsMap do
   let(:sw_bounds) { MissionBoudnaries::BOUNDS['SW'] }
 
   subject(:map) { ArtistsMap.new(os_only) }
-  let(:os_event) { create(:open_studios_event) }
   let(:artists) do
     [
       create(:artist, :active, :with_art, :in_the_mission),
@@ -20,7 +19,6 @@ describe ArtistsMap do
   end
 
   describe '.map_data' do
-    require 'awesome_print'
     it 'constructs map data for the artists' do
       map_data = JSON.parse(map.map_data)
       expect(map_data).to have(2).items

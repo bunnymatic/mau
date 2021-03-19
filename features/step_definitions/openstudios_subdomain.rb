@@ -1,8 +1,7 @@
-Given(/^I'm on the subdomain "?([^"]*)"?$/) do |site_domain|
-  site_domain = 'openstudios.lvh.me' if site_domain == 'openstudios'
+OPEN_STUDIOS_SUBDOMAIN = 'openstudios.lvh.me'.freeze
 
-  host! site_domain
-  Capybara.app_host = "http://#{site_domain}"
+Given(/^I visit "?([^"]*)"? in the catalog$/) do |path|
+  visit "http://#{OPEN_STUDIOS_SUBDOMAIN}/#{path}"
 end
 
 Then('I see pictures from all participating artists') do

@@ -6,12 +6,11 @@ Feature: Open Studios Catalog
 
 Background:
   Given there are open studios artists with art in the system
-  And I'm on the subdomain "openstudios"
   And there is open studios catalog cms content
   And I'm logged out
 
 Scenario:
-  When I visit "/"
+  When I visit "/" in the catalog
   Then I see pictures from all participating artists
   And I see the open studios catalog cms message
 

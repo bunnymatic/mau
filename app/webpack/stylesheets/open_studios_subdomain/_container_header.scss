@@ -1,12 +1,14 @@
 .container-header {
-  @include light-bottom-border width: 100%;
+  @include light-bottom-border;
+  align-items: center;
+  background-color: $white;
+  display: flex;
+  height: $open-studios-header-offset;
   padding: $open-studios-main-margin;
   position: fixed;
-  background-color: $white;
   top: 0;
-  height: $open-studios-header-offset;
-  display: flex;
-  align-items: center;
+  left: 0;
+  right: 0;
 }
 .container-header__brand {
   position: absolute;
