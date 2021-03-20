@@ -337,7 +337,7 @@ $default_rounded_amount: 3px;
 @mixin all-caps-label {
   text-transform: uppercase;
   font-size: 0.8rem;
-  font-weight: bold;
+  font-weight: $font-weight-bold;
 }
 @mixin card-description {
   padding: 6px;

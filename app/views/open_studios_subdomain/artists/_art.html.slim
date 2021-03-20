@@ -6,7 +6,8 @@
     .desc
       .name
         = art_piece.title
-      .name
-        span.byline> by
-        '
-        = art_piece.artist_name
+      - if art_piece.price?
+        .name
+          span.art-card__price class=class_names({"art-card__price--sold": art_piece.sold?}) = art_piece.price
+          - if art_piece.sold?
+            span.art-card__sold Sold

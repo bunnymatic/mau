@@ -1,4 +1,5 @@
 class ArtPiecePresenter < ViewPresenter
+  include ActionView::Helpers::NumberHelper
   attr_reader :model
 
   delegate :id, :year, :photo, :medium, :artist, :title, :updated_at, :to_param, to: :model
@@ -53,5 +54,17 @@ class ArtPiecePresenter < ViewPresenter
 
   def artist_path
     url_helpers.artist_path(artist)
+  end
+
+  def sold?
+    !!model.sold_at
+  end
+
+  def price?
+    model.price.present?
+  end
+
+  def price
+    number_to_currency(model.price)
   end
 end

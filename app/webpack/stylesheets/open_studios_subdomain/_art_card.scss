@@ -1,0 +1,13 @@
+.art-card {
+}
+.art-card__price--sold {
+  text-decoration: line-through;
+}
+.art-card__sold {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: $gto_yellow;
+  position: absolute;
+  right: 6px;
+  bottom: 2px;
+}

@@ -1,3 +1,4 @@
+@import "mixins";
 .open-studios-artist__title {
   text-align: center;
   margin-top: 0;
@@ -15,15 +16,15 @@
   font-size: 1.4rem;
 }
 
-.open-studios-artist__details__entry {
-  margin-bottom: 24px;
-  &:first-child {
-    margin-top: 24px;
+.open-studios-artist__details__subsection {
+  padding: 24px 0px;
+  @include light-bottom-border;
+  &:last-child {
+    border: none;
   }
 }
 
 .open-studios-artist__details__conference-url--title {
-  text-transform: uppercase;
   margin-bottom: 8px;
 }
 
@@ -37,11 +38,11 @@
   @include ellipsis;
 }
 .open-studios-artist__details__youtube-url--title {
-  text-transform: uppercase;
   margin-bottom: 8px;
 }
 .open-studios-artist__details__shop-url--title {
   text-transform: uppercase;
+  font-weight: $font-weight-bold;
 }
 .open-studios-artist__details__conference-url--footnote {
   font-size: 0.8rem;
