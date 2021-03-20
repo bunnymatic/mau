@@ -1,6 +1,6 @@
 upstream app {
     # Path to Puma SOCK file, as defined previously
-    server unix:///home/deploy/deployed/mau/shared/tmp/sockets/puma.sock fail_timeout=0;
+    server unix:/home/deploy/deployed/mau/shared/tmp/sockets/puma.sock fail_timeout=0;
 }
 
 server {
@@ -19,10 +19,11 @@ server {
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
+
 }
 
 server {
-    server_name www.missionartists.org;
+    server_name www.missionartists.org openstudios.missionartists.org;
     root /home/deploy/deployed/mau/current/public;
 
     location ~ (\.php|.aspx|.asp|myadmin) {
@@ -91,6 +92,7 @@ server {
         } # managed by Certbot
 
 
+
 }
 
 
@@ -116,6 +118,40 @@ server {
         listen 80 default_server deferred;
         server_name www.missionartists.org;
         return 404; # managed by Certbot
+
+
+}
+
+
+server {
+    if ($host = www.missionartists.org) {
+        return 301 https://$host$request_uri;
+        } # managed by Certbot
+    server_name openstudios.missionartists.org; # managed by Certbot
+        return 404; # managed by Certbot
+
+
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/www.missionartists.org/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/www.missionartists.org/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+    if ($host = openstudios.missionartists.org) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+
+
+        listen 80  ;
+    server_name openstudios.missionartists.org;
+    return 404; # managed by Certbot
 
 
 }
