@@ -5,7 +5,6 @@ import { mailToLink } from "./mailer.service";
 
 describe("mau.services.mailerService", () => {
   describe("#mailToLink", () => {
-
     it("returns the right email link with all things specified", () => {
       expect(mailToLink("the subject", "email_user", "email_domain")).toEqual(
         "mailto:email_user@email_domain?subject=the%20subject"
@@ -44,6 +43,5 @@ describe("mau.services.mailerService", () => {
         "mailto:info@somewhere.com?subject=the%20subject"
       );
     });
-
   });
 });

@@ -5,13 +5,12 @@ type MailerProps = {
   domain?: string;
   name?: string;
   subject?: string;
-  external?: boolean;
   text: string;
 };
 
-export const Mailer: FC<MailerProps> = ({ subject, name, domain, text, external}) => {
+export const Mailer: FC<MailerProps> = ({ subject, name, domain, text }) => {
   const setLocation: void = (_ev) => {
-    window.location.assign(mailToLink(subject, name, domain, external));
+    window.location.assign(mailToLink(subject, name, domain));
   };
   return (
     <a className="mailer-link" onClick={setLocation}>

@@ -1,9 +1,9 @@
 const ALLOWED_EMAILS = ["www", "info", "feedback", "mau"];
 
-export const mailToLink = function(
+export const mailToLink = function (
   subject: string,
   user?: string,
-  domain?: string,
+  domain?: string
 ) {
   if (!domain) {
     domain = domain || "missionartists.org";
