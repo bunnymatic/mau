@@ -8,4 +8,8 @@ module OpenStudiosParticipantsHelper
       end_time.in_time_zone(Conf.event_time_zone).to_s(:time_with_zone),
     ].join
   end
+
+  def split_email(email)
+    %i[name domain].zip(email.split('@')).to_h
+  end
 end

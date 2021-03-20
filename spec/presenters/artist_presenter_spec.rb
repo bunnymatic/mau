@@ -24,6 +24,13 @@ describe ArtistPresenter do
       expect(presenter.current_open_studios_participant).to eq artist.current_open_studios_participant
     end
 
+    context '#phone' do
+      it 'returns a formatted phone number' do
+        artist.phone = '1234567777'
+        expect(presenter.phone).to eq '123-456-7777'
+      end
+    end
+
     it 'has a good map div for google maps' do
       map_info = subject.map_info
       html = Capybara::Node::Simple.new(map_info)

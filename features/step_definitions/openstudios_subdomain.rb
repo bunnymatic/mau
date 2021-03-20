@@ -20,3 +20,7 @@ Then('I see the open studios catalog cms message') do
     expect(page).to have_content('this is going to rock (catalog summary)')
   end
 end
+
+When /I visit my open studios catalog page/ do
+  step %(I visit "#{artist_path(@artist)} in the catalog)
+end

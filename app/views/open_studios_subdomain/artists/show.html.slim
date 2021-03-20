@@ -1,17 +1,15 @@
-.pure-g.sticky-header
-  .pure-u-1-1.header.padded-content
-    h2.title
-      | Artist:
-      span.artist__name< #{@artist.get_name}
-      - if @artist.doing_open_studios?
-        = link_to open_studios_url(subdomain: ""), title: "I'm doing Open Studios" do
-          .os-violator
+- content_for :open_studios_catalog_title do
+  = @artist.get_name
+
 .pure-g.alpha.omega
-  .pure-u-1-1.pure-u-sm-2-3.pure-u-md-1-2.pure-u-lg-3-5#art
+  .pure-u-1-1.pure-u-sm-1-2.pure-u-md-1-3.pure-u-lg-1-5
+    = render "/open_studios_subdomain/artists/info", artist: @artist
+
+  .pure-u-1-1.pure-u-sm-1-2.pure-u-md-2-3.pure-u-lg-4-5
     .pure-g
       .pure-u-1-1
       - if @artist.art_pieces.present?
-        = render partial: "/open_studios_subdomain/artists/art", collection: @artist.art_pieces, as: :art_piece, locals: { class_overrides: "pure-u-1-1 pure-u-lg-1-2 pure-u-xl-1-3"}
+        = render partial: "/open_studios_subdomain/artists/art", collection: @artist.art_pieces, as: :art_piece
       - else
         .pure-u-1-1.empty
           h4 This artist has no art to show.
