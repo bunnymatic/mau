@@ -24,10 +24,10 @@ describe ArtistPresenter do
       expect(presenter.current_open_studios_participant).to eq artist.current_open_studios_participant
     end
 
-    context '#phone' do
+    context '#phone_for_display' do
       it 'returns a formatted phone number' do
         artist.phone = '1234567777'
-        expect(presenter.phone).to eq '123-456-7777'
+        expect(presenter.phone_for_display).to eq '123-456-7777'
       end
     end
 

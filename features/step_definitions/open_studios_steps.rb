@@ -184,7 +184,7 @@ end
 Then('I see the summary information about that artists open studios events') do
   within('.open-studios-artist__info') do
     expect(page).to have_content @artist.get_name
-    expect(page).to have_link 'Shop', href: @artist.current_open_studios_participant.shop_url
+    expect(page).to have_link 'My Shop', href: @artist.current_open_studios_participant.shop_url
     expect(page).to have_content @artist.email
     expect(page).to have_content @artist.current_open_studios_participant.youtube_url
   end
@@ -197,7 +197,7 @@ Then('I see the artist\'s name in the header title') do
 end
 
 When('I see my video conference schedule') do
-  expect(page).to have_content('SCHEDULE')
+  expect(page).to have_content('Schedule')
   expect(page.all('.open-studios-artist__details__conference-url--timeslots .timeslot'))
     .to have(@artist.current_open_studios_participant.video_conference_time_slots.length).entries
 end
