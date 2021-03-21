@@ -3,11 +3,13 @@
 .art-card class=class_overrides
   .art-piece
     .image style=background_image_style(art_piece.path)
-    .desc
-      .name
+    .art-piece__description
+      .art-piece__description-item
         = art_piece.title
       - if art_piece.price?
-        .name
+        .art-piece__description-item
           span.art-card__price class=class_names({"art-card__price--sold": art_piece.sold?}) = art_piece.price
           - if art_piece.sold?
             span.art-card__sold Sold
+    .trigger
+      = react_component id: "art-modal-#{art_piece.id}", component: "ArtModal", props: { id: art_piece.id, children: "<button>click to expand</button>" }

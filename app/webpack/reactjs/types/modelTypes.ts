@@ -20,8 +20,43 @@ export interface Studio extends ActiveRecordModel {
 }
 
 export interface ArtPiece extends ActiveRecordModel {
-  slug: string;
+  title: string;
+  dimensions: string;
+  year: string;
+  price: string;
 }
+
+export interface JsonApiModel<T, R> {
+  id: string;
+  type: string;
+  attributes: T;
+  relationships: R;
+}
+
+type ImageSizes = "small" | "medium" | "large" | "original";
+
+// JsonAPI models look pretty different
+interface ArtPieceAttributes {
+  artist_name: string;
+  favorites_count: number;
+  price: Nullable<number>;
+  display_price: Nullable<string>;
+  year: Nullable<string>;
+  dimensions: Nullable<string>;
+  title: string;
+  artist_id: number;
+  image_urls: Record<ImageSizes, string>;
+  sold_at: Nullable<string>;
+}
+
+interface ArtPieceRelationships {
+  artist: Object;
+  tags: Object;
+  medium: Object;
+}
+
+export interface JsonApiArtPiece
+  extends JsonApiModel<ArtPieceAttributes, ArtPieceRelationships> {}
 
 export interface OpenStudiosParticipant extends ActiveRecordModel {
   userId: number;

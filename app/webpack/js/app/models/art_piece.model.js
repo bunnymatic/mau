@@ -15,4 +15,8 @@ export class ArtPiece extends JsonApiModel {
       this.tags = this.tags.map((tag) => new ArtPieceTag(tag));
     }
   }
+
+  hasSold() {
+    return !!this.soldAt;
+  }
 }

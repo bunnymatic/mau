@@ -1,22 +1,23 @@
 @import "colors";
+$base-size: 6.4;
 .mau-spinner {
   display: inline-block;
   position: relative;
-  width: 64em;
-  height: 64em;
+  width: (64rem / $base-size);
+  height: (64rem / $base-size);
 }
 .mau-spinner div {
-  transform-origin: 32em 32em;
+  transform-origin: (32rem / $base-size) (32rem / $base-size);
   animation: mau-spinner 1.2s linear infinite;
 }
 .mau-spinner div:after {
   content: " ";
   display: block;
   position: absolute;
-  top: 3em;
-  left: 29em;
-  width: 5em;
-  height: 15em;
+  top: (3rem / $base-size);
+  left: (29rem / $base-size);
+  width: (5rem / $base-size);
+  height: (15rem / $base-size);
   border-radius: 20%;
   background: $light-gray;
 }

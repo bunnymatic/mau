@@ -109,3 +109,18 @@
                         props: { children: "Are you sure?",
                           buttonText: "Confirm This",
                             buttonStyle: "secondary" }
+
+        .react-styleguide__component
+          .react-styleguide__header
+            h3.react-styleguide__component-title ArtPieceModal
+          .react-styleguide__example
+            .react-styleguide__impl
+              - ArtPiece.last(4).each do |ap|
+                = react_component id: "art-modal-#{ap.id}", component: "ArtModal", props: { id: ap.id, children: "click to see #{ap.id} #{ap.title}" }
+            .react-styleguide__code
+                pre
+                  code
+                    | = react_component
+                      id: "art-modal-{id}", component: "ArtModal",
+                        props: { id: ap.id,
+                          children: "click to see {id} {title}" }

@@ -149,8 +149,8 @@ $default_rounded_amount: 3px;
 }
 
 @mixin floating-window-border {
-  border: 1px solid $border-gray;
-  box-shadow: 4px 4px 8px rgba(40, 40, 40, 0.8);
+  border: 1px solid $x-light-gray;
+  box-shadow: 0px 0px 8px rgba(200, 200, 200, 0.8);
 }
 
 @mixin box-shadow($shadow) {
@@ -311,6 +311,10 @@ $default_rounded_amount: 3px;
   left: 50%;
   top: 50%;
   @include transform(translate(-50%, -50%));
+}
+
+@mixin super-light-border {
+  border: 1px solid $xx-light-gray;
 }
 
 @mixin light-border {
