@@ -20,6 +20,7 @@ Scenario:
   Then I see that artist's open studios pieces
   And I see the artist's name in the header title
   And I see the summary information about that artists open studios events
+  And I see the artist's open studios you tube embed video
 
 
 Scenario: An artist sees their own pages

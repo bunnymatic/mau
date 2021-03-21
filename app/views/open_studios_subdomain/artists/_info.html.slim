@@ -21,10 +21,7 @@
             | The conference link will be available here.  Please come back and visit.
       - if info.has_youtube?
         .open-studios-artist__details__subsection.open-studios-artist__details__youtube-url
-          .open-studios-artist__details__youtube-url--title
-            | Artist's Video
-          .open-studios-artist__details__youtube-url--link
-            = link_to info.youtube_url, info.youtube_url, target: "_blank"
+          = embed_you_tube(info.youtube_url)
       - if info.show_email? || info.show_phone?
         .open-studios-artist__details__subsection
           - if info.show_email?

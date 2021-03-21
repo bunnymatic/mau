@@ -186,7 +186,13 @@ Then('I see the summary information about that artists open studios events') do
     expect(page).to have_content @artist.get_name
     expect(page).to have_link 'My Shop', href: @artist.current_open_studios_participant.shop_url
     expect(page).to have_content @artist.email
-    expect(page).to have_content @artist.current_open_studios_participant.youtube_url
+  end
+end
+
+And "I see the artist's open studios you tube embed video" do
+  within('.open-studios-artist__info') do
+    iframe = page.find('iframe')
+    expect(iframe[:src]).to include @artist.current_open_studios_participant.youtube_url.split('=').last
   end
 end
 
