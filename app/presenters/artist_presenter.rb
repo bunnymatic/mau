@@ -3,6 +3,7 @@
 
 class ArtistPresenter < UserPresenter
   include ApplicationHelper
+  include ActionView::Helpers::NumberHelper
 
   ALLOWED_LINKS = User.stored_attributes[:links]
 
@@ -24,6 +25,7 @@ class ArtistPresenter < UserPresenter
            :max_pieces,
            :os_participation,
            :pending?,
+           :phone,
            :slug,
            :studio,
            :studio_id,
@@ -172,6 +174,17 @@ class ArtistPresenter < UserPresenter
 
   def self.keyed_links
     (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
+  end
+
+  def open_studios_info
+    return unless artist.current_open_studios_participant
+
+    @open_studios_info ||=
+      OpenStudiosParticipantPresenter.new(artist.current_open_studios_participant)
+  end
+
+  def phone_for_display
+    number_to_phone(artist.phone)
   end
 
   private

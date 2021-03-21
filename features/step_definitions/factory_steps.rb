@@ -98,6 +98,24 @@ Given /there are open studios artists with art in the system/ do
   end
 end
 
+And /participating artists have filled out their open studios info form/ do
+  @artists.each do |a|
+    next unless a.current_open_studios_participant
+
+    participant = a.current_open_studios_participant
+    schedule = participant.open_studios_event.special_event_time_slots.index_with do |_timeslot|
+      true
+    end
+    participant.update({
+                         video_conference_schedule: schedule,
+                         show_email: true,
+                         show_phone_number: true,
+                         shop_url: 'http://myshop.com',
+                         youtube_url: 'http://m.youtube.com/watch?v=abcdefg',
+                       })
+  end
+end
+
 Given /there is open studios cms content( in the system)?$/ do |_|
   args = { page: :main_openstudios, section: :preview_reception }
   @os_reception_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))

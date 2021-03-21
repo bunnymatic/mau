@@ -1,0 +1,49 @@
+@import "mixins";
+.open-studios-artist__title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0.83rem;
+}
+.open-studios-artist__info {
+  text-align: center;
+}
+.open-studios-artist__profile-image {
+  padding-top: 10px;
+}
+.open-studios-artist__profile-name {
+  margin: 15px;
+  font-size: 1.4rem;
+}
+
+.open-studios-artist__details__subsection {
+  padding: 24px 0px;
+  @include light-bottom-border;
+  &:last-child {
+    border: none;
+  }
+}
+
+.open-studios-artist__details__conference-url--title {
+  margin-bottom: 8px;
+}
+
+.open-studios-artist__details__conference-url--timeslots {
+  margin-bottom: 8px;
+  > .timeslot {
+    margin-bottom: 4px;
+  }
+}
+.open-studios-artist__details__youtube-url--link {
+  @include ellipsis;
+}
+.open-studios-artist__details__youtube-url--title {
+  margin-bottom: 8px;
+}
+.open-studios-artist__details__shop-url--title {
+  text-transform: uppercase;
+  font-weight: $font-weight-bold;
+}
+.open-studios-artist__details__conference-url--footnote {
+  font-size: 0.8rem;
+}
