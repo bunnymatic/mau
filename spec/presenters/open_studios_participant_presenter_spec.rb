@@ -32,7 +32,7 @@ describe OpenStudiosParticipantPresenter do
     its(:has_youtube?) { is_expected.to eq true }
     its(:has_scheduled_conference?) { is_expected.to eq true }
     it 'time slots are formatted' do
-      expect(subject.conference_time_slots).to include '04/01/2021 1:00pm - 2:00pm PDT'
+      expect(subject.conference_time_slots).to include 'Apr 1 1-2pm PDT'
     end
   end
 

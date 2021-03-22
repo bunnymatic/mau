@@ -12,7 +12,7 @@ class OpenStudiosParticipantPresenter
   end
 
   def conference_time_slots
-    video_conference_time_slots.map { |s| display_time_slot(s) }
+    video_conference_time_slots.map { |s| display_time_slot(s, compact: true) }
   end
 
   def has_shop? # rubocop:disable Naming/PredicateName
