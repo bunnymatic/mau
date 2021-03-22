@@ -5,8 +5,8 @@ FactoryBot.define do
     photo_content_type { 'image/jpeg' }
     photo_file_size    { 1234 }
     photo_updated_at   { 1.day.ago }
-    dimensions { '10 x 10' }
-    year { (Time.zone.now - Random.rand(5).years).year }
+    dimensions { "#{Random.rand(10..50)} x #{Random.rand(10..50)}" }
+    year { (Time.zone.now - Random.rand(10).years).year }
     medium
     price { rand(1..1000) + rand.round(2) }
     artist do
