@@ -8,7 +8,6 @@
   .pure-u-1-1.pure-u-sm-1-2.pure-u-md-2-3.pure-u-lg-4-5
     .pure-g
       - if @artist.art_pieces.present?
-        / = render partial: "/open_studios_subdomain/artists/art", collection: @artist.art_pieces, as: :art_piece
         = render partial: "/open_studios_subdomain/artists/art_card", collection: @artist.art_pieces, as: :art_piece
       - else
         .pure-u-1-1.empty
