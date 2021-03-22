@@ -4,7 +4,7 @@
   .pure-u-1-1.omega
     section.open-studios-artist__profile-image
       = render '/common/artist_profile_image', artist: artist
-      .open-studios-artist__profile-name.pure-u-sm-hidden = @artist.get_name
+      .open-studios-artist__profile-name.pure-u-sm-hidden = artist.get_name
     section.open-studios-artist__details
       - if info.has_shop?
         .open-studios-artist__details__subsection.open-studios-artist__details__shop-url
