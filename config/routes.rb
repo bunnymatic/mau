@@ -1,9 +1,38 @@
+require_relative '../lib/routing_constraints/app_subdomain'
+require_relative '../lib/routing_constraints/open_studios_subdomain'
+
 Mau::Application.routes.draw do
-  constraints subdomain: 'openstudios' do
+  # Routes available for all domains
+  namespace :admin do
+    resources :cms_documents
+  end
+
+  namespace :api do
+    resources :notes, only: [:create]
+    resources :artists, only: [] do
+      resources :open_studios_participants, only: [:update]
+      member do
+        post :register_for_open_studios
+      end
+    end
+
+    # these routes were originally designed for 1890 bryant's consumption.
+    # which is why they are in `v2`  This could likely be removed now
+    # because there are no more external consumers.
+    namespace :v2 do
+      resources :studios, only: [:show]
+      resources :artists, only: %i[index show] do
+        resources :art_pieces, only: %i[index show], shallow: true
+      end
+      resources :media, only: %i[index show]
+    end
+  end
+
+  constraints RoutingConstraints::OpenStudiosSubdomain do
     instance_eval(File.read(Rails.root.join('config/openstudios_routes.rb')))
   end
 
-  constraints subdomain: /^(www)?$/ do
+  constraints RoutingConstraints::AppSubdomain do
     resources :media, only: %i[index show]
 
     resource :user_session, only: %i[new create destroy]
@@ -127,7 +156,6 @@ Mau::Application.routes.draw do
       match '/discount/markup' => 'discount#markup', as: :discount_processor, via: %i[get post]
 
       resources :roles, except: [:show]
-      resources :cms_documents
       resources :blacklist_domains, except: %i[show edit update]
       resources :open_studios_events, only: %i[index edit new create update destroy] do
         collection do
@@ -177,32 +205,6 @@ Mau::Application.routes.draw do
     # legacy urls
     get '/main/openstudios', to: redirect('/open_studios')
     get '/openstudios', to: redirect('/open_studios')
-  end
-
-  # Routes available for all domains
-  namespace :admin do
-    resources :cms_documents
-  end
-
-  namespace :api do
-    resources :notes, only: [:create]
-    resources :artists, only: [] do
-      resources :open_studios_participants, only: [:update]
-      member do
-        post :register_for_open_studios
-      end
-    end
-
-    # these routes were originally designed for 1890 bryant's consumption.
-    # which is why they are in `v2`  This could likely be removed now
-    # because there are no more external consumers.
-    namespace :v2 do
-      resources :studios, only: [:show]
-      resources :artists, only: %i[index show] do
-        resources :art_pieces, only: %i[index show], shallow: true
-      end
-      resources :media, only: %i[index show]
-    end
   end
 
   get '*path' => 'error#index'
