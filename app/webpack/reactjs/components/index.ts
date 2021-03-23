@@ -1,6 +1,8 @@
 import { FC } from "react";
 
 import { Welcome } from "./admin/tests/welcome";
+import { ArtCard } from "./art_card";
+import { ArtModal } from "./art_modal";
 import { ConfirmModal } from "./confirm_modal";
 import { CreditsModal } from "./credits_modal";
 import { EditableContentTrigger } from "./editable_content_trigger";
@@ -20,6 +22,8 @@ this serves as the registry.  All react components
 that will be mounted at their root should be included here.
 **/
 export const reactComponents = {
+  ArtCard,
+  ArtModal,
   ConfirmModal,
   CreditsModal,
   EditableContentTrigger,

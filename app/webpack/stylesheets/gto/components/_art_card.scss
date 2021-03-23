@@ -1,4 +1,5 @@
 .art-card {
+  pointer: cursor;
 }
 .art-card__price--sold {
   text-decoration: line-through;
@@ -9,5 +10,16 @@
   color: $gto_yellow;
   position: absolute;
   right: 6px;
-  bottom: 2px;
+  top: 10px;
+}
+
+.art-card__description {
+  margin-top: 6px;
+  @include light-border;
+  position: relative;
+  padding: 10px;
+}
+
+.art-card__description-item {
+  line-height: 1.7rem;
 }

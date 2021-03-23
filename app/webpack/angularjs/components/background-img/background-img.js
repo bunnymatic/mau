@@ -1,17 +1,12 @@
 import ngInject from "@angularjs/ng-inject";
+import { backgroundImageStyle } from "@js/services/background_image.service";
 import angular from "angular";
 
 const backgroundImg = ngInject(function () {
   return {
     restrict: "A",
-    link: function (scope, element, attrs) {
-      var url;
-      url = attrs.backgroundImg;
-      return element.css({
-        "background-image": 'url("' + url + '")',
-        "background-size": "cover",
-        "background-position": "center center",
-      });
+    link: function (_scope, element, attrs) {
+      return element.css(backgroundImageStyle(attrs.backgroundImg));
     },
   };
 });

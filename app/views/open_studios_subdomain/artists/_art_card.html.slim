@@ -1,0 +1,3 @@
+/ expects art_piece as art_piece_presenter
+- class_overrides ||= class_names(%w(pure-u-1-1 pure-u-sm-1-1 pure-u-md-1-2 pure-u-lg-1-3 pure-u-xl-1-4))
+= react_component id: "art-card-#{art_piece.id}", component: "ArtCard", classes: class_overrides, props: { id: art_piece.id , title: art_piece.title, sold: art_piece.sold?, price: art_piece.price, dimensions: art_piece.dimensions, year: art_piece.year, images: art_piece.image_paths}

@@ -21,7 +21,13 @@ Scenario:
   And I see the artist's name in the header title
   And I see the summary information about that artists open studios events
   And I see the artist's open studios you tube embed video
+  And I see details about the art on each art card
 
+  When I click on the first art card in the catalog
+  Then I see that art in a modal
+
+  When I click on "close" in ".art-modal__content"
+  Then I don't see the art modal
 
 Scenario: An artist sees their own pages
   Given the following artists with art are in the system:

@@ -8,3 +8,4 @@ export interface TimeSlot {
 
 export type MauButtonStyle = "primary" | "secondary";
 export type MauButtonStyleAttr = Record<MauButtonStyle, Boolean>;
+export type ClassNames = string | Array<string> | Record<string, boolean>;

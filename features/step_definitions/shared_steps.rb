@@ -185,7 +185,7 @@ When(/^I click (on\s+)?"([^"]*)"$/) do |_, link_text|
   click_on link_text
 end
 
-When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
+When(/^I click on "(.*?)" in (the\s+)?"(.*?)"$/) do |link, _, container|
   within container do
     click_on_first link, visible: false
   end

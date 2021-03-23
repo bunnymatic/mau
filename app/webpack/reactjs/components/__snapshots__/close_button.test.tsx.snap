@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CloseButton matches the snapshot 1`] = `
+<div>
+  <a
+    class="close-button"
+    href="#"
+    title="close"
+  >
+    <i
+      class="fa fa-times"
+    />
+  </a>
+</div>
+`;

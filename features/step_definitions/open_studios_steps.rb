@@ -207,3 +207,37 @@ When('I see my video conference schedule') do
   expect(page.all('.open-studios-artist__details__conference-url--timeslots .timeslot'))
     .to have(@artist.current_open_studios_participant.video_conference_time_slots.length).entries
 end
+
+Then('I see details about the art on each art card') do
+  pieces = @artist.art_pieces
+  expect(pieces).to have_at_least(1).piece
+  pieces.each do |piece|
+    expect(page).to have_content(piece.title)
+    expect(page).to have_content(piece.price)
+    expect(page).to have_content(piece.dimensions)
+    expect(page).to have_content(piece.year)
+  end
+end
+
+When('I click on the first art card in the catalog') do
+  pieces = @artist.art_pieces
+  expect(pieces).to have_at_least(1).piece
+  @art_piece = pieces.first
+  card = page.all('.art-card').detect do |art_card|
+    art_card.text.include?(@art_piece.title)
+  end
+  card.click
+end
+
+Then('I see that art in a modal') do
+  within '.art-modal__content' do
+    expect(page).to have_content(@art_piece.title)
+    expect(page).to have_content(@art_piece.price)
+    expect(page).to have_content(@art_piece.dimensions)
+    expect(page).to have_content(@art_piece.medium.name)
+  end
+end
+
+Then('I don\'t see the art modal') do
+  expect(page.all('.art-modal__content')).to be_empty
+end
