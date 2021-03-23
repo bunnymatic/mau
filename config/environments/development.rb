@@ -61,6 +61,7 @@ Rails.application.configure do
   config.hosts << 'example.org'
   config.hosts << 'mau.local'
   config.hosts << 'openstudios.mau.local'
+  config.hosts << 'www.mau.local'
 end
 
 Rails.application.routes.default_url_options[:host] = ENVIRONMENT_HOST
