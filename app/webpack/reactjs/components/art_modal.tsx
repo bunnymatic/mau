@@ -9,11 +9,6 @@ import * as types from "@reactjs/types";
 import cx from "classnames";
 import React, { FC, useEffect, useState } from "react";
 
-interface ArtModalWindowProps {
-  id: number;
-  handleClose: (MouseEvent) => void;
-}
-
 interface AnnotationProps {
   label: string;
   value?: string | number;
@@ -34,19 +29,49 @@ const Annotation: FC<AnnotationProps> = ({ label, value, classes }) => {
   );
 };
 
-const ArtModalWindow: FC<ArtModalWindowProps> = ({ id, handleClose }) => {
+interface ArtModalWindowProps {
+  id: number;
+  artPieceIds: number[];
+  handleClose: (MouseEvent) => void;
+}
+
+const findNextCyclic = (val, array) => {
+  const current = array.indexOf(val)
+  return array[(current + 1) % array.length];
+}
+const findPrevCyclic = (val, array) => {
+  const current = array.indexOf(val)
+  if (current === 0) {
+    return array[array.length - 1];
+  } else {
+    return array[current - 1];
+  }
+}
+
+const ArtModalWindow: FC<ArtModalWindowProps> = ({ id, artPieceIds, handleClose }) => {
   const [artPiece, setArtPiece] = useState<ArtPiece>();
+  const [artPieceId, setArtPieceId] = useState<ArtPiece>(id);
+
+  const handleNext = () => {
+    const current = artPieceId;
+    setArtPieceId(findNextCyclic(val, artPieceIds))
+  }
+  const handlePrevious = () => {
+    const current = artPieceId;
+    setArtPieceId(findPrevCyclic(val, artPieceIds))
+  }
 
   useEffect(() => {
     api.artPieces
-      .get(id)
+      .get(artPieceId)
       .then(setArtPiece)
       .catch((_error) => {
         new Flash().show({
           error: "We are having some issues getting that art.  Sorry!",
         });
       });
-  }, []);
+  }, [artPieceId]);
+
   setAppElement("body");
 
   return (
@@ -114,13 +139,14 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ id, handleClose }) => {
 
 interface ArtModalProps {
   id: number;
+  artPieceIds: number[];
 }
 
-export const ArtModal: FC<ArtModalProps> = ({ id, children }) => {
+export const ArtModal: FC<ArtModalProps> = ({ id, children, artPieceIds }) => {
   const { isOpen, open, close } = useModalState(false);
   return (
     <>
-      {isOpen && <ArtModalWindow id={id} handleClose={close} />}
+      {isOpen && <ArtModalWindow id={id} artPieceIds={artPieceIds} handleClose={close} />}
       <div
         onClick={(ev) => {
           ev.preventDefault();

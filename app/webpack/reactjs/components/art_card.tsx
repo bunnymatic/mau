@@ -12,6 +12,7 @@ interface ArtCardProps {
   year?: string;
   classnames?: types.ClassNames;
   images: any;
+  artPieceIds: number[];
 }
 
 export const ArtCard: FC<ArtCardProps> = ({
@@ -23,11 +24,12 @@ export const ArtCard: FC<ArtCardProps> = ({
   dimensions,
   year,
   images,
+  artPieceIds,
 }) => {
   const classes = cx("art-card", classnames);
   return (
     <div className={classes}>
-      <ArtModal id={id}>
+      <ArtModal id={id} artPieceIds={artPieceIds}>
         <div className="art-piece">
           <div
             className="image"
