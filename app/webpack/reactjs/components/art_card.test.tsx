@@ -10,7 +10,13 @@ describe("ArtCard", () => {
   let artPiece;
 
   beforeEach(() => {
-    artPiece = new ArtPiece(jsonApiArtPieceFactory.build());
+    artPiece = new ArtPiece(
+      jsonApiArtPieceFactory.build({
+        title: "The title is here",
+        price: 123,
+        year: "2001",
+      })
+    );
   });
 
   it("matches the snapshot with all the props", () => {
