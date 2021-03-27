@@ -1,6 +1,6 @@
 import "angular-mocks";
 import "./notify_mau";
-import "@services/notification.service";
+import "@angularjs/services/notification.service";
 
 import { compileTemplate } from "@test/support/angular_helpers";
 import angular from "angular";

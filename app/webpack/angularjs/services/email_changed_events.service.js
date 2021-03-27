@@ -1,4 +1,4 @@
-import { api } from "@js/services/api";
+import { api } from "@services/api";
 import angular from "angular";
 
 const emailChangedEventsService = function () {

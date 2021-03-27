@@ -1,5 +1,5 @@
 import ngInject from "@angularjs/ng-inject";
-import { api } from "@js/services/api";
+import { api } from "@services/api";
 import angular from "angular";
 
 import template from "./index.html";

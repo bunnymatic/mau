@@ -1,4 +1,4 @@
-import { mailToLink } from "@js/services/mailer.service";
+import { mailToLink } from "@services/mailer.service";
 import React, { FC } from "react";
 
 type MailerProps = {

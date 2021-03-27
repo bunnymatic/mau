@@ -1,5 +1,5 @@
 import Flash from "@js/app/jquery/flash";
-import { api } from "@js/services/api";
+import { api } from "@services/api";
 
 export const submitRegistration = (registering: boolean) => {
   return api.openStudios.submitRegistrationStatus(registering).catch(() => {

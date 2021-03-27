@@ -1,6 +1,6 @@
 import "angular-mocks";
 import "./search_hit";
-import "@services/object_routing.service";
+import "@angularjs/services/object_routing.service";
 
 import esSearchResults from "@fixtures/files/search_results.json";
 import angular from "angular";

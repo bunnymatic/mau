@@ -1,7 +1,7 @@
-import { get as ajaxGet } from "@js/services/mau_ajax";
 import { ArtPiece } from "@models/art_piece.model";
 import { Artist } from "@models/artist.model";
 import { Studio } from "@models/studio.model";
+import { get as ajaxGet } from "@services/mau_ajax";
 import { camelizeKeys } from "humps";
 
 const get = (url) => ajaxGet(url).then((data) => camelizeKeys(data));

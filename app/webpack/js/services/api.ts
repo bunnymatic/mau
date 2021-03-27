@@ -1,5 +1,5 @@
-import { destroy, get, post, put } from "@js/services/mau_ajax";
 import * as types from "@reactjs/types";
+import { destroy, get, post, put } from "@services/mau_ajax";
 import { camelizeKeys } from "humps";
 const camelize = (data) => camelizeKeys(data);
 

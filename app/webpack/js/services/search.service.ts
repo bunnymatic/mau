@@ -1,5 +1,5 @@
 import { omit } from "@js/app/helpers";
-import { api } from "@js/services/api";
+import { api } from "@services/api";
 
 type SearchQueryParams = Record<string, any>;
 export const query = async function (

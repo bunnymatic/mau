@@ -1,6 +1,6 @@
 import "angular-mocks";
 import "./art_piece_tag";
-import "@services/object_routing.service";
+import "@angularjs/services/object_routing.service";
 
 import { compileTemplate } from "@test/support/angular_helpers";
 import angular from "angular";
