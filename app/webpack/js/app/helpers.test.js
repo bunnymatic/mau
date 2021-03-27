@@ -218,4 +218,25 @@ describe("helpers", () => {
       }
     );
   });
+
+  describe("eachByIndex", () => {
+    it("returns an array keyed by 'id' by default", () => {
+      const arr = [{ id: 1 }, { id: 4 }, { id: 20 }];
+      const result = helpers.eachByIndex(arr);
+      expect(result).toEqual({
+        1: { id: 1 },
+        4: { id: 4 },
+        20: { id: 20 },
+      });
+    });
+    it("returns an array keyed by 'whatever' if you specify the key", () => {
+      const arr = [{ whatever: 1 }, { whatever: 4 }, { whatever: 20 }];
+      const result = helpers.eachByIndex(arr, "whatever");
+      expect(result).toEqual({
+        1: { whatever: 1 },
+        4: { whatever: 4 },
+        20: { whatever: 20 },
+      });
+    });
+  });
 });

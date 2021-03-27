@@ -115,3 +115,7 @@ export const dig = (obj, path, defaultValue = undefined) => {
   const result = travel(/[,[\]]+?/) || travel(/[,[\].]+?/);
   return result === undefined || result === obj ? defaultValue : result;
 };
+
+export const eachByIndex = (arr, indexKey = "id") => {
+  return arr.reduce((acc, it) => ((acc[it[indexKey]] = it), acc), {});
+};

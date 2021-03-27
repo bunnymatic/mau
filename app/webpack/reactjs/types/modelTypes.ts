@@ -33,6 +33,16 @@ export interface JsonApiModel<T, R> {
   relationships: R;
 }
 
+interface JsonApiVersion {
+  version: string;
+}
+
+export interface JsonApiCollection<T, R> {
+  data: JsonApiModel<T, R>[];
+  included: unknown[];
+  jsonapi: JsonApiVersion;
+}
+
 type ImageSizes = "small" | "medium" | "large" | "original";
 
 // JsonAPI models look pretty different

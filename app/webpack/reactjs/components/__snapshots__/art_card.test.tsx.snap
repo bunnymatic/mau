@@ -7,39 +7,35 @@ exports[`ArtCard matches the snapshot with all the props 1`] = `
   >
     <div>
       <div
-        class="art-piece"
+        class="image"
+        style="background-image: url(original.png);"
+      />
+      <div
+        class="art-card__description"
       >
         <div
-          class="image"
-          style="background-image: url(original.png);"
-        />
-        <div
-          class="art-card__description"
+          class="art-card__description-item"
         >
-          <div
-            class="art-card__description-item"
+          the title of the piece
+        </div>
+        <div
+          class="art-card__description-item"
+        >
+          <span
+            class="art-card__price"
           >
-            the title of the piece
-          </div>
-          <div
-            class="art-card__description-item"
-          >
-            <span
-              class="art-card__price"
-            >
-              123
-            </span>
-          </div>
-          <div
-            class="art-card__description-item"
-          >
-            10x 20
-          </div>
-          <div
-            class="art-card__description-item"
-          >
-            1234
-          </div>
+            123
+          </span>
+        </div>
+        <div
+          class="art-card__description-item"
+        >
+          10x 20
+        </div>
+        <div
+          class="art-card__description-item"
+        >
+          1234
         </div>
       </div>
     </div>
@@ -54,24 +50,20 @@ exports[`ArtCard matches the snapshot with minimal props 1`] = `
   >
     <div>
       <div
-        class="art-piece"
+        class="image"
+        style="background-image: url(original.png);"
+      />
+      <div
+        class="art-card__description"
       >
         <div
-          class="image"
-          style="background-image: url(original.png);"
-        />
-        <div
-          class="art-card__description"
+          class="art-card__description-item"
         >
-          <div
-            class="art-card__description-item"
-          >
-            the title of the piece
-          </div>
-          <div
-            class="art-card__description-item"
-          />
+          the title of the piece
         </div>
+        <div
+          class="art-card__description-item"
+        />
       </div>
     </div>
   </div>

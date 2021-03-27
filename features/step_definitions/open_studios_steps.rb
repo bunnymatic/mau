@@ -157,7 +157,7 @@ end
 Then('I see that artist\'s open studios pieces') do
   expect(page).to have_content(@artist.name)
   expect(@artist.art_pieces).to have_at_least(1).art_piece
-  expect(page).to have_css('.art-piece', count: @artist.art_pieces.count)
+  expect(page).to have_css('.art-card', count: @artist.art_pieces.count)
 end
 
 When('I hover over a cms section') do

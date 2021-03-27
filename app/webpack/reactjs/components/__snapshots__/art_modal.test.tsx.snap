@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ArtModal when there is no art renders nothing 1`] = `
+<div>
+  <div>
+    <button
+      data-testid="trigger"
+    >
+      trigger open
+    </button>
+  </div>
+</div>
+`;
