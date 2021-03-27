@@ -30,7 +30,7 @@ exports[`ArtWindow matches the snapshot 1`] = `
           <span
             class="art-window__annotation-value"
           >
-            the title of the piece
+            the title goes here
           </span>
         </div>
         <div
@@ -62,7 +62,7 @@ exports[`ArtWindow matches the snapshot 1`] = `
           <span
             class="art-window__annotation-value"
           >
-            $123.00
+            $123
           </span>
         </div>
       </div>

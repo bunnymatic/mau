@@ -1,3 +1,4 @@
+import { identity } from "@js/app/helpers";
 import * as types from "@reactjs/types";
 import { Factory } from "rosie";
 
@@ -6,11 +7,11 @@ const jsonApiArtPieceAttributesFactory = Factory.define<types.ArtPieceAttributes
 )
   .attr("artistName", "the artist name")
   .attr("favoritesCount", 0)
-  .attr("price", 123)
-  .attr("displayPrice", "$123.00")
-  .attr("year", "1234")
+  .attr("price", "123")
+  .attr("displayPrice", ["price"], (price: number) => `$${price}`)
+  .attr("year", "2000")
   .attr("dimensions", "10x 20")
-  .attr("title", "the title of the piece")
+  .attr("title", "the title goes here")
   .attr("artistId", 45)
   .attr("imageUrls", {
     small: "small.png",
@@ -23,7 +24,7 @@ const jsonApiArtPieceAttributesFactory = Factory.define<types.ArtPieceAttributes
 export const jsonApiArtPieceFactory = Factory.define<types.JsonApiArtPiece>(
   "jsonApiArtPiece"
 )
-  .attr("id", 5)
+  .sequence("id", identity)
   .attr("type", "art_piece")
   .attr("attributes", () => jsonApiArtPieceAttributesFactory.build())
   .attr("relationships", {});
