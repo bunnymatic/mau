@@ -12,5 +12,8 @@ ensure_open_studios_event(Time.zone.local(2017, 4, 1))
 OpenStudiosEvent.all.each do |os_event|
   Artist.active.each do |artist|
     artist.open_studios_events << os_event
+  rescue ActiveRecord::RecordInvalid => e
+    puts "Ran into an issue adding artists to open studios #{e}"
+    puts 'Moving on...'
   end
 end
