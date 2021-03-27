@@ -1,99 +1,22 @@
-@import "gto/mau_modal";
-
 .art-modal__content {
-  padding: 15px 20px;
+  padding: 20px 25px;
   @include round-corners(6px);
   background-color: $light-gray-background;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 90%;
+  max-width: 96%;
   @include floating-window-border;
   top: 20px !important; /* need to override react-modal inline stlyes */
-  left: 5% !important; /* need to override react-modal inline stlyes */
-  right: 5% !important; /* need to override react-modal inline stlyes */
+  left: 2% !important; /* need to override react-modal inline stlyes */
+  right: 2% !important; /* need to override react-modal inline stlyes */
   bottom: 20px !important; /* need to override react-modal inline stlyes */
   position: absolute !important; /* need to override react-modal inline stlyes */
 }
-
-.art-modal__image-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-height: 100%;
-  max-width: 100%;
-  width: 100%;
-}
-
-.art-modal__image {
-  max-height: 100%;
-  max-width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.art-modal__body {
-  flex: 1;
-  width: 100%;
-  position: relative;
-}
-.art-modal__footer {
-  display: flex;
-  justify-content: space-between;
-  width: 80%;
-  @media screen and (max-width: $screen-sm-max) {
-    width: 100%;
-    flex-direction: column;
-  }
-  @media screen and (max-width: $screen-xs-max) {
-  }
-}
-.art-modal__footer--right,
-.art-modal__footer--left {
-  flex: 1;
-}
-.art-modal__footer--right {
-  text-align: right;
-  @media screen and (max-width: $screen-lg-max) {
-  }
-  @media screen and (max-width: $screen-md-max) {
-  }
-  @media screen and (max-width: $screen-sm-max) {
-    text-align: left;
-  }
-  @media screen and (max-width: $screen-xs-max) {
-  }
-}
-
-.art-modal__annotation {
-  margin-bottom: 6px;
-}
-.art-modal__body {
-  margin-bottom: 10px;
-}
-
-.art-modal__annotation-label {
-  margin-right: 10px;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-}
-
-.art-modal__annotation-value {
-  color: $gto-dark_blue;
-}
-
-.art-modal__price--sold {
-  .art-modal__annotation-value {
-    text-decoration: line-through;
-  }
-}
 .art-modal__close {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 10px;
   z-index: 1;
 }

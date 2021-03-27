@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ArtWindow matches the snapshot 1`] = `
+<div>
+  <div
+    class="art-window"
+  >
+    <div
+      class="art-window__image-container"
+    >
+      <div
+        class="art-window__image"
+        style="background-image: url(original.png); background-size: contain; background-position: center center; background-repeat: no-repeat;"
+      />
+    </div>
+    <div
+      class="art-window__info-container"
+    >
+      <div
+        class="art-window__info--left"
+      >
+        <div
+          class="art-window__annotation art-window__title"
+        >
+          <span
+            class="art-window__annotation-label"
+          >
+            Title:
+          </span>
+          <span
+            class="art-window__annotation-value"
+          >
+            the title of the piece
+          </span>
+        </div>
+        <div
+          class="art-window__annotation art-window__dimensions"
+        >
+          <span
+            class="art-window__annotation-label"
+          >
+            Dimensions:
+          </span>
+          <span
+            class="art-window__annotation-value"
+          >
+            10x 20
+          </span>
+        </div>
+      </div>
+      <div
+        class="art-window__info--right"
+      >
+        <div
+          class="art-window__annotation art-window__price art-window__price--sold"
+        >
+          <span
+            class="art-window__annotation-label"
+          >
+            Price:
+          </span>
+          <span
+            class="art-window__annotation-value"
+          >
+            $123.00
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

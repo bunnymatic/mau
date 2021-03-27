@@ -1,0 +1,86 @@
+@import "mixins";
+@import "gto/mau_modal";
+.art-window {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.art-window__image-container {
+  @include light-border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 100%;
+  max-width: 100%;
+  width: 100%;
+  flex: 1;
+  margin-bottom: 15px;
+}
+
+.art-window__image {
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.art-window__info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  width: 80%;
+  @media screen and (max-width: $screen-sm-max) {
+    align-items: flex-start;
+    margin: initial;
+    width: 100%;
+    flex-direction: column;
+  }
+  @media screen and (max-width: $screen-xs-max) {
+  }
+}
+.art-window__info--right,
+.art-window__info--left {
+  flex: 1;
+}
+.art-window__info--right {
+  text-align: right;
+  @media screen and (max-width: $screen-lg-max) {
+  }
+  @media screen and (max-width: $screen-md-max) {
+  }
+  @media screen and (max-width: $screen-sm-max) {
+    text-align: left;
+  }
+  @media screen and (max-width: $screen-xs-max) {
+  }
+}
+
+.art-window__annotation {
+  margin-bottom: 6px;
+}
+.art-window__body {
+  margin-bottom: 10px;
+}
+
+.art-window__annotation-label {
+  margin-right: 10px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.art-window__annotation-value {
+  color: $gto-dark_blue;
+}
+
+.art-window__price--sold {
+  .art-window__annotation-value {
+    text-decoration: line-through;
+  }
+}
