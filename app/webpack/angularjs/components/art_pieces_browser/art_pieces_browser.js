@@ -1,6 +1,6 @@
 import ngInject from "@angularjs/ng-inject";
 import { map, pluck_function, some } from "@js/app/helpers";
-import { jsonApi as api } from "@js/services/json_api";
+import { jsonApi as api } from "@services/json_api";
 import angular from "angular";
 
 import template from "./index.html";

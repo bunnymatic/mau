@@ -1,10 +1,10 @@
 import { describe, it } from "@jest/globals";
-import { api } from "@js/services/api";
+import { api } from "@services/api";
 import expect from "expect";
 
 import * as searchService from "./search.service";
 
-jest.mock("@js/services/api");
+jest.mock("@services/api");
 
 describe("mau.services.searchService", function () {
   const successPayload = ["search_results"];

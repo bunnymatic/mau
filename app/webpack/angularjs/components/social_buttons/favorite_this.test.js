@@ -1,5 +1,5 @@
 import "angular-mocks";
-import "@services/favorites.service";
+import "@angularjs/services/favorites.service";
 import "./favorite_this";
 
 import { compileTemplate, triggerEvent } from "@test/support/angular_helpers";

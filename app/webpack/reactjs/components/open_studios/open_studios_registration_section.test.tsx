@@ -5,7 +5,7 @@ import React from "react";
 
 import { OpenStudiosRegistrationSection } from "./open_studios_registration_section";
 
-jest.mock("@js/services/api");
+jest.mock("@services/api");
 
 describe("OpenStudiosRegistrationSection", () => {
   const defaultOsEvent = {

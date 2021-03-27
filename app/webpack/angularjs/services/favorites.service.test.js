@@ -1,11 +1,11 @@
 import "angular-mocks";
 import "./favorites.service";
 
-import { api } from "@js/services/api";
+import { api } from "@services/api";
 import angular from "angular";
 import expect from "expect";
 
-jest.mock("@js/services/api");
+jest.mock("@services/api");
 
 describe("mau.services.favoriteService", function () {
   let service;

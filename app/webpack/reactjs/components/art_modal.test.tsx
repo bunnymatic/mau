@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { noop } from "@js/app/helpers";
-import { jsonApi } from "@js/services/json_api";
 import { ArtPiece } from "@models/art_piece.model";
+import { jsonApi } from "@services/json_api";
 import { jsonApiArtPieceFactory } from "@test/factories";
 import {
   act,
@@ -15,7 +15,7 @@ import { mocked } from "ts-jest/utils";
 
 import { ArtModal } from "./art_modal";
 
-jest.mock("@js/services/json_api");
+jest.mock("@services/json_api");
 
 const mockApi = mocked(jsonApi, true);
 

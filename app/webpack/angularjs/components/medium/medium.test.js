@@ -1,6 +1,6 @@
 import "angular-mocks";
 import "./medium";
-import "@services/object_routing.service";
+import "@angularjs/services/object_routing.service";
 
 import angular from "angular";
 import expect from "expect";

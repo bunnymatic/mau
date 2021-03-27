@@ -9,7 +9,6 @@ describe("ArtWindow", () => {
   let artPiece;
   beforeEach(() => {
     artPiece = new ArtPiece(artPieceFactory.build());
-    console.log(artPiece);
   });
   it("matches the snapshot", () => {
     const { container } = render(<ArtWindow art={artPiece} />);

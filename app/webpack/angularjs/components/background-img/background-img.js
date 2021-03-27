@@ -1,5 +1,5 @@
 import ngInject from "@angularjs/ng-inject";
-import { backgroundImageStyle } from "@js/services/background_image.service";
+import { backgroundImageStyle } from "@services/background_image.service";
 import angular from "angular";
 
 const backgroundImg = ngInject(function () {

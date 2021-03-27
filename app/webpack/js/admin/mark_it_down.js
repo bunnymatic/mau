@@ -1,5 +1,5 @@
 import { debounce } from "@js/app/utils";
-import { ajaxSetup } from "@js/services/mau_ajax";
+import { ajaxSetup } from "@services/mau_ajax";
 import jQuery from "jquery";
 
 const markItDown = (input, output) => {
