@@ -212,10 +212,8 @@ Then('I see details about the art on each art card') do
   pieces = @artist.art_pieces
   expect(pieces).to have_at_least(1).piece
   pieces.each do |piece|
-    expect(page).to have_content(piece.title)
     expect(page).to have_content(piece.price)
     expect(page).to have_content(piece.dimensions)
-    expect(page).to have_content(piece.year)
   end
 end
 
@@ -224,7 +222,7 @@ When('I click on the first art card in the catalog') do
   expect(pieces).to have_at_least(1).piece
   @art_piece = pieces.first
   card = page.all('.art-card').detect do |art_card|
-    art_card.text.include?(@art_piece.title)
+    art_card.text.include?(@art_piece.dimensions)
   end
   card.click
 end
