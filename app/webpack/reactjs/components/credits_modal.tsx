@@ -1,5 +1,5 @@
 import { CloseButton } from "@reactjs/components/close_button";
-import { useModalState } from "@reactjs/hooks/useModalState";
+import { useModalState } from "@reactjs/hooks";
 import React, { FC } from "react";
 import ReactModal from "react-modal";
 
