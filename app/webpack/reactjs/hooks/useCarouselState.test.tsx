@@ -94,4 +94,54 @@ describe("useCarouselState", () => {
       expect(result.current.current.id).toEqual(12);
     });
   });
+
+  describe("handles no items gracefully", () => {
+    let result;
+
+    beforeEach(() => {
+      const renderedHook = renderHook(() => useCarouselState());
+      result = renderedHook.result;
+    });
+    it("should set current as specified by the initial", () => {
+      expect(result.current.current).toEqual(undefined);
+    });
+    it("previous does nothing", () => {
+      act(() => {
+        result.current.previous();
+      });
+      expect(result.current.current).toEqual(undefined);
+    });
+    it("next does nothing", () => {
+      act(() => {
+        result.current.next();
+      });
+      expect(result.current.current).toEqual(undefined);
+    });
+  });
+
+  describe("handles no items gracefully given initial state", () => {
+    let result;
+
+    beforeEach(() => {
+      const renderedHook = renderHook(() =>
+        useCarouselState(undefined, "initial value")
+      );
+      result = renderedHook.result;
+    });
+    it("should set current as specified by the initial", () => {
+      expect(result.current.current).toEqual("initial value");
+    });
+    it("previous does nothing", () => {
+      act(() => {
+        result.current.previous();
+      });
+      expect(result.current.current).toEqual("initial value");
+    });
+    it("next does nothing", () => {
+      act(() => {
+        result.current.next();
+      });
+      expect(result.current.current).toEqual("initial value");
+    });
+  });
 });
