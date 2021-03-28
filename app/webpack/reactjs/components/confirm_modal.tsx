@@ -1,7 +1,7 @@
 import { noop } from "@js/app/helpers";
 import { buttonStyleAttrs, MauButton } from "@reactjs/components/mau_button";
 import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
-import { useModalState } from "@reactjs/hooks/useModalState";
+import { useModalState } from "@reactjs/hooks";
 import * as types from "@reactjs/types";
 import React, { FC } from "react";
 

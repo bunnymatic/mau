@@ -238,6 +238,18 @@ Then('I see that art in a modal') do
   end
 end
 
+Then('I see the next art piece in the modal') do
+  idx = @art_piece.artist.art_pieces.find_index(@art_piece)
+  next_piece = @art_piece.artist.art_pieces[idx + 1]
+
+  within '.art-modal__content' do
+    expect(page).to have_content(next_piece.title)
+    expect(page).to have_content(next_piece.price)
+    expect(page).to have_content(next_piece.dimensions)
+    expect(page).to have_content(next_piece.medium.name)
+  end
+end
+
 Then('I don\'t see the art modal') do
   expect(page.all('.art-modal__content')).to be_empty
 end

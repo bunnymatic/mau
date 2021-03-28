@@ -26,6 +26,9 @@ Scenario:
   When I click on the first art card in the catalog
   Then I see that art in a modal
 
+  When I click on "next" in ".art-modal__content"
+  Then I see the next art piece in the modal
+
   When I click on "close" in ".art-modal__content"
   Then I don't see the art modal
 

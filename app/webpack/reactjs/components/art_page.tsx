@@ -1,8 +1,8 @@
-import { eachByIndex } from "@js/app/helpers";
 import Flash from "@js/app/jquery/flash";
 import { ArtPiece } from "@models/art_piece.model";
 import { ArtCard } from "@reactjs/components/art_card";
 import { Spinner } from "@reactjs/components/spinner";
+import { ArtPiecesProvider } from "@reactjs/contexts/art_pieces.context";
 import { jsonApi as api } from "@services/json_api";
 import React, { FC, useEffect, useState } from "react";
 
@@ -11,17 +11,13 @@ interface ArtPageProps {
   initialArtPieceId?: number;
 }
 
-type ArtPiecesById = Record<number, ArtPiece>;
-
 export const ArtPage: FC<ArtPageProps> = ({ artistId, initialArtPieceId }) => {
-  const [artPieces, setArtPieces] = useState<ArtPiecesById>({});
+  const [artPieces, setArtPieces] = useState<ArtPiece[]>([]);
 
   useEffect(() => {
     api.artPieces
       .index(artistId)
-      .then((artPieces) => {
-        setArtPieces(eachByIndex(artPieces));
-      })
+      .then(setArtPieces)
       .catch((_err) => {
         new Flash().show({
           error:
@@ -36,7 +32,11 @@ export const ArtPage: FC<ArtPageProps> = ({ artistId, initialArtPieceId }) => {
 
   const cardClasses =
     "pure-u-1-1 pure-u-sm-1-1 pure-u-md-1-2 pure-u-lg-1-4 pure-u-xl-1-4";
-  return Object.entries(artPieces).map(([id, artPiece]) => (
-    <ArtCard key={id} artPiece={artPiece} classes={cardClasses} />
-  ));
+  return (
+    <ArtPiecesProvider artPieces={artPieces}>
+      {artPieces.map((artPiece) => (
+        <ArtCard key={artPiece.id} artPiece={artPiece} classes={cardClasses} />
+      ))}
+    </ArtPiecesProvider>
+  );
 };

@@ -20,3 +20,34 @@
   right: 10px;
   z-index: 1;
 }
+
+@mixin chevron {
+  @include background-contain;
+  height: 40px;
+  width: 40px;
+  transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  font-size: 1.4rem;
+  &:hover {
+    font-size: 1.6rem;
+  }
+  @include round-corners(50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.art-modal__previous {
+  @include chevron;
+  left: 10px;
+}
+.art-modal__next {
+  @include chevron;
+  right: 10px;
+}
+.art-modal__window-wrapper {
+  display: flex;
+  height: 100%;
+  width: 95%;
+}
