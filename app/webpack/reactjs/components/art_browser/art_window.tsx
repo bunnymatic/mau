@@ -48,28 +48,28 @@ export const ArtWindow: FC<ArtWindowProps> = ({ art }) => {
             classes="art-window__title"
           />
           <Annotation
+            label="Price:"
+            value={art.displayPrice}
+            classes={cx("art-window__price", {
+              "art-window__price--sold": art.hasSold(),
+            })}
+          />
+        </div>
+        <div className="art-window__info--right">
+          <Annotation
             label="Dimensions:"
             value={art.dimensions}
             classes="art-window__dimensions"
           />
-          <Annotation
-            label="Date:"
-            value={art.date}
-            classes="art-window__date"
-          />
-        </div>
-        <div className="art-window__info--right">
           <Annotation
             label="Medium:"
             value={art?.medium?.name}
             classes="art-window__medium"
           />
           <Annotation
-            label="Price:"
-            value={art.displayPrice}
-            classes={cx("art-window__price", {
-              "art-window__price--sold": art.hasSold,
-            })}
+            label="Year:"
+            value={art.year}
+            classes="art-window__date"
           />
         </div>
       </div>

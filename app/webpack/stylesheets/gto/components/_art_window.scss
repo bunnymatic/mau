@@ -27,11 +27,12 @@
 .art-window__info-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin: auto;
   width: 80%;
   @media screen and (max-width: $screen-sm-max) {
     align-items: flex-start;
+    justify-content: flex-start;
     width: 90%;
     flex-direction: column;
   }
