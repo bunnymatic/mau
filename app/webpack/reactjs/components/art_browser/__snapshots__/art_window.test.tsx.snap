@@ -34,6 +34,24 @@ exports[`ArtWindow matches the snapshot 1`] = `
           </span>
         </div>
         <div
+          class="art-window__annotation art-window__price"
+        >
+          <span
+            class="art-window__annotation-label"
+          >
+            Price:
+          </span>
+          <span
+            class="art-window__annotation-value"
+          >
+            $123
+          </span>
+        </div>
+      </div>
+      <div
+        class="art-window__info--right"
+      >
+        <div
           class="art-window__annotation art-window__dimensions"
         >
           <span
@@ -47,22 +65,18 @@ exports[`ArtWindow matches the snapshot 1`] = `
             10x 20
           </span>
         </div>
-      </div>
-      <div
-        class="art-window__info--right"
-      >
         <div
-          class="art-window__annotation art-window__price art-window__price--sold"
+          class="art-window__annotation art-window__date"
         >
           <span
             class="art-window__annotation-label"
           >
-            Price:
+            Year:
           </span>
           <span
             class="art-window__annotation-value"
           >
-            $123
+            2000
           </span>
         </div>
       </div>
