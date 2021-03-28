@@ -1,10 +1,15 @@
+import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY } from "@js/event_constants";
 import { ArtPiece } from "@models/art_piece.model";
 import { ArtWindow } from "@reactjs/components/art_browser/art_window";
 import { CloseButton } from "@reactjs/components/close_button";
 import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
 import { ArtPiecesContext } from "@reactjs/contexts/art_pieces.context";
-import { useCarouselState, useModalState } from "@reactjs/hooks";
-import React, { FC, useContext } from "react";
+import {
+  useCarouselState,
+  useEventListener,
+  useModalState,
+} from "@reactjs/hooks";
+import React, { FC, useCallback, useContext } from "react";
 
 interface ArtModalWindowProps {
   artPiece: ArtPiece;
@@ -16,6 +21,17 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
 
   const { artPieces } = useContext(ArtPiecesContext);
   const { current, next, previous } = useCarouselState(artPieces, artPiece);
+
+  const keyDownHandler = useCallback((e) => {
+    if (e.key === ARROW_LEFT_KEY) {
+      previous();
+    }
+    if (e.key === ARROW_RIGHT_KEY) {
+      next();
+    }
+  });
+
+  useEventListener("keydown", keyDownHandler);
 
   const handleNext = (e: MouseEvent) => {
     e.preventDefault();

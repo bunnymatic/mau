@@ -29,6 +29,10 @@ Scenario:
   When I click on "next" in ".art-modal__content"
   Then I see the next art piece in the modal
 
+  When I click on "previous" in ".art-modal__content"
+  And I press the "arrow_right" key
+  Then I see the next art piece in the modal
+
   When I click on "close" in ".art-modal__content"
   Then I don't see the art modal
 

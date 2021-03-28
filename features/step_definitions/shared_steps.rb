@@ -366,3 +366,7 @@ end
 When('I see a {string} link') do |string|
   expect(page).to have_link(string)
 end
+
+When('I press the {string} key') do |string|
+  page.find('body').send_keys(string.to_sym)
+end
