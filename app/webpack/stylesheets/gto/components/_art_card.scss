@@ -9,8 +9,11 @@
   font-size: 0.8rem;
   color: $gto_yellow;
   position: absolute;
-  right: 6px;
-  top: 10px;
+  right: 15px;
+  bottom: 70px;
+  background-color: rgba(255, 255, 255, 0.8);
+  @include round-corners();
+  padding: 5px;
 }
 
 .art-card__description {
@@ -18,8 +21,20 @@
   @include light-border;
   position: relative;
   padding: 10px;
+  height: 49px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .art-card__description-item {
+  @include ellipsis;
   line-height: 1.7rem;
+  flex: 1;
+  &:first-child {
+    text-align: left;
+  }
+  &:last-child {
+    text-align: right;
+  }
 }

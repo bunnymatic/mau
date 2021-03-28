@@ -10,13 +10,7 @@ describe("ArtCard", () => {
   let artPiece;
 
   beforeEach(() => {
-    artPiece = new ArtPiece(
-      jsonApiArtPieceFactory.build({
-        title: "The title is here",
-        price: 123,
-        year: "2001",
-      })
-    );
+    artPiece = new ArtPiece(jsonApiArtPieceFactory.build());
   });
 
   it("matches the snapshot with all the props", () => {
@@ -25,9 +19,9 @@ describe("ArtCard", () => {
   });
 
   it("matches the snapshot with minimal props", () => {
-    const { id, title, imageUrls } = artPiece;
-    const trimArtPiece = { id, title, imageUrls };
-    const { container } = render(<ArtCard artPiece={trimArtPiece} />);
+    artPiece.dimensions = undefined;
+    artPiece.price = undefined;
+    const { container } = render(<ArtCard artPiece={artPiece} />);
     expect(container).toMatchSnapshot();
   });
 });
