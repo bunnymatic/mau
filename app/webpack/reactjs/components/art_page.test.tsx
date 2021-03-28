@@ -36,7 +36,7 @@ describe("ArtPage", () => {
         // building a factory with random values busts the snapshot
         // testing so here all pieces have the same title
         expect(
-          screen.queryAllByText(artPieces[0].title, { exact: false })
+          screen.queryAllByText(artPieces[0].dimensions, { exact: false })
         ).toHaveLength(2);
       });
     });
