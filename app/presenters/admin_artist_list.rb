@@ -13,13 +13,17 @@ class AdminArtistList < ViewPresenter
     artists.bad_standing.order(updated_at: :desc)
   end
 
-  CSV_HEADERS = [
-    'Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name',
-    'Studio Address', 'Studio Number', 'Email Address'
-  ].freeze
-
   def csv_headers
-    CSV_HEADERS + open_studios_event_headers
+    headers = [
+      'Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name',
+      'Studio Address', 'Studio Number', 'Email Address'
+    ]
+    if OpenStudiosEvent.current
+      headers << "Participating in Open Studios #{OpenStudiosEvent.current.for_display}" if OpenStudiosEvent.current
+    else
+      headers << 'No Current Open Studios'
+    end
+    headers + open_studios_event_headers
   end
 
   def open_studios_event_headers
@@ -75,6 +79,7 @@ class AdminArtistList < ViewPresenter
       artist.address&.street || '',
       artist.studionumber,
       artist.email,
+      artist.doing_open_studios?,
     ] + open_studios_participant_as_csv_row(artist.current_open_studios_participant)
   end
 

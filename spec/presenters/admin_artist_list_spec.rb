@@ -80,6 +80,7 @@ describe AdminArtistList, elasticsearch: false do
     it 'has some data in the csv' do
       expect(parsed.first['Full Name']).to eql list.send(:artists).first.full_name
       expect(parsed.first.key?('Shop Url')).to be true
+      expect(parsed.first.key?('No Current Open Studios')).to be true
     end
 
     describe 'when there is a current open studios with participants' do
@@ -87,6 +88,7 @@ describe AdminArtistList, elasticsearch: false do
       let(:artists) do
         os_event
         artist_list = create_list(:artist, 2, :active, :with_art, :with_phone, doing_open_studios: true)
+        artist_list.sort_by!(&:lastname)
         info = artist_list[0].current_open_studios_participant
         info.show_email = true
         info.show_phone_number = true
@@ -100,15 +102,17 @@ describe AdminArtistList, elasticsearch: false do
         info.shop_url = 'http://shop.example.com'
         info.video_conference_schedule = os_event.special_event_time_slots.each_slice(2).map(&:first).index_with { |_ts| true }
         info.save
-
         artist_list
       end
+
       it 'includes os participant info for the artists' do
-        expect(parsed.first.to_h).to include({
-                                               'Show Email' => 'true',
-                                               'Video Conference Url' => 'http://video.example.com',
-                                             })
+        expected = {
+          'Show Email' => 'true',
+          'Video Conference Url' => 'http://video.example.com', "Participating in Open Studios #{os_event.for_display}" => 'true'
+        }
+        expect(parsed.first.to_h).to include(expected)
       end
+
       it 'includes os participant schedule columns' do
         # Because of the data setup, freeze_time was hard to get setup here.
         # instead, this test is hard to read but it grabs the schedule
