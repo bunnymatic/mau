@@ -20,21 +20,13 @@ class TimeSlotComputer
     slots = []
     while current < end_time
       current_end = current + duration.minutes
-      slots << format_slot(current, current_end)
+      slots << OpenStudiosParticipant.format_slot(current, current_end)
       current = current_end
     end
     slots
   end
 
   private
-
-  def format_slot(start, finish)
-    # this becomes a dictionary key in a serialized thing that
-    # goes in the db.  The `::` seems to be the way to get all the
-    # serialize/deserialize between here and the front end to work
-    # out nicely
-    "#{start.to_i}::#{finish.to_i}"
-  end
 
   def convert_to_24hr_time(clock_time)
     matches = CLOCK_TIME_REGEX.match(clock_time).to_a
