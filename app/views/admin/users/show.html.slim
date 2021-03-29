@@ -26,6 +26,9 @@
         tr.admin-user__profile-table__row
           td Nom de Plume
           td = @user.nomdeplume
+        tr.admin-user__profile-table__row
+          td Phone
+          td = @user.phone_for_display
         tr.admin-user__profile-table__row.is-section-end
           td Link To Artist
           td = link_to artist_url(@user), artist_url(@user)
