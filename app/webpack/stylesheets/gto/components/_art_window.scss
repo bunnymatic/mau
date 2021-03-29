@@ -22,6 +22,7 @@
 .art-window__image {
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 .art-window__info-container {
@@ -77,4 +78,14 @@
   .art-window__annotation-value {
     text-decoration: line-through;
   }
+}
+
+.art-window__sold {
+  @include sold-sign;
+  font-size: 1.4rem;
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  padding: 8px;
+  transform: translateX(-50%);
 }

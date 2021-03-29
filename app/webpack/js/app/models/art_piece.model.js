@@ -6,7 +6,6 @@ import { Medium } from "@models/medium.model";
 export class ArtPiece extends JsonApiModel {
   constructor(data, included) {
     super(data, included);
-
     if (this.medium) {
       this.medium = new Medium(this.medium);
     }

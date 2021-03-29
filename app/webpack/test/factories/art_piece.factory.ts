@@ -19,7 +19,7 @@ const jsonApiArtPieceAttributesFactory = Factory.define<types.ArtPieceAttributes
     large: "large.png",
     original: "original.png",
   })
-  .attr("sold_at", "a time stamp");
+  .attr("soldAt", "a time stamp");
 
 export const jsonApiArtPieceFactory = Factory.define<types.JsonApiArtPiece>(
   "jsonApiArtPiece"
