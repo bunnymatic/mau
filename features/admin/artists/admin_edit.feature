@@ -13,12 +13,12 @@ Background:
 
 Scenario: Updating artists basic info
   When I fill in the form with:
-  | Email                | Firstname      | Lastname      |
-  | testdude@example.com | new first name | new last name |
+  | Email                | Firstname      | Lastname      | Phone |
+  | testdude@example.com | new first name | new last name | 4155551212 |
   And I click on "Update Artist"
   And I see the admin artist show page with updated values:
-  | Email                | First Name     | Last Name     |
-  | testdude@example.com | new first name | new last name |
+  | Email                | First Name     | Last Name     | Phone |
+  | testdude@example.com | new first name | new last name | 415-555-1212 |
 
 Scenario: Updating artist links
   When I fill in the form with:

@@ -82,6 +82,7 @@ module Admin
         { video_conference_schedule: {} },
       ]
       params.require(:artist).permit(:firstname, :lastname,
+                                     :phone,
                                      :email, :nomdeplume,
                                      :studio_id,
                                      links: allowed_links,
