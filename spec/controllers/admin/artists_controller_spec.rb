@@ -49,8 +49,22 @@ describe Admin::ArtistsController do
         it { expect(response).to be_csv_type }
 
         it 'includes the right headers' do
-          expected_headers = ['Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name', 'Studio Address', 'Studio Number',
-                              'Email Address', 'Show Phone', 'Show Email', 'Shop Url', 'Youtube Url', 'Video Conference Url']
+          expected_headers = [
+            'Login',
+            'First Name',
+            'Last Name',
+            'Full Name',
+            'Group Site Name',
+            'Studio Address',
+            'Studio Number',
+            'Email Address',
+            'No Current Open Studios',
+            'Show Phone',
+            'Show Email',
+            'Shop Url',
+            'Youtube Url',
+            'Video Conference Url',
+          ]
           expect(parsed.headers).to eq(expected_headers)
         end
         it 'includes the right data' do
