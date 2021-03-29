@@ -38,7 +38,11 @@ export const ArtWindow: FC<ArtWindowProps> = ({ art }) => {
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
           })}
-        ></div>
+        >
+          {Boolean(art.hasSold()) && (
+            <span className="art-window__sold">Sold</span>
+          )}
+        </div>
       </div>
       <div className="art-window__info-container">
         <div className="art-window__info--left">

@@ -5,14 +5,11 @@
   text-decoration: line-through;
 }
 .art-card__sold {
-  text-transform: uppercase;
+  @include sold-sign;
   font-size: 0.8rem;
-  color: $gto_yellow;
   position: absolute;
   right: 15px;
   bottom: 70px;
-  background-color: rgba(255, 255, 255, 0.8);
-  @include round-corners();
   padding: 5px;
 }
 

@@ -10,6 +10,11 @@ exports[`ArtCard matches the snapshot with all the props 1`] = `
         class="image"
         style="background-image: url(original.png);"
       />
+      <span
+        class="art-card__sold"
+      >
+        Sold
+      </span>
       <div
         class="art-card__description"
       >
@@ -22,7 +27,7 @@ exports[`ArtCard matches the snapshot with all the props 1`] = `
           class="art-card__description-item"
         >
           <span
-            class="art-card__price"
+            class="art-card__price art-card__price--sold"
           >
             $123
           </span>
@@ -43,6 +48,11 @@ exports[`ArtCard matches the snapshot with minimal props 1`] = `
         class="image"
         style="background-image: url(original.png);"
       />
+      <span
+        class="art-card__sold"
+      >
+        Sold
+      </span>
       <div
         class="art-card__description"
       >

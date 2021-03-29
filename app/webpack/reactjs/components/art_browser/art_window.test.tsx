@@ -7,11 +7,23 @@ import { ArtWindow } from "./art_window";
 
 describe("ArtWindow", () => {
   let artPiece;
-  beforeEach(() => {
-    artPiece = new ArtPiece(artPieceFactory.build());
+  describe("if the art has sold", () => {
+    beforeEach(() => {
+      artPiece = new ArtPiece(artPieceFactory.build({ sold: undefined }));
+    });
+    it("matches the snapshot", () => {
+      const { container } = render(<ArtWindow art={artPiece} />);
+      expect(container).toMatchSnapshot();
+    });
   });
-  it("matches the snapshot", () => {
-    const { container } = render(<ArtWindow art={artPiece} />);
-    expect(container).toMatchSnapshot();
+
+  describe("if the art has not sold", () => {
+    beforeEach(() => {
+      artPiece = new ArtPiece(artPieceFactory.build({ sold: new Date() }));
+    });
+    it("matches the snapshot", () => {
+      const { container } = render(<ArtWindow art={artPiece} />);
+      expect(container).toMatchSnapshot();
+    });
   });
 });

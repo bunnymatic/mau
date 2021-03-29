@@ -546,3 +546,10 @@ $sampler-thumbnail-size: 250px;
     list-style: circle;
   }
 }
+
+@mixin sold-sign {
+  text-transform: uppercase;
+  color: $gto_yellow;
+  background-color: rgba(255, 255, 255, 0.8);
+  @include round-corners();
+}

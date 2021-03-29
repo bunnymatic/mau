@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ArtWindow matches the snapshot 1`] = `
+exports[`ArtWindow if the art has not sold matches the snapshot 1`] = `
 <div>
   <div
     class="art-window"
@@ -11,7 +11,13 @@ exports[`ArtWindow matches the snapshot 1`] = `
       <div
         class="art-window__image"
         style="background-image: url(original.png); background-size: contain; background-position: center center; background-repeat: no-repeat;"
-      />
+      >
+        <span
+          class="art-window__sold"
+        >
+          Sold
+        </span>
+      </div>
     </div>
     <div
       class="art-window__info-container"
@@ -34,7 +40,98 @@ exports[`ArtWindow matches the snapshot 1`] = `
           </span>
         </div>
         <div
-          class="art-window__annotation art-window__price"
+          class="art-window__annotation art-window__price art-window__price--sold"
+        >
+          <span
+            class="art-window__annotation-label"
+          >
+            Price:
+          </span>
+          <span
+            class="art-window__annotation-value"
+          >
+            $123
+          </span>
+        </div>
+      </div>
+      <div
+        class="art-window__info--right"
+      >
+        <div
+          class="art-window__annotation art-window__dimensions"
+        >
+          <span
+            class="art-window__annotation-label"
+          >
+            Dimensions:
+          </span>
+          <span
+            class="art-window__annotation-value"
+          >
+            10x 20
+          </span>
+        </div>
+        <div
+          class="art-window__annotation art-window__date"
+        >
+          <span
+            class="art-window__annotation-label"
+          >
+            Year:
+          </span>
+          <span
+            class="art-window__annotation-value"
+          >
+            2000
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ArtWindow if the art has sold matches the snapshot 1`] = `
+<div>
+  <div
+    class="art-window"
+  >
+    <div
+      class="art-window__image-container"
+    >
+      <div
+        class="art-window__image"
+        style="background-image: url(original.png); background-size: contain; background-position: center center; background-repeat: no-repeat;"
+      >
+        <span
+          class="art-window__sold"
+        >
+          Sold
+        </span>
+      </div>
+    </div>
+    <div
+      class="art-window__info-container"
+    >
+      <div
+        class="art-window__info--left"
+      >
+        <div
+          class="art-window__annotation art-window__title"
+        >
+          <span
+            class="art-window__annotation-label"
+          >
+            Title:
+          </span>
+          <span
+            class="art-window__annotation-value"
+          >
+            the title goes here
+          </span>
+        </div>
+        <div
+          class="art-window__annotation art-window__price art-window__price--sold"
         >
           <span
             class="art-window__annotation-label"
