@@ -1,0 +1,38 @@
+<p>
+  Hi, <%= @artist.get_name %>!
+</p>
+<p>
+  An art fan has sent you this note:
+</p>
+<p>
+  <blockquote>
+    <%= @message %>
+  </blockquote>
+</p>
+<p>
+  about your piece titled: <%= @art_piece.title %>.
+</p>
+<p>
+  <img style="object-fit: contain; width: 100%; max-width: 600px;" src="<%= @art_piece.photo(:large) %>"  title="<%= @art_piece.title %>" />
+</p>
+
+<p>
+  And they left you their contact info:
+  <ul>
+    <li>Name: <%= @name %></li>
+    <% if @phone.present? %>
+      <li>Phone: <%= @phone %></li>
+    <% end %>
+    <% if @email.present? %>
+      <li>Email: <%= @email %></li>
+    <% end %>
+  </ul>
+</p>
+<p>
+  Cheers,
+  <br/>
+  The Mission Artists Team
+</p>
+<p>
+  This email was sent through missionartists.org.  Don't reply.  Contact your fan directly.
+</p>

@@ -1,12 +1,12 @@
 import { renderInForm } from "@reactjs/test/renderers";
 import React from "react";
 
-import { MauTextField } from "./mau_text_field";
+import { MauTextAreaField } from "./mau_text_area_field";
 
-describe("MauTextField", () => {
+describe("MauTextAreaField", () => {
   it("matches the snapshot", () => {
     const { container } = renderInForm(
-      <MauTextField
+      <MauTextAreaField
         label="The Label"
         name="the_name"
         placeholder="e.g. like this"
@@ -18,24 +18,12 @@ describe("MauTextField", () => {
 
   it("matches the snapshot if id is provided", () => {
     const { container } = renderInForm(
-      <MauTextField
+      <MauTextAreaField
         id="different-than-name"
         label="The Label"
         name="the_name"
         placeholder="e.g. like this"
         hint={<span>here is a clue</span>}
-      />
-    );
-    expect(container).toMatchSnapshot();
-  });
-
-  it("matches the snapshot if type is provided", () => {
-    const { container } = renderInForm(
-      <MauTextField
-        type="email"
-        label="The Label"
-        name="the_name"
-        placeholder="e.g. email"
       />
     );
     expect(container).toMatchSnapshot();

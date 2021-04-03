@@ -1,0 +1,25 @@
+.contact-artist__container {
+  margin: auto;
+  width: 50%;
+
+  @media screen and (max-width: $screen-lg-max) {
+  }
+  @media screen and (max-width: $screen-md-max) {
+    margin: 20px auto;
+    width: 70%;
+  }
+  @media screen and (max-width: $screen-sm-max) {
+    width: 100%;
+  }
+  @media screen and (max-width: $screen-xs-max) {
+  }
+}
+.contact-artist__header {
+  margin-bottom: 12px;
+}
+.contact-artist__input {
+  margin-bottom: 16px;
+  label {
+    color: $gto_gray;
+  }
+}

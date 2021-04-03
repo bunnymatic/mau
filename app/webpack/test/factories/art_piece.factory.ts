@@ -1,4 +1,5 @@
 import { identity } from "@js/app/helpers";
+import { ArtPiece } from "@models/art_piece.model";
 import * as types from "@reactjs/types";
 import { Factory } from "rosie";
 
@@ -28,3 +29,13 @@ export const jsonApiArtPieceFactory = Factory.define<types.JsonApiArtPiece>(
   .attr("type", "art_piece")
   .attr("attributes", () => jsonApiArtPieceAttributesFactory.build())
   .attr("relationships", {});
+
+export const artPieceFactory = {
+  build: (attrs: Record<string, unknown>) => {
+    const ap = new ArtPiece(jsonApiArtPieceFactory.build());
+    Object.entries(attrs ?? {}).forEach((k, v) => {
+      ap[k] = v;
+    });
+    return ap;
+  },
+};

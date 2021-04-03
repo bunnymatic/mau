@@ -81,4 +81,30 @@ describe ArtistMailer, elasticsearch: :stub do
       expect(mail).to have_link_in_body Conf.open_studios_help_document_url, href: Conf.open_studios_help_document_url
     end
   end
+
+  describe '#contact_about_art' do
+    let(:art_piece) { create(:art_piece) }
+    let(:artist) { art_piece.artist }
+    let(:contact_info) { { name: 'bill', message: 'love it!', email: 'bill@example.com' } }
+    subject(:mail) { ArtistMailer.contact_about_art(artist, art_piece, contact_info) }
+    it 'includes an image of the art' do
+      expect(mail).to have_css("img[src=\"#{art_piece.photo(:large)}\"]")
+    end
+    it 'includes the contact name and email' do
+      expect(mail).to have_body_text 'Name: bill'
+      expect(mail).to have_body_text 'Email: bill@example.com'
+    end
+    it "includes the artist's name" do
+      expect(mail).to have_body_text artist.get_name
+    end
+    it 'includes the message' do
+      expect(mail).to have_body_text 'love it!'
+    end
+    describe 'if they include their phone number' do
+      let(:contact_info) { { name: 'bill', message: 'love it!', email: 'bill@example.com', phone: '4155551212' } }
+      it 'includes the contact phone' do
+        expect(mail).to have_body_text 'Phone: 4155551212'
+      end
+    end
+  end
 end

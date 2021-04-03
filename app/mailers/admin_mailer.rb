@@ -1,7 +1,7 @@
 class AdminMailer < MauMailer
   def spammer(inf)
     from        = 'info@missionartists.org'
-    reply_to    = 'noreply@missionartists.org'
+    reply_to    = NO_REPLY_FROM_ADDRESS
     subject     = "[MAU Spammer]#{environment_for_subject} possible spammer email on page #{inf['page']}"
 
     @data = inf
@@ -18,7 +18,7 @@ class AdminMailer < MauMailer
 
   def server_trouble(status)
     from        = 'info@missionartists.org'
-    reply_to    = 'noreply@missionartists.org'
+    reply_to    = NO_REPLY_FROM_ADDRESS
     subject     = "[MAU Admin]#{environment_for_subject} server trouble..."
 
     @status = status
