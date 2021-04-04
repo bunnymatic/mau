@@ -1,8 +1,10 @@
 import { isEmpty, noop } from "@js/app/helpers";
 import { useState } from "react";
 
-export const useCarouselState = <T>(items: T[], initial?): { current: T, next: () => void, previous: () => void } => {
-
+export const useCarouselState = <T>(
+  items: T[],
+  initial?
+): { current: T; next: () => void; previous: () => void } => {
   if (isEmpty(items)) {
     return {
       current: initial,
@@ -11,8 +13,9 @@ export const useCarouselState = <T>(items: T[], initial?): { current: T, next: (
     };
   }
 
-
-  const [current, setCurrent] = useState<T>(initial ?? (items.length ? items[0] : undefined))
+  const [current, setCurrent] = useState<T>(
+    initial ?? (items.length ? items[0] : undefined)
+  );
   const numItems = items.length;
 
   const next = () => {

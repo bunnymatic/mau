@@ -1,6 +1,6 @@
 import * as types from "@reactjs/types";
 import cx from "classnames";
-import React, { MouseEventHandler, FC } from "react";
+import React, { FC, MouseEventHandler } from "react";
 
 interface MauButtonProps {
   type?: "button" | "submit";
