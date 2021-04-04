@@ -99,7 +99,7 @@ describe("useCarouselState", () => {
     let result;
 
     beforeEach(() => {
-      const renderedHook = renderHook(() => useCarouselState());
+      const renderedHook = renderHook(() => useCarouselState(undefined));
       result = renderedHook.result;
     });
     it("should set current as specified by the initial", () => {

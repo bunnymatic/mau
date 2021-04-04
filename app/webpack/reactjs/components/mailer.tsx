@@ -9,7 +9,7 @@ type MailerProps = {
 };
 
 export const Mailer: FC<MailerProps> = ({ subject, name, domain, text }) => {
-  const setLocation: void = (_ev) => {
+  const setLocation = (_ev) => {
     window.location.assign(mailToLink(subject, name, domain));
   };
   return (
