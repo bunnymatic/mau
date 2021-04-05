@@ -78,7 +78,7 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
   );
 
   return (
-      <MauModal
+    <MauModal
       className="art-modal__content"
       isOpen={true}
       onRequestClose={handleClose}
