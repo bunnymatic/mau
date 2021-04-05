@@ -1,5 +1,5 @@
 .container-header {
-  @include light-bottom-border;
+  @include box-shadow(0 0 3px 3px rgba(100, 100, 100, 0.7));
   align-items: center;
   background-color: $white;
   display: flex;
@@ -37,17 +37,13 @@
 .container-header__title {
   text-align: center;
   flex: 1;
-  font-size: 2em;
-  padding-bottom: 2px;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  top: 2px;
+  position: relative;
   @include ellipsis;
-
-  @media screen and (max-width: $screen-sm-max) {
-    font-size: 1.6em;
-  }
-  @media screen and (max-width: $screen-xs-max) {
-    font-size: 1em;
-  }
 }
+
 .container-header__logo {
   background-image: url("../../images/yellow_sidebar_logo_gear_only.svg");
   @include background-cover;
