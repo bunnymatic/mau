@@ -8,6 +8,7 @@ class ArtistMailer < MauMailer
 
     mail(to: artist.email,
          from: NOTE_FROM_ADDRESS,
+         reply_to: NO_REPLY_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|
       fmt.html { render 'favorite_notification' }
     end
@@ -72,6 +73,22 @@ class ArtistMailer < MauMailer
          from: ACCOUNTS_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|
       fmt.html { render 'welcome_to_open_studios' }
+    end
+  end
+
+  def contact_about_art(artist, art_piece, contact_info)
+    setup_email(artist)
+    subject = 'Someone likes your art!'
+    @name = contact_info[:name]
+    @phone = contact_info[:phone]
+    @email = contact_info[:email]
+    @message = contact_info[:message]
+    @art_piece = art_piece
+    mail(to: artist.email,
+         from: NOTE_FROM_ADDRESS,
+         reply_to: NO_REPLY_FROM_ADDRESS,
+         subject: build_subject(subject)) do |fmt|
+      fmt.html { render 'contact_about_art' }
     end
   end
 

@@ -24,6 +24,11 @@ export const api = {
       },
     },
   },
+  artPieces: {
+    contact: (id: types.IdType, formData: types.ContactArtistFormData) => {
+      return post(`/api/v2/art_pieces/${id}/contact`, formData).then(camelize);
+    },
+  },
   applicationEvents: {
     index: ({ since }) =>
       get("/admin/application_events.json", { "query[since]": since }).then(

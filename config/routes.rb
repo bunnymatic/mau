@@ -22,7 +22,9 @@ Mau::Application.routes.draw do
     namespace :v2 do
       resources :studios, only: [:show]
       resources :artists, only: %i[index show] do
-        resources :art_pieces, only: %i[index show], shallow: true
+        resources :art_pieces, only: %i[index show], shallow: true do
+          resource :contact, only: [:create]
+        end
       end
       resources :media, only: %i[index show]
     end

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MauTextField matches the snapshot 1`] = `
+exports[`MauTextAreaField matches the snapshot 1`] = `
 <div>
   <div
     class="string input optional "
@@ -10,12 +10,10 @@ exports[`MauTextField matches the snapshot 1`] = `
     >
       The Label
     </label>
-    <input
+    <textarea
       id="the_name"
       name="the_name"
       placeholder="e.g. like this"
-      type="text"
-      value=""
     />
     <p
       class="inline-hints"
@@ -28,7 +26,7 @@ exports[`MauTextField matches the snapshot 1`] = `
 </div>
 `;
 
-exports[`MauTextField matches the snapshot if id is provided 1`] = `
+exports[`MauTextAreaField matches the snapshot if id is provided 1`] = `
 <div>
   <div
     class="string input optional "
@@ -38,12 +36,10 @@ exports[`MauTextField matches the snapshot if id is provided 1`] = `
     >
       The Label
     </label>
-    <input
+    <textarea
       id="different-than-name"
       name="the_name"
       placeholder="e.g. like this"
-      type="text"
-      value=""
     />
     <p
       class="inline-hints"
@@ -52,27 +48,6 @@ exports[`MauTextField matches the snapshot if id is provided 1`] = `
         here is a clue
       </span>
     </p>
-  </div>
-</div>
-`;
-
-exports[`MauTextField matches the snapshot if type is provided 1`] = `
-<div>
-  <div
-    class="string input optional "
-  >
-    <label
-      for="the_name"
-    >
-      The Label
-    </label>
-    <input
-      id="the_name"
-      name="the_name"
-      placeholder="e.g. email"
-      type="email"
-      value=""
-    />
   </div>
 </div>
 `;

@@ -3,31 +3,29 @@ import { MauHint } from "@reactjs/components/mau_hint";
 import { ErrorMessage, Field } from "formik";
 import React, { FC, JSX } from "react";
 
-interface MauTextFieldProps {
+interface MauTextAreaFieldProps {
   id?: string;
   name: string;
   label: string;
   placeholder: string;
   className?: string;
   hint?: string | JSX.Element;
-  type?: "text" | "email";
 }
 
-export const MauTextField: FC<MauTextFieldProps> = ({
+export const MauTextAreaField: FC<MauTextAreaFieldProps> = ({
   id,
   name,
   label,
   placeholder,
   className,
   hint,
-  type,
 }) => {
   const classes = className ?? "";
   return (
     <div className={`string input optional ${classes}`}>
       <label htmlFor={name}>{label}</label>
       <Field
-        type={type ?? "text"}
+        as="textarea"
         name={name}
         placeholder={placeholder}
         id={id || name}

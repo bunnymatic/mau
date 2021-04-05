@@ -2,6 +2,7 @@ import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY } from "@js/event_constants";
 import { ArtPiece } from "@models/art_piece.model";
 import { ArtWindow } from "@reactjs/components/art_browser/art_window";
 import { CloseButton } from "@reactjs/components/close_button";
+import { ContactArtistForm } from "@reactjs/components/contact_artist_form";
 import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
 import { ArtPiecesContext } from "@reactjs/contexts/art_pieces.context";
 import {
@@ -9,6 +10,7 @@ import {
   useEventListener,
   useModalState,
 } from "@reactjs/hooks";
+import HeartSpeechBubble from "images/heart_speech_bubble.svg";
 import React, { FC, useCallback, useContext } from "react";
 
 interface ArtModalWindowProps {
@@ -21,7 +23,13 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
 
   const { artPieces } = useContext(ArtPiecesContext);
   const { current, next, previous } = useCarouselState(artPieces, artPiece);
+  const {
+    isOpen: isFormVisible,
+    open: showForm,
+    close: hideForm,
+  } = useModalState(false);
 
+  const contactArtistTitle = `Contact the artist directy ${artPiece.title}`;
   const keyDownHandler = useCallback((e) => {
     if (e.key === ARROW_LEFT_KEY) {
       previous();
@@ -41,6 +49,34 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
     e.preventDefault();
     previous();
   };
+  const handleShowContactForm = (e: MouseEvent) => {
+    e.preventDefault();
+    showForm();
+  };
+
+  const prevButton = (
+    <a
+      href="#"
+      title="previous"
+      className="art-modal__previous"
+      onClick={handlePrevious}
+    >
+      <i className="fa fa-chevron-left" />
+    </a>
+  );
+
+  const nextButton = (
+    <a href="#" title="next" className="art-modal__next" onClick={handleNext}>
+      <i className="fa fa-chevron-right" />
+    </a>
+  );
+
+  const closeButton = (
+    <div className="art-modal__close">
+      <CloseButton handleClick={handleClose} />
+    </div>
+  );
+
   return (
     <MauModal
       className="art-modal__content"
@@ -49,28 +85,24 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
     >
       {current && (
         <>
-          <a
-            href="#"
-            title="previous"
-            className="art-modal__previous"
-            onClick={handlePrevious}
-          >
-            <i className="fa fa-chevron-left" />
-          </a>
+          {!isFormVisible && prevButton}
           <div className="art-modal__window-wrapper">
-            <ArtWindow art={current} />
+            {isFormVisible ? (
+              <ContactArtistForm artPiece={current} handleClose={hideForm} />
+            ) : (
+              <ArtWindow art={current} />
+            )}
+            <a
+              href="#"
+              onClick={handleShowContactForm}
+              title={contactArtistTitle}
+              className="art-window__contact-artist"
+            >
+              <img src={HeartSpeechBubble} title={contactArtistTitle} />
+            </a>
           </div>
-          <a
-            href="#"
-            title="next"
-            className="art-modal__next"
-            onClick={handleNext}
-          >
-            <i className="fa fa-chevron-right" />
-          </a>
-          <div className="art-modal__close">
-            <CloseButton handleClick={handleClose} />
-          </div>
+          {!isFormVisible && nextButton}
+          {!isFormVisible && closeButton}
         </>
       )}
     </MauModal>

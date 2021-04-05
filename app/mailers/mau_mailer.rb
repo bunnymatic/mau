@@ -2,6 +2,7 @@ class MauMailer < ApplicationMailer
   SUBJECT_PREFIX = '[Mission Artists]'.freeze
   NOTE_FROM_ADDRESS = 'Mission Artists <mau@missionartists.org>'.freeze
   ACCOUNTS_FROM_ADDRESS = 'Mission Artists Accounts <mau@missionartists.org>'.freeze
+  NO_REPLY_FROM_ADDRESS = 'Mission Artists <no-reply@missionartists.org>'.freeze
 
   include ActionMailer::Text
 

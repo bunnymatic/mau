@@ -121,7 +121,8 @@
       "@models/(.*)$": "<rootDir>/app/webpack/js/app/models/$1",
       "@services/(.*)$": "<rootDir>/app/webpack/js/services/$1",
       "@test/(.*)$": "<rootDir>/app/webpack/test/$1",
-      "@fixtures/(.*)$": "<rootDir>/spec/fixtures/$1"
+      "@fixtures/(.*)$": "<rootDir>/spec/fixtures/$1",
+      "\\.(svg)$": "<rootDir>/__mocks__/fileMock.js"
     }
   }
 }

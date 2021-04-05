@@ -1,4 +1,4 @@
-import { MauCheckboxField } from "@reactjs/components/mau_checkbox_field";
+import { MauCheckboxField } from "@reactjs/components/form_fields";
 import * as types from "@reactjs/types";
 import cx from "classnames";
 import { DateTime } from "luxon";

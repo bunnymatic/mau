@@ -1,8 +1,10 @@
 import Flash from "@js/app/jquery/flash";
 import { ConfirmModal } from "@reactjs/components/confirm_modal";
+import {
+  MauCheckboxField,
+  MauTextField,
+} from "@reactjs/components/form_fields";
 import { MauButton } from "@reactjs/components/mau_button";
-import { MauCheckboxField } from "@reactjs/components/mau_checkbox_field";
-import { MauTextField } from "@reactjs/components/mau_text_field";
 import { SpecialEventScheduleFields } from "@reactjs/components/open_studios/special_event_schedule_fields";
 import { submitRegistration } from "@reactjs/components/open_studios/submit_registration";
 import * as types from "@reactjs/types";
