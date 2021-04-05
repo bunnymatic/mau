@@ -51,4 +51,30 @@ describe OpenStudiosParticipantPresenter do
     its(:has_youtube?) { is_expected.to eq false }
     its(:has_scheduled_conference?) { is_expected.to eq false }
   end
+
+  describe '.broadcasting?' do
+    let(:participant) do
+      create(:open_studios_participant,
+             :with_conference_schedule)
+    end
+
+    it "is true if we're in a scheduled conference time" do
+      # get first time slot
+      time_slot = OpenStudiosParticipant.parse_time_slot(presenter.send(:time_slots).first)
+      travel_to(time_slot.first + 20.minutes)
+      expect(presenter.broadcasting?).to eq true
+    end
+    it "is false if it's before a scheduled conference time" do
+      # get first time slot
+      time_slot = OpenStudiosParticipant.parse_time_slot(presenter.send(:time_slots).first)
+      travel_to(time_slot.first - 20.minutes)
+      expect(presenter.broadcasting?).to eq false
+    end
+    it "is false if it's after a scheduled conference time" do
+      # get first time slot
+      time_slot = OpenStudiosParticipant.parse_time_slot(presenter.send(:time_slots).last)
+      travel_to(time_slot.last + 2.minutes)
+      expect(presenter.broadcasting?).to eq false
+    end
+  end
 end

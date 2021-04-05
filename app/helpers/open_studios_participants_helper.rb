@@ -1,7 +1,9 @@
 module OpenStudiosParticipantsHelper
   def display_time_slot(timeslot, compact: false)
-    method = compact ? :_compact_display_time_slot : :_long_form_display_time_slot
-    send(method, timeslot)
+    Time.use_zone(Conf.event_time_zone) do
+      method = compact ? :_compact_display_time_slot : :_long_form_display_time_slot
+      send(method, timeslot)
+    end
   end
 
   def split_email(email)
@@ -13,9 +15,9 @@ module OpenStudiosParticipantsHelper
     [
       start_time.to_s(:os_day),
       ' ',
-      start_time.in_time_zone(Conf.event_time_zone).strftime('%l').strip,
+      start_time.strftime('%l').strip,
       '-',
-      end_time.in_time_zone(Conf.event_time_zone).strftime('%l%P %Z').strip,
+      end_time.strftime('%l%P %Z').strip,
     ].join
   end
 

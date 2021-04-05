@@ -6,27 +6,30 @@
       = render '/common/artist_profile_image', artist: artist
       .open-studios-artist__profile-name.pure-u-sm-hidden = artist.get_name
     section.open-studios-artist__details
+      - if info.broadcasting?
+        .open-studios-artist__details__item.open-studios-artist__details__live-conference-url
+          .open-studios-artist__details__item--title
+            = link_to "Visit me now", info.shop_url, target: "_blank"
       - if info.has_shop?
-        .open-studios-artist__details__subsection.open-studios-artist__details__shop-url
-          .open-studios-artist__details__shop-url--title
-            = link_to "My Shop", info.shop_url
-      - if info.has_scheduled_conference?
-        .open-studios-artist__details__subsection.open-studios-artist__details__conference-url
-          .open-studios-artist__details__conference-url--title
-            | Schedule
-          .open-studios-artist__details__conference-url--timeslots
-            - info.conference_time_slots.each do |ts|
-              .timeslot = ts
-          .open-studios-artist__details__conference-url--footnote
-            | The conference link will be available here.  Please come back and visit.
-      - if info.has_youtube?
-        .open-studios-artist__details__subsection.open-studios-artist__details__youtube-url
-          = embed_you_tube(info.youtube_url)
+        .open-studios-artist__details__item.open-studios-artist__details__shop-url
+          .open-studios-artist__details__item--title
+            = link_to "My Shop", info.shop_url, target: "_blank"
       - if info.show_email? || info.show_phone?
-        .open-studios-artist__details__subsection
+        .open-studios-artist__details__item.open-studios-artist__details__contact
           - if info.show_email?
             .open-studios-artist__details__email
               = react_component id:"mailer", component:"Mailer", props: { subject: "I saw your work on Mission Artists Virtual Open Studios!", text: artist.email, **split_email(artist.email) }
           - if info.show_phone?
             .open-studios-artist__details__phone
-              = link_to artist.phone_for_display, "tel:#{artist.phone}"
+              = link_to artist.phone_for_display, "tel:#{artist.phone}", target: "_blank"
+      - if info.has_youtube?
+        .open-studios-artist__details__item.open-studios-artist__details__youtube
+          = embed_you_tube(info.youtube_url)
+      - if info.has_scheduled_conference?
+        .open-studios-artist__details__item.open-studios-artist__details__conference-url
+          .open-studios-artist__details__item--title
+            | My Live Schedule
+          .open-studios-artist__details__conference-url--timeslots
+            - info.conference_time_slots.each do |ts|
+              .timeslot = ts
+          .open-studios-artist__details__conference-url--footnote

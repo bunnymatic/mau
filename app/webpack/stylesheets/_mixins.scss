@@ -321,6 +321,10 @@ $default_rounded_amount: 3px;
   border-bottom: 1px solid $x-light-gray;
 }
 
+@mixin light-top-border {
+  border-top: 1px solid $x-light-gray;
+}
+
 @mixin light-gray-button {
   @include transition(all 0.33s ease-in-out);
   @include round-corners(2px);
