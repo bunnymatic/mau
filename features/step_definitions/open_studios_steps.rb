@@ -198,7 +198,7 @@ end
 
 Then('I see the artist\'s name in the header title') do
   within('.container-header') do
-    expect(page).to have_content @artist.get_name
+    expect(page).to have_content Regexp.new(@artist.get_name, Regexp::IGNORECASE)
   end
 end
 
