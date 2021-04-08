@@ -15,17 +15,10 @@
   display: flex;
   align-items: center;
   position: absolute;
+  z-index: 2;
   @media screen and (max-width: $screen-xs-max) {
-    position: relative;
   }
-  .pure-u-sm-hidden {
-    @media screen and (max-width: $screen-md-max) {
-      display: none;
-    }
-  }
-
   @media screen and (max-width: $screen-xs-max) {
-    position: relative;
   }
 }
 .container-header__mau-title {
@@ -42,6 +35,9 @@
   top: 2px;
   position: relative;
   @include ellipsis;
+  @media screen and (max-width: $screen-xs-max) {
+    padding-left: 40px;
+  }
 }
 
 .container-header__logo {
