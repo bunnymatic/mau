@@ -13,18 +13,18 @@ module OpenStudiosParticipantsHelper
   def _compact_display_time_slot(timeslot)
     start_time, end_time = OpenStudiosParticipant.parse_time_slot(timeslot)
     [
-      start_time.to_s(:os_day),
+      start_time.in_time_zone(Conf.event_time_zone).to_s(:os_day),
       ' ',
-      start_time.strftime('%l').strip,
+      start_time.in_time_zone(Conf.event_time_zone).strftime('%l').strip,
       '-',
-      end_time.strftime('%l%P %Z').strip,
+      end_time.in_time_zone(Conf.event_time_zone).strftime('%l%P %Z').strip,
     ].join
   end
 
   def _long_form_display_time_slot(timeslot)
     start_time, end_time = OpenStudiosParticipant.parse_time_slot(timeslot)
     [
-      start_time.to_s(:date_month_first),
+      start_time.in_time_zone(Conf.event_time_zone).to_s(:date_month_first),
       start_time.in_time_zone(Conf.event_time_zone).to_s(:time_only),
       ' -',
       end_time.in_time_zone(Conf.event_time_zone).to_s(:time_with_zone),
