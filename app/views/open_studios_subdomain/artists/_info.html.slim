@@ -9,7 +9,7 @@
       - if info.broadcasting?
         .open-studios-artist__details__item.open-studios-artist__details__live-conference-url
           .open-studios-artist__details__item--title
-            = link_to "Visit me now", info.shop_url, target: "_blank"
+            = link_to "Visit me now", info.video_conference_url, target: "_blank"
       - if info.has_shop?
         .open-studios-artist__details__item.open-studios-artist__details__shop-url
           .open-studios-artist__details__item--title
@@ -25,7 +25,7 @@
       - if info.has_youtube?
         .open-studios-artist__details__item.open-studios-artist__details__youtube
           = embed_you_tube(info.youtube_url)
-      - if info.has_scheduled_conference?
+      - if info.has_scheduled_conference? && !info.broadcasting?
         .open-studios-artist__details__item.open-studios-artist__details__conference-url
           .open-studios-artist__details__item--title
             | My Live Schedule

@@ -250,3 +250,34 @@ end
 Then('I don\'t see the art modal') do
   expect(page.all('.art-modal__content')).to be_empty
 end
+
+Then('the first artist is broadcasting live now') do
+  # update open studios event to be now with a timeslot that is now
+  @artist ||= Artist.active.all.detect { |a| a.current_open_studios_participant && a.representative_piece.present? }
+
+  os = OpenStudiosEvent.current
+  Time.use_zone(Conf.event_time_zone) do
+    os.start_date = Time.current.to_date
+    os.end_date = os.start_date + 1.day
+    os.special_event_start_date = os.start_date
+    os.special_event_end_date = os.end_date
+    os.special_event_start_time = '12:01AM'
+    os.special_event_end_time = '11:59PM'
+    os.save
+
+    participation = @artist.current_open_studios_participant
+    participation.video_conference_url = 'http://example.com/zoom-a-zoom'
+    participation.video_conference_schedule = os.special_event_time_slots.index_with { |_ts| true }
+    participation.save
+  end
+end
+
+Then('I see an open sign on the first artist\'s card') do
+  within('.open-studios__artist-card__open-now') do
+    expect(page).to have_content(/open/i)
+  end
+end
+
+Then('I see a {string} link which goes to their conference call') do |string|
+  expect(page).to have_link(string, href: @artist.current_open_studios_participant.video_conference_url)
+end

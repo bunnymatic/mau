@@ -2,7 +2,7 @@ class OpenStudiosParticipantPresenter
   include OpenStudiosParticipantsHelper
   attr_reader :participant
 
-  delegate :video_conference_time_slots, :youtube_url, :show_email?, :shop_url, to: :participant
+  delegate :video_conference_url, :video_conference_time_slots, :youtube_url, :show_email?, :shop_url, to: :participant
   def initialize(open_studios_participant)
     @participant = open_studios_participant
   end
