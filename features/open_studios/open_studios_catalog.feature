@@ -30,7 +30,9 @@ Scenario:
   Then I see the next art piece in the modal
 
   When I click on "previous" in ".art-modal__content"
+  And I wait 1 second
   And I press the "arrow_right" key
+  And I wait 1 second
   Then I see the next art piece in the modal
 
   When I click on "close" in ".art-modal__content"
