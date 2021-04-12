@@ -26,16 +26,20 @@
   font-size: 1.4rem;
 }
 
-.open-studios-artist__details__conference-url {
+.open-studios-artist__details__schedule {
   border-bottom: none;
+  display: flex;
+  flex-direction: column;
 }
 
-.open-studios-artist__details__conference-url--title {
+.open-studios-artist__details__schedule--title {
   margin-bottom: 8px;
 }
 
-.open-studios-artist__details__conference-url--timeslots {
+.open-studios-artist__details__schedule--timeslots {
   line-height: 1.2rem;
+  text-align: left;
+  margin: auto;
 }
 
 .open-studios-artist__details__item.open-studios-artist__details__youtube {
@@ -46,6 +50,10 @@
   line-height: 1.2rem;
   padding-top: 12px;
   @include light-top-border;
+}
+
+.open-studios-artist__details__email--link {
+  @include ellipsis;
 }
 
 .open-studios-artist__details__item--title {
@@ -64,10 +72,6 @@
     font-weight: $font-weight-bold;
     color: $gto_hot_pink;
   }
-}
-
-.open-studios-artist__details__conference-url--footnote {
-  font-size: 0.8rem;
 }
 
 .open-studios__artist-card__description {

@@ -203,8 +203,8 @@ end
 
 When('I see my video conference schedule') do
   expect(page).to have_content(/my live schedule/i)
-  expect(page.all('.open-studios-artist__details__conference-url--timeslots .timeslot'))
-    .to have(@artist.current_open_studios_participant.video_conference_time_slots.length).entries
+  expect(page.all('.open-studios-artist__details__schedule--timeslots .timeslot'))
+    .to have(merge_timeslots(@artist.current_open_studios_participant.video_conference_time_slots).length).entries
 end
 
 Then('I see details about the art on each art card') do
