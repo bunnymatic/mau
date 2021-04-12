@@ -30,11 +30,26 @@ Scenario:
   Then I see the next art piece in the modal
 
   When I click on "previous" in ".art-modal__content"
+  And I wait 1 second
   And I press the "arrow_right" key
+  And I wait 1 second
   Then I see the next art piece in the modal
 
   When I click on "close" in ".art-modal__content"
   Then I don't see the art modal
+
+Scenario: Visitors see the "visit me now" button when artists are broadcasting
+  Given the first artist is broadcasting live now
+
+  When I visit "/" in the catalog
+  Then I see pictures from all participating artists
+  And I see the open studios catalog cms message
+
+  Then I see an open sign on the first artist's card
+
+  When I click on the first artist's card
+  Then I see the artist's name in the header title
+  And I see a "Visit me now" link which goes to their conference call
 
 Scenario: An artist sees their own pages
   Given the following artists with art are in the system:

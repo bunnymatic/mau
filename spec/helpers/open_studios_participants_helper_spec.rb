@@ -8,7 +8,7 @@ describe OpenStudiosParticipantsHelper do
 
     Time.use_zone(Conf.event_time_zone) do
       test_scenarios = [
-        [Time.zone.local(2021, 1, 14, 16), '01/15/2021 4:00pm - 5:00pm PST'],
+        [Time.zone.local(2021, 1, 14, 16), '01/14/2021 4:00pm - 5:00pm PST'],
         [Time.zone.local(2021, 5, 6, 1), '05/06/2021 1:00am - 2:00am PDT'],
         [Time.zone.local(2021, 10, 12, 14), '10/12/2021 2:00pm - 3:00pm PDT'],
       ]
@@ -21,7 +21,7 @@ describe OpenStudiosParticipantsHelper do
 
     Time.use_zone(Conf.event_time_zone) do
       test_scenarios = [
-        [Time.zone.local(2021, 1, 14, 16), 'Jan 15 4-5pm PST'],
+        [Time.zone.local(2021, 1, 14, 16), 'Jan 14 4-5pm PST'],
         [Time.zone.local(2021, 5, 6, 1), 'May 6 1-2am PDT'],
         [Time.zone.local(2021, 10, 12, 14), 'Oct 12 2-3pm PDT'],
       ]

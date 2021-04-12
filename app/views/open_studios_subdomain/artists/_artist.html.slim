@@ -8,5 +8,7 @@
       .image style=background_image_style(artist.representative_piece.path)
   .desc
     .name
-      span.byline> by
       = artist.full_name
+  - if artist.open_studios_info.broadcasting?
+    .open-studios__artist-card__open-now
+      | Open

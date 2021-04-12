@@ -9,7 +9,7 @@
   font-size: 0.8rem;
   position: absolute;
   right: 15px;
-  bottom: 70px;
+  bottom: 60px;
   padding: 5px;
 }
 
@@ -18,7 +18,6 @@
   @include light-border;
   position: relative;
   padding: 10px;
-  height: 49px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,7 +25,6 @@
 
 .art-card__description-item {
   @include ellipsis;
-  line-height: 1.7rem;
   flex: 1;
   &:first-child {
     text-align: left;

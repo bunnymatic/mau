@@ -8,20 +8,26 @@
 .open-studios-artist__info {
   text-align: center;
 }
+.open-studios-artist__details {
+  font-size: 16px;
+  line-height: 1.8rem;
+  margin-top: 4px;
+}
+.open-studios-artist__details__item {
+  margin-bottom: 10px;
+}
+
 .open-studios-artist__profile-image {
   padding-top: 10px;
+  margin-bottom: 0px;
 }
 .open-studios-artist__profile-name {
   margin: 15px;
   font-size: 1.4rem;
 }
 
-.open-studios-artist__details__subsection {
-  padding: 24px 0px;
-  @include light-bottom-border;
-  &:last-child {
-    border: none;
-  }
+.open-studios-artist__details__conference-url {
+  border-bottom: none;
 }
 
 .open-studios-artist__details__conference-url--title {
@@ -29,21 +35,59 @@
 }
 
 .open-studios-artist__details__conference-url--timeslots {
-  margin-bottom: 8px;
-  > .timeslot {
-    margin-bottom: 4px;
-  }
+  line-height: 1.2rem;
 }
-.open-studios-artist__details__youtube-url--link {
-  @include ellipsis;
+
+.open-studios-artist__details__item.open-studios-artist__details__youtube {
+  margin-top: 18px;
 }
-.open-studios-artist__details__youtube-url--title {
-  margin-bottom: 8px;
+
+.open-studios-artist__details__contact {
+  line-height: 1.2rem;
+  padding-top: 12px;
+  @include light-top-border;
 }
-.open-studios-artist__details__shop-url--title {
+
+.open-studios-artist__details__item--title {
   text-transform: uppercase;
   font-weight: $font-weight-bold;
 }
+.open-studios-artist__details__live-conference-url {
+  margin-top: 18px;
+  a {
+    text-transform: uppercase;
+    @include round-corners();
+    border: 2px solid $gto_hot_pink;
+    background: #ffffff99;
+    padding: 6px 8px 4px 8px;
+    @include box-shadow(0 0 4px 2px rgba(255, 255, 255, 0.6));
+    font-weight: $font-weight-bold;
+    color: $gto_hot_pink;
+  }
+}
+
 .open-studios-artist__details__conference-url--footnote {
   font-size: 0.8rem;
+}
+
+.open-studios__artist-card__description {
+  @include light-border;
+  margin-top: 6px;
+  padding: 10px;
+  .name {
+    font-size: 16px;
+  }
+}
+.open-studios__artist-card__open-now {
+  position: absolute;
+  bottom: 65px;
+  right: 18px;
+  color: $gto_hot_pink;
+  text-transform: uppercase;
+  @include round-corners();
+  border: 2px solid $gto_hot_pink;
+  background: #ffffff99;
+  padding: 6px 4px 4px 4px;
+  @include box-shadow(0 0 4px 2px rgba(255, 255, 255, 0.6));
+  font-weight: $font-weight-bold;
 }

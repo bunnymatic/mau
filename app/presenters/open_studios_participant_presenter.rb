@@ -2,9 +2,18 @@ class OpenStudiosParticipantPresenter
   include OpenStudiosParticipantsHelper
   attr_reader :participant
 
-  delegate :video_conference_time_slots, :youtube_url, :show_email?, :shop_url, to: :participant
+  delegate :video_conference_url, :video_conference_time_slots, :youtube_url, :show_email?, :shop_url, to: :participant
   def initialize(open_studios_participant)
     @participant = open_studios_participant
+  end
+
+  def broadcasting?
+    Time.use_zone(Conf.event_time_zone) do
+      now = Time.zone.now
+      time_slots.map { |s| OpenStudiosParticipant.parse_time_slot(s) }.any? do |start_time, end_time|
+        now.between?(start_time, end_time)
+      end
+    end
   end
 
   def show_phone?
@@ -12,7 +21,7 @@ class OpenStudiosParticipantPresenter
   end
 
   def conference_time_slots
-    video_conference_time_slots.map { |s| display_time_slot(s, compact: true) }
+    time_slots.map { |s| display_time_slot(s, compact: true) }
   end
 
   def has_shop? # rubocop:disable Naming/PredicateName
@@ -28,6 +37,10 @@ class OpenStudiosParticipantPresenter
   end
 
   private
+
+  def time_slots
+    @time_slots ||= video_conference_time_slots
+  end
 
   def artist
     @artist ||= participant.user
