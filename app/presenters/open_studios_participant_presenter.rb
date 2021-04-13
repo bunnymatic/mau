@@ -17,11 +17,11 @@ class OpenStudiosParticipantPresenter
   end
 
   def show_phone?
-    participant.show_phone_number? && artist.phone.present?
+    @show_phone ||= participant.show_phone_number? && artist.phone.present?
   end
 
   def conference_time_slots
-    time_slots.map { |s| display_time_slot(s, compact: true) }
+    @conference_time_slots ||= display_time_slots(time_slots, compact: true)
   end
 
   def has_shop? # rubocop:disable Naming/PredicateName
