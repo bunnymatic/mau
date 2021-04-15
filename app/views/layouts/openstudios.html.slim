@@ -27,5 +27,5 @@ html
         = render '/flash_notice_error'
         = yield
 
-  = render '/common/ganalytics'
+  = render partial: '/common/ganalytics', locals: { key: Conf.subdomain_ga_key }
   = render '/common/footer_javascripts'
