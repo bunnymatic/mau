@@ -92,6 +92,6 @@
   border: 2px solid $gto_hot_pink;
   background: #ffffff99;
   padding: 6px 4px 4px 4px;
-  @include box-shadow(0 0 4px 2px rgba(255, 255, 255, 0.6));
+  @include box-shadow(0 0 4px 2px rgba(255, 255, 255, 0.9));
   font-weight: $font-weight-bold;
 }
