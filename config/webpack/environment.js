@@ -4,7 +4,26 @@ const buildOptimizations = require("./custom/buildOptimizations");
 
 const htmlLoader = {
   test: /\.html$/,
-  use: "html-loader",
+  use: [
+    {
+      loader: "html-loader",
+      options: {
+        minimize: {
+          caseSensitive: true,
+          collapseWhitespace: true,
+          conservativeCollapse: true,
+          keepClosingSlash: true,
+          minifyCSS: false,
+          minifyJS: true,
+          removeComments: true,
+          removeRedundantAttributes: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          removeAttributeQuotes: true,
+        },
+      },
+    },
+  ],
 };
 
 // Insert json loader at the end of list
