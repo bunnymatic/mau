@@ -16,7 +16,7 @@ class AdminArtistList < ViewPresenter
   def csv_headers
     headers = [
       'Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name',
-      'Studio Address', 'Studio Number', 'Email Address'
+      'Studio Address', 'Studio Number', 'Email Address', 'Phone'
     ]
     if OpenStudiosEvent.current
       headers << "Participating in Open Studios #{OpenStudiosEvent.current.for_display}" if OpenStudiosEvent.current
@@ -79,6 +79,7 @@ class AdminArtistList < ViewPresenter
       artist.address&.street || '',
       artist.studionumber,
       artist.email,
+      artist.phone,
       artist.doing_open_studios?,
     ] + open_studios_participant_as_csv_row(artist.current_open_studios_participant)
   end
