@@ -12,6 +12,13 @@ FactoryBot.define do
     trait :past do
       start_date { Time.zone.now - 6.months }
     end
+    trait :with_current_special_event do
+      end_date { start_date + 1.week }
+      special_event_start_date { start_date }
+      special_event_start_time { '12:01 am' }
+      special_event_end_date { special_event_start_date + 1.day }
+      special_event_end_time { '11:59 pm' }
+    end
     trait :with_special_event do
       end_date { start_date + 1.week }
       special_event_start_date { start_date + 1.day }

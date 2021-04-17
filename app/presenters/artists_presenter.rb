@@ -3,9 +3,10 @@
 class ArtistsPresenter < ViewPresenter
   attr_reader :os_only
 
-  def initialize(os_only = nil)
+  def initialize(os_only: false, sort_by_name: true)
     super()
     @os_only = !!os_only
+    @sort_by_name = sort_by_name
   end
 
   def artists
@@ -15,11 +16,12 @@ class ArtistsPresenter < ViewPresenter
     artists_list =
       begin
         if os_only
-          OpenStudiosEvent.current.artists.includes(:open_studios_participants)&.active
+          OpenStudiosEvent.current.artists.active.includes(:open_studios_participants, :art_pieces)
         else
           Artist.active.includes(:studio, :artist_info, :art_pieces, :open_studios_events)
         end
       end
-    @artists = (artists_list).sort_by(&:sortable_name).map { |artist| ArtistPresenter.new(artist) }
+    artists_list = artists_list.sort_by(&:sortable_name) if @sort_by_name
+    @artists = artists_list.map { |artist| ArtistPresenter.new(artist) }
   end
 end

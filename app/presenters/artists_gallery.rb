@@ -8,7 +8,7 @@ class ArtistsGallery < ArtistsPresenter
   delegate :items, :more?, :current_page, :next_page, to: :pagination
 
   def initialize(os_only: false, letter: nil, ordering: nil, current_page: 0, per_page: Conf.pagination['artists']['per_page'])
-    super os_only
+    super os_only: os_only
     @letter = letter.try(:downcase)
     @ordering = %i[lastname firstname].include?(ordering.try(:to_sym)) ? ordering.to_sym : :lastname
     @per_page = per_page

@@ -1,9 +1,2 @@
-/ expects gallery as ArtistsGallery && filter as true/false
-.js-pagination-state( style="display:none;" data-current-page=gallery.current_page data-next-page=gallery.next_page data-has-more=(gallery.more? ? "t" : nil) data-current-letter=gallery.letter data-sort-order=gallery.ordering data-os-only="#{gallery.os_only}" )
-
-= render partial: "/open_studios_subdomain/artists/artist", collection: gallery.pagination.items
-- if gallery.more?
-  #js-scroll-load-more.scroll-load-more
-    .scroll-load-more__contents
-      = mau_spinner
-      .hint scroll down for more
+/ expects gallery as OpenStudiosCatalogArtists
+= render partial: "/open_studios_subdomain/artists/artist", collection: gallery.artists

@@ -130,8 +130,10 @@ class User < ApplicationRecord
   end
 
   def sortable_name
-    key = [lastname, firstname, login].join.downcase
-    key.gsub(/\W/, ' ').strip
+    @sortable_name ||= begin
+      key = [lastname, firstname, login].join.downcase
+      key.gsub(/\W/, ' ').strip
+    end
   end
 
   def validate_email
