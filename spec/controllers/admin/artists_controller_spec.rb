@@ -58,6 +58,7 @@ describe Admin::ArtistsController do
             'Studio Address',
             'Studio Number',
             'Email Address',
+            'Phone',
             'No Current Open Studios',
             'Show Phone',
             'Show Email',

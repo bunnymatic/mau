@@ -79,6 +79,7 @@ describe AdminArtistList, elasticsearch: false do
 
     it 'has some data in the csv' do
       expect(parsed.first['Full Name']).to eql list.send(:artists).first.full_name
+      expect(parsed.first.key?('Phone')).to be true
       expect(parsed.first.key?('Shop Url')).to be true
       expect(parsed.first.key?('No Current Open Studios')).to be true
     end
@@ -89,6 +90,7 @@ describe AdminArtistList, elasticsearch: false do
         os_event
         artist_list = create_list(:artist, 2, :active, :with_art, :with_phone, doing_open_studios: true)
         artist_list.sort_by!(&:lastname)
+        artist_list[0].update!(phone: '2345678901')
         info = artist_list[0].current_open_studios_participant
         info.show_email = true
         info.show_phone_number = true
@@ -103,6 +105,13 @@ describe AdminArtistList, elasticsearch: false do
         info.video_conference_schedule = os_event.special_event_time_slots.each_slice(2).map(&:first).index_with { |_ts| true }
         info.save
         artist_list
+      end
+
+      it 'includes the phone number' do
+        expected = {
+          'Phone' => '2345678901',
+        }
+        expect(parsed.first.to_h).to include(expected)
       end
 
       it 'includes os participant info for the artists' do
