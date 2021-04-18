@@ -103,7 +103,7 @@ export const ContactArtistForm: FC<ContactArtistFormProps> = ({
                     <MauTextField
                       label={"Your Phone"}
                       name="phone"
-                      hint="This is optional but either email or phone must be provided."
+                      hint="The message below is optional but either email or phone is required."
                     />
                   </div>
                 </div>
