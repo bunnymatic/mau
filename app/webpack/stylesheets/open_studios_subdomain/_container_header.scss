@@ -11,6 +11,12 @@
   right: 0;
   z-index: 50;
 }
+
+.container-header__paginator {
+  right: 15px;
+}
+
+.container-header__paginator,
 .container-header__brand {
   display: flex;
   align-items: center;
@@ -35,9 +41,6 @@
   top: 2px;
   position: relative;
   @include ellipsis;
-  @media screen and (max-width: $screen-xs-max) {
-    padding-left: 40px;
-  }
 }
 
 .container-header__logo {

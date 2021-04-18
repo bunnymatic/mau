@@ -1,5 +1,7 @@
 - content_for :open_studios_catalog_title do
   = @artist.get_name
+- content_for :open_studios_catalog_header_nav do
+  = render partial: "/open_studios_subdomain/artists/catalog_paginator", locals: { paginator: @paginator }
 
 .pure-g.alpha.omega
   .pure-u-1-1.pure-u-sm-1-2.pure-u-md-1-3.pure-u-lg-1-5

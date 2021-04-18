@@ -281,3 +281,18 @@ end
 Then('I see a {string} link which goes to their conference call') do |string|
   expect(page).to have_link(string, href: @artist.current_open_studios_participant.video_conference_url)
 end
+
+When('I click the next button in the paginator') do
+  artists = OpenStudiosCatalogArtists.new.artists
+  next_index = artists.find_index(@artist) + 1
+  @next_artist = artists[next_index % artists.length]
+  within('.catalog-paginator__container') do
+    find('.catalog-paginator__link--next').click
+  end
+end
+
+Then('I see the next artist in the catalog') do
+  within('.container-header') do
+    expect(page).to have_content(@next_artist.get_name.upcase)
+  end
+end

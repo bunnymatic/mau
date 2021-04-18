@@ -32,6 +32,9 @@ Scenario:
   When I click on "close" in ".art-modal__content"
   Then I don't see the art modal
 
+  When I click the next button in the paginator
+  Then I see the next artist in the catalog
+
 Scenario: Visitors see the "visit me now" button when artists are broadcasting
   Given the first artist is broadcasting live now
 
