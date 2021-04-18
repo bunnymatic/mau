@@ -52,7 +52,6 @@ describe("ContactArtistForm", () => {
     };
 
     describe("when the note save is successful", () => {
-
       beforeEach(() => {
         mockApiContact.mockResolvedValue({});
         renderComponent();
@@ -101,7 +100,9 @@ describe("ContactArtistForm", () => {
         });
         await waitFor(() => {
           expect(
-            screen.queryByText("We sent a note to the artist!", { exact: false })
+            screen.queryByText("We sent a note to the artist!", {
+              exact: false,
+            })
           ).toBeInTheDocument();
         });
       });
@@ -121,11 +122,12 @@ describe("ContactArtistForm", () => {
     });
 
     describe("when the note save fails because of server validation errors", () => {
-
       beforeEach(() => {
         mockApiContact.mockRejectedValue({
-          responseJSON: {"errors":{"email":["should look like an email address."]}}
-        })
+          responseJSON: {
+            errors: { email: ["should look like an email address."] },
+          },
+        });
         renderComponent();
         act(() => {
           fillIn(findField("Your Name"), "Jon");
@@ -141,7 +143,7 @@ describe("ContactArtistForm", () => {
         await waitFor(() => {
           expect(
             screen.queryByText("Whoops. There was a problem.")
-          ).toBeInTheDocument()
+          ).toBeInTheDocument();
         });
       });
 
@@ -149,7 +151,7 @@ describe("ContactArtistForm", () => {
         await waitFor(() => {
           expect(
             screen.queryByText("should look like an email address.")
-          ).toBeInTheDocument()
+          ).toBeInTheDocument();
         });
       });
 
@@ -158,13 +160,12 @@ describe("ContactArtistForm", () => {
           expect(mockHandleClose).not.toHaveBeenCalled();
         });
       });
-
     });
 
     describe("when the note save fails because of something bad", () => {
       beforeEach(() => {
-        jest.spyOn(console, 'error')
-        mockApiContact.mockRejectedValue({})
+        jest.spyOn(console, "error");
+        mockApiContact.mockRejectedValue({});
         renderComponent();
         act(() => {
           fillIn(findField("Your Name"), "Jon");
@@ -179,8 +180,10 @@ describe("ContactArtistForm", () => {
       it("clicking save flashes an error", async () => {
         await waitFor(() => {
           expect(
-            screen.queryByText("Ack. Something is seriously wrong.", {exact: false})
-          ).toBeInTheDocument()
+            screen.queryByText("Ack. Something is seriously wrong.", {
+              exact: false,
+            })
+          ).toBeInTheDocument();
         });
       });
 
@@ -189,7 +192,6 @@ describe("ContactArtistForm", () => {
           expect(mockHandleClose).not.toHaveBeenCalled();
         });
       });
-
     });
-  })
+  });
 });
