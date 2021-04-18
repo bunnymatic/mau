@@ -51,69 +51,146 @@ describe("ContactArtistForm", () => {
       fillIn(findField("Message"), "rockin");
     };
 
-    beforeEach(() => {
-      mockApiContact.mockResolvedValue({});
-      renderComponent();
-    });
+    describe("when the note save is successful", () => {
+      beforeEach(() => {
+        mockApiContact.mockResolvedValue({});
+        renderComponent();
+      });
 
-    it("and clicking save calls the validation", async () => {
-      act(() => {
-        fillIn(findField("Your Name"), "Jon");
+      it("and clicking save calls the validation", async () => {
+        act(() => {
+          fillIn(findField("Your Name"), "Jon");
+        });
+        await waitFor(() => {});
+        act(() => {
+          fireEvent.click(findButton("Send!"));
+        });
+        await waitFor(() => {
+          expect(
+            screen.queryAllByText("Email or Phone is required")
+          ).toHaveLength(2);
+        });
       });
-      await waitFor(() => {});
-      act(() => {
-        fireEvent.click(findButton("Send!"));
-      });
-      await waitFor(() => {
-        expect(
-          screen.queryAllByText("Email or Phone is required")
-        ).toHaveLength(2);
-      });
-    });
 
-    it("and clicking save calls the api", async () => {
-      act(() => {
-        fillInForm();
+      it("and clicking save calls the api", async () => {
+        act(() => {
+          fillInForm();
+        });
+        await waitFor(() => {});
+        act(() => {
+          fireEvent.click(findButton("Send!"));
+        });
+        await waitFor(() => {
+          expect(mockApiContact).toHaveBeenCalledWith(artPiece.id, {
+            name: "Jon",
+            email: "Jon@example.com",
+            message: "rockin",
+            phone: "",
+          });
+        });
       });
-      await waitFor(() => {});
-      act(() => {
-        fireEvent.click(findButton("Send!"));
+
+      it("and clicking save flashes a success message", async () => {
+        act(() => {
+          fillInForm();
+        });
+        await waitFor(() => {});
+        act(() => {
+          fireEvent.click(findButton("Send!"));
+        });
+        await waitFor(() => {
+          expect(
+            screen.queryByText("We sent a note to the artist!", {
+              exact: false,
+            })
+          ).toBeInTheDocument();
+        });
       });
-      await waitFor(() => {
-        expect(mockApiContact).toHaveBeenCalledWith(artPiece.id, {
-          name: "Jon",
-          email: "Jon@example.com",
-          message: "rockin",
-          phone: "",
+
+      it("and clicking save calls calls close", async () => {
+        act(() => {
+          fillInForm();
+        });
+        await waitFor(() => {});
+        act(() => {
+          fireEvent.click(findButton("Send!"));
+        });
+        await waitFor(() => {
+          expect(mockHandleClose).toHaveBeenCalled();
         });
       });
     });
 
-    it("and clicking save flashes a success message", async () => {
-      act(() => {
-        fillInForm();
+    describe("when the note save fails because of server validation errors", () => {
+      beforeEach(() => {
+        mockApiContact.mockRejectedValue({
+          responseJSON: {
+            errors: { email: ["should look like an email address."] },
+          },
+        });
+        renderComponent();
+        act(() => {
+          fillIn(findField("Your Name"), "Jon");
+          fillIn(findField("Email"), "jon@example");
+          fillIn(findField("Message"), "whatever");
+        });
+        act(() => {
+          fireEvent.click(findButton("Send!"));
+        });
       });
-      await waitFor(() => {});
-      act(() => {
-        fireEvent.click(findButton("Send!"));
+
+      it("clicking save flashes an error", async () => {
+        await waitFor(() => {
+          expect(
+            screen.queryByText("Whoops. There was a problem.")
+          ).toBeInTheDocument();
+        });
       });
-      await waitFor(() => {
-        expect(
-          screen.queryByText("We sent a note to the artist!", { exact: false })
-        ).toBeInTheDocument();
+
+      it("clicking save puts errors on the fields in error", async () => {
+        await waitFor(() => {
+          expect(
+            screen.queryByText("should look like an email address.")
+          ).toBeInTheDocument();
+        });
+      });
+
+      it("does not close the dialog", async () => {
+        await waitFor(() => {
+          expect(mockHandleClose).not.toHaveBeenCalled();
+        });
       });
     });
 
-    it("and clicking save calls calls close", async () => {
-      act(() => {
-        fillInForm();
+    describe("when the note save fails because of something bad", () => {
+      beforeEach(() => {
+        jest.spyOn(console, "error");
+        mockApiContact.mockRejectedValue({});
+        renderComponent();
+        act(() => {
+          fillIn(findField("Your Name"), "Jon");
+          fillIn(findField("Email"), "jon@example");
+          fillIn(findField("Message"), "whatever");
+        });
+        act(() => {
+          fireEvent.click(findButton("Send!"));
+        });
       });
-      await waitFor(() => {});
-      act(() => {
-        fireEvent.click(findButton("Send!"));
+
+      it("clicking save flashes an error", async () => {
+        await waitFor(() => {
+          expect(
+            screen.queryByText("Ack. Something is seriously wrong.", {
+              exact: false,
+            })
+          ).toBeInTheDocument();
+        });
       });
-      await waitFor(() => {
-        expect(mockHandleClose).toHaveBeenCalled();
+
+      it("does not close the dialog", async () => {
+        await waitFor(() => {
+          expect(mockHandleClose).not.toHaveBeenCalled();
+        });
       });
     });
   });
