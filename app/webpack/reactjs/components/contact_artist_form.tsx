@@ -72,7 +72,9 @@ export const ContactArtistForm: FC<ContactArtistFormProps> = ({
 
   return (
     <div className="contact-artist__container">
-      <h3 className="contact-artist__header">Send the artist a note!</h3>
+      <h3 className="contact-artist__header">
+        Send the artist a note about this piece!
+      </h3>
       <Formik
         initialValues={DEFAULT_FORM_VALUES}
         onSubmit={handleSubmit}
