@@ -81,7 +81,7 @@ class ArtistsController < ApplicationController
     # collect query args to build links
     @os_only = os_only?(params[:o])
 
-    @roster = ArtistsRoster.new(@os_only)
+    @roster = ArtistsRoster.new(os_only: @os_only)
 
     @page_title = PageInfoService.title('Artists')
 

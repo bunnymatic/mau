@@ -27,6 +27,7 @@ class ArtistPresenter < UserPresenter
            :pending?,
            :phone,
            :slug,
+           :sortable_name,
            :studio,
            :studio_id,
            :studionumber,
@@ -34,6 +35,7 @@ class ArtistPresenter < UserPresenter
            :updated_at,
            to: :artist, allow_nil: true
   delegate(*ALLOWED_LINKS, to: :artist, allow_nil: true)
+  delegate :broadcasting?, to: :open_studios_info, allow_nil: true
 
   def artist
     model

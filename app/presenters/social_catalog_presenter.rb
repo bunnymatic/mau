@@ -6,7 +6,7 @@ class SocialCatalogPresenter < ArtistsPresenter
   SOCIAL_KEYS = User.stored_attributes[:links].freeze
 
   def initialize
-    super(true)
+    super(os_only: true)
   end
 
   def artists
