@@ -60,13 +60,18 @@ export const ContactArtistForm: FC<ContactArtistFormProps> = ({
         new Flash().show({ notice: "Thanks.  We sent a note to the artist!" });
         done();
       })
-      .catch((err) => {
-        if (err) {
-          const { errors } = camelizeKeys(err.responseJSON);
-          actions.setErrors(errors);
-        }
-        new Flash().show({ error: "Whoops. There was a problem." });
-        done();
+       .catch((err) => {
+         let error;
+         actions.setSubmitting(false);
+         try {
+           const { errors } = camelizeKeys(err.responseJSON);
+           actions.setErrors(errors);
+           error = "Whoops. There was a problem."
+         } catch (e) {
+           console.error(e)
+           error = "Ack. Something is seriously wrong. Please try again later."
+         }
+         new Flash().show({ error });
       });
   };
 
