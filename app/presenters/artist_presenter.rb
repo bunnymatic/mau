@@ -33,6 +33,7 @@ class ArtistPresenter < UserPresenter
            :studionumber,
            :suspended?,
            :updated_at,
+           :to_model,
            to: :artist, allow_nil: true
   delegate(*ALLOWED_LINKS, to: :artist, allow_nil: true)
   delegate :broadcasting?, to: :open_studios_info, allow_nil: true

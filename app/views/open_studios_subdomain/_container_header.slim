@@ -1,7 +1,9 @@
 .container-header
   a.container-header__brand href=root_path title="Mission Artists"
-    .container-header__logo title="Mission Artists" class="#{Date.today.month == 6 ? 'container-header__logo--' : ''}"
+    .container-header__logo title="Mission Artists" class="#{Date.today.month == 6 ? 'container-header__logo--pride' : ''}"
     h2.container-header__mau-title.pure-u-sm-hidden Mission Artists
 
   h1.container-header__title
     = content_for(:open_studios_catalog_title) || "Catalog"
+  .container-header__paginator
+    = content_for(:open_studios_catalog_header_nav)

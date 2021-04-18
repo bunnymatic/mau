@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 describe OpenStudiosSubdomain::MainController do
-  before do
-    create(:open_studios_event)
-  end
-  describe '#get' do
+  let!(:os) { create(:open_studios_event) }
+  describe 'get#index' do
     it 'loads the gallery and presenter for the index page' do
       get :index
       expect(assigns(:gallery)).to be_a_kind_of(OpenStudiosCatalogArtists)
