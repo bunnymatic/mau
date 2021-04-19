@@ -1,18 +1,24 @@
-<% key ||= Conf.ga_key %>
+<% ga_key ||= Conf.ga_key %>
+<% gtm_key ||= Conf.gtm_key %>
 <% if Rails.env == "production" %>
-  <!-- google analytics -->
-  <script type="text/javascript">
-   var _gaq = _gaq || [];
-   _gaq.push(['_setAccount', '<%= key %>']);
-   _gaq.push(['_trackPageview']);
 
-   (function() {
-     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-   })();
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src='https://www.googletagmanager.com/gtag/js?id=<%= ga_key %>'></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
+    gtag('config', '<%= ga_key %>');
   </script>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','<%= gtm_key %>');</script>
+  <!-- End Google Tag Manager -->
 <% else %>
-  <!-- GA would be here with key "<%= key %>" -->
+  <!-- GA would be here with key "<%= ga_key %>" -->
 <% end %>

@@ -81,7 +81,7 @@ common:
       cache_expiry: 86400
       cache_key: artistnamesuggest
   ga_key: blah
-  subdomain_ga_key: blah-de-blah
+  gtm_key: blah_gtm
   google_map_api_key: key
   ga_server_api_key: server_key
   POSTMARK_API_KEY: bogus
