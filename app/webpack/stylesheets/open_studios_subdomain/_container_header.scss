@@ -41,6 +41,13 @@
   top: 2px;
   position: relative;
   @include ellipsis;
+  padding-left: 215px;
+  padding-right: 70px;
+  @media screen and (max-width: $screen-sm-max) {
+    font-size: 1.05rem;
+    letter-spacing: -0.04rem;
+    padding-left: 40px;
+  }
 }
 
 .container-header__logo {

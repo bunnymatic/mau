@@ -2,6 +2,5 @@
 .catalog-paginator__container
   = link_to @paginator.previous, title: @paginator.previous.name, class: "catalog-paginator__link catalog-paginator__link--prev" do
     = fa_icon "chevron-left"
-  .catalog-paginator__main.pure-u-sm-hidden Catalog
   = link_to @paginator.next, title: @paginator.next.name, class: "catalog-paginator__link catalog-paginator__link--next" do
     = fa_icon "chevron-right"
