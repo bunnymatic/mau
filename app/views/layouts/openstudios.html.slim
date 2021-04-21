@@ -2,6 +2,7 @@ doctype html
 html
   head
     = render '/extra_html_head'
+    = render '/common/ganalytics'
 
     title Mission Artists - Virtual Open Studios
 
@@ -16,6 +17,7 @@ html
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
   body class=classes id="open_studios_subdomain__layout" ng-app="MauApp"
+    = render '/common/gtagmanager'
     - unless supported_browser?
       = render '/old_browser_warning'
     = render '/noscript_msg'
@@ -26,6 +28,4 @@ html
       .main-container.js-main-container
         = render '/flash_notice_error'
         = yield
-
-  = render partial: '/common/ga_tags', locals: { key: Conf.subdomain_ga_key }
   = render '/common/footer_javascripts'

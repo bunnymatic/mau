@@ -3,6 +3,7 @@ html
   head
     = render '/extra_html_head'
     = render '/title'
+    = render '/common/ganalytics'
     = csrf_meta_tags
 
     javascript:
@@ -14,6 +15,7 @@ html
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
   body class=classes ng-app="MauApp"
+    = render '/common/gtagmanager'
     - unless supported_browser?
       = render '/old_browser_warning'
     = render '/noscript_msg'
@@ -46,5 +48,4 @@ html
         });
       });
 
-  = render '/common/ganalytics'
   = render '/common/footer_javascripts'
