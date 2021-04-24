@@ -30,17 +30,18 @@ describe Api::ArtistsController, elasticsearch: false do
       before do
         login_as artist
       end
-      context "who is can't do open studios" do
+      context 'without an address or studio association' do
         let(:artist) { create(:artist, :active, :without_address) }
 
-        it 'does not update your os status to true and returns an error' do
+        it "updates your os status to true and redirects to your edit page if you're logged in" do
           get :register_for_open_studios, params: { id: artist.id, participation: '1' }
-          expect(artist.reload).to_not be_doing_open_studios
-          expect(response).to be_bad_request
-          expect(JSON.parse(response.body)).to eq({
-                                                    'success' => false,
-                                                    'participant' => nil,
-                                                  })
+          expect(artist.reload).to be_doing_open_studios
+          expect(response).to be_successful
+          expect(JSON.parse(response.body)).to eq(
+            'success' => true,
+            'participant' => OpenStudiosParticipant.find_by(user: artist,
+                                                            open_studios_event: OpenStudiosEvent.current).as_json(root: false),
+          )
         end
       end
 

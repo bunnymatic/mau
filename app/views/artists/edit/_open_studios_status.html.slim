@@ -5,31 +5,22 @@
     .fa.fa-icon.panel-opener
 .panel-collapse.collapse#events role="tabpanel"
   .panel-body
-    - if !current_user.can_register_for_open_studios?
-      p You need to specify an address or studio affiliation to sign up for Open Studios!
-      p
-        | Check the
-        '
-        em Address/Studio Info
-        '
-        | section below.
-    - else
-      = react_component id: "os-registration", component: "OpenStudiosRegistrationSection", props: { \
-          location: (current_user.studio.present? ? current_user.studio.name : current_user.address.to_s), \
-          artist_id: current_user.id, \
-          participant: current_user.current_open_studios_participant.as_json(root:false), \
-          open_studios_event: { \
-            date_range: current_open_studios.date_range_with_year, \
-            start_time: current_open_studios.start_time, \
-            end_time: current_open_studios.end_time, \
-            special_event: { \
-              date_range: current_open_studios.special_event_date_range_with_year,\
-              time_slots: current_open_studios.special_event_time_slots,
-            } \
-          }\
-        }
+    = react_component id: "os-registration", component: "OpenStudiosRegistrationSection", props: { \
+        location: (current_user.studio.present? ? current_user.studio.name : current_user.address.to_s), \
+        artist_id: current_user.id, \
+        participant: current_user.current_open_studios_participant.as_json(root:false), \
+        open_studios_event: { \
+          date_range: current_open_studios.date_range_with_year, \
+          start_time: current_open_studios.start_time, \
+          end_time: current_open_studios.end_time, \
+          special_event: { \
+            date_range: current_open_studios.special_event_date_range_with_year,\
+            time_slots: current_open_studios.special_event_time_slots,
+          } \
+        }\
+      }
 
-      .donate
-        .note If you'd like to donate, here is our paypal link.  And Thanks!
-        .form-group
-          a.pure-button.button-secondary#donate_for_openstudios href="#" Donate
+    .donate
+      .note If you'd like to donate, here is our paypal link.  And Thanks!
+      .form-group
+        a.pure-button.button-secondary#donate_for_openstudios href="#" Donate

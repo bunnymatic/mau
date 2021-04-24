@@ -19,6 +19,7 @@
   'Gouache',
   'Jewelry',
   'Mixed-Media',
+  'Painting',
   'Painting - Acrylic',
   'Painting - Encaustic',
   'Painting - Oil',

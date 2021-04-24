@@ -46,18 +46,6 @@ class ArtistsController < ApplicationController
     redirect_to(edit_artist_path(current_user, anchor: 'events'))
   end
 
-  def update_os_status_message(status, artist, os_event)
-    if status
-      "Thanks for participating in Open Studios #{os_event.for_display(reverse: true)}!\n"\
-      "Please confirm your studio address: #{artist.address}.\n"\
-      "Look for an email with more info.\n"\
-      "It's FREE to participate, we are completely donation and volunteer supported."
-    else
-      "You're account needs more info before you can "\
-      'register for Open Studios (probably an address or studio).'
-    end
-  end
-
   def my_profile
     redirect_to edit_artist_path(current_user, anchor: 'events')
   end
