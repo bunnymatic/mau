@@ -9,7 +9,7 @@ class AdminArtistUpdateService
     updated_count, skipped_count = run_update(os_status_by_artist_id, current_os)
 
     msg = "Updated setting for #{updated_count} artists"
-    msg += sprintf(' and skipped %d artists who are not in the mission or have an invalid address', skipped_count) if skipped_count.positive?
+    msg += sprintf(' and skipped %d artists whose settings did not change', skipped_count) if skipped_count.positive?
     [true, { notice: msg }]
   end
 
@@ -41,7 +41,6 @@ class AdminArtistUpdateService
 
     # return ternary - nil if the artist was skipped, else true if the artist setting was changed, false if not
     def update_artist_os_standing(artist, current_os, doing_it)
-      return nil if artist.address.blank?
       return false if artist.doing_open_studios? == doing_it
 
       if doing_it
