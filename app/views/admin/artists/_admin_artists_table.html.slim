@@ -58,7 +58,7 @@
                   .tooltip-content
                     = a.reset_password_link
 
-            td data-order=(a.address.present? ? a.doing_open_studios?.to_s : -1)
+            td data-order=(a.active? && a.doing_open_studios?).to_s
               / this make sure that all os settings are sent to the controller
               - if a.active?
                 - checked = a.doing_open_studios?
