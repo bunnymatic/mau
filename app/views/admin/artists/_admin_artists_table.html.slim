@@ -60,7 +60,7 @@
 
             td data-order=(a.address.present? ? a.doing_open_studios?.to_s : -1)
               / this make sure that all os settings are sent to the controller
-              - if a.address.present? && a.active?
+              - if a.active?
                 - checked = a.doing_open_studios?
                 - name = "os[#{a.id}]"
                 = hidden_field_tag name, "0"
