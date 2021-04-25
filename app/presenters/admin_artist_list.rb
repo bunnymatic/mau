@@ -23,6 +23,9 @@ class AdminArtistList < ViewPresenter
     else
       headers << 'No Current Open Studios'
     end
+    headers << 'Since'
+    headers << 'Last Seen'
+    headers << 'Last Updated Profile'
     headers + open_studios_event_headers
   end
 
@@ -49,7 +52,7 @@ class AdminArtistList < ViewPresenter
         CSV.generate(DEFAULT_CSV_OPTS) do |csv|
           csv << csv_headers
           artists.all.each do |artist|
-            csv << artist_as_csv_row(artist)
+            csv << artist_as_csv_row(ArtistPresenter.new(artist))
           end
         end
       end
@@ -74,13 +77,16 @@ class AdminArtistList < ViewPresenter
       csv_safe(artist.login),
       csv_safe(artist.firstname),
       csv_safe(artist.lastname),
-      artist.get_name,
+      csv_safe(artist.get_name),
       artist.studio&.name || '',
       artist.address&.street || '',
       artist.studionumber,
       artist.email,
       artist.phone,
       artist.doing_open_studios?,
+      artist.member_since_date.to_s(:admin_date_only),
+      artist.last_login,
+      artist.last_updated_profile,
     ] + open_studios_participant_as_csv_row(artist.current_open_studios_participant)
   end
 

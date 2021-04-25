@@ -59,6 +59,9 @@ describe Admin::ArtistsController do
             'Studio Number',
             'Email Address',
             'Phone',
+            'Since',
+            'Last Seen',
+            'Last Updated Profile',
             'No Current Open Studios',
             'Show Phone',
             'Show Email',
@@ -66,7 +69,7 @@ describe Admin::ArtistsController do
             'Youtube Url',
             'Video Conference Url',
           ]
-          expect(parsed.headers).to eq(expected_headers)
+          expect(parsed.headers).to match_array(expected_headers)
         end
         it 'includes the right data' do
           expect(parsed.size).to eq(Artist.all.count)

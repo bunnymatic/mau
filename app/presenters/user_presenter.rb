@@ -54,8 +54,14 @@ class UserPresenter < ViewPresenter
     member_since_date.strftime '%b %Y'
   end
 
+  def last_updated_at
+    model.updated_at
+  end
+
   def last_login
-    (model.last_request_at || model.current_login_at || model.last_login_at).try(:to_formatted_s, :admin)
+    Time.use_zone(Conf.event_time_zone) do
+      (model.last_request_at || model.current_login_at || model.last_login_at).try(:to_formatted_s, :admin)
+    end
   end
 
   def activation_date

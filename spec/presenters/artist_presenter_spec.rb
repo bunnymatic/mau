@@ -100,4 +100,42 @@ describe ArtistPresenter do
       its(:artist?) { is_expected.to eq false }
     end
   end
+
+  describe '#last_updated_at' do
+    let(:artist) { FactoryBot.create(:artist, :active, updated_at: 2.days.ago) }
+    before do
+      freeze_time
+    end
+
+    it 'returns artist.updated_at if no open studios' do
+      expect(presenter.last_updated_at).to eq 2.days.ago
+    end
+
+    context 'the artist is doing open studios' do
+      before do
+        os = create(:open_studios_event)
+        artist.open_studios_events << os
+        info = artist.current_open_studios_participant
+        info.updated_at = 5.days.ago
+        info.save!
+      end
+
+      context 'they updated their artist more recently' do
+        it 'returns the artist updated at' do
+          expect(presenter.last_updated_at).to eq 2.days.ago
+        end
+      end
+
+      context 'they updated their os info more recently' do
+        before do
+          info = artist.current_open_studios_participant
+          info.updated_at = 1.day.ago
+          info.save!
+        end
+        it 'returns the os info updated at' do
+          expect(presenter.last_updated_at).to eq 1.day.ago
+        end
+      end
+    end
+  end
 end

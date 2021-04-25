@@ -189,6 +189,20 @@ class ArtistPresenter < UserPresenter
     number_to_phone(artist.phone)
   end
 
+  def last_updated_profile
+    Time.use_zone(Conf.event_time_zone) do
+      last_updated_at.to_s(:admin)
+    end
+  end
+
+  def last_updated_at
+    if open_studios_info
+      [open_studios_info.updated_at, super].max
+    else
+      super
+    end
+  end
+
   private
 
   def map_thumb
