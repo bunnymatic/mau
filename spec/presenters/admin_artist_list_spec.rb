@@ -31,6 +31,7 @@ describe AdminArtistList, elasticsearch: false do
   end
 
   before do
+    freeze_time
     mock_artists_relation = double('Artist::ActiveRecord_Relation',
                                    all: artists,
                                    first: artists[0],
@@ -105,6 +106,17 @@ describe AdminArtistList, elasticsearch: false do
         info.video_conference_schedule = os_event.special_event_time_slots.each_slice(2).map(&:first).index_with { |_ts| true }
         info.save
         artist_list
+      end
+
+      it 'includes last seen and member since' do
+        Time.use_zone(Conf.event_time_zone) do
+          expected = {
+            'Last Seen' => '',
+            'Since' => Time.zone.now.strftime('%Y-%m-%d'),
+            'Last Updated Profile' => Time.zone.now.to_s(:admin),
+          }
+          expect(parsed.first.to_h).to include(expected)
+        end
       end
 
       it 'includes the phone number' do
