@@ -19,8 +19,21 @@
 }
 .open-studios-index__participant-list {
   margin-top: 0;
-  padding-left: 20px;
-  li {
-    list-style: circle;
+  display: flex;
+  flex-wrap: wrap;
+}
+.open-studios-index__participant {
+  width: 33%;
+  @media screen and (max-width: $screen-lg-max) {
+    width: 49%;
+  }
+  @media screen and (max-width: $screen-md-max) {
+    width: 49%;
+  }
+  @media screen and (max-width: $screen-sm-max) {
+    width: 100%;
+  }
+  @media screen and (max-width: $screen-xs-max) {
+    width: 100%;
   }
 }
