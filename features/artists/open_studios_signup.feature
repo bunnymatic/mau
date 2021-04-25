@@ -82,12 +82,3 @@ Scenario: "when I'm logged in"
 
   When I visit the open studios page
   Then I see a "Artist Registration" link
-
-Scenario: "when I try to register without an address i'm not allowed"
-  When I login as "no_address"
-  And I visit the open studios page
-  And I click on "Artist Registration"
-
-  Then I see my profile edit form
-  And I see the "events" profile panel is open
-  And I see "Check the Address" on the page

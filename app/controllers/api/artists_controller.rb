@@ -5,16 +5,12 @@ module Api
     before_action :artist_required
 
     def register_for_open_studios
-      if current_artist.can_register_for_open_studios?
-        participant = UpdateArtistService.new(current_artist, os_participation: params[:participation]).update_os_status
+      participant = UpdateArtistService.new(current_artist, os_participation: params[:participation]).update_os_status
 
-        render json: {
-          success: true,
-          participant: participant.as_json(root: false),
-        }
-      else
-        render json: { success: false, participant: nil }, status: :bad_request
-      end
+      render json: {
+        success: true,
+        participant: participant.as_json(root: false),
+      }
     end
   end
 end

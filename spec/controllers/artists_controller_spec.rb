@@ -2,10 +2,6 @@ require 'rails_helper'
 require 'htmlentities'
 
 describe ArtistsController, elasticsearch: :stub do
-  let(:studio) { create :studio }
-  let(:admin) { FactoryBot.create(:artist, :admin) }
-  let(:number_of_art_pieces) { 1 }
-  let(:artist_info) { artist.artist_info }
   let(:artist) do
     FactoryBot.create(:artist, :with_art,
                       studio: studio,
@@ -19,7 +15,6 @@ describe ArtistsController, elasticsearch: :stub do
   let(:number_of_art_pieces) { 1 }
   let(:artist_info) { artist.artist_info }
   let(:artist2) { FactoryBot.create(:artist, :active, studio: studio) }
-  let(:without_address) { FactoryBot.create(:artist, :active, :without_address) }
   let(:artists) do
     [artist] + FactoryBot.create_list(:artist, 2, :with_studio, :with_tagged_art, number_of_art_pieces: 1)
   end
