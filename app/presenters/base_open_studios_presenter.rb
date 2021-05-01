@@ -1,7 +1,8 @@
-class BaseOpenStudiosPresenter
+class BaseOpenStudiosPresenter < ViewPresenter
   delegate :promote?, to: :current_os
 
   def initialize(page, current_user)
+    super()
     @user = current_user
     @page = page
   end
@@ -26,6 +27,12 @@ class BaseOpenStudiosPresenter
 
   def participating_artists
     @participating_artists ||= sort_artists_by_name(os_participants)
+  end
+
+  def link_to_artist(artist)
+    link =  FeatureFlags.virtual_open_studios? ? artist_url(artist, { subdomain: Conf.subdomain }) : artist_path(artist)
+    options = FeatureFlags.virtual_open_studios? ? { target: '_blank' } : {}
+    link_to(artist.get_name, link, options)
   end
 
   def register_for_open_studio_button_text

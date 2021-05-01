@@ -13,6 +13,7 @@ test:
       per_page: 12
     artists:
       per_page: 12
+  subdomain: openstudios
 
 development:
   features:
@@ -29,12 +30,14 @@ development:
       per_page: 12
     tags:
       per_page: 12
+  subdomain: openstudios
 
 acceptance:
   features:
     virtual_open_studios: true
   S3_DOMAIN: 'us-west-1'
   TLD_LENGTH: 2
+  subdomain: openstudios.mau
 
 production:
   cache_expiry:
@@ -42,6 +45,7 @@ production:
     search: 300
     objects: 0
     new_art: 86400
+  subdomain: openstudios
 
 common:
   event_time_zone: America/Los_Angeles

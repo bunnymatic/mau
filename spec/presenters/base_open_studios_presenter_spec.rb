@@ -23,10 +23,10 @@ describe BaseOpenStudiosPresenter do
     allow(open_studios_event).to receive_message_chain(:artists)
       .and_return(
         [
-          instance_double(Artist, studio: instance_double(Studio, name: 'studio'), lastname: 'Bill'),
-          instance_double(Artist, studio: instance_double(Studio, name: 'axe'), lastname: 'Illionga'),
-          instance_double(Artist, studio: nil, address: 'mission', lastname: 'Rogers'),
-          instance_double(Artist, studio: nil, address: 'mission', lastname: 'Jill'),
+          create(:artist, studio: create(:studio), lastname: 'Bill'),
+          create(:artist, studio: create(:studio), lastname: 'Illionga'),
+          create(:artist, studio: nil, lastname: 'Rogers'),
+          create(:artist, studio: nil, lastname: 'Jill'),
         ],
       )
   end
@@ -109,6 +109,27 @@ describe BaseOpenStudiosPresenter do
 
       it 'shows "Artist Registration" when current_user is an artist signed up for open studio event' do
         expect(subject.register_for_open_studio_button_text).to eq('Artist Registration')
+      end
+    end
+  end
+
+  describe '.link_to_artist' do
+    let(:artist) { open_studios_event.artists.first }
+    context 'when open studios feature is on' do
+      before do
+        allow(FeatureFlags).to receive(:virtual_open_studios?).and_return true
+      end
+      it 'returns a link to the artist with subdomain' do
+        expect(subject.link_to_artist(artist)).to include 'target="_blank"'
+        expect(subject.link_to_artist(artist)).to include 'href="http://openstudios.test.host/artists/'
+      end
+    end
+    context 'when open studios feature is off' do
+      before do
+        allow(FeatureFlags).to receive(:virtual_open_studios?).and_return false
+      end
+      it 'returns a link to the artist' do
+        expect(subject.link_to_artist(artist)).to be_starts_with '<a href="/artists/'
       end
     end
   end
