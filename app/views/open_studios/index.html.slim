@@ -16,5 +16,5 @@
           ul.open-studios-index__participant-list
             - @presenter.participating_artists.each do |artist|
               li.open-studios-index__participant
-                = link_to(artist.get_name, artist)
+                = @presenter.link_to_artist(artist)
           = render :partial => '/main/info_footer'
