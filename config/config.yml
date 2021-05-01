@@ -40,6 +40,8 @@ acceptance:
   subdomain: openstudios.mau
 
 production:
+  features:
+    virtual_open_studios: true
   cache_expiry:
     feed: 3600
     search: 300
