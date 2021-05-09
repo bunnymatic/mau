@@ -110,7 +110,7 @@ describe AdminArtistList, elasticsearch: false do
         end
       end
 
-      it 'includes last seen and member since' do
+      xit 'includes last seen and member since' do
         Time.use_zone(Conf.event_time_zone) do
           expected = {
             'Last Seen' => 2.days.ago.to_s(:admin),
