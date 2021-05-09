@@ -96,7 +96,7 @@ describe UserPresenter do
     end
 
     it 'does not include art' do
-      expect(presenter.who_i_favorite.any? { |f| f.is_a? ArtPiece }).to eq false
+      expect(presenter.who_i_favorite.any?(ArtPiece)).to eq false
     end
 
     it 'does not include fans' do

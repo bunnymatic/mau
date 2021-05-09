@@ -21,7 +21,7 @@ describe ArtPieceServiceTagsHandler do
         prepared_params = subject.instance_variable_get(:@params)
         tags = prepared_params[:tags]
         expect(tags).to have(3).items
-        expect(tags.all? { |tag| tag.is_a? ArtPieceTag }).to be_truthy
+        expect(tags).to be_all(ArtPieceTag)
       end
 
       it 'creates new tags as needed' do
