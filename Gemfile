@@ -34,7 +34,7 @@ gem "puma"
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', "~>6.x", require: false
+gem 'rails', "~>6.1.x", require: false
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
@@ -49,7 +49,7 @@ group :test do
   gem 'capybara-screenshot'
   gem 'capybara-select-2'
   gem 'cucumber'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', '~>2.x', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'rack-handlers'
   gem 'rspec_junit_formatter'
