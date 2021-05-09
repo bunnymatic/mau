@@ -122,10 +122,8 @@ class ArtPiece < ApplicationRecord
 
   def paths
     @paths ||=
-      begin
-        MauImage::ImageSize.allowed_sizes.index_with do |size|
-          path(size)
-        end
+      MauImage::ImageSize.allowed_sizes.index_with do |size|
+        path(size)
       end
   end
 

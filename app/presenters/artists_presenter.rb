@@ -14,13 +14,12 @@ class ArtistsPresenter < ViewPresenter
     return Artist.none if os_only && !OpenStudiosEvent.current
 
     artists_list =
-      begin
-        if os_only
-          OpenStudiosEvent.current.artists.active.includes(:open_studios_participants, :art_pieces)
-        else
-          Artist.active.includes(:studio, :artist_info, :art_pieces, :open_studios_events)
-        end
-      end
+      (if os_only
+         OpenStudiosEvent.current.artists.active.includes(:open_studios_participants, :art_pieces)
+       else
+         Artist.active.includes(:studio, :artist_info, :art_pieces, :open_studios_events)
+       end)
+
     artists_list = artists_list.sort_by(&:sortable_name) if @sort_by_name
     @artists = artists_list.map { |artist| ArtistPresenter.new(artist) }
   end

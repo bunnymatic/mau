@@ -48,15 +48,14 @@ class StudioPresenter < ViewPresenter
   end
 
   def open_studios_artists_count_label
-    @open_studios_artists_count_label ||=
-      begin
-        if open_studios_artists? && current_open_studios
-          "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) +
-            " in #{current_open_studios.title}"
-        else
-          ''
-        end
-      end
+    return @open_studios_artists_count_label unless @open_studios_artists_count_label.nil?
+
+    @open_studios_artists_count_label = ''
+    if open_studios_artists? && current_open_studios
+      @open_studios_artists_count_label = "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) +
+                                          " in #{current_open_studios.title}"
+    end
+    @open_studios_artists_count_label
   end
 
   def open_studios_artists
@@ -71,9 +70,7 @@ class StudioPresenter < ViewPresenter
 
   def artists_with_art
     @artists_with_art ||=
-      begin
-        artists.joins(:art_pieces).map { |artist| ArtistPresenter.new(artist) }
-      end
+      artists.joins(:art_pieces).map { |artist| ArtistPresenter.new(artist) }
   end
 
   def artists?

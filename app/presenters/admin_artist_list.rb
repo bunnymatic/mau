@@ -48,12 +48,10 @@ class AdminArtistList < ViewPresenter
 
   def csv
     @csv ||=
-      begin
-        CSV.generate(DEFAULT_CSV_OPTS) do |csv|
-          csv << csv_headers
-          artists.all.each do |artist|
-            csv << artist_as_csv_row(ArtistPresenter.new(artist))
-          end
+      CSV.generate(DEFAULT_CSV_OPTS) do |csv|
+        csv << csv_headers
+        artists.all.each do |artist|
+          csv << artist_as_csv_row(ArtistPresenter.new(artist))
         end
       end
   end
@@ -73,21 +71,23 @@ class AdminArtistList < ViewPresenter
   end
 
   def artist_as_csv_row(artist)
-    [
-      csv_safe(artist.login),
-      csv_safe(artist.firstname),
-      csv_safe(artist.lastname),
-      csv_safe(artist.get_name),
-      artist.studio&.name || '',
-      artist.address&.street || '',
-      artist.studionumber,
-      artist.email,
-      artist.phone,
-      artist.doing_open_studios?,
-      artist.member_since_date.to_s(:admin_date_only),
-      artist.last_login,
-      artist.last_updated_profile,
-    ] + open_studios_participant_as_csv_row(artist.current_open_studios_participant)
+    Time.use_zone(Conf.event_time_zone) do
+      [
+        csv_safe(artist.login),
+        csv_safe(artist.firstname),
+        csv_safe(artist.lastname),
+        csv_safe(artist.get_name),
+        artist.studio&.name || '',
+        artist.address&.street || '',
+        artist.studionumber,
+        artist.email,
+        artist.phone,
+        artist.doing_open_studios?,
+        artist.member_since_date.to_s(:admin_date_only),
+        artist.last_login,
+        artist.last_updated_profile,
+      ] + open_studios_participant_as_csv_row(artist.current_open_studios_participant)
+    end
   end
 
   def open_studios_participant_as_csv_row(participant)

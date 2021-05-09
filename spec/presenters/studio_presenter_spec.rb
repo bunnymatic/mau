@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe StudioPresenter do
   let(:studio) { FactoryBot.create(:studio, cross_street: 'hollywood', phone: '4156171234') }
-  let!(:artist1) { FactoryBot.create(:artist, :active, :with_art, studio: studio) }
-  let!(:artist2) { FactoryBot.create(:artist, :active, studio: studio) }
-  let!(:artist3) { FactoryBot.create(:artist, :pending, studio: studio) }
+  let(:artist1) { FactoryBot.create(:artist, :active, :with_art, studio: studio) }
+  let(:artist2) { FactoryBot.create(:artist, :active, studio: studio) }
+  let(:artist3) { FactoryBot.create(:artist, :pending, studio: studio) }
+  let!(:artists) { [artist1, artist2, artist3] }
   subject(:presenter) { StudioPresenter.new(studio) }
 
   its(:artists_with_art?) { is_expected.to be_truthy }
@@ -27,6 +28,31 @@ describe StudioPresenter do
     end
   end
 
+  describe '.artists_count_label' do
+    context 'when there are no artists' do
+      let(:artists) { [] }
+      let(:studio) { create(:studio) }
+      it 'returns an empty string' do
+        expect(presenter.artists_count_label).to eq ''
+      end
+    end
+
+    context 'when there is 1 artist' do
+      let(:artists) { [] }
+      let(:studio) { artist.studio }
+      let(:artist) { create(:artist, :with_studio) }
+      it 'returns a label singularized' do
+        expect(presenter.artists_count_label).to eq '1 artist'
+      end
+    end
+
+    context 'when there is more than 1 artist' do
+      it 'returns a label with artist count info' do
+        expect(presenter.artists_count_label).to eq '2 artists'
+      end
+    end
+  end
+
   describe 'open_studios_artists' do
     let(:all_os_artists) do
       [
@@ -42,6 +68,12 @@ describe StudioPresenter do
       expect(Artist.count).to eq 5
       expect(presenter.artists.count).to eq 2
       expect(presenter.open_studios_artists).to eq [all_os_artists[1]]
+    end
+
+    describe '.open_studios_artists_count_label' do
+      it 'returns a label with os artist count info' do
+        expect(presenter.open_studios_artists_count_label).to eq '1 artist in Open Studios'
+      end
     end
   end
 end
