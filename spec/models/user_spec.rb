@@ -157,10 +157,10 @@ describe User, elasticsearch: :stub do
       create(:user)
     end
     it 'active returns only active users' do
-      expect(User.active.pluck(:state).all? { |s| s == 'active' }).to eql true
+      expect(User.active.pluck(:state)).to be_all('active')
     end
     it 'pending returns only pending users' do
-      expect(User.pending.pluck(:state).all? { |s| s == 'pending' }).to eql true
+      expect(User.pending.pluck(:state)).to be_all('pending')
     end
     it 'bad_standing returns only suspended or deleted users' do
       expect(User.bad_standing.pluck(:state).compact.uniq).to match_array %w[suspended deleted]

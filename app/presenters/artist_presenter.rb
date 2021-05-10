@@ -165,13 +165,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def bio_html
-    @bio_html ||= begin
-      if bio.present?
-        MarkdownService.markdown(bio, :filter_html)
-      else
-        tag.h4("No artist's statement")
-      end
-    end
+    @bio_html ||= bio.present? ? MarkdownService.markdown(bio, :filter_html) : tag.h4("No artist's statement")
   end
 
   def self.keyed_links

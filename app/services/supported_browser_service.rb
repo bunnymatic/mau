@@ -10,12 +10,10 @@ class SupportedBrowserService
 
   def self.supported_browsers
     @supported_browsers ||=
-      begin
-        if File.exist?(@browsers_json_file) && !Rails.env.test?
-          JSON.parse(File.open(@browsers_json_file).read)
-        else
-          []
-        end
+      if File.exist?(@browsers_json_file) && !Rails.env.test?
+        JSON.parse(File.open(@browsers_json_file).read)
+      else
+        []
       end
   end
 

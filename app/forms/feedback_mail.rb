@@ -47,15 +47,13 @@ class FeedbackMail
 
   def comment
     @comment ||=
-      begin
-        [].tap do |comment|
-          comment << "OS: #{operating_system}"
-          comment << "Browser: #{browser}"
-          comment << "Device: #{device}"
-          comment << "From: #{email}"
-          comment << "Question: #{question}"
-        end.join("\n")
-      end
+      [].tap do |comment|
+        comment << "OS: #{operating_system}"
+        comment << "Browser: #{browser}"
+        comment << "Device: #{device}"
+        comment << "From: #{email}"
+        comment << "Question: #{question}"
+      end.join("\n")
   end
 
   def account_email

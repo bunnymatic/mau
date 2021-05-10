@@ -79,13 +79,11 @@ class UserPresenter < ViewPresenter
 
   def who_favorites_me
     @who_favorites_me ||=
-      begin
-        Favorite.where(favoritable_type: model.class.name, favoritable_id: model.id)
-                .includes(:owner)
-                .order('created_at desc')
-                .distinct(:owner)
-                .map(&:owner).flatten
-      end
+      Favorite.where(favoritable_type: model.class.name, favoritable_id: model.id)
+              .includes(:owner)
+              .order('created_at desc')
+              .distinct(:owner)
+              .map(&:owner).flatten
   end
 
   def facebook?
@@ -193,20 +191,19 @@ class UserPresenter < ViewPresenter
   def self.icon_link_class(key, site = '')
     site = strip_http_from_link(site)
     clz = [:ico, 'ico-invert', "ico-#{key}"]
-    icon_chooser = begin
-      if /\.tumblr\./.match?(site)
-        'ico-tumblr'
-      elsif key.to_sym == :blog
-        if /\.blogger\./.match?(site)
-          'ico-blogger'
-        elsif !site.empty?
-          site_bits = site.split('.')
-          "ico-#{site_bits.length > 2 ? site_bits[-3] : site_bits[0]}"
-        end
-      else
-        ''
-      end
-    end
+    icon_chooser = (if /\.tumblr\./.match?(site)
+                      'ico-tumblr'
+                    elsif key.to_sym == :blog
+                      if /\.blogger\./.match?(site)
+                        'ico-blogger'
+                      elsif !site.empty?
+                        site_bits = site.split('.')
+                        "ico-#{site_bits.length > 2 ? site_bits[-3] : site_bits[0]}"
+                      end
+                    else
+                      ''
+                    end)
+
     (clz + [icon_chooser]).join(' ')
   end
 
