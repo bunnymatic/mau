@@ -93,7 +93,7 @@ class Studio < ApplicationRecord
   end
 
   def get_profile_image(size)
-    photo? ? photo(size) : StudioImage.get_path(self, size)
+    photo(size)
   end
 
   def image_paths

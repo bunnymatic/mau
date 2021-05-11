@@ -1,5 +1,5 @@
 li
-  - img, path, title = get_favorite_image_and_path favorite_thumb, 'thumb'
+  - img, path, title = get_favorite_image_and_path favorite_thumb
   = link_to path, title: title do
-    .favorite-thumb style="background-image: url('#{img}');"
+    .favorite-thumb style=background_image_style(img)
     .favorite-thumb-icon.fa.fa-user
