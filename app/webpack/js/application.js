@@ -24,7 +24,6 @@ import "@components/social_buttons/favorite_this";
 import "@components/background-img/background-img";
 import "@components/art_piece_tag/art_piece_tag";
 import "@components/repeater_delimiter/repeater_delimiter";
-import "@components/image_fader/image_fader";
 import "@components/password_strength/passwordStrength.directive";
 import "@components/link_if/link_if";
 import "@angularjs/services/email_changed_events.service";
