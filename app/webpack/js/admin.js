@@ -16,7 +16,6 @@ import "ng-dialog/js/ngDialog";
 import "@components/admin/email_list_manager/email_list_manager";
 import "@components/admin/events_notification_bell/events_notification_bell";
 import "@components/models/email";
-import "@components/time_ago/time_ago";
 import "@components/image_fader/image_fader";
 import "@components/link_if/link_if";
 import "@angularjs/services/email_changed_events.service";

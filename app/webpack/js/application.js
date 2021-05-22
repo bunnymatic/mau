@@ -23,7 +23,6 @@ import "@components/social_buttons/share_button";
 import "@components/social_buttons/favorite_this";
 import "@components/background-img/background-img";
 import "@components/art_piece_tag/art_piece_tag";
-import "@components/time_ago/time_ago";
 import "@components/repeater_delimiter/repeater_delimiter";
 import "@components/image_fader/image_fader";
 import "@components/password_strength/passwordStrength.directive";
