@@ -50,7 +50,7 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
   const handleSubmit = (values, actions) => {
     new Flash().clear();
     actions.setSubmitting(true);
-    api.openStudios.participants
+    return api.openStudios.participants
       .update({
         id: participant.id,
         artistId: artistId,

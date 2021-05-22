@@ -15,7 +15,7 @@ module Admin
 
     def create
       load_email_list
-      errors = []
+      errors = {}
       if @email_list
         begin
           email = Email.where(email: email_params[:email]).first
@@ -24,10 +24,10 @@ module Admin
             @email_list.save
           else
             new_email = @email_list.emails.create(email_params)
-            errors = new_email.errors.full_messages unless new_email.valid?
+            errors = new_email.errors unless new_email.valid?
           end
         rescue ActiveRecord::RecordInvalid => e
-          errors << e.to_s
+          errors[:email] = e.to_s
         end
       end
       if errors.present?

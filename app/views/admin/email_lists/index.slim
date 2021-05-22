@@ -7,4 +7,4 @@
   - @all_lists.each do |key, lst|
     - next if lst.nil?
     .pure-u-1-1.pure-u-md-1-2.pure-u-lg-1-3
-      email-list-manager key=key list-title=key.to_s.pluralize.humanize list-info=@purpose[key] list-id=lst.id
+      = react_component id: "email-list-manager-#{lst.id}", component:"EmailListManager", props: { list_id: lst.id, title: key.to_s.pluralize.humanize, info: @purpose[key]}

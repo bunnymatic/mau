@@ -1,0 +1,8 @@
+@use "../../mixins";
+
+.mau-text-button {
+  border: none;
+  background: none !important;
+  cursor: pointer;
+  @include mixins.link_style;
+}

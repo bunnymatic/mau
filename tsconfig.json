@@ -10,7 +10,18 @@
     "sourceMap": true,
     "target": "es5",
     "jsx": "react",
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@js/*": ["app/webpack/js/*"],
+      "@reactjs/*": ["app/webpack/reactjs/*"],
+      "@angularjs/*": ["app/webpack/angularjs/*"],
+      "@components/*": ["app/webpack/angularjs/components/*"],
+      "@models/*": ["app/webpack/js/app/models/*"],
+      "@services/*": ["app/webpack/js/services/*"],
+      "@test/*": ["app/webpack/test/*"],
+      "@fixtures/*": ["spec/fixtures/*"]
+    }
   },
   "exclude": [
     "**/*.spec.ts",

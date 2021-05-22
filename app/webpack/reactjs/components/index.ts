@@ -1,5 +1,6 @@
 import { FC } from "react";
 
+import { EmailListManager } from "./admin/email_list_manager";
 import { Welcome } from "./admin/tests/welcome";
 import { ArtCard } from "./art_card";
 import { ArtModal } from "./art_modal";
@@ -29,6 +30,7 @@ export const reactComponents = {
   ConfirmModal,
   CreditsModal,
   EditableContentTrigger,
+  EmailListManager,
   Mailer,
   MauButton,
   OpenStudiosRegistrationSection,

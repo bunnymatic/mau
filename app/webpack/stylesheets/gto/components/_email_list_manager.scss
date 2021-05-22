@@ -1,0 +1,41 @@
+@use "../../colors";
+
+.email-list-manager__wrapper {
+  margin: 20px;
+}
+
+.email-list-manager__help {
+  font-style: italic;
+  font-size: 0.9em;
+  line-height: 1.2rem;
+  padding: 10px 0;
+  color: colors.$gto_gray;
+}
+
+.email-list-item__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 10px;
+  margin-bottom: 5px;
+
+  &:nth-child(odd) {
+    background-color: colors.$xx-light-gray;
+  }
+
+  * > {
+    flex: 1;
+  }
+}
+
+.add-email-form__wrapper {
+  width: 300px;
+  > h4 {
+    margin-bottom: 10px;
+  }
+}
+.add-email-form {
+  .inputs .input {
+    margin-bottom: 10px;
+  }
+}
