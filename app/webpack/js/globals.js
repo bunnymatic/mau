@@ -9,6 +9,7 @@ import ArtistListInfiniteScroller from "./app/artist_list_infinite_scroller";
 import BackToTop from "./app/back_to_top";
 import MobileNavigation from "./app/mobile_navigation";
 import Navigation from "./app/navigation";
+import PasswordStrengthMeter from "./app/password_strength_meter";
 import PaypalDonateForm from "./app/paypal_donate_form";
 import Sampler from "./app/sampler";
 import WhatsThisPopup from "./app/whats_this_popup";
@@ -26,6 +27,7 @@ const globals = {
   MobileNavigation,
   Navigation,
   PaypalDonateForm,
+  PasswordStrengthMeter,
   Sampler,
   WhatsThisPopup,
 };

@@ -3,7 +3,7 @@
   = f.inputs do
     = f.input :login, required: true, label: 'Username', input_html: { autofocus: true }
     = f.input :email, required: true
-    = f.input :password, required: true, hint: 'between 8 and 40 characters', wrapper_html: { "password-strength" => "password" }, input_html: {  "ng-model" => "password" }
+    = f.input :password, required: true, hint: 'between 8 and 40 characters', wrapper_html: { class: "js-password-with-meter" }
     = f.input :password_confirmation, required: true
     = f.input :firstname, label: 'First Name'
     = f.input :lastname, label: 'Last Name'
