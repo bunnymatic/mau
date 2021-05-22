@@ -15,7 +15,7 @@
           a.js-os-combo-link(href="#") OS Combos?
           #multi_form.js-multi-form
             = form_tag admin_member_emails_path, method: :get do
-              - available_open_studios_keys.map(&:to_s).reverse.each do |ostag|
+              - @email_list.available_open_studios_keys.map(&:to_s).reverse.each do |ostag|
                 .cb
                   label.pure-checkbox for=ostag
                     input id=ostag type='checkbox' name=ostag
@@ -46,9 +46,9 @@
                   td.name = link_to e.name, e.link
                   td.email = e.email
                   td.activation data-order=e.activated_at.to_i
-                    time-ago time=e.activated_at
-                  td.last-seen data-order=e.last_login.to_i
-                    time-ago time=e.last_login
+                    = e.activated_at && e.activated_at.to_s(:admin_date_only)
+                  td.last-seen data-order=e.last_login_at.to_i
+                    = e.last_login_at ? time_ago_in_words(e.last_login_at): "never"
       - else
         h4 No one matches that query
 javascript:

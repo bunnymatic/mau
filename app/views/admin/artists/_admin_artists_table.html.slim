@@ -36,8 +36,8 @@
                 = a.full_name
             td.date-field data-order=a.member_since_date.to_i
               = a.member_since_date.to_formatted_s(:admin_date_only)
-            td.date-field
-              = a.last_login
+            td.date-field data-order=a.last_login_at.to_i
+              = a.last_login_at ? time_ago_in_words(a.last_login_at) : raw("&mdash;")
             td
               = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
             td
