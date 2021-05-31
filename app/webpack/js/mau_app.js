@@ -6,7 +6,6 @@ angular
     "ngSanitize",
     "ngDialog",
     "mailchimp",
-    "angularSlideables",
     "ui.keypress",
     "mau.models",
     "mau.services",

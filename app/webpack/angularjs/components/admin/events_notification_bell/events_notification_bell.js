@@ -9,7 +9,7 @@ const controller = ngInject(function (
   $attrs,
   EmailChangedEventsService
 ) {
-  const since = DateTime.local().minus({ days: 7 });
+  const since = DateTime.local().minus({ days: 30 });
   EmailChangedEventsService.list({
     since: since.toISO(),
   })

@@ -1,5 +1,5 @@
-@use "../../../../stylesheets/colors" as *;
-@use "../../../../stylesheets/mixins" as *;
+@use "../../colors" as *;
+@use "../../mixins" as *;
 
 .events-notification-bell {
   z-index: 125;

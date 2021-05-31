@@ -8,6 +8,7 @@ import { ArtPage } from "./art_page";
 import { ConfirmModal } from "./confirm_modal";
 import { CreditsModal } from "./credits_modal";
 import { EditableContentTrigger } from "./editable_content_trigger";
+import { EventsNotificationBell } from "./events_notification_bell";
 import { Mailer } from "./mailer";
 import { MauButton } from "./mau_button";
 import { OpenStudiosRegistrationSection } from "./open_studios/open_studios_registration_section";
@@ -31,6 +32,7 @@ export const reactComponents = {
   CreditsModal,
   EditableContentTrigger,
   EmailListManager,
+  EventsNotificationBell,
   Mailer,
   MauButton,
   OpenStudiosRegistrationSection,

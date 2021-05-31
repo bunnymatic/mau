@@ -101,3 +101,22 @@ export interface EmailAttributes {
   createdAt: string;
   updatedAt: string;
 }
+
+interface GenericEvent {
+  id: number;
+  data?: Record<string, string | Record<string, string>>;
+
+  createdAt: string;
+  message: string;
+  updatedAt: string;
+}
+
+interface OpenStudiosSignupEvent extends GenericEvent {}
+
+interface UserChangedEvent extends GenericEvent {}
+
+export interface ApplicationEvent {
+  genericEvent?: GenericEvent;
+  userChangedEvent?: UserChangedEvent;
+  openStudiosSignupEvent?: OpenStudiosSignupEvent;
+}

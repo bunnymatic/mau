@@ -1,30 +1,10 @@
-import angular from "angular";
 import jQuery from "jquery";
 
 window.jQuery = jQuery;
 window.$ = jQuery;
 
 import "select2";
-import "angular/angular";
-import "@angularjs/angular_modules";
-import "angular-resource";
-import "angular-sanitize";
-import "angular-animate";
-import "./vendor/angular-mailchimp";
-import "angular-ui-utils/modules/keypress/keypress";
-import "ng-dialog/js/ngDialog";
-import "@components/admin/events_notification_bell/events_notification_bell";
-import "@components/models/email";
-import "@components/link_if/link_if";
-import "@angularjs/services/email_changed_events.service";
-import "@angularjs/services/object_routing.service";
-import "@angularjs/services/notification.service";
-import "@angularjs/services/favorites.service";
-import "@angularjs/services/env.service";
-import "@angularjs/services/open_studios_registration.service";
-import "@angularjs/services/search.service";
 import "./app/flash_binding";
-import "./vendor/angularSlideables";
 import "./vendor/bootstrap/transition";
 import "./vendor/bootstrap/tab";
 import "./vendor/bootstrap/collapse";
@@ -33,30 +13,3 @@ import "@reactjs";
 
 import ujs from "@rails/ujs";
 ujs.start();
-
-angular
-  .module("MauAdminApp", [
-    "ngSanitize",
-    "ngDialog",
-    "angularSlideables",
-    "mau.models",
-    "mau.services",
-    "mau.directives",
-  ])
-  .config(function () {
-    return null;
-  });
-// Leaving this here until we are sure we're done with angular
-//
-// ngInject(function ($httpProvider) {
-//   var base, csrfToken;
-//   csrfToken = $("meta[name=csrf-token]").attr("content");
-//   $httpProvider.defaults.headers.post["X-CSRF-Token"] = csrfToken;
-//   $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
-//   $httpProvider.defaults.headers.put["X-CSRF-Token"] = csrfToken;
-//   $httpProvider.defaults.headers.patch["X-CSRF-Token"] = csrfToken;
-//   (base = $httpProvider.defaults.headers)["delete"] ||
-//     (base["delete"] = {});
-//   $httpProvider.defaults.headers["delete"]["X-CSRF-Token"] = csrfToken;
-//   return null;
-// })
