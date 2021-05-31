@@ -1,6 +1,7 @@
 import * as types from "@reactjs/types";
 import { destroy, get, post, put } from "@services/mau_ajax";
 import { camelizeKeys } from "humps";
+
 const camelize = (data) => camelizeKeys(data);
 
 export const api = {
@@ -30,7 +31,7 @@ export const api = {
     },
   },
   applicationEvents: {
-    index: ({ since }) =>
+    index: ({ since }): Promise<types.ApplicationEventsListResponse> =>
       get("/admin/application_events.json", { "query[since]": since }).then(
         camelize
       ),
