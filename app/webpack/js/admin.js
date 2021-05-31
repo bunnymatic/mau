@@ -13,7 +13,6 @@ import "angular-animate";
 import "./vendor/angular-mailchimp";
 import "angular-ui-utils/modules/keypress/keypress";
 import "ng-dialog/js/ngDialog";
-import "@components/admin/email_list_manager/email_list_manager";
 import "@components/admin/events_notification_bell/events_notification_bell";
 import "@components/models/email";
 import "@components/link_if/link_if";

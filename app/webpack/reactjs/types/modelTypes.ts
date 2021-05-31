@@ -1,8 +1,10 @@
 /** models **/
 import { Nullable } from "./utilTypes";
 
+export type IdType = number;
+
 interface ActiveRecordModel {
-  id: number;
+  id: IdType;
 }
 
 export interface CmsDocument {
@@ -59,8 +61,8 @@ export interface JsonApiArtPiece
   extends JsonApiModel<ArtPieceAttributes, ArtPieceRelationships> {}
 
 export interface OpenStudiosParticipant extends ActiveRecordModel {
-  userId: number;
-  openStudiosEventId: number;
+  userId: IdType;
+  openStudiosEventId: IdType;
   showEmail: Nullable<boolean>;
   showPhoneNumber: Nullable<boolean>;
   shopUrl: Nullable<string>;
@@ -90,4 +92,12 @@ export interface DateInfo {
 export interface SpecialEventDetails extends DateInfo {
   dateRange: string;
   timeSlots: string[];
+}
+
+export interface EmailAttributes {
+  id: IdType;
+  name?: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
 }

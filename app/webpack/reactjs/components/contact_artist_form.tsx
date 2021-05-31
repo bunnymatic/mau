@@ -68,7 +68,6 @@ export const ContactArtistForm: FC<ContactArtistFormProps> = ({
           actions.setErrors(errors);
           error = "Whoops. There was a problem.";
         } catch (e) {
-          console.error(e);
           error = "Ack. Something is seriously wrong. Please try again later.";
         }
         new Flash().show({ error });

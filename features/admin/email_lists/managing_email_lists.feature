@@ -11,23 +11,23 @@ Background:
 
 Scenario:
   Then I can see the "Feedback" email list
-  And I can see the "Admin" email list
+  And I can see the "Admins" email list
 
 Scenario: Adding an email
   When I click to add an email to the "Feedback" list
   And I fill in the "Feedback" email form with:
-  | Email             | Name     |
+  | email             | name      |
   | add_email@example.com  | joe blow |
-  And I click "add" in the "Feedback" email form
+  And I click "Add" in the "Feedback" email form
   Then I see that "joe blow <add_email@example.com>" is on the "Feedback" email list
 
 
 Scenario: Removing an email
   When I click to add an email to the "Feedback" list
   And I fill in the "Feedback" email form with:
-  | Email               | Name     |
+  | email               | name      |
   | new_email@example.com   | joe blow |
-  And I click "add" in the "Feedback" email form
+  And I click "Add" in the "Feedback" email form
   Then I see that "joe blow <new_email@example.com>" is on the "Feedback" email list
   And I click to remove "new_email@example.com" from the "Feedback" list
   Then I see that "joe blow <new_email@example.com>" is not on the "Feedback" email list
@@ -36,22 +36,22 @@ Scenario: Removing an email
 Scenario: Adding an invalid email
   When I click to add an email to the "Feedback" list
   And I fill in the "Feedback" email form with:
-  | Email     | Name     |
+  | email     | name       |
   | email@a   | joe blow |
-  And I click "add" in the "Feedback" email form
-  Then I see an error message "should look like an email"
+  And I click "Add" in the "Feedback" email form
+  Then I see an inline form error "should look like an email"
 
 @javascript
 Scenario: Adding the same email twice to one list
   When I click to add an email to the "Feedback" list
   And I fill in the "Feedback" email form with:
-  | Email               | Name     |
+  | email               | name       |
   | joe_blows_email@example.com   | joe blow |
-  And I click "add" in the "Feedback" email form
+  And I click "Add" in the "Feedback" email form
   Then I see that "joe blow <joe_blows_email@example.com>" is on the "Feedback" email list
   And I click to add an email to the "Feedback" list
   And I fill in the "Feedback" email form with:
-  | Email               |
+  | email               |
   | joe_blows_email@example.com   |
-  And I click "add" in the "Feedback" email form
-  Then I see an error message "Email list has already been taken"
+  And I click "Add" in the "Feedback" email form
+  Then I see an inline form error "Email list has already been taken"
