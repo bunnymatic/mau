@@ -1,5 +1,4 @@
-@import "mixins";
-@import "colors";
+@use "../colors";
 
 .admin .feeds {
   .feed-header {
@@ -8,7 +7,7 @@
   }
 
   .feed-sxn-hdr {
-    color: $black;
+    color: colors.$black;
     font-weight: bold;
     text-align: left;
     margin-left: 5px;
@@ -23,13 +22,13 @@
   .feedentry {
     max-width: 250px;
     &.even {
-      border-top: 1px dotted $border-gray;
-      border-bottom: 1px dotted $border-gray;
+      border-top: 1px dotted colors.$border-gray;
+      border-bottom: 1px dotted colors.$border-gray;
     }
     padding: 2px 5px 5px 5px;
   }
   .feedtxt {
-    color: $black;
+    color: colors.$black;
     font-size: 10px;
     text-align: left;
     overflow: hidden;
@@ -40,7 +39,7 @@
   }
 
   #feed_div {
-    color: $darkgray;
+    color: colors.$darkgray;
     vertical-align: top;
     padding: 0 10px;
     blockquote {

@@ -1,4 +1,7 @@
-@import "mixins";
+@use "../../mixins" as *;
+@use "../../colors" as *;
+@use "../variables" as v;
+
 .password-reset {
   .instructions {
     margin-bottom: 20px;
@@ -67,7 +70,7 @@
     .panel-title {
       a {
         padding-left: 40px;
-        font-weight: $font-weight-normal;
+        font-weight: v.$font-weight-normal;
         font-size: 18px;
       }
     }
@@ -95,14 +98,14 @@
   }
   .panel-body {
     padding: 20px;
-    @media screen and (max-width: $screen-lg-max) {
+    @media screen and (max-width: v.$screen-lg-max) {
     }
-    @media screen and (max-width: $screen-md-max) {
+    @media screen and (max-width: v.$screen-md-max) {
     }
-    @media screen and (max-width: $screen-sm-max) {
+    @media screen and (max-width: v.$screen-sm-max) {
       padding: 20px 0;
     }
-    @media screen and (max-width: $screen-xs-max) {
+    @media screen and (max-width: v.$screen-xs-max) {
     }
 
     ul.help {
@@ -111,13 +114,6 @@
       li {
         list-style: circle;
       }
-    }
-  }
-  .toggle-button {
-    margin: auto;
-    text-align: center;
-    label[for="doing_open_studios"] {
-      margin: auto;
     }
   }
 }

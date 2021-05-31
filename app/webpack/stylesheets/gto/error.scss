@@ -1,5 +1,7 @@
 /* error pages */
-@import "mixins";
+@use "../colors";
+@use "variables" as v;
+
 .f404 {
   display: flex !important;
   flex-direction: column;
@@ -13,13 +15,13 @@
     margin-top: 10%;
     font-family: helvetica, verdana, arial, sans-serif;
     text-align: center;
-    color: $gto_red;
+    color: colors.$gto_red;
     font-size: 13vw;
   }
 }
 .f404-container {
   width: 95%;
-  @media screen and (min-width: $screen-xs-max) {
+  @media screen and (min-width: v.$screen-xs-max) {
     width: 70%;
   }
   p {

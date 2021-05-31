@@ -1,8 +1,9 @@
-@import "gto/variables";
+@use "../gto/variables" as v;
+
 .admin {
   .featured-artist {
     .info-column label {
-      font-weight: $font-weight-bold;
+      font-weight: v.$font-weight-bold;
     }
   }
 }

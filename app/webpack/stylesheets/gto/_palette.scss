@@ -1,5 +1,5 @@
-@import "mixins";
-@import "../colors";
+@use "../mixins" as *;
+@use "../colors" as c;
 
 .palette-colors {
   display: flex;
@@ -9,7 +9,7 @@
 .palette-colors__color {
   @include dotted_border;
   @include large-rounded-corners;
-  border: 1px solid $light-gray;
+  border: 1px solid c.$light-gray;
   margin: 7px;
   width: 120px;
   height: 120px;
@@ -24,10 +24,10 @@
   background-color: rgba(200, 200, 200, 0.7);
   font-size: 0.8rem;
   @include large-rounded-corners;
-  color: $gto_dark_blue;
+  color: c.$gto_dark_blue;
 }
 
-@each $name, $color in $all_colors {
+@each $name, $color in c.$all-colors {
   .palette-colors__color--#{$name} {
     background-color: #{$color};
   }

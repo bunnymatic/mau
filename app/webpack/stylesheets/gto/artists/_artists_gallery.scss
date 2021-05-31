@@ -1,10 +1,13 @@
+@use "../../colors";
+@use "../variables" as v;
+
 .artists-gallery {
   &.sticky-gallery-paginator {
-    @media (min-width: $screen-sm-max) {
+    @media (min-width: v.$screen-sm-max) {
       position: sticky;
       top: 90px;
       z-index: 1;
-      background-color: $base-background-color;
+      background-color: colors.$base-background-color;
     }
   }
   .name-switcher,
@@ -27,7 +30,7 @@
   justify-content: flex-start;
   flex-direction: column;
   margin-top: -15px;
-  @media (min-width: $screen-md-min) {
+  @media (min-width: v.$screen-md-min) {
     flex-direction: row;
   }
 }

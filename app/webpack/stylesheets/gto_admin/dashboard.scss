@@ -1,4 +1,6 @@
-@import "mixins";
+@use "../gto/variables" as v;
+@use "../colors";
+
 .admin {
   .graphs {
     margin-bottom: 20px;
@@ -15,7 +17,7 @@
     text-align: center;
     font-style: italic;
     margin-bottom: 20px;
-    border: 1px solid $gto_gray;
+    border: 1px solid colors.$gto_gray;
   }
 
   .dashboard__stats-list {
@@ -23,7 +25,7 @@
     h4 {
       margin-bottom: 0.5rem;
       text-transform: uppercase;
-      font-weight: $font-weight-normal;
+      font-weight: v.$font-weight-normal;
     }
     td {
       padding-right: 8px;

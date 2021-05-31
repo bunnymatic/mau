@@ -1,6 +1,7 @@
 /** settings that are around default font sizes and colors */
-@import "mixins";
+@use "../mixins";
+
 a {
-  @include transition(all 0.2s ease);
-  @include link_style;
+  @include mixins.transition(all 0.2s ease);
+  @include mixins.link_style;
 }

@@ -1,4 +1,4 @@
-@import "gto/gto-mixins";
+@use "../mixins" as *;
 
 .admin-artists-edit__section-header {
   text-transform: uppercase;

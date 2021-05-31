@@ -1,6 +1,6 @@
-@import "mau-mixins";
-@import "gto/gto-mixins";
-@import "colors";
+@use "../../../stylesheets/mixins" as *;
+@use "../../../stylesheets/colors" as *;
+@use "../../../stylesheets/gto/variables" as v;
 
 art-pieces-browser {
   .art-piece,
@@ -28,20 +28,20 @@ art-pieces-browser {
         bottom: 2px;
         right: 2px;
       }
-      @media screen and (max-width: $screen-xs-max) {
+      @media screen and (max-width: v.$screen-xs-max) {
         display: none;
       }
     }
     .push {
       margin-top: 20px;
-      @media screen and (max-width: $screen-xs-max) {
+      @media screen and (max-width: v.$screen-xs-max) {
         margin-top: 0px;
       }
     }
     section h4 {
       font-size: 0.75rem;
       text-transform: uppercase;
-      font-weight: $font-weight-light;
+      font-weight: v.$font-weight-light;
       margin-right: 8px;
       margin-bottom: 0.3rem;
       margin-top: 1.5rem;
@@ -113,7 +113,7 @@ art-pieces-browser {
       }
     }
   }
-  @media screen and (min-width: $screen-xs-max) {
+  @media screen and (min-width: v.$screen-xs-max) {
     .art-piece {
       order: 2;
       height: 400px;
@@ -133,7 +133,7 @@ art-pieces-browser {
       order: 3;
     }
   }
-  @media screen and (min-width: $screen-sm-max) {
+  @media screen and (min-width: v.$screen-sm-max) {
     .art-piece {
       height: 500px;
     }
@@ -143,7 +143,7 @@ art-pieces-browser {
       }
     }
   }
-  @media screen and (min-width: $screen-md-max) {
+  @media screen and (min-width: v.$screen-md-max) {
     .art-piece {
       height: 600px;
     }

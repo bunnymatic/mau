@@ -1,4 +1,6 @@
-@import "mixins";
+@use "../../mixins" as *;
+@use "../../colors" as *;
+@use "../variables" as v;
 
 .studios:not(.admin),
 .studios.show {
@@ -12,14 +14,14 @@
       @include background-contain;
     }
 
-    @media screen and (max-width: $screen-lg-max) {
+    @media screen and (max-width: v.$screen-lg-max) {
     }
-    @media screen and (max-width: $screen-md-max) {
+    @media screen and (max-width: v.$screen-md-max) {
     }
-    @media screen and (max-width: $screen-sm-max) {
+    @media screen and (max-width: v.$screen-sm-max) {
       height: 200px;
     }
-    @media screen and (max-width: $screen-xs-max) {
+    @media screen and (max-width: v.$screen-xs-max) {
       height: auto;
     }
   }
@@ -36,14 +38,14 @@
     padding-bottom: 4px;
   }
 
-  @media screen and (max-width: $screen-lg-max) {
+  @media screen and (max-width: v.$screen-lg-max) {
   }
-  @media screen and (max-width: $screen-md-max) {
+  @media screen and (max-width: v.$screen-md-max) {
   }
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
     margin-top: inherit;
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
     margin-top: 15px;
     position: static;
     .name {
@@ -84,7 +86,7 @@
         padding: 4px 2px;
         text-transform: uppercase;
         font-size: 0.8rem;
-        font-weight: $font-weight-bold;
+        font-weight: v.$font-weight-bold;
         margin-bottom: 8px;
       }
     }
@@ -137,9 +139,9 @@
       height: 1.1rem;
     }
     .name {
-      font-weight: $font-weight-normal;
+      font-weight: v.$font-weight-normal;
     }
-    @media (min-width: $screen-sm-min) {
+    @media (min-width: v.$screen-sm-min) {
       .desc {
         @include opacity(0);
       }
@@ -152,7 +154,7 @@
     }
     margin: 10px;
     padding: 10px;
-    border: 1px solid #eee;
+    border: 1px solid $x-light-gray;
     h4 {
       margin-bottom: 1.2rem;
     }
@@ -164,7 +166,7 @@
     }
   }
   .studio {
-    border: 1px solid #eee;
+    border: 1px solid $x-light-gray;
     .desc {
     }
   }

@@ -1,9 +1,9 @@
-@import "gto/gto-mixins";
-@import "gto/mau_modal";
+@use "../../../stylesheets/gto/mau_modal" as *;
+@use "../../../stylesheets/colors" as c;
 
 .notify-mau-modal__container {
   @include mau-modal__window;
-  background-color: $light-gray-background;
+  background-color: c.$light-gray-background;
 }
 
 .notify-mau-modal__header {

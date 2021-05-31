@@ -1,12 +1,12 @@
-@import "mixins";
-
-@import "colors";
+@use "../../mixins" as *;
+@use "../../colors" as *;
+@use "../variables" as v;
 
 .favorites.index {
   .section.header {
     @include section-header;
     h3 {
-      font-weight: $font-weight-normal;
+      font-weight: v.$font-weight-normal;
       margin-bottom: 0;
     }
   }

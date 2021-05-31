@@ -1,6 +1,7 @@
-@import "gto/variables";
-@import "colors";
-@import "mau-mixins";
+@use "../../../stylesheets/gto/variables" as v;
+@use "../../../stylesheets/colors" as *;
+@use "../../../stylesheets/mixins" as *;
+
 art-pieces-browser {
   .profile-info {
     .pure-button {
@@ -17,7 +18,7 @@ art-pieces-browser {
     text-align: left;
     font-size: 0.75rem;
     text-transform: uppercase;
-    font-weight: $font-weight-light;
+    font-weight: v.$font-weight-light;
     padding-bottom: 6px;
     vertical-align: middle;
     margin-right: 8px;
@@ -32,11 +33,11 @@ art-pieces-browser {
     cursor: pointer;
   }
 }
-@media screen and (min-width: $screen-xs-max) {
+@media screen and (min-width: v.$screen-xs-max) {
 }
-@media screen and (min-width: $screen-sm-max) {
+@media screen and (min-width: v.$screen-sm-max) {
 }
-@media screen and (min-width: $screen-md-max) {
+@media screen and (min-width: v.$screen-md-max) {
   .social-buttons .share {
   }
 }

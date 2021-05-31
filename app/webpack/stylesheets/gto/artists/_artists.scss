@@ -1,5 +1,6 @@
-@import "mixins";
-@import "colors";
+@use "../../mixins" as *;
+@use "../../colors" as *;
+@use "../variables" as v;
 
 .scroll-load-more__contents {
   font-size: 1.5px; /* for spinner */
@@ -175,7 +176,7 @@
       @include opacity(1);
     }
   }
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: v.$screen-sm-min) {
     .desc {
       @include opacity(0);
     }
@@ -441,7 +442,7 @@ ul.favorite-thumbs li {
     display: block;
     margin-right: 3px;
   }
-  @media screen and (min-width: $screen-sm-max) {
+  @media screen and (min-width: v.$screen-sm-max) {
     .favorite-thumb {
       display: block;
       margin: 0.2rem;
@@ -468,7 +469,7 @@ ul.favorite-thumbs li {
     line-height: 1.3em;
     height: 1.3em;
   }
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
     .chunk {
       margin-bottom: 0px;
     }

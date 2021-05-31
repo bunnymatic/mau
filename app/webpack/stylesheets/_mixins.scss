@@ -1,5 +1,6 @@
-@import "gto/variables";
-@import "colors";
+@use "sass:math";
+@use "colors";
+@use "gto/variables" as v;
 
 @mixin background-cover {
   background-repeat: no-repeat;
@@ -13,41 +14,41 @@
 }
 
 @mixin transparent_black_background {
-  background-color: $black;
+  background-color: colors.$black;
   background-color: rgba(10, 10, 10, 0.8);
 }
 
 @mixin transparent_blue_background {
-  background-color: $darkbluegray;
+  background-color: colors.$darkbluegray;
   background-color: rgba(60, 40, 100, 0.4);
 }
 
 @mixin transparent_white_background {
-  background-color: $x-light-gray;
+  background-color: colors.$x-light-gray;
   background-color: rgba(240, 240, 240, 0.7);
 }
 
 @mixin dotted_border {
-  border: 1px dotted $border-gray;
+  border: 1px dotted colors.$border-gray;
 }
 @mixin solid_border {
-  border: 1px solid $border-gray;
+  border: 1px solid colors.$border-gray;
 }
 @mixin input_style {
-  border: 1px solid $lightbluegray;
-  background-color: $x-light-gray;
+  border: 1px solid colors.$lightbluegray;
+  background-color: colors.$x-light-gray;
   padding: 4px;
 }
 @mixin link_style {
   text-decoration: none;
-  color: $gto_teal;
+  color: colors.$gto_teal;
   &:link,
   &:visited,
   &:active {
-    color: $gto_teal;
+    color: colors.$gto_teal;
   }
   &:hover {
-    color: $gto_dark_teal;
+    color: colors.$gto_dark_teal;
   }
 }
 
@@ -55,7 +56,7 @@
   font-size: x-small;
 }
 
-$default_rounded_amount: 3px;
+$-default-rounded-amount: 3px;
 
 @mixin opacity($opacity) {
   filter: unquote(
@@ -65,16 +66,16 @@ $default_rounded_amount: 3px;
 }
 
 // Round corner at position by amount.
-@mixin round-corner($position, $amount: $default_rounded_amount) {
+@mixin round-corner($position, $amount: $-default-rounded-amount) {
   border-#{$position}-radius: $amount;
 }
 
-@mixin round-corner-mozilla($position, $amount: $default_rounded_amount) {
+@mixin round-corner-mozilla($position, $amount: $-default-rounded-amount) {
   -moz-border-radius-#{$position}: $amount;
 }
 
 // Round left corners by amount
-@mixin round-left-corners($amount: $default_rounded_amount) {
+@mixin round-left-corners($amount: $-default-rounded-amount) {
   @include round-corner("top-left", $amount);
   @include round-corner("bottom-left", $amount);
   @include round-corner-mozilla("topleft", $amount);
@@ -82,7 +83,7 @@ $default_rounded_amount: 3px;
 }
 
 // Round right corners by amount
-@mixin round-right-corners($amount: $default_rounded_amount) {
+@mixin round-right-corners($amount: $-default-rounded-amount) {
   @include round-corner("top-right", $amount);
   @include round-corner("bottom-right", $amount);
   @include round-corner-mozilla("topright", $amount);
@@ -97,14 +98,14 @@ $default_rounded_amount: 3px;
 }
 
 // Round bottom corners by amount
-@mixin round-bottom-corners($amount: $default_rounded_amount) {
+@mixin round-bottom-corners($amount: $-default-rounded-amount) {
   @include round-corner("bottom-left", $amount);
   @include round-corner("bottom-right", $amount);
   @include round-corner-mozilla("bottomleft", $amount);
   @include round-corner-mozilla("bottomright", $amount);
 }
 
-@mixin round-left-corners-only($amount: $default_rounded_amount) {
+@mixin round-left-corners-only($amount: $-default-rounded-amount) {
   @include round-corner("top-left", $amount);
   @include round-corner("bottom-left", $amount);
   @include round-corner-mozilla("topleft", $amount);
@@ -117,7 +118,7 @@ $default_rounded_amount: 3px;
 }
 
 // Round right corners by amount
-@mixin round-right-corners-only($amount: $default_rounded_amount) {
+@mixin round-right-corners-only($amount: $-default-rounded-amount) {
   @include round-corner("top-right", $amount);
   @include round-corner("bottom-right", $amount);
   @include round-corner-mozilla("topright", $amount);
@@ -130,7 +131,7 @@ $default_rounded_amount: 3px;
 }
 
 // Round all corners by amount
-@mixin round-corners($amount: $default_rounded_amount) {
+@mixin round-corners($amount: $-default-rounded-amount) {
   border-radius: $amount;
 }
 
@@ -189,7 +190,7 @@ $default_rounded_amount: 3px;
   left: 0;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.9);
-  color: #222;
+  color: colors.$darkgray;
 }
 
 @mixin blur($radius: 5px) {
@@ -210,60 +211,60 @@ $default_rounded_amount: 3px;
 }
 
 @mixin make-xs-offset($columns, $grid-columns) {
-  margin-left: percentage(($columns / $grid-columns));
+  margin-left: percentage(math.div($columns, $grid-columns));
 }
 @mixin make-xs-push($columns, $grid-columns) {
-  left: percentage(($columns / $grid-columns));
+  left: percentage(math.div($columns, $grid-columns));
 }
 @mixin make-xs-pull($columns, $grid-columns) {
-  right: percentage(($columns / $grid-columns));
+  right: percentage(math.div($columns, $grid-columns));
 }
 
 @mixin make-sm-offset($columns, $grid-columns) {
-  @media (min-width: $screen-sm-min) {
-    margin-left: percentage(($columns / $grid-columns));
+  @media (min-width: v.$screen-sm-min) {
+    margin-left: percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-sm-push($columns, $grid-columns) {
-  @media (min-width: $screen-sm-min) {
-    left: percentage(($columns / $grid-columns));
+  @media (min-width: v.$screen-sm-min) {
+    left: percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-sm-pull($columns, $grid-columns) {
-  @media (min-width: $screen-sm-min) {
-    right: percentage(($columns / $grid-columns));
+  @media (min-width: v.$screen-sm-min) {
+    right: percentage(math.div($columns, $grid-columns));
   }
 }
 
 @mixin make-md-offset($columns, $grid-columns) {
-  @media (min-width: $screen-md-min) {
-    margin-left: percentage(($columns / $grid-columns));
+  @media (min-width: v.$screen-md-min) {
+    margin-left: percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-md-push($columns, $grid-columns) {
-  @media (min-width: $screen-md-min) {
-    left: percentage(($columns / $grid-columns));
+  @media (min-width: v.$screen-md-min) {
+    left: percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-md-pull($columns, $grid-columns) {
-  @media (min-width: $screen-md-min) {
-    right: percentage(($columns / $grid-columns));
+  @media (min-width: v.$screen-md-min) {
+    right: percentage(math.div($columns, $grid-columns));
   }
 }
 
 @mixin make-lg-offset($columns, $grid-columns) {
-  @media (min-width: $screen-lg-min) {
-    margin-left: percentage(($columns / $grid-columns));
+  @media (min-width: v.$screen-lg-min) {
+    margin-left: percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-lg-push($columns, $grid-columns) {
-  @media (min-width: $screen-lg-min) {
-    left: percentage(($columns / $grid-columns));
+  @media (min-width: v.$screen-lg-min) {
+    left: percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-lg-pull($columns, $grid-columns) {
-  @media (min-width: $screen-lg-min) {
-    right: percentage(($columns / $grid-columns));
+  @media (min-width: v.$screen-lg-min) {
+    right: percentage(math.div($columns, $grid-columns));
   }
 }
 
@@ -314,15 +315,15 @@ $default_rounded_amount: 3px;
 }
 
 @mixin light-border {
-  border: 1px solid $x-light-gray;
+  border: 1px solid colors.$x-light-gray;
 }
 
 @mixin light-bottom-border {
-  border-bottom: 1px solid $x-light-gray;
+  border-bottom: 1px solid colors.$x-light-gray;
 }
 
 @mixin light-top-border {
-  border-top: 1px solid $x-light-gray;
+  border-top: 1px solid colors.$x-light-gray;
 }
 
 @mixin light-gray-button {
@@ -331,17 +332,17 @@ $default_rounded_amount: 3px;
   padding: 4px 2px;
   min-width: 25px;
   font-size: 0.8rem;
-  background-color: $xx-light-gray;
+  background-color: colors.$xx-light-gray;
   text-align: center;
   &:hover {
-    background-color: lighten($gto_yellow, 54%);
+    background-color: lighten(colors.$gto_yellow, 54%);
   }
 }
 
 @mixin all-caps-label {
   text-transform: uppercase;
   font-size: 0.8rem;
-  font-weight: $font-weight-bold;
+  font-weight: v.$font-weight-bold;
 }
 @mixin card-description {
   padding: 6px;
@@ -352,14 +353,14 @@ $default_rounded_amount: 3px;
   margin: 0 20px 20px;
   font-size: 0.8rem;
   text-align: center;
-  @include box-shadow(0 0 4px 1px rgba($gto_teal, 0.3));
+  @include box-shadow(0 0 4px 1px rgba(colors.$gto_teal, 0.3));
   .media {
     @include ellipsis;
   }
   .byline {
     font-size: 0.75rem;
-    color: $gto_dark_blue;
-    font-weight: $font-weight-light;
+    color: colors.$gto_dark_blue;
+    font-weight: v.$font-weight-light;
   }
 }
 
@@ -391,7 +392,7 @@ $default_rounded_amount: 3px;
     .fa {
       font-size: 1.2rem;
       &:hover {
-        color: $gto_dark_teal;
+        color: colors.$gto_dark_teal;
       }
     }
     input[type="text"] {
@@ -401,12 +402,13 @@ $default_rounded_amount: 3px;
       border: none;
       font-size: 1.2rem;
       @include transition(width 0.25s ease-in-out);
-      font-weight: $font-weight-light;
+      font-weight: v.$font-weight-light;
     }
   }
-  @media screen and (min-width: $screen-md-max) {
+  @media screen and (min-width: v.$screen-md-max) {
     .filter {
-      @include light-bottom-border margin-top: 22px;
+      @include light-bottom-border;
+      margin-top: 22px;
       margin-left: -20px;
       padding-left: 20px;
       padding-bottom: 4px;
@@ -419,7 +421,8 @@ $default_rounded_amount: 3px;
   text-transform: uppercase;
   font-size: 0.8rem;
   margin-bottom: 8px;
-  @include light-bottom-border @include ellipsis;
+  @include light-bottom-border;
+  @include ellipsis;
 }
 
 @mixin popup-elements {
@@ -438,7 +441,7 @@ $default_rounded_amount: 3px;
   .popup-header {
     text-transform: uppercase;
     line-height: 1.5em;
-    font-weight: $font-weight-normal;
+    font-weight: v.$font-weight-normal;
     padding: 10px 15px 4px;
     margin-bottom: 12px;
     position: relative;
@@ -450,36 +453,36 @@ $default_rounded_amount: 3px;
   }
 }
 
-$sampler-thumbnail-size: 250px;
+$-sampler-thumbnail-size: 250px;
 
 @mixin sampler-block-mixin {
   @include artist-thumb-mixin;
-  height: $sampler-thumbnail-size;
+  height: $-sampler-thumbnail-size;
   min-height: inherit;
   padding: 6px;
   overflow: hidden;
 
   width: 20%;
   float: left;
-  @media screen and (max-width: $screen-lg-max) {
+  @media screen and (max-width: v.$screen-lg-max) {
     width: 25%;
     &:nth-child(13) {
       display: block;
     }
   }
-  @media screen and (max-width: $screen-md-max) {
+  @media screen and (max-width: v.$screen-md-max) {
     width: 33.33%;
     &:nth-child(13) {
       display: none;
     }
   }
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
     width: 50%;
     &:nth-child(13) {
       display: block;
     }
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
     &.first {
       margin-top: 10px;
     }
@@ -495,7 +498,7 @@ $sampler-thumbnail-size: 250px;
     right: 9px;
   }
   .image {
-    height: $sampler-thumbnail-size;
+    height: $-sampler-thumbnail-size;
   }
   .desc {
     @include transition(all 0.25s ease-in-out);
@@ -538,7 +541,7 @@ $sampler-thumbnail-size: 250px;
 @mixin form-label {
   display: block;
   margin-bottom: 5px;
-  color: $medium-gray;
+  color: colors.$medium-gray;
   font-size: 0.9rem;
 }
 
@@ -553,7 +556,7 @@ $sampler-thumbnail-size: 250px;
 
 @mixin sold-sign {
   text-transform: uppercase;
-  color: $gto_yellow;
+  color: colors.$gto_yellow;
   background-color: rgba(255, 255, 255, 0.8);
   @include round-corners();
 }

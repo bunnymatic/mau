@@ -1,9 +1,10 @@
-@import "colors";
-@import "mau-mixins";
+@use "../../../../stylesheets/mixins" as *;
+@use "../../../../stylesheets/colors";
+
 email-list-manager {
   .help {
     line-height: 1.2rem;
-    color: $gto_gray;
+    color: colors.$gto_gray;
   }
   .add_email {
     padding: 0px 20px;
@@ -20,7 +21,7 @@ email-list-manager {
         @include ellipsis;
       }
       &:nth-child(odd) {
-        background-color: $xx-light-gray;
+        background-color: colors.$xx-light-gray;
       }
     }
     .del-btn {

@@ -1,5 +1,6 @@
-@import "colors";
-@import "mixins";
+@use "../colors" as *;
+@use "../mixins" as *;
+@use "./variables" as v;
 
 #search_form_container {
   display: none;
@@ -63,14 +64,14 @@
       font-size: 1.1rem;
       vertical-align: middle;
       .title {
-        font-weight: $font-weight-bold;
+        font-weight: v.$font-weight-bold;
       }
       .artist {
         font-style: italic;
       }
       .medium {
         padding-left: 20px;
-        font-weight: $font-weight-light;
+        font-weight: v.$font-weight-light;
         font-size: 0.95rem;
       }
     }

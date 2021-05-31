@@ -1,6 +1,6 @@
-@import "colors";
-@import "variables";
-@import "mixins";
+@use "../colors" as *;
+@use "../mixins" as *;
+@use "./variables" as v;
 
 $input-width: 90%;
 $mobile-input-width: 100%;
@@ -32,7 +32,7 @@ tr.error-msg {
 }
 .inline-hints {
   width: $input-width;
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
     width: $mobile-input-width;
   }
   font-size: 85%;
@@ -60,7 +60,7 @@ tr.error-msg {
 }
 .inputs textarea {
   width: $input-width;
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
     width: $mobile-input-width;
   }
 }
@@ -85,7 +85,7 @@ tr.error-msg {
     border-radius: 2px;
     @include light-border;
     width: $input-width;
-    @media screen and (max-width: $screen-xs-max) {
+    @media screen and (max-width: v.$screen-xs-max) {
       width: $mobile-input-width;
     }
     &:focus + span,
@@ -140,9 +140,9 @@ tr.error-msg {
     position: relative;
     top: 1px;
     display: inline-block;
-    font-family: $font-awesome-font-family;
+    font-family: v.$font-awesome-font-family;
     font-style: normal;
-    font-weight: $font-weight-normal;
+    font-weight: v.$font-weight-normal;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -201,7 +201,7 @@ tr.error-msg {
 }
 .select2-container {
   width: $input-width !important;
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
     width: $mobile-input-width !important;
   }
 }

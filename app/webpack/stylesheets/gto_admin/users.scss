@@ -1,4 +1,7 @@
-@import "mixins";
+@use "../mixins" as *;
+@use "../gto/variables" as v;
+@use "../colors";
+
 .admin.users {
   .image {
     text-align: center;
@@ -8,7 +11,7 @@
     @include ellipsis;
   }
   .info-block {
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid colors.$medium-gray;
     padding-bottom: 40px;
     margin-bottom: 40px;
   }
@@ -19,23 +22,23 @@
     .info-block-icon {
       font-size: 40px;
       margin-right: 10px;
-      font-weight: $font-weight-normal;
+      font-weight: v.$font-weight-normal;
       vertical-align: middle;
     }
     .info-block-instructions-callout {
-      color: $gto_dark_teal;
+      color: colors.$gto_dark_teal;
       font-style: normal;
-      font-weight: $font-weight-bold;
+      font-weight: v.$font-weight-bold;
     }
     .instructions,
     .hint {
       margin-top: 8px;
       line-height: 1.4rem;
       font-style: italic;
-      color: #999;
+      color: colors.$medium-gray;
     }
     .content {
-      background-color: #f0f0f0;
+      background-color: colors.$xx-light-gray;
       margin: 16px 0;
       padding: 8px;
     }

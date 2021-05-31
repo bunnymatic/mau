@@ -1,5 +1,5 @@
-@import "colors";
-@import "gto/gto-mixins";
+@use "../colors" as c;
+@use "../mixins" as m;
 
 .section.markdown.editable {
   position: relative;
@@ -11,7 +11,7 @@
     margin: 0;
     &:before {
       content: "<empty cms content>";
-      color: $light-gray;
+      color: c.$light-gray;
     }
   }
   &:hover {
@@ -21,7 +21,7 @@
       right: 20px;
       top: 20px;
       background-color: rgba(200, 220, 220, 0.6);
-      @include light-border;
+      @include m.light-border;
       padding: 10px;
     }
   }

@@ -1,3 +1,5 @@
+@use "colors";
+
 @import "reset";
 @import "@fortawesome/fontawesome-free/scss/fontawesome";
 @import "@fortawesome/fontawesome-free/scss/regular";
@@ -8,7 +10,6 @@
 @import "ng-dialog/css/ngDialog-theme-default.css";
 @import "collapse";
 @import "panel";
-@import "toggle_button";
 @import "c3/c3.min.css";
 
 @import "purecss/build/pure";
@@ -76,7 +77,7 @@
 .admin {
   .header {
     h2 {
-      color: $darkgray;
+      color: colors.$darkgray;
     }
   }
 }

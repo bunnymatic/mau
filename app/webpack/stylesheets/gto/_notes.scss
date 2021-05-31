@@ -1,4 +1,5 @@
-@import "gto/gto-mixins";
+@use "../mixins";
+
 .send-mau-a-note {
-  @include popup-elements;
+  @include mixins.popup-elements;
 }

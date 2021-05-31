@@ -1,3 +1,5 @@
+@use "../colors";
+
 .admin-user__profile-info {
 }
 .admin-user__profile-table {
@@ -8,13 +10,13 @@
     padding-right: 10px;
   }
   td:first-child {
-    color: $light-gray;
+    color: colors.$light-gray;
   }
   &.is-section-start {
     td {
       margin-top: 10px;
       padding-top: 10px;
-      border-top: 1px dotted $medium-gray;
+      border-top: 1px dotted colors.$medium-gray;
     }
   }
   &.is-section-end {

@@ -1,5 +1,7 @@
-@import "gto/gto-mixins";
-@import "colors";
+@use "../../mixins" as *;
+@use "../../colors" as *;
+@use "../variables" as v;
+
 .search.index {
   .result-count {
     float: right;
@@ -39,7 +41,7 @@
 
   h4 .query {
     font-style: italic;
-    font-weight: $font-weight-normal;
+    font-weight: v.$font-weight-normal;
   }
 }
 .search-results {

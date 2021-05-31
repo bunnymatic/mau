@@ -1,4 +1,5 @@
-@import "colors";
+@use "../colors";
+
 .ngdialog.ngdialog-theme-default .ngdialog-content {
-  background-color: $light-gray-background;
+  background-color: colors.$light-gray-background;
 }

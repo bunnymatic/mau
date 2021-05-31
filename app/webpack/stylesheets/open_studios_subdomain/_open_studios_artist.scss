@@ -1,4 +1,7 @@
-@import "mixins";
+@use "../mixins" as *;
+@use "../colors" as *;
+@use "../gto/variables" as v;
+
 .open-studios-artist__title {
   text-align: center;
   margin-top: 0;
@@ -58,7 +61,7 @@
 
 .open-studios-artist__details__item--title {
   text-transform: uppercase;
-  font-weight: $font-weight-bold;
+  font-weight: v.$font-weight-bold;
 }
 .open-studios-artist__details__live-conference-url {
   margin-top: 18px;
@@ -69,7 +72,7 @@
     background: #ffffff99;
     padding: 6px 8px 4px 8px;
     @include box-shadow(0 0 4px 2px rgba(255, 255, 255, 0.6));
-    font-weight: $font-weight-bold;
+    font-weight: v.$font-weight-bold;
     color: $gto_hot_pink;
   }
 }
@@ -93,5 +96,5 @@
   background: rgba(255, 255, 255, 0.9);
   padding: 6px 4px 4px 4px;
   @include box-shadow(0 0 4px 2px rgba(255, 255, 255, 0.6));
-  font-weight: $font-weight-bold;
+  font-weight: v.$font-weight-bold;
 }

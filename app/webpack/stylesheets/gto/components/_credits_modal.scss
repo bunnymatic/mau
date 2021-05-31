@@ -1,7 +1,5 @@
-@import "mixins";
-
-@import "gto/mau_modal";
-@import "colors";
+@use "../../mixins" as *;
+@use "../mau_modal" as *;
 
 .credits-modal__overlay {
   @include mau-modal__overlay;

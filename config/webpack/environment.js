@@ -61,5 +61,15 @@ environment.loaders.append("imports-loader", importsLoader);
 
 environment.splitChunks();
 
+// dart-sass
+const sassLoader = environment.loaders.get("sass");
+const sassLoaderConfig = sassLoader.use.find(function (element) {
+  return element.loader == "sass-loader";
+});
+
+// Use Dart-implementation of Sass (default is node-sass)
+const options = sassLoaderConfig.options;
+options.implementation = require("sass");
 // console.log("WEBPACK CONFIG", environment);
+
 module.exports = environment;
