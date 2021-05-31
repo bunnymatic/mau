@@ -1,4 +1,6 @@
 /* stylesheet for catalog/map */
+@use "colors" as *;
+
 body,
 div,
 span {
@@ -35,7 +37,7 @@ li {
   }
   .markdown {
     p {
-      border-top: 1px solid #999;
+      border-top: 1px solid $medium-gray;
       padding-top: 5px;
     }
   }
@@ -43,7 +45,7 @@ li {
     line-height: 21px;
     padding-left: 8px;
     &.odd {
-      background-color: #f4f4f4;
+      background-color: $xx-light-gray;
     }
   }
   font-size: small;
@@ -54,9 +56,9 @@ li {
     }
     .title {
       font-size: normal;
-      background-color: #eee;
+      background-color: $x-light-gray;
       padding: 8px;
-      border-bottom: 1px solid #999;
+      border-bottom: 1px solid $medium-gray;
       .studioname {
         font-weight: bold;
       }

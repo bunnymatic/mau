@@ -1,3 +1,6 @@
+@use "../../mixins" as *;
+@use "../../colors" as *;
+
 .special-event-schedule {
   margin-top: 20px;
 }

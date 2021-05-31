@@ -1,5 +1,5 @@
-@import "colors";
-@import "mixins";
+@use "../colors" as *;
+@use "../mixins" as *;
 
 .admin.roles {
   .role-container {

@@ -1,23 +1,26 @@
-@import "colors";
-$base-size: 6.4;
+@use "sass:math";
+@use "../colors" as *;
+
+$-base-size: 6.4;
+
 .mau-spinner {
   display: inline-block;
   position: relative;
-  width: (64rem / $base-size);
-  height: (64rem / $base-size);
+  width: math.div(64rem, $-base-size);
+  height: math.div(64rem, $-base-size);
 }
 .mau-spinner div {
-  transform-origin: (32rem / $base-size) (32rem / $base-size);
+  transform-origin: math.div(32rem, $-base-size) math.div(32rem, $-base-size);
   animation: mau-spinner 1.2s linear infinite;
 }
 .mau-spinner div:after {
   content: " ";
   display: block;
   position: absolute;
-  top: (3rem / $base-size);
-  left: (29rem / $base-size);
-  width: (5rem / $base-size);
-  height: (15rem / $base-size);
+  top: math.div(3rem, $-base-size);
+  left: math.div(29rem, $-base-size);
+  width: math.div(5rem, $-base-size);
+  height: math.div(15rem, $-base-size);
   border-radius: 20%;
   background: $light-gray;
 }

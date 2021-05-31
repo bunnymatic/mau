@@ -1,4 +1,6 @@
-@import "mixins";
+@use "../../mixins" as *;
+@use "../../colors" as *;
+@use "../variables" as v;
 
 .open-studios-info-form {
   margin: 15px 15px 15px 0;
@@ -16,14 +18,14 @@
 }
 
 .open-studios-info-form__title {
-  font-weight: $font-weight-light;
+  font-weight: v.$font-weight-light;
   font-size: 1.1rem;
   text-transform: uppercase;
   margin-bottom: 8px;
 }
 
 .open-studios-info-form__subtitle {
-  font-weight: $font-weight-normal;
+  font-weight: v.$font-weight-normal;
   font-size: 1rem;
 }
 
@@ -41,13 +43,13 @@
 .open-studios-info-form__actions {
   display: flex;
   justify-content: space-between;
-  @media screen and (max-width: $screen-lg-max) {
+  @media screen and (max-width: v.$screen-lg-max) {
   }
-  @media screen and (max-width: $screen-md-max) {
+  @media screen and (max-width: v.$screen-md-max) {
   }
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
     flex-direction: column;
     & > * {
       margin-bottom: 8px;

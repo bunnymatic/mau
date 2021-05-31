@@ -1,4 +1,5 @@
-@import "gto/gto-mixins";
+@use "../../mixins" as *;
+@use "../../colors";
 
 .react-styleguide-page {
 }
@@ -25,8 +26,8 @@
 .react-styleguide__code {
   margin: 10px;
   flex: 1;
-  background-color: $darkbluegray;
-  color: $lightbluegray;
+  background-color: colors.$darkbluegray;
+  color: colors.$lightbluegray;
   pre {
     margin: 20px;
     padding: 20px;

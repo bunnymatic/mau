@@ -1,12 +1,12 @@
-@import "colors";
-@import "mixins";
+@use "../colors" as c;
+@use "../mixins" as *;
 
 #admin_nav {
   position: fixed;
   width: 200px;
   left: -webkit-calc(100% - 2px);
   left: calc(100% - 2px);
-  color: $darkgray;
+  color: c.$darkgray;
   font-size: small;
   margin: 0 auto;
   z-index: 30;
@@ -31,16 +31,16 @@
   .container {
     position: relative;
     z-index: 1;
-    border: 1px solid $gto_red;
-    background-color: lighten($gto_red, 45%);
+    border: 1px solid c.$gto_red;
+    background-color: lighten(c.$gto_red, 45%);
     margin: 4px auto 0;
     padding: 9px 20px 20px 20px;
     @include round-left-corners(2px);
     .events-notification-bell,
     .handle {
-      border: 1px solid $gto_red;
+      border: 1px solid c.$gto_red;
       border-right: none;
-      background-color: lighten($gto_red, 45%);
+      background-color: lighten(c.$gto_red, 45%);
       position: absolute;
       left: -48px;
       top: 55px;

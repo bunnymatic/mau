@@ -1,6 +1,6 @@
 /* .pure-u-sm-* */
-@import "gto/variables";
-@import "mixins";
+@use "mixins" as *;
+@use "gto/variables" as v;
 
 /* // fixes PureCSS issue #569 - version 0.6.0 https://github.com/yahoo/pure/issues/569 */
 /* .pure-g { */
@@ -13,7 +13,7 @@ input,
 select,
 textarea,
 .pure-g [class*="pure-u"] {
-  font-family: $font;
+  font-family: v.$font;
 }
 .pure-u-xs-hidden,
 .pure-u-sm-hidden,
@@ -25,33 +25,33 @@ textarea,
   margin-left: 12.5%;
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: v.$screen-xs-max) {
   .pure-u-xs-hidden {
     display: inherit;
   }
 }
-@media screen and (min-width: $screen-sm-min) {
+@media screen and (min-width: v.$screen-sm-min) {
   .pure-u-xs-hidden {
     display: inherit;
   }
 }
 
 /* .pure-u-md-* */
-@media screen and (min-width: $screen-md-min) {
+@media screen and (min-width: v.$screen-md-min) {
   .pure-u-sm-hidden {
     display: inherit;
   }
 }
 
 /*	.pure-u-lg-* */
-@media screen and (min-width: $screen-lg-min) {
+@media screen and (min-width: v.$screen-lg-min) {
   .pure-u-md-hidden {
     display: inherit;
   }
 }
 
 /*	.pure-u-xl-* */
-@media screen and (min-width: $screen-xl-min) {
+@media screen and (min-width: v.$screen-xl-min) {
   .pure-u-lg-hidden {
     display: inherit;
   }

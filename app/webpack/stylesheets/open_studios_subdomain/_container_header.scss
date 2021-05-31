@@ -1,10 +1,15 @@
+@use "./variables";
+@use "../mixins" as *;
+@use "../colors" as *;
+@use "../gto/variables" as gto_variables;
+
 .container-header {
   @include box-shadow(0 0 3px 3px rgba(100, 100, 100, 0.7));
   align-items: center;
   background-color: $white;
   display: flex;
-  height: $open-studios-header-offset;
-  padding: $open-studios-main-margin;
+  height: variables.$open-studios-header-offset;
+  padding: variables.$open-studios-main-margin;
   position: fixed;
   top: 0;
   left: 0;
@@ -22,9 +27,9 @@
   align-items: center;
   position: absolute;
   z-index: 2;
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: gto_variables.$screen-xs-max) {
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: gto_variables.$screen-xs-max) {
   }
 }
 .container-header__mau-title {
@@ -43,7 +48,7 @@
   @include ellipsis;
   padding-left: 215px;
   padding-right: 70px;
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: gto_variables.$screen-sm-max) {
     font-size: 1.05rem;
     letter-spacing: -0.04rem;
     padding-left: 40px;

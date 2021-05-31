@@ -1,3 +1,7 @@
+@use "../colors" as *;
+@use "../mixins" as *;
+@use "variables" as v;
+
 @mixin mau-modal__overlay {
   z-index: 2;
   position: fixed;
@@ -17,7 +21,7 @@
   top: 10%;
   left: 5%;
   max-width: 90%;
-  @media screen and (min-width: $screen-xs-max) {
+  @media screen and (min-width: v.$screen-xs-max) {
     top: 50%;
     left: 50%;
     max-width: auto;

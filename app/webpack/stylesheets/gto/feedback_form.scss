@@ -1,7 +1,4 @@
-@import "mixins";
-
-@import "gto/mau_modal";
-@import "colors";
+@use "mau_modal" as *;
 
 #feedback_overlay {
   @include mau-modal__overlay;

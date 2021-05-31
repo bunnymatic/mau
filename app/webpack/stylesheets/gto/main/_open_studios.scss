@@ -1,5 +1,5 @@
-@import "gto/variables";
-@import "gto/gto-mixins";
+@use "../variables" as v;
+
 .open_studios.index {
   .padded-content > .js-tabs {
     margin-top: -10px;
@@ -15,7 +15,7 @@
   text-transform: uppercase;
   margin-bottom: 10px;
   font-size: 1.2rem;
-  font-weight: $font-weight-bold;
+  font-weight: v.$font-weight-bold;
 }
 .open-studios-index__participant-list {
   margin-top: 0;
@@ -24,16 +24,16 @@
 }
 .open-studios-index__participant {
   width: 33%;
-  @media screen and (max-width: $screen-lg-max) {
+  @media screen and (max-width: v.$screen-lg-max) {
     width: 49%;
   }
-  @media screen and (max-width: $screen-md-max) {
+  @media screen and (max-width: v.$screen-md-max) {
     width: 49%;
   }
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
     width: 100%;
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
     width: 100%;
   }
 }

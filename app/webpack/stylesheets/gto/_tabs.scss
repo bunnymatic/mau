@@ -1,5 +1,7 @@
-@import "colors";
-@import "mixins";
+@use "../colors" as *;
+@use "../mixins" as *;
+@use "./variables" as v;
+
 .tab-content .tab-pane {
   display: none;
   &.active {
@@ -13,7 +15,7 @@
   margin: 0 0 0px 0;
   .active {
     a[data-toggle="tab"] {
-      font-weight: $font-weight-bold;
+      font-weight: v.$font-weight-bold;
     }
   }
   li:hover {
@@ -31,7 +33,7 @@
       @include sidebar-nav-entry;
       .dropdown {
         @include transition(all 0.45s ease-in-out);
-        background-color: #f1f1f1;
+        background-color: $light-gray-background;
         li.dropdown-nav {
           height: 0;
           line-height: 22px;
@@ -44,7 +46,7 @@
             display: block;
             font-size: 12px;
             @include ellipsis;
-            font-weight: $font-weight-normal;
+            font-weight: v.$font-weight-normal;
             color: $gto_gray;
           }
         }
@@ -59,7 +61,7 @@
       }
     }
     a {
-      font-weight: $font-weight-bold;
+      font-weight: v.$font-weight-bold;
     }
   }
   &.tabs__horizontal {
@@ -86,7 +88,7 @@
       border-bottom: 2px solid;
       border-color: $x-light-gray;
       text-align: center;
-      font-weight: $font-weight-light;
+      font-weight: v.$font-weight-light;
       outline: none;
       background-color: transparent;
       &:hover {
@@ -99,7 +101,7 @@
     .active {
       a[data-toggle="tab"] {
         border-color: $gto_orange;
-        font-weight: $font-weight-normal;
+        font-weight: v.$font-weight-normal;
       }
     }
     li:hover {
@@ -109,13 +111,13 @@
     }
   }
   &.tabs__horizontal--stack-mobile {
-    @media screen and (max-width: $screen-lg-max) {
+    @media screen and (max-width: v.$screen-lg-max) {
     }
-    @media screen and (max-width: $screen-md-max) {
+    @media screen and (max-width: v.$screen-md-max) {
     }
-    @media screen and (max-width: $screen-sm-max) {
+    @media screen and (max-width: v.$screen-sm-max) {
     }
-    @media screen and (max-width: $screen-xs-max) {
+    @media screen and (max-width: v.$screen-xs-max) {
       flex-direction: column;
       align-items: initial;
       height: auto;

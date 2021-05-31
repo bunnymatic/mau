@@ -1,6 +1,7 @@
-@import "mixins";
-@import "colors";
-@import "variables";
+@use "../mixins" as *;
+@use "../colors" as *;
+@use "variables" as v;
+
 .sidenav {
   /* see also _layout.scss */
   .nav-section {
@@ -14,7 +15,7 @@
       padding-right: 20px;
       font-size: 0.8rem;
       text-transform: uppercase;
-      font-weight: $font-weight-light;
+      font-weight: v.$font-weight-light;
       text-align: right;
     }
   }
@@ -29,7 +30,7 @@
       background-color: rgba(200, 200, 200, 0.2);
     }
     .text {
-      font-weight: $font-weight-bold;
+      font-weight: v.$font-weight-bold;
       display: inline-block;
     }
   }
@@ -97,7 +98,7 @@
   .signout__links.tabs,
   .signin__links.tabs {
     .tab a {
-      font-weight: $font-weight-normal;
+      font-weight: v.$font-weight-normal;
     }
   }
   .search,
@@ -106,7 +107,7 @@
     &:hover {
       a,
       .text {
-        font-weight: $font-weight-bold;
+        font-weight: v.$font-weight-bold;
         color: $gto_dark_teal;
       }
     }
@@ -146,7 +147,7 @@
       a,
       .fa,
       .text {
-        font-weight: $font-weight-normal;
+        font-weight: v.$font-weight-normal;
       }
     }
   }
@@ -173,7 +174,7 @@
     &.active {
       @include transform(translate3d(0, 0, 1px));
       pointer-events: auto;
-      left: $sidebar-collapse-nav-width + 5;
+      left: v.$sidebar-collapse-nav-width + 5;
       width: 250px;
 
       ul.tab-pane {
@@ -206,13 +207,13 @@
           line-height: 33px;
           padding-left: 8%;
           font-size: 18px;
-          font-weight: $font-weight-bold;
+          font-weight: v.$font-weight-bold;
           > a {
             padding-left: 0;
           }
         }
         &:not(.nav-mobile__title):hover {
-          background-color: #f5f5f8;
+          background-color: $xx-light-gray;
         }
       }
       &.active li {
@@ -221,13 +222,13 @@
       &.signin__links {
         overflow: hidden;
         .nav-mobile__title {
-          font-weight: $font-weight-normal;
+          font-weight: v.$font-weight-normal;
         }
       }
     }
   }
 }
-@media screen and (min-width: $screen-sm-max) {
+@media screen and (min-width: v.$screen-sm-max) {
   .signout__links,
   .signin__links,
   .search.nav-icon,
@@ -239,7 +240,7 @@
   }
 }
 
-@media screen and (max-width: $screen-sm-max) {
+@media screen and (max-width: v.$screen-sm-max) {
   .sidenav {
     .nav-icon {
       margin-top: 5px;
@@ -274,7 +275,7 @@
       }
     }
     .tab-content {
-      left: $sidebar-collapse-nav-width + 5; /* past the dropshadow */
+      left: v.$sidebar-collapse-nav-width + 5; /* past the dropshadow */
     }
     .nav-section {
       h3 {

@@ -1,5 +1,6 @@
-@import "colors";
-@import "mixins";
+@use "../colors" as *;
+@use "../mixins" as *;
+@use "./variables" as v;
 
 #sampler {
   .sampler__promo,
@@ -22,7 +23,7 @@
   .sampler__thumb:nth-child(13) {
     display: none;
   }
-  @media screen and (max-width: $screen-lg-max) {
+  @media screen and (max-width: v.$screen-lg-max) {
     .sampler__promo {
       width: 50%;
       .header {
@@ -34,7 +35,7 @@
       }
     }
   }
-  @media screen and (max-width: $screen-md-max) {
+  @media screen and (max-width: v.$screen-md-max) {
     .sampler__promo {
       width: 66.66%;
       .header {
@@ -45,12 +46,12 @@
       }
     }
   }
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
     .sampler__promo {
       width: 100%;
     }
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
     .sampler__promo {
       .header {
         font-size: 2rem;
@@ -106,11 +107,11 @@
     }
     .header {
       font-size: 2rem;
-      font-weight: $font-weight-bold;
+      font-weight: v.$font-weight-bold;
     }
     .body {
       font-size: 1rem;
-      font-weight: $font-weight-light;
+      font-weight: v.$font-weight-light;
     }
   }
 }

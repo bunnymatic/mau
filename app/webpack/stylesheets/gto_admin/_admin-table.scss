@@ -1,8 +1,10 @@
-@import "colors";
+@use "../mixins" as *;
+@use "../colors" as *;
+@use "../gto/variables" as v;
 
 @mixin sorting-control {
   padding-left: 20px;
-  font-family: $font-awesome-font-family;
+  font-family: v.$font-awesome-font-family;
   color: $bluegray;
   position: absolute;
   top: 7px;

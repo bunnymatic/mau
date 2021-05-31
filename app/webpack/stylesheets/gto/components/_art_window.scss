@@ -1,5 +1,7 @@
-@import "mixins";
-@import "gto/mau_modal";
+@use "../../mixins" as *;
+@use "../../colors" as c;
+@use "../variables" as v;
+
 .art-window {
   flex: 1;
   width: 100%;
@@ -31,13 +33,13 @@
   align-items: flex-start;
   margin: auto;
   width: 65%;
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
     align-items: flex-start;
     justify-content: flex-start;
     width: 80%;
     flex-direction: column;
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
   }
 }
 .art-window__info--right,
@@ -46,14 +48,14 @@
 }
 .art-window__info--right {
   text-align: right;
-  @media screen and (max-width: $screen-lg-max) {
+  @media screen and (max-width: v.$screen-lg-max) {
   }
-  @media screen and (max-width: $screen-md-max) {
+  @media screen and (max-width: v.$screen-md-max) {
   }
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
     text-align: left;
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
   }
 }
 
@@ -71,7 +73,7 @@
 }
 
 .art-window__annotation-value {
-  color: $gto-dark_blue;
+  color: c.$gto-dark_blue;
 }
 
 .art-window__price--sold {
@@ -105,10 +107,10 @@
     width: 50px;
   }
 
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
     bottom: -3px;
     right: -3px;
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
   }
 }

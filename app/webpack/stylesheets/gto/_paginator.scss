@@ -1,5 +1,5 @@
-@import "colors";
-@import "mixins";
+@use "../colors" as c;
+@use "../mixins" as *;
 
 .paginator ul,
 ul.paginator {
@@ -22,6 +22,6 @@ ul.paginator {
 }
 .paginator__page--current {
   a {
-    background-color: $x-light-gray;
+    background-color: c.$x-light-gray;
   }
 }

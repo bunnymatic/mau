@@ -1,5 +1,5 @@
-@import "colors";
-@import "mau-mixins";
+@use "../../../../stylesheets/colors" as *;
+@use "../../../../stylesheets/mixins" as *;
 
 .events-notification-bell {
   z-index: 125;

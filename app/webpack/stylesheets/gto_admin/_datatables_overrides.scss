@@ -1,4 +1,5 @@
-@import "mixins";
+@use "../colors";
+
 .dataTables_wrapper {
   .dataTables_filter {
     margin-bottom: 10px;
@@ -6,11 +7,11 @@
     input {
       padding: 10px;
       margin-left: 10px;
-      border: 1px solid #ddd;
+      border: 1px solid colors.$border-gray;
       border-radius: 2px;
     }
   }
   label {
-    color: $light-gray;
+    color: colors.$light-gray;
   }
 }

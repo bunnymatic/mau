@@ -1,4 +1,5 @@
-@import "mixins";
+@use "../mixins" as *;
+@use "../colors" as *;
 
 #mc_embed_signup {
   font-size: 12px;

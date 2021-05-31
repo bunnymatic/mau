@@ -1,5 +1,6 @@
-@import "colors";
-@import "mixins";
+@use "../colors" as *;
+@use "../mixins" as *;
+@use "./variables" as v;
 
 .flash,
 .flash__notice,
@@ -26,15 +27,15 @@
     bottom: 10px;
   }
 
-  @media screen and (max-width: $screen-lg-max) {
+  @media screen and (max-width: v.$screen-lg-max) {
   }
-  @media screen and (max-width: $screen-md-max) {
+  @media screen and (max-width: v.$screen-md-max) {
     width: 60%;
   }
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: v.$screen-sm-max) {
     width: 80%;
   }
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: v.$screen-xs-max) {
     width: 90%;
   }
 }

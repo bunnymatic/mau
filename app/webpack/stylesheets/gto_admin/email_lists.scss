@@ -1,10 +1,11 @@
-@import "colors";
+@use "../colors";
+
 .email_lists {
   .help {
     padding: 10px 20px;
     font-style: italic;
     font-size: 0.9em;
-    color: $darkgray;
+    color: colors.$darkgray;
   }
   .add_btn {
     margin-left: 10px;
@@ -17,7 +18,7 @@
       padding: 0 20px;
       margin: 10px 0;
       &:nth-child(odd) {
-        background-color: $xx-light-gray;
+        background-color: colors.$xx-light-gray;
       }
     }
     .del_btn {

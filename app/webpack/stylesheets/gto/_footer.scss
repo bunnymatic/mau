@@ -1,5 +1,6 @@
-@import "colors";
-@import "variables";
+@use "../colors" as *;
+@use "variables" as v;
+
 #footer_bar {
   > [class^="pure-g"] {
     margin-top: 20px;
@@ -20,7 +21,7 @@
 }
 
 .news-footer {
-  font-weight: $font-weight-extra-bold;
+  font-weight: v.$font-weight-extra-bold;
   font-size: 150%;
   span {
     vertical-align: 1px;

@@ -1,12 +1,15 @@
+@use "./variables";
+
 .container {
   position: relative;
   padding-left: 0;
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  padding-top: $open-studios-header-offset;
+
+  padding-top: variables.$open-studios-header-offset;
 }
 
 .main-container {
-  margin: 10px $open-studios-main-margin;
+  margin: 10px variables.$open-studios-main-margin;
 }
