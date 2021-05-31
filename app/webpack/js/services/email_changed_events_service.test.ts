@@ -1,21 +1,19 @@
 import { describe, expect, it } from "@jest/globals";
-import * as types from "@reactjs/types";
 import { api } from "@services/api";
-import { act, render, screen, waitFor } from "@testing-library/react";
-import { mocked } from "ts-jest/utils";
-import { EmailChangedEventsService } from "./email_changed_events.service";
 import { DateTime } from "luxon";
+import { mocked } from "ts-jest/utils";
 
-jest.mock("@services/api")
+import { EmailChangedEventsService } from "./email_changed_events.service";
+
+jest.mock("@services/api");
 const mockApi = mocked(api, true);
 
 describe("EmailChangedEventsService", () => {
-
   describe("list", () => {
     beforeEach(() => {
       jest.resetAllMocks();
-    })
-    it('returns only events that are user changed events with email changes', async () => {
+    });
+    it("returns only events that are user changed events with email changes", async () => {
       const events = [
         { genericEvent: { id: 1, data: {}, message: "something" } },
         { userChangedEvent: { id: 2, data: {}, message: "something" } },
@@ -25,24 +23,27 @@ describe("EmailChangedEventsService", () => {
             data: {
               changes: {
                 nomdeplume: "old => new",
-                email: 'oldemail => newemail'
+                email: "oldemail => newemail",
               },
               user: "atammara",
               user_id: 28,
             },
-            message: "Catherin AAtammara updated nomdeplume, and email"
+            message: "Catherin AAtammara updated nomdeplume, and email",
           },
         },
         {
           openStudiosSignupEvent: {
-            id: 137, message: "whatever",
-            data: { user: "the-login", user_id: 5 }
-          }
-        }
-      ]
-      mockApi.applicationEvents.index.mockResolvedValue({ applicationEvents: events })
+            id: 137,
+            message: "whatever",
+            data: { user: "the-login", user_id: 5 },
+          },
+        },
+      ];
+      mockApi.applicationEvents.index.mockResolvedValue({
+        applicationEvents: events,
+      });
 
-      const result = await EmailChangedEventsService.list(DateTime.local())
+      const result = await EmailChangedEventsService.list(DateTime.local());
 
       expect(result).toHaveLength(1);
       expect(result[0].userChangedEvent.id).toEqual(3);
