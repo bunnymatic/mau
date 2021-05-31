@@ -12,6 +12,7 @@ import { EventsNotificationBell } from "./events_notification_bell";
 import { Mailer } from "./mailer";
 import { MauButton } from "./mau_button";
 import { OpenStudiosRegistrationSection } from "./open_studios/open_studios_registration_section";
+import { Search } from "./search";
 
 class UnregisteredComponentError extends Error {
   constructor(message) {
@@ -36,6 +37,7 @@ export const reactComponents = {
   Mailer,
   MauButton,
   OpenStudiosRegistrationSection,
+  Search,
   Welcome,
 };
 

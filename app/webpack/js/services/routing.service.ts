@@ -12,13 +12,19 @@ export const routing = {
   editCmsDocumentPath: function (obj: Partial<types.CmsDocument>): string {
     return "/admin/cms_documents/" + obj.id + "/edit";
   },
-  artistPath: function (obj: Partial<types.Artist>): string {
+  artistPath: function (
+    obj: Partial<types.Artist> | Record<string, string>
+  ): string {
     return this.urlForModel("artist", obj);
   },
-  studioPath: function (obj: Partial<types.Studio>): string {
+  studioPath: function (
+    obj: Partial<types.Studio> | Record<string, string>
+  ): string {
     return this.urlForModel("studio", obj);
   },
-  artPiecePath: function (obj: Partial<types.ArtPiece>): string {
+  artPiecePath: function (
+    obj: Partial<types.ArtPiece> | Record<string, string>
+  ): string {
     return this.urlForModel("art_piece", obj);
   },
   urlForModel: function (model: string, obj: any): string {
