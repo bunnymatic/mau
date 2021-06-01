@@ -1,6 +1,5 @@
-import { describe, it } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { api } from "@services/api";
-import expect from "expect";
 
 import * as searchService from "./search.service";
 

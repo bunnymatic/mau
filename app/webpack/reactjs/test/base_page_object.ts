@@ -1,4 +1,4 @@
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, within as rtlWithin } from "@testing-library/react";
 
 export interface BasePageObjectProps {
   debug?: boolean;
@@ -72,6 +72,11 @@ export class BasePageObject {
     fireEvent.change(selectField, {
       target: { value },
     });
+  }
+
+  within(element: HTMLElement, callback) {
+    const queries = rtlWithin(element);
+    callback(queries);
   }
 
   private debugLog(msg: string) {

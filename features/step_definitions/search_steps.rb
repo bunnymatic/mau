@@ -11,7 +11,7 @@ When(/^I search for "(.*?)"$/) do |query|
 end
 
 Then(/^I see "([^"]*)" in the search results$/) do |keyword|
-  within 'search-results' do
+  within '.search-wrapper' do
     expect(page).to have_content(/#{Regexp.quote(keyword)}/i)
   end
 end

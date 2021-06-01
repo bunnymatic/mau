@@ -1,7 +1,7 @@
-@use "../../../stylesheets/colors" as *;
-@use "../../../stylesheets/gto/variables" as v;
+@use "../../colors" as *;
+@use "../variables" as v;
 
-search-results {
+.search-wrapper {
   form {
     margin-bottom: 40px;
   }
