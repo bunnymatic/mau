@@ -26,7 +26,6 @@ import "@angularjs/services/object_routing.service";
 import "@angularjs/services/notification.service";
 import "@angularjs/services/favorites.service";
 import "@angularjs/services/env.service";
-import "@angularjs/services/open_studios_registration.service";
 import "./app/feedback";
 import "./app/flash_binding";
 import "./app/all_tabs";
