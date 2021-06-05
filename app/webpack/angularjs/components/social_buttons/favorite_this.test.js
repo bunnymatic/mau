@@ -24,7 +24,9 @@ describe("mau.directives.favoriteThis", function () {
     })
   );
   describe("with an art piece", function () {
-    beforeEach(() => {});
+    beforeEach(() => {
+      favService.add.mockClear();
+    });
 
     it("sets up the directive with the art piece attributes", function () {
       var args, e;
