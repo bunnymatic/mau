@@ -13,8 +13,8 @@ import { Mailer } from "./mailer";
 import { MauButton } from "./mau_button";
 import { NotifyMauDialog } from "./notify_mau_dialog";
 import { OpenStudiosRegistrationSection } from "./open_studios/open_studios_registration_section";
+import { ReactTestComponent } from "./react_test_component";
 import { Search } from "./search";
-import { ReactTestComponent } from './react_test_component';
 
 class UnregisteredComponentError extends Error {
   constructor(message) {
