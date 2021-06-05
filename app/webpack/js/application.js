@@ -23,7 +23,6 @@ import "@components/repeater_delimiter/repeater_delimiter";
 import "@components/link_if/link_if";
 import "@angularjs/services/object_routing.service";
 import "@angularjs/services/favorites.service";
-import "@angularjs/services/env.service";
 import "./app/feedback";
 import "./app/flash_binding";
 import "./app/all_tabs";
