@@ -1,9 +1,10 @@
-@use "../../../stylesheets/gto/mau_modal" as *;
-@use "../../../stylesheets/colors" as c;
+@use "../mau_modal" as *;
+@use "../../colors" as c;
 
 .notify-mau-modal__container {
   @include mau-modal__window;
   background-color: c.$light-gray-background;
+  max-width: 450px;
 }
 
 .notify-mau-modal__header {

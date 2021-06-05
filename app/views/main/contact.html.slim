@@ -5,9 +5,7 @@
     h4 Got a question?
     p
       | Send us an
-      '
-      notify-mau< note-type="inquiry" link-text="email" with-icon=true email=current_user.try(:email)
-      '
+      = react_component id:"notify-mau", component:"NotifyMauDialog", wrapper_tag: "span", props: { note_type: "inquiry", link_text: "email", with_icon: true, email: current_user.try(:email) }
       | or a letter or postcard
     p
       | Mission Artists
