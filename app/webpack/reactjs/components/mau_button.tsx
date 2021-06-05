@@ -29,7 +29,7 @@ export const MauButton: FC<MauButtonProps> = ({
   return (
     <button
       role="button"
-      type={type}
+      type={type || "button"}
       disabled={disabled}
       className={cx([
         "pure-button",

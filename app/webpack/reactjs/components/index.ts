@@ -11,6 +11,7 @@ import { EditableContentTrigger } from "./editable_content_trigger";
 import { EventsNotificationBell } from "./events_notification_bell";
 import { Mailer } from "./mailer";
 import { MauButton } from "./mau_button";
+import { NotifyMauDialog } from "./notify_mau_dialog";
 import { OpenStudiosRegistrationSection } from "./open_studios/open_studios_registration_section";
 import { Search } from "./search";
 
@@ -36,6 +37,7 @@ export const reactComponents = {
   EventsNotificationBell,
   Mailer,
   MauButton,
+  NotifyMauDialog,
   OpenStudiosRegistrationSection,
   Search,
   Welcome,

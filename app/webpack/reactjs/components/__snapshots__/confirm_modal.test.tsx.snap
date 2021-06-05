@@ -9,6 +9,7 @@ exports[`ConfirmModal works with button text 1`] = `
     <button
       class="pure-button"
       role="button"
+      type="button"
     >
       click here to confirm
     </button>
@@ -25,6 +26,7 @@ exports[`ConfirmModal works with button text and style 1`] = `
     <button
       class="pure-button button-primary"
       role="button"
+      type="button"
     >
       click here to confirm
     </button>

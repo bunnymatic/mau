@@ -11,6 +11,7 @@ interface MauTextFieldProps {
   className?: string;
   hint?: string | JSX.Element;
   type?: "text" | "email";
+  required?: boolean;
 }
 
 export const MauTextField: FC<MauTextFieldProps> = ({
@@ -21,6 +22,7 @@ export const MauTextField: FC<MauTextFieldProps> = ({
   className,
   hint,
   type,
+  required,
 }) => {
   const classes = className ?? "";
   return (
@@ -31,6 +33,7 @@ export const MauTextField: FC<MauTextFieldProps> = ({
         name={name}
         placeholder={placeholder}
         id={id || name}
+        required={required}
       />
       <ErrorMessage component={FieldError} name={name} />
       <MauHint>{hint}</MauHint>
