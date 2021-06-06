@@ -1,0 +1,156 @@
+@use "../../mixins" as *;
+@use "../../colors" as *;
+@use "../variables" as v;
+
+.art-piece-browser {
+  .art-piece,
+  .art-piece__info,
+  .art-piece__thumbs {
+    display: flex;
+  }
+  .art-piece {
+    order: 1;
+    height: 300px;
+    margin-bottom: 20px;
+  }
+  .art-piece__info {
+    padding-right: 15px;
+    display: flex;
+    order: 3;
+    flex-direction: column;
+    .artist__image {
+      margin-bottom: 20px;
+    }
+    .artist__image {
+      position: relative;
+      .os-violator {
+        @include artist-image-os-violator;
+        bottom: 2px;
+        right: 2px;
+      }
+      @media screen and (max-width: v.$screen-xs-max) {
+        display: none;
+      }
+    }
+    .push {
+      margin-top: 20px;
+      @media screen and (max-width: v.$screen-xs-max) {
+        margin-top: 0px;
+      }
+    }
+    section h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: v.$font-weight-light;
+      margin-right: 8px;
+      margin-bottom: 0.3rem;
+      margin-top: 1.5rem;
+    }
+  }
+  .art-piece__thumbs {
+    order: 2;
+  }
+  .header .title {
+    .os-violator {
+      background-size: 25px 25px;
+      margin-left: 4px;
+      display: inline-block;
+      vertical-align: middle;
+      height: 28px;
+      width: 28px;
+      background-color: transparent;
+    }
+  }
+  .art-piece__wrapper {
+    height: 100%;
+    width: 95%;
+    position: relative;
+    margin: auto;
+    text-align: center;
+    .art-piece__image {
+      height: 100%;
+      width: 100%;
+      @include background-contain;
+      @include in-the-middle;
+    }
+  }
+  .card__controls,
+  .desc {
+    flex: 1;
+  }
+  .desc__item--sold {
+    text-decoration: line-through;
+    position: relative;
+    &:after {
+      color: $gto-yellow;
+      content: "SOLD";
+      font-size: 0.8rem;
+      font-weight: bold;
+      position: absolute;
+      top: 1px;
+      right: 1px;
+    }
+  }
+  .studio,
+  .studio-address,
+  .studio-street {
+    line-height: 1.4rem;
+  }
+  .browser {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    .piece {
+      .image {
+        width: 100%;
+        height: 10vw;
+        @include background-cover;
+      }
+      &.current {
+        .image {
+          border: 1px solid $gto_yellow;
+          box-shadow: 0 0 3px 2px rgba(128, 128, 128, 0.5);
+        }
+      }
+    }
+  }
+  @media screen and (min-width: v.$screen-xs-max) {
+    .art-piece {
+      order: 2;
+      height: 400px;
+      margin-bottom: 0px;
+    }
+    .art-piece__info {
+      border-right: 1px solid $x-light-gray;
+      order: 1;
+      i.fa.fa-user {
+        font-size: 10rem;
+      }
+      .push {
+        margin-top: 0px;
+      }
+    }
+    .art-piece__thumbs {
+      order: 3;
+    }
+  }
+  @media screen and (min-width: v.$screen-sm-max) {
+    .art-piece {
+      height: 500px;
+    }
+    .art-piece__info {
+      i.fa.fa-user {
+        font-size: 9rem;
+      }
+    }
+  }
+  @media screen and (min-width: v.$screen-md-max) {
+    .art-piece {
+      height: 600px;
+    }
+    .art-piece__info {
+      i.fa.fa-user {
+        font-size: 12rem;
+      }
+    }
+  }
+}

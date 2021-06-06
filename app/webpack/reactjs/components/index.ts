@@ -28,7 +28,7 @@ class UnregisteredComponentError extends Error {
 this serves as the registry.  All react components
 that will be mounted at their root should be included here.
 **/
-export const reactComponents = {
+const reactComponents = {
   ArtCard,
   ArtModal,
   ArtPage,

@@ -10,5 +10,5 @@ export const ArtPieceTagLink: FC<ArtPieceTagLinkProps> = ({ tag }) => {
   const path = routing.urlForModel("art_piece_tag", tag);
   const name = tag.name;
 
-  return <a href={path}>{name}</a>;
+  return <a class="art-piece-tag-link" href={path}>{name}</a>;
 };

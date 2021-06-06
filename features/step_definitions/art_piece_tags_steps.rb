@@ -37,11 +37,11 @@ Then(/^I see more artists who have art in the most popular tag$/) do
 end
 
 When(/^I click on the first tag$/) do
-  wait_until { page.find('art-piece-tag a') }
+  wait_until { page.find('a.art-piece-tag-link') }
 
-  name = page.find('art-piece-tag a').text
+  name = page.find('a.art-piece-tag-link').text
   @tag = ArtPieceTag.find_by(name: name)
-  page.find('art-piece-tag a').click
+  page.find('a.art-piece-tag-link').click
 end
 
 Then(/^I see that tag detail page$/) do

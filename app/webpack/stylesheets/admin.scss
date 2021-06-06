@@ -6,8 +6,6 @@
 @import "@fortawesome/fontawesome-free/scss/solid";
 @import "./socicon";
 @import "select2";
-@import "ng-dialog/css/ngDialog";
-@import "ng-dialog/css/ngDialog-theme-default.css";
 @import "collapse";
 @import "panel";
 @import "c3/c3.min.css";
@@ -66,8 +64,6 @@
 @import "gto_admin/tests/social_icons.scss";
 @import "gto_admin/tests/react_styleguide.scss";
 @import "gto_admin/users.scss";
-
-@import "@components/social_buttons/social_buttons.scss";
 
 .container {
   margin: auto;
