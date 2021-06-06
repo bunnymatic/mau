@@ -1,5 +1,5 @@
 When(/^I click to add this as a favorite$/) do
-  find('favorite-this').find('a').click
+  find('.favorite-this').find('a').click
 end
 
 Then(/^I see all the favorites in a table$/) do

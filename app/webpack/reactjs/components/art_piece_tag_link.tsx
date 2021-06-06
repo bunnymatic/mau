@@ -11,7 +11,7 @@ export const ArtPieceTagLink: FC<ArtPieceTagLinkProps> = ({ tag }) => {
   const name = tag.name;
 
   return (
-    <a class="art-piece-tag-link" href={path}>
+    <a className="art-piece-tag-link" href={path}>
       {name}
     </a>
   );

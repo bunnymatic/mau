@@ -17,6 +17,7 @@ describe("MediumLink", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <a
+          class="medium-link"
           href="/media/my-tag"
         >
           my medium

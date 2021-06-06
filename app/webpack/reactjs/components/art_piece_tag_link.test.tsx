@@ -17,6 +17,7 @@ describe("ArtPieceLink", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <a
+          class="art-piece-tag-link"
           href="/art_piece_tags/my-tag"
         >
           my tag
