@@ -42,10 +42,27 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
   const initialArtPiece = artPieces.find(
     (piece) => piece.id.toString() === artPieceId.toString()
   );
-  const { current, next, previous, setCurrent } = useCarouselState<ArtPiece>(
-    artPieces,
-    initialArtPiece
-  );
+  const {
+    current,
+    next: _next,
+    previous: _previous,
+    setCurrent: _setCurrent,
+  } = useCarouselState<ArtPiece>(artPieces, initialArtPiece);
+  const updateHash = (piece: ArtPiece) => {
+    window.history.pushState({}, document.title, `#${piece.id}`);
+  };
+  const setCurrent = (piece: ArtPiece) => {
+    _setCurrent(piece);
+    updateHash(piece);
+  };
+  const previous = () => {
+    const newCurrent = _previous();
+    updateHash(newCurrent);
+  };
+  const next = () => {
+    const newCurrent = _next();
+    updateHash(newCurrent);
+  };
 
   const keyDownHandler = useCallback((e) => {
     if (e.key === ARROW_LEFT_KEY) {
@@ -220,6 +237,9 @@ const ArtPieceBrowserWrapper: FC<ArtPieceBrowserWrapperProps> = ({
   const [artist, setArtist] = useState<Artist | undefined>();
   const [artPieces, setArtPieces] = useState<ArtPiece[]>([]);
   const [studio, setStudio] = useState<Studio | undefined>();
+  const [initialArtPieceId, setInitialArtPieceId] = useState<string>(
+    artPieceId.toString()
+  );
 
   useEffect(() => {
     const artistCall = api.artists.get(artistId);
@@ -235,7 +255,13 @@ const ArtPieceBrowserWrapper: FC<ArtPieceBrowserWrapperProps> = ({
       .catch((err) => {
         new Flash().show({ error: "rats" + err });
       });
-  }, [artistId, artPieceId]);
+  }, [artistId]);
+
+  useEffect(() => {
+    if (window.location.hash) {
+      setInitialArtPieceId(window.location.hash.substr(1));
+    }
+  }, [window.location.hash]);
 
   if (!artist || (!artPieces && !isEmpty(artPieces)) || !studio) {
     return (
@@ -244,12 +270,11 @@ const ArtPieceBrowserWrapper: FC<ArtPieceBrowserWrapperProps> = ({
       </div>
     );
   }
-
   return (
     <ArtPieceBrowser
       studio={studio}
       artPieces={artPieces}
-      artPieceId={artPieceId}
+      artPieceId={initialArtPieceId}
       artist={artist}
     />
   );

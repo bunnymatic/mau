@@ -10,7 +10,7 @@
               .os-violator
           .artist__image-footer
             .artist__image-footer__social-button
-               favorite-this object-type="Artist" object-id="#{artist.slug}"
+               = react_component id: artist.slug, component:"FavoriteThis", props: { type:"Artist", id: artist.slug}
             .artist__image-footer__member-since = "Joined #{artist.member_since}"
 
       .pure-u-1-1

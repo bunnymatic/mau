@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction, useState } from "react";
 
 interface CarouselStateReturn<T> {
   current: T;
-  next: () => void;
-  previous: () => void;
+  next: () => T;
+  previous: () => T;
   setCurrent: Dispatch<SetStateAction<T>>;
 }
 
@@ -29,7 +29,9 @@ export const useCarouselState = <T>(
   const next = () => {
     const currentIndex = items.findIndex((val) => val === current);
     const index: number = (currentIndex + 1) % numItems;
-    setCurrent(items[index]);
+    const newCurrent = items[index];
+    setCurrent(newCurrent);
+    return newCurrent;
   };
 
   const previous = () => {
@@ -39,7 +41,9 @@ export const useCarouselState = <T>(
       index = items.length;
     }
     index = index - 1;
-    setCurrent(items[index]);
+    const newCurrent = items[index];
+    setCurrent(newCurrent);
+    return newCurrent;
   };
 
   return {

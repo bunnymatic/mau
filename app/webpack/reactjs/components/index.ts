@@ -10,6 +10,7 @@ import { ConfirmModal } from "./confirm_modal";
 import { CreditsModal } from "./credits_modal";
 import { EditableContentTrigger } from "./editable_content_trigger";
 import { EventsNotificationBell } from "./events_notification_bell";
+import { FavoriteThis } from "./favorite_this";
 import { Mailer } from "./mailer";
 import { MauButton } from "./mau_button";
 import { NotifyMauDialog } from "./notify_mau_dialog";
@@ -38,6 +39,7 @@ const reactComponents = {
   EditableContentTrigger,
   EmailListManager,
   EventsNotificationBell,
+  FavoriteThis,
   Mailer,
   MauButton,
   NotifyMauDialog,
