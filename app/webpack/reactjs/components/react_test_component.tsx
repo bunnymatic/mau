@@ -3,8 +3,8 @@ import React, { FC } from "react";
 interface ReactTestComponentProps {}
 
 import { FavoriteThis } from "./favorite_this";
-import { ShareButton } from "./share_button";
 import { MediumLink } from "./medium_link";
+import { ShareButton } from "./share_button";
 
 const artPiece = {
   title: "whatever",
@@ -22,7 +22,7 @@ export const ReactTestComponent: FC<ReactTestComponentProps> = (_props) => {
       <FavoriteThis type="whatever" id={310} />
 
       <ShareButton artPiece={artPiece} type="twitter" />
-      <MediumLink medium={{name: 'ceramics', id: 3, slug: 'ceramic'}} />
+      <MediumLink medium={{ name: "ceramics", id: 3, slug: "ceramic" }} />
     </div>
   );
 };

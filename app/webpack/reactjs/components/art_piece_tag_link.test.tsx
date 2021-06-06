@@ -2,24 +2,24 @@ import { describe, expect, it } from "@jest/globals";
 import { render } from "@testing-library/react";
 import React from "react";
 
-import { MediumLink } from "./medium_link";
+import { ArtPieceTagLink } from "./art_piece_tag_link";
 
-describe("MediumLink", () => {
-  let medium = { name: "my medium", id: 12, slug: "my-tag" };
+describe("ArtPieceLink", () => {
+  let tag = { name: "my tag", id: 12, slug: "my-tag" };
   let container;
 
   beforeEach(function () {
-    const result = render(<MediumLink medium={medium} />);
+    const result = render(<ArtPieceTagLink tag={tag} />);
     container = result.container;
   });
 
-  it("uses id for the medium path", function () {
+  it("uses id for the tag path", function () {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <a
-          href="/media/my-tag"
+          href="/art_piece_tags/my-tag"
         >
-          my medium
+          my tag
         </a>
       </div>
     `);
