@@ -27,7 +27,7 @@ const OpenStudiosViolator: FC = () => (
 );
 
 interface ArtPieceBrowserProps {
-  initialArtPieceId: number;
+  artPieceId: number;
   artPieces: ArtPiece[];
   studio: Studio;
   artist: Artist;
@@ -36,11 +36,11 @@ interface ArtPieceBrowserProps {
 const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
   artist,
   artPieces,
-  initialArtPieceId,
+  artPieceId,
   studio,
 }) => {
   const initialArtPiece = artPieces.find(
-    (piece) => piece.id === initialArtPieceId
+    (piece) => piece.id.toString() === artPieceId.toString()
   );
   const { current, next, previous, setCurrent } = useCarouselState<ArtPiece>(
     artPieces,
@@ -249,7 +249,7 @@ const ArtPieceBrowserWrapper: FC<ArtPieceBrowserWrapperProps> = ({
     <ArtPieceBrowser
       studio={studio}
       artPieces={artPieces}
-      initialArtPieceId={artPieceId}
+      artPieceId={artPieceId}
       artist={artist}
     />
   );
