@@ -11,7 +11,6 @@ import "angular-resource";
 import "angular-sanitize";
 import "./vendor/angular-mailchimp";
 import "re-tree";
-import "ng-dialog/js/ngDialog";
 import "./app/feedback";
 import "./app/flash_binding";
 import "./app/all_tabs";
