@@ -1,11 +1,11 @@
 import { FC } from "react";
 
-import { ArtPieceBrowser } from "./art_piece_browser";
 import { EmailListManager } from "./admin/email_list_manager";
 import { Welcome } from "./admin/tests/welcome";
 import { ArtCard } from "./art_card";
 import { ArtModal } from "./art_modal";
 import { ArtPage } from "./art_page";
+import { ArtPieceBrowser } from "./art_piece_browser";
 import { ConfirmModal } from "./confirm_modal";
 import { CreditsModal } from "./credits_modal";
 import { EditableContentTrigger } from "./editable_content_trigger";

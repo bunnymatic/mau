@@ -2,16 +2,16 @@
   <div class="pure-u-1-1 header padded-content">
     <h2 class="title">
       <span class="art-piece__title" ng-bind-html="artPiece.title"></span
-      ><span class="art-piece__byline-conjunction">by Artist</span
-      ><span class="art-piece__byline"
-        ><a ng-href="{{currentArtistPath()}}">{{ ::artist.fullName }}</a></span
-      ><a
-        href="/open_studios"
-        ng-show="artist.doingOpenStudios"
-        title="I&#39;m doing Open Studios"
-      >
+                                                                   ><span class="art-piece__byline-conjunction">by Artist</span
+                                                                                                                         ><span class="art-piece__byline"
+                                                                                                                          ><a ng-href="{{currentArtistPath()}}">{{ ::artist.fullName }}</a></span
+                                                                                                                                                                                           ><a
+                                                                                                                                                                                              href="/open_studios"
+                                                                                                                                                                                              ng-show="artist.doingOpenStudios"
+                                                                                                                                                                                              title="I&#39;m doing Open Studios"
+                                                                                                                                                                                            >
         <div class="os-violator os-violator--title"></div>
-      </a>
+                                                                                                                                                                                           </a>
     </h2>
   </div>
 </div>
@@ -22,16 +22,16 @@
     <section class="artist__image">
       <div class="artist-profile__image">
         <a ng-href="{{currentArtistPath()}}"
-          ><img
-            class="pure-img profile"
-            ng-if="hasArtistProfile()"
-            ng-src="{{profilePath()}}" /><i
-            class="fa fa-user"
-            ng-if="!hasArtistProfile()"
-          ></i></a
-        ><a href="/open_studios" ng-if="artist.doingOpenStudios">
+        ><img
+           class="pure-img profile"
+           ng-if="hasArtistProfile()"
+           ng-src="{{profilePath()}}" /><i
+                                          class="fa fa-user"
+                                          ng-if="!hasArtistProfile()"
+                                        ></i></a
+                                             ><a href="/open_studios" ng-if="artist.doingOpenStudios">
           <div class="os-violator"></div>
-        </a>
+                                             </a>
       </div>
     </section>
     <section class="artist__studio">
@@ -45,8 +45,8 @@
         <div class="studio-street">
           {{::artist.streetAddress}}
           <a ng-href="{{artist.mapUrl}}" target="_blank" title="map"
-            ><i class="fa fa-map-marker"></i
-          ></a>
+          ><i class="fa fa-map-marker"></i
+                                       ></a>
         </div>
         <div class="studio-city">
           {{::studio.city}}
@@ -129,7 +129,7 @@
         >
           <div
             class="image"
-            background-img="{{piece.imageUrls.small}}"
+            style='background-image: url("{{artPiece.imageUrls.small}}");'
           ></div>
         </a>
       </div>
