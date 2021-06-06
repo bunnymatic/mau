@@ -39,7 +39,7 @@ export const ArtWindow: FC<ArtWindowProps> = ({ art }) => {
             backgroundRepeat: "no-repeat",
           })}
         >
-          {Boolean(art.hasSold()) && (
+          {Boolean(art.hasSold) && (
             <span className="art-window__sold">Sold</span>
           )}
         </div>
@@ -55,7 +55,7 @@ export const ArtWindow: FC<ArtWindowProps> = ({ art }) => {
             label="Price:"
             value={art.displayPrice}
             classes={cx("art-window__price", {
-              "art-window__price--sold": art.hasSold(),
+              "art-window__price--sold": art.hasSold,
             })}
           />
         </div>

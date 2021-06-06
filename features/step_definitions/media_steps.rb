@@ -7,9 +7,9 @@ Then(/^I see the "(.*?)" as a medium$/) do |arg1|
 end
 
 When(/^I click on the first medium$/) do
-  wait_until { page.find('medium a') }
+  wait_until { page.find('a.medium-link') }
 
-  name = page.find('medium a').text
+  name = page.find('a.medium-link').text
   @medium = Medium.find_by(name: name)
   within '.art-piece__info' do
     click_on name

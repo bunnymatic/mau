@@ -1,15 +1,23 @@
 import { isEmpty, noop } from "@js/app/helpers";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+
+interface CarouselStateReturn<T> {
+  current: T;
+  next: () => T;
+  previous: () => T;
+  setCurrent: Dispatch<SetStateAction<T>>;
+}
 
 export const useCarouselState = <T>(
   items: T[],
-  initial?
-): { current: T; next: () => void; previous: () => void } => {
+  initial?: T
+): CarouselStateReturn<T> => {
   if (isEmpty(items)) {
     return {
       current: initial,
       next: noop,
       previous: noop,
+      setCurrent: noop,
     };
   }
 
@@ -21,7 +29,9 @@ export const useCarouselState = <T>(
   const next = () => {
     const currentIndex = items.findIndex((val) => val === current);
     const index: number = (currentIndex + 1) % numItems;
-    setCurrent(items[index]);
+    const newCurrent = items[index];
+    setCurrent(newCurrent);
+    return newCurrent;
   };
 
   const previous = () => {
@@ -31,12 +41,15 @@ export const useCarouselState = <T>(
       index = items.length;
     }
     index = index - 1;
-    setCurrent(items[index]);
+    const newCurrent = items[index];
+    setCurrent(newCurrent);
+    return newCurrent;
   };
 
   return {
     current,
     next,
     previous,
+    setCurrent,
   };
 };

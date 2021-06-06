@@ -124,3 +124,10 @@
                       id: "art-modal-{id}", component: "ArtModal",
                         props: { id: ap.id,
                           children: "click to see {id} {title}" }
+
+        .react-styleguide__component
+          .react-styleguide__header
+            h3.react-styleguide__component-title React Testing
+          .react-styleguide__example
+            .react-styleguide__impl
+              = react_component id: "tester", component: "ReactTestComponent"

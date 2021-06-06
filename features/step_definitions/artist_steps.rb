@@ -217,7 +217,7 @@ When(/^I click on an art card$/) do
 end
 
 Then(/^I see that art piece detail page$/) do
-  expect(page).to have_css('art-pieces-browser')
+  expect(page).to have_css('.art-piece-browser')
   expect(page).to have_css '.art-piece__byline', text: @artist.full_name
   page.current_path =~ %r{art_pieces/(\d+).*}
   @art_piece = ArtPiece.find_by(id: $1)

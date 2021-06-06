@@ -15,7 +15,7 @@ export class ArtPiece extends JsonApiModel {
     }
   }
 
-  hasSold() {
+  get hasSold() {
     return !!this.soldAt;
   }
 }

@@ -1,8 +1,8 @@
-@use "../../../stylesheets/mixins" as *;
-@use "../../../stylesheets/colors" as *;
-@use "../../../stylesheets/gto/variables" as v;
+@use "../../mixins" as *;
+@use "../../colors" as *;
+@use "../variables" as v;
 
-art-pieces-browser {
+.art-piece-browser {
   .art-piece,
   .art-piece__info,
   .art-piece__thumbs {

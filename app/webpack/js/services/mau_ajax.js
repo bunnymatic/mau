@@ -1,6 +1,5 @@
 import { isNil } from "@js/app/helpers";
-import angular from "angular";
-import { camelize, camelizeKeys, decamelizeKeys } from "humps";
+import { decamelizeKeys } from "humps";
 import jQuery from "jquery";
 
 const ajaxSetup = (jq) => {
@@ -47,26 +46,4 @@ const postForm = (formSelector) => {
   return post(url, formData);
 };
 
-// common pattern for angular $resource fetches
-const responseTransformer = (key, fallbackReturnValue = null) => (data) => {
-  const json = angular.fromJson(data);
-  return json ? json[key] : fallbackReturnValue;
-};
-
-const responseCamelizeTransformer = (key, fallbackReturnValue = null) => (
-  data
-) => {
-  const json = camelizeKeys(angular.fromJson(data));
-  return json ? json[camelize(key)] : fallbackReturnValue;
-};
-
-export {
-  ajaxSetup,
-  destroy,
-  get,
-  post,
-  postForm,
-  put,
-  responseCamelizeTransformer,
-  responseTransformer,
-};
+export { ajaxSetup, destroy, get, post, postForm, put };

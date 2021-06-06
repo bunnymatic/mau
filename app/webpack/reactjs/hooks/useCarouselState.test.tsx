@@ -30,6 +30,20 @@ describe("useCarouselState", () => {
       });
       expect(result.current.current).toEqual("a");
     });
+    it("next returns the new current", () => {
+      let returnVal: string;
+      expect(result.current.current).toEqual("a");
+      act(() => {
+        returnVal = result.current.next();
+      });
+      expect(result.current.current).toEqual("b");
+      expect(returnVal).toEqual(result.current.current);
+      act(() => {
+        returnVal = result.current.next();
+      });
+      expect(result.current.current).toEqual("c");
+      expect(returnVal).toEqual(result.current.current);
+    });
     it("previous should decrement current and roll around", () => {
       expect(result.current.current).toEqual("a");
       act(() => {
@@ -40,6 +54,20 @@ describe("useCarouselState", () => {
         result.current.previous();
       });
       expect(result.current.current).toEqual("b");
+    });
+    it("previous returns the new current", () => {
+      let returnVal: string;
+      expect(result.current.current).toEqual("a");
+      act(() => {
+        returnVal = result.current.previous();
+      });
+      expect(result.current.current).toEqual("c");
+      expect(returnVal).toEqual(result.current.current);
+      act(() => {
+        returnVal = result.current.previous();
+      });
+      expect(result.current.current).toEqual("b");
+      expect(returnVal).toEqual(result.current.current);
     });
   });
 

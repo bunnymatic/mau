@@ -20,7 +20,7 @@ const AttributionItems: FC<AttributionProps> = ({ artPiece }) => {
         {Boolean(artPiece.price) && (
           <span
             className={cx("art-card__price", {
-              "art-card__price--sold": artPiece.hasSold(),
+              "art-card__price--sold": artPiece.hasSold,
             })}
           >
             {artPiece.displayPrice}
@@ -44,7 +44,7 @@ export const ArtCard: FC<ArtCardProps> = ({ artPiece, classes }) => {
           className="image"
           style={{ backgroundImage: `url("${artPiece.imageUrls.original}")` }}
         ></div>
-        {Boolean(artPiece.hasSold()) && (
+        {Boolean(artPiece.hasSold) && (
           <span className="art-card__sold">Sold</span>
         )}
         <div className="art-card__description">

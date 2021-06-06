@@ -1,6 +1,6 @@
-@use "../../../stylesheets/gto/variables" as v;
-@use "../../../stylesheets/colors" as *;
-@use "../../../stylesheets/mixins" as *;
+@use "../variables" as v;
+@use "../../colors" as *;
+@use "../../mixins" as *;
 
 art-pieces-browser {
   .profile-info {
