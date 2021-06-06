@@ -10,5 +10,9 @@ export const MediumLink: FC<MediumLinkProps> = ({ medium }) => {
   const path = routing.urlForModel("medium", medium);
   const name = medium.name;
 
-  return <a className="medium-link" href={path}>{name}</a>;
+  return (
+    <a className="medium-link" href={path}>
+      {name}
+    </a>
+  );
 };
