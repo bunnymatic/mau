@@ -5,6 +5,7 @@ interface ReactTestComponentProps {}
 import { FavoriteThis } from "./favorite_this";
 import { MediumLink } from "./medium_link";
 import { ShareButton } from "./share_button";
+import Flash from '@js/app/jquery/flash';
 
 const artPiece = {
   title: "whatever",
@@ -23,6 +24,7 @@ export const ReactTestComponent: FC<ReactTestComponentProps> = (_props) => {
 
       <ShareButton artPiece={artPiece} type="twitter" />
       <MediumLink medium={{ name: "ceramics", id: 3, slug: "ceramic" }} />
+      { new Flash().show({error: "Wha'ts up, doc?"})}
     </div>
   );
 };

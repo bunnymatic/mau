@@ -4,7 +4,7 @@
       = (@user.artist? ? "Artist: " : "Fan: ") + (@user.name.presence || @user.login)
       - if @user.artist?
         = link_to edit_admin_artist_path(@user), class: "artist-admin-header-edit-link", title:"edit artist"
-          i.fa.fa-icon.fa-edit
+          i.fa.fa-icon.fa-pencil
 
 
 .pure-g

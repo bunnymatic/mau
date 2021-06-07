@@ -65,7 +65,7 @@ describe("SearchResults", () => {
           expect(el.getByText(STUDIO_HIT.object.address)).toBeInTheDocument();
           expect(el.getByText(STUDIO_HIT.name)).toBeInTheDocument();
           const icon = el.getByRole("img");
-          expect(icon.classList).toContain("fa-building");
+          expect(icon.classList).toContain("fa-building-o");
         });
       });
     });

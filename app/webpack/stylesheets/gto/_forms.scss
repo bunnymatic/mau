@@ -151,12 +151,13 @@ tr.error-msg {
   input[type="checkbox"] + span:before,
   input[type="radio"] + span:before {
     margin-right: 5px;
-    content: "\f111"; /* circle */
+    content: "\f096"; /* square-o */
   }
 
   input[type="checkbox"]:checked + span:before,
   input[type="radio"]:checked + span:before {
-    content: "\f058"; /* check-circle */
+    margin-right: 4px;
+    content: "\f14a"; /* check-square */
   }
 }
 

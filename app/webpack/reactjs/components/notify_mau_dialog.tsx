@@ -114,7 +114,7 @@ const NotifyMauForm: FC<NotifyMauFormProps> = ({
         </div>
         <div className="notify-mau-modal__close popup-close">
           <a href="#" ng-click="closeThisDialog()">
-            <i className="fa fa-close"></i>
+            <i className="fa fa-times"></i>
           </a>
         </div>
       </div>

@@ -43,7 +43,7 @@ class UserPresenter < ViewPresenter
       deleted: 'times-circle',
       suspended: 'thumbs-down',
     }[state.to_sym]
-    "far fa-#{icon_class}" if icon_class
+    "fa fa-#{icon_class}" if icon_class
   end
 
   def member_since_date
