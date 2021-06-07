@@ -83,7 +83,6 @@ module.exports = function (api) {
           removeImport: true,
         },
       ],
-      ["angularjs-annotate"],
     ].filter(Boolean),
   };
 };
