@@ -52,7 +52,6 @@
 @import "gto/users/_users.scss";
 @import "gto/error.scss";
 @import "gto/feedback_form.scss";
-@import "gto/mailchimp_form.scss";
 @import "gto/media.scss";
 @import "gto/venues.scss";
 @import "gto/components/index.scss";
@@ -83,8 +82,4 @@ noscript #noscript {
   a {
     color: colors.$x-light-gray;
   }
-}
-
-.mailchimp-form {
-  margin-top: 30px;
 }
