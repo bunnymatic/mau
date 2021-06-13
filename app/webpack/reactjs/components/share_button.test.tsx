@@ -34,7 +34,7 @@ describe("ShareButton", () => {
       const link = screen.getByTitle("Share this on Facebook");
       const icon = link.getElementsByTagName("I");
       expect(icon).toHaveLength(1);
-      expect(icon[0].classList).toContain("ico-facebook");
+      expect(icon[0].classList).toContain("fa-facebook");
       expect(link.href).toMatch(/\/\/www\.facebook\.com\/sharer\/sharer.php\?/);
       expect(link.href).toContain("localhost%3A%2Fart_pieces%2F12");
     });
@@ -58,7 +58,7 @@ describe("ShareButton", () => {
       const link = screen.getByTitle("Tweet this");
       const icon = link.getElementsByTagName("I");
       expect(icon).toHaveLength(1);
-      expect(icon[0].classList).toContain("ico-twitter");
+      expect(icon[0].classList).toContain("fa-twitter");
       expect(link.href).toMatch(/\/\/twitter\.com\/intent\/tweet\?/);
       expect(link.href).toContain(
         "text=Check%20out%20Mona%20Lisa%20by%20Leo%20on%20Mission%20Artists"
@@ -86,7 +86,7 @@ describe("ShareButton", () => {
       const link = screen.getByTitle("Pin it");
       const icon = link.getElementsByTagName("I");
       expect(icon).toHaveLength(1);
-      expect(icon[0].classList).toContain("ico-pinterest");
+      expect(icon[0].classList).toContain("fa-pinterest");
       expect(link.href).toMatch(/\/\/pinterest\.com\/pin\/create\/button\/?/);
       expect(link.href).toMatch(/url=.*localhost%3A%2Fart_pieces%2F12/);
       expect(link.href).toContain("title=Mona%20Lisa");
