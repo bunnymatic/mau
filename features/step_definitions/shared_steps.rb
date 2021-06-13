@@ -331,7 +331,8 @@ Then(/^I can send feedback via the footer link$/) do
   within '.sidenav__footer .fine-print-links' do
     click_on 'feedback'
   end
-  step %(I fill out and submit the feedback form)
+  step %(I fill in the feedback form)
+  step %(I see that my inquiry was submitted)
 end
 
 Then(/^I can see the credits from the footer link$/) do
@@ -341,14 +342,6 @@ Then(/^I can see the credits from the footer link$/) do
   expect(page).to have_content 'Built at MAU Headquarters'
   click_on 'close'
   expect(page).not_to have_content 'Built at MAU Headquarters'
-end
-
-When(/^I fill out and submit the feedback form$/) do
-  within '#feedback' do
-    fill_in 'Email', with: 'whomever@example.com'
-    fill_in 'Comment', with: 'This site rules!'
-    click_on 'Send'
-  end
 end
 
 When(/^I refresh the page$/) do

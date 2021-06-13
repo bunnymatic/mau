@@ -12,7 +12,7 @@ import { sendInquiry } from "@services/notification.service";
 import { Form, Formik } from "formik";
 import React, { FC } from "react";
 
-type NoteTypes = "inquiry" | "help";
+type NoteTypes = "inquiry" | "help" | "feedback";
 
 interface NotifyMauFormProps {
   noteType: NoteTypes;
@@ -24,9 +24,19 @@ interface NotifyMauFormProps {
 interface NoteInfo {
   message: string;
   questionLabel: string;
+  title?: string;
 }
 
-const NOTE_INFO_LUT = {
+const NOTE_INFO_LUT: Record<NoteTypes, NoteInfo> = {
+  feedback: {
+    message:
+      "We love to get feedback. Please let us know what you think of the website, " +
+      "what Mission Artists can do for you, or whatever else you might like to tell us. " +
+      "If you would like to get involved with Mission Artists or Spring Open Studios " +
+      "planning, please leave your email and we'll get in touch as soon as we can.",
+    questionLabel: "Your Comments",
+    title: "Feedback",
+  },
   inquiry: {
     message:
       "We love to hear from you.  Please let us know your thoughts, questions, rants." +
@@ -42,7 +52,7 @@ const NOTE_INFO_LUT = {
   },
 };
 
-const noteInfo: Record<NoteTypes, NoteInfo> = (noteType: NoteTypes) => {
+const noteInfo: NoteInfo = (noteType: NoteTypes) => {
   return NOTE_INFO_LUT[noteType];
 };
 
@@ -67,7 +77,7 @@ const NotifyMauForm: FC<NotifyMauFormProps> = ({
   onSuccess,
   onCancel,
 }) => {
-  const { message, questionLabel } = noteInfo(noteType);
+  const { message, questionLabel, title } = noteInfo(noteType);
   const handleSubmit = (values, actions) => {
     const flash = new Flash();
     flash.clear();
@@ -105,22 +115,21 @@ const NotifyMauForm: FC<NotifyMauFormProps> = ({
 
     return errors;
   };
-
   return (
     <div className="notify-mau-modal__container">
       <div className="notify-mau-modal__header popup-header">
         <div className="notify-mau-modal__title popup-title">
-          Ask us a question?
+          {title ?? "Ask us a question?"}
         </div>
         <div className="notify-mau-modal__close popup-close">
-          <a href="#" ng-click="closeThisDialog()">
+          <a href="#" onClick={handleCancel}>
             <i className="fa fa-times"></i>
           </a>
         </div>
       </div>
       <div className="notify-mau-modal__content popup-text">
         <Formik
-          initialValues={denullify({ email, noteType })}
+          initialValues={denullify({ email, noteType, emailConfirm: email })}
           onSubmit={handleSubmit}
           validate={validate}
         >
@@ -178,6 +187,7 @@ const NotifyMauForm: FC<NotifyMauFormProps> = ({
 interface NotifyMauDialogProps {
   noteType: NoteTypes;
   linkText: string;
+  linkClasses?: string;
   withIcon?: boolean;
   email?: string;
 }
@@ -185,6 +195,7 @@ interface NotifyMauDialogProps {
 export const NotifyMauDialog: FC<NotifyMauDialogProps> = ({
   noteType,
   linkText,
+  linkClasses,
   withIcon,
   email,
 }) => {
@@ -198,6 +209,7 @@ export const NotifyMauDialog: FC<NotifyMauDialogProps> = ({
       <span className="mau-modal confirm-modal__trigger">
         <MauTextButton
           title={linkText}
+          classes={linkClasses}
           onClick={(ev) => {
             ev.preventDefault();
             open();

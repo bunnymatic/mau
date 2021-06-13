@@ -4,7 +4,8 @@
     li
       = link_to "about", about_path
     li
-      = feedback_link "feedback"
+      = react_component id:"notify-mau", component:"NotifyMauDialog", wrapper_tag: "span", props: { note_type: "feedback", link_text: "feedback", email: current_user.try(:email), link_classes: "fine-print-links__feedback"}
+
     li
       = link_to "privacy", privacy_path
     li
