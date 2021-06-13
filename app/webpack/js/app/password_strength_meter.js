@@ -27,18 +27,13 @@ class PasswordStrengthMeter {
   }
 
   meter() {
-    console.log("wrapper", this.wrapper);
     return this.wrapper.find("meter");
   }
 
   onChange(ev) {
-    console.log(this);
     const value = $(ev.currentTarget).val();
     const { score } = zxcvbn(value);
-    console.log("updating score", { score });
     $(this.meter()).val(score);
-    console.log("meter score", $(this.meter()).val());
-    console.log("meter", this.meter());
   }
 }
 

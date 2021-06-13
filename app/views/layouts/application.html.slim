@@ -14,7 +14,7 @@ html
     = javascript_packs_with_chunks_tag "application"
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
-  body class=classes ng-app="MauApp"
+  body class=classes
     = render '/common/gtagmanager'
     - unless supported_browser?
       = render '/old_browser_warning'

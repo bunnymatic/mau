@@ -1,15 +1,20 @@
+import { onEvent, onReady } from "@js/app/dom_helpers";
 import jQuery from "jquery";
 
-jQuery(function () {
+onReady(function () {
   const flashNotice = ".notice, .flash, .flash__notice, .flash__error";
-  jQuery("body").on("click", flashNotice, function (_ev) {
+
+  const onCallback = function (_ev) {
     const _that = this;
     jQuery(_that).fadeOut({
       complete: function () {
         jQuery(_that).remove();
       },
     });
-  });
+  };
+
+  onEvent("body", "click", flashNotice, onCallback);
+
   jQuery(flashNotice)
     .not(".flash__error")
     .each(function () {
