@@ -50,7 +50,7 @@ const Flash = (function () {
       this.timeout = options.timeout || 10000;
     }
     contents = jQuery("<div>");
-    $close = jQuery(<i />, { class: "fa fa-close" });
+    $close = jQuery("<i />", { class: "fa fa-close" });
     key = intersection(Object.keys(options), ["error", "notice"])[0];
     if (options[key]) {
       msg = options[key].replace(/\n/gm, "<br/>");

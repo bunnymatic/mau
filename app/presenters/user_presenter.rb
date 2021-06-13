@@ -192,7 +192,7 @@ class UserPresenter < ViewPresenter
     (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
   end
 
-  KNOWN_SOCIAL_ICONS = %i[blogger pinterest myspace instagram facebook twitter flickr].freeze
+  KNOWN_SOCIAL_ICONS = %i[blog blogger pinterest myspace instagram facebook twitter flickr].freeze
   def self.icon_link_class(key, site = '')
     site = strip_http_from_link(site)
     key = 'star-alt' unless KNOWN_SOCIAL_ICONS.include?(key.to_sym)
@@ -204,7 +204,7 @@ class UserPresenter < ViewPresenter
                         'fa-blogger'
                       elsif !site.empty?
                         site_bits = site.split('.')
-                        "ico-#{site_bits.length > 2 ? site_bits[-3] : site_bits[0]}"
+                        "fa-#{site_bits.length > 2 ? site_bits[-3] : site_bits[0]}"
                       end
                     else
                       ''
