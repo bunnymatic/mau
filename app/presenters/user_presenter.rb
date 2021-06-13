@@ -43,7 +43,7 @@ class UserPresenter < ViewPresenter
       deleted: 'times-circle',
       suspended: 'thumbs-down',
     }[state.to_sym]
-    "far fa-#{icon_class}" if icon_class
+    "fa fa-#{icon_class}" if icon_class
   end
 
   def member_since_date
@@ -192,17 +192,19 @@ class UserPresenter < ViewPresenter
     (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
   end
 
+  KNOWN_SOCIAL_ICONS = %i[blog blogger pinterest myspace instagram facebook twitter flickr].freeze
   def self.icon_link_class(key, site = '')
     site = strip_http_from_link(site)
-    clz = [:ico, 'ico-invert', "ico-#{key}"]
+    key = 'star-alt' unless KNOWN_SOCIAL_ICONS.include?(key.to_sym)
+    clz = [:fa, 'fa-ico-invert', "fa-#{key}"]
     icon_chooser = (if /\.tumblr\./.match?(site)
-                      'ico-tumblr'
+                      'fa-tumblr'
                     elsif key.to_sym == :blog
                       if /\.blogger\./.match?(site)
-                        'ico-blogger'
+                        'fa-blogger'
                       elsif !site.empty?
                         site_bits = site.split('.')
-                        "ico-#{site_bits.length > 2 ? site_bits[-3] : site_bits[0]}"
+                        "fa-#{site_bits.length > 2 ? site_bits[-3] : site_bits[0]}"
                       end
                     else
                       ''

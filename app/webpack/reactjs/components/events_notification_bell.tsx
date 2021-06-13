@@ -29,7 +29,7 @@ export const EventsNotificationBell: FC<EventsNotificationBellProps> = () => {
           href="/admin/application_events/"
           title="Something happened!"
         >
-          <div className="fa fa-bell"></div>
+          <div className="fa fa-lightbulb-o"></div>
         </a>
       </div>
     )

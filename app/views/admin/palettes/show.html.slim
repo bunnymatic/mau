@@ -23,8 +23,85 @@ ruby:
     x-light-gray
     xx-light-gray
   )
+.pure-g
+  .pure-u-1-1.padded-content.header
+    h2.title Colors
 .palette-colors
   - colors.each do |color|
     .palette-colors__color class="palette-colors__color--#{color}"
       .palette-colors__color-info
         .palette-colors__color-info__name = color
+
+ruby:
+  icons = %w(
+  angle-down
+  angle-left
+  angle-right
+  angle-up
+  arrow-up
+  bars
+  blogger
+  building-o
+  building
+  check-square
+  close
+  cog
+  dashboard
+  download
+  edit
+  email
+  envelope-o
+  facebook
+  flickr
+  gear
+  group
+  heart-alt
+  heart
+  home
+  image
+  info-circle
+  instagram
+  lightbulb-o
+  list-ul
+  map-marker
+  myspace
+  navicon
+  pencil
+  photo
+  picture-o
+  pinterest
+  plus-circle
+  plus
+  question-circle
+  refresh
+  remove
+  reorder
+  search
+  sort-asc
+  sort-desc
+  sort-down
+  sort-up
+  sort
+  square-o
+  star-alt
+  star
+  tachometer
+  times-circle
+  times
+  trash-o
+  tumblr
+  twitter
+  unsorted
+  user-times
+  user
+  users
+  )
+
+.pure-g
+  .pure-u-1-1.padded-content.header
+    h2.title Font Icons
+.palette-icons
+  - icons.each do |icon|
+    .palette-icon
+      i.palette-icon__icon.fa class="fa-#{icon}"
+      .palette-icon__name = icon

@@ -67,12 +67,12 @@ export const ShareButton: FC<ShareButtonProps> = ({
   }[type];
 
   const href = `${linkInfo.shareUrl}?${hashToQueryString(linkInfo.params)}`;
-  const iconClass = `ico-${type}`;
+  const iconClass = `fa-${type}`;
   const title = linkInfo.shareTitle;
 
   return (
     <a href={href} target={target || "_blank"} title={title}>
-      <i className={cx("ico ico-invert", iconClass)}></i>
+      <i className={cx("fa fa-ico-invert", iconClass)}></i>
     </a>
   );
 };

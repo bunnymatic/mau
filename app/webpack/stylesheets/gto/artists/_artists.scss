@@ -224,7 +224,6 @@
       }
       .pure-controls {
         padding: 0.6rem;
-        font-size: 1.1rem;
       }
       opacity: 1;
     }
@@ -343,8 +342,7 @@
     }
   }
   .favorite-this {
-    .ico.ico-invert {
-      font-size: 1.4rem;
+    .fa.fa-ico-invert {
       cursor: pointer;
     }
   }
@@ -354,9 +352,9 @@
     align-items: flex-start;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    font-size: 1.8rem;
 
     .link {
-      margin: 5px;
       display: block;
       .ico {
         font-size: 2.4rem;
@@ -427,20 +425,21 @@
 .artist-profile {
   overflow: hidden;
 }
-ul.favorite-thumbs,
-ul.favorite-thumbs li {
+ul.favorite-thumbs {
   display: flex;
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
 }
+
 .favorite-thumbs li {
   .favorite-thumb {
     display: none;
   }
   .favorite-thumb-icon {
     display: block;
-    margin-right: 3px;
+    margin-right: 4px;
+    margin-bottom: 4px;
   }
   @media screen and (min-width: v.$screen-sm-max) {
     .favorite-thumb {

@@ -34,7 +34,7 @@ export const FavoriteThis: FC<FavoriteThisProps> = ({ type, id }) => {
         addFavorite();
       }}
     >
-      <div className="ico ico-invert ico-heart"></div>
+      <div className="fa fa-ico-invert fa-heart-alt"></div>
     </a>
   );
 };

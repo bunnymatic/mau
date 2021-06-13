@@ -88,8 +88,8 @@ export class SearchHit {
 
   get iconClass() {
     return {
-      studio: "far fa-building",
-      art_piece: "far fa-image",
+      studio: "fa fa-building-o",
+      art_piece: "fa fa-image",
       artist: "fa fa-user",
     }[this.type];
   }

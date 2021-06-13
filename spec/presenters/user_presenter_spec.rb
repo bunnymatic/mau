@@ -48,25 +48,25 @@ describe UserPresenter do
   end
 
   describe '.icon_link_class' do
-    it 'returns ico-tumblr for www.whatever.tumblr.com' do
+    it 'returns fa-tumblr for www.whatever.tumblr.com' do
       clz = described_class.send(:icon_link_class, :blog, 'http://www.whatever.tumblr.com')
-      expect(clz).to include 'ico-tumblr'
-      expect(clz).to include 'ico-blog'
+      expect(clz).to include 'fa-tumblr'
+      expect(clz).to include 'fa-blog'
     end
 
-    it 'returns ico-tumblr for whatever.tumblr.com' do
+    it 'returns fa-tumblr for whatever.tumblr.com' do
       clz = described_class.send(:icon_link_class, :blog, 'http://whatever.tumblr.com')
-      expect(clz).to include 'ico-tumblr'
+      expect(clz).to include 'fa-tumblr'
     end
 
-    it 'returns ico-blogger for www.blogger.com' do
+    it 'returns fa-blogger for www.blogger.com' do
       clz = described_class.send(:icon_link_class, :blog, 'http://www.blogger.com')
-      expect(clz).to include 'ico-blogger'
+      expect(clz).to include 'fa-blogger'
     end
 
-    it 'returns ico-twitter for www.twitter.com/herewego' do
+    it 'returns fa-twitter for www.twitter.com/herewego' do
       clz = described_class.send(:icon_link_class, :twitter, 'whatever')
-      expect(clz).to include 'ico-twitter'
+      expect(clz).to include 'fa-twitter'
     end
   end
 

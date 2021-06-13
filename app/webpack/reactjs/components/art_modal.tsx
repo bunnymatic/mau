@@ -61,13 +61,13 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
       className="art-modal__previous"
       onClick={handlePrevious}
     >
-      <i className="fa fa-chevron-left" />
+      <i className="fa fa-angle-left" />
     </a>
   );
 
   const nextButton = (
     <a href="#" title="next" className="art-modal__next" onClick={handleNext}>
-      <i className="fa fa-chevron-right" />
+      <i className="fa fa-angle-right" />
     </a>
   );
 

@@ -4,7 +4,7 @@ table#js-studio-arranger.pure-table.pure-table-striped
     - studios.each do |studio|
       tr data-studio-id=studio.slug
         td
-          i.fa.fa-ellipsis-v
+          i.fa.fa-bars
         td = studio.name
         td = studio.street
         td = "#{studio.artists.count} artists/#{studio.open_studios_artists.count} os"

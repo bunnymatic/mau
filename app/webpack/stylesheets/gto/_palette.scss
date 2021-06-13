@@ -4,7 +4,10 @@
 .palette-colors {
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .palette-colors__color {
   @include dotted_border;
@@ -31,4 +34,28 @@
   .palette-colors__color--#{$name} {
     background-color: #{$color};
   }
+}
+
+.palette-icons {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.palette-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid c.$x-light-gray;
+  min-width: 120px;
+  padding: 10px;
+  margin: 10px 5px;
+}
+.palette-icon__icon {
+  font-size: 3rem;
+  margin-bottom: 4px;
 }

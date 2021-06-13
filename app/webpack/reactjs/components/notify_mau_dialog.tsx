@@ -114,7 +114,7 @@ const NotifyMauForm: FC<NotifyMauFormProps> = ({
         </div>
         <div className="notify-mau-modal__close popup-close">
           <a href="#" ng-click="closeThisDialog()">
-            <i className="fa fa-close"></i>
+            <i className="fa fa-times"></i>
           </a>
         </div>
       </div>
@@ -192,7 +192,7 @@ export const NotifyMauDialog: FC<NotifyMauDialogProps> = ({
 
   setAppElement("body");
 
-  const icon = withIcon ? <i className="fa fa-envelope" /> : null;
+  const icon = withIcon ? <i className="fa fa-email" /> : null;
   return (
     <>
       <span className="mau-modal confirm-modal__trigger">

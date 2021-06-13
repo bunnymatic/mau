@@ -6,10 +6,10 @@
     .card__controls
       .art-card__edit
         = link_to art_piece.edit_path, title: 'edit this art'
-          .fa.fa-icon.fa-edit
+          i.fa.fa-icon.fa-edit
       .art-card__delete
         = link_to art_piece.destroy_path, confirm: 'Are you sure you want to remove this piece of art from your portfolio?', method: :delete, title: "Delete"
-          = fa_icon "close"
+          i.fa.fa-icon.fa-close
   = link_to art_piece_path(art_piece)
     - if show_os_violator && art_piece.artist.doing_open_studios?
       .os-violator title="Open Studios Participant!"

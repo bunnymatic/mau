@@ -1,6 +1,6 @@
 / expects OpenStudiosArtistCatalogPaginator
 .catalog-paginator__container
   = link_to @paginator.previous, title: @paginator.previous.name, class: "catalog-paginator__link catalog-paginator__link--prev" do
-    = fa_icon "chevron-left"
+    = fa_icon "angle-left"
   = link_to @paginator.next, title: @paginator.next.name, class: "catalog-paginator__link catalog-paginator__link--next" do
-    = fa_icon "chevron-right"
+    = fa_icon "angle-right"

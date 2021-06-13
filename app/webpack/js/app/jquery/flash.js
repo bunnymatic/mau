@@ -51,7 +51,7 @@ const Flash = (function () {
     }
     contents = jQuery("<div>");
     $close = jQuery("<i>", {
-      class: "flash__close far fa-icon fa-times-circle",
+      class: "fa fa-icon fa-times-circle js-flash__close flash__close",
     });
     key = intersection(Object.keys(options), ["error", "notice"])[0];
     if (options[key]) {
