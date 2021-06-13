@@ -25,7 +25,7 @@ table.js-data-tables.pure-table.pure-table-striped#studios_index
         td.admin-controls
           .show.btn
             = link_to studio.studio_path, title: 'Show' do
-              = fa_icon 'eye'
+              = fa_icon 'info-circle'
           .edit.btn
             - if current_user.manages?(studio.studio)
               = link_to edit_admin_studio_path(studio.studio), title: 'Edit' do
