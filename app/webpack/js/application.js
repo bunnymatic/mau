@@ -5,11 +5,9 @@ window.$ = jQuery;
 
 import "select2";
 import "re-tree";
-import "./app/feedback";
 import "./app/flash_binding";
 import "./app/all_tabs";
 import "./app/map";
-import "./app/jquery/jquery.feedback";
 import "./app/jquery/jquery.isOverflowing";
 import "./vendor/bootstrap/transition";
 import "./vendor/bootstrap/tab";

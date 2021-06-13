@@ -63,8 +63,6 @@ Mau::Application.routes.draw do
       end
     end
 
-    resources :feedbacks, only: %i[new create]
-
     namespace :search do
       match '/', action: 'index', via: %i[get post]
     end
