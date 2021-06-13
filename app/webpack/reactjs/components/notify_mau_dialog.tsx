@@ -192,7 +192,7 @@ export const NotifyMauDialog: FC<NotifyMauDialogProps> = ({
 
   setAppElement("body");
 
-  const icon = withIcon ? <i className="fa fa-envelope" /> : null;
+  const icon = withIcon ? <i className="fa fa-email" /> : null;
   return (
     <>
       <span className="mau-modal confirm-modal__trigger">

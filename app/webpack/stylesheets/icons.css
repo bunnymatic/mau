@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'mau-font-awesome';
-  src:  url('../fonts/mau-font-awesome.eot?1enj87');
-  src:  url('../fonts/mau-font-awesome.eot?1enj87#iefix') format('embedded-opentype'),
-    url('../fonts/mau-font-awesome.ttf?1enj87') format('truetype'),
-    url('../fonts/mau-font-awesome.woff?1enj87') format('woff'),
-    url('../fonts/mau-font-awesome.svg?1enj87#mau-font-awesome') format('svg');
+  src:  url('../fonts/mau-font-awesome.eot?ivmgks');
+  src:  url('../fonts/mau-font-awesome.eot?ivmgks#iefix') format('embedded-opentype'),
+    url('../fonts/mau-font-awesome.ttf?ivmgks') format('truetype'),
+    url('../fonts/mau-font-awesome.woff?ivmgks') format('woff'),
+    url('../fonts/mau-font-awesome.svg?ivmgks#mau-font-awesome') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,11 +25,44 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fa-instagram:before {
+  content: "\e900";
+}
+.fa-pinterest:before {
+  content: "\e901";
+}
+.fa-facebook:before {
+  content: "\e902";
+}
+.fa-blogger:before {
+  content: "\e903";
+}
+.fa-twitter:before {
+  content: "\e904";
+}
+.fa-myspace:before {
+  content: "\e905";
+}
+.fa-tumblr:before {
+  content: "\e906";
+}
+.fa-flickr:before {
+  content: "\e907";
+}
+.fa-heart-alt:before {
+  content: "\e908";
+}
+.fa-star-alt:before {
+  content: "\e909";
+}
 .fa-plus:before {
   content: "\f067";
 }
 .fa-search:before {
   content: "\f002";
+}
+.fa-email:before {
+  content: "\f003";
 }
 .fa-envelope-o:before {
   content: "\f003";
@@ -165,12 +198,6 @@
 }
 .fa-check-square:before {
   content: "\f14a";
-}
-.fa-gittip:before {
-  content: "\f184";
-}
-.fa-gratipay:before {
-  content: "\f184";
 }
 .fa-user-times:before {
   content: "\f235";

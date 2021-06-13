@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def social_icon(icon)
-    tag.i('', class: "ico ico-invert ico-#{icon}")
+    tag.i('', class: "fa fa-ico-invert fa-#{icon}")
   end
 
   def link_to_icon(url, icon, link_opts = {})

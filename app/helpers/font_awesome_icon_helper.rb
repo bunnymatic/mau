@@ -1,11 +1,11 @@
 module FontAwesomeIconHelper
   def fa_icon(names = 'fa', options = {})
-    font_awesome_icon('solid', names, options)
+    font_awesome_icon(names, options)
   end
 
-  def font_awesome_icon(family = 'fa', names = 'flag', original_options = {})
+  def font_awesome_icon(names = 'flag', original_options = {})
     options = original_options.deep_dup
-    classes = [family]
+    classes = []
     classes.concat Private.icon_names(names)
     classes.concat Array(options.delete(:class))
     text = options.delete(:text)

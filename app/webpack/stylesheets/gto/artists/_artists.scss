@@ -342,8 +342,7 @@
     }
   }
   .favorite-this {
-    .ico.ico-invert {
-      font-size: 1.4rem;
+    .fa.fa-ico-invert {
       cursor: pointer;
     }
   }
@@ -353,9 +352,9 @@
     align-items: flex-start;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    font-size: 1.8rem;
 
     .link {
-      margin: 5px;
       display: block;
       .ico {
         font-size: 2.4rem;
