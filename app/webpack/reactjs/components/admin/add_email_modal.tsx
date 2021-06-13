@@ -1,4 +1,4 @@
-import Flash from "@js/app/jquery/flash";
+import Flash from "@js/app/flash";
 import { MauTextField } from "@reactjs/components/form_fields";
 import { MauButton } from "@reactjs/components/mau_button";
 import { MauModal, setAppElement } from "@reactjs/components/mau_modal";

@@ -1,5 +1,5 @@
 import { isEmpty } from "@js/app/helpers";
-import Flash from "@js/app/jquery/flash";
+import Flash from "@js/app/flash";
 import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY } from "@js/event_constants";
 import { routing } from "@js/services";
 import { ArtPieceTagLink } from "@reactjs/components/art_piece_tag_link";

@@ -1,4 +1,4 @@
-import Flash from "@js/app/jquery/flash";
+import Flash from "@js/app/flash";
 import Spinner from "@js/app/spinner";
 import jQuery from "jquery";
 

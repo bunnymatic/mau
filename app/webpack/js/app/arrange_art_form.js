@@ -1,7 +1,7 @@
 import "jquery-ui";
 import "jquery-ui/ui/widgets/sortable";
 
-import Flash from "@js/app/jquery/flash";
+import Flash from "@js/app/flash";
 import { postForm } from "@services/mau_ajax";
 import jQuery from "jquery";
 

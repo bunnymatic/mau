@@ -2,8 +2,8 @@ import "jquery-ui";
 import "jquery-ui/ui/widgets/sortable";
 import "jquery-ui/ui/widgets/draggable";
 
+import Flash from "@js/app/flash";
 import { map } from "@js/app/helpers";
-import Flash from "@js/app/jquery/flash";
 import { post } from "@services/mau_ajax";
 import jQuery from "jquery";
 

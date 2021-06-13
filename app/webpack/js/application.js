@@ -8,7 +8,6 @@ import "re-tree";
 import "./app/flash_binding";
 import "./app/all_tabs";
 import "./app/map";
-import "./app/jquery/jquery.isOverflowing";
 import "./vendor/bootstrap/transition";
 import "./vendor/bootstrap/tab";
 import "./vendor/bootstrap/collapse";
