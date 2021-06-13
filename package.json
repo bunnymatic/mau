@@ -43,7 +43,6 @@
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
-    "@fortawesome/fontawesome-free": "^5.12.1",
     "@google/markerclustererplus": "^5.0.3",
     "@rails/ujs": "^6.0.2-1",
     "@rails/webpacker": "^5.0.0",
