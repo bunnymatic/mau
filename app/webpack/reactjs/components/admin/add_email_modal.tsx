@@ -42,7 +42,7 @@ export const AddEmailModal: FC<AddEmailModalProps> = ({ listId, onAdd }) => {
   return (
     <>
       <MauTextButton onClick={() => open()} title="add an email to this list">
-        <i className="fa fa-plus" />
+        <i className="fa fa-plus-circle" />
       </MauTextButton>
 
       <MauModal isOpen={isOpen}>

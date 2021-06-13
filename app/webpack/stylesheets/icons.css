@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'mau-font-awesome';
-  src:  url('../fonts/mau-font-awesome.eot?ivmgks');
-  src:  url('../fonts/mau-font-awesome.eot?ivmgks#iefix') format('embedded-opentype'),
-    url('../fonts/mau-font-awesome.ttf?ivmgks') format('truetype'),
-    url('../fonts/mau-font-awesome.woff?ivmgks') format('woff'),
-    url('../fonts/mau-font-awesome.svg?ivmgks#mau-font-awesome') format('svg');
+  src:  url('../fonts/mau-font-awesome.eot?nrgcsd');
+  src:  url('../fonts/mau-font-awesome.eot?nrgcsd#iefix') format('embedded-opentype'),
+    url('../fonts/mau-font-awesome.ttf?nrgcsd') format('truetype'),
+    url('../fonts/mau-font-awesome.woff?nrgcsd') format('woff'),
+    url('../fonts/mau-font-awesome.svg?nrgcsd#mau-font-awesome') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -61,10 +61,10 @@
 .fa-search:before {
   content: "\f002";
 }
-.fa-email:before {
+.fa-envelope-o:before {
   content: "\f003";
 }
-.fa-envelope-o:before {
+.fa-email:before {
   content: "\f003";
 }
 .fa-heart:before {
@@ -100,6 +100,9 @@
 .fa-download:before {
   content: "\f019";
 }
+.fa-refresh:before {
+  content: "\f021";
+}
 .fa-image:before {
   content: "\f03e";
 }
@@ -117,6 +120,9 @@
 }
 .fa-map-marker:before {
   content: "\f041";
+}
+.fa-plus-circle:before {
+  content: "\f055";
 }
 .fa-times-circle:before {
   content: "\f057";
