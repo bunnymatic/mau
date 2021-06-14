@@ -1,6 +1,6 @@
 import expect from "expect";
 
-import { isOverflowing } from "./jquery.isOverflowing";
+import { IsOverflowing } from "./is_overflowing";
 
 jest.dontMock("jquery");
 
@@ -11,8 +11,8 @@ describe("isOverflowing", function () {
       offsetHeight: 10,
       scrollWidth: 0,
       offsetWidth: 10,
-    };
-    expect(isOverflowing(element)).toBeFalsy();
+    } as HTMLElement;
+    expect(new IsOverflowing(element).test()).toBe(false);
   });
 
   it("is overflowing with lots of content", function () {
@@ -21,14 +21,14 @@ describe("isOverflowing", function () {
       offsetHeight: 10,
       scrollWidth: 0,
       offsetWidth: 10,
-    };
-    expect(isOverflowing(element)).toBeTruthy();
+    } as HTMLElement;
+    expect(new IsOverflowing(element).test()).toBe(true);
     element = {
       scrollHeight: 0,
       offsetHeight: 10,
       scrollWidth: 20,
       offsetWidth: 10,
-    };
-    expect(isOverflowing(element)).toBeTruthy();
+    } as HTMLElement;
+    expect(new IsOverflowing(element).test()).toBe(true);
   });
 });

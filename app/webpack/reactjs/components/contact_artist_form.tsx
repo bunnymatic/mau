@@ -1,4 +1,4 @@
-import Flash from "@js/app/jquery/flash";
+import Flash from "@js/app/flash";
 import { ArtPiece } from "@models/art_piece.model";
 import {
   MauTextAreaField,

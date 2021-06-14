@@ -1,4 +1,4 @@
-import Flash from "@js/app/jquery/flash";
+import Flash from "@js/app/flash";
 import * as favoritesService from "@services/favorites.service";
 import React, { FC } from "react";
 
