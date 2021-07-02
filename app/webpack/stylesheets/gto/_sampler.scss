@@ -23,52 +23,6 @@
   .sampler__thumb:nth-child(13) {
     display: none;
   }
-  @media screen and (max-width: v.$screen-lg-max) {
-    .sampler__promo {
-      width: 50%;
-      .header {
-        font-size: 2rem;
-      }
-      .body {
-        font-size: 1rem;
-        line-height: 1.2rem;
-      }
-    }
-  }
-  @media screen and (max-width: v.$screen-md-max) {
-    .sampler__promo {
-      width: 66.66%;
-      .header {
-        font-size: 2.2rem;
-      }
-      .body {
-        font-size: 1.1rem;
-      }
-    }
-  }
-  @media screen and (max-width: v.$screen-sm-max) {
-    .sampler__promo {
-      width: 100%;
-    }
-  }
-  @media screen and (max-width: v.$screen-xs-max) {
-    .sampler__promo {
-      .header {
-        font-size: 2rem;
-      }
-      .body {
-        font-size: 1rem;
-        line-height: 1.4em;
-      }
-      &.first {
-        margin-top: 10px;
-      }
-      width: 100%;
-      .desc {
-        opacity: 1 !important;
-      }
-    }
-  }
 
   .sampler__promo {
     .bg {
@@ -77,7 +31,7 @@
       width: calc(100% - 12px);
       height: 100%;
 
-      background-image: url("../../images/duotones/tower-duotone-blue.jpg");
+      background-image: url("../../images/duotones/tower-duotone.jpg");
       @include background-cover;
       &:before {
         content: "";
@@ -106,12 +60,64 @@
       margin-bottom: 4vh;
     }
     .header {
-      font-size: 2rem;
       font-weight: v.$font-weight-bold;
     }
     .body {
-      font-size: 1rem;
       font-weight: v.$font-weight-light;
+    }
+  }
+  @media screen and (min-width: v.$screen-lg-max+1) {
+    .header {
+      font-size: 2.6rem;
+    }
+    .body {
+      font-size: 1.9rem;
+    }
+  }
+  @media screen and (max-width: v.$screen-lg-max) {
+    .sampler__promo {
+      width: 50%;
+      .header {
+        font-size: 2.55rem;
+      }
+      .body {
+        font-size: 1.6rem;
+        line-height: 1.8rem;
+      }
+    }
+  }
+  @media screen and (max-width: v.$screen-md-max) {
+    .sampler__promo {
+      width: 66.66%;
+      .header {
+        font-size: 2.2rem;
+      }
+      .body {
+        font-size: 1.8rem;
+      }
+    }
+  }
+  @media screen and (max-width: v.$screen-sm-max) {
+    .sampler__promo {
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: v.$screen-xs-max) {
+    .sampler__promo {
+      .header {
+        font-size: 2rem;
+      }
+      .body {
+        font-size: 1.8rem;
+        line-height: 2rem;
+      }
+      &.first {
+        margin-top: 10px;
+      }
+      width: 100%;
+      .desc {
+        opacity: 1 !important;
+      }
     }
   }
 }
