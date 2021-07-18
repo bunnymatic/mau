@@ -16,10 +16,8 @@ describe 'PhoneNumberValidator' do
   it 'should allow valid phone numbers' do
     valid_numbers = [
       '4155551212',
-      '14155551212',
-      '1 (415) 555 1212',
-      '1 (415) 555-1212',
-      '+1 (415) 555-1212',
+      ' (415) 555 1212',
+      '(415) 555-1212',
       '415A5551212',
     ]
     valid_numbers.each do |test|
@@ -42,17 +40,18 @@ describe 'PhoneNumberValidator' do
     end
   end
   it 'should not allow invalid phone numbers' do
-    valid_numbers = [
+    invalid_numbers = [
       '1AAA5551212',
       '1 (415) 55512',
       '1 (415 555-121a',
       'abc123+1 (415) 555!1212',
       '1 415.111.2222 ext 1234',
     ]
-    valid_numbers.each do |test|
+    invalid_numbers.each do |test|
       subject.phone = test
       subject.validate
-      expect(subject.errors[:phone]).to include('must be 10 or 11 digits'), "#{test} is responding like a valid phone number which it shouldn't"
+      expect(subject.errors[:phone]).to include('must be 10 digits and cannot start with a 1'),
+                                        "#{test} is responding like a valid phone number which it shouldn't"
     end
   end
 end

@@ -3,8 +3,8 @@ class PhoneNumberValidator < ActiveModel::EachValidator
     return if value.blank?
 
     stripped = value.gsub(/\D/, '')
-    return if stripped.length == 11 || (stripped.length == 10 && !stripped.starts_with?('1'))
+    return if stripped.length == 10 && !stripped.starts_with?('1')
 
-    record.errors.add attribute, (options[:message] || 'must be 10 or 11 digits')
+    record.errors.add attribute, (options[:message] || 'must be 10 digits and cannot start with a 1')
   end
 end

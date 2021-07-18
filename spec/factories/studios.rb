@@ -9,7 +9,7 @@ FactoryBot.define do
     lng { -122.41 }
     url { Faker::Internet.url }
     cross_street { Faker::Address.street_name }
-    phone { "1 (415) 555 #{Array.new(4) { rand(10) }.join}" }
+    phone { "(415) 555 #{Array.new(4) { rand(10) }.join}" }
     photo_file_name    { 'new-studio.jpg' }
     photo_content_type { 'image/jpeg' }
     photo_file_size    { 1234 }

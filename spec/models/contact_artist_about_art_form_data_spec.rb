@@ -17,7 +17,7 @@ describe ContactArtistAboutArtFormData do
     it 'requires phone looks like an phone' do
       form_data = described_class.new({ phone: '12321' })
       expect(form_data).not_to be_valid
-      expect(form_data.errors['phone']).to include 'must be 10 or 11 digits'
+      expect(form_data.errors['phone']).to be_present
     end
     it 'is valid with only phone and not email' do
       form_data = described_class.new({ name: 'Joe', phone: '2325551212', art_piece_id: 1 })

@@ -40,9 +40,9 @@ describe User, elasticsearch: :stub do
 
   it 'validates and cleans phone number on validate' do
     user = FactoryBot.build(:user)
-    user.phone = '1 (415) 123 - 4567'
+    user.phone = '(415) 123 - 4567'
     expect(user).to be_valid
-    expect(user.phone).to eq '14151234567'
+    expect(user.phone).to eq '4151234567'
   end
 
   context '.login_or_email_finder' do

@@ -17,7 +17,7 @@ describe OpenStudiosParticipantPresenter do
 
   context 'when a participant is doing everything' do
     let(:user) do
-      create(:user, phone: '14155559999')
+      create(:user, phone: '4155559999')
     end
     let(:participant) do
       create(:open_studios_participant,
