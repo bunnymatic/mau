@@ -25,7 +25,7 @@ FactoryBot.define do
     end
 
     trait :with_phone do
-      phone { "1 (415) 555 #{Array.new(4) { rand(10) }.join}" }
+      phone { "(415) 555 #{Array.new(4) { rand(10) }.join}" }
     end
 
     trait :with_photo do

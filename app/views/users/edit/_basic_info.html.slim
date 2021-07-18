@@ -15,7 +15,7 @@
           = form.input :login, label: 'Username'
           = form.input :email, placeholder: 'e.g. leoDaVinci@example.com'
           - if model.class == Artist
-            = form.input :phone, hint: "We will never show this or use this without your permission", input_html: { value: pretty_phone_number(model.phone)}
+            = form.input :phone, placeholder: 'e.g. 415 555-1212',  hint: "We will never show this or use this without your permission", input_html: { value: pretty_phone_number(model.phone)}
     .pure-g
       .pure-u-1-1
         = form.actions do

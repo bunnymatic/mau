@@ -8,9 +8,9 @@ describe Studio do
   it { should validate_presence_of(:name) }
 
   it 'validates and cleans up the phone number on validate' do
-    studio.phone = '1 (415) 555 1212'
+    studio.phone = ' (415) 555 1212'
     expect(studio).to be_valid
-    expect(studio.phone).to eq '14155551212'
+    expect(studio.phone).to eq '4155551212'
   end
 
   it 'has a friendly id' do

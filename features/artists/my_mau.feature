@@ -15,7 +15,7 @@ Scenario: I can edit my profile
   When I click on "Personal Info"
   And I update my personal information with:
   | artist_firstname | artist_lastname | artist_phone            |
-  | joe              | 蕭秋芬           | 1 (415) 555 1212 |
+  | joe              | 蕭秋芬           | (415) 555 1212   |
   And I click on "Save Changes"
 
   Then I see a flash notice including "has been updated"
@@ -59,12 +59,12 @@ Scenario: I can see when I make a mistake
 
   Then I see a flash error including "We had trouble updating your profile."
   Then I see an error in the form "can't be blank"
-  Then I see an error in the form "10 or 11 digits"
+  Then I see an error in the form "10 digits"
 
   When I close the flash
   And I update my personal information with:
   | artist_email               | artist_phone   |
-  | leodvinci@example.com     | 1 234 444 5555 |
+  | leodvinci@example.com     | 234 444 5555   |
   And I click on "Save Changes"
 
   When I click on "Personal Info"
