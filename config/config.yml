@@ -94,6 +94,7 @@ common:
   mailchimp_api_key: bogus
   mailchimp_artist_list_id: f8d679dde8
   mailchimp_fan_list_id: 041ae187df
+  mailchimp_subscription_js_script: https://chimpstatic.com/mcjs-connected/js/users/a7a045f0e2e5674de62c5fb04/dcc40d345271c693521c2428c.js
   messaging_server:
   messaging_token:
   recaptcha_private_key: bogus
