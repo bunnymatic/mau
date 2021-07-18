@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_25_015312) do
+ActiveRecord::Schema.define(version: 2021_07_18_015942) do
 
   create_table "application_events", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "type"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2021_04_25_015312) do
     t.string "photo_content_type"
     t.integer "photo_file_size"
     t.datetime "photo_updated_at"
-    t.float "price"
+    t.decimal "price", precision: 10, scale: 2
     t.datetime "sold_at"
     t.index ["artist_id"], name: "index_art_pieces_on_artist_id"
     t.index ["medium_id"], name: "index_art_pieces_on_medium_id"
