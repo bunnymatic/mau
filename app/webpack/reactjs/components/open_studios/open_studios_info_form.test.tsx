@@ -61,12 +61,12 @@ describe("OpenStudiosInfoForm", () => {
           exact: false,
         });
 
-        expect(dateRanges).toHaveLength(3);
+        expect(dateRanges).toHaveLength(2);
       });
 
       it("shows a form", () => {
         expect(findField("Show my shopping cart link")).toBeInTheDocument();
-        expect(findField("Show my meeting")).toBeInTheDocument();
+        expect(findField("Show my meeting")).not.toBeInTheDocument();
         expect(findField("Show my YouTube video")).toBeInTheDocument();
         expect(findField("Show my e-mail")).toBeInTheDocument();
         expect(findField("Show my phone number")).toBeInTheDocument();
@@ -93,6 +93,16 @@ describe("OpenStudiosInfoForm", () => {
           },
           openStudiosEvent,
         });
+      });
+
+      it("shows a form", () => {
+        expect(findField("Show my shopping cart link")).toBeInTheDocument();
+        expect(findField("Show my meeting")).toBeInTheDocument();
+        expect(findField("Show my YouTube video")).toBeInTheDocument();
+        expect(findField("Show my e-mail")).toBeInTheDocument();
+        expect(findField("Show my phone number")).toBeInTheDocument();
+        expect(findButton("Save")).toBeInTheDocument();
+        expect(findButton("Un-Register Me")).toBeInTheDocument();
       });
 
       it("shows instructions with the special event date range", () => {

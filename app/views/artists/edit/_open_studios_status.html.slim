@@ -1,25 +1,30 @@
 / expects form, open_studios_event and current_user as presented current logged in user
+ruby:
+  open_studios_event_props = {
+    date_range: current_open_studios.date_range_with_year,
+    start_time: current_open_studios.start_time,
+    end_time: current_open_studios.end_time,
+  }
+  if (current_open_studios.special_event_date_range_with_year && current_open_studios.special_event_time_slots)
+    open_studios_event_props[:special_event] = {
+      date_range: current_open_studios.special_event_date_range_with_year,
+      time_slots: current_open_studios.special_event_time_slots,
+    }
+  end
+  registration_props = {
+    location: (current_user.studio.present? ? current_user.studio.name : current_user.address.to_s),
+    artist_id: current_user.id,
+    participant: current_user.current_open_studios_participant.as_json(root:false),
+    open_studios_event: open_studios_event_props
+  }
+
 .panel-heading
   h4.panel-title
     = link_to "Open Studios #{open_studios_event.link_text}", '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
     .fa.fa-icon.panel-opener
 .panel-collapse.collapse#events role="tabpanel"
   .panel-body
-    = react_component id: "os-registration", component: "OpenStudiosRegistrationSection", props: { \
-        location: (current_user.studio.present? ? current_user.studio.name : current_user.address.to_s), \
-        artist_id: current_user.id, \
-        participant: current_user.current_open_studios_participant.as_json(root:false), \
-        open_studios_event: { \
-          date_range: current_open_studios.date_range_with_year, \
-          start_time: current_open_studios.start_time, \
-          end_time: current_open_studios.end_time, \
-          special_event: { \
-            date_range: current_open_studios.special_event_date_range_with_year,\
-            time_slots: current_open_studios.special_event_time_slots,
-          } \
-        }\
-      }
-
+    = react_component id: "os-registration", component: "OpenStudiosRegistrationSection", props: registration_props
     .donate
       .note If you'd like to donate, here is our paypal link.  And Thanks!
       .form-group
