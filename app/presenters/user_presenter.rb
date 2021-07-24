@@ -159,16 +159,15 @@ class UserPresenter < ViewPresenter
   end
 
   def links
-    @links ||= self.class.keyed_links.map do |kk|
-      @model.send(kk)
-    end.compact
+    @links ||= keyed_links.values
+  end
+
+  def keyed_links
+    @model.links.compact_blank
   end
 
   def links_html
-    self.class.keyed_links.map do |key|
-      site = @model.send(key)
-      next if site.blank?
-
+    keyed_links.map do |key, site|
       formatted_site = format_link(site)
       site_display = format_link_for_display(site)
       link_icon_class = self.class.icon_link_class(key, site)

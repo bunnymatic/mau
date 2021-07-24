@@ -103,6 +103,9 @@
 .fa-refresh:before {
   content: "\f021";
 }
+.fa-tag:before {
+  content: "\f02b";
+}
 .fa-image:before {
   content: "\f03e";
 }
@@ -204,6 +207,12 @@
 }
 .fa-check-square:before {
   content: "\f14a";
+}
+.fa-cart-plus:before {
+  content: "\f217";
+}
+.fa-cart-arrow-down:before {
+  content: "\f218";
 }
 .fa-user-times:before {
   content: "\f235";

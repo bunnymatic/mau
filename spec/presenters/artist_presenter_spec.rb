@@ -74,9 +74,7 @@ describe ArtistPresenter do
 
     context 'without links' do
       before do
-        allow(artist).to receive(:website).and_return(nil)
-        allow(artist).to receive(:facebook).and_return(nil)
-        allow(artist).to receive(:instagram).and_return(nil)
+        artist.update({ links: {} })
       end
 
       describe '#links?' do

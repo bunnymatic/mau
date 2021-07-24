@@ -11,9 +11,27 @@
           .open-studios-artist__details__item--title
             = link_to "Visit me now", info.video_conference_url, target: "_blank"
       - if info.has_shop?
-        .open-studios-artist__details__item.open-studios-artist__details__shop-url
+        .open-studios-artist__details__item.open-studios-artist__details__item--link.open-studios-artist__details__shop-url
+          .open-studios-artist__details__item--icon.open-studios-artist__details__item--icon--shop
+            = link_to info.shop_url, target: "_blank" do
+              = fa_icon("cart-arrow-down")
           .open-studios-artist__details__item--title
             = link_to "My Shop", info.shop_url, target: "_blank"
+      - if artist.keyed_links[:website]
+        .open-studios-artist__details__item.open-studios-artist__details__item--link.open-studios-artist__details__shop-url
+          .open-studios-artist__details__item--icon
+
+            = link_to artist.keyed_links[:website], target: "_blank" do
+              = fa_icon("star-alt")
+          .open-studios-artist__details__item--title
+            = link_to "My Website", artist.keyed_links[:website], target: "_blank"
+      - if artist.keyed_links[:instagram]
+        .open-studios-artist__details__item.open-studios-artist__details__item--link.open-studios-artist__details__shop-url
+          .open-studios-artist__details__item--icon
+            = link_to artist.keyed_links[:instagram], target: "_blank" do
+              = fa_icon("instagram")
+          .open-studios-artist__details__item--title
+             = link_to "My Instagram", artist.keyed_links[:instagram], target: "_blank"
       - if info.show_email? || info.show_phone?
         .open-studios-artist__details__item.open-studios-artist__details__contact
           - if info.show_email?
