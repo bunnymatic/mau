@@ -197,18 +197,7 @@ class UserPresenter < ViewPresenter
     site = strip_http_from_link(site)
     key = 'star-alt' unless KNOWN_SOCIAL_ICONS.include?(key.to_sym)
     clz = [:fa, 'fa-ico-invert', "fa-#{key}"]
-    icon_chooser = (if /\.tumblr\./.match?(site)
-                      'fa-tumblr'
-                    elsif key.to_sym == :blog
-                      if /\.blogger\./.match?(site)
-                        'fa-blogger'
-                      elsif !site.empty?
-                        site_bits = site.split('.')
-                        "fa-#{site_bits.length > 2 ? site_bits[-3] : site_bits[0]}"
-                      end
-                    else
-                      ''
-                    end)
+    icon_chooser = choose_icon_from_site(site, key) || ''
 
     (clz + [icon_chooser]).join(' ')
   end
@@ -216,6 +205,21 @@ class UserPresenter < ViewPresenter
   private
 
   class << self
+    def choose_icon_from_site(site, key)
+      if /\.tumblr\./.match?(site)
+        'fa-tumblr'
+      elsif key.to_sym == :blog || key.to_sym == :blogger
+        if /\.blogger\./.match?(site)
+          'fa-blogger'
+        elsif site.present?
+          site_bits = site.split('.')
+          "fa-star-alt fa-#{site_bits.length > 2 ? site_bits[-3] : site_bits[0]}"
+        else
+          'fa-star-alt'
+        end
+      end
+    end
+
     def strip_http_from_link(link)
       link.gsub %r{^https?://}, ''
     end
