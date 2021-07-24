@@ -5,13 +5,12 @@
   @include small-rounded-corners;
   &:before {
     font-size: 1.1em;
-    margin-left: -0.05em;
   }
   display: inline-block;
   line-height: 1.4rem;
   font-size: 1.4rem;
   margin: 0;
-  padding: 0;
+  padding: 1px 0 0 0;
   background-color: lighten($gto_gray, 50%);
   color: $gto_dark_teal;
 }
