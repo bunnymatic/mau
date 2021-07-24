@@ -113,17 +113,19 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                       placeholder="e.g. https://www.youtube.com/watch?v=abc123"
                     />
                   </div>
-                  <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--video-conference-url">
-                    <MauTextField
-                      label={`Show my meeting link ${specialEventDateRange} so I can receive virtual visitors (Zoom or other)`}
-                      name="videoConferenceUrl"
-                      placeholder="e.g. https://my.zoom.room.com/me"
-                    />
-                    <SpecialEventScheduleFields
-                      specialEvent={event.specialEvent}
-                      disabled={!values.videoConferenceUrl}
-                    />
-                  </div>
+                  {event.specialEvent && (
+                    <div className="pure-u-1-1 open-studios-info-form__input open-studios-info-form__input--text open-studios-info-form__input--video-conference-url">
+                      <MauTextField
+                        label={`Show my meeting link ${specialEventDateRange} so I can receive virtual visitors (Zoom or other)`}
+                        name="videoConferenceUrl"
+                        placeholder="e.g. https://my.zoom.room.com/me"
+                      />
+                      <SpecialEventScheduleFields
+                        specialEvent={event.specialEvent}
+                        disabled={!values.videoConferenceUrl}
+                      />
+                    </div>
+                  )}
                 </div>
               </fieldset>
               <div className="open-studios-info-form__actions actions">
