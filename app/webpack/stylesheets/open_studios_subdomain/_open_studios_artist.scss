@@ -19,6 +19,35 @@
 .open-studios-artist__details__item {
   margin-bottom: 10px;
 }
+.open-studios-artist__details__item--link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > * {
+    margin-right: 2px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .open-studios-artist__details__item--icon,
+  .open-studios-artist__details__item--title {
+    vertical-align: middle;
+  }
+  .open-studios-artist__details__item--icon--shop {
+    width: 29px;
+    font-size: 24px;
+    & i {
+      position: relative;
+      left: -2px;
+    }
+  }
+}
+.open-studios-artist__details__item--icon {
+  font-size: 35px;
+  color: $gto-teal;
+  position: relative;
+  top: -2px;
+}
 
 .open-studios-artist__profile-image {
   padding-top: 10px;
