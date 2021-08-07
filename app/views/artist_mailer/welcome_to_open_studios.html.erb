@@ -27,12 +27,6 @@
     <li><%= link_to "display your phone number and/or email address", @artist_os_section_url, target: "_blank" %></li>
     <li><%= link_to "include a link to your shopping site", @artist_os_section_url, target: "_blank"  %></li>
     <li><%= link_to "include a youtube video", @artist_os_section_url, target: "_blank"  %></li>
-    <li>
-      Connect with MissionArtists on
-      <%= link_to "Facebook", Conf.social_links['facebook'], target: "_blank" %>,
-      <%= link_to "Twitter", Conf.social_links['twitter'], target: "_blank" %>,
-      <%= link_to "Instagram", Conf.social_links['instagram'], target: "_blank" %>.
-    </li>
   </ul>
 </p>
 <p>
@@ -43,6 +37,12 @@
   The Mission Artists Team
 </p>
 
-<p>
+<p style="font-size: small; border-top: 1px solid lightgray; margin-top: 5px; padding-top: 5px;">
   Mission Artists is entirely volunteer run and does not charge for participation.  If you'd like to help out, you can donate by <a href="<%= @donation_url %>" target="_blank">going to the site</a> and clicking on the "Donate" button.  We use this money to run the website and support promotion for Open Studios events.
+</p>
+<p style="font-size: small;">
+    Connect:
+    <%= link_to "[Facebook]", Conf.social_links['facebook'], target: "_blank" %>
+    <%= link_to "[Twitter]", Conf.social_links['twitter'], target: "_blank" %>
+    <%= link_to "[Instagram]", Conf.social_links['instagram'], target: "_blank" %>
 </p>
