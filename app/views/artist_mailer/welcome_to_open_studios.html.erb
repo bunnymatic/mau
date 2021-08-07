@@ -2,47 +2,47 @@
   Hello, <%= @artist.get_name %>
 </p>
 <p>
-  Thanks so much for registering for Open Studios <%= @current_os.for_display(reverse: true) %>.
+  Thanks for registering for Open Studios <%= @current_os.for_display(reverse: true) %>.
   We're so excited you're participating!
 </p>
-<p>
-  It's FREE to participate, we are completely donation and volunteer supported.
-</p>
-<p>
-  By participating, you are committing to:
-</p>
-<p>
-  <ul>
-    <li><%= link_to "Update the images on your profile", @upload_url, target: "_blank" %> with fresh, available art. </li>
 
-    <li> Decide how you will participate and <%= link_to "fill out the Open Studios Information form", @artist_os_section_url, target: "_blank" %>. Your participation options are:
-      <ol>
-        <li>Share a shopping cart link</li>
-        <li>Host a live meeting link May 8 & 9 between noon-4pm (Zoom or other platform).</li>
-        <li>Share a YouTube video link: studio tour, art demo etc.</li>
-        <li>Host a live stream event between @current_os.for_display(reverse: true) (artist talk, demo, class, happy hour, etc.)</li>
-        <li>Share your contact information during the event</li>
-      </ol>
-    </li>
-    <li>
-      Promote the event to your mailing list and social fans.
-    </li>
-    <li>
-      Connect with MissionArtists on
-      <%= link_to "Facebook", Conf.social_links['facebook'], target: "_blank" %>,
-      <%= link_to "Twitter", Conf.social_links['twitter'], target: "_blank" %>,
-      <%= link_to "Instagram", Conf.social_links['instagram'], target: "_blank" %>.
-    </li>
+<p>
+  By registering, you are committing to:
+</p>
+<p>
+  <ol>
+    <li> Have your studio open on <%= @current_os.for_display(reverse: true) %> from <% @current_os.time_range_for_display %> (while complying with local, state & federal guidelines around COVID 19)</li>
+    <li> Promote the event to your mailing list and social fans</li>
+  </ol>
+</p>
+<p>
+  Note: If you decide not to open, please remember to un-register so your fans and visitors are not inconvenienced. You can un-register at any time.
+</p>
+
+<p>
+  NEW ON MISSIONARTISTS.ORG :
+  The Open Studios Online Catalog!!! https://openstudios.missionartists.org/  where you can:
+  <ul>
+    <li><%= link_to "display art prices & if pieces are sold", @upload_url, target: "_blank" %></li>
+    <li><%= link_to "display your phone number and/or email address", @artist_os_section_url, target: "_blank" %></li>
+    <li><%= link_to "include a link to your shopping site", @artist_os_section_url, target: "_blank"  %></li>
+    <li><%= link_to "include a youtube video", @artist_os_section_url, target: "_blank"  %></li>
   </ul>
 </p>
-
 <p>
-  Have any questions?  See <%= link_to Conf.open_studios_help_document_url, Conf.open_studios_help_document_url, target: "_blank" %> or email us.  We're here to help.
-</p>
-<p>
-Mission Artists is entirely volunteer run and does not charge for participation.  If you'd like to help out, you can donate by <a href="<%= @donation_url %>" target="_blank">going to the site</a> and clicking on the "Donate" button.  We uses this money to run the website and support promotion for Open Studios events.
+  Have any questions? See <%= link_to Conf.open_studios_help_document_url, Conf.open_studios_help_document_url, target: "_blank" %> or email us. We're here to help. Mission Artists is completely volunteer run and donation supported.
 </p>
 
 <p>
-The Mission Artists Team
+  The Mission Artists Team
+</p>
+
+<p style="font-size: small; border-top: 1px solid lightgray; margin-top: 5px; padding-top: 5px;">
+  Mission Artists is entirely volunteer run and does not charge for participation.  If you'd like to help out, you can donate by <a href="<%= @donation_url %>" target="_blank">going to the site</a> and clicking on the "Donate" button.  We use this money to run the website and support promotion for Open Studios events.
+</p>
+<p style="font-size: small;">
+    Connect:
+    <%= link_to "[Facebook]", Conf.social_links['facebook'], target: "_blank" %>
+    <%= link_to "[Twitter]", Conf.social_links['twitter'], target: "_blank" %>
+    <%= link_to "[Instagram]", Conf.social_links['instagram'], target: "_blank" %>
 </p>

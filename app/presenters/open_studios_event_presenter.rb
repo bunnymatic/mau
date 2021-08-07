@@ -110,12 +110,18 @@ class OpenStudiosEventPresenter < ViewPresenter
                                 model.special_event_end_time)
   end
 
-  def for_display
+  def for_display(reverse: false)
     if available?
-      model.for_display
+      model.for_display(reverse: reverse)
     else
-      OpenStudiosEventService.for_display(current_open_studios_key)
+      OpenStudiosEventService.for_display(current_open_studios_key, reverse: reverse)
     end
+  end
+
+  def time_range_for_display
+    return '' unless available?
+
+    [model.start_time, model.end_time].join('-')
   end
 
   def display_logo

@@ -51,7 +51,7 @@ production:
 
 common:
   event_time_zone: America/Los_Angeles
-  open_studios_help_document_url: https://bit.ly/v-openstudios
+  open_studios_help_document_url: https://bit.ly/mission-fall2021
   features:
     virtual_open_studios: false
   pagination:
