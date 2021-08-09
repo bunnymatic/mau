@@ -185,7 +185,9 @@ Then('I see the summary information about that artists open studios events') do
   within('.open-studios-artist__info') do
     expect(page).to have_link 'My Shop', href: @artist.current_open_studios_participant.shop_url
     expect(page).to have_content @artist.email
+    expect(page).to have_content @artist.address.street
     expect(page).to have_link 'My Website', href: @artist.links[:website]
+    expect(page).to have_link 'map', href: @artist.map_link
   end
 end
 

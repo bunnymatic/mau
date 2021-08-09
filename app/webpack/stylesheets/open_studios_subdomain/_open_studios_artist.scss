@@ -78,10 +78,14 @@
   margin-top: 18px;
 }
 
+.open-studios-artist__details__address,
 .open-studios-artist__details__contact {
   line-height: 1.2rem;
   padding-top: 12px;
   @include light-top-border;
+}
+.open-studios-artist__details__address--icon {
+  margin-left: 10px;
 }
 
 .open-studios-artist__details__email--link {

@@ -32,6 +32,16 @@
               = fa_icon("instagram")
           .open-studios-artist__details__item--title
              = link_to "My Instagram", artist.keyed_links[:instagram], target: "_blank"
+      .open-studios-artist__details__item.open-studios-artist__details__address
+        = info.address.street
+        | ,
+        '
+        = info.address.city
+        '
+        = info.address.zipcode
+        span.open-studios-artist__details__address--icon
+          = link_to info.map_link, title: :map, target: "_blank" do
+            i.fa.fa-map-marker
       - if info.show_email? || info.show_phone?
         .open-studios-artist__details__item.open-studios-artist__details__contact
           - if info.show_email?
