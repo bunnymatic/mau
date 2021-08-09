@@ -3,15 +3,23 @@ import { buttonStyleAttrs, MauButton } from "@reactjs/components/mau_button";
 import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
 import { useModalState } from "@reactjs/hooks";
 import * as types from "@reactjs/types";
+import cx from "classnames";
 import React, { FC } from "react";
 
 type ConfirmModalHandler = (success: boolean) => void;
+
+export enum ConfirmModalVariants {
+  normal = "normal",
+  large = "large",
+}
 
 interface ConfirmModalProps {
   id?: string;
   buttonText: string;
   buttonStyle?: types.MauButtonStyle;
   handleConfirm?: ConfirmModalHandler;
+  containerClass?: string;
+  variant?: "normal" | "large";
 }
 
 export const ConfirmModal: FC<ConfirmModalProps> = ({
@@ -19,6 +27,8 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
   buttonStyle,
   buttonText,
   handleConfirm,
+  containerClass,
+  variant = ConfirmModalVariants.normal,
   children,
 }) => {
   const { isOpen, open, close } = useModalState();
@@ -43,8 +53,19 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
         </MauButton>
       </div>
       <MauModal isOpen={isOpen}>
-        <div className="confirm-modal__content">
-          <div className="confirm-modal__content--main">{children}</div>
+        <div
+          className={cx("confirm-modal__content", {
+            [containerClass]: Boolean(containerClass),
+          })}
+        >
+          <div
+            className={cx("confirm-modal__content--main", {
+              "confirm-modal__content--main--large":
+                variant === ConfirmModalVariants.large,
+            })}
+          >
+            {children}
+          </div>
           <div className="confirm-modal__actions">
             <div className="confirm-modal__action-item">
               <MauButton primary onClick={submit(true)}>

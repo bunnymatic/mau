@@ -1,4 +1,7 @@
-import { ConfirmModal } from "@reactjs/components/confirm_modal";
+import {
+  ConfirmModal,
+  ConfirmModalVariants,
+} from "@reactjs/components/confirm_modal";
 import { OpenStudiosInfoForm } from "@reactjs/components/open_studios/open_studios_info_form";
 import { submitRegistration } from "@reactjs/components/open_studios/submit_registration";
 import * as types from "@reactjs/types";
@@ -28,7 +31,7 @@ export const OpenStudiosRegistrationSection: FC<OpenStudiosRegistrationSectionPr
   if (isParticipating) {
     message = `Yay! You are currently registered for Open Studios on ${event.dateRange}`;
   } else {
-    message = `Will you be participating in Open Studios on ${event.dateRange}`;
+    message = `Will you be participating in Open Studios on ${event.dateRange}?`;
   }
 
   const handleRegistration = (registering: boolean) => {
@@ -56,11 +59,24 @@ export const OpenStudiosRegistrationSection: FC<OpenStudiosRegistrationSectionPr
           buttonText="Yes - Register Me"
           buttonStyle="primary"
           handleConfirm={handleRegistration}
+          variant={ConfirmModalVariants.large}
+          containerClass="open-studios-registration-section__modal-content-container"
         >
           <p>
-            This will register you as a participating artist for Open Studios,{" "}
-            {event.dateRange}.
+            You are about to register as a participating artist for Open
+            Studios, {event.dateRange}.
           </p>
+          <p>Which means you will:</p>
+          <ul>
+            <li> Hang some art at your studio - {location}</li>
+            <li>
+              {" "}
+              Open your studio to the public {event.dateRange},{" "}
+              {event.startTime} - {event.endTime} (while complying with local,
+              state & federal guidelines around COVID 19).
+            </li>
+            <li> Promote your art and studio as part of the event.</li>
+          </ul>
           <p>Would you like to continue?</p>
         </ConfirmModal>
       )}
