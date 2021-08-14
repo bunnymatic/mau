@@ -25,4 +25,24 @@ describe YouTubeHelper do
     expect(rendered.attribute('height').value).to eq '40'
     expect(rendered.attribute('title').value).to eq 'whatever'
   end
+
+  describe '_embed_url_from_url' do
+    youtube_urls = [
+      'https://youtu.be/23ihawJKZcE',
+      'https://www.youtube.com/watch?v=23ihawJKZcE&feature=featured',
+      'https://www.youtube.com/watch?v=23ihawJKZcE',
+      'http://www.youtube.com/watch?v=23ihawJKZcE',
+      'https://youtube.com/watch?v=23ihawJKZcE',
+      'http://youtube.com/watch?v=23ihawJKZcE',
+      'https://m.youtube.com/watch?v=23ihawJKZcE',
+      'http://m.youtube.com/watch?v=23ihawJKZcE',
+      'https://www.youtube.com/watch?v=23ihawJKZcE',
+    ]
+
+    youtube_urls.each do |url|
+      it "returns the embed url for #{url}" do
+        expect(helper._embed_url_from_url(url)).to eq 'https://www.youtube.com/embed/23ihawJKZcE'
+      end
+    end
+  end
 end

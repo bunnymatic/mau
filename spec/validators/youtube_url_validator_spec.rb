@@ -15,6 +15,7 @@ describe YoutubeUrlValidator do
 
   describe 'for a valid youtube url' do
     valid_youtube_urls = [
+      'https://youtu.be/VPfjWsbCZV0',
       'https://www.youtube.com/watch?v=23ihawJKZcE&feature=featured',
       'https://www.youtube.com/watch?v=23ihawJKZcE',
       'http://www.youtube.com/watch?v=23ihawJKZcE',
