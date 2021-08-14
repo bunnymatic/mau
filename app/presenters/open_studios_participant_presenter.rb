@@ -7,6 +7,18 @@ class OpenStudiosParticipantPresenter
     @participant = open_studios_participant
   end
 
+  def address
+    (@participant.user).becomes(Artist).address
+  end
+
+  def full_address
+    (@participant.user).becomes(Artist).full_address
+  end
+
+  def map_link
+    (@participant.user).becomes(Artist).map_link
+  end
+
   def broadcasting?
     Time.use_zone(Conf.event_time_zone) do
       now = Time.zone.now
