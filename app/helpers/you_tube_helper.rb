@@ -1,11 +1,26 @@
 module YouTubeHelper
-  YOUTUBE_URL_REGEX = %r{\?(v=|embed/|v/?)(\S+)?$}.freeze
+  YOUTUBE_URL_REGEX = %r{\?(v=|embed/|v/?)([^&\s]+)?}.freeze
+  YOUTUBE_SHORT_URL_REGEX = %r{//youtu\.be/(.*)$}.freeze
+
+  def _embed_url_from_url(url)
+    matches = YOUTUBE_URL_REGEX.match(url)
+    video_id = (if matches
+                  matches[2]
+                else
+                  matches = YOUTUBE_SHORT_URL_REGEX.match(url)
+                  matches && matches[1]
+                end)
+
+    return nil unless video_id
+
+    "https://www.youtube.com/embed/#{video_id}"
+  end
 
   def embed_you_tube(url, title: '', height: 200, width: '100%')
-    matches = YOUTUBE_URL_REGEX.match(url)
-    return '' unless matches
+    embed_url = _embed_url_from_url(url)
 
-    embed_url = "https://www.youtube.com/embed/#{matches[2]}"
+    return '' unless embed_url
+
     tag.iframe({ width: width,
                  height: height,
                  src: embed_url,
