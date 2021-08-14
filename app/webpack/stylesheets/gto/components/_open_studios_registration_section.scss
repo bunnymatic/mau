@@ -1,0 +1,10 @@
+.open-studios-registration-section__modal-content-container {
+  ul,
+  ol {
+    margin-left: 10px;
+    & li {
+      list-style-type: circle;
+      margin-left: 10px;
+    }
+  }
+}

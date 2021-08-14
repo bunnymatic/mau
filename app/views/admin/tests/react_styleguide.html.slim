@@ -1,3 +1,10 @@
+ruby:
+  small_modal_content = <<~EOMESSAGE
+    Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb.
+  EOMESSAGE
+  large_modal_content = <<~EOMESSAGE
+    Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb.
+  EOMESSAGE
 .pure-g.react-styleguide-page
   .pure-u-1-1.padded-content.header
     h2.title React Components/Styleguide
@@ -100,15 +107,26 @@
             h3.react-styleguide__component-title ConfirmModal
           .react-styleguide__example
             .react-styleguide__impl
-                = react_component id: "confirm-modal", component: "ConfirmModal", props: { children: "Are you sure?", buttonText: "Confirm This", buttonStyle: "secondary" }
+                = react_component id: "confirm-modal", component: "ConfirmModal", props: { children: small_modal_content, buttonText: "Confirm This", buttonStyle: "secondary" }
             .react-styleguide__code
                 pre
                   code
                     | = react_component
                       id: "confirm-modal", component: "ConfirmModal",
-                        props: { children: "Are you sure?",
+                        props: { children: small_modal_content,
                           buttonText: "Confirm This",
                             buttonStyle: "secondary" }
+          .react-styleguide__example
+            .react-styleguide__impl
+                = react_component id: "confirm-modal", component: "ConfirmModal", props: { children: large_modal_content, buttonText: "Confirm This", buttonStyle: "secondary", variant: "large" }
+            .react-styleguide__code
+                pre
+                  code
+                    | = react_component
+                      id: "confirm-modal", component: "ConfirmModal",
+                        props: { children: large_modal_content }
+                          buttonText: "Confirm This",
+                            buttonStyle: "secondary", variant: "large" }
 
         .react-styleguide__component
           .react-styleguide__header

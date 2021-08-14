@@ -13,7 +13,7 @@ end
 
 Then('I see the registration dialog') do
   within('.ReactModal__Content') do
-    expect(page).to have_content 'This will register you as a participating artist for Open Studios'
+    expect(page).to have_content 'You are about to register as a participating artist for Open Studios'
     expect(page).to have_content('Yes')
     expect(page).to have_content('No')
   end
