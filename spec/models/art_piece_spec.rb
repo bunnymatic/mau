@@ -8,7 +8,7 @@ describe ArtPiece do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_length_of(:title).is_at_least(2).is_at_most(80) }
-    it { is_expected.to validate_numericality_of(:price).allow_nil.is_greater_than_or_equal_to(0.01) }
+    it { is_expected.to validate_numericality_of(:price).allow_nil.is_greater_than_or_equal_to(0.01).is_less_than_or_equal_to(99_999_999) }
     it { is_expected.to validate_attachment_size(:photo).less_than(8.megabytes) }
   end
   describe 'new' do
