@@ -13,7 +13,7 @@ class ArtPiece < ApplicationRecord
                                     message: 'Only JPEG, PNG, and GIF images are allowed'
   validates_attachment_size :photo, less_than: 8.megabytes
   validates :artist_id, presence: true
-  validates :price, numericality: { greater_than_or_equal_to: 0.01 }, allow_nil: true
+  validates :price, numericality: { greater_than_or_equal_to: 0.01, less_than_or_equal_to: 99_999_999 }, allow_nil: true
 
   include Elasticsearch::Model
 
