@@ -9,29 +9,29 @@
       - if info.broadcasting?
         .open-studios-artist__details__item.open-studios-artist__details__live-conference-url
           .open-studios-artist__details__item--title
-            = link_to "Visit me now", info.video_conference_url, target: "_blank"
+            = link_to "Visit me now", info.video_conference_url, target: "_blank", class: 'gtm_catalog_video_conference_url'
       - if info.has_shop?
         .open-studios-artist__details__item.open-studios-artist__details__item--link.open-studios-artist__details__shop-url
           .open-studios-artist__details__item--icon.open-studios-artist__details__item--icon--shop
-            = link_to info.shop_url, target: "_blank" do
+            = link_to info.shop_url, target: "_blank", class: "gtm_catalog_shop_url" do
               = fa_icon("cart-arrow-down")
           .open-studios-artist__details__item--title
-            = link_to "My Shop", info.shop_url, target: "_blank"
+            = link_to "My Shop", info.shop_url, target: "_blank",  class: "gtm_catalog_shop_url"
       - if artist.keyed_links[:website]
         .open-studios-artist__details__item.open-studios-artist__details__item--link.open-studios-artist__details__shop-url
           .open-studios-artist__details__item--icon
 
-            = link_to artist.keyed_links[:website], target: "_blank" do
+            = link_to artist.keyed_links[:website], target: "_blank",  class: "gtm_catalog_website_url" do
               = fa_icon("star-alt")
           .open-studios-artist__details__item--title
-            = link_to "My Website", artist.keyed_links[:website], target: "_blank"
+            = link_to "My Website", artist.keyed_links[:website], target: "_blank", class: "gtm_catalog_website_url"
       - if artist.keyed_links[:instagram]
         .open-studios-artist__details__item.open-studios-artist__details__item--link.open-studios-artist__details__shop-url
           .open-studios-artist__details__item--icon
-            = link_to artist.keyed_links[:instagram], target: "_blank" do
+            = link_to artist.keyed_links[:instagram], target: "_blank", class: "gtm_catalog_instagram_url" do
               = fa_icon("instagram")
           .open-studios-artist__details__item--title
-             = link_to "My Instagram", artist.keyed_links[:instagram], target: "_blank"
+             = link_to "My Instagram", artist.keyed_links[:instagram], target: "_blank", class: "gtm_catalog_instagram_url"
       .open-studios-artist__details__item.open-studios-artist__details__address
         = info.address.street
         | ,
@@ -40,7 +40,7 @@
         '
         = info.address.zipcode
         span.open-studios-artist__details__address--icon
-          = link_to info.map_link, title: :map, target: "_blank" do
+          = link_to info.map_link, title: :map, target: "_blank", class: "gtm_catalog_map_marker" do
             i.fa.fa-map-marker
       - if info.show_email? || info.show_phone?
         .open-studios-artist__details__item.open-studios-artist__details__contact
@@ -49,7 +49,7 @@
               = react_component id:"mailer", component:"Mailer", classes: 'open-studios-artist__details__email--link', props: { subject: "I saw your work on Mission Artists Virtual Open Studios!", text: artist.email, **split_email(artist.email) }
           - if info.show_phone?
             .open-studios-artist__details__phone
-              = link_to artist.phone_for_display, "tel:#{artist.phone}", target: "_blank"
+              = link_to artist.phone_for_display, "tel:#{artist.phone}", target: "_blank", class: "gtm_catalog_phone_link"
       - if info.has_youtube?
         .open-studios-artist__details__item.open-studios-artist__details__youtube
           = embed_you_tube(info.youtube_url)
