@@ -53,7 +53,7 @@ Install the MAU bundle (or, starting a dev session every time)
     git pull
     bundle install
     
-Note that on MacOS Mojave and later, you may need to run the following command in order for the `mysql` gem to be successfuly installed and the `bundle install` to complete
+Note that on MacOS Mojave, you may need to run the following command in order for the `mysql` gem to be successfuly installed and the `bundle install` to complete. See https://gist.github.com/fernandoaleman/ee3ac6957c2ba4f7d7d33a251d58b191 for original instructions and for link to potential fix for the same issue on Catalina.
 
     gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 
