@@ -99,6 +99,29 @@ Once you think things are running, you can try running the test suite:
 
 ## Development
 
+### Testing
+
+We use RSpec and Cucumber.  We have some test code that will auto start Elasticsearch on port 9250.
+
+You shouldn't need to do anything to get things rolling.  Tests that need elastic search know they do and they will start up a server for testing.
+
+In the interest of speed, they do *not* shut that instance down.   Occasionally, after coming back to development, that instance can get in a bad state.  If you run into errors like
+```
+[500] {"error":{"root_cause":[{"type":"remote_transport_exception","reason":"[node-1][127.0.0.1:9300][indices:data/write/bulk[s][p]]"}],"type":"no_such_file_exception","reason":"/private/tmp/elasticsearch_test/nodes/0/indices/TBNYEDCzRuOAzbcsl98B8g/3/index/write.lock"},"status":500} (Elasticsearch::Transport::Transport::Errors::InternalServerError)
+```
+it is likely that the instance has gotten into an error state.  The fix is to manually shut down Elasticsearch (the test instance) and let the tests start it up again.  That goes something like
+
+```
+# find the elasticsearch process running on port 9250
+% ps -ef | grep elasticsearch | grep 9250
+  501 32640     1   0  4:14PM ttys002    0:00.00 sh -c elasticsearch -E cluster.name=elasticsearch-test-kinda -E node.name=node-1 -E http.port=9250 ...
+  501 32641 32640   0  4:14PM ttys002    1:02.36 /usr/local/opt/openjdk@8/libexec/openjdk.jdk/Contents/Home/bin/java -Xms1g -Xmx1g -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 ...
+
+# kill the two ES processes
+% kill -TERM 32640 32641
+```
+
+
 ### React
 
 As we move to React (from angular/jquery), here is the way to add a new component.
