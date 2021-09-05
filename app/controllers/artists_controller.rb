@@ -30,7 +30,7 @@ class ArtistsController < ApplicationController
         end
       end
       format.json do
-        head(403)
+        head(:forbidden)
       end
     end
   end

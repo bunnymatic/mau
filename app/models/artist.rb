@@ -19,12 +19,12 @@ class Artist < User
     index: Search::Indexer::INDEX_SETTINGS,
   ) do
     mapping dynamic: false do
-      indexes :"artist.artist_name", analyzer: :mau_ngram_analyzer
-      indexes :"artist.firstname", analyzer: :mau_ngram_analyzer
-      indexes :"artist.lastname", analyzer: :mau_ngram_analyzer
-      indexes :"artist.nomdeplume", analyzer: :mau_ngram_analyzer
-      indexes :"artist.studio_name", analyzer: :mau_ngram_analyzer
-      indexes :"artist.bio", index: false
+      indexes :'artist.artist_name', analyzer: :mau_ngram_analyzer
+      indexes :'artist.firstname', analyzer: :mau_ngram_analyzer
+      indexes :'artist.lastname', analyzer: :mau_ngram_analyzer
+      indexes :'artist.nomdeplume', analyzer: :mau_ngram_analyzer
+      indexes :'artist.studio_name', analyzer: :mau_ngram_analyzer
+      indexes :'artist.bio', index: false
     end
   end
 

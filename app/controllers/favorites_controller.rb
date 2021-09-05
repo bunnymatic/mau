@@ -29,7 +29,7 @@ class FavoritesController < ApplicationController
     rescue InvalidFavoriteTypeError, NameError
       render_not_found(message: "You can't favorite that type of object") && (return)
     end
-    head(404)
+    head(:not_found)
   end
 
   def destroy
