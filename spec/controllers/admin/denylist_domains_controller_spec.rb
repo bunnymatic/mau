@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::BlacklistDomainsController do
+describe Admin::DenylistDomainsController do
   let(:admin) { FactoryBot.create(:artist, :admin) }
   let(:fan) { FactoryBot.create(:fan, :active) }
 
@@ -25,15 +25,15 @@ describe Admin::BlacklistDomainsController do
   end
 
   context 'authorized' do
-    let(:domain) { FactoryBot.create(:blacklist_domain) }
+    let(:domain) { FactoryBot.create(:denylist_domain) }
 
     describe '#new' do
       before do
         login_as admin
         get :new
       end
-      it 'assigns a new blacklist domain' do
-        expect(assigns(:domain)).to be_a_kind_of BlacklistDomain
+      it 'assigns a new denylist domain' do
+        expect(assigns(:domain)).to be_a_kind_of DenylistDomain
         expect(assigns(:domain)).to be_new_record
       end
     end
@@ -42,20 +42,20 @@ describe Admin::BlacklistDomainsController do
       before do
         login_as admin
       end
-      it 'creates a new blacklist domain' do
+      it 'creates a new denylist domain' do
         expect do
-          post :create, params: { blacklist_domain: { domain: 'blah.de.blah.com' } }
-        end.to change(BlacklistDomain, :count).by(1)
+          post :create, params: { denylist_domain: { domain: 'blah.de.blah.com' } }
+        end.to change(DenylistDomain, :count).by(1)
       end
       it 'renders new on failure' do
         expect do
-          post :create, params: { blacklist_domain: { domain: '' } }
+          post :create, params: { denylist_domain: { domain: '' } }
           expect(response).to render_template :new
           expect(assigns(:domain).errors).to be_present
-        end.to change(BlacklistDomain, :count).by(0)
+        end.to change(DenylistDomain, :count).by(0)
       end
       it 'sets a notification' do
-        post :create, params: { blacklist_domain: { domain: 'blah.de.blah.com' } }
+        post :create, params: { denylist_domain: { domain: 'blah.de.blah.com' } }
         expect(flash[:notice]).to be_present
       end
     end
@@ -68,8 +68,8 @@ describe Admin::BlacklistDomainsController do
         domain
         expect do
           delete :destroy, params: { id: domain.id }
-          expect(BlacklistDomain.where(id: domain.id)).to be_empty
-        end.to change(BlacklistDomain, :count).by(-1)
+          expect(DenylistDomain.where(id: domain.id)).to be_empty
+        end.to change(DenylistDomain, :count).by(-1)
       end
       it 'sets a notification' do
         delete :destroy, params: { id: domain.id }
@@ -78,7 +78,7 @@ describe Admin::BlacklistDomainsController do
 
       it 'redirects to the domains list' do
         delete :destroy, params: { id: domain.id }
-        expect(response).to redirect_to admin_blacklist_domains_path
+        expect(response).to redirect_to admin_denylist_domains_path
       end
     end
   end

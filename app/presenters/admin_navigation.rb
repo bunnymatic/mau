@@ -25,7 +25,7 @@ class AdminNavigation < ViewPresenter
     admin_links = [
       [:roles, {}],
       [:internal_email, { display: 'admin email lists', link: url_helpers.admin_email_lists_path }],
-      [:blacklist, { display: 'blacklist', link: url_helpers.admin_blacklist_domains_path }],
+      [:denylist, { display: 'denylist', link: url_helpers.admin_denylist_domains_path }],
       [:os_status, {}],
     ]
     internal_links = [

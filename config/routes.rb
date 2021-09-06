@@ -156,7 +156,7 @@ Mau::Application.routes.draw do
       match '/discount/markup' => 'discount#markup', as: :discount_processor, via: %i[get post]
 
       resources :roles, except: [:show]
-      resources :blacklist_domains, except: %i[show edit update]
+      resources :denylist_domains, except: %i[show edit update]
       resources :open_studios_events, only: %i[index edit new create update destroy] do
         collection do
           get :clear_cache
