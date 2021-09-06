@@ -1,5 +1,5 @@
 doctype html
-html
+html lang='en'
   head
     = render '/extra_html_head'
     = render '/title'
@@ -25,7 +25,7 @@ html
     .body-highlight
     .container
 
-      .sidenav
+      aside.sidenav
         .sidenav__main
           a.brand href=root_path title="Mission Artists"
             .sidebar-logo title="Mission Artists" class="#{Date.today.month == 6 ? 'sidebar-logo--pride' : ''}"
@@ -38,7 +38,7 @@ html
           = render '/common/social_links'
           = render '/common/footer_links', revision: @revision
 
-      .main-container.js-main-container
+      main.main-container.js-main-container
         = render '/flash_notice_error'
         = yield
     javascript:
