@@ -1,13 +1,13 @@
 .pure-g
   .pure-u-1-1.padded-content
     h1.title
-      | Blacklisted Domains
+      | Denied Domains
       .admin-table__controls
         - if current_user.admin?
-          = link_to new_admin_blacklist_domain_path, title: 'add blacklisted domain' do
+          = link_to new_admin_denylist_domain_path, title: 'deny domain' do
             = fa_icon "plus-circle"
     p.help
-      | The system uses blacklist domains to figure out, when people sign up, if their domain is valid.
+      | The system uses this list of domains to, when people sign up, deny access if their domain is on this list.
       '
       | Anyone with an email from one of these domains will not be allowed an account.
     = render :partial => '/flash_notice_error'
@@ -19,5 +19,5 @@
           span = domain.domain
           '
           span
-            = link_to([:admin, domain], :confirm => 'Are you sure you want to remove this blacklisted domain?', :method => :delete) do
+            = link_to([:admin, domain], :confirm => 'Are you sure you want to remove this denied domain?', :method => :delete) do
               = fa_icon 'times-circle'

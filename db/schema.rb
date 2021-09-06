@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_18_015942) do
+ActiveRecord::Schema.define(version: 2021_09_05_234721) do
 
   create_table "application_events", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "type"
@@ -80,12 +80,6 @@ ActiveRecord::Schema.define(version: 2021_07_18_015942) do
     t.datetime "updated_at"
   end
 
-  create_table "blacklist_domains", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
-    t.string "domain"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "cms_documents", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "page"
     t.string "section"
@@ -94,6 +88,12 @@ ActiveRecord::Schema.define(version: 2021_07_18_015942) do
     t.datetime "updated_at"
     t.integer "user_id"
     t.index ["user_id"], name: "index_cms_documents_on_user_id"
+  end
+
+  create_table "denylist_domains", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
+    t.string "domain"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "email_list_memberships", id: :integer, charset: "utf8", force: :cascade do |t|

@@ -68,16 +68,16 @@ describe UsersController do
   end
 
   describe '#create' do
-    context 'with blacklisted domain' do
+    context 'with denylisted domain' do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        FactoryBot.create(:blacklist_domain, domain: 'blacklist.com')
+        FactoryBot.create(:denylist_domain, domain: 'denylist.com')
         # allow(@controller).to receive(:sweep)
         allow(@controller).to receive(:verify_recaptcha).and_return(true)
         expect(@controller).to receive(:verify_secret_word).and_return(true)
       end
-      it 'forbids email whose domain is on the blacklist' do
+      it 'forbids email whose domain is on the denylist' do
         expect do
           post :create, params: params_with_secret(
             mau_fan: {
@@ -86,13 +86,13 @@ describe UsersController do
               firstname: 'bmatic2',
               password: '8characters',
               password_confirmation: '8characters',
-              email: 'bmatic2@blacklist.com',
+              email: 'bmatic2@denylist.com',
             },
             type: 'MauFan',
           )
         end.to change(User, :count).by(0)
       end
-      it 'allows non blacklist domain to add a user' do
+      it 'allows non denylist domain to add a user' do
         expect do
           post :create, params: params_with_secret(
             mau_fan: {
@@ -101,7 +101,7 @@ describe UsersController do
               firstname: 'bmatic2',
               password: '8characters',
               password_confirmation: '8characters',
-              email: 'bmatic2@nonblacklist.com',
+              email: 'bmatic2@nondenylist.com',
             },
             type: 'MauFan',
           )
