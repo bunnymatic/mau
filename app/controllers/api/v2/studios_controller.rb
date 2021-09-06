@@ -7,7 +7,7 @@ module Api
         if studio
           render jsonapi: studio
         else
-          head 400
+          head :bad_request
 
         end
       end

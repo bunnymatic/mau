@@ -16,8 +16,8 @@ class Studio < ApplicationRecord
     index: Search::Indexer::INDEX_SETTINGS,
   ) do
     mappings(dynamic: false) do
-      indexes :"studio.name", analyzer: :mau_ngram_analyzer
-      indexes :"studio.address", analyzer: :mau_ngram_analyzer
+      indexes :'studio.name', analyzer: :mau_ngram_analyzer
+      indexes :'studio.address', analyzer: :mau_ngram_analyzer
     end
   end
 

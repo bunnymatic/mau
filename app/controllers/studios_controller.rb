@@ -9,7 +9,7 @@ class StudiosController < ApplicationController
         @studios = StudiosPresenter.new(@studio_list)
       end
       format.json do
-        head(403)
+        head(:forbidden)
       end
     end
   end
@@ -26,7 +26,7 @@ class StudiosController < ApplicationController
         @page_title = @studio.page_title
       end
       format.json do
-        head(403)
+        head(:forbidden)
       end
     end
   end

@@ -38,7 +38,7 @@ unless ARGV.any? { |a| a.starts_with?('gems') } # Don't load anything when runni
 
       task statsetup: [:environment] do
         require 'rails/code_statistics'
-        ::STATS_DIRECTORIES << %w[Cucumber\ features features] if File.exist?('features')
+        ::STATS_DIRECTORIES << ['Cucumber features', 'features'] if File.exist?('features')
         ::CodeStatistics::TEST_TYPES << 'Cucumber features' if File.exist?('features')
       end
     end

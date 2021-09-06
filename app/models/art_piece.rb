@@ -56,13 +56,13 @@ class ArtPiece < ApplicationRecord
     index: Search::Indexer::INDEX_SETTINGS,
   ) do
     mappings(dynamic: false) do
-      indexes :"art_piece.title", analyzer: 'english'
-      indexes :"art_piece.title_ngram", analyzer: :mau_ngram_analyzer
-      indexes :"art_piece.year"
-      indexes :"art_piece.medium", analyzer: :mau_ngram_analyzer
-      indexes :"art_piece.artist_name", analyzer: :mau_ngram_analyzer
-      indexes :"art_piece.studio_name", analyzer: :mau_ngram_analyzer
-      indexes :"art_piece.tags", analyzer: 'english'
+      indexes :'art_piece.title', analyzer: 'english'
+      indexes :'art_piece.title_ngram', analyzer: :mau_ngram_analyzer
+      indexes :'art_piece.year'
+      indexes :'art_piece.medium', analyzer: :mau_ngram_analyzer
+      indexes :'art_piece.artist_name', analyzer: :mau_ngram_analyzer
+      indexes :'art_piece.studio_name', analyzer: :mau_ngram_analyzer
+      indexes :'art_piece.tags', analyzer: 'english'
     end
   end
 
