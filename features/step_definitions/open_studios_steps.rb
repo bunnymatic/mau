@@ -210,6 +210,16 @@ When('I see my video conference schedule') do
     .to have(merge_timeslots(@artist.current_open_studios_participant.video_conference_time_slots).length).entries
 end
 
+Then('I see the gtm tracking classes on the links') do
+  expect(page).to have_css('.gtm_catalog_shop_url')
+  expect(page).to have_css('.gtm_catalog_website_url')
+  expect(page).to have_css('.gtm_catalog_map_marker')
+end
+
+Then('I see the gtm tracking class on the conference call link') do
+  expect(page).to have_css('.gtm_catalog_video_conference_url')
+end
+
 Then('I see details about the art on each art card') do
   pieces = @artist.art_pieces
   expect(pieces).to have_at_least(1).piece

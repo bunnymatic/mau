@@ -2,7 +2,7 @@
 Feature: Open Studios Catalog
   As a visitor
   I can visit the main catalog page
-  and any cms content that an admin might have added
+  and see any cms content that an admin might have added exists
 
 Background:
   Given there are open studios artists with art in the system
@@ -22,6 +22,7 @@ Scenario:
   And I see the summary information about that artists open studios events
   And I see the artist's open studios you tube embed video
   And I see details about the art on each art card
+  And I see the gtm tracking classes on the links
 
   When I click on the first art card in the catalog
   Then I see that art in a modal
@@ -47,6 +48,8 @@ Scenario: Visitors see the "visit me now" button when artists are broadcasting
   When I click on the first artist's card
   Then I see the artist's name in the header title
   And I see a "Visit me now" link which goes to their conference call
+  And I see the gtm tracking class on the conference call link
+
 
 Scenario: An artist sees their own pages
   Given the following artists with art are in the system:
