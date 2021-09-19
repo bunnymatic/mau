@@ -3,6 +3,9 @@ class OpenStudiosParticipantPresenter
   attr_reader :participant
 
   delegate :video_conference_url, :video_conference_time_slots, :youtube_url, :show_email?, :shop_url, :updated_at, to: :participant
+
+  delegate :studio, to: :artist
+
   def initialize(open_studios_participant)
     @participant = open_studios_participant
   end
@@ -13,6 +16,10 @@ class OpenStudiosParticipantPresenter
 
   def full_address
     (@participant.user).becomes(Artist).full_address
+  end
+
+  def studio_number
+    artist&.artist_info&.studionumber
   end
 
   def map_link
