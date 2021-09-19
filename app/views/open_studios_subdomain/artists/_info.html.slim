@@ -33,15 +33,7 @@
           .open-studios-artist__details__item--title
              = link_to "My Instagram", artist.keyed_links[:instagram], target: "_blank", class: "gtm_catalog_instagram_url"
       .open-studios-artist__details__item.open-studios-artist__details__address
-        = info.address.street
-        | ,
-        '
-        = info.address.city
-        '
-        = info.address.zipcode
-        span.open-studios-artist__details__address--icon
-          = link_to info.map_link, title: :map, target: "_blank", class: "gtm_catalog_map_marker" do
-            i.fa.fa-map-marker
+        = render partial: "address_info", locals: { info: info }
       - if info.show_email? || info.show_phone?
         .open-studios-artist__details__item.open-studios-artist__details__contact
           - if info.show_email?

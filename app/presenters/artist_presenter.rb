@@ -113,10 +113,6 @@ class ArtistPresenter < UserPresenter
     number.present? ? "##{number}" : ''
   end
 
-  def studio_with_number
-    studio_name.present? ? "#{studio_name} #{studio_number}" : ''
-  end
-
   def map_url
     @map_url ||= model.map_link
   end
