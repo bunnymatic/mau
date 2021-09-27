@@ -16,17 +16,10 @@
       #spinner
       #signup_page
         = render '/flash_notice_error'
-        .signup-table.inputs
-          .row.signup-table__account-type
-            .label
-              label for='account_type_chooser' I am a
-            .input.signup-table__account-type--chooser
-              = select_tag 'account_type_chooser', user_signup_select_options(@user, @type)
         #signup_form
           = render 'signup_form', type: @type, user: @user, studios: @studios || []
 
 javascript:
   jQuery(function () {
-    new MAU.AccountTypeChooser('#account_type_chooser');
     new MAU.PasswordStrengthMeter('#signup_form');
   });
