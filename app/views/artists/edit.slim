@@ -4,7 +4,6 @@
 
 .pure-g
   .pure-u-1-1.pure-u-lg-4-5.padded-content
-    = render '/common/paypal_donation_form'
     #user-accordion.panel-group
       = semantic_form_for @user.model, html: { class: 'js-edit-artist-form primary-form', multipart: true } do |form|
         .panel.panel-default
@@ -28,7 +27,6 @@
 
 javascript:
   jQuery(function () {
-    new MAU.PaypalDonateForm("#donate_for_openstudios", "#paypal_donate_openstudios")
     new MAU.AccordionShowSectionGivenHash();
     new MAU.AccordionShowSectionWithErrors();
   })

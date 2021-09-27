@@ -90,15 +90,6 @@ class MainController < ApplicationController
 
   private
 
-  PAYPAL_SUCCESS_MSG = "Thanks for your donation!  We'll spend it wisely.".freeze
-  PAYPAL_CANCEL_MSG = 'Did you have problems submitting your donation?'\
-                      ' If so, please tell us with the feedback link at the bottom of the page.'\
-                      " We'd love to know if the website or the PayPal connection is not working.".freeze
-  def setup_paypal_flash_messages(page)
-    flash.now[:notice] = PAYPAL_SUCCESS_MSG if page == 'paypal_success'
-    flash.now[:error] = PAYPAL_CANCEL_MSG if page == 'paypal_cancel'
-  end
-
   def sampler_params
     params.permit(:seed, :offset, :number_of_images)
   end
