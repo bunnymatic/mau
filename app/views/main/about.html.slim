@@ -4,3 +4,8 @@
   .pure-u-1-1.pure-u-md-2-3.pure-u-lg-1-2.offset-content
     = render_cms_content(@content) do
       = render :partial => '/main/info_footer'
+  .pure-u-1-1.pure-u-md-2-3.pure-u-lg-1-2.offset-content
+    .about__donate
+      p.about__donate__note If you'd like to donate, here is our Venmo link.  And Thanks!
+      .about__donate__button
+        = react_component id: "donate_button", component: "DonateButton"
