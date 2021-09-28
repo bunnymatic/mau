@@ -1,0 +1,17 @@
+$max-height: 500px;
+
+.donate-button__qrcode {
+  height: 0px;
+  transition: height 0.25s ease-in-out, margin 0.25s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.donate-button__qrcode__image {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.donate-button__qrcode--open {
+  height: $max-height;
+  margin: 20px 0;
+}

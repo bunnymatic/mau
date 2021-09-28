@@ -28,8 +28,4 @@ ruby:
     .donate
       .note If you'd like to donate, here is our Venmo link.  And Thanks!
       .form-group
-        a.pure-button.button-secondary#donate_for_openstudios href="#" Donate
-javascript:
-  jQuery(function () {
-    new MAU.VenmoDonateLink("#donate_for_openstudios");
-  })
+        = react_component id: "donate_button", component: "DonateButton"

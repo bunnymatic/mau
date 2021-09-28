@@ -8,6 +8,7 @@ import { ArtPage } from "./art_page";
 import { ArtPieceBrowser } from "./art_piece_browser";
 import { ConfirmModal } from "./confirm_modal";
 import { CreditsModal } from "./credits_modal";
+import { DonateButton } from "./donate_button";
 import { EditableContentTrigger } from "./editable_content_trigger";
 import { EventsNotificationBell } from "./events_notification_bell";
 import { FavoriteThis } from "./favorite_this";
@@ -36,6 +37,7 @@ const reactComponents = {
   ArtPieceBrowser,
   ConfirmModal,
   CreditsModal,
+  DonateButton,
   EditableContentTrigger,
   EmailListManager,
   EventsNotificationBell,
