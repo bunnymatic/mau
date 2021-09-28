@@ -92,13 +92,7 @@ When(/^I login as an artist$/) do
   step %(I login)
 end
 
-When(/^I login as a fan$/) do
-  step %(there are users in the system)
-  @user = MauFan.first
-  step %(I login)
-end
-
-When(/^I login as an editor$/) do
+Then(/^I login as an editor$/) do
   @editor = FactoryBot.create(:user, :editor, :active)
   step %(I visit the login page)
   fill_in_login_form @editor.login, '8characters'
