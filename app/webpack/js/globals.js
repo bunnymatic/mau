@@ -1,6 +1,5 @@
 import AccordionShowSectionGivenHash from "./app/accordion_show_section_given_hash";
 import AccordionShowSectionWithErrors from "./app/accordion_show_section_with_errors";
-import AccountTypeChooser from "./app/account_type_chooser";
 import ArrangeArtForm from "./app/arrange_art_form";
 import ArtPieceForm from "./app/art_piece_form";
 import ArtistBioToggler from "./app/artist_bio_toggler";
@@ -16,7 +15,6 @@ import WhatsThisPopup from "./app/whats_this_popup";
 const globals = {
   AccordionShowSectionGivenHash,
   AccordionShowSectionWithErrors,
-  AccountTypeChooser,
   ArrangeArtForm,
   ArtistBioToggler,
   ArtistDetailsToggler,

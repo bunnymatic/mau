@@ -48,11 +48,9 @@ class UsersController < ApplicationController
 
   def new
     artist = Artist.new
-    fan = MauFan.new
     @studios = StudioService.all
-    type = params[:type] || user_attrs[:type]
-    @type = %w[Artist MauFan].include?(type) ? type : 'Artist'
-    @user = @type == 'MauFan' ? fan : artist
+    @type = 'Artist'
+    @user = artist
   end
 
   def update
