@@ -3,6 +3,9 @@
 @use "../colors" as *;
 @use "./variables" as v;
 
+html {
+  scroll-behavior: smooth;
+}
 html,
 body {
   height: 100%;
