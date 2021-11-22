@@ -49,7 +49,7 @@ group :test do
   gem 'capybara-screenshot'
   gem 'capybara-select-2'
   gem 'cucumber'
-  gem 'cucumber-wire'
+  gem 'cucumber-wire', require: false
   gem 'cucumber-rails', '~>2.x', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'rack-handlers'
