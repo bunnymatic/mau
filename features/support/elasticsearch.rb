@@ -1,7 +1,7 @@
 require_relative '../../spec/support/test_es_server'
 require_relative './webmock'
 
-AfterConfiguration do
+BeforeAll do
   TestEsServer.start unless ENV['CI']
 end
 
