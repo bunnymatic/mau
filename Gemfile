@@ -7,6 +7,7 @@ gem 'authlogic'
 gem 'aws-sdk-s3'
 gem 'browser'
 gem 'browserslist_useragent'
+gem 'connection_pool' # for dalli > 3
 gem 'dalli'
 gem 'elasticsearch', '~> 6.x'
 gem 'elasticsearch-model', '~> 6.x'
