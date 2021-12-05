@@ -38,10 +38,10 @@ class UserPresenter < ViewPresenter
 
   def icon_for_state
     icon_class = {
-      active: 'check-circle',
-      pending: 'clock',
+      active: 'star',
+      pending: 'question-circle',
       deleted: 'times-circle',
-      suspended: 'thumbs-down',
+      suspended: 'user-times',
     }[state.to_sym]
     "fa fa-#{icon_class}" if icon_class
   end

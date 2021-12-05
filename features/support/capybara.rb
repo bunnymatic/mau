@@ -5,13 +5,17 @@
 # Capybara.server = :unicorn
 
 Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app,
+  args = %w[disable-gpu no-sandbox --enable-features=NetworkService,NetworkServiceInProcess --window-size=1700,1200]
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    'goog:chromeOptions': { args: args },
+  )
+  Capybara::Selenium::Driver.new app,
                                  browser: :chrome,
-                                 args: ['--window-size=1400,1200'])
+                                 capabilities: capabilities
 end
 
 Capybara.register_driver :headless_chrome do |app|
-  args = %w[headless disable-gpu no-sandbox --enable-features=NetworkService,NetworkServiceInProcess]
+  args = %w[headless disable-gpu no-sandbox --enable-features=NetworkService,NetworkServiceInProcess --window-size=1700,1200]
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
     'goog:chromeOptions': { args: args },
   )
