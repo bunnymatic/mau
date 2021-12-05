@@ -74,8 +74,6 @@ group :development do
   gem 'letter_opener'
   gem 'rails_best_practices'
   gem "scout_apm"
-  gem 'spring'
-  gem 'spring-commands-rspec'
   #gem 'unicorn-rails'
 end
 
