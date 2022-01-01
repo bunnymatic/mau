@@ -4,6 +4,15 @@ class AdminEmailList < ViewPresenter
 
   attr_accessor :list_names
 
+  AdminEmail = Struct.new(
+    :id,
+    :name,
+    :email,
+    :activated_at,
+    :last_login_at,
+    :link,
+  )
+
   def initialize(list_names)
     super()
     @list_names = [list_names].flatten.map(&:to_s)
@@ -27,13 +36,13 @@ class AdminEmailList < ViewPresenter
 
   def emails
     @emails ||= artists.select { |a| a.email.present? }.map do |a|
-      OpenStruct.new(
-        id: a.id,
-        name: a.get_name,
-        email: a.email,
-        activated_at: a.activated_at,
-        last_login_at: a.last_login_at,
-        link: url_helpers.artist_path(a.slug),
+      AdminEmail.new(
+        a.id,
+        a.get_name,
+        a.email,
+        a.activated_at,
+        a.last_login_at,
+        url_helpers.artist_path(a.slug),
       )
     end
   end

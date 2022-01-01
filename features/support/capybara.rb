@@ -1,9 +1,3 @@
-# #require 'rack/handler/unicorn'
-# Capybara.register_server(:unicorn) do |app, port, _host|
-# Rack::Handler::Unicorn.run(app, Port: port)
-# end
-# Capybara.server = :unicorn
-
 Capybara.register_driver :chrome do |app|
   args = %w[disable-gpu no-sandbox --enable-features=NetworkService,NetworkServiceInProcess --window-size=1700,1200]
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(

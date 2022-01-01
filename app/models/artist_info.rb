@@ -6,7 +6,7 @@ class ArtistInfo < ApplicationRecord
   before_validation(on: :create) { compute_geocode }
   before_validation(on: :update) { compute_geocode }
 
-  validates :artist_id, presence: true, uniqueness: { case_sensitive: false }
+  validates :artist_id, uniqueness: { case_sensitive: false }
 
   include AddressMixin
 end

@@ -27,7 +27,7 @@ namespace :auth do
     desc 'Generates config/initializers/site_keys.rb'
     task site_key: [:environment] do
       file = ENV['file'] || site_keys_file
-      File.open(file, 'w') { |f| f.write(make_site_keys_rb) }
+      File.write(file, make_site_keys_rb)
     end
   end
 end

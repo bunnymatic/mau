@@ -50,7 +50,4 @@
 #
 
 class MauFan < User
-  def model_name
-    OpenStruct.new param_key: :user
-  end
 end
