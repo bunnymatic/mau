@@ -107,7 +107,6 @@ Mau::Application.routes.draw do
         resources :favorites, only: [:index]
         get :manage_art
         post :notify_featured
-        post :update
         # get :qrcode
       end
     end
