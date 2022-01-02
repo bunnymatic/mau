@@ -1,6 +1,12 @@
 class ThumbnailBrowserPresenter < ViewPresenter
   include ApplicationHelper
 
+  class Thumbnail
+    include ActiveModel::Model
+
+    attr_accessor :path, :clz, :id, :link, :background_style
+  end
+
   attr_reader :next_img, :prev_img, :current_index
 
   def initialize(artist, current_piece)
@@ -32,18 +38,18 @@ class ThumbnailBrowserPresenter < ViewPresenter
       item_id = item.send(:id)
       item_path = item.path('thumb')
       style = background_image_style(item_path)
-      thumb = {
+      Thumbnail.new(
         path: item_path,
         clz: 'tiny-thumb',
         id: item_id,
         link: url_helpers.art_piece_path(item),
         background_style: style,
-      }
-      if item_id == @current_piece.id
-        mark_as_current(idx)
-        thumb[:clz] << ' selected'
+      ).tap do |thumb|
+        if item_id == @current_piece.id
+          mark_as_current(idx)
+          thumb.clz << ' selected'
+        end
       end
-      OpenStruct.new(thumb)
     end
   end
 

@@ -6,7 +6,7 @@ class SearchController < ApplicationController
     respond_to do |format|
       format.html {}
       format.json do
-        render json: json_results.sort_by { |r| -1.0 * r[:_score] }[0..LIMIT].to_json
+        render json: json_results[0..LIMIT].to_json
       end
     end
   end
@@ -18,12 +18,6 @@ class SearchController < ApplicationController
   end
 
   def json_results
-    [].tap do |results|
-      search_results.each_value do |hits|
-        hits.each do |hit|
-          results << hit.to_h.slice(:_type, :_score, :_id, :_source)
-        end
-      end
-    end
+    search_results.values.each_with_object([]) { |hits, results| results.concat(hits) }.sort_by { |hit| -hit._score }.map(&:as_json)
   end
 end

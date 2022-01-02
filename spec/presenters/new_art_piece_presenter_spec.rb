@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe NewArtPiecePresenter do
-  let(:os_end_date) { Time.current - 1.day }
+  let(:os_end_date) { 1.day.ago }
   let(:promoted) { true }
   let!(:open_studios_event) do
     create(:open_studios_event,

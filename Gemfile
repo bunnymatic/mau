@@ -7,6 +7,7 @@ gem 'authlogic'
 gem 'aws-sdk-s3'
 gem 'browser'
 gem 'browserslist_useragent'
+gem 'connection_pool' # for dalli > 3
 gem 'dalli'
 gem 'elasticsearch', '~> 6.x'
 gem 'elasticsearch-model', '~> 6.x'
@@ -49,6 +50,7 @@ group :test do
   gem 'capybara-screenshot'
   gem 'capybara-select-2'
   gem 'cucumber'
+  gem 'cucumber-wire', require: false
   gem 'cucumber-rails', '~>2.x', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'rack-handlers'
@@ -72,8 +74,6 @@ group :development do
   gem 'letter_opener'
   gem 'rails_best_practices'
   gem "scout_apm"
-  gem 'spring'
-  gem 'spring-commands-rspec'
   #gem 'unicorn-rails'
 end
 

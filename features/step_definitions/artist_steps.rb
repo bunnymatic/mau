@@ -84,22 +84,6 @@ Then(/^I see my art$/) do
   expect(page).to have_selector '.art-card .image'
 end
 
-When /^I move the last image to the first position$/ do
-  @last_piece = @artist.art_pieces.last
-  card = all('.js-sortable li').last
-  target = first('.js-sortable li')
-  card.drag_to(target)
-  sleep(1)
-end
-
-Then /^I see that my representative image has been updated$/ do
-  expect(first('.art-card')['data-id']).to eql @last_piece.id.to_s
-end
-
-Then(/^I can arrange my art$/) do
-  expect(current_path).to eql manage_art_artist_path(@artist)
-end
-
 Then(/^I can delete my art$/) do
   expect(current_path).to eql manage_art_artist_path(@artist)
   expect(page).to have_selector '#delete_art li.art-card .image'

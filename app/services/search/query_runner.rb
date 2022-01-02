@@ -1,4 +1,13 @@
 module Search
+  class SearchHit
+    include ActiveModel::Model
+    attr_accessor :_index, :_type, :_id, :_score, :_source
+
+    def as_json
+      { _type: _type, _id: _id, _score: _score, _source: _source }
+    end
+  end
+
   class QueryRunner
     def initialize(query = nil, _include_highlight: true)
       @query = query
@@ -59,7 +68,7 @@ module Search
           field1, field2 = full_field.split('.')
           hit['_source'][field1][field2] = value if [field1, field2, value].all?(&:present?)
         end
-        OpenStruct.new(hit)
+        SearchHit.new(hit)
       end
     end
 

@@ -196,7 +196,7 @@ class User < ApplicationRecord
   end
 
   def manages?(studio)
-    admin? || manager? && (self.studio == studio)
+    admin? || (manager? && (self.studio == studio))
   end
 
   def make_activation_code

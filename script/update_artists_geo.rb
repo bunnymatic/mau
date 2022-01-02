@@ -4,8 +4,7 @@ require 'geokit'
 Rails::Initializer.run do |config|
 end
 
-studios = Studio.find(:all)
-studios.each do |s|
+Studio.all.each do |s|
   if !s.lat || !s.lng
     # updates geocode
     p "Updating #{s.name}"
@@ -17,10 +16,9 @@ studios.each do |s|
   end
 end
 
-artists = Artist.find(:all, conditions: "state = 'active'")
-artists.each do |a|
+Artist.active.all.each do |a|
   # updates geocode
-  if a && !a.lat || !a.lng
+  if !a.lat || !a.lng
     p "Updating #{a.fullname}"
     a.save
     # wait between calls

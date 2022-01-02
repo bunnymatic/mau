@@ -7,7 +7,7 @@ FactoryBot.define do
     key { start_date.strftime('%Y%m') }
     promote { true }
     trait :future do
-      start_date { Time.zone.now + 1.week }
+      start_date { 1.week.from_now }
     end
     trait :past do
       start_date { Time.zone.now - 6.months }

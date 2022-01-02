@@ -2,7 +2,6 @@ class Favorite < ApplicationRecord
   belongs_to :owner, class_name: 'User', inverse_of: :favorites
   belongs_to :favoritable, polymorphic: true
 
-  validates :owner, presence: true
   validate :uniqueness_of_owner_and_item
 
   scope :art_pieces, -> { where(favoritable_type: ArtPiece.name) }

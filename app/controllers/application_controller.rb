@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     session[:return_to] =
       begin
         location.presence ||
-          (request.post? || request.xhr? && request.referer) ||
+          (request.post? || (request.xhr? && request.referer)) ||
           request.fullpath
       end
   end

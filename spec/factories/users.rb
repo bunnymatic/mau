@@ -38,7 +38,7 @@ FactoryBot.define do
     trait :active do
       state { :active }
       activation_code { 'factory_activation_code' }
-      activated_at { Time.zone.now - 1.hour }
+      activated_at { 1.hour.ago }
     end
 
     trait :manager do
