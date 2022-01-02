@@ -18,12 +18,6 @@ class FeedbackMail
 
   validate :emails_must_match
 
-  def initialize(attributes = {})
-    attributes.each do |name, value|
-      send("#{name}=", value)
-    end
-  end
-
   def os=(value)
     self.operating_system = value
   end
