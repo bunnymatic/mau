@@ -48,10 +48,11 @@
                   td.activation data-order=e.activated_at.to_i
                     = e.activated_at && e.activated_at.to_s(:admin_date_only)
                   td.last-seen data-order=e.last_login_at.to_i
-                    = e.last_login_at ? time_ago_in_words(e.last_login_at): "never"
+                    = e.last_login_at ? timeago(e.last_login_at) : "never"
       - else
         h4 No one matches that query
 javascript:
   $(function () {
     new MAU.SlideToggler(".js-os-combo-link", ".js-multi-form");
+    new MAU.MauTimeago();
   });
