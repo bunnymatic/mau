@@ -63,6 +63,6 @@ class AdminFavoritesPresenter
   private
 
   def sum_column(col_name)
-    favorites.values.sum { |v| v[col_name].to_i }
+    favorites.values.sum { |v| v.send(col_name).to_i }
   end
 end

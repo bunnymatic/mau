@@ -38,4 +38,16 @@ describe AdminFavoritesPresenter do
   it 'artist should have 2 favorited' do
     expect(@presenter.favorites.detect { |f| f[0] == artist }[1].favorited).to eql 2
   end
+
+  describe 'totals' do
+    it 'total_artists' do
+      expect(@presenter.total_artists).to eq 3
+    end
+    it 'total_art_pieces' do
+      expect(@presenter.total_art_pieces).to eq 1
+    end
+    it 'total_favorited_users' do
+      expect(@presenter.total_favorited_users).to eq 3
+    end
+  end
 end
