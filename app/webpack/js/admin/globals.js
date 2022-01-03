@@ -5,6 +5,7 @@
  * An easy way to make them global is simply to stick them on window.
  **/
 
+import MauTimeago from "../app/mau_timeago";
 import AdminRoleManager from "./admin_role_manager";
 import ApplicationEventsDetailsForm from "./application_events_details_form";
 import ArtistsAdminIndex from "./artists_admin_index";
@@ -22,6 +23,7 @@ const globals = {
   GraphPerDay,
   MarkItDown,
   MauDatatables,
+  MauTimeago,
   OsKeyGenerator,
   PlainGraph,
   SlideToggler,

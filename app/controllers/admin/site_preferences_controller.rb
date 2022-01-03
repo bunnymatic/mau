@@ -8,7 +8,8 @@ module Admin
       if @site_preferences.update(site_preferences_params)
         redirect_to edit_admin_site_preferences_path, notice: 'Got it.  The new preferences are in place.'
       else
-        render action: 'edit'
+        flash.now[:error] = "Uhoh... something didn't work right"
+        render 'edit'
       end
     end
 

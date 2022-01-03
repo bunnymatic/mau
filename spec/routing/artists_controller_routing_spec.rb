@@ -21,9 +21,6 @@ describe 'ArtistsController Routes' do
       it 'map GET to show' do
         expect(get('/artists/10')).to route_to(controller: 'artists', action: 'show', id: '10')
       end
-      it 'map POST to update' do
-        expect(post('/artists/10')).to route_to(controller: 'artists', action: 'update', id: '10')
-      end
       it 'map DELETE /artists/10 as destroy' do
         expect(delete('/artists/10')).to route_to(controller: 'artists', action: 'destroy', id: '10')
       end

@@ -37,7 +37,7 @@
             td.date-field data-order=a.member_since_date.to_i
               = a.member_since_date.to_formatted_s(:admin_date_only)
             td.date-field data-order=a.last_login_at.to_i
-              = a.last_login_at ? time_ago_in_words(a.last_login_at) : raw("&mdash;")
+              = a.last_login_at ? timeago(a.last_login_at) : raw("&mdash;")
             td
               = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
             td
@@ -75,3 +75,8 @@
               - if !a.suspended? && a != current_user
                 = link_to suspend_admin_artist_path(a.to_param), method: :post, confirm: 'Are you sure you want to suspend this artist?', title: "Suspend artist", class: 'admin-artist-suspend-link' do
                   i.fa.fa-icon.fa-trash-o
+
+javascript:
+  $(function () {
+    new MAU.MauTimeago();
+  });
