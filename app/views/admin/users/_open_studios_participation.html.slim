@@ -23,7 +23,7 @@
     tr.admin-user__open-studios-participant-table__row
       td Video Conference Schedule
       td
-        - if open_studios_participant.video_conference_url.present?
+        - if open_studios_participant.video_conference_url?
           - open_studios_participant.video_conference_time_slots.each do |slot|
             .admin-user__open-studios-participant-table__time-slot
               = display_time_slot(slot)
