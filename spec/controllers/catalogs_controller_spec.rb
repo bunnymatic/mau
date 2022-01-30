@@ -25,7 +25,7 @@ describe CatalogsController do
     context 'format=csv' do
       render_views
       let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge(headers: true) }
-      let(:parsed) { CSV.parse(response.body, parse_args) }
+      let(:parsed) { CSV.parse(response.body, **parse_args) }
 
       before do
         get :show, format: :csv
@@ -56,7 +56,7 @@ describe CatalogsController do
     end
     context 'format=csv' do
       let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge(headers: true) }
-      let(:parsed) { CSV.parse(response.body, parse_args) }
+      let(:parsed) { CSV.parse(response.body, **parse_args) }
       let(:social_keys) { SocialCatalogPresenter::SOCIAL_KEYS }
       before do
         get :social, format: :csv

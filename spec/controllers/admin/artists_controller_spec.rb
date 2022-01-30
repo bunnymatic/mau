@@ -39,7 +39,7 @@ describe Admin::ArtistsController do
       end
       context 'format=csv' do
         let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge(headers: true) }
-        let(:parsed) { CSV.parse(response.body, parse_args) }
+        let(:parsed) { CSV.parse(response.body, **parse_args) }
 
         before do
           get :index, params: { format: :csv }
