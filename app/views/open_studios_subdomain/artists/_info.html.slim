@@ -38,7 +38,7 @@
         .open-studios-artist__details__item.open-studios-artist__details__contact
           - if info.show_email?
             .open-studios-artist__details__email
-              = react_component id:"mailer", component:"Mailer", classes: 'open-studios-artist__details__email--link', props: { subject: "I saw your work on Mission Artists Virtual Open Studios!", text: artist.email, **split_email(artist.email) }
+              = react_component id:"mailer", component:"Mailer", classes: 'open-studios-artist__details__email--link', props: { subject: "I saw your work on Mission Artists Open Studios!", text: artist.email, **split_email(artist.email) }
           - if info.show_phone?
             .open-studios-artist__details__phone
               = link_to artist.phone_for_display, "tel:#{artist.phone}", target: "_blank", class: "gtm_catalog_phone_link"
