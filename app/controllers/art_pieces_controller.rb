@@ -27,7 +27,7 @@ class ArtPiecesController < ApplicationController
   def create
     redirect_to(current_artist) && return if commit_is_cancel
 
-    art_piece = CreateArtPieceService.new(current_artist, art_piece_params).create_art_piece
+    art_piece = CreateArtPieceService.call(current_artist, art_piece_params)
     if art_piece.valid?
       flash[:notice] = "You've got new art!"
       Messager.new.publish "/artists/#{current_artist.id}/art_pieces/create", 'added art piece'

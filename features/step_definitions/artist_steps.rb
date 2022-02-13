@@ -86,7 +86,7 @@ end
 
 Then(/^I can delete my art$/) do
   expect(current_path).to eql manage_art_artist_path(@artist)
-  expect(page).to have_selector '#delete_art li.art-card .image'
+  expect(page).to have_selector '#delete_art .art-card .image'
 end
 
 When(/^I mark art for deletion$/) do

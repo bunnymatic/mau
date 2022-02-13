@@ -40,6 +40,7 @@ class User < ApplicationRecord
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
   validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :photo?
+  include DuplicateActiveStorage
   validates :phone, phone_number: true
 
   include User::Authentication
@@ -116,6 +117,10 @@ class User < ApplicationRecord
   end
 
   def get_profile_image(size = :medium)
+    att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
+
+    return att.blob.url if att
+
     photo(size) if photo?
   end
 
@@ -237,6 +242,12 @@ class User < ApplicationRecord
     self.url = _add_http_to_link(url) if url.present?
     User.stored_attributes[:links].each do |site|
       send("#{site}=", _add_http_to_link(send(site))) if send(site).present?
+    end
+  end
+
+  class << self
+    def paperclip_attachment_name
+      :photo
     end
   end
 end

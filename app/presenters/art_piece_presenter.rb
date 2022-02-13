@@ -2,7 +2,7 @@ class ArtPiecePresenter < ViewPresenter
   include ActionView::Helpers::NumberHelper
   attr_reader :model
 
-  delegate :id, :year, :photo, :medium, :artist, :title, :dimensions, :updated_at, :image_paths, :to_param, to: :model
+  delegate :id, :year, :photo, :medium, :artist, :title, :dimensions, :updated_at, :image_paths, :to_param, :path, to: :model
 
   def initialize(model)
     super()
@@ -32,10 +32,6 @@ class ArtPiecePresenter < ViewPresenter
 
   def year?
     year.present? && year.to_i > 1899
-  end
-
-  def path(size = :medium)
-    model.photo(size) if model.photo?
   end
 
   def show_path

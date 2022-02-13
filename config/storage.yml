@@ -1,0 +1,13 @@
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+amazon:
+  service: S3
+  access_key_id: <%= Rails.application.config.s3_info[:access_key_id] %>
+  secret_access_key: <%= Rails.application.config.s3_info[:secret_access_key] %>
+  region: <%= Rails.application.config.s3_info[:s3_region] %>
+  bucket: <%= Rails.application.config.s3_info[:bucket] %>
+  public: true

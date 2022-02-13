@@ -62,6 +62,8 @@ Rails.application.configure do
   config.hosts << 'mau.local'
   config.hosts << 'openstudios.mau.local'
   config.hosts << 'www.mau.local'
+
+  config.active_storage.service = :amazon
 end
 
 Rails.application.routes.default_url_options[:host] = ENVIRONMENT_HOST

@@ -19,16 +19,16 @@ describe CreateArtPieceService do
     end
 
     it 'creates an art piece' do
-      expect { service.create_art_piece }.to change(ArtPiece, :count).by(1)
+      expect { service.call }.to change(ArtPiece, :count).by(1)
     end
 
     it 'returns the art piece' do
-      ap = service.create_art_piece
+      ap = service.call
       expect(ap.valid?).to eq true
     end
 
     it 'sends an email to the watchers' do
-      service.create_art_piece
+      service.call
       expect(WatcherMailer).to have_received(:notify_new_art_piece)
     end
 
@@ -37,7 +37,7 @@ describe CreateArtPieceService do
         allow(WatcherMailerList).to receive(:first).and_return nil
       end
       it 'does not send an email to the watchers because their are none' do
-        service.create_art_piece
+        service.call
         expect(WatcherMailer).not_to have_received(:notify_new_art_piece)
       end
     end
@@ -52,7 +52,7 @@ describe CreateArtPieceService do
     it 'creates new tags as needed' do
       existing_tag
       expect do
-        service.create_art_piece
+        service.call
         ap = ArtPiece.last
         expect(ap.tags.map(&:name)).to match_array ['mytag', 'yourtag', existing_tag.name]
       end.to change(ArtPieceTag, :count).by(2)
@@ -69,18 +69,18 @@ describe CreateArtPieceService do
     end
 
     it 'returns the art piece with errors' do
-      ap = service.create_art_piece
+      ap = service.call
       expect(ap).to be_present
       expect(ap.errors).to have_at_least(1).error
     end
 
     it 'does not preserve tags' do
-      ap = service.create_art_piece
+      ap = service.call
       expect(ap.tags).to be_empty
     end
 
     it 'does not send an email to the watchers' do
-      service.create_art_piece
+      service.call
       expect(WatcherMailer).not_to have_received(:notify_new_art_piece)
     end
   end

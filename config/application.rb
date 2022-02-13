@@ -8,7 +8,7 @@ require 'rails'
 
 [
   'active_record/railtie',
-  #  'active_storage/engine',
+  'active_storage/engine',
   'action_controller/railtie',
   'action_view/railtie',
   'action_mailer/railtie',
@@ -79,6 +79,8 @@ module Mau
     config.active_support.test_order = :random
 
     config.action_dispatch.tld_length = Integer(Conf.TLD_LENGTH || 1)
+
+    config.active_storage.variant_processor = :vips
   end
 end
 
