@@ -52,14 +52,18 @@ Install the MAU bundle (or, starting a dev session every time)
     git checkout master
     git pull
     bundle install
+    
+Note that on MacOS Mojave, you may need to run the following command in order for the `mysql` gem to be successfuly installed and the `bundle install` to complete. See https://gist.github.com/fernandoaleman/ee3ac6957c2ba4f7d7d33a251d58b191 for original instructions and for link to potential fix for the same issue on Catalina.
+
+    gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 
 Tell Rails to build you an empty database
 
     rake db:create:all # only if you cloned the repo
 
-Tell Rails to setup that database and build a copy of that schema for testing
+Tell Rails to load the schema for the database and build a copy of that schema for testing
 
-    rake db:migrate db:test:prepare
+    rake db:schema:load db:test:prepare
 
 At this point, you should have a semi-working system that has no users and no art.  To try it out, start up the server
 
