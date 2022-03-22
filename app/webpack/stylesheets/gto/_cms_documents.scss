@@ -1,6 +1,11 @@
 @use "../colors" as c;
 @use "../mixins" as m;
 
+.section.markdown {
+  img {
+    max-width: 100%;
+  }
+}
 .section.markdown.editable {
   position: relative;
   .editable-content-trigger {
