@@ -50,15 +50,15 @@ describe("QueryStringParser", function () {
       expect(parser.queryParams).toEqual({
         a: "1",
         b: "2",
-        c: "%2Fprojects%2Fmau%2Fspec%2F",
+        c: "/projects/mau/spec/",
       });
     });
   });
   describe("#toString", function () {
     it("reconstitutes the url properly", function () {
       var s;
-      parser.queryParams["blue"] = "red";
-      delete parser.queryParams["c"];
+      parser.append("blue", "red");
+      parser.delete("c");
       s = parser.toString();
       expect(s).toContain("a=1");
       expect(s).toContain("b=2");
