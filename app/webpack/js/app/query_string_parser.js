@@ -1,57 +1,66 @@
-import { map } from "@js/app/helpers";
-
 const hashToQueryString = function (hash) {
-  return map(hash, function (v, k) {
+  const queryParams = new URLSearchParams();
+
+  Object.entries(hash).forEach(([k, v]) => {
     if (typeof v !== "undefined" && v !== null) {
-      return [k, v].join("=");
+      queryParams.append(k, v);
     }
-  })
-    .filter((x) => !!x)
-    .join("&");
+  });
+  return queryParams.toString();
 };
 
 const queryStringToHash = function (query) {
-  return query.split("&").reduce(function (memo, params) {
-    var kv;
-    kv = params.split("=");
-    memo[kv[0]] = kv[1];
-    return memo;
-  }, {});
+  const queryParams = new URLSearchParams(query);
+  const hash = {};
+  for (const [k, v] of queryParams.entries()) {
+    hash[k] = v;
+  }
+  return hash;
 };
 
 class QueryStringParser {
   constructor(url) {
-    var parser, queryString;
-    this.queryParams = {};
-    if (!document || !document.createElement) {
-      throw "This needs to be run in an HTML context with a document.";
+    this._url = new URL(url);
+  }
+
+  get hash() {
+    return this._url.hash;
+  }
+
+  get protocol() {
+    return this._url.protocol;
+  }
+
+  get pathname() {
+    return this._url.pathname;
+  }
+
+  get url() {
+    return this._url.toString();
+  }
+
+  get origin() {
+    return this._url.origin;
+  }
+
+  get queryParams() {
+    const hash = {};
+    for (const [k, v] of this._url.searchParams.entries()) {
+      hash[k] = v;
     }
-    parser = document.createElement("a");
-    parser.href = url;
-    this.url = url;
-    if (parser.origin) {
-      this.origin = parser.origin;
-    } else {
-      this.origin = [parser.protocol, "//", parser.host].join("");
-    }
-    this.protocol = parser.protocol;
-    this.pathname = parser.pathname;
-    this.hash = parser.hash;
-    queryString = parser.search.substr(1);
-    this.queryParams = queryStringToHash(queryString);
+    return hash;
+  }
+
+  append(k, v) {
+    this._url.searchParams.append(k, v);
+  }
+
+  delete(k) {
+    this._url.searchParams.delete(k);
   }
 
   toString() {
-    var bits, q;
-    q = hashToQueryString(this.queryParams);
-    bits = [this.origin, this.pathname].join("");
-    if (q) {
-      bits += "?" + q;
-    }
-    if (this.hash) {
-      bits += this.hash;
-    }
-    return bits;
+    return this._url.toString();
   }
 }
 

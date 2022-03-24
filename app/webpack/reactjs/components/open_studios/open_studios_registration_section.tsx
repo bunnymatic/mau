@@ -15,16 +15,16 @@ interface OpenStudiosRegistrationSectionProps {
   participant: types.OpenStudiosParticipant | null;
 }
 
-export const OpenStudiosRegistrationSection: FC<OpenStudiosRegistrationSectionProps> = ({
+export const OpenStudiosRegistrationSection: FC<
+  OpenStudiosRegistrationSectionProps
+> = ({
   location,
   openStudiosEvent: event,
   artistId,
   participant: initialParticipant,
 }) => {
-  const [
-    participant,
-    setParticipant,
-  ] = useState<types.OpenStudiosParticipant | null>(initialParticipant);
+  const [participant, setParticipant] =
+    useState<types.OpenStudiosParticipant | null>(initialParticipant);
   const isParticipating = Boolean(participant);
 
   let message: string;
