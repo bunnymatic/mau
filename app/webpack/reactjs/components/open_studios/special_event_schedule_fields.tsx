@@ -77,10 +77,9 @@ interface SpecialEventScheduleFieldsProps {
   disabled?: boolean;
 }
 
-export const SpecialEventScheduleFields: FC<SpecialEventScheduleFieldsProps> = ({
-  specialEvent,
-  disabled,
-}) => {
+export const SpecialEventScheduleFields: FC<
+  SpecialEventScheduleFieldsProps
+> = ({ specialEvent, disabled }) => {
   if (!specialEvent?.timeSlots) {
     return null;
   }

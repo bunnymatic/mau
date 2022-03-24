@@ -1,8 +1,8 @@
-import { render, RenderResult } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { Formik } from "formik";
 import React, { ReactElement } from "react";
 
-export interface ServicesRenderResult extends RenderResult {
+export interface ServicesRenderResult {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   history?: any;
 }
@@ -20,7 +20,7 @@ export const defaultConfig: RenderInFormConfig = {
 export const renderInForm = (
   component: ReactElement,
   config: RenderInFormConfig = defaultConfig
-): RenderResult => {
+) => {
   const rendered = render(<Formik {...config}>{component}</Formik>);
   return rendered;
 };

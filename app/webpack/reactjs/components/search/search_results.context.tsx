@@ -2,9 +2,8 @@ import React, { createContext, FC, useState } from "react";
 
 import * as searchTypes from "./searchTypes";
 
-export const SearchResultsContext = createContext<searchTypes.SearchResultsContext>(
-  {}
-);
+export const SearchResultsContext =
+  createContext<searchTypes.SearchResultsContext>({});
 SearchResultsContext.displayName = "SearchResultsData";
 
 interface SearchProviderProps {

@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.8",
-    "@testing-library/react": "^11.2.3",
+    "@testing-library/react": "^11.2.5",
     "@testing-library/react-hooks": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
@@ -83,7 +83,7 @@
     "selectize": "^0.12.6",
     "spin.js": "^4.1.0",
     "timeago.js": "^4.0.2",
-    "typescript": "^4.0.2",
+    "typescript": "^4.6.0",
     "webpack-merge": "^5.0.0",
     "zxcvbn": "^4.4.2"
   },

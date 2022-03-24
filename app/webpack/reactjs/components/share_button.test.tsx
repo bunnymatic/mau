@@ -61,7 +61,7 @@ describe("ShareButton", () => {
       expect(icon[0].classList).toContain("fa-twitter");
       expect(link.href).toMatch(/\/\/twitter\.com\/intent\/tweet\?/);
       expect(link.href).toContain(
-        "text=Check%20out%20Mona%20Lisa%20by%20Leo%20on%20Mission%20Artists"
+        "text=Check+out+Mona+Lisa+by+Leo+on+Mission+Artists"
       );
       expect(link.href).toContain("&via=sfmau");
       expect(link.href).toMatch(/url=.*localhost%3A%2Fart_pieces%2F12/);
@@ -89,9 +89,9 @@ describe("ShareButton", () => {
       expect(icon[0].classList).toContain("fa-pinterest");
       expect(link.href).toMatch(/\/\/pinterest\.com\/pin\/create\/button\/?/);
       expect(link.href).toMatch(/url=.*localhost%3A%2Fart_pieces%2F12/);
-      expect(link.href).toContain("title=Mona%20Lisa");
+      expect(link.href).toContain("title=Mona+Lisa");
       expect(link.href).toContain(
-        "description=Check%20out%20Mona%20Lisa%20by%20Leo%20on%20Mission%20Artists"
+        "description=Check+out+Mona+Lisa+by+Leo+on+Mission+Artists"
       );
       expect(link.href).toContain("&media=the_image.jpg");
     });

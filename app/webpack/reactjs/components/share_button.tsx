@@ -32,10 +32,10 @@ export const ShareButton: FC<ShareButtonProps> = ({
   const artPieceLink = `${domain}/art_pieces/${artPiece.id}`;
   const description = `Check out ${artPiece.title} by ${artPiece.artistName} on Mission Artists`;
 
-  const safeArtPieceLink = encodeURIComponent(artPieceLink);
-  const safeDescription = encodeURIComponent(description);
-  const safeArtPieceImage = encodeURIComponent("" + artPiece.imageUrls.large);
-  const safeTitle = encodeURIComponent(artPiece.title);
+  const safeArtPieceLink = artPieceLink;
+  const safeDescription = description;
+  const safeArtPieceImage = "" + artPiece.imageUrls.large;
+  const safeTitle = artPiece.title;
 
   const linkInfo = {
     twitter: {
