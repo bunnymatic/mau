@@ -53,6 +53,14 @@ commands:
           key: mau-npm-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
+  chrome_install:
+    description: Install Chrome
+    steps:
+      - run:
+          name: Setup Chrome
+          command: |
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo apt install ./google-chrome-stable_current_amd64.deb
   compile_assets:
     description: Compile assets
     steps:
@@ -174,6 +182,7 @@ jobs:
       - bundle_install
       - npm_install
       - use_assets_cache
+      - chrome_install
       - run:
           shell: /bin/bash
           name: Wait For DB
