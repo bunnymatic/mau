@@ -2,10 +2,10 @@ version: 2.1
 executors:
   ruby_node:
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers-legacy
+      - image: cimg/ruby:2.7.6-browsers
   ruby_node_mysql_elasticsearch:
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers-legacy
+      - image: cimg/ruby:2.7.6-browsers
       - image: tkuchiki/delayed-mysql
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
