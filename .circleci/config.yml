@@ -6,7 +6,7 @@ executors:
   ruby_node_mysql_elasticsearch:
     docker:
       - image: cimg/ruby:2.7.6-browsers
-      - image: tkuchiki/delayed-mysql
+      - image: cimg/mysql:5.7
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_PASSWORD: ""
@@ -14,7 +14,7 @@ executors:
       - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
         environment:
           TEST_CLUSTER_NODES: 1
-          discovery.type: single-node          
+          discovery.type: single-node
 
 commands:
   bundle_install:
