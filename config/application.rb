@@ -57,8 +57,6 @@ module Mau
 
     config.cache_store = :mem_cache_store, { namespace: "mau#{Rails.env}" }
 
-    config.middleware.insert_after ActionDispatch::Static, Rack::Deflater
-
     # app_paths = %w(services lib mailers presenters paginators models/concerns)
     # config.autoload_paths += app_paths.map{|path| File.join(Rails.root,'app', path)}
 
