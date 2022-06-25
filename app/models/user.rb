@@ -209,7 +209,7 @@ class User < ApplicationRecord
   def cleanup_fields
     %i[firstname lastname nomdeplume email].each do |fld|
       v = send(fld)
-      send("#{fld}=", v.strip) if v.present? && v.respond_to?('strip')
+      send("#{fld}=", v.strip) if v.present? && v.respond_to?(:strip)
     end
   end
 
