@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
-ruby '2.6.5'
+ruby '2.7.6'
 
 gem 'actionmailer-text'
 gem 'authlogic'
@@ -35,7 +35,7 @@ gem "puma"
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', "~>6.1.x", require: false
+gem 'rails', "~>6.1.5.x", require: false
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
