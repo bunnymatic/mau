@@ -28,7 +28,7 @@ end
 shared_examples_for 'successful api json' do
   it do
     expect(response).to be_successful
-    expect(response.content_type).to eq('application/vnd.api+json; charset=utf-8')
+    expect(response.content_type).to match(%r{application/vnd\.api\+json})
   end
 end
 
