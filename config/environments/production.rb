@@ -20,7 +20,7 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  asset_host = ENV['ASSET_HOST'] || ::Conf.ASSET_HOST
+  asset_host = ENV.fetch('ASSET_HOST') { ::Conf.ASSET_HOST }
   if asset_host.present?
     config.action_controller.asset_host = asset_host
     config.action_mailer.asset_host = asset_host

@@ -114,6 +114,9 @@ Rails/DynamicFindBy:
 Rails/HasManyOrHasOneDependent:
   Enabled: false
 
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 Rails/Output:
   Exclude:
     - config/environments/test.rb

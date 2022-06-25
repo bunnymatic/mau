@@ -86,7 +86,7 @@ def set_start_end_date_on_open_studios_form(start_date, end_date)
 end
 
 Then /I change the date to next month and the title to "(.*)"/ do |title|
-  @start_date = Time.zone.now + 1.month
+  @start_date = 1.month.from_now
   @end_date = @start_date + 1.day
   set_start_end_date_on_open_studios_form(@start_date, @end_date)
   fill_in 'Title', with: title
