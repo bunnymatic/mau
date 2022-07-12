@@ -23,8 +23,10 @@ html lang='en'
     - if current_user.try(:special?)
       = render '/admin_header'
     .body-highlight
+    - if @notifications.present?
+      .notifications
+        = render partial: :notifications, collection: @notifications
     .container
-
       aside.sidenav
         .sidenav__main
           a.brand href=root_path title="Mission Artists"

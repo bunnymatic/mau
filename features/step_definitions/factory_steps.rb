@@ -179,12 +179,12 @@ Given /^the email lists have been created with emails$/ do
     begin
       clz.create unless clz.first
     rescue Exception => e
-      ::Rails.logger.debug("Failed to create #{mailing_list} : #{e}")
+      ::Rails.logger.debug { "Failed to create #{mailing_list} : #{e}" }
     end
     clz.first.emails.create(name: Faker::Name.name, email: Faker::Internet.email)
   end
 end
 
-Given('there is some open studios catalog cms content') do
-  pending # Write code here that turns the phrase above into concrete actions
+Given('there is an active notification') do
+  @active_notification ||= FactoryBot.create(:notification, :active)
 end

@@ -1,0 +1,18 @@
+@use "../mixins" as *;
+@use "../colors" as *;
+
+.notifications {
+  @include flex-center-center;
+  @include round-corners();
+  background: $light-gray-background;
+  color: $gto_red;
+  border-bottom: 2px solid $gto_red !important;
+  padding: 20px;
+  flex-direction: column;
+  .notification {
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
