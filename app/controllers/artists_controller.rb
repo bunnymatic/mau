@@ -243,10 +243,10 @@ class ArtistsController < ApplicationController
   def fetch_artists_for_autosuggest
     artist_names = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless artist_names
-      artist_names = Artist.active.map do |a|
+      artist_names = Artist.active.filter_map do |a|
         name = a.get_name(escape: true)
         { 'value' => name, 'info' => a.id } if name.present?
-      end.compact
+      end
       SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, expires_in: AUTOSUGGEST_CACHE_EXPIRY) if artist_names.present?
     end
     artist_names

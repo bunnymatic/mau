@@ -38,9 +38,9 @@ describe ArtistsMap do
   context 'when os_only is false' do
     describe '#grouped_by_address' do
       it 'returns artists grouped by address' do
-        expected = map.artists.map do |a|
+        expected = map.artists.filter_map do |a|
           a.address.to_s if a.address.present?
-        end.compact.uniq
+        end.uniq
         expect(subject.grouped_by_address.size).to eq(expected.count)
       end
     end

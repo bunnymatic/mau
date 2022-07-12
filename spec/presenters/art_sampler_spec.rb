@@ -41,7 +41,7 @@ describe ArtSampler do
     end
 
     it 'returns the other art pieces randomly' do
-      expect(sampler.pieces[2..-1].map(&:model)).to match_array art_pieces.first(3)
+      expect(sampler.pieces[2..].map(&:model)).to match_array art_pieces.first(3)
     end
   end
 end

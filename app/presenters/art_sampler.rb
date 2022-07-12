@@ -10,7 +10,7 @@ class ArtSampler
   end
 
   def pieces
-    @pieces ||= fetch_pieces.map { |piece| ArtPiecePresenter.new(piece) }.compact
+    @pieces ||= fetch_pieces.filter_map { |piece| ArtPiecePresenter.new(piece) }
   end
 
   private

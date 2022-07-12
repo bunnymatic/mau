@@ -4,7 +4,7 @@ class TagConverter
   end
 
   def tag_names
-    @tag_names ||= @tag_string.split(',').map(&:strip).compact.uniq
+    @tag_names ||= @tag_string.split(',').filter_map(&:strip).uniq
   end
 
   def convert

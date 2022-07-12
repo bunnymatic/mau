@@ -7,7 +7,7 @@ describe ArtPieceTagPresenter do
   let(:artist2) do
     a = FactoryBot.create :artist, :active, :with_art, number_of_art_pieces: 4
     a.art_pieces.each do |ap|
-      ap.tags = ap.tags + artist.art_pieces.map(&:tags).compact.uniq.first
+      ap.tags = ap.tags + artist.art_pieces.filter_map(&:tags).uniq.first
       ap.save
     end
   end

@@ -64,13 +64,13 @@ class ArtistPresenter < UserPresenter
   def _primary_medium
     return @_primary_medium if @_primary_medium
 
-    media = art_pieces.map(&:medium).compact
+    media = art_pieces.filter_map(&:medium)
     medium = StatsCalculator.histogram(media).map(&:first).first
     @_primary_medium = medium
   end
 
   def media
-    @media ||= art_pieces.map(&:medium).compact.uniq
+    @media ||= art_pieces.filter_map(&:medium).uniq
   end
 
   def tags

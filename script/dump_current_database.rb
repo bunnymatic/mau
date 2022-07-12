@@ -16,9 +16,9 @@ class DbDumper
     # NOTE: Assuming that database is running on localhost
     # TODO - if you use other args like :socket, or ? they are ignored
     # we could add host, port etc to make this more flexible
-    db_args = [['--user=', 'username'], ['--password=', 'password']].map do |entry|
+    db_args = [['--user=', 'username'], ['--password=', 'password']].filter_map do |entry|
       "#{entry[0]}#{db_config[entry[1]]}" if db_config[entry[1]].present?
-    end.compact
+    end
     db_args + ['--single-transaction']
   end
 end

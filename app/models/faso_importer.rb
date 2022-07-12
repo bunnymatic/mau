@@ -15,13 +15,13 @@ class FasoImporter
 
   def fetch
     # import data from FASO database
-    faso_data.map do |row|
+    faso_data.filter_map do |row|
       entry = parse_row(row)
       next unless entry
 
       name = entry['name_used'].encode('utf-8', invalid: :replace, undef: :replace)
       Scammer.new(name: name, faso_id: entry['id'], email: entry['email'])
-    end.compact.uniq
+    end.uniq
   end
 
   def each(&block)
