@@ -8,17 +8,13 @@
 
 .scroll-load-more,
 #the-end {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center-center;
   @include sampler-block-mixin;
 }
 
 #the-end,
 .scroll-load-more {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center-center;
   position: relative;
   z-index: -1; /* fix issue with fa-spin screwing up zindex */
   .hint {

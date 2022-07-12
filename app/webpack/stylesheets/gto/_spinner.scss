@@ -1,5 +1,6 @@
 @use "sass:math";
 @use "../colors" as *;
+@use "../mixins" as *;
 
 $-base-size: 6.4;
 
@@ -82,9 +83,7 @@ $-base-size: 6.4;
 }
 
 .mau-spinner-wrapper--takeover {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center-center;
   position: absolute;
   top: 0;
   bottom: 0;

@@ -1,16 +1,15 @@
 /* error pages */
 @use "../colors";
+@use "../mixins" as *;
 @use "variables" as v;
 
 .f404 {
+  @include flex-center-center;
   display: flex !important;
   flex-direction: column;
   padding: 40px;
   font-size: 14px;
   text-align: left;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   .oops {
     margin-top: 10%;
     font-family: helvetica, verdana, arial, sans-serif;

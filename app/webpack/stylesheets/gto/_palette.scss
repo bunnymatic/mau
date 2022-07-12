@@ -46,10 +46,8 @@
 }
 
 .palette-icon {
-  display: flex;
+  @include flex-center-center;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   border: 1px solid c.$x-light-gray;
   min-width: 120px;
   padding: 10px;

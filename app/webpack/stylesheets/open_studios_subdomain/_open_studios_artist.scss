@@ -20,9 +20,7 @@
   margin-bottom: 10px;
 }
 .open-studios-artist__details__item--link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center-center;
   & > * {
     margin-right: 2px;
     &:last-child {
