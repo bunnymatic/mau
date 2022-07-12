@@ -1,7 +1,7 @@
+@use "../mixins" as *;
+
 .catalog-paginator__container {
-  display: flex;
-  align-items: center;
-  justify-items: center;
+  @include flex-center-center;
 }
 
 .catalog-paginator__main {

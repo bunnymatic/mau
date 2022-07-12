@@ -560,3 +560,9 @@ $-sampler-thumbnail-size: 250px;
   background-color: rgba(255, 255, 255, 0.8);
   @include round-corners();
 }
+
+@mixin flex-center-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

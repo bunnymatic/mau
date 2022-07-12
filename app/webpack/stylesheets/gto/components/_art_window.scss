@@ -11,9 +11,7 @@
 }
 
 .art-window__image-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center-center;
   max-height: 100%;
   max-width: 100%;
   width: 100%;

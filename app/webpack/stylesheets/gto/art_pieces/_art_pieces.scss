@@ -1,3 +1,5 @@
+@use "../../mixins" as *;
+
 #new_art_piece {
   margin-top: 10px;
 }
@@ -6,9 +8,7 @@ form #art_piece_photo {
 }
 #arrange_art_form {
   .desc {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center-center;
     .name {
       padding-right: 5px;
       padding-left: 5px;
