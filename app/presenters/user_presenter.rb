@@ -167,14 +167,14 @@ class UserPresenter < ViewPresenter
   end
 
   def links_html
-    keyed_links.map do |key, site|
+    keyed_links.filter_map do |key, site|
       formatted_site = format_link(site)
       site_display = format_link_for_display(site)
       link_icon_class = self.class.icon_link_class(key, site)
       tag.a(href: formatted_site, title: site_display, target: '_blank') do
         tag.i('', class: link_icon_class)
       end
-    end.compact
+    end
   end
 
   def profile_image?

@@ -16,7 +16,7 @@ class OpenStudiosEventService
 
     os_key = os_key.to_s
     yr = os_key[0..3]
-    mo = os_key[4..-1]
+    mo = os_key[4..]
     seas = mo == '10' ? 'Oct' : 'Apr'
     (reverse ? [seas, yr] : [yr, seas]).join(' ')
   end

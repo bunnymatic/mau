@@ -44,11 +44,11 @@ class FavoritesCollectionPresenter < ViewPresenter
     user.favorites.art_pieces.includes(favoritable: [
                                          :medium,
                                          { artist: :open_studios_events },
-                                       ]).map do |favorite|
+                                       ]).filter_map do |favorite|
       piece = favorite.favoritable
       valid_artist = piece.try(:artist).try(&:active?)
       ArtPieceFavoritePresenter.new(favorite) if valid_artist
-    end.compact
+    end
   end
 
   def artists
@@ -56,10 +56,10 @@ class FavoritesCollectionPresenter < ViewPresenter
                                       :open_studios_events,
                                       :artist_info,
                                       { art_pieces: :medium },
-                                    ]).map do |favorite|
+                                    ]).filter_map do |favorite|
       artist = favorite.favoritable
       artist.representative_piece && ArtistFavoritePresenter.new(favorite) if artist.active?
-    end.compact
+    end
   end
 
   def empty?

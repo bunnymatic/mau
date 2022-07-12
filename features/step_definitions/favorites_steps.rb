@@ -22,7 +22,7 @@ end
 
 When(/^I login as an artist with favorites$/) do
   @artist = Artist.first
-  Artist.all[1..-1][0..3].each do |a|
+  Artist.all[1..][0..3].each do |a|
     FavoritesService.add(@artist, a)
     FavoritesService.add(@artist, a.art_pieces.first) if a.art_pieces.present?
   end
