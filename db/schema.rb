@@ -10,36 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_12_023834) do
-
-  create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
-  end
-
-  create_table "active_storage_blobs", charset: "utf8mb3", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
-    t.bigint "byte_size", null: false
-    t.string "checksum"
-    t.datetime "created_at", precision: 6, null: false
-    t.string "storage_url"
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
-
-  create_table "active_storage_variant_records", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "blob_id", null: false
-    t.string "variation_digest", null: false
-    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
+ActiveRecord::Schema.define(version: 2021_09_05_234721) do
 
   create_table "application_events", id: :integer, charset: "utf8mb3", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "type"
@@ -71,7 +42,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_023834) do
     t.datetime "photo_updated_at"
     t.decimal "price", precision: 10, scale: 2
     t.datetime "sold_at"
-    t.datetime "photo_migrate_to_active_storage_failed_at"
     t.index ["artist_id"], name: "index_art_pieces_on_artist_id"
     t.index ["medium_id"], name: "index_art_pieces_on_medium_id"
   end
@@ -188,13 +158,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_023834) do
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end
 
-  create_table "notifications", charset: "utf8mb3", force: :cascade do |t|
-    t.string "message", null: false
-    t.datetime "activated_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "open_studios_events", id: :integer, charset: "utf8mb3", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.datetime "start_date"
     t.datetime "end_date"
@@ -291,7 +254,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_023834) do
     t.integer "photo_file_size"
     t.datetime "photo_updated_at"
     t.integer "position", default: 1000
-    t.datetime "photo_migrate_to_active_storage_failed_at"
     t.index ["slug"], name: "index_studios_on_slug", unique: true
   end
 
@@ -333,7 +295,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_023834) do
     t.datetime "photo_updated_at"
     t.text "links"
     t.string "phone"
-    t.datetime "photo_migrate_to_active_storage_failed_at"
     t.index ["last_request_at"], name: "index_users_on_last_request_at"
     t.index ["login"], name: "index_artists_on_login", unique: true
     t.index ["persistence_token"], name: "index_users_on_persistence_token"
@@ -342,8 +303,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_023834) do
     t.index ["studio_id"], name: "index_users_on_studio_id"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "open_studios_participants", "open_studios_events"
   add_foreign_key "open_studios_participants", "users"
 end
