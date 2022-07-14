@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   before_action :init_body_classes, :set_controller_and_action_names
+  before_action :load_notifications
   before_action :check_browser, unless: :format_json?
   before_action :set_version
   before_action :set_meta_info
@@ -117,5 +118,9 @@ class ApplicationController < ActionController::Base
 
   def supported_browser?
     SupportedBrowserService.supported?(request.user_agent)
+  end
+
+  def load_notifications
+    @notifications = Notification.active
   end
 end

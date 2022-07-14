@@ -24,3 +24,9 @@ Scenario:  Visiting the home page
   And I can get to the contact page from the footer
   And I can send feedback via the footer link
   And I can see the credits from the footer link
+
+@javascript
+Scenario:  Visiting the home page when there is an active notification
+  When there is an active notification
+  And I visit the home page
+  Then I see that notification
