@@ -46,7 +46,7 @@
     .pure-g
       .pure-u-1-1.help-txt.padded-content
         p Check the "delete" checkbox for all the pieces you want to remove (permanently), and click the "Delete" button below.
-      .pure-u-1-1
+      .pure-u-1-1.padded-content
         = form_tag "/artists/destroyart" do
           input type="hidden" name="artist" value=@artist.id
           #delete_art

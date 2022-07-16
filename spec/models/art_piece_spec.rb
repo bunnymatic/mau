@@ -11,6 +11,7 @@ describe ArtPiece do
     it { is_expected.to validate_numericality_of(:price).allow_nil.is_greater_than_or_equal_to(0.01).is_less_than_or_equal_to(99_999_999) }
     it { is_expected.to validate_attachment_size(:photo).less_than(8.megabytes) }
   end
+
   describe 'new' do
     it 'allows quotes' do
       p = valid_attrs.merge(title: 'what"ever')
@@ -24,6 +25,7 @@ describe ArtPiece do
       expect(ap.safe_title).to eq('what&quot;ever')
     end
   end
+
   describe 'after save' do
     it 'clears representative image cache and new art cache on save' do
       expect(Rails.cache).to receive(:delete).with(CacheKeyService.representative_art(artist)).at_least(1).times

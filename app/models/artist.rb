@@ -31,6 +31,7 @@ class Artist < User
   before_create :make_activation_code
   after_commit :add_to_search_index, on: :create
   after_commit :remove_from_search_index, on: :destroy
+  # Handled in UpdateArtistService
   # after_commit :refresh_in_search_index, on: :update
 
   def add_to_search_index
@@ -107,6 +108,13 @@ class Artist < User
       [key, get_profile_image(key)]
     end
     images.to_h
+  end
+
+  def get_profile_image(size = :medium)
+    att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
+    return att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed.url if att
+
+    super(size)
   end
 
   def in_the_mission?

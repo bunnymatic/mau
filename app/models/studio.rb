@@ -33,7 +33,7 @@ class Studio < ApplicationRecord
   end
 
   def refresh_in_search_index
-    Search::Indexer.reindex(self)
+    Search::Indexer.update(self)
   end
 
   def remove_from_search_index
@@ -55,6 +55,7 @@ class Studio < ApplicationRecord
 
   validates_attachment_presence :photo
   validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :photo?
+  include DuplicateActiveStorage
 
   def self.by_position
     order(
@@ -93,7 +94,14 @@ class Studio < ApplicationRecord
   end
 
   def get_profile_image(size)
-    photo(size)
+    att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
+    if att
+      variant = att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed
+      # It seems the DiskService isn't great with `.url` so for cucumber we do this
+      Paperclip::Attachment.default_options[:storage].to_sym == :s3 ? variant.url : Rails.application.routes.url_helpers.url_for(variant)
+    else
+      photo(size)
+    end
   end
 
   def image_paths
@@ -102,5 +110,11 @@ class Studio < ApplicationRecord
 
   def normalize_attributes
     self.phone = normalize_phone_number(phone)
+  end
+
+  class << self
+    def paperclip_attachment_name
+      :photo
+    end
   end
 end

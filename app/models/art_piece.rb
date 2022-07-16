@@ -12,6 +12,8 @@ class ArtPiece < ApplicationRecord
                                     content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
                                     message: 'Only JPEG, PNG, and GIF images are allowed'
   validates_attachment_size :photo, less_than: 8.megabytes
+  include DuplicateActiveStorage
+
   validates :price, numericality: { greater_than_or_equal_to: 0.01, less_than_or_equal_to: 99_999_999 }, allow_nil: true
 
   include Elasticsearch::Model
@@ -115,7 +117,10 @@ class ArtPiece < ApplicationRecord
     HtmlEncoder.encode(title)
   end
 
-  def path(size)
+  def path(size = :medium)
+    att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
+    return att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed.url if att
+
     photo(size) if photo?
   end
 
@@ -146,6 +151,12 @@ class ArtPiece < ApplicationRecord
       artist.art_pieces.last.destroy
       cur -= 1
       del += 1
+    end
+  end
+
+  class << self
+    def paperclip_attachment_name
+      :photo
     end
   end
 end

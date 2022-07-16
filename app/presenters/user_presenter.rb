@@ -182,7 +182,7 @@ class UserPresenter < ViewPresenter
   end
 
   def profile_image(size = small)
-    model.photo(size) if model.photo?
+    model.get_profile_image(size)
   end
 
   alias get_profile_image profile_image

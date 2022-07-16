@@ -1,8 +1,8 @@
-# frozen_string_literal: true
 source 'https://rubygems.org'
 ruby '2.7.6'
 
 gem 'actionmailer-text'
+gem 'active_storage_validations', '~> 0.9.6'
 gem 'authlogic'
 gem 'aws-sdk-s3'
 gem 'browser'
@@ -20,6 +20,7 @@ gem 'geokit'
 gem 'geokit-rails'
 gem 'gibbon' # mailchimp connect
 gem 'htmlentities'
+gem 'image_processing'
 gem 'jsonapi-rails'
 gem 'listen'
 gem 'lograge'
@@ -31,18 +32,19 @@ gem 'nokogiri'
 gem 'paperclip'
 gem 'postmark'
 gem 'postmark-rails'
-gem "puma"
+gem 'puma'
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', "~>6.1.5.x", require: false
+gem 'rails', '~>6.1.5.x', require: false
+gem 'rails-observers'
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
 gem 'scrypt'
 gem 'slim-rails'
-#gem 'unicorn' # webserver
-gem "webpacker"
+# gem 'unicorn' # webserver
+gem 'webpacker'
 
 group :test do
   gem 'capybara'
@@ -50,15 +52,15 @@ group :test do
   gem 'capybara-screenshot'
   gem 'capybara-select-2'
   gem 'cucumber'
-  gem 'cucumber-wire', require: false
   gem 'cucumber-rails', '~>2.x', require: false
+  gem 'cucumber-wire', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'rack-handlers'
   gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'vcr'
-  gem 'webmock'
   gem 'webdrivers'
+  gem 'webmock'
 end
 
 group :development do
@@ -66,15 +68,15 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano', require: false
+  gem 'capistrano3-puma',   require: false
   gem 'capistrano-bundler', require: false
+  gem 'capistrano-local-precompile', '~> 1.2', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rbenv', require: false
-  gem "capistrano-local-precompile", "~> 1.2", require: false
-  gem 'capistrano3-puma',   require: false
   gem 'letter_opener'
   gem 'rails_best_practices'
-  gem "scout_apm"
-  #gem 'unicorn-rails'
+  gem 'scout_apm'
+  # gem 'unicorn-rails'
 end
 
 group :test, :development do
@@ -97,9 +99,6 @@ group :test, :development do
   gem 'simplecov'
   gem 'test-prof'
 end
-
-
-
 
 # gem "derailed", "~> 0.1.0"
 # gem "stackprof", "~> 0.2.15"

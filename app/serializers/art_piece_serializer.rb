@@ -8,17 +8,7 @@ class ArtPieceSerializer < MauSerializer
   include ActionView::Helpers::NumberHelper
 
   attribute :image_urls do
-    urls = if @object.photo?
-             (MauImage::Paperclip::STANDARD_STYLES.keys + [:original]).index_with do |key|
-               @object.photo.url(key, timestamp: false)
-             end
-           else
-             @object.image_paths
-           end
-
-    urls.each_with_object({}) do |(sz, path), memo|
-      memo[sz] = path
-    end
+    @object.image_paths
   end
 
   has_one :artist

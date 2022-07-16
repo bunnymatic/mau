@@ -42,6 +42,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_storage_validations (0.9.8)
+      activejob (>= 5.2.0)
+      activemodel (>= 5.2.0)
+      activestorage (>= 5.2.0)
+      activesupport (>= 5.2.0)
     activejob (6.1.6)
       activesupport (= 6.1.6)
       globalid (>= 0.3.6)
@@ -277,6 +282,9 @@ GEM
     htmlentities (4.3.4)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
+    image_processing (1.12.2)
+      mini_magick (>= 4.9.5, < 5)
+      ruby-vips (>= 2.0.17, < 3)
     jmespath (1.6.1)
     json (2.6.2)
     jsonapi-deserializable (0.2.0)
@@ -316,6 +324,7 @@ GEM
     mimemagic (0.3.10)
       nokogiri (~> 1)
       rake
+    mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     minitest (5.16.1)
@@ -386,6 +395,8 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.3)
       loofah (~> 2.3)
+    rails-observers (0.1.5)
+      activemodel (>= 4.0)
     rails_best_practices (1.23.1)
       activesupport
       code_analyzer (~> 0.5.5)
@@ -460,6 +471,8 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
     ruby-progressbar (1.11.0)
+    ruby-vips (2.1.4)
+      ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     scout_apm (5.2.0)
@@ -539,6 +552,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionmailer-text
+  active_storage_validations (~> 0.9.6)
   authlogic
   awesome_print
   aws-sdk-s3
@@ -580,6 +594,7 @@ DEPENDENCIES
   geokit-rails
   gibbon
   htmlentities
+  image_processing
   jsonapi-rails
   launchy
   letter_opener
@@ -600,6 +615,7 @@ DEPENDENCIES
   rack-handlers
   rails (~> 6.1.5.x)
   rails-controller-testing
+  rails-observers
   rails_best_practices
   rdiscount
   recaptcha

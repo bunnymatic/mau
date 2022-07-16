@@ -3,12 +3,16 @@ class CreateArtPieceService
 
   include ArtPieceServiceTagsHandler
 
+  def self.call(artist, art_piece_params)
+    new(artist, art_piece_params).call
+  end
+
   def initialize(artist, art_piece_params)
     @params = art_piece_params
     @artist = artist
   end
 
-  def create_art_piece
+  def call
     prepare_tags_params
     art_piece = artist.art_pieces.build(params)
     art_piece.save
