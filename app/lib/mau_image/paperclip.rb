@@ -8,9 +8,9 @@ module MauImage
 
     # same as above but in a format that `variant` wants
     VARIANT_RESIZE_ARGUMENTS = {
-      small: { resize_to_limit: [200, 200] },
-      medium: { resize_to_limit: [400, 400] },
-      large: { resize_to_limit: [800, 800] },
+      small: { resize_to_fill: [200, 200, { crop: :centre }] },
+      medium: { resize_to_fill: [400, 400, { crop: :centre }] },
+      large: { resize_to_fill: [800, 800, { crop: :centre }] },
       original: {},
     }.freeze
   end
