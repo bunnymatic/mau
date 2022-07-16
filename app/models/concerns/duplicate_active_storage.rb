@@ -30,7 +30,15 @@ module DuplicateActiveStorage
   def skip_transfer
     return true unless !saved_change_to_attribute("#{self.class.paperclip_attachment_name}_updated_at").nil? ^ @is_migration
 
-    !send(self.class.paperclip_attachment_name).exists?
+    if instance_of?(ArtPiece)
+      # art piece photo is required
+      # this will force the migration to run *even* if the
+      # file path is bogus which will them properly mark the
+      # picture as failed and we'll have to deal with it later
+      false
+    else
+      !send(self.class.paperclip_attachment_name).exists?
+    end
   end
 
   def create_active_storage_entry
