@@ -93,7 +93,7 @@ class Studio < ApplicationRecord
     IndependentStudio.new
   end
 
-  def get_profile_image(size: :medium)
+  def get_profile_image(size = :medium)
     begin
       att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
       if att
