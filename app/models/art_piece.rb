@@ -118,8 +118,12 @@ class ArtPiece < ApplicationRecord
   end
 
   def path(size = :medium)
-    att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
-    return att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed.url if att
+    begin
+      att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
+      return att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed.url if att
+    rescue Aws::S3::Errors::BadRequest => e
+      Rails.logger.error(e.backtrace.join("\n"))
+    end
 
     photo(size) if photo?
   end

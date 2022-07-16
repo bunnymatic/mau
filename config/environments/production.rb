@@ -85,6 +85,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.active_storage.service = :amazon
 end
 
 Rails.application.routes.default_url_options[:host] = 'www.missionartists.org'

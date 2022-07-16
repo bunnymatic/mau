@@ -181,7 +181,7 @@ class UserPresenter < ViewPresenter
     model.photo?
   end
 
-  def profile_image(size = small)
+  def profile_image(size = :small)
     model.get_profile_image(size)
   end
 
