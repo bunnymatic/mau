@@ -26,7 +26,7 @@ class ArtistsGallery < ArtistsPresenter
 
     letters = ArtPiece.joins(:artist).where(users: { state: 'active' }).group("lcase(left(users.#{name},1))").count.keys
 
-    lettered_entries = letters.grep(LETTERS_REGEX)
+    lettered_entries = letters.grep(LETTERS_REGEX).sort
     if letters.count > lettered_entries.count
       lettered_entries + [ELLIPSIS]
     else

@@ -7,11 +7,11 @@ describe ArtistsGallery do
   let(:per_page) { 2 }
   let(:artists) do
     [
-      create(:artist, :with_art, firstname: 'a', lastname: 'Abby'),
-      create(:artist, :with_art, firstname: 'b', lastname: 'Asinine'),
-      create(:artist, :with_art, firstname: 'c', lastname: 'Atkins'),
       create(:artist, :with_art, firstname: 'zed', lastname: 'bab'),
+      create(:artist, :with_art, firstname: 'a', lastname: 'Abby'),
+      create(:artist, :with_art, firstname: 'c', lastname: 'Atkins'),
       create(:artist, :with_art, firstname: 'zoo', lastname: 'cab'),
+      create(:artist, :with_art, firstname: 'b', lastname: 'Asinine'),
       create(:artist, :with_art, firstname: 'zap', lastname: ''),
       create(:artist, firstname: 'z', lastname: 'Arnold'),
       create(:artist, firstname: 'a', lastname: 'Bored'),
@@ -39,7 +39,7 @@ describe ArtistsGallery do
     expect(with_art.size).to eq(1)
     expect(with_art.first.lastname).to eql 'Atkins'
 
-    expect(presenter.artists.map(&:artist)).to eql artists.first(3)
+    expect(presenter.artists.map(&:artist)).to eql [artists[1], artists[4], artists[2]]
   end
 
   context 'with open studios set true' do
@@ -57,7 +57,18 @@ describe ArtistsGallery do
     let(:ordering) { :firstname }
     let(:letter) { 'z' }
     it 'artists include only those with representative pieces sorted by name' do
-      expect(subject.artists.map(&:artist)).to eql artists[3..5]
+      [artists[0], artists[3], artists[5]].map(&:firstname)
+      expect(subject.artists.map(&:artist)).to eql [artists[0], artists[3], artists[5]]
+    end
+  end
+
+  describe '.letters' do
+    it 'returns letters in order for last name' do
+      expect(described_class.letters('lastname')).to eq ['a', 'b', 'c', '&hellip;']
+    end
+
+    it 'returns letters in order for first name' do
+      expect(described_class.letters('firstname')).to eq %w[a b c z]
     end
   end
 end
