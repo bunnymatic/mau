@@ -37,7 +37,8 @@ module DuplicateActiveStorage
       # picture as failed and we'll have to deal with it later
       false
     else
-      !send(self.class.paperclip_attachment_name).exists?
+      photo_exists_method = "#{self.class.paperclip_attachment_name}?"
+      !public_send(photo_exists_method)
     end
   end
 
