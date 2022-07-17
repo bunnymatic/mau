@@ -18,6 +18,7 @@ test:
 development:
   features:
     virtual_open_studios: true
+  S3_REGION: 'us-west-1'
   cache_expiry:
     feed: 300
     search: 20
@@ -35,13 +36,14 @@ development:
 acceptance:
   features:
     virtual_open_studios: true
-  S3_DOMAIN: 'us-west-1'
+  S3_REGION: 'us-east-1'
   TLD_LENGTH: 2
   subdomain: openstudios.mau
 
 production:
   features:
     virtual_open_studios: true
+  S3_REGION: 'us-west-1'
   cache_expiry:
     feed: 3600
     search: 300
