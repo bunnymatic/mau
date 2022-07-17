@@ -6,7 +6,11 @@ class ArtPiece < ApplicationRecord
 
   belongs_to :medium, optional: true
 
+  include HasAttachedImage
+  image_attachments(:photo)
+
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
+
   validates_attachment_presence :photo
   validates_attachment_content_type :photo,
                                     content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
@@ -118,14 +122,7 @@ class ArtPiece < ApplicationRecord
   end
 
   def path(size = :medium)
-    begin
-      att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
-      return att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed.url if att
-    rescue Aws::S3::Errors::BadRequest => e
-      Rails.logger.error(e.backtrace.join("\n"))
-    end
-
-    photo(size) if photo?
+    photo_attachment(size)
   end
 
   def paths
