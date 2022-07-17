@@ -1,7 +1,9 @@
 / expects OpenStudiosArtistCatalogPaginator
 - paginator ||= paginator
 .catalog-paginator__container
-  = link_to paginator.previous, title: paginator.previous.name, class: "catalog-paginator__link catalog-paginator__link--prev" do
-    = fa_icon "angle-left"
-  = link_to paginator.next, title: paginator.next.name, class: "catalog-paginator__link catalog-paginator__link--next" do
-    = fa_icon "angle-right"
+  - if paginator.previous
+    = link_to paginator.previous, title: paginator.previous.name, class: "catalog-paginator__link catalog-paginator__link--prev" do
+      = fa_icon "angle-left"
+  - if paginator.next
+    = link_to paginator.next, title: paginator.next.name, class: "catalog-paginator__link catalog-paginator__link--next" do
+      = fa_icon "angle-right"
