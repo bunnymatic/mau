@@ -100,8 +100,8 @@ class Studio < ApplicationRecord
     photo_attachment?
   end
 
-  def get_profile_image(_size = :medium)
-    photo_attachment
+  def get_profile_image(size = :medium)
+    photo_attachment(size)
   end
 
   def image_paths
