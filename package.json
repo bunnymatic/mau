@@ -66,7 +66,7 @@
     "import-glob-loader": "^1.1.0",
     "imports-loader": "^1.0.0",
     "jquery": "^3.5.0",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.2",
     "luxon": "^1.25.0",
     "ng-dialog": "^1.4.0",
     "postcss-preset-env": "^6.7.0",
