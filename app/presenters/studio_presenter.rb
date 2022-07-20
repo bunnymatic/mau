@@ -30,9 +30,7 @@ class StudioPresenter < ViewPresenter
     @page_title ||= PageInfoService.title("Studio: #{name}")
   end
 
-  def profile_image?
-    studio.get_profile_image(:small).present?
-  end
+  delegate :profile_image?, to: :studio
 
   def image(size = 'small')
     studio.get_profile_image(size) || '/images/default-studio.png'

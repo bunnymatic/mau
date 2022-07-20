@@ -69,7 +69,7 @@
         - if @user.art?
           h4
             = "Representative piece: " + @user.representative_piece.title
-          - url = @user.representative_piece.photo(:original)
+          - url = @user.representative_piece.path(:original)
           .image
             img.pure-img src=url
           .url = url

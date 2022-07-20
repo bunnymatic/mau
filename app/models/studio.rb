@@ -53,6 +53,9 @@ class Studio < ApplicationRecord
 
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
+  include HasAttachedImage
+  image_attachments(:photo)
+
   validates_attachment_presence :photo
   validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :photo?
   include DuplicateActiveStorage
@@ -93,18 +96,12 @@ class Studio < ApplicationRecord
     IndependentStudio.new
   end
 
+  def profile_image?
+    photo_attachment?
+  end
+
   def get_profile_image(size = :medium)
-    begin
-      att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
-      if att
-        variant = att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed
-        # It seems the DiskService isn't great with `.url` so for cucumber we do this
-        return Paperclip::Attachment.default_options[:storage].to_sym == :s3 ? variant.url : Rails.application.routes.url_helpers.url_for(variant)
-      end
-    rescue Aws::S3::Errors::BadRequest => e
-      Rails.logger.error(e.backtrace.join("\n"))
-    end
-    photo(size)
+    photo_attachment(size)
   end
 
   def image_paths

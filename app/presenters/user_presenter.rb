@@ -177,9 +177,7 @@ class UserPresenter < ViewPresenter
     end
   end
 
-  def profile_image?
-    model.photo?
-  end
+  delegate :profile_image?, to: :model
 
   def profile_image(size = :small)
     model.get_profile_image(size)
