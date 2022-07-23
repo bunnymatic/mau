@@ -163,3 +163,24 @@ end
 Then('I see that this artist has no profile picture') do
   expect(page).to have_content 'No profile picture'
 end
+
+When('I navigate to the first art piece admin edit path') do
+  @art_piece = ArtPiece.first
+  expect(@art_piece).to be_persisted
+  visit edit_admin_art_piece_path(@art_piece)
+  save_and_open_page
+end
+
+When('I add a new file') do
+  attach_file 'Photo', Rails.root.join('spec/fixtures/files/art.png')
+end
+
+Then('I see the edit admin art piece page') do
+  expect(page).to have_content 'Editing Art Piece:'
+end
+
+Then('I see the new image') do
+  save_and_open_page
+  expect(page).not_to have_content 'new-art-piece.jpg'
+  expect(page).to have_content 'art.png'
+end
