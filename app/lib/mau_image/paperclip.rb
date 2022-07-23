@@ -10,7 +10,7 @@ module MauImage
     VARIANT_RESIZE_ARGUMENTS = {
       small: { resize_to_fill: [200, 200, { crop: :centre }] },
       medium: { resize_to_fill: [400, 400, { crop: :centre }] },
-      large: { resize_to_fill: [800, 800, { crop: :centre }] },
+      large: { resize_to_fit: [800, 800] },
       original: {},
     }.freeze
   end
