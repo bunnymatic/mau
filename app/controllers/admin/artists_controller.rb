@@ -81,10 +81,13 @@ module Admin
         :show_email,
         { video_conference_schedule: {} },
       ]
-      params.require(:artist).permit(:firstname, :lastname,
+      params.require(:artist).permit(:firstname,
+                                     :lastname,
                                      :phone,
-                                     :email, :nomdeplume,
+                                     :email,
+                                     :nomdeplume,
                                      :studio_id,
+                                     :photo,
                                      links: allowed_links,
                                      artist_info_attributes: %i[studionumber street bio],
                                      open_studios_participants_attributes: open_studios_participant_fields).tap do |prms|

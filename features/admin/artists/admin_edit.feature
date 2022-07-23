@@ -33,7 +33,6 @@ Scenario: Updating artist links
   When I choose "The Rock House" from "Studio"
   And I click on "Update Artist"
   And I see that the admin artist pages shows that artist in studio "The Rock House"
-
 Scenario: Updating artists open studios info
   Given the current open studios event has a special event
   And there is an open studios artist
@@ -61,3 +60,12 @@ Scenario: Updating artists open studios info
   And as an admin I choose every other time slot for the video conference schedule
   And I click on "Update Artist"
   Then I see that the artist is scheduled for every other time slot
+
+
+Scenario: Updating artist's profile picture
+  When I go back
+  And I click on the first artist show button that's not me
+  Then I see that this artist has no profile picture
+  And I attach a new profile image file
+  And I click "Upload"
+  Then I see the new profile image for that artist
