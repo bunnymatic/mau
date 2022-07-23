@@ -56,7 +56,7 @@ module DuplicateActiveStorage
     if using_s3?
       s3_url = "https://#{Rails.application.config.s3_info[:bucket]}.s3.amazonaws.com/#{key(self.class.paperclip_attachment_name)}"
       ActiveStorage::Blob.create_after_upload!(
-        io: URI.open(URI.parse(s3_url)),
+        io: URI.open(Addressable::URI.parse(s3_url).display_uri.to_s),
         filename: send("#{self.class.paperclip_attachment_name}_file_name"),
         content_type: send("#{self.class.paperclip_attachment_name}_content_type"),
         service_name: :amazon,
