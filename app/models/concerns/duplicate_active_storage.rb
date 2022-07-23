@@ -66,12 +66,14 @@ module DuplicateActiveStorage
     else
       begin
         file = Rails.root.join(send(paperclip_attachment_name).path)
+        # rubocop:disable Lint/UriEscapeUnescape
         ActiveStorage::Blob.create_after_upload!(
           io: open(file),
-          filename: send("#{paperclip_attachment_name}_file_name"),
+          filename: URI.escape(send("#{paperclip_attachment_name}_file_name")),
           content_type: send("#{paperclip_attachment_name}_content_type"),
           service_name: :test,
         )
+        # rubocop:enable Lint/UriEscapeUnescape
       rescue StandardError
         logger.error("Failed to create blob from file - hopefully this is in tests and you don't really care")
         nil
