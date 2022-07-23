@@ -553,6 +553,7 @@ PLATFORMS
 DEPENDENCIES
   actionmailer-text
   active_storage_validations (~> 0.9.6)
+  addressable
   authlogic
   awesome_print
   aws-sdk-s3

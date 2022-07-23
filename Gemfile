@@ -3,6 +3,7 @@ ruby '2.7.6'
 
 gem 'actionmailer-text'
 gem 'active_storage_validations', '~> 0.9.6'
+gem 'addressable'
 gem 'authlogic'
 gem 'aws-sdk-s3'
 gem 'browser'

@@ -1,3 +1,5 @@
+require 'addressable/uri'
+
 module DuplicateActiveStorage
   extend ActiveSupport::Concern
 

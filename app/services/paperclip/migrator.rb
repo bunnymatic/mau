@@ -15,7 +15,7 @@ module Paperclip
       else
         Rails.logger.warn("No more records of #{model} to migrate")
       end
-    rescue OpenURI::HTTPError, ActiveRecord::StatementInvalid, URI::InvalidURIError => e
+    rescue Addressable::URI::InvalidURIError, OpenURI::HTTPError, ActiveRecord::StatementInvalid, URI::InvalidURIError => e
       mark_instance_failed(instance)
       Rails.logger.error("Error during ActiveStorage migration: #{e} #{model} #{instance&.id}")
       Rails.logger.warn('Skipping to the next one')
