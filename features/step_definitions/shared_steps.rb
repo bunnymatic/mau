@@ -340,6 +340,10 @@ Then(/^I can see the credits from the footer link$/) do
   expect(page).not_to have_content 'Built at MAU Headquarters'
 end
 
+When(/^I go back/) do
+  page.go_back
+end
+
 When(/^I refresh the page$/) do
   visit current_path
 end

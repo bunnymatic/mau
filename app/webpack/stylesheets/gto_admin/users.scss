@@ -9,6 +9,7 @@
   }
   .url {
     @include ellipsis;
+    margin: 20px auto;
   }
   .info-block {
     border-bottom: 1px solid colors.$medium-gray;

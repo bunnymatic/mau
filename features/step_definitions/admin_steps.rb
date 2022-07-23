@@ -145,3 +145,21 @@ When('I see that the artist is scheduled for every other time slot') do
     end
   end
 end
+
+When('I click on the first artist show button that\'s not me') do
+  not_me = Artist.active.limit(2).detect { |a| a.login != (@artist.login || @user.login) }
+  cell = page.all('table tr').detect { |el| el.text.include? not_me.login }
+  cell.find('.admin-artist-link').click
+end
+
+When('I attach a new profile image file') do
+  attach_file 'Photo', Rails.root.join('spec/fixtures/files/profile.png')
+end
+
+Then('I see the new profile image for that artist') do
+  expect(page).to have_content 'small/profile.png'
+end
+
+Then('I see that this artist has no profile picture') do
+  expect(page).to have_content 'No profile picture'
+end
