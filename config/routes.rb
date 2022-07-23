@@ -167,6 +167,7 @@ Mau::Application.routes.draw do
       resources :application_events, only: [:index]
       resources :favorites, only: [:index]
       resources :media, only: %i[index create new edit update destroy]
+      resources :art_pieces, only: %i[edit update]
       resources :artists, only: %i[index edit update] do
         collection do
           post :good_standing
