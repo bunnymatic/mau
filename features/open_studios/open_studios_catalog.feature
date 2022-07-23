@@ -11,7 +11,7 @@ Background:
   And there is open studios catalog cms content
   And I'm logged out
 
-Scenario:
+Scenario: Browsing and viewing art modal
   When I visit "/" in the catalog
   Then I see pictures from all participating artists
   And I see the open studios catalog cms message
