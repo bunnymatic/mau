@@ -1,5 +1,10 @@
 li
   - img, path, title = get_favorite_image_and_path favorite_thumb
-  = link_to path, title: title do
-    .favorite-thumb style=background_image_style(img)
-    .favorite-thumb-icon.fa.fa-user
+  - if path
+    = link_to(path,title: title) do
+      .favorite-thumb style=background_image_style(img)
+      .favorite-thumb-icon.fa.fa-user
+  - else
+    span.not-a-link(title=title)
+      .favorite-thumb style=background_image_style(img)
+      .favorite-thumb-icon.fa.fa-user

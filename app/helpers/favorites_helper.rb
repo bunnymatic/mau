@@ -1,11 +1,14 @@
 module FavoritesHelper
   def get_favorite_image_and_path(fav, size = :small)
     title = fav.get_name
-    img = ''
-    path = ''
-    if fav.is_a? ArtPiece
+    img = nil
+    path = nil
+    case fav
+    when ArtPiece
       img = fav.path size
       path = art_piece_path fav.id
+    when MauFan
+      img = asset_pack_path('media/images/default_user.svg')
     else
       img = fav.get_profile_image(size) || asset_pack_path('media/images/default_user.svg')
       path = user_path(fav)
