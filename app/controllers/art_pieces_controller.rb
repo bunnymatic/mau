@@ -72,7 +72,7 @@ class ArtPiecesController < ApplicationController
 
   def set_page_info_from_art_piece
     @page_title = PageInfoService.title(sprintf('Artist: %s', @art_piece.artist.get_name))
-    @page_image = @art_piece.photo.url(:large)
+    @page_image = @art_piece.path(:large)
     @page_description = (build_page_description @art_piece) || @page_description
     @page_keywords += [@art_piece.tags + [@art_piece.medium]].flatten.compact.map(&:name)
   end
