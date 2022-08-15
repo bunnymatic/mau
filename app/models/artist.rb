@@ -85,9 +85,6 @@ class Artist < User
 
   has_many :art_pieces, -> { order(position: :asc, created_at: :desc) }, inverse_of: :artist
 
-  include HasAttachedImage
-  image_attachments(:photo)
-
   %i[
     bio
     bio=
@@ -114,7 +111,7 @@ class Artist < User
   end
 
   def get_profile_image(size = :medium)
-    photo_attachment(size)
+    attached_photo(size)
   end
 
   def in_the_mission?

@@ -8,15 +8,8 @@ class ArtPiece < ApplicationRecord
 
   include HasAttachedImage
   image_attachments(:photo)
-
-  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
-
-  validates_attachment_presence :photo
-  validates_attachment_content_type :photo,
-                                    content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
-                                    message: 'Only JPEG, PNG, and GIF images are allowed'
-  validates_attachment_size :photo, less_than: 8.megabytes
-  include DuplicateActiveStorage
+  has_one_attached :photo
+  validates :photo, attached: true, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif]
 
   validates :price, numericality: { greater_than_or_equal_to: 0.01, less_than_or_equal_to: 99_999_999 }, allow_nil: true
 
@@ -122,7 +115,7 @@ class ArtPiece < ApplicationRecord
   end
 
   def path(size = :medium)
-    photo_attachment(size)
+    attached_photo(size)
   end
 
   def paths

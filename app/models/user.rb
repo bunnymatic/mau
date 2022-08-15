@@ -37,10 +37,11 @@ class User < ApplicationRecord
   # custom validations
   validate :validate_email
 
-  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
+  include HasAttachedImage
+  image_attachments(:photo)
+  has_one_attached :photo
+  validates :photo, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif]
 
-  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :photo?
-  include DuplicateActiveStorage
   validates :phone, phone_number: true
 
   include User::Authentication
@@ -117,11 +118,11 @@ class User < ApplicationRecord
   end
 
   def profile_image?
-    photo_attachment?
+    attached_photo?
   end
 
   def get_profile_image(size = :medium)
-    photo_attachment(size)
+    attached_photo(size)
     # begin
     #   att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
     #   return att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed.url if att

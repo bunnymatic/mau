@@ -10,14 +10,11 @@ FactoryBot.define do
     url { Faker::Internet.url }
     cross_street { Faker::Address.street_name }
     phone { "(415) 555 #{Array.new(4) { rand(10) }.join}" }
-    photo_file_name    { 'new-studio.jpg' }
-    photo_content_type { 'image/jpeg' }
-    photo_file_size    { 1234 }
-    photo_updated_at   { 1.day.ago }
     position { Random.rand(200) }
     transient do
       artist_count { 2 }
     end
+    photo { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/profile.png'), 'image/png') }
 
     trait :with_artists do
       after(:create) do |studio, context|

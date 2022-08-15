@@ -21,7 +21,7 @@ describe Admin::StudiosController do
       end
     end
 
-    describe '#create', mock_duplicate_active_storage: true do
+    describe '#create' do
       let(:studio_attrs) { FactoryBot.attributes_for(:studio, photo: fixture_file_upload('art.png', 'image/png')) }
       it 'setups up a new studio' do
         expect do

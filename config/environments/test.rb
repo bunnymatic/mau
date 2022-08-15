@@ -50,6 +50,7 @@ Rails.application.configure do
   puts "Elasticsearch url: #{config.elasticsearch_url}"
 
   config.middleware.use DisableAnimations
+  config.active_storage.service = :local
 end
 
 Rails.application.routes.default_url_options[:host] = 'test.host'

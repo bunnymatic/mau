@@ -29,10 +29,7 @@ FactoryBot.define do
     end
 
     trait :with_photo do
-      photo_file_name    { 'new-profile.jpg' }
-      photo_content_type { 'image/jpeg' }
-      photo_file_size    { 134 }
-      photo_updated_at   { 2.days.ago }
+      photo { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/user.png'), 'image/png') }
     end
 
     trait :active do

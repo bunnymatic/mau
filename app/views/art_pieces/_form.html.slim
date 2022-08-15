@@ -3,7 +3,7 @@
   = render "/common/form_errors", form: f
   = render "/flash_notice_error"
   = f.inputs do
-    = f.input :photo, required: true, hint: "This should be a JPG, GIF, or PNG and should be less than 4MB.  Ideal images are at least 800px on their longest dimension."
+    = f.input :photo, as: :file, required: true, hint: "This should be a JPG, GIF, or PNG and should be less than 4MB.  Ideal images are at least 800px on their longest dimension."
     = f.input :title, required: true
     = f.input :dimensions, placeholder: 'e.g. 8&quot; x 12&quot;'.html_safe
     = f.input :year, placeholder: "e.g. 2013"

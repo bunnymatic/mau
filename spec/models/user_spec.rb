@@ -188,12 +188,9 @@ describe User, elasticsearch: :stub do
 
   describe 'get_profile_image' do
     context 'when the user has a photo' do
-      let(:artist) { build_stubbed(:artist, :with_photo) }
-      it 'returns the medium artists profile image' do
-        expect(artist.get_profile_image).to match %r{system/artists/photos/(.*)/medium/new-profile.jpg}
-      end
-      it 'returns the small artists profile image given size = small' do
-        expect(artist.get_profile_image(:small)).to match %r{system/artists/photos/(.*)/small/new-profile.jpg}
+      let(:artist) { create(:artist, :with_photo) }
+      it 'returns variant url for the profile image' do
+        expect(artist.get_profile_image).to match %r{http://test.host/rails/active_storage/representations/redirect/.*user\.png}
       end
     end
     context 'when there is no image' do

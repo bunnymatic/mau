@@ -51,14 +51,10 @@ class Studio < ApplicationRecord
   validates :street, presence: true
   validates :phone, phone_number: true, allow_nil: true
 
-  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
-
   include HasAttachedImage
   image_attachments(:photo)
-
-  validates_attachment_presence :photo
-  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}, if: :photo?
-  include DuplicateActiveStorage
+  has_one_attached :photo
+  validates :photo, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif], presence: true
 
   def self.by_position
     order(
@@ -97,11 +93,11 @@ class Studio < ApplicationRecord
   end
 
   def profile_image?
-    photo_attachment?
+    attached_photo?
   end
 
   def get_profile_image(size = :medium)
-    photo_attachment(size)
+    attached_photo(size)
   end
 
   def image_paths

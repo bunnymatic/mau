@@ -1,5 +1,5 @@
 class CreateArtPieceService
-  attr_reader :params, :artist
+  attr_reader :params, :artist, :file
 
   include ArtPieceServiceTagsHandler
 
@@ -10,11 +10,13 @@ class CreateArtPieceService
   def initialize(artist, art_piece_params)
     @params = art_piece_params
     @artist = artist
+    @file = @params.delete(:photo)
   end
 
   def call
     prepare_tags_params
     art_piece = artist.art_pieces.build(params)
+    art_piece.photo.attach(file)
     art_piece.save
 
     emails = WatcherMailerList.first&.formatted_emails

@@ -120,7 +120,8 @@ describe Artist do
       before do
         studio = FactoryBot.create(:studio)
         # don't update lat in factory because `compute_geocode` takes over
-        studio.update(lat: 37.75, lng: -122.41)
+        studio.update_attribute(:lat, 37.75)
+        studio.update_attribute(:lng, -122.41)
         wayout_artist.update studio: studio
         wayout_artist.reload
       end
@@ -242,13 +243,16 @@ describe Artist do
       expect(artist.representative_piece.title).to be_present
     end
 
-    it 'returns art_pieces in by created at if there is no order' do
+    it 'returns art_pieces by created at if there is no order' do
       expect(artist.art_pieces.to_a).to eql artist.art_pieces.sort_by(&:created_at).reverse
     end
 
-    it 'returns art_pieces in by created at, then order if there is order' do
+    it 'returns art_pieces by created at, then order if there is order' do
       artist.art_pieces.reverse.each_with_index do |ap, idx|
-        ap.update(position: idx)
+        ap.update_attribute(:position, idx)
+      rescue StandardError => e
+        puts e.backtrace
+        raise
       end
       expect(artist.art_pieces.map(&:position)).to be_strictly_decreasing
     end

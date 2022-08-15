@@ -15,7 +15,7 @@ describe CreateArtPieceService do
 
   context 'with good data' do
     let(:params) do
-      attributes_for(:art_piece)
+      attributes_for(:art_piece).merge(photo: fixture_file_upload('art.png'))
     end
 
     it 'creates an art piece' do
