@@ -50,6 +50,6 @@ class OpenStudiosParticipantPresenter
   end
 
   def artist
-    @artist ||= (@participant.user).becomes(Artist)
+    @artist ||= @participant.user.becomes(Artist)
   end
 end
