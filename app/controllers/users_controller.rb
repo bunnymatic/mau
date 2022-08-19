@@ -181,11 +181,7 @@ class UsersController < ApplicationController
 
     inputs = params.require(user_params_key).permit(:email)
     user = User.find_by(email: inputs[:email])
-<<<<<<< HEAD
     flash[:notice] = "We've sent email with instructions on how to reset your password. " \
-=======
-    flash[:notice] = "We've sent email with instructions on how to reset your password. "\
->>>>>>> c6e22d80d (Remove paperclip in favor of Active Storage)
                      'Please check your email.'
     if user
       if user.active?

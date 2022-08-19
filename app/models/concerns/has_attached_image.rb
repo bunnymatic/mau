@@ -15,11 +15,6 @@ module HasAttachedImage
     ActiveStorage::Attachment.where(record_id: id, record_type: clz, name: name).order(:id)
   end
 
-  # def paperclip_attachment_exists?(name)
-  #   method = "#{name}?"
-  #   respond_to?(method) && public_send(method)
-  # end
-
   class_methods do
     # rubocop:disable Style/DocumentDynamicEvalDefinition
     #
