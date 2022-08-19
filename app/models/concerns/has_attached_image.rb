@@ -10,11 +10,6 @@ module HasAttachedImage
 
   private
 
-  def attachments_by_name(name)
-    clz = self.class.name
-    ActiveStorage::Attachment.where(record_id: id, record_type: clz, name: name).order(:id)
-  end
-
   class_methods do
     # rubocop:disable Style/DocumentDynamicEvalDefinition
     #
@@ -24,7 +19,7 @@ module HasAttachedImage
       self._image_attachments = Set.new(attachment_names.map(&:to_s))
       attachment_names.each do |name|
         # def attached_photo?
-        #   self.public_send('photo').nil?
+        #   self.public_send('photo').present?
         # end
         class_eval <<~RUBY, __FILE__, __LINE__ + 1
           def attached_#{name}?
@@ -34,10 +29,8 @@ module HasAttachedImage
 
         # def attached_photo(size = :medium)
         #   begin
-        #     att = attachments_by_name('photo').last
-        #     if att
-        #       att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed.url
-        #     end
+        #     variant = self.public_send('photo').variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym])&.processed
+        #     Rails.application.routes.url_helpers.rails_representation_url(variant) if variant
         #   rescue ActiveStorage::FileNotFoundError => e
         #     return nil
         #   rescue Aws::S3::Errors::BadRequest => e
