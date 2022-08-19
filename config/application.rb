@@ -77,6 +77,7 @@ module Mau
     config.elasticsearch_url = ENV.fetch('ELASTICSEARCH_URL', 'http://localhost:9200')
 
     config.active_support.test_order = :random
+    config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol]
 
     config.action_dispatch.tld_length = Integer(Conf.TLD_LENGTH || 1)
 

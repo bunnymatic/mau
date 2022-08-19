@@ -37,8 +37,8 @@ class ArtistsController < ApplicationController
 
   def register_for_current_open_studios
     unless current_user.artist?
-      flash[:error] = "You must have an Artist's account, not a Fan account"\
-                      ' to see that page you requested.  Please login as an '\
+      flash[:error] = "You must have an Artist's account, not a Fan account " \
+                      'to see that page you requested.  Please login as an ' \
                       'Artist and try again.'
       redirect_to user_path(current_user)
       return

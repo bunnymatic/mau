@@ -145,8 +145,8 @@ class UsersController < ApplicationController
     user = User.find_by(activation_code: code) if code.present?
 
     unless user
-      flash[:error] = 'Are you sure you got the right link -- maybe you should double check your email?'\
-                      " Or maybe you've already activated -- try signing in."
+      flash[:error] = 'Are you sure you got the right link -- maybe you should double check your email? ' \
+                      "Or maybe you've already activated -- try signing in."
       redirect_to(login_path) && return
     end
 
@@ -181,15 +181,15 @@ class UsersController < ApplicationController
 
     inputs = params.require(user_params_key).permit(:email)
     user = User.find_by(email: inputs[:email])
-    flash[:notice] = "We've sent email with instructions on how to reset your password."\
-                     '  Please check your email.'
+    flash[:notice] = "We've sent email with instructions on how to reset your password. " \
+                     'Please check your email.'
     if user
       if user.active?
         user.create_reset_code
       else
         flash[:notice] = nil
-        flash[:error] = 'That account is not yet active.  Have you responded to the activation email we'\
-                        ' already sent?  Enter your email below if you need us to send you a new activation email.'
+        flash[:error] = 'That account is not yet active.  Have you responded to the activation email we ' \
+                        'already sent?  Enter your email below if you need us to send you a new activation email.'
       end
     end
     redirect_to login_path
