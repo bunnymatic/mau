@@ -16,7 +16,7 @@ describe StudioPresenter do
   its(:page_title) { is_expected.to eql "Mission Artists - Studio: #{studio.name}" }
   its(:street_with_cross) { is_expected.to eql "#{studio.street} (@ hollywood)" }
   its(:indy?) { is_expected.to be_falsy }
-  its(:image) { is_expected.to match %r{studios/photos/.*/small/new-studio.jpg} }
+  its(:image) { is_expected.to match %r{rails/active_storage} }
 
   it '.artists returns the active artists' do
     expect(presenter.artists).to eq studio.artists.active

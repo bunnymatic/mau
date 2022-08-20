@@ -17,6 +17,15 @@ executors:
           discovery.type: single-node
 
 commands:
+  vips_install:
+    description: Install Vips
+    steps:
+      - run:
+          shell: /bin/bash
+          name: Snap Install libvips
+          command: |-
+            sudo apt update
+            sudo apt install libvips
   bundle_install:
     description: Bundle Install (and cache)
     steps:
@@ -149,6 +158,7 @@ jobs:
     executor: ruby_node_mysql_elasticsearch
     steps:
       - checkout
+      - vips_install
       - bundle_install
       - npm_install
       - run:
@@ -185,6 +195,7 @@ jobs:
 
     steps:
       - checkout
+      - vips_install
       - bundle_install
       - npm_install
       - use_assets_cache
