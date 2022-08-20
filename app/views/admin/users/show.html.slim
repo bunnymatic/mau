@@ -65,7 +65,7 @@
 
   - if @user.artist?
     .pure-u-1-2.padded-content
-      .info-block
+      .info-block.info-block--profile
         - if @user.profile_image?
           h4 Profile Picture
           - url = @user.profile_image
@@ -84,7 +84,7 @@
               = form.actions do
                 = form.submit 'Upload', class: 'pure-button button-large pure-button-primary'
                 = form.submit 'Cancel', class: 'pure-button button-large'
-      .info-block
+      .info-block.info-block--representative-piece
         - if @user.art?
           h4
             = "Representative piece: " + @user.representative_piece.title

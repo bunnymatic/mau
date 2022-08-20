@@ -157,7 +157,10 @@ When('I attach a new profile image file') do
 end
 
 Then('I see the new profile image for that artist') do
-  expect(page).to have_content 'small/profile.png'
+  within('.info-block--profile') do
+    expect(page).to have_css 'img.pure-img'
+    expect(page).to have_content 'profile.png'
+  end
 end
 
 Then('I see that this artist has no profile picture') do
