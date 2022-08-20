@@ -33,7 +33,7 @@ describe WatcherMailer do
     end
 
     it 'includes the picture' do
-      expect(mail_body).to have_css("img[src='#{art_piece.photo(:original)}'][title='#{art_piece.title}']")
+      expect(mail_body).to have_css("img[src='#{art_piece.attached_photo(:original)}'][title='#{art_piece.title}']")
     end
 
     it 'renders a little social media snippet' do
