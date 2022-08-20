@@ -217,19 +217,20 @@ class ArtistsController < ApplicationController
     end
 
     permitted = %i[
-      studio
-      login
       email
-      password
-      password_confirmation
-      photo
       firstname
       lastname
-      url
-      studio_id
-      studio
+      login
       nomdeplume
+      password
+      password_confirmation
       phone
+      photo
+      studio
+      studio
+      studio_id
+      updated_at
+      url
     ] + User.stored_attributes[:links]
     params
       .require(:artist)

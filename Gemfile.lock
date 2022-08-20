@@ -553,7 +553,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionmailer-text
-  active_storage_validations (~> 0.9.6)
+  active_storage_validations
   addressable
   authlogic
   awesome_print

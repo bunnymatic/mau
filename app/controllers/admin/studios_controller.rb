@@ -19,7 +19,8 @@ module Admin
 
     def create
       @studio = Studio.new(studio_params)
-
+      @file = studio_params.delete(:photo)
+      @studio.photo.attach(@file) if @file
       if @studio.save
         flash[:notice] = 'Awesome!  More studios means more artists!'
         redirect_to(@studio)

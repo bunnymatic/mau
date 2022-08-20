@@ -207,6 +207,8 @@ Mau::Application.routes.draw do
     get '/openstudios', to: redirect('/open_studios')
   end
 
-  get '*path' => 'error#index'
+  get '*path' => 'error#index', constraints: lambda { |req|
+    req.path.exclude? 'rails/active_storage'
+  }
   root to: 'main#index'
 end

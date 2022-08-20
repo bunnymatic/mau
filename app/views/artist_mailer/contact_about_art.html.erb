@@ -13,7 +13,7 @@
   about your piece titled: <%= @art_piece.title %>.
 </p>
 <p>
-  <img style="object-fit: contain; width: 100%; max-width: 600px;" src="<%= @art_piece.photo(:large) %>"  title="<%= @art_piece.title %>" />
+  <img style="object-fit: contain; width: 100%; max-width: 600px;" src="<%= @art_piece.attached_photo(:large) %>"  title="<%= @art_piece.title %>" />
 </p>
 
 <p>

@@ -134,7 +134,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def representative_piece_url
-    representative_piece.try(:photo).try(:url, :original)
+    representative_piece.try(:path, :original)
   end
 
   def representative_piece_medium

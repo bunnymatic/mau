@@ -208,7 +208,7 @@ class UsersController < ApplicationController
     msg = [
       'There was a problem creating your account.',
       [@user.errors[:base]],
-      ' Please correct these issues or contact us, if you continue to have problems.',
+      'Please correct these issues or contact us, if you continue to have problems.',
     ].flatten.join(' ')
     flash.now[:error] = msg.html_safe
     @studios = StudioService.all

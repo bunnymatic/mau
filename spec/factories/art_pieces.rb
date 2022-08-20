@@ -1,10 +1,6 @@
 FactoryBot.define do
   factory :art_piece do
     title { "#{Faker::Name.initials} #{Faker::BossaNova.song}" }
-    photo_file_name    { 'new-art-piece.jpg' }
-    photo_content_type { 'image/jpeg' }
-    photo_file_size    { 1234 }
-    photo_updated_at   { 1.day.ago }
     dimensions { "#{Random.rand(10..50)} x #{Random.rand(10..50)}" }
     year { (Time.zone.now - Random.rand(10).years).year }
     medium
@@ -13,6 +9,7 @@ FactoryBot.define do
       FactoryBot.create(:artist, :active)
     end
 
+    photo { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/art.png'), 'image/png') }
     trait :with_tag do
       after(:create) do |art_piece|
         art_piece.update tags: [FactoryBot.create(:art_piece_tag)]

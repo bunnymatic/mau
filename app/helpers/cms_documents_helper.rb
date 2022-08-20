@@ -5,7 +5,7 @@ module CmsDocumentsHelper
     editor = current_user.try(:editor?)
     clz = class_names(['section', 'markdown', { editable: editor, 'editable--empty': cms_content[:content].blank? }])
 
-    tag.div({ class: clz }) do
+    tag.div(class: clz) do
       concat react_component(id: "editable-content-#{cms_content[:cmsid]}", component: 'EditableContentTrigger', props: data) if editor
 
       concat cms_content[:content]

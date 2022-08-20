@@ -26,7 +26,7 @@ describe ArtPieceSerializer do
       files = parsed_art_piece[:image_urls]
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|
-        expect(files[sz]).to include art_piece.photo.url(sz, timestamp: false)
+        expect(files[sz]).to include art_piece.attached_photo(sz)
       end
     end
 

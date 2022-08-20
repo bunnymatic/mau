@@ -62,8 +62,4 @@ RSpec.configure do |config|
   config.before(:each, type: :controller) do
     request.env['HTTP_REFERER'] = SHARED_REFERER
   end
-
-  config.after(:suite) do
-    FileUtils.rm_rf(Dir[Rails.root.join('tmp/paperclip_test')])
-  end
 end

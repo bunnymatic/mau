@@ -16,9 +16,15 @@ describe ArtPiecePresenter do
   its(:year) { is_expected.to eql art_piece.year }
 
   describe '#path' do
+    before do
+      allow(art_piece).to receive(:attached_photo).and_return('the-file')
+    end
+
     it 'returns the right size if given an argument' do
-      expect(presenter.path(:small)).to match %r{art_pieces/photos/.*/small/new-art-piece.jpg}
-      expect(presenter.path(:large)).to match %r{art_pieces/photos/.*/large/new-art-piece.jpg}
+      presenter.path(:small)
+      expect(art_piece).to have_received(:attached_photo).with(:small)
+      presenter.path(:large)
+      expect(art_piece).to have_received(:attached_photo).with(:large)
     end
   end
 
