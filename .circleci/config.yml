@@ -22,7 +22,8 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - mau-bundler-cache-v3-{{arch}}-{{ checksum ".ruby-version" }}-{{ checksum "Gemfile.lock" }}
+            - mau-bundler-cache-v3-{{arch}}-{{ checksum ".ruby-version" }}-{{
+              checksum "Gemfile.lock" }}
             - mau-bundler-cache-v3-{{arch}}-{{ checksum ".ruby-version" }}
             - mau-bundler-cache-v3-
       - run:
@@ -33,7 +34,8 @@ commands:
             bundle exec bundle-audit update && bundle exec bundle-audit check
             bundle clean --force
       - save_cache:
-          key: mau-bundler-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{ checksum "Gemfile.lock" }}
+          key: mau-bundler-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{ checksum
+            "Gemfile.lock" }}
           paths:
             - vendor/bundle
   npm_install:
@@ -41,7 +43,8 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - mau-npm-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{ checksum "yarn.lock"}}
+            - mau-npm-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{
+              checksum "yarn.lock"}}
             - mau-npm-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}
             - mau-npm-cache-v3-
       - run:
@@ -50,9 +53,10 @@ commands:
           command: |-
             yarn install
       - save_cache:
-          key: mau-npm-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{ checksum "yarn.lock" }}
+          key: mau-npm-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{ checksum
+            "yarn.lock" }}
           paths:
-            -  node_modules
+            - node_modules
   chrome_install:
     description: Install Chrome
     steps:
@@ -167,6 +171,8 @@ jobs:
           path: ./test-results/rspec
       - store_test_results:
           path: ./test-results/rspec
+    # The resource_class feature allows configuring CPU and RAM resources for each job. Different resource classes are available for different executors. https://circleci.com/docs/2.0/configuration-reference/#resourceclass
+    resource_class: large
   cucumber:
     parallelism: 2
     environment:
