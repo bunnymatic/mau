@@ -40,7 +40,7 @@ module HasAttachedImage
         class_eval <<~RUBY, __FILE__, __LINE__ + 1
           def attached_#{name}(size = :medium)
             begin
-              variant = self.public_send('#{name}').variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym])&.processed
+              variant = self.public_send('#{name}').variant(MauImage::Paperclip.variant_args(size))&.processed
               Rails.application.routes.url_helpers.rails_representation_url(variant) if variant
             rescue ActiveStorage::FileNotFoundError => e
               return nil
