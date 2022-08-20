@@ -1,5 +1,7 @@
 module MauImage
   class Paperclip
+    class InvalidVariantError < StandardError; end
+
     STANDARD_STYLES = {
       thumb: '150x150#',
       small: '200x200#',
