@@ -10,7 +10,7 @@ module FavoritesHelper
     when MauFan
       img = asset_pack_path('media/images/default_user.svg')
     else
-      img = fav.get_profile_image(size) || asset_pack_path('media/images/default_user.svg')
+      img = fav.profile_image(size) || asset_pack_path('media/images/default_user.svg')
       path = user_path(fav)
     end
     [img, path, title]

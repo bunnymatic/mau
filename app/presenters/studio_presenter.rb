@@ -33,7 +33,7 @@ class StudioPresenter < ViewPresenter
   delegate :profile_image?, to: :studio
 
   def image(size = 'small')
-    studio.get_profile_image(size) || '/images/default-studio.png'
+    studio.profile_image(size) || '/images/default-studio.png'
   end
 
   def street_with_cross

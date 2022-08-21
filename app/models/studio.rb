@@ -96,7 +96,7 @@ class Studio < ApplicationRecord
     attached_photo?
   end
 
-  def get_profile_image(size = :medium)
+  def profile_image(size = :medium)
     attached_photo(size)
   end
 

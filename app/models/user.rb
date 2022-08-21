@@ -121,7 +121,7 @@ class User < ApplicationRecord
     attached_photo?
   end
 
-  def get_profile_image(size = :medium)
+  def profile_image(size = :medium)
     attached_photo(size)
     # begin
     #   att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
