@@ -105,12 +105,12 @@ class Artist < User
 
   def profile_images
     images = MauImage::ImageSize.allowed_sizes.map do |key|
-      [key, get_profile_image(key)]
+      [key, profile_image(key)]
     end
     images.to_h
   end
 
-  def get_profile_image(size = :medium)
+  def profile_image(size = :medium)
     attached_photo(size)
   end
 

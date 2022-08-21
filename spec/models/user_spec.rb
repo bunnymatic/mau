@@ -186,16 +186,16 @@ describe User, elasticsearch: :stub do
     end
   end
 
-  describe 'get_profile_image' do
+  describe 'profile_image' do
     context 'when the user has a photo' do
       let(:artist) { create(:artist, :with_photo) }
       it 'returns variant url for the profile image' do
-        expect(artist.get_profile_image).to match %r{http://test.host/rails/active_storage/representations/redirect/.*user\.png}
+        expect(artist.profile_image).to match %r{http://test.host/rails/active_storage/representations/redirect/.*user\.png}
       end
     end
     context 'when there is no image' do
       it 'returns nil' do
-        expect(artist.get_profile_image).to be_nil
+        expect(artist.profile_image).to be_nil
       end
     end
   end

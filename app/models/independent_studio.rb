@@ -76,7 +76,7 @@ class IndependentStudio
     nil
   end
 
-  def get_profile_image(*_args)
+  def profile_image(*_args)
     @studio.profile_image.url
   end
 

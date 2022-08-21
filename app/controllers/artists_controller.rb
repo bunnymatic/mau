@@ -170,7 +170,7 @@ class ArtistsController < ApplicationController
     return unless @artist
 
     @page_title = PageInfoService.title(sprintf('Artist: %s', @artist.get_name))
-    @page_image = @artist.get_profile_image(:large) if @artist.profile_image?
+    @page_image = @artist.profile_image(:large) if @artist.profile_image?
     @page_description = build_page_description @artist
     @page_keywords += @artist.media_and_tags + (@page_keywords || [])
   end

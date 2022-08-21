@@ -180,10 +180,8 @@ class UserPresenter < ViewPresenter
   delegate :profile_image?, to: :model
 
   def profile_image(size = :small)
-    model.get_profile_image(size)
+    model.profile_image(size)
   end
-
-  alias get_profile_image profile_image
 
   def self.keyed_links
     (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
