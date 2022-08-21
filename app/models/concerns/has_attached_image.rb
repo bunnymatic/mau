@@ -66,7 +66,7 @@ module HasAttachedImage
               att = attached_#{name}_collection.last
               variant = att.variant(MauImage::Paperclip.variant_args(size)).processed if att
               Rails.application.routes.url_helpers.rails_representation_url(variant) if variant
-            rescue Aws::S3::Errors::BadRequest => e
+            rescue Aws::S3::Errors::BadRequest, ActiveStorage::FileNotFoundError => e
               Rails.logger.error(e.backtrace.join("\n"))
             end
           end
