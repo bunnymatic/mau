@@ -8,7 +8,6 @@ class ArtPiece < ApplicationRecord
 
   include HasAttachedImage
   image_attachments(:photo)
-  has_one_attached :photo
   validates :photo, attached: true, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif]
 
   validates :price, numericality: { greater_than_or_equal_to: 0.01, less_than_or_equal_to: 99_999_999 }, allow_nil: true

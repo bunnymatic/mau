@@ -53,7 +53,6 @@ class Studio < ApplicationRecord
 
   include HasAttachedImage
   image_attachments(:photo)
-  has_one_attached :photo
   validates :photo, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif], presence: true
 
   def self.by_position
