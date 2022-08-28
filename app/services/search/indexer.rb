@@ -38,21 +38,23 @@ module Search
 
       def index
         object.__elasticsearch__.index_document
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound, Faraday::ConnectionFailed
       end
 
       def reindex
         remove
         index
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound, Faraday::ConnectionFailed
       end
 
       def remove
         object.__elasticsearch__.delete_document
-      rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound, Faraday::ConnectionFailed
       end
 
       def update
         object.__elasticsearch__.update_document
-      rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound, Faraday::ConnectionFailed
         index
       end
     end

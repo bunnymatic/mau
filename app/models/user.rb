@@ -38,8 +38,7 @@ class User < ApplicationRecord
   validate :validate_email
 
   include HasAttachedImage
-  image_attachments(:photo)
-  has_one_attached :photo
+  image_attachments(:photo, sti_class_names: ['Artist'])
   validates :photo, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif]
 
   validates :phone, phone_number: true

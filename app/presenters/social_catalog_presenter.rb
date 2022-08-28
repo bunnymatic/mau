@@ -15,14 +15,6 @@ class SocialCatalogPresenter < ArtistsPresenter
     end
   end
 
-  def artist_has_links(artist)
-    SOCIAL_KEYS.map { |s| artist.send(s).present? }.any?
-  end
-
-  def artist_has_image(artist)
-    artist.representative_image.present?
-  end
-
   def csv
     @csv ||=
       CSV.generate(DEFAULT_CSV_OPTS) do |csv|
@@ -37,26 +29,7 @@ class SocialCatalogPresenter < ArtistsPresenter
     @csv_filename ||= "#{['mau_social_artists', current_open_studios_key].compact.join('_')}.csv"
   end
 
-  def os
-    @os ||= OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
-  end
-
   private
-
-  def artists_by_studio
-    @artists_by_studio ||=
-      begin
-        artists = {}
-        group_studio_artists.each do |a|
-          artists[a.studio] = [] unless artists[a.studio]
-          artists[a.studio] << a
-        end
-        artists.each_value do |artist_list|
-          artist_list.sort!(&Artist::SORT_BY_LASTNAME)
-        end
-        artists
-      end
-  end
 
   def csv_headers
     @csv_headers ||= (['Studio', 'Name', 'Art URL', 'Art Title', 'Medium', 'Tags', 'MAU Link', 'Email'] +

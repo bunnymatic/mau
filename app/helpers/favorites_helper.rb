@@ -5,7 +5,7 @@ module FavoritesHelper
     path = nil
     case fav
     when ArtPiece
-      img = fav.path size
+      img = fav.image size
       path = art_piece_path fav.id
     when MauFan
       img = asset_pack_path('media/images/default_user.svg')

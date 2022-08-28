@@ -134,7 +134,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def representative_piece_url
-    representative_piece.try(:path, :original)
+    representative_piece.try(:image, :original)
   end
 
   def representative_piece_medium
@@ -196,7 +196,7 @@ class ArtistPresenter < UserPresenter
   private
 
   def map_thumb
-    @map_thumb ||= representative_piece.path('thumb')
+    @map_thumb ||= representative_piece.image('thumb')
   end
 
   def map_thumb_image

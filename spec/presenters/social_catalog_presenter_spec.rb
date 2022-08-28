@@ -44,7 +44,7 @@ describe SocialCatalogPresenter do
       row = parsed.detect { |r| r['Name'] == artist.full_name }
       expect(row).to be_present
       expect(row['Email']).to eql artist.email
-      expect(row['Art URL']).to eql artist.representative_piece.path(:original)
+      expect(row['Art URL']).to eql artist.representative_piece.image(:original)
       expect(row['Art Title']).to eql artist.representative_piece.try(:title)
       expect(row['Tags']).to eql artist.representative_piece.try(:tags).try(:join, ', ')
       expect(row['Facebook']).to eql artist.facebook.to_s

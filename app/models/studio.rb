@@ -53,7 +53,6 @@ class Studio < ApplicationRecord
 
   include HasAttachedImage
   image_attachments(:photo)
-  has_one_attached :photo
   validates :photo, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif], presence: true
 
   def self.by_position
@@ -81,7 +80,7 @@ class Studio < ApplicationRecord
     idxd = as_json(only: %i[name slug])
     extras = {}
     extras['address'] = address.to_s
-    extras['images'] = image_paths
+    extras['images'] = images
     extras['os_participant'] = artists.any? { |a| a.try(:doing_open_studios?) }
     idxd['studio'].merge!(extras)
     idxd
@@ -100,8 +99,8 @@ class Studio < ApplicationRecord
     attached_photo(size)
   end
 
-  def image_paths
-    @image_paths ||= StudioImage.paths(self)
+  def images
+    @images ||= StudioImage.images(self)
   end
 
   def normalize_attributes
