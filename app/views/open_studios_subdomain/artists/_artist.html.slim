@@ -2,10 +2,10 @@
 .artist-card(class=class_names(%w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4 pure-u-xl-1-5)))
   - if FeatureFlags.virtual_open_studios?
     = link_to artist_url(artist, subdomain: "openstudios"), title: artist.get_name(escape: true)
-      .image style=background_image_style(artist.representative_piece.path)
+      .image style=background_image_style(artist.representative_piece.image)
   - else
     div
-      .image style=background_image_style(artist.representative_piece.path)
+      .image style=background_image_style(artist.representative_piece.image)
   .desc
     .name
       = artist.full_name

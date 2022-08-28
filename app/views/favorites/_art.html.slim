@@ -11,7 +11,7 @@
   = link_to art_piece_path(art_piece) do
     - if art_piece.artist.doing_open_studios?
       .os-violator title="Open Studios Participant!"
-    .image style=background_image_style(art_piece.path)
+    .image style=background_image_style(art_piece.image)
     .desc
       .name
         = art_piece.title
