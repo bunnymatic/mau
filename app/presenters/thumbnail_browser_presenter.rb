@@ -36,7 +36,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
   def thumbs
     @thumbs ||= pieces.map.with_index do |item, idx|
       item_id = item.send(:id)
-      item_path = item.path('thumb')
+      item_path = item.image('thumb')
       style = background_image_style(item_path)
       Thumbnail.new(
         path: item_path,

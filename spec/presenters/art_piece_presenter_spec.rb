@@ -15,15 +15,15 @@ describe ArtPiecePresenter do
   its(:year?) { is_expected.to be_truthy }
   its(:year) { is_expected.to eql art_piece.year }
 
-  describe '#path' do
+  describe '#image' do
     before do
       allow(art_piece).to receive(:attached_photo).and_return('the-file')
     end
 
     it 'returns the right size if given an argument' do
-      presenter.path(:small)
+      presenter.image(:small)
       expect(art_piece).to have_received(:attached_photo).with(:small)
-      presenter.path(:large)
+      presenter.image(:large)
       expect(art_piece).to have_received(:attached_photo).with(:large)
     end
   end

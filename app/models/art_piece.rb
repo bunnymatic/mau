@@ -74,7 +74,7 @@ class ArtPiece < ApplicationRecord
     extras['title_ngram'] = title
     extras['medium'] = medium.try(:name)
     extras['tags'] = tags.map(&:name).join(' ')
-    extras['images'] = image_paths
+    extras['images'] = images
     # guard against bad data
     extras['artist_name'] = artist.full_name
     extras['studio_name'] = artist.studio.name if artist.studio
@@ -113,18 +113,16 @@ class ArtPiece < ApplicationRecord
     HtmlEncoder.encode(title)
   end
 
-  def path(size = :medium)
+  def image(size = :medium)
     attached_photo(size)
   end
 
-  def paths
-    @paths ||=
+  def images
+    @images ||=
       MauImage::ImageSize.allowed_sizes.index_with do |size|
-        path(size)
+        image(size)
       end
   end
-
-  alias image_paths paths
 
   private
 

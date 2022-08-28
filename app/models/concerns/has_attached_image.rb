@@ -68,6 +68,9 @@ module HasAttachedImage
               Rails.application.routes.url_helpers.rails_representation_url(variant) if variant
             rescue Aws::S3::Errors::BadRequest, ActiveStorage::FileNotFoundError => e
               Rails.logger.error(e.backtrace.join("\n"))
+              # we need to return a string to make sure elasticsearch indexes are
+              # correctly typed but at this point we don't have an image
+              ''
             end
           end
         RUBY

@@ -80,7 +80,7 @@ class Studio < ApplicationRecord
     idxd = as_json(only: %i[name slug])
     extras = {}
     extras['address'] = address.to_s
-    extras['images'] = image_paths
+    extras['images'] = images
     extras['os_participant'] = artists.any? { |a| a.try(:doing_open_studios?) }
     idxd['studio'].merge!(extras)
     idxd
@@ -99,8 +99,8 @@ class Studio < ApplicationRecord
     attached_photo(size)
   end
 
-  def image_paths
-    @image_paths ||= StudioImage.paths(self)
+  def images
+    @images ||= StudioImage.images(self)
   end
 
   def normalize_attributes
