@@ -243,3 +243,11 @@ When(/^the meta keywords includes that art piece's tags and medium$/) do
   end
   steps %(Then the page meta name "keywords" includes "#{@art_piece.medium.name}") if @art_piece.medium
 end
+
+When('the first artist doesn\'t have a studio number') do
+  @artists.first.artist_info.update!(studionumber: '')
+end
+
+Then('I see that artist\'s adress without a studio number') do
+  expect(find('.open-studios-artist__details__studio-address__address-line-1').text).to_not include('#')
+end

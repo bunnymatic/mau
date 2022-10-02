@@ -4,7 +4,7 @@
     .open-studios-artist__details__studio-address__name
       = info.studio.name
     .open-studios-artist__details__studio-address__address-line-1
-      = info.address.street + ( info.studio_number ? " ##{info.studio_number}" : "")
+      = info.address.street + ( info.studio_number.present? ? " ##{info.studio_number}" : "")
       span.open-studios-artist__details__address--icon
         = link_to info.map_link, title: :map, target: "_blank", class: "gtm_catalog_map_marker" do
           i.fa.fa-map-marker
