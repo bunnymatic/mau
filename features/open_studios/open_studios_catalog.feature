@@ -11,6 +11,16 @@ Background:
   And there is open studios catalog cms content
   And I'm logged out
 
+Scenario:
+  When the first artist doesn't have a studio number
+  When I visit "/" in the catalog
+  Then I see pictures from all participating artists
+  And I see the open studios catalog cms message
+
+  When I click on the first artist's card
+  Then I see that artist's open studios pieces
+  And I see that artist's adress without a studio number
+
 Scenario: Browsing and viewing art modal
   When I visit "/" in the catalog
   Then I see pictures from all participating artists
