@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_12_023834) do
+ActiveRecord::Schema.define(version: 2022_10_02_211137) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -308,7 +308,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_023834) do
     t.string "firstname", limit: 40
     t.string "lastname", limit: 40
     t.string "nomdeplume", limit: 80
-    t.string "url", limit: 200
     t.string "profile_image", limit: 200
     t.integer "studio_id"
     t.string "activation_code", limit: 40

@@ -1,8 +1,19 @@
 class ArtistSerializer < MauSerializer
-  attributes :full_name, :doing_open_studios, :profile_images,
-             :url, :studio_id,
-             :street_address, :city, :map_url, :firstname, :lastname,
-             :nomdeplume, :slug, :art_pieces, :artist_info, :link
+  attributes :art_pieces,
+             :artist_info,
+             :city,
+             :doing_open_studios,
+             :firstname,
+             :full_name,
+             :lastname,
+             :link,
+             :map_url,
+             :nomdeplume,
+             :profile_images,
+             :slug,
+             :street_address,
+             :studio_id,
+             :url
 
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
@@ -10,6 +21,10 @@ class ArtistSerializer < MauSerializer
   INDEX_WITH_ID = %i[id].freeze
   attribute :art_pieces do
     @object.art_pieces.map { |a| INDEX_WITH_ID.index_with { |k| a.send(k) } }
+  end
+
+  attribute :url do
+    @object.website
   end
 
   attribute :link do
