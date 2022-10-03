@@ -63,7 +63,7 @@ class User < ApplicationRecord
   before_destroy :delete_favorites
 
   def website
-    links[:website].presence || url
+    links[:website].presence
   end
 
   def mailchimp_subscribed?
@@ -247,7 +247,6 @@ class User < ApplicationRecord
   end
 
   def add_http_to_links
-    self.url = _add_http_to_link(url) if url.present?
     User.stored_attributes[:links].each do |site|
       send("#{site}=", _add_http_to_link(send(site))) if send(site).present?
     end
