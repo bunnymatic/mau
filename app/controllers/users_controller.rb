@@ -3,8 +3,13 @@ class UsersController < ApplicationController
 
   before_action :logged_out_required, only: [:new]
   before_action :admin_required, only: [:destroy]
-  before_action :user_required, only: %i[edit update deactivate
-                                         change_password_update]
+  before_action :user_required,
+                only: %i[
+                  edit
+                  update
+                  deactivate
+                  change_password_update
+                ]
 
   DEFAULT_ACCOUNT_TYPE = 'MauFan'.freeze
 
@@ -316,9 +321,19 @@ class UsersController < ApplicationController
 
   def user_params
     key = user_params_key
-    permitted = %i[login email firstname lastname type
-                   password password_confirmation
-                   studio studio_id nomdeplume photo] + User.stored_attributes[:links]
+    permitted = %i[
+      login
+      email
+      firstname
+      lastname
+      type
+      password
+      password_confirmation
+      studio
+      studio_id
+      nomdeplume
+      photo
+    ] + User.stored_attributes[:links]
     params.require(key).permit(*permitted)
   end
 

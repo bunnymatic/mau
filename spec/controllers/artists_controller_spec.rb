@@ -3,7 +3,8 @@ require 'htmlentities'
 
 describe ArtistsController, elasticsearch: :stub do
   let(:artist) do
-    FactoryBot.create(:artist, :with_art,
+    FactoryBot.create(:artist,
+                      :with_art,
                       studio: studio,
                       number_of_art_pieces: number_of_art_pieces,
                       nomdeplume: nil,
@@ -281,7 +282,8 @@ describe ArtistsController, elasticsearch: :stub do
 
   describe '#setarrangement' do
     let(:artist) do
-      FactoryBot.create(:artist, :with_art,
+      FactoryBot.create(:artist,
+                        :with_art,
                         studio: studio,
                         number_of_art_pieces: number_of_art_pieces,
                         nomdeplume: nil,

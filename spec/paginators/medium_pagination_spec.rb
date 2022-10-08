@@ -10,7 +10,9 @@ describe MediumPagination, type: :controller do
 
   subject(:paginator) do
     MediumPagination.new(Array.new(num_items) { |x| x + 1 },
-                         medium, current_page, per_page)
+                         medium,
+                         current_page,
+                         per_page)
   end
 
   its(:previous_title) { should eq 'previous' }

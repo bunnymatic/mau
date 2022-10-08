@@ -7,9 +7,21 @@ describe ArtistSerializer do
 
   describe 'to_json' do
     it 'does not include several fields by default' do
-      %i[password crypted_password remember_token remember_token_expires_at
-         salt mailchimp_subscribed_at deleted_at activated_at created_at
-         max_pieces updated_at activation_code reset_code].each do |field|
+      %i[
+        password
+        crypted_password
+        remember_token
+        remember_token_expires_at
+        salt
+        mailchimp_subscribed_at
+        deleted_at
+        activated_at
+        created_at
+        max_pieces
+        updated_at
+        activation_code
+        reset_code
+      ].each do |field|
         expect(parsed_artist).not_to have_key field.to_s
       end
     end

@@ -2,8 +2,12 @@ module Admin
   class StudiosController < ::BaseAdminController
     before_action :manager_required
     before_action :admin_required, only: %i[new create destroy]
-    before_action :studio_manager_required, only: %i[edit update
-                                                     unaffiliate_artist]
+    before_action :studio_manager_required,
+                  only: %i[
+                    edit
+                    update
+                    unaffiliate_artist
+                  ]
     before_action :load_studio, except: %i[new index create reorder]
     skip_before_action :verify_authenticity_token, only: [:unaffiliate_artist]
 
@@ -85,8 +89,17 @@ module Admin
     private
 
     def studio_params
-      params.require(:studio).permit(:name, :street, :city, :state, :zipcode,
-                                     :url, :lat, :lng, :cross_street, :phone, :photo)
+      params.require(:studio).permit(:name,
+                                     :street,
+                                     :city,
+                                     :state,
+                                     :zipcode,
+                                     :url,
+                                     :lat,
+                                     :lng,
+                                     :cross_street,
+                                     :phone,
+                                     :photo)
     end
 
     def reorder_studio_params

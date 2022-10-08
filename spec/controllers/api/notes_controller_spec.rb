@@ -27,12 +27,14 @@ describe Api::NotesController do
     end
     describe 'submission given invalid note_type' do
       before do
-        post :create, xhr: true, params: {
-          feedback_mail: {
-            note_type: 'bogus',
-            email: 'a@b.com',
-          },
-        }
+        post :create,
+             xhr: true,
+             params: {
+               feedback_mail: {
+                 note_type: 'bogus',
+                 email: 'a@b.com',
+               },
+             }
         @resp = JSON.parse(response.body)
       end
       it { expect(response).to be_4xx }
@@ -40,12 +42,14 @@ describe Api::NotesController do
 
     describe 'submission given note_type email_list and email only' do
       before do
-        post :create, xhr: true, params: {
-          feedback_mail: {
-            note_type: 'email_list',
-            email: 'a@b.com',
-          },
-        }
+        post :create,
+             xhr: true,
+             params: {
+               feedback_mail: {
+                 note_type: 'email_list',
+                 email: 'a@b.com',
+               },
+             }
         @resp = JSON.parse(response.body)
       end
       it_behaves_like 'has some invalid params'
@@ -53,13 +57,15 @@ describe Api::NotesController do
 
     describe 'submission given note_type inquiry, both emails but no inquiry' do
       before do
-        post :create, xhr: true, params: {
-          feedback_mail: {
-            note_type: 'inquiry',
-            email: 'a@b.com',
-            email_confirm: 'a@b.com',
-          },
-        }
+        post :create,
+             xhr: true,
+             params: {
+               feedback_mail: {
+                 note_type: 'inquiry',
+                 email: 'a@b.com',
+                 email_confirm: 'a@b.com',
+               },
+             }
         @resp = JSON.parse(response.body)
       end
       it_behaves_like 'has some invalid params'
@@ -68,14 +74,16 @@ describe Api::NotesController do
     describe 'submission with valid params' do
       context 'inquiry' do
         before do
-          post :create, xhr: true, params: {
-            feedback_mail: {
-              note_type: 'inquiry',
-              question: 'cool note',
-              email: 'a@b.com',
-              email_confirm: 'a@b.com',
-            },
-          }
+          post :create,
+               xhr: true,
+               params: {
+                 feedback_mail: {
+                   note_type: 'inquiry',
+                   question: 'cool note',
+                   email: 'a@b.com',
+                   email_confirm: 'a@b.com',
+                 },
+               }
           @resp = JSON.parse(response.body)
         end
         it { expect(response).to be_successful }
@@ -84,14 +92,16 @@ describe Api::NotesController do
 
       context 'help' do
         before do
-          post :create, xhr: true, params: {
-            feedback_mail: {
-              note_type: 'help',
-              question: 'cool note',
-              email: 'a@b.com',
-              email_confirm: 'a@b.com',
-            },
-          }
+          post :create,
+               xhr: true,
+               params: {
+                 feedback_mail: {
+                   note_type: 'help',
+                   question: 'cool note',
+                   email: 'a@b.com',
+                   email_confirm: 'a@b.com',
+                 },
+               }
           @resp = JSON.parse(response.body)
         end
         it { expect(response).to be_successful }

@@ -99,7 +99,8 @@ class OpenStudiosEventPresenter < ViewPresenter
   def special_event_date_range(separator: '-')
     return unless model.special_event_start_date && model.special_event_end_date
 
-    DateRangeHelpers.date_range(model.special_event_start_date, model.special_event_end_date,
+    DateRangeHelpers.date_range(model.special_event_start_date,
+                                model.special_event_end_date,
                                 separator: separator)
   end
 

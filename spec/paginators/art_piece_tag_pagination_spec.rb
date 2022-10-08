@@ -9,7 +9,9 @@ describe ArtPieceTagPagination do
 
   subject(:paginator) do
     ArtPieceTagPagination.new(Array.new(num_items) { |x| x + 1 },
-                              tag, current_page, per_page)
+                              tag,
+                              current_page,
+                              per_page)
   end
 
   context 'with minimal arguments' do

@@ -58,13 +58,14 @@ describe Api::OpenStudiosParticipantsController do
 
       it 'properly updates video_conference_schedule' do
         participant = artist.open_studios_participants.first
-        put :update, params: {
-          artist_id: artist.id,
-          id: participant.id,
-          open_studios_participant: {
-            video_conference_schedule: { one: 'true', two: 'not true' },
-          },
-        }
+        put :update,
+            params: {
+              artist_id: artist.id,
+              id: participant.id,
+              open_studios_participant: {
+                video_conference_schedule: { one: 'true', two: 'not true' },
+              },
+            }
         participant.reload
 
         expect(response).to be_ok

@@ -42,8 +42,10 @@ class AdminNavigation < ViewPresenter
   end
 
   def editor_links
-    [[:events, {}],
-     [:cms_documents, { display: 'cms', link: url_helpers.admin_cms_documents_path }]]
+    [
+      [:events, {}],
+      [:cms_documents, { display: 'cms', link: url_helpers.admin_cms_documents_path }],
+    ]
   end
 
   def manager_links

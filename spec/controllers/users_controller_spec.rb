@@ -79,32 +79,34 @@ describe UsersController do
       end
       it 'forbids email whose domain is on the denylist' do
         expect do
-          post :create, params: params_with_secret(
-            mau_fan: {
-              login: 'newuser',
-              lastname: 'bmatic2',
-              firstname: 'bmatic2',
-              password: '8characters',
-              password_confirmation: '8characters',
-              email: 'bmatic2@denylist.com',
-            },
-            type: 'MauFan',
-          )
+          post :create,
+               params: params_with_secret(
+                 mau_fan: {
+                   login: 'newuser',
+                   lastname: 'bmatic2',
+                   firstname: 'bmatic2',
+                   password: '8characters',
+                   password_confirmation: '8characters',
+                   email: 'bmatic2@denylist.com',
+                 },
+                 type: 'MauFan',
+               )
         end.to change(User, :count).by(0)
       end
       it 'allows non denylist domain to add a user' do
         expect do
-          post :create, params: params_with_secret(
-            mau_fan: {
-              login: 'newuser',
-              lastname: 'bmatic2',
-              firstname: 'bmatic2',
-              password: '8characters',
-              password_confirmation: '8characters',
-              email: 'bmatic2@nondenylist.com',
-            },
-            type: 'MauFan',
-          )
+          post :create,
+               params: params_with_secret(
+                 mau_fan: {
+                   login: 'newuser',
+                   lastname: 'bmatic2',
+                   firstname: 'bmatic2',
+                   password: '8characters',
+                   password_confirmation: '8characters',
+                   email: 'bmatic2@nondenylist.com',
+                 },
+                 type: 'MauFan',
+               )
         end.to change(User, :count).by(1)
       end
     end
@@ -124,17 +126,18 @@ describe UsersController do
     context 'valid user params and type = MauFan' do
       before do
         expect(UserMailer).to receive(:activation).exactly(:once).and_return(double('UserMailer::Activation', deliver_later: true))
-        post :create, params: params_with_secret(
-          mau_fan: {
-            login: 'newuser',
-            lastname: 'bmatic2',
-            firstname: 'bmatic2',
-            password: '8characters',
-            password_confirmation: '8characters',
-            email: 'bmatic2@b.com',
-          },
-          type: 'MauFan',
-        )
+        post :create,
+             params: params_with_secret(
+               mau_fan: {
+                 login: 'newuser',
+                 lastname: 'bmatic2',
+                 firstname: 'bmatic2',
+                 password: '8characters',
+                 password_confirmation: '8characters',
+                 email: 'bmatic2@b.com',
+               },
+               type: 'MauFan',
+             )
       end
       it 'redirects to index' do
         expect(response).to redirect_to(login_url)
@@ -169,14 +172,15 @@ describe UsersController do
 
     context 'valid user param (email/password only) and type = MauFan' do
       before do
-        post :create, params: params_with_secret(
-          mau_fan: {
-            password: '8characters',
-            password_confirmation: '8characters',
-            email: 'bmati2@b.com',
-          },
-          type: 'MauFan',
-        )
+        post :create,
+             params: params_with_secret(
+               mau_fan: {
+                 password: '8characters',
+                 password_confirmation: '8characters',
+                 email: 'bmati2@b.com',
+               },
+               type: 'MauFan',
+             )
       end
       it 'redirects to index' do
         expect(response).to redirect_to(login_url)
@@ -213,16 +217,18 @@ describe UsersController do
       before do
         allow_any_instance_of(Artist).to receive(:activation_code).and_return('random_activation_code')
         expect_any_instance_of(Artist).to receive(:make_activation_code).at_least(1)
-        post :create, params: params_with_secret(
-          artist: {
-            login: 'newuser2',
-            lastname: 'bmatic',
-            firstname: 'bmatic',
-            password: '8characters',
-            password_confirmation: '8characters',
-            email: 'bmatic2@b.com',
-          }, type: 'Artist'
-        )
+        post :create,
+             params: params_with_secret(
+               artist: {
+                 login: 'newuser2',
+                 lastname: 'bmatic',
+                 firstname: 'bmatic',
+                 password: '8characters',
+                 password_confirmation: '8characters',
+                 email: 'bmatic2@b.com',
+               },
+               type: 'Artist',
+             )
       end
       it 'redirects to index' do
         expect(response).to redirect_to(login_url)
@@ -395,13 +401,14 @@ describe UsersController do
       context "with passwords that don't match" do
         before do
           expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
-          post :reset, params: {
-            user: {
-              password: 'whatever',
-              password_confirmation: 'whateveryo',
-            },
-            reset_code: reset_code,
-          }
+          post :reset,
+               params: {
+                 user: {
+                   password: 'whatever',
+                   password_confirmation: 'whateveryo',
+                 },
+                 reset_code: reset_code,
+               }
         end
         it { expect(response).to be_successful }
         it 'has an error message' do
@@ -413,13 +420,14 @@ describe UsersController do
           expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
           allow(User).to receive(:find_by).and_call_original
           expect_any_instance_of(MauFan).to receive(:delete_reset_code).exactly(:once)
-          post :reset, params: {
-            user: {
-              password: 'whatever',
-              password_confirmation: 'whatever',
-            },
-            reset_code: reset_code,
-          }
+          post :reset,
+               params: {
+                 user: {
+                   password: 'whatever',
+                   password_confirmation: 'whatever',
+                 },
+                 reset_code: reset_code,
+               }
         end
         it 'returns redirect' do
           expect(response).to redirect_to '/login'

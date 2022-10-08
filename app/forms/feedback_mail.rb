@@ -3,13 +3,23 @@ require 'active_model'
 class FeedbackMail
   include ActiveModel::Model
 
-  attr_accessor :note_type, :email, :email_confirm,
-                :question, :current_user, :operating_system, :browser, :device
+  attr_accessor :note_type,
+                :email,
+                :email_confirm,
+                :question,
+                :current_user,
+                :operating_system,
+                :browser,
+                :device
 
   VALID_NOTE_TYPES = %w[help inquiry feedback].freeze
 
-  validates :note_type, presence: true, inclusion: { in: VALID_NOTE_TYPES,
-                                                     message: '%{value} is not a valid note type' }
+  validates :note_type,
+            presence: true,
+            inclusion: {
+              in: VALID_NOTE_TYPES,
+              message: '%{value} is not a valid note type',
+            }
 
   validates :email, presence: true
   validates :email_confirm, presence: true
