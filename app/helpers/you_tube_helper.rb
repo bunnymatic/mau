@@ -21,12 +21,14 @@ module YouTubeHelper
 
     return '' unless embed_url
 
-    tag.iframe({ width: width,
+    tag.iframe({
+                 width: width,
                  height: height,
                  src: embed_url,
                  title: title,
                  frameborder: 0,
                  allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
-                 allowfullscreen: true }) {}
+                 allowfullscreen: true,
+               }) {}
   end
 end

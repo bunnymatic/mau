@@ -41,6 +41,24 @@ AllCops:
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
 
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+
+# Layout/FirstMethodArgumentLineBreak:
+#   Enabled: true
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 

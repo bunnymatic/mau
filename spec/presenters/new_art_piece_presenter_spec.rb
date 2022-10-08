@@ -110,8 +110,10 @@ describe NewArtPiecePresenter do
         let(:current_time) { '2017-03-01' }
         let(:os_end_date) { Time.zone.parse('2017-05-01') }
         it 'shows spring open studios tags' do
-          os_tags = ['#missionopenstudios',
-                     '#springopenstudios']
+          os_tags = [
+            '#missionopenstudios',
+            '#springopenstudios',
+          ]
           expect(os_tags.all? { |tag| presenter.hash_tags.include?(tag) }).to eq true
         end
       end
@@ -148,10 +150,12 @@ describe NewArtPiecePresenter do
         let(:current_time) { '2017-03-01 17:00:00' }
         let(:promoted) { false }
         it 'does not include os tags' do
-          ['#SFOS',
-           '#SFopenstudios',
-           '#missionopenstudios',
-           '#springopenstudios'].each do |tag|
+          [
+            '#SFOS',
+            '#SFopenstudios',
+            '#missionopenstudios',
+            '#springopenstudios',
+          ].each do |tag|
             expect(presenter.hash_tags).not_to include tag
           end
         end

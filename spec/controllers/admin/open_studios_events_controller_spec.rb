@@ -48,9 +48,15 @@ describe Admin::OpenStudiosEventsController do
     context 'with special event data' do
       before do
         post :update,
-             params: { id: event.id,
-                       open_studios_event: { special_event_start_date: '2020-10-10', special_event_end_date: '2020-10-11', start_date: '2020-10-1',
-                                             end_date: '2020-10-15' } }
+             params: {
+               id: event.id,
+               open_studios_event: {
+                 special_event_start_date: '2020-10-10',
+                 special_event_end_date: '2020-10-11',
+                 start_date: '2020-10-1',
+                 end_date: '2020-10-15',
+               },
+             }
       end
 
       it 'returns success' do

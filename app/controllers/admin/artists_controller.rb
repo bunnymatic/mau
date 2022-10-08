@@ -20,23 +20,26 @@ module Admin
 
     def pending
       artist_list = AdminArtistList.new
-      render partial: 'admin_artists_table', locals: {
-        artist_list: artist_list.pending_artists.map { |a| ArtistPresenter.new(a) },
-      }
+      render partial: 'admin_artists_table',
+             locals: {
+               artist_list: artist_list.pending_artists.map { |a| ArtistPresenter.new(a) },
+             }
     end
 
     def good_standing
       artist_list = AdminArtistList.new
-      render partial: 'admin_artists_table', locals: {
-        artist_list: artist_list.good_standing_artists.map { |a| ArtistPresenter.new(a) },
-      }
+      render partial: 'admin_artists_table',
+             locals: {
+               artist_list: artist_list.good_standing_artists.map { |a| ArtistPresenter.new(a) },
+             }
     end
 
     def bad_standing
       artist_list = AdminArtistList.new
-      render partial: 'admin_artists_table', locals: {
-        artist_list: artist_list.bad_standing_artists.map { |a| ArtistPresenter.new(a) },
-      }
+      render partial: 'admin_artists_table',
+             locals: {
+               artist_list: artist_list.bad_standing_artists.map { |a| ArtistPresenter.new(a) },
+             }
     end
 
     def edit; end

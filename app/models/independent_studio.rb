@@ -11,11 +11,29 @@ class IndependentStudio
 
   delegate :id, :name, :street, :city, :state, :cross_street, :phone, :zipcode, :lat, :lng, to: :studio
 
-  class InnerStudio < Struct.new(:id, :name, :street, :city, :state,
-                                 :cross_street, :phone, :zipcode, :profile_image, :lat, :lng)
+  class InnerStudio < Struct.new(:id,
+                                 :name,
+                                 :street,
+                                 :city,
+                                 :state,
+                                 :cross_street,
+                                 :phone,
+                                 :zipcode,
+                                 :profile_image,
+                                 :lat,
+                                 :lng)
     def initialize(attrs)
-      super(*attrs.values_at(:id, :name, :street, :city, :state,
-                             :cross_street, :phone, :zipcode, :profile_image, :lat, :lng))
+      super(*attrs.values_at(:id,
+                             :name,
+                             :street,
+                             :city,
+                             :state,
+                             :cross_street,
+                             :phone,
+                             :zipcode,
+                             :profile_image,
+                             :lat,
+                             :lng))
     end
 
     def to_param

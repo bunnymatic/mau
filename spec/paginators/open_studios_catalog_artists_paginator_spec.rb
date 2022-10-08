@@ -2,9 +2,11 @@ require 'rails_helper'
 
 describe OpenStudiosCatalogArtistsPaginator do
   let(:artists) do
-    [build_stubbed(:artist),
-     build_stubbed(:artist),
-     build_stubbed(:artist)]
+    [
+      build_stubbed(:artist),
+      build_stubbed(:artist),
+      build_stubbed(:artist),
+    ]
   end
   let(:current_id) { nil }
   let(:paginator) { described_class.new(artists, current_id) }

@@ -7,9 +7,18 @@ class ArtistsController < ApplicationController
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_action :user_required, only: %i[register_for_current_open_studios my_profile
-                                         edit update manage_art delete_art
-                                         destroyart setarrangement arrange_art]
+  before_action :user_required,
+                only: %i[
+                  register_for_current_open_studios
+                  my_profile
+                  edit
+                  update
+                  manage_art
+                  delete_art
+                  destroyart
+                  setarrangement
+                  arrange_art
+                ]
   def index
     respond_to do |format|
       format.html do

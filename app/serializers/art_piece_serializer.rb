@@ -1,6 +1,14 @@
 class ArtPieceSerializer < MauSerializer
-  attributes :artist_name, :favorites_count, :price, :display_price,
-             :year, :dimensions, :title, :artist_id, :image_urls, :sold_at
+  attributes :artist_name,
+             :favorites_count,
+             :price,
+             :display_price,
+             :year,
+             :dimensions,
+             :title,
+             :artist_id,
+             :image_urls,
+             :sold_at
 
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper

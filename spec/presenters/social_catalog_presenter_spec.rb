@@ -28,9 +28,25 @@ describe SocialCatalogPresenter do
 
   describe '#csv_headers' do
     it 'returns the capitalized humanized headers' do
-      expected_headers = ['Studio', 'Name', 'Art URL', 'Art Title', 'Medium', 'Tags', 'MAU Link', 'Email',
-                          'Website', 'Facebook', 'Twitter', 'Blog', 'Pinterest',
-                          'Myspace', 'Flickr', 'Instagram', 'Artspan']
+      expected_headers = [
+        'Studio',
+        'Name',
+        'Art URL',
+        'Art Title',
+        'Medium',
+        'Tags',
+        'MAU Link',
+        'Email',
+        'Website',
+        'Facebook',
+        'Twitter',
+        'Blog',
+        'Pinterest',
+        'Myspace',
+        'Flickr',
+        'Instagram',
+        'Artspan',
+      ]
       expect(subject.send(:csv_headers)).to eql expected_headers
     end
   end

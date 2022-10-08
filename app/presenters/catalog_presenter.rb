@@ -72,8 +72,18 @@ class CatalogPresenter < ViewPresenter
   private
 
   def csv_headers
-    @csv_headers ||= ['First Name', 'Last Name', 'Full Name', 'Email', 'Group Site Name',
-                      'Studio Address', 'Studio Number', 'Cross Street 1', 'Cross Street 2', 'Media']
+    @csv_headers ||= [
+      'First Name',
+      'Last Name',
+      'Full Name',
+      'Email',
+      'Group Site Name',
+      'Studio Address',
+      'Studio Number',
+      'Cross Street 1',
+      'Cross Street 2',
+      'Media',
+    ]
   end
 
   def artist_as_csv_row(artist)

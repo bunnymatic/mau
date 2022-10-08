@@ -64,21 +64,28 @@ class Artist < User
   scope :in_a_group_studio, -> { where('studio_id <> 0').joins(:studio) }
   scope :independent_studio, -> { where('studio_id IS NULL or studio_id = 0') }
 
-  scope :in_the_mission, lambda {
-    # avoid sql between (in mysql) because it's not smart about floats
-    def between_clause(fld)
-      "(#{fld} >= ? AND #{fld} <= ?)"
-    end
+  scope :in_the_mission,
+        lambda {
+          # avoid sql between (in mysql) because it's not smart about floats
+          def between_clause(fld)
+            "(#{fld} >= ? AND #{fld} <= ?)"
+          end
 
-    joins(:artist_info, 'LEFT JOIN `studios` ON `studios`.id = `users`.`studio_id`').where(
-      ["(#{between_clause('artist_infos.lat')} and #{between_clause('artist_infos.lng')}) or " \
-       "(#{between_clause('studios.lat')} and #{between_clause('studios.lng')})",
-       SOUTH_BOUNDARY, NORTH_BOUNDARY,
-       WEST_BOUNDARY, EAST_BOUNDARY,
-       SOUTH_BOUNDARY, NORTH_BOUNDARY,
-       WEST_BOUNDARY, EAST_BOUNDARY],
-    )
-  }
+          joins(:artist_info, 'LEFT JOIN `studios` ON `studios`.id = `users`.`studio_id`').where(
+            [
+              "(#{between_clause('artist_infos.lat')} and #{between_clause('artist_infos.lng')}) or " \
+              "(#{between_clause('studios.lat')} and #{between_clause('studios.lng')})",
+              SOUTH_BOUNDARY,
+              NORTH_BOUNDARY,
+              WEST_BOUNDARY,
+              EAST_BOUNDARY,
+              SOUTH_BOUNDARY,
+              NORTH_BOUNDARY,
+              WEST_BOUNDARY,
+              EAST_BOUNDARY,
+            ],
+          )
+        }
   has_one :artist_info, dependent: :destroy
   accepts_nested_attributes_for :artist_info, update_only: true
   accepts_nested_attributes_for :open_studios_participants, update_only: true

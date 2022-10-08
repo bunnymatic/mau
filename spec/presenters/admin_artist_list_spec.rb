@@ -5,20 +5,23 @@ describe AdminArtistList, elasticsearch: false do
   include PresenterSpecHelpers
 
   let(:active_artists) do
-    double('Artist::ActiveRecord_Relation', order: [
+    double('Artist::ActiveRecord_Relation',
+           order: [
              FactoryBot.build_stubbed(:artist, :active, updated_at: 1.month.ago),
            ])
   end
 
   let(:pending_artists) do
-    double('Artist::ActiveRecord_Relation', order: [
+    double('Artist::ActiveRecord_Relation',
+           order: [
              FactoryBot.build_stubbed(:artist, :pending, updated_at: 4.months.ago),
              FactoryBot.build_stubbed(:artist, :pending, updated_at: 7.months.ago),
            ])
   end
 
   let(:bad_standing_artists) do
-    double('Artist::ActiveRecord_Relation', order: [
+    double('Artist::ActiveRecord_Relation',
+           order: [
              FactoryBot.build_stubbed(:artist, :suspended, updated_at: 6.weeks.ago),
              FactoryBot.build_stubbed(:artist, :deleted, updated_at: 5.months.ago),
              FactoryBot.build_stubbed(:artist, :deleted, updated_at: 8.months.ago),
@@ -131,7 +134,8 @@ describe AdminArtistList, elasticsearch: false do
       it 'includes os participant info for the artists' do
         expected = {
           'Show Email' => 'true',
-          'Video Conference Url' => 'http://video.example.com', "Participating in Open Studios #{os_event.for_display}" => 'true'
+          'Video Conference Url' => 'http://video.example.com',
+          "Participating in Open Studios #{os_event.for_display}" => 'true',
         }
         expect(parsed.first.to_h).to include(expected)
       end

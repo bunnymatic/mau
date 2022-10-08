@@ -15,8 +15,15 @@ class AdminArtistList < ViewPresenter
 
   def csv_headers
     headers = [
-      'Login', 'First Name', 'Last Name', 'Full Name', 'Group Site Name',
-      'Studio Address', 'Studio Number', 'Email Address', 'Phone'
+      'Login',
+      'First Name',
+      'Last Name',
+      'Full Name',
+      'Group Site Name',
+      'Studio Address',
+      'Studio Number',
+      'Email Address',
+      'Phone',
     ]
     if OpenStudiosEvent.current
       headers << "Participating in Open Studios #{OpenStudiosEvent.current.for_display}" if OpenStudiosEvent.current
@@ -30,11 +37,13 @@ class AdminArtistList < ViewPresenter
   end
 
   def open_studios_event_headers
-    ['Show Phone',
-     'Show Email',
-     'Shop Url',
-     'Youtube Url',
-     'Video Conference Url'] + time_slot_headers
+    [
+      'Show Phone',
+      'Show Email',
+      'Shop Url',
+      'Youtube Url',
+      'Video Conference Url',
+    ] + time_slot_headers
   end
 
   def time_slot_headers

@@ -24,12 +24,13 @@ describe Admin::ApplicationEventsController do
     let(:since) { nil }
     before do
       login_as(admin)
-      get :index, params: {
-        query: {
-          number_of_records: limit,
-          since: since,
-        },
-      }
+      get :index,
+          params: {
+            query: {
+              number_of_records: limit,
+              since: since,
+            },
+          }
     end
     context 'with no params' do
       it 'returns success' do
@@ -97,12 +98,13 @@ describe Admin::ApplicationEventsController do
     let(:limit) { nil }
     before do
       login_as(admin)
-      get :index, params: {
-        format: :json,
-        query: {
-          number_of_records: limit,
-        },
-      }
+      get :index,
+          params: {
+            format: :json,
+            query: {
+              number_of_records: limit,
+            },
+          }
     end
     context 'with no params' do
       it 'returns success' do
