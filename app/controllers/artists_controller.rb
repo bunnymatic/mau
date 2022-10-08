@@ -162,7 +162,7 @@ class ArtistsController < ApplicationController
       @studios = StudioService.all
       @artist_info = current_artist.artist_info
       @open_studios_event = OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
-      flash[:error] = 'We had trouble updating your profile.  Errors will be indicated below.'
+      flash.now[:error] = 'We had trouble updating your profile.  Errors will be indicated below.'
       render :edit
     end
   end

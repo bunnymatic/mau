@@ -116,6 +116,9 @@ Naming/MemoizedInstanceVariableName:
     - app/controllers/**/*.rb
     - spec/support/**/*.rb
 
+Rails/ActionControllerFlashBeforeRender:
+  Enabled: false
+
 Rails/FilePath:
   Exclude:
     - config/environments/test.rb
