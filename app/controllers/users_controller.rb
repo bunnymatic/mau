@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   def show
     @fan = safe_find_user(params[:id])
     unless @fan&.active?
-      flash.now[:error] = 'The account you were looking for was not found.'
+      flash[:error] = 'The account you were looking for was not found.'
       redirect_to(artists_path) && return
     end
     redirect_to(artist_path(@fan)) && return if @fan.artist?
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
       flash[:notice] = 'Your profile has been updated'
       redirect_to edit_user_url(current_user)
     else
-      flash[:error] = 'We had trouble updating your profile.'
+      flash.now[:error] = 'We had trouble updating your profile.'
       @user = UserPresenter.new(current_user)
 
       render :edit
@@ -122,7 +122,7 @@ class UsersController < ApplicationController
       return
     end
 
-    flash[:error] = 'Failed to update your password.'
+    flash.now[:error] = 'Failed to update your password.'
     @user.password = ''
     @user.password_confirmation = ''
   end

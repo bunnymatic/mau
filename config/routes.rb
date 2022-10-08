@@ -31,7 +31,7 @@ Mau::Application.routes.draw do
   end
 
   constraints RoutingConstraints::OpenStudiosSubdomain do
-    instance_eval(File.read(Rails.root.join('config/openstudios_routes.rb')))
+    instance_eval(Rails.root.join('config/openstudios_routes.rb').read)
   end
 
   constraints RoutingConstraints::AppSubdomain do
