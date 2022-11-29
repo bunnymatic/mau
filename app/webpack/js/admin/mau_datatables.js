@@ -1,4 +1,5 @@
 import dt from "datatables";
+import jQuery from "jquery";
 
 const DATATABLES_CONFIG = {
   artists_index: {
@@ -13,8 +14,7 @@ const DEFAULT_OPTIONS = {
 };
 
 class MauDatatables {
-  constructor(jQuery) {
-    this.jQuery = jQuery;
+  constructor() {
     dt(window, jQuery);
   }
 
@@ -23,11 +23,11 @@ class MauDatatables {
   }
 
   datatablesAvailable() {
-    return !!this.jQuery.fn.dataTable;
+    return !!jQuery.fn.dataTable;
   }
 
   isSearchableTable(_idx, el) {
-    return !this.jQuery(el).hasClass("js-data-tables-no-search");
+    return !jQuery(el).hasClass("js-data-tables-no-search");
   }
 
   isNotSearchableTable(idx, el) {
@@ -39,8 +39,8 @@ class MauDatatables {
       return;
     }
     const cfg = this.config;
-    const jq = this.jQuery;
-    this.jQuery(selector)
+    const jq = jQuery;
+    jQuery(selector)
       .filter(this.isSearchableTable.bind(this))
       .each((_idx, el) => {
         const $table = jq(el);
@@ -48,7 +48,7 @@ class MauDatatables {
         jq($table).dataTable(opts);
       });
 
-    this.jQuery(selector)
+    jQuery(selector)
       .filter(this.isNotSearchableTable.bind(this))
       .each((_idx, el) => {
         var $table, opts;

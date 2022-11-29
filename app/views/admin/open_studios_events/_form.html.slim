@@ -37,6 +37,6 @@
           = link_to 'Cancel', admin_open_studios_events_path, class: 'pure-button'
 
 javascript:
-  $(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     new MAU.OsKeyGenerator(".js-open-studios-event-editor form");
   });

@@ -12,8 +12,8 @@
       .admin-table__controls
         = link_to_icon '#', 'plus-circle', title: "add users to role", :class => 'add_userrole'
     ul.members_edit (data-role=@role.id)
-      - @role_users.each do |u|
-        li (data-user= u.id)
+      - @role_users.order(lastname: :asc).each do |u|
+        li (data-user=u.id)
           .user
             = u.full_name
             '
@@ -24,6 +24,6 @@
         = select_tag 'user', options_from_collection_for_select(@users, :id, :full_name)
         = f.submit "add user", :class => 'pure-button'
 javascript:
-  jQuery(function () {
+  document.addEventListener('DOMContentLoaded', function () {
     new MAU.AdminRoleManager("#role_mgr")
   });

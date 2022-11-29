@@ -187,10 +187,14 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
         </div>
         <div className="pure-u-1-1 pure-u-sm-2-3 pure-u-md-3-4 pure-u-lg-4-5 art-piece">
           <div className="art-piece__wrapper">
-            <div
-              className="art-piece__image"
-              style={{ backgroundImage: `url("${current.imageUrls.large}")` }}
-            ></div>
+            {current.imageUrls.large ? (
+              <div
+                className="art-piece__image"
+                style={{ backgroundImage: `url("${current.imageUrls.large}")` }}
+              ></div>
+            ) : (
+              <div className="art-piece__image art-piece__image--missing-url"></div>
+            )}
           </div>
         </div>
         {artPieces.length > 1 && (
@@ -212,12 +216,16 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
                         setCurrent(piece);
                       }}
                     >
-                      <div
-                        className="image"
-                        style={{
-                          backgroundImage: `url("${piece.imageUrls.small}")`,
-                        }}
-                      ></div>
+                      {current.imageUrls.small ? (
+                        <div
+                          className="image"
+                          style={{
+                            backgroundImage: `url("${piece.imageUrls.small}")`,
+                          }}
+                        ></div>
+                      ) : (
+                        <div className="image image--missing-url"></div>
+                      )}
                     </a>
                   </div>
                 );

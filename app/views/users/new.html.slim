@@ -20,6 +20,6 @@
           = render 'signup_form', type: @type, user: @user, studios: @studios || []
 
 javascript:
-  jQuery(function () {
+  document.addEventListener('DOMContentLoaded', function () {
     new MAU.PasswordStrengthMeter('#signup_form');
   });

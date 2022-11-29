@@ -35,6 +35,6 @@
         = MarkdownService.markdown cms_document.article
 
 javascript:
-  jQuery(() => {
+  document.addEventListener('DOMContentLoaded', function () {
     new MAU.MarkItDown('#cms_document_article', '#processed_markdown', 250);
   })

@@ -7,6 +7,6 @@
     .pure-g.js-artists-scroll-wrapper.artists-scroll
       = render '/open_studios_subdomain/artists/artist_list', gallery: @gallery
 javascript:
-  $(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     new MAU.ArtistListInfiniteScroller('/');
   });

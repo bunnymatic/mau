@@ -32,6 +32,6 @@
     #bad.tab-pane data-url="/admin/artists/bad_standing"
       = mau_spinner
 javascript:
-  $(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     new MAU.ArtistsAdminIndex(".tab-content .tab-pane[data-url]");
   });

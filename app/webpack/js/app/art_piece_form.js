@@ -1,6 +1,5 @@
 import Flash from "@js/app/flash";
 import Spinner from "@js/app/spinner";
-import jQuery from "jquery";
 
 const MAX_FILE_SIZE_MB = 6;
 
@@ -25,7 +24,7 @@ const validateFileSize = (event) => {
 
 class ArtPieceForm {
   constructor(selector) {
-    this.$form = jQuery(selector);
+    this.$form = window.jQuery(selector);
     this.initializeMediumChooser();
     this.initializeTagChooser();
     this.initializeSubmitSpinner();

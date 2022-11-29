@@ -27,5 +27,4 @@ const globals = {
   Sampler,
   WhatsThisPopup,
 };
-
 window.MAU = globals;

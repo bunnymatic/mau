@@ -9,6 +9,6 @@ table#js-studio-arranger.pure-table.pure-table-striped
         td = studio.street
         td = "#{studio.artists.count} artists/#{studio.open_studios_artists.count} os"
 javascript:
-  $(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     new MAU.StudioArranger('#js-studio-arranger');
   });

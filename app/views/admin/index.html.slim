@@ -38,7 +38,7 @@
           h4 Favorites Per Day
           #favorites_per_day.c3-graph
 javascript:
-  $(function () {
+  document.addEventListener("DOMContentLoaded", function () {
     MAU.GraphPerDay.load(
       "#artists_per_day",
       "/admin/stats/artists_per_day",

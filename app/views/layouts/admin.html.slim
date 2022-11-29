@@ -4,14 +4,14 @@ html lang='en'
     = render '/extra_html_head'
     = render '/title'
     = csrf_meta_tags
-    = stylesheet_packs_with_chunks_tag 'admin'
-    = javascript_packs_with_chunks_tag 'admin'
+    = vite_javascript_tag 'admin'
+
   - body_class = application_body_class(@current_controller, @body_classes)
   body.admin class=([@browser_as_class, body_class].join " ")
     #layout
       = render '/admin/admin_nav', revision: @revision
       = yield
 javascript:
-  jQuery(function () {
-    new MAU.MauDatatables(jQuery).setupDataTables("body.admin .js-data-tables");
+  document.addEventListener('DOMContentLoaded', function () {
+    new MAU.MauDatatables().setupDataTables("body.admin .js-data-tables");
   });
