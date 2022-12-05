@@ -75,6 +75,7 @@
     "jquery-ui": "^1.13.2",
     "luxon": "^1.28.1",
     "ng-dialog": "^1.4.0",
+    "postcss-import": "^15.0.1",
     "postcss-preset-env": "^6.7.0",
     "prop-types": "^15.7.2",
     "purecss": "^2.0.0",
