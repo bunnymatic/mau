@@ -46,7 +46,6 @@ gem 'scrypt'
 gem 'slim-rails'
 # gem 'unicorn' # webserver
 gem 'vite_rails'
-gem 'webpacker'
 
 group :test do
   gem 'capybara'

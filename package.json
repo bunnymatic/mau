@@ -28,8 +28,7 @@
     "vite": "^3.2.0",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-ruby": "^3.1.2",
-    "vite-plugin-svgr": "^2.2.2",
-    "webpack-dev-server": "^3.10.3"
+    "vite-plugin-svgr": "^2.2.2"
   },
   "scripts": {
     "build": "vite build",
@@ -54,7 +53,6 @@
     "@babel/runtime": "^7.17.8",
     "@google/markerclustererplus": "^5.0.3",
     "@rails/ujs": "^6.0.2-1",
-    "@rails/webpacker": "^5.0.0",
     "@types/faker": "^5.1.7",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^16.9.8",
@@ -91,7 +89,6 @@
     "spin.js": "^4.1.0",
     "timeago.js": "^4.0.2",
     "typescript": "^4.6.0",
-    "webpack-merge": "^5.0.0",
     "zxcvbn": "^4.4.2"
   },
   "jest": {

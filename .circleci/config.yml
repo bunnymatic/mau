@@ -88,8 +88,6 @@ commands:
           key: mau-asset-cache-v1-{{ arch }}-{{ .Branch }}-{{ epoch }}
           paths:
             - public/assets
-            - public/packs
-            - tmp/cache/assets/sprockets
   use_assets_cache:
     description: Use assets cache
     steps:
