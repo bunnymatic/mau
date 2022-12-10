@@ -2,9 +2,8 @@ import { MauButton } from "@reactjs/components/mau_button";
 import { useModalState } from "@reactjs/hooks";
 import { getDonateLink } from "@services/venmo_donate_link.service";
 import cx from "classnames";
-import React, { FC, useRef } from "react";
-
 import QrCode from "images/mau_venmo_qrcode.jpg";
+import React, { FC, useRef } from "react";
 
 export const DonateButton: FC = () => {
   const { toggle, isOpen } = useModalState(false);

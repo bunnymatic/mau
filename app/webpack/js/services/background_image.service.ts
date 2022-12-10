@@ -14,10 +14,12 @@ export const backgroundImageStyle = (
   url: string,
   overrides: BackgroundImageStyle = {}
 ): BackgroundImageStyle | {} => {
-  return url ? {
-    backgroundImage: 'url("' + url + '")',
-    backgroundSize: "cover",
-    backgroundPosition: "center center",
-    ...overrides,
-  } : {};
+  return url
+    ? {
+        backgroundImage: 'url("' + url + '")',
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        ...overrides,
+      }
+    : {};
 };
