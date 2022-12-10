@@ -4,7 +4,7 @@ import { getDonateLink } from "@services/venmo_donate_link.service";
 import cx from "classnames";
 import React, { FC, useRef } from "react";
 
-import QrCode from "../../images/mau_venmo_qrcode.jpg";
+import QrCode from "images/mau_venmo_qrcode.jpg";
 
 export const DonateButton: FC = () => {
   const { toggle, isOpen } = useModalState(false);

@@ -40,10 +40,12 @@ export const ArtCard: FC<ArtCardProps> = ({ artPiece, classes }) => {
   return (
     <div className={cx("art-card", classes)}>
       <ArtModal artPiece={artPiece}>
+        { artPiece.imageUrls.original ? (
         <div
           className="image"
           style={{ backgroundImage: `url("${artPiece.imageUrls.original}")` }}
-        ></div>
+        ></div>) : (<div className="image image--empty"/>)
+        }
         {Boolean(artPiece.hasSold) && (
           <span className="art-card__sold">Sold</span>
         )}

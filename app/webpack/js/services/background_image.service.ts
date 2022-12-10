@@ -13,9 +13,11 @@ type BackgroundImageStyle = Pick<
 export const backgroundImageStyle = (
   url: string,
   overrides: BackgroundImageStyle = {}
-): BackgroundImageStyle => ({
-  backgroundImage: 'url("' + url + '")',
-  backgroundSize: "cover",
-  backgroundPosition: "center center",
-  ...overrides,
-});
+): BackgroundImageStyle | {} => {
+  return url ? {
+    backgroundImage: 'url("' + url + '")',
+    backgroundSize: "cover",
+    backgroundPosition: "center center",
+    ...overrides,
+  } : {};
+};

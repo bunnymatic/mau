@@ -515,7 +515,7 @@ $-sampler-thumbnail-size: 250px;
 }
 
 @mixin os-violator {
-  background-image: url("../images/os_violator_tiny.svg");
+  background-image: url("images/os_violator_tiny.svg");
   background-color: rgba(245, 245, 245, 0.75);
   background-repeat: no-repeat;
   background-size: 40px 40px;
@@ -531,7 +531,7 @@ $-sampler-thumbnail-size: 250px;
 @mixin artist-image-os-violator {
   position: absolute;
   display: inline-block;
-  background-image: url("../images/os_violator.svg");
+  background-image: url("images/os_violator.svg");
   background-color: rgba(245, 245, 245, 0.75);
   width: 75px;
   height: 80px;

@@ -23,7 +23,7 @@ export default defineConfig({
       "@models": path.resolve(__dirname, './app/webpack/js/app/models/'),
       "@services": path.resolve(__dirname, './app/webpack/js/services/'),
       "@styles": path.resolve(__dirname, './app/webpack/stylesheets'),
-      "images": path.resolve(__dirname, './app/webpack/images/'),
+      "images": path.resolve(__dirname, './app/frontend/entrypoints/images/'),
     },
   },
 })

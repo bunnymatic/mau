@@ -31,7 +31,7 @@ describe FavoritesHelper do
       context 'who has does not have a profile image' do
         let(:favorite) { create :artist }
         it 'returns the default user image' do
-          expect(img).to match(/default_user-.*\.svg/)
+          expect(img).to match(/default_user.*\.svg/)
         end
         it 'returns the path to the artist' do
           expect(path).to eq user_path(favorite)

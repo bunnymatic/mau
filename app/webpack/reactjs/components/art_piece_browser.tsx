@@ -216,7 +216,7 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
                         setCurrent(piece);
                       }}
                     >
-                      {current.imageUrls.small ? (
+                      {piece.imageUrls.small ? (
                         <div
                           className="image"
                           style={{
