@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ArtPieceTagsController do
+describe ArtPieceTagsController, stub_site_preferences: true do
   describe '#index' do
     describe 'format=html' do
       before do

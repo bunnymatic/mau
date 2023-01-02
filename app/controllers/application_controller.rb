@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   before_action :check_browser, unless: :format_json?
   before_action :set_version
   before_action :set_meta_info
+  before_action :set_open_studios_active
 
   helper_method :current_user_session, :current_user, :logged_in?, :current_artist
   helper_method :current_open_studios
@@ -68,6 +69,10 @@ class ApplicationController < ActionController::Base
     version = Mau::Version.new
     @revision = version.to_s
     @build = version.build
+  end
+
+  def set_open_studios_active
+    @open_studios_active = SitePreferences.instance(check_cache: true).open_studios_active?
   end
 
   protected

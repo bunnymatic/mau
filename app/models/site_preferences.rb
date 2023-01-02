@@ -8,7 +8,7 @@ class SitePreferences < ApplicationRecord
   CACHE_KEY = :site_preferences
 
   def self.instance(check_cache: false)
-    (check_cache && cached) || first || create
+    (check_cache && cached) || first || create(open_studios_active: true)
   end
 
   def self.cached

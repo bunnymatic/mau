@@ -22,6 +22,25 @@ describe OpenStudiosEventService do
     [past_oses, current_os, future_oses].flatten
   end
 
+  describe '.current' do
+    it 'returns the current os' do
+      expect(service.current).to eq current_os
+    end
+
+    context 'when the site preferences open_studios_active is off' do
+      before do
+        SitePreferences.instance.update!(open_studios_active: false)
+      end
+      after do
+        SitePreferences.instance.update!(open_studios_active: true)
+      end
+
+      it 'returns nil' do
+        expect(service.current).to be_nil
+      end
+    end
+  end
+
   describe '.for_display' do
     it 'returns the pretty version for a given tag' do
       expect(service.for_display('201104')).to eql '2011 Apr'

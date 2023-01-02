@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Given(/^an account has been created/) do
   @artist = Artist.where(login: TestUsersHelper::DEFAULT_LOGIN).first
   @artist ||= FactoryBot.create(:artist, :active, :with_art, :in_the_mission, login: TestUsersHelper::DEFAULT_LOGIN)
@@ -67,9 +65,10 @@ Given /there are application events in the system/ do
 end
 
 Given /there is a scheduled Open Studios event/ do
+  step %(The site preferences open studio switch is on)
   FactoryBot.create(:open_studios_event, :with_special_event)
 rescue ActiveRecord::RecordInvalid
-  # there's already one there
+  Rails.logger.warn('Open studios event already exists in this feature.  No problem.')
 end
 
 Given /the current open studios event has a special event/ do

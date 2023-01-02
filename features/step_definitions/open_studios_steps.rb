@@ -309,3 +309,24 @@ Then('I see the next artist in the catalog') do
     expect(page).to have_content(@next_artist.get_name.upcase)
   end
 end
+
+When('The site preferences open studio switch is on') do
+  SitePreferences.instance.update!(open_studios_active: true)
+end
+
+Then('I see an open studios violator') do
+  expect(page).to have_css('.os-violator')
+end
+
+When('I toggle the open studios active toggle') do
+  uncheck 'site_preferences_open_studios_active'
+  click_on 'Update Site preferences'
+end
+
+Then('I don\'t see the open studios navigation') do
+  expect(page).to_not have_link('open studios')
+end
+
+Then('I don\'t see any open studios violators') do
+  expect(page).to_not have_css('.os-violator')
+end

@@ -1,0 +1,17 @@
+@use "../colors";
+
+@mixin admin-banner {
+  border: 2px solid colors.$bluegray;
+  padding: 5px 20px;
+  background-color: colors.$light-gray-background;
+}
+
+@mixin admin-warning-banner {
+  @include admin-banner;
+  border-color: colors.$gto_red;
+  background-color: lighten(colors.$error_red, 35);
+}
+
+@mixin admin-info-banner {
+  @include admin-banner;
+}

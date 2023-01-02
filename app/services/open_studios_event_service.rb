@@ -36,6 +36,8 @@ class OpenStudiosEventService
   end
 
   def self.current
+    return nil unless SitePreferences.instance(check_cache: true).open_studios_active?
+
     cache = SafeCache.read(CURRENT_CACHE_KEY)
     unless cache
       cache = OpenStudiosEvent.current

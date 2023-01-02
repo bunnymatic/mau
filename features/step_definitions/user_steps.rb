@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 When(/^I change my password to "(.*?)"$/) do |new_pass|
   visit edit_artist_path(@artist)
   fill_in('Old Password', with: '8characters')
@@ -104,6 +102,13 @@ When(/^I login as a manager$/) do
   @manager = FactoryBot.create(:user, :manager, :active, studio: studios.first)
   step %(I visit the login page)
   fill_in_login_form @manager.login, '8characters'
+  step %(I click "Sign In")
+end
+
+When(/^I login as an admin$/) do
+  @administrator = FactoryBot.create(:user, :admin, :active)
+  step %(I visit the login page)
+  fill_in_login_form @administrator.login, '8characters'
   step %(I click "Sign In")
 end
 

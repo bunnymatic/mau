@@ -7,8 +7,8 @@
       = render partial: 'common/form_errors', locals: { form: f }
       = f.inputs do
         = f.input :social_media_tags, placeholder: 'e.g. #supertag, #anotherTag', hint: "Tags here will be the first tags shown in the new art email that goes out to all our new art watchers."
+        = f.input :open_studios_active, hint: "If set false, all Open Studios decorators will be suppressed"
       = f.actions do
         .form-controls
           = f.submit class: 'pure-button pure-button-primary'
           = link_to 'Cancel', edit_admin_site_preferences_path, class: 'pure-button'
-
