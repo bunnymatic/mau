@@ -28,6 +28,8 @@ describe ArtPieceTagsController do
   describe '#autosuggest' do
     let(:tags) { FactoryBot.create_list(:art_piece_tag, 3) }
     before do
+      allow(Rails.cache).to receive(:read).and_return(nil)
+      allow(Rails.cache).to receive(:write)
       get :autosuggest, params: { format: 'json', input: tags.first.name.downcase }
     end
     it_behaves_like 'successful json'
@@ -37,9 +39,9 @@ describe ArtPieceTagsController do
     end
 
     it 'writes to the cache if theres nothing there' do
-      expect(Rails.cache).to receive(:read).and_return(nil)
-      expect(Rails.cache).to receive(:write)
       get :autosuggest, params: { format: :json, input: 'whateverdude' }
+      expect(Rails.cache).to have_received(:read).with(Conf.autosuggest['tags']['cache_key']).at_least(:once)
+      expect(Rails.cache).to have_received(:write).at_least(:once)
     end
 
     it 'returns tags using the input' do
@@ -48,17 +50,26 @@ describe ArtPieceTagsController do
       expect(j).to be_present
     end
 
-    it 'uses the cache there is data' do
-      tag = ArtPieceTag.last
-      expect(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key'])
-                                           .and_return([{ 'name' => tag.name, 'id' => tag.id }])
-      expect(Rails.cache).not_to receive(:write)
-      get :autosuggest, params: { format: :json, input: 'tag' }
-      j = JSON.parse(response.body)
-      tags = j['art_piece_tags']
-      expect(tags).to have(1).tag
-      result = tags.first['art_piece_tag']
-      expect(result).to include({ 'name' => tag.name, 'id' => tag.id })
+    context 'when there is data' do
+      let(:tag) { ArtPieceTag.last }
+
+      before do
+        allow(Rails.cache).to receive(:read).and_return(nil)
+        allow(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key'])
+                                            .and_return([{ 'name' => tag.name, 'id' => tag.id }])
+        allow(Rails.cache).to receive(:write)
+      end
+
+      it 'uses the cache there is data' do
+        get :autosuggest, params: { format: :json, input: 'tag' }
+        j = JSON.parse(response.body)
+        tags = j['art_piece_tags']
+        expect(tags).to have(1).tag
+        result = tags.first['art_piece_tag']
+        expect(result).to include({ 'name' => tag.name, 'id' => tag.id })
+        expect(Rails.cache).to have_received(:read).with(Conf.autosuggest['tags']['cache_key']).at_least(:once)
+        expect(Rails.cache).not_to receive(:write)
+      end
     end
   end
 

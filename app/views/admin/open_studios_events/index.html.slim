@@ -10,6 +10,18 @@
         = link_to clear_cache_admin_open_studios_events_path, title: 'clear os dates cache' do
           = fa_icon "refresh"
   .pure-u-1-1.padded-content
+    .os-events[class=(@open_studios_active ? "os-active__on" : "os-active__off")]
+      - if !@open_studios_active
+        p &#9888; Open Studios is currently not active.
+      - else
+        p &#128077; Open Studios is currently active.
+      p
+        | If you want to change that, check the
+        '
+        a href=edit_admin_site_preferences_path
+          | Site Preferences page
+
+  .pure-u-1-1.padded-content
     table.os-events.pure-table.pure-table-striped.os-events__table
       thead
         tr

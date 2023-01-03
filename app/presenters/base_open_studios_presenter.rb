@@ -1,5 +1,5 @@
 class BaseOpenStudiosPresenter < ViewPresenter
-  delegate :promote?, to: :current_os
+  delegate :promote?, to: :current_os, allow_nil: true
 
   def initialize(page, current_user)
     super()
@@ -54,6 +54,6 @@ class BaseOpenStudiosPresenter < ViewPresenter
   end
 
   def os_participants
-    @os_participants ||= current_os.artists
+    @os_participants ||= current_os&.artists || []
   end
 end

@@ -15,17 +15,18 @@
       li.tab
         a href=studios_path title="group studios" studios
 
-  section.nav-section.open-studios
-    ul.tabs.tabs__nav
-      li.tab
-        a href=open_studios_path title="open studios #{open_studios_nav_title}"
-          = open_studios_nav_title
+  - if @open_studios_active
+    section.nav-section.open-studios
+      ul.tabs.tabs__nav
+        li.tab
+          a href=open_studios_path title="open studios #{open_studios_nav_title}"
+            = open_studios_nav_title
 
-        a.nav-secondary-link href=open_studios_path  title ="open studios #{open_studios_nav_title}" open studios
+          a.nav-secondary-link href=open_studios_path  title ="open studios #{open_studios_nav_title}" open studios
 
-        - if user_nav.remind_for_open_studios_register?
-          a.nav-secondary-link--emphasis href=register_for_current_open_studios_artists_path title = "register for open studios"
-            = "register now!"
+          - if user_nav.remind_for_open_studios_register?
+            a.nav-secondary-link--emphasis href=register_for_current_open_studios_artists_path title = "register for open studios"
+              = "register now!"
 
   - if logged_in?
     section.nav-section.users
@@ -57,9 +58,10 @@
     ul.tab-panel
       li.nav-mobile__title
         a href=search_path title="search" search
-    ul.tab-panel#open-studios
-      li.nav-mobile__title
-        a href=open_studios_path title="open studios #{open_studios_nav_title}" = open_studios_nav_title
+    - if @open_studios_active
+      ul.tab-panel#open-studios
+        li.nav-mobile__title
+          a href=open_studios_path title="open studios #{open_studios_nav_title}" = open_studios_nav_title
 
     - if logged_in?
       ul.tab-panel.signin__links

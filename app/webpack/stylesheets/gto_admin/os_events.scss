@@ -1,6 +1,14 @@
+@use "./_mixins";
+
 .os-events__table-item--time {
   white-space: nowrap;
 }
 .os-events__table-item--dates--item + .os-events__table-item--dates--item {
   margin-top: 6px;
+}
+.os-active__off {
+  @include mixins.admin-warning-banner;
+}
+.os-active__on {
+  @include mixins.admin-info-banner;
 }

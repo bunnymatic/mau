@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_02_211137) do
+ActiveRecord::Schema.define(version: 2022_12_31_201249) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2022_10_02_211137) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "application_events", id: :integer, charset: "utf8mb3", collation: "utf8_unicode_ci", force: :cascade do |t|
+  create_table "application_events", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.string "type"
     t.string "message"
     t.text "data"
@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(version: 2022_10_02_211137) do
     t.index ["user_id"], name: "index_cms_documents_on_user_id"
   end
 
-  create_table "denylist_domains", id: :integer, charset: "utf8mb3", collation: "utf8_unicode_ci", force: :cascade do |t|
+  create_table "denylist_domains", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.string "domain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(version: 2022_10_02_211137) do
     t.string "bugtype"
   end
 
-  create_table "friendly_id_slugs", id: :integer, charset: "utf8mb3", collation: "utf8_unicode_ci", force: :cascade do |t|
+  create_table "friendly_id_slugs", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 40
@@ -195,7 +195,7 @@ ActiveRecord::Schema.define(version: 2022_10_02_211137) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "open_studios_events", id: :integer, charset: "utf8mb3", collation: "utf8_unicode_ci", force: :cascade do |t|
+  create_table "open_studios_events", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.datetime "start_date"
     t.datetime "end_date"
     t.datetime "created_at", null: false
@@ -229,7 +229,7 @@ ActiveRecord::Schema.define(version: 2022_10_02_211137) do
     t.index ["user_id"], name: "index_open_studios_participants_on_user_id"
   end
 
-  create_table "open_studios_tallies", id: :integer, charset: "utf8mb3", collation: "utf8_unicode_ci", force: :cascade do |t|
+  create_table "open_studios_tallies", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.integer "count"
     t.string "oskey"
     t.date "recorded_on"
@@ -237,7 +237,7 @@ ActiveRecord::Schema.define(version: 2022_10_02_211137) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "promoted_events", id: :integer, charset: "utf8mb3", collation: "utf8_unicode_ci", force: :cascade do |t|
+  create_table "promoted_events", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.integer "event_id"
     t.datetime "publish_date"
     t.datetime "created_at"
@@ -257,7 +257,7 @@ ActiveRecord::Schema.define(version: 2022_10_02_211137) do
     t.index ["user_id"], name: "index_roles_users_on_user_id"
   end
 
-  create_table "scammers", id: :integer, charset: "utf8mb3", collation: "utf8_unicode_ci", force: :cascade do |t|
+  create_table "scammers", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.text "email"
     t.text "name"
     t.integer "faso_id"
@@ -269,6 +269,7 @@ ActiveRecord::Schema.define(version: 2022_10_02_211137) do
     t.string "social_media_tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "open_studios_active"
   end
 
   create_table "studios", id: :integer, charset: "utf8mb3", force: :cascade do |t|

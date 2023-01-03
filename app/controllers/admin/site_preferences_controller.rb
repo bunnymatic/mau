@@ -20,7 +20,7 @@ module Admin
     end
 
     def site_preferences_params
-      params.require(:site_preferences).permit(:social_media_tags)
+      params.require(:site_preferences).permit(:social_media_tags, :open_studios_active)
     end
   end
 end
