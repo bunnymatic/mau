@@ -314,6 +314,10 @@ When('The site preferences open studio switch is on') do
   SitePreferences.instance.update!(open_studios_active: true)
 end
 
+When('The site preferences open studio switch is off') do
+  SitePreferences.instance.update!(open_studios_active: false)
+end
+
 Then('I see an open studios violator') do
   expect(page).to have_css('.os-violator')
 end

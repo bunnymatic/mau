@@ -31,7 +31,7 @@ html lang='en'
         .sidenav__main
           a.brand href=root_path title="Mission Artists"
             .sidebar-logo title="Mission Artists" class="#{Date.today.month == 6 ? 'sidebar-logo--pride' : ''}"
-          = render '/common/navigation'
+          = render '/common/navigation', { open_studios_active: @open_studios_active }
           .push
         .sidenav__footer
           .back-to-top title="Back to top"
