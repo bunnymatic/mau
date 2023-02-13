@@ -88,3 +88,9 @@ Scenario: An artist sees their own pages
   When I visit my open studios catalog page
   And I see the summary information about that artists open studios events
   And I see my video conference schedule
+
+
+Scenario: Open Studios is not active
+  When The site preferences open studio switch is off
+  When I visit "/" in the catalog
+  Then I see nothing is scheduled

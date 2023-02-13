@@ -1,4 +1,6 @@
+- open_studios_active ||= open_studios_active
 .nav.nav-tabs
+  h1 = open_studios_active.to_s
   - user_nav = UserNavigation.new(current_user)
   .js-nav-mobile.nav-mobile.nav-icon title="menu"
     = fa_icon "bars"
@@ -15,7 +17,7 @@
       li.tab
         a href=studios_path title="group studios" studios
 
-  - if @open_studios_active
+  - if open_studios_active
     section.nav-section.open-studios
       ul.tabs.tabs__nav
         li.tab
@@ -58,7 +60,7 @@
     ul.tab-panel
       li.nav-mobile__title
         a href=search_path title="search" search
-    - if @open_studios_active
+    - if open_studios_active
       ul.tab-panel#open-studios
         li.nav-mobile__title
           a href=open_studios_path title="open studios #{open_studios_nav_title}" = open_studios_nav_title

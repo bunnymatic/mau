@@ -1,6 +1,7 @@
 #open_studios_subdomain__layout {
-  @import "layout.scss";
-  @import "container_header.scss";
-  @import "open_studios_artist.scss";
+  @import "layout";
+  @import "container_header";
+  @import "open_studios_artist";
   @import "catalog_paginator";
+  @import "no_scheduled_open_studios";
 }

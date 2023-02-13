@@ -24,3 +24,7 @@ end
 When /I visit my open studios catalog page/ do
   step %(I visit "#{artist_path(@artist)} in the catalog)
 end
+
+When /I see nothing is scheduled/ do
+  expect(page).to have_content("But currently we don't have an exact date for the next one")
+end
