@@ -7,9 +7,9 @@ FactoryBot.define do
     email { "#{login}@example.com" }
     password { TestUsersHelper::DEFAULT_PASSWORD }
     password_confirmation { TestUsersHelper::DEFAULT_PASSWORD }
-    firstname { Faker::Name.first_name }
-    lastname { Faker::Name.first_name }
-    nomdeplume { Faker::Company.name }
+    firstname { Faker::Name.first_name.delete("'") }
+    lastname { Faker::Name.last_name.delete("'") }
+    nomdeplume { Faker::Company.name.delete("'") } # apostrophe's mess up Cucumber tests/finders
     website { Faker::Internet.url }
     trait :pending do
       state { :pending }
