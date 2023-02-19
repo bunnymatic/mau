@@ -15,7 +15,7 @@
         height: 250px;
         width: 100%;
         display: block;
-        background-image: url("../../images/virtual-open-studios-banner.svg");
+        background-image: url("images/virtual-open-studios-banner.svg");
         @include background-cover;
       }
     }
@@ -31,7 +31,7 @@
       width: calc(100% - 12px);
       height: 100%;
 
-      background-image: url("../../images/duotones/tower-duotone.jpg");
+      background-image: url("images/duotones/tower-duotone.jpg");
       @include background-cover;
       &:before {
         content: "";

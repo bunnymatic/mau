@@ -110,7 +110,7 @@ body {
   text-align: center;
 }
 .sidebar-logo {
-  background-image: url("../../images/yellow_sidebar_logo_gear_only.svg");
+  background-image: url("images/yellow_sidebar_logo_gear_only.svg");
   @include background-cover;
   margin: auto;
   width: 144px;
@@ -120,7 +120,7 @@ body {
   @include transition(all 0.3s ease-in-out);
 }
 .sidebar-logo--pride {
-  background-image: url("../../images/pride_sidebar_logo_gear_only.svg");
+  background-image: url("images/pride_sidebar_logo_gear_only.svg");
 }
 
 ul li {
