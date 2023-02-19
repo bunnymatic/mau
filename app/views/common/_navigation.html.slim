@@ -1,6 +1,5 @@
 - open_studios_active ||= open_studios_active
 .nav.nav-tabs
-  h1 = open_studios_active.to_s
   - user_nav = UserNavigation.new(current_user)
   .js-nav-mobile.nav-mobile.nav-icon title="menu"
     = fa_icon "bars"
