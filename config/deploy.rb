@@ -46,7 +46,7 @@ set :assets_roles, %i[web app] # Defaults to [:web]
 set :linked_files, %w[config/database.yml config/config.keys.yml config/secrets.yml config/puma.rb config/storage.yml]
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets public/system]
+set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets]
 append :linked_dirs, '.bundle'
 
 set :rails_env, (fetch(:rails_env) || fetch(:stage))
