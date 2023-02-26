@@ -16,7 +16,7 @@ set :repo_url, 'https://github.com/bunnymatic/mau.git'
 # set :rails_env, 'production'                  # If the environment differs from the stage name
 # set :migration_role, 'migrator'            # Defaults to 'db'
 set :assets_roles, %i[web app] # Defaults to [:web]
-set :assets_dir, 'public/vite/assets'
+# set :assets_dir, 'public/vite/assets'
 # set :assets_prefix, 'prepackaged-assets'   # Defaults to 'assets' this should match config.assets.prefix in your rails config/application.rb
 
 # Default branch is :master
