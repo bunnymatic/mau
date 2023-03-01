@@ -50,6 +50,14 @@ Given /the following artists who aren't ready to sign up for os are in the syste
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
+Given /there is a pending artist/ do
+  @pending_artist = FactoryBot.create(:artist, :pending)
+end
+
+Given /there is a suspended artist/ do
+  @suspended_artist = FactoryBot.create(:artist, :suspended)
+end
+
 Given /the following admins are in the system:/ do |table|
   table.hashes.each do |user_params|
     FactoryBot.create(:artist, :admin, :active, user_params)
