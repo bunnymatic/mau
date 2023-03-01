@@ -129,7 +129,7 @@ class OpenStudiosEventPresenter < ViewPresenter
     if available? && logo?
       logo.url(:square)
     else
-      asset_pack_path('media/images/mau-nextos.png')
+      vite_asset_path('entrypoints/images/mau-nextos.png')
     end
   end
 

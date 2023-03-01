@@ -12,8 +12,8 @@ html lang='en'
       window = window || {}
       window['__env'] = "#{Rails.env}";
 
-    = stylesheet_packs_with_chunks_tag 'application'
-    = javascript_packs_with_chunks_tag 'application'
+    = vite_client_tag
+    = vite_javascript_tag 'application'
 
   - classes = [@browser_as_class, controller_name, action_name].join(" ")
   body class=classes id="open_studios_subdomain__layout"

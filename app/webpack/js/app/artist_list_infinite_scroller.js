@@ -7,13 +7,17 @@ class ArtistListInfiniteScroller {
 
     const $win = jQuery(window);
     $win.scroll(() => {
-      if ($win.scrollTop() === jQuery(document).height() - $win.height()) {
-        return this.fetchArtists(url);
+      // Some browsers return floats for `scrollTop`
+      if (
+        Math.ceil($win.scrollTop()) ===
+        jQuery(document).height() - $win.height()
+      ) {
+        this.fetchArtists(url);
       }
     });
     const $more = jQuery("#js-scroll-load-more");
     if ($more.length && $more.position().top < $win.height()) {
-      return this.fetchArtists(url);
+      this.fetchArtists(url);
     }
   }
 
@@ -34,7 +38,6 @@ class ArtistListInfiniteScroller {
         p: nextPage,
         os_only: pagination.osOnly,
       });
-
       jQuery("#js-scroll-load-more").remove();
       if (data) {
         $content = jQuery(".js-artists-scroll-wrapper");

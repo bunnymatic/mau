@@ -21,7 +21,7 @@
           h4 This artist has no art to show.
 
 javascript:
-  $(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     new MAU.ArtistBioToggler('.artist__bio', '.js-read-more');
     new MAU.ArtistDetailsToggler('#js-hide-artist-details');
   });

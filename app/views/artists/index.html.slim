@@ -37,6 +37,6 @@
         = render 'artist_list', gallery: @gallery
 
 javascript:
-  $(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     new MAU.ArtistListInfiniteScroller('/artists');
   });

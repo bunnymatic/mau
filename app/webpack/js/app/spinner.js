@@ -30,12 +30,12 @@ class Spinner {
     if (!this.spinner) {
       this.spinner = new SpinJS(this.spinOpts);
     }
-    return this.spinner.spin(this.el);
+    this.spinner.spin(this.el);
   }
 
   stop() {
     if (this.spinner) {
-      return this.spinner.stop();
+      this.spinner.stop();
     }
   }
 }

@@ -74,7 +74,7 @@
         li.nav-mobile__title
           a href=signup_path title="sign up" sign up
 javascript:
-  $(function() {
+  document.addEventListener("DOMContentLoaded",  function() {
     new MAU.MobileNavigation('.nav');
     MAU.Navigation.setActiveSection();
   });

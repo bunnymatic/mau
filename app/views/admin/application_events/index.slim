@@ -39,6 +39,6 @@ ruby:
                     = link_to_event_user ev
                   td.last.date = ev.created_at.strftime("%b %d, %Y %H:%M")
 javascript:
-  $(function() {
+  document.addEventListener("DOMContentLoaded", function() {
     new MAU.ApplicationEventsDetailsForm(".application_events__details-form form");
   });

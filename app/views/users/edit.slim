@@ -19,7 +19,7 @@
         = render '/users/edit/deactivate'
 
 javascript:
-  jQuery(function () {
+  document.addEventListener('DOMContentLoaded', function () {
     new MAU.AccordionShowSectionGivenHash();
     new MAU.AccordionShowSectionWithErrors();
   });

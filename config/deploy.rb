@@ -16,6 +16,7 @@ set :repo_url, 'https://github.com/bunnymatic/mau.git'
 # set :rails_env, 'production'                  # If the environment differs from the stage name
 # set :migration_role, 'migrator'            # Defaults to 'db'
 set :assets_roles, %i[web app] # Defaults to [:web]
+set :assets_dir, 'public/vite'
 # set :assets_prefix, 'prepackaged-assets'   # Defaults to 'assets' this should match config.assets.prefix in your rails config/application.rb
 
 # Default branch is :master
@@ -46,7 +47,7 @@ set :assets_roles, %i[web app] # Defaults to [:web]
 set :linked_files, %w[config/database.yml config/config.keys.yml config/secrets.yml config/puma.rb config/storage.yml]
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets public/system]
+set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets]
 append :linked_dirs, '.bundle'
 
 set :rails_env, (fetch(:rails_env) || fetch(:stage))

@@ -19,7 +19,6 @@ export interface AddEmailModalProps {
 
 export const AddEmailModal: FC<AddEmailModalProps> = ({ listId, onAdd }) => {
   const { isOpen, open, close } = useModalState();
-
   const handleSubmit = ({ email, name }, actions) => {
     return api.emailLists.emails
       .save(listId, { email: { email, name } })

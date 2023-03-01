@@ -85,4 +85,5 @@ module Mau
   end
 end
 
-Rails.autoloaders.main.ignore(Rails.root.join('app/webpack'))
+ignored_autoload_dirs = %w[app/webpack app/frontend]
+Rails.autoloaders.main.ignore(ignored_autoload_dirs.map { |f| Rails.root.join(f) })
