@@ -18,7 +18,7 @@
           th Art
           th Info
           th
-            = OpenStudiosEventService.current.for_display(reverse: true)
+            = OpenStudiosEventService.current&.for_display(reverse: true) || "OS"
           th.admin-controls data-orderable="false"
 
       tbody
@@ -60,7 +60,9 @@
 
             td data-order=(a.active? && a.doing_open_studios?).to_s
               / this make sure that all os settings are sent to the controller
-              - if a.active?
+              - if OpenStudiosEventService.current.nil?
+                .no-address N/A
+              - elsif a.active?
                 - checked = a.doing_open_studios?
                 - name = "os[#{a.id}]"
                 = hidden_field_tag name, "0"

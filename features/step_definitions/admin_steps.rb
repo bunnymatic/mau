@@ -187,3 +187,13 @@ Then('I see the new image') do
   expect(page).not_to have_content 'new-art-piece.jpg'
   expect(page).to have_content 'art.png'
 end
+
+Then('I see the pending list') do
+  expect(page).not_to have_css '#spinner'
+  expect(page).to have_content @pending_artist.email
+end
+
+Then('I see the suspended list') do
+  expect(page).not_to have_css '#spinner'
+  expect(page).to have_content @suspended_artist.email
+end
