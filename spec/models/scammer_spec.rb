@@ -10,7 +10,7 @@ describe Scammer do
       "7437"|"laurynsley@gmail.com"|"Lauryn Masley"
     TABLE
 
-    stub_request(:get, Regexp.new("https:\/\/api.faso.com\/1\/scammers*"))
+    stub_request(:get, Regexp.new('https://api.faso.com/1/scammers*'))
       .to_return(status: 200, body: test_data)
     FactoryBot.create_list(:scammer, 2)
   end

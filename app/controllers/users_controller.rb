@@ -28,17 +28,6 @@ class UsersController < ApplicationController
     }
   end
 
-  def edit
-    @fan = safe_find_user(params[:id])
-
-    if (@fan != current_user) || current_user.artist?
-      flash.keep
-      redirect_to edit_artist_path(current_user)
-      return
-    end
-    @user = UserPresenter.new(current_user.becomes(User))
-  end
-
   def show
     @fan = safe_find_user(params[:id])
     unless @fan&.active?
@@ -58,6 +47,31 @@ class UsersController < ApplicationController
     @user = artist
   end
 
+  def edit
+    @fan = safe_find_user(params[:id])
+
+    if (@fan != current_user) || current_user.artist?
+      flash.keep
+      redirect_to edit_artist_path(current_user)
+      return
+    end
+    @user = UserPresenter.new(current_user.becomes(User))
+  end
+
+  def create
+    logout
+    @type = params.delete(:type)
+    @type ||= user_attrs[:type]
+
+    @user = build_user_from_params
+    recaptcha = true # && verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
+    secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
+    @user.state = 'pending'
+    redirect_after_create && return if secret && recaptcha && @user.save
+
+    render_on_failed_create
+  end
+
   def update
     if commit_is_cancel
       redirect_to user_path(current_user)
@@ -73,20 +87,6 @@ class UsersController < ApplicationController
 
       render :edit
     end
-  end
-
-  def create
-    logout
-    @type = params.delete(:type)
-    @type ||= user_attrs[:type]
-
-    @user = build_user_from_params
-    recaptcha = true # && verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
-    secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
-    @user.state = 'pending'
-    redirect_after_create && return if secret && recaptcha && @user.save
-
-    render_on_failed_create
   end
 
   # Change user passowrd

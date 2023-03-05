@@ -5,14 +5,6 @@ module Admin
       render json: { emails: @email_list.emails }
     end
 
-    def destroy
-      load_email_list
-      load_email
-      member = EmailListMembership.where(email_list_id: @email_list.id, email_id: @email.id).first
-      member.destroy if member.present?
-      render json: { success: true }
-    end
-
     def create
       load_email_list
       errors = {}
@@ -35,6 +27,14 @@ module Admin
       else
         render json: { emails: @email_list.reload.emails }
       end
+    end
+
+    def destroy
+      load_email_list
+      load_email
+      member = EmailListMembership.where(email_list_id: @email_list.id, email_id: @email.id).first
+      member.destroy if member.present?
+      render json: { success: true }
     end
 
     private

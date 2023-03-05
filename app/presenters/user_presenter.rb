@@ -201,10 +201,10 @@ class UserPresenter < ViewPresenter
 
   class << self
     def choose_icon_from_site(site, key)
-      if /\.tumblr\./.match?(site)
+      if site.include?('.tumblr.')
         'fa-tumblr'
       elsif key.to_sym == :blog || key.to_sym == :blogger
-        if /\.blogger\./.match?(site)
+        if site.include?('.blogger.')
           'fa-blogger'
         elsif site.present?
           site_bits = site.split('.')

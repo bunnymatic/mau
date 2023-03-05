@@ -1,5 +1,5 @@
 class DenylistDomain < ApplicationRecord
-  DOMAIN_REGEX = /\A[a-z0-9]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,6}\z/.freeze
+  DOMAIN_REGEX = /\A[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,6}\z/.freeze
   DOMAIN_MESSAGE = 'This domain does not appear to be valid.'.freeze
 
   before_validation :downcase_domain

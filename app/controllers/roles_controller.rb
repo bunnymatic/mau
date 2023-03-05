@@ -1,4 +1,4 @@
-class RolesController < ::BaseAdminController
+class RolesController < BaseAdminController
   def destroy
     remove_role_from_user params[:id], params[:user_id] if params[:id] && params[:user_id]
     redirect_to edit_admin_role_path(params[:id])

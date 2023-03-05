@@ -38,7 +38,7 @@ c.use_file! File.expand_path('../config/config.yml', __dir__)
 c.use_file! File.expand_path('../config/config.local.yml', __dir__)
 c.use_file! File.expand_path('../config/config.keys.yml', __dir__)
 c.use_section! Rails.env
-::Conf = c
+Conf = c
 
 module Mau
   class Application < Rails::Application

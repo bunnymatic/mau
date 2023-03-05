@@ -6,7 +6,7 @@ describe ViewPresenter do
 
   describe 'csv_safe' do
     it 'should clean the fields' do
-      expect(presenter.csv_safe("eat@\#\$!!\"\', 123")).to eql 'eat@#$!! 123'
+      expect(presenter.csv_safe("eat@#!!\"', 123")).to eql 'eat@#!! 123'
     end
   end
 end
