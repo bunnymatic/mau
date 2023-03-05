@@ -59,6 +59,20 @@ class ArtistsController < ApplicationController
     redirect_to edit_artist_path(current_user, anchor: 'events')
   end
 
+  def show
+    @artist = active_artist_from_params
+    respond_to do |format|
+      format.html do
+        if @artist
+          @artist = ArtistPresenter.new(@artist)
+          set_artist_meta
+        else
+          redirect_to artists_path, error: 'We were unable to find the artist you were looking for.'
+        end
+      end
+    end
+  end
+
   def edit
     redirect_to(edit_user_path(current_user)) && return unless current_user.artist?
 
@@ -132,20 +146,6 @@ class ArtistsController < ApplicationController
 
   def delete_art
     @artist = ArtistPresenter.new(current_user)
-  end
-
-  def show
-    @artist = active_artist_from_params
-    respond_to do |format|
-      format.html do
-        if @artist
-          @artist = ArtistPresenter.new(@artist)
-          set_artist_meta
-        else
-          redirect_to artists_path, error: 'We were unable to find the artist you were looking for.'
-        end
-      end
-    end
   end
 
   def update

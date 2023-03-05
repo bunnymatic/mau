@@ -7,7 +7,7 @@ class WhateverMailList < EmailList; end
 describe EmailList do
   describe 'adding elements' do
     ['this', 's p a c e d o u t', 'me at thatplace.com'].each do |email|
-      it "does not allow #{email} because it\'s invalid" do
+      it "does not allow #{email} because it's invalid" do
         eml = EmailList.new(type: 'WhateverMailList')
         eml.emails << Email.new(email: email)
         expect(eml).not_to be_valid

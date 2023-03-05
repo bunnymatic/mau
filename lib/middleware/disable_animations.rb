@@ -8,7 +8,7 @@ class DisableAnimations
 
   def call(env)
     status, headers, body = @app.call(env)
-    return [status, headers, body] unless /html/.match?((headers['Content-Type'] || ''))
+    return [status, headers, body] unless (headers['Content-Type'] || '').include?('html')
 
     response = Rack::Response.new([], status, headers)
     body.each { |fragment| response.write(inject_css_style_overrides(fragment)) }

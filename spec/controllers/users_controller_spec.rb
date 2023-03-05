@@ -539,7 +539,7 @@ describe UsersController do
       end
       it 'flashes an error' do
         make_activate_call
-        expect(/find an artist with that activation code/.match(flash[:error])).not_to be []
+        expect(flash[:error].include?('find an artist with that activation code')).not_to be []
       end
       it 'does not blow away all activation codes' do
         FactoryBot.create_list(:artist, 2)

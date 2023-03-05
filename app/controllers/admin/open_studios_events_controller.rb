@@ -10,6 +10,10 @@ module Admin
       @os_event = OpenStudiosEvent.new
     end
 
+    def edit
+      @os_event = OpenStudiosEvent.find(params[:id])
+    end
+
     def create
       @os_event = OpenStudiosEvent.new(open_studios_event_params)
       if OpenStudiosEventService.save(@os_event)
@@ -17,10 +21,6 @@ module Admin
       else
         render :new
       end
-    end
-
-    def edit
-      @os_event = OpenStudiosEvent.find(params[:id])
     end
 
     def update

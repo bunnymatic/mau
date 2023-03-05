@@ -18,7 +18,7 @@ describe OpenStudiosParticipant do
       let(:time_slots) { open_studios_event.special_event_time_slots }
 
       it 'allows storage of the video conference schedule' do
-        schedule = time_slots.each_with_index.each_with_object({}) do |(slot, idx), memo|
+        schedule = time_slots.each_with_index.with_object({}) do |(slot, idx), memo|
           memo[slot] = idx.even?
         end
         subject.update({

@@ -14,17 +14,17 @@ module Admin
       @role = Role.new
     end
 
+    def edit
+      @role_users = @role.users.active
+      @users = (User.active.all - @role_users).sort_by { |u| u.full_name.downcase }
+      render :edit
+    end
+
     def create
       @role = Role.new(role_params)
       redirect_to(admin_roles_path) && return if @role.save
 
       render :new
-    end
-
-    def edit
-      @role_users = @role.users.active
-      @users = (User.active.all - @role_users).sort_by { |u| u.full_name.downcase }
-      render :edit
     end
 
     def update
