@@ -8,6 +8,8 @@ import * as types from "@reactjs/types";
 import cx from "classnames";
 import React, { FC, useState } from "react";
 
+import { ConfirmRegistrationContent } from "./confirm_registration_content";
+
 interface OpenStudiosRegistrationSectionProps {
   location: string;
   openStudiosEvent: types.OpenStudiosEvent;
@@ -62,22 +64,7 @@ export const OpenStudiosRegistrationSection: FC<
           variant={ConfirmModalVariants.large}
           containerClass="open-studios-registration-section__modal-content-container"
         >
-          <p>
-            You are about to register as a participating artist for Open
-            Studios, {event.dateRange}.
-          </p>
-          <p>Which means you will:</p>
-          <ul>
-            <li> Hang some art at your studio - {location}</li>
-            <li>
-              {" "}
-              Open your studio to the public {event.dateRange},{" "}
-              {event.startTime} - {event.endTime} (while complying with local,
-              state & federal guidelines around COVID 19).
-            </li>
-            <li> Promote your art and studio as part of the event.</li>
-          </ul>
-          <p>Would you like to continue?</p>
+          <ConfirmRegistrationContent location={location} event={event} />
         </ConfirmModal>
       )}
     </div>
