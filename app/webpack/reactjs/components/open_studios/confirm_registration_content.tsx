@@ -3,7 +3,7 @@ import React, { FC } from "react";
 
 interface ConfirmRegistrationContentProps {
   location: string;
-  openStudiosEvent: types.OpenStudiosEvent;
+  event: types.OpenStudiosEvent;
 }
 
 export const ConfirmRegistrationContent: FC<
