@@ -144,13 +144,6 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
                   <p>Would you like to continue?</p>
                 </ConfirmModal>
               </div>
-              <div className="open-studios-info-form__help">
-                <p>
-                  <a href="https://bit.ly/v-openstudios" target="_blank">
-                    Help & more details on participating.
-                  </a>
-                </p>
-              </div>
             </Form>
           );
         }}
