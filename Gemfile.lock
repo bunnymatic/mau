@@ -375,7 +375,7 @@ GEM
       mojo_magick (~> 0.6.5)
       rqrcode_core (~> 0.1)
     racc (1.6.2)
-    rack (2.2.6.3)
+    rack (2.2.6.4)
     rack-cors (2.0.0)
       rack (>= 2.0.0)
     rack-handlers (0.7.3)
