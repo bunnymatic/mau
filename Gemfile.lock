@@ -351,7 +351,7 @@ GEM
     net-ssh (7.0.1)
     newrelic_rpm (9.0.0)
     nio4r (2.5.8)
-    nokogiri (1.14.2)
+    nokogiri (1.14.3)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     paperclip (6.1.0)
