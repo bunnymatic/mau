@@ -1,15 +1,15 @@
-import { post } from "@services/mau_ajax";
 import MarkerClusterer from "@google/markerclustererplus";
+import { post } from "@services/mau_ajax";
 
 const random = (min, max) => Math.random() * (max - min) + min;
 const MAX_RANDOM_DISTANCE = 6;
 
 type InputMarker = Record<string, any>;
 type InputBound = Record<string, any>;
-type LatLong = { lat: number, lng: number };
+type LatLong = { lat: number; lng: number };
 type MapInfoResponse = {
-  map_markers: Array<InputMarker>,
-  map_bounds: Array<InputBound>
+  map_markers: Array<InputMarker>;
+  map_bounds: Array<InputBound>;
 };
 
 class MauMap {
@@ -18,7 +18,13 @@ class MauMap {
   markers: Array<InputMarker>;
   bounds: Array<InputBound>;
 
-  constructor(mapElementId: string, { markers, bounds }: { markers: Array<InputMarker>, bounds: Array<InputBound> }) {
+  constructor(
+    mapElementId: string,
+    {
+      markers,
+      bounds,
+    }: { markers: Array<InputMarker>; bounds: Array<InputBound> }
+  ) {
     this.map = new google.maps.Map(document.getElementById(mapElementId), {});
 
     this.currentOpenInfoWindow = null;
@@ -26,7 +32,10 @@ class MauMap {
     this.bounds = bounds;
   }
 
-  randomizePosition(marker: InputMarker, maxRandomDistance: number | null = null): InputMarker | LatLong {
+  randomizePosition(
+    marker: InputMarker,
+    maxRandomDistance: number | null = null
+  ): InputMarker | LatLong {
     if (!Number.isInteger(maxRandomDistance)) {
       return marker;
     }
@@ -53,7 +62,10 @@ class MauMap {
     return { ...marker, animation: google.maps.Animation.DROP };
   }
 
-  openInfoWindow(infoWindow: google.maps.InfoWindow, pin: google.maps.Marker): void {
+  openInfoWindow(
+    infoWindow: google.maps.InfoWindow,
+    pin: google.maps.Marker
+  ): void {
     if (this.currentOpenInfoWindow) {
       this.currentOpenInfoWindow.close();
     }
@@ -89,8 +101,12 @@ class MauMap {
 
   getMarkerBounds(): google.maps.LatLngBounds {
     const bounds = new google.maps.LatLngBounds();
-    this.bounds.forEach((bound) => bounds.extend(bound as google.maps.LatLngLiteral));
-    this.markers.forEach((marker) => bounds.extend(marker as google.maps.LatLngLiteral));
+    this.bounds.forEach((bound) =>
+      bounds.extend(bound as google.maps.LatLngLiteral)
+    );
+    this.markers.forEach((marker) =>
+      bounds.extend(marker as google.maps.LatLngLiteral)
+    );
     return bounds;
   }
 
@@ -120,7 +136,7 @@ class MauMap {
         bounds: data.map_bounds,
       }).render();
     });
-  };
+  }
 }
 
 export default MauMap;

@@ -20,15 +20,15 @@ describe ArtistsMap do
 
   describe '.map_data' do
     it 'constructs map data for the artists' do
-      map_data = JSON.parse(map.map_data)
+      map_data = map.map_data
       expect(map_data).to have(2).items
       expected_data = artists.map do |a|
         {
-          'lat' => a.address.lat,
-          'lng' => a.address.lng,
-          'artistId' => a.id,
-          'artistName' => a.full_name,
-          'infowindow' => ArtistPresenter.new(a).map_info,
+          lat: a.address.lat,
+          lng: a.address.lng,
+          artistId: a.id,
+          artistName: a.full_name,
+          infowindow: ArtistPresenter.new(a).map_info,
         }
       end
       expect(map_data).to match_array expected_data
