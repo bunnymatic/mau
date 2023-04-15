@@ -1,23 +1,6 @@
-/ expects map_info
 - content_for :extra_javascript do
-  javascript:
-    var MAU = window.MAU = window.MAU || {};
-    MAU.map_markers = #{map_info.map_data.html_safe};
-    MAU.map_bounds = #{map_info.bounds.html_safe};
-
   = javascript_include_tag "//maps.googleapis.com/maps/api/js?key=#{Conf::google_map_api_key}"
-  = javascript_packs_with_chunks_tag 'gmaps_google'
 
 .pure-g
   .pure-u-1-1.pure-u-sm-1-2.pure-u-md-2-3.pure-u-lg-3-5
     #map-canvas
-  - map_info.grouped_by_address_and_sorted.each do |addr,artists|
-    - artists.each_slice(20) do |sublist|
-      .pure-u-1-1.pure-u-sm-1-2.pure-u-md-1-3.pure-u-lg-1-5.map__list-of-artists.padded-content
-        .header
-          = addr
-        ul.tenants
-          - sublist.each do |a|
-            li.map__artist
-              a.artist-map-lnk(data-artist_id="artist_#{a.id}", href=artist_path(a))
-                = a.full_name

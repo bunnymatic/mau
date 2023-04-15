@@ -12,9 +12,19 @@
         = render_cms_content @presenter.packaged_summary
         = render_cms_content @presenter.packaged_preview_reception
         .section.open-studios-index__section
-          h4.section.open-studios-index__header Participating Artists
-          ul.open-studios-index__participant-list
-            - @presenter.participating_artists.each do |artist|
-              li.open-studios-index__participant
-                = @presenter.link_to_artist(artist)
+          .open-studios-index__map-container
+            = render 'map'
+          .open-studios-index__list-container
+            h4.section.open-studios-index__header Participating Artists
+            ul.open-studios-index__participant-list
+              - @presenter.participating_artists.each do |artist|
+                li.open-studios-index__participant
+                  = @presenter.link_to_artist(artist)
+
           = render :partial => '/main/info_footer'
+
+javascript:
+  document.addEventListener("DOMContentLoaded", function () {
+    MAU.MauMap.fetchAndRender("map-canvas");
+    new MAU.MapResizer('#map-canvas', '.open-studios-index__participant-list');
+  });

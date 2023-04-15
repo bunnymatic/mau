@@ -15,7 +15,7 @@ class ArtistsPresenter < ViewPresenter
 
     artists_list =
       (if os_only
-         OpenStudiosEvent.current.artists.active.includes(:open_studios_participants, :art_pieces)
+         OpenStudiosEvent.current.artists.active.includes(:art_pieces, :open_studios_participants)
        else
          Artist.active.includes(:studio, :artist_info, :art_pieces, :open_studios_events)
        end)

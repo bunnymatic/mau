@@ -54,6 +54,6 @@ class BaseOpenStudiosPresenter < ViewPresenter
   end
 
   def os_participants
-    @os_participants ||= current_os&.artists || []
+    @os_participants ||= current_os&.artists&.active || []
   end
 end
