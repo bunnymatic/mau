@@ -1,3 +1,6 @@
+- content_for :extra_javascript do
+  = javascript_include_tag "//maps.googleapis.com/maps/api/js?key=#{Conf::google_map_api_key}"
+
 .pure-g.sticky-header
   .pure-u-1-1.header.padded-content.with-action-button.bordered-header
     h2.title #{open_studios_page_title}
@@ -13,7 +16,10 @@
         = render_cms_content @presenter.packaged_preview_reception
         .section.open-studios-index__section
           .open-studios-index__map-container
-            = render 'map'
+            .pure-g
+              .pure-u-1-1.pure-u-sm-1-2.pure-u-md-2-3.pure-u-lg-3-5
+                .map-spinner
+                #map-canvas
           .open-studios-index__list-container
             h4.section.open-studios-index__header Participating Artists
             ul.open-studios-index__participant-list
@@ -25,6 +31,6 @@
 
 javascript:
   document.addEventListener("DOMContentLoaded", function () {
-    MAU.MauMap.fetchAndRender("map-canvas");
+    MAU.MauMap.fetchAndRender("map-canvas", '.open-studios-index__map-container .map-spinner');
     new MAU.MapResizer('#map-canvas', '.open-studios-index__participant-list');
   });

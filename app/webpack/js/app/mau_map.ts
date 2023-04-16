@@ -1,5 +1,6 @@
 import MarkerClusterer from "@google/markerclustererplus";
 import { post } from "@services/mau_ajax";
+import Spinner from "@js/app/spinner";
 
 const random = (min, max) => Math.random() * (max - min) + min;
 const MAX_RANDOM_DISTANCE = 6;
@@ -129,12 +130,20 @@ class MauMap {
     this.cluster(pins);
   }
 
-  static fetchAndRender(mapId: string) {
-    post("/api/open_studios/map", {}).done((data: MapInfoResponse) => {
+  static fetchAndRender(mapId: string, spinnerSelector?: string) {
+    let spinner: Spinner;
+    if (spinnerSelector) {
+      spinner = new Spinner({ element: spinnerSelector })
+      spinner.spin()
+    }
+    post("/api/open_studios/map").done((data: MapInfoResponse) => {
+      $(spinnerSelector).remove();
       new MauMap(mapId, {
         markers: data.map_markers,
         bounds: data.map_bounds,
       }).render();
+    }).always(() => {
+      $(spinnerSelector).remove();
     });
   }
 }
