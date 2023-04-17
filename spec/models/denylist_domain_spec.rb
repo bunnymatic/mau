@@ -18,7 +18,7 @@ describe DenylistDomain do
 
   %w[invalid whover.superlongtld a.b.c.e.f.g.h].each do |domain|
     it "validates #{domain} as invalid" do
-      expect(DenylistDomain.new(domain: domain)).not_to be_valid
+      expect(DenylistDomain.new(domain: domain)).not_to(be_valid, "#{domain} appears invalid")
     end
   end
 
