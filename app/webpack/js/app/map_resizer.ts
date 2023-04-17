@@ -1,6 +1,6 @@
+import { noop } from "@js/app/helpers";
 import jQuery from "jquery";
 import debounce from "lodash/debounce";
-import { noop } from "@js/app/helpers";
 
 class MapResizer {
   constructor(mapSelector: string, matchElementSelector: string) {
@@ -12,7 +12,8 @@ class MapResizer {
     };
 
     const cb = () => window.requestAnimationFrame(update);
-    const rIc = () => window.requestIdleCallback ? requestIdleCallback(cb, timeout) : noop;
+    const rIc = () =>
+      window.requestIdleCallback ? requestIdleCallback(cb, timeout) : noop;
 
     const timeout = { timeout: 2000 };
     const waitMs = 400;

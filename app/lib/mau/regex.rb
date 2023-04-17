@@ -5,7 +5,7 @@ module Mau
 
     EMAIL_NAME  = '[\w\.%\+\-]+'.freeze
     DOMAIN_HEAD = '(?:[A-Z0-9\-]+\.)+'.freeze
-    DOMAIN_TLD  = '(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum|me|ly)'.freeze
+    DOMAIN_TLD  = '(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum|me|ly|example|test)'.freeze
     EMAIL       = /\A#{EMAIL_NAME}@#{DOMAIN_HEAD}#{DOMAIN_TLD}\z/i.freeze
     BAD_EMAIL_MESSAGE = 'should look like an email address.'.freeze
   end
