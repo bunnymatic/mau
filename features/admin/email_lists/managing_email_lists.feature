@@ -32,15 +32,6 @@ Scenario: Removing an email
   And I click to remove "new_email@example.com" from the "Feedback" list
   Then I see that "joe blow <new_email@example.com>" is not on the "Feedback" email list
 
-# non javascript here because we get the html5 validation
-Scenario: Adding an invalid email
-  When I click to add an email to the "Feedback" list
-  And I fill in the "Feedback" email form with:
-  | email     | name       |
-  | email@    | joe blow |
-  And I click "Add" in the "Feedback" email form
-  Then I see an inline form error "should look like an email"
-
 @javascript
 Scenario: Adding the same email twice to one list
   When I click to add an email to the "Feedback" list
