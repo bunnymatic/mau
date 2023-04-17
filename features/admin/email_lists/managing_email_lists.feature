@@ -37,7 +37,7 @@ Scenario: Adding an invalid email
   When I click to add an email to the "Feedback" list
   And I fill in the "Feedback" email form with:
   | email     | name       |
-  | email@a   | joe blow |
+  | email@    | joe blow |
   And I click "Add" in the "Feedback" email form
   Then I see an inline form error "should look like an email"
 
