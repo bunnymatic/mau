@@ -9,7 +9,15 @@
   }
 }
 .open-studios-index__section {
+  margin-top: 30px;
   margin-bottom: 30px;
+  & > * {
+    margin-bottom: 20px;
+  }
+  .map-spinner {
+    position: relative;
+    height: 100%;
+  }
 }
 .open-studios-index__header {
   text-transform: uppercase;

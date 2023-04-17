@@ -21,7 +21,7 @@ describe FavoritesService do
       end
       it "doesn't blow up if the notification fails because of postmark sending issues" do
         failed_mailer = double('Mailer')
-        expect(failed_mailer).to receive(:deliver_later).and_raise(Postmark::InvalidMessageError)
+        expect(failed_mailer).to receive(:deliver_later).and_raise(Postmark::ApiInputError)
         expect(ArtistMailer).to receive(:favorite_notification).and_return(failed_mailer)
         service.add fan, artist
       end

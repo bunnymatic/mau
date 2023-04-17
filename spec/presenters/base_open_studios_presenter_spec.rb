@@ -20,7 +20,7 @@ describe BaseOpenStudiosPresenter do
 
   before do
     allow(OpenStudiosEventService).to receive(:current).and_return(open_studios_event)
-    allow(open_studios_event).to receive_message_chain(:artists)
+    allow(open_studios_event).to receive_message_chain(:artists, :active)
       .and_return(
         [
           create(:artist, studio: create(:studio), lastname: 'Bill'),
@@ -114,7 +114,7 @@ describe BaseOpenStudiosPresenter do
   end
 
   describe '.link_to_artist' do
-    let(:artist) { open_studios_event.artists.first }
+    let(:artist) { open_studios_event.artists.active.first }
     context 'when open studios feature is on' do
       before do
         allow(FeatureFlags).to receive(:virtual_open_studios?).and_return true
