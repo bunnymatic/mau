@@ -52,7 +52,7 @@ Install the MAU bundle (or, starting a dev session every time)
     git checkout master
     git pull
     bundle install
-    
+
 Note that on MacOS Mojave, you may need to run the following command in order for the `mysql` gem to be successfuly installed and the `bundle install` to complete. See https://gist.github.com/fernandoaleman/ee3ac6957c2ba4f7d7d33a251d58b191 for original instructions and for link to potential fix for the same issue on Catalina.
 
     gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
@@ -150,9 +150,9 @@ Will create the `ComponentName.tsx` file and it's corresponding test file in the
 If you plan to use this component in a slim file and want it to be automounted, don't froget to add it to
 the `reactjs/components/index.ts` so it'll be in the registry used by the `react_component` rails helper.
 
-### Webpack
+### ~Webpack~ Vite
 
-We've moved off sprockets and are using webpack exclusively.
+We've moved off sprockets and are using ~webpack~ [vite](https://vitejs.dev) exclusively.
 
 During development you can run
 ```
@@ -162,7 +162,7 @@ by itself and everything should work.  But webpack file changes will get recompi
 
 To speed this up, in another terminal, use
 ```
-bin/webpack-dev-server
+yarn vite dev
 ```
 and this will give you the dev server which will push incremental changes as you change front-end concerns.
 
