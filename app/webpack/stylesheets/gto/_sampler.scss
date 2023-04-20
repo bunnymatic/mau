@@ -15,7 +15,8 @@
         height: 250px;
         width: 100%;
         display: block;
-        background-image: url("images/virtual-open-studios-banner.svg");
+        background-image: url("images/openstudios_20230513.svg");
+
         @include background-cover;
       }
     }
