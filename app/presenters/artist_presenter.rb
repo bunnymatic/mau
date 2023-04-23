@@ -183,7 +183,7 @@ class ArtistPresenter < UserPresenter
 
   def last_updated_profile
     Time.use_zone(Conf.event_time_zone) do
-      last_updated_at.to_s(:admin)
+      last_updated_at.to_fs(:admin)
     end
   end
 
