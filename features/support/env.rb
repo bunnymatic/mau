@@ -3,24 +3,10 @@
 # newer version of cucumber-rails. Consider adding your own code to a new file
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
-require 'dotenv'
-Dotenv.load
-require 'webdrivers'
-require './spec/support/simplecov'
-require './spec/support/faker_files'
+
 require 'cucumber/rails'
-require 'factory_bot'
-require 'capybara/rspec'
-require 'capybara-screenshot/cucumber'
 
-Dir[Rails.root.join('spec/factories/**/*.rb')].sort.each { |f| require f }
-Dir[Rails.root.join('features/support/**/*.rb')].sort.each { |f| require f }
-
-require './spec/support/fake_geocoder'
-
-Capybara.configure do |config|
-  config.always_include_port = true
-end
+# frozen_string_literal: true
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -44,31 +30,25 @@ end
 #
 ActionController::Base.allow_rescue = false
 
-##
-# All the database cleaner setup is handled in support/database_cleaner
-
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
-# begin
-#   # This app seems to have some trouble with `:transaction` and flipping to `:truncation` only
-#   # for JS tests so, let's just leave it alone.
-#   # For more details: https://github.com/cucumber/cucumber-rails/issues/490
-#   DatabaseCleaner.strategy = :truncation
-# rescue NameError
-#   raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
-# end
+begin
+  DatabaseCleaner.strategy = :transaction
+rescue NameError
+  raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
+end
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
 #
 #   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
-#     # { :except => [:widgets] } may not do what you expect here
+#     # { except: [:widgets] } may not do what you expect here
 #     # as Cucumber::Rails::Database.javascript_strategy overrides
 #     # this setting.
 #     DatabaseCleaner.strategy = :truncation
 #   end
 #
-#   Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
+#   Before('not @no-txn', 'not @selenium', 'not @culerity', 'not @celerity', 'not @javascript') do
 #     DatabaseCleaner.strategy = :transaction
 #   end
 #
@@ -76,8 +56,4 @@ ActionController::Base.allow_rescue = false
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
-#
-# Note: db cleaner stuff is handled in support/database_cleaner
-# Cucumber::Rails::Database.javascript_strategy = :truncation
-
-Capybara.default_max_wait_time = 5
+Cucumber::Rails::Database.javascript_strategy = :truncation

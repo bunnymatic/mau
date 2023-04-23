@@ -4,12 +4,10 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-unless ARGV.any? { |a| a.starts_with?('gems') } # Don't load anything when running the gems:* tasks
+unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gems:* tasks
 
-  vendored_cucumber_bin = Dir[
-    Rails.root.join('vendor/{gems,plugins}/cucumber*/bin/cucumber')
-  ].first
-  $LOAD_PATH.unshift("#{File.dirname(vendored_cucumber_bin)}/../lib") unless vendored_cucumber_bin.nil?
+  vendored_cucumber_bin = Dir[Rails.root.join('/vendor/{gems,plugins}/cucumber*/bin/cucumber')].first
+  $LOAD_PATH.unshift(File.join(File.dirname(vendored_cucumber_bin), '..', 'lib')) unless vendored_cucumber_bin.nil?
 
   begin
     require 'cucumber/rake/task'
@@ -36,39 +34,32 @@ unless ARGV.any? { |a| a.starts_with?('gems') } # Don't load anything when runni
       desc 'Run all features'
       task all: %i[ok wip]
 
-      task statsetup: [:environment] do
+      task statsetup: :environment do
         require 'rails/code_statistics'
         STATS_DIRECTORIES << ['Cucumber features', 'features'] if File.exist?('features')
         CodeStatistics::TEST_TYPES << 'Cucumber features' if File.exist?('features')
       end
     end
-    desc 'Alias for cucumber:ok'
-    task cucumber: ['cucumber:ok']
 
-    # task :default => :cucumber
+    desc 'Alias for cucumber:ok'
+    task cucumber: 'cucumber:ok'
+
+    task default: :cucumber
 
     task features: :cucumber do
       warn "*** The 'features' task is deprecated. See rake -T cucumber ***"
     end
 
     # In case we don't have the generic Rails test:prepare hook, append a no-op task that we can depend upon.
-    task 'test:prepare': [:environment] do
+    task 'test:prepare': :environment do
     end
 
     task stats: 'cucumber:statsetup'
   rescue LoadError
     desc 'cucumber rake task not available (cucumber not installed)'
-    task cucumber: [:environment]  do
+    task cucumber: :environment do
       abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
     end
-  end
-
-  # 1) select all tasks that begin with the "cuke:" namespace
-  tasks_in_cuke_namespace = Rake.application.tasks.select { |task| task.name.start_with? 'cucumber:' }
-
-  # 2) call #enhance on each of those tasks, passing an array of task dependencies
-  tasks_in_cuke_namespace.each do |task|
-    task.enhance [:environment]
   end
 
 end

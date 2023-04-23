@@ -1,9 +1,9 @@
 <%
-std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --order random"
-data = ''
-if (File.exist? "./.env.test")
-  data = File.open('./.env.test','r').read.split.join(" ")
-end
-std_opts += " " + data %>
+rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
+rerun = rerun.strip.gsub /\s/, ' '
+rerun_opts = rerun.empty? ? "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} features" : "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} #{rerun}"
+std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags 'not @wip'"
+%>
 default: <%= std_opts %> features
-rerun: "--format rerun --out failed-feature-examples.txt"
+wip: --tags @wip:3 --wip features
+rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags 'not @wip'
