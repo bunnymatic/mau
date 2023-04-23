@@ -21,15 +21,15 @@ describe UserPresenter do
   its(:member_since) { is_expected.to eql created.strftime('%b %Y') }
 
   describe '#last_login' do
-    its(:last_login) { is_expected.to eql user.last_request_at.to_formatted_s(:admin) }
+    its(:last_login) { is_expected.to eql user.last_request_at.to_fs(:admin) }
     context 'when last_request_at is not present' do
       let(:last_request_at) { nil }
-      its(:last_login) { is_expected.to eql user.current_login_at.to_formatted_s(:admin) }
+      its(:last_login) { is_expected.to eql user.current_login_at.to_fs(:admin) }
     end
     context 'when last_request_at and current_login are not present' do
       let(:last_request_at) { nil }
       let(:current_login_at) { nil }
-      its(:last_login) { is_expected.to eql user.last_login_at.to_formatted_s(:admin) }
+      its(:last_login) { is_expected.to eql user.last_login_at.to_fs(:admin) }
     end
   end
 
