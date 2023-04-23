@@ -43,5 +43,26 @@ module Mau
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.elasticsearch_url = ENV.fetch('ELASTICSEARCH_URL', 'http://localhost:9200')
+
+    config.action_mailer.delivery_method = :file
+
+    config.s3_info = {
+      bucket: ::Conf.S3_BUCKET || "mission-artists-#{Rails.env}",
+      access_key_id: ::Conf.AWS_ACCESS_KEY_ID || 'bogus',
+      secret_access_key: ::Conf.AWS_SECRET_ACCESS_KEY || 'bogus',
+      s3_region: Conf.S3_REGION || 'us-east-1',
+    }
+
+    config.api_consumer_key = ENV.fetch('API_CONSUMER_KEY', ::Conf.api_consumer_key)
+    config.elasticsearch_url = ENV.fetch('ELASTICSEARCH_URL', 'http://localhost:9200')
+
+    config.active_support.test_order = :random
+    config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol, ActionController::Parameters]
+
+    config.action_dispatch.tld_length = Integer(Conf.TLD_LENGTH || 1)
+
+    config.active_storage.variant_processor = :vips
   end
 end

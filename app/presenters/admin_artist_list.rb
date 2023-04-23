@@ -51,7 +51,7 @@ class AdminArtistList < ViewPresenter
       headers = (current_os&.special_event_time_slots || []).map do |slot|
         OpenStudiosParticipant.parse_time_slot(slot).first
       end
-      headers.map { |start_time| start_time.to_s(:admin_with_zone) }
+      headers.map { |start_time| start_time.to_fs(:admin_with_zone) }
     end
   end
 
@@ -92,7 +92,7 @@ class AdminArtistList < ViewPresenter
         artist.email,
         artist.phone,
         artist.doing_open_studios?,
-        artist.member_since_date.to_s(:admin_date_only),
+        artist.member_since_date.to_fs(:admin_date_only),
         artist.last_login,
         artist.last_updated_profile,
       ] + open_studios_participant_as_csv_row(artist.current_open_studios_participant)
