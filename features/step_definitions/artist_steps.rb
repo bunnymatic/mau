@@ -17,7 +17,7 @@ Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
   end
   within '.title' do
     expect(page_body).to_not have_content 'Mona Lisa'
-    expect(page_body).to have_content new_title
+    expect(page).to have_content new_title
   end
 end
 
@@ -27,7 +27,7 @@ end
 
 Then(/^I see that my art medium was updated to the last medium$/) do
   within '.media' do
-    expect(page_body).to have_content(Medium.last.name)
+    expect(page).to have_content(Medium.last.name)
   end
 end
 
@@ -39,7 +39,7 @@ Then(/^I see that my art tags are:$/) do |data|
   expected_tags = data.raw.first
   within '.tags' do
     expected_tags.each do |tag|
-      expect(page_body).to have_content tag
+      expect(page).to have_content tag
     end
   end
 end
@@ -74,7 +74,7 @@ end
 
 Then /^I see that my art was not added$/ do
   within '.error-msg' do
-    expect(page_body).to have_content "Title can't be blank"
+    expect(page).to have_content "Title can't be blank"
   end
   expect(page).to have_css '#art_piece_title_input.error'
 end

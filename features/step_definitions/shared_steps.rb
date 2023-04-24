@@ -285,8 +285,8 @@ Then(/^I click on the "([^"]*)" icon$/) do |icon_class|
 end
 
 Then(/^I see "([^"]*)" in the "([^"]*)"$/) do |text, container|
-  within container do
-    expect(page_body).to have_content text
+  within container do |c|
+    expect(c).to have_content text
   end
 end
 

@@ -4,18 +4,18 @@ When /I click on the current open studios link/ do
 end
 
 Then('I see the unregistration dialog') do
-  within('.ReactModal__Content') do
-    expect(page_body).to have_content 'You will no longer be registered for Open Studios'
-    expect(page_body).to have_content('Yes')
-    expect(page_body).to have_content('No')
+  within('.ReactModal__Content') do |modal|
+    expect(modal).to have_content 'You will no longer be registered for Open Studios'
+    expect(modal).to have_content('Yes')
+    expect(modal).to have_content('No')
   end
 end
 
 Then('I see the registration dialog') do
-  within('.ReactModal__Content') do
-    expect(page_body).to have_content 'You are about to register as a participating artist for Open Studios'
-    expect(page_body).to have_content('Yes')
-    expect(page_body).to have_content('No')
+  within('.ReactModal__Content') do |modal|
+    expect(modal).to have_content 'You are about to register as a participating artist for Open Studios'
+    expect(modal).to have_content('Yes')
+    expect(modal).to have_content('No')
   end
 end
 
@@ -94,8 +94,8 @@ Then /I change the date to next month and the title to "(.*)"/ do |title|
 end
 
 Then /I see the open studios event with the title "(.*)"$/ do |title|
-  within table_row_matching(title) do
-    expect(page_body).to have_content @start_date.strftime('%Y%m')
+  within table_row_matching(title) do |row|
+    expect(row).to have_content @start_date.strftime('%Y%m')
   end
 end
 
@@ -120,8 +120,8 @@ Then /^I fill in the open studios event form for next weekend with the title "(.
 end
 
 Then /^I see that the open studios event titled "(.*)" is no longer there$/ do |title|
-  within('.os-events tbody') do
-    expect(page).not_to have_content(title)
+  within('.os-events tbody') do |tbody|
+    expect(tbody).not_to have_content(title)
   end
 end
 
@@ -199,8 +199,8 @@ And "I see the artist's open studios you tube embed video" do
 end
 
 Then('I see the artist\'s name in the header title') do
-  within('.container-header') do
-    expect(page_body).to have_content Regexp.new(@artist.get_name, Regexp::IGNORECASE)
+  within('.container-header') do |header|
+    expect(header).to have_content Regexp.new(@artist.get_name, Regexp::IGNORECASE)
   end
 end
 
@@ -240,11 +240,11 @@ When('I click on the first art card in the catalog') do
 end
 
 Then('I see that art in a modal') do
-  within '.art-modal__content' do
-    expect(page_body).to have_content(@art_piece.title)
-    expect(page_body).to have_content(@art_piece.price)
-    expect(page_body).to have_content(@art_piece.dimensions)
-    expect(page_body).to have_content(@art_piece.medium.name)
+  within '.art-modal__content' do |modal|
+    expect(modal).to have_content(@art_piece.title)
+    expect(modal).to have_content(@art_piece.price)
+    expect(modal).to have_content(@art_piece.dimensions)
+    expect(modal).to have_content(@art_piece.medium.name)
   end
 end
 
@@ -252,11 +252,11 @@ Then('I see the next art piece in the modal') do
   idx = @art_piece.artist.art_pieces.find_index(@art_piece)
   next_piece = @art_piece.artist.art_pieces[idx + 1]
 
-  within '.art-modal__content' do
-    expect(page_body).to have_content(next_piece.title)
-    expect(page_body).to have_content(next_piece.price)
-    expect(page_body).to have_content(next_piece.dimensions)
-    expect(page_body).to have_content(next_piece.medium.name)
+  within '.art-modal__content' do |modal|
+    expect(modal).to have_content(next_piece.title)
+    expect(modal).to have_content(next_piece.price)
+    expect(modal).to have_content(next_piece.dimensions)
+    expect(modal).to have_content(next_piece.medium.name)
   end
 end
 
@@ -286,8 +286,8 @@ Then('the first artist is broadcasting live now') do
 end
 
 Then('I see an open sign on the first artist\'s card') do
-  within('.open-studios__artist-card__open-now') do
-    expect(page_body).to have_content(/open/i)
+  within('.open-studios__artist-card__open-now') do |card|
+    expect(card).to have_content(/open/i)
   end
 end
 
@@ -305,8 +305,8 @@ When('I click the next button in the paginator') do
 end
 
 Then('I see the next artist in the catalog') do
-  within('.container-header') do
-    expect(page_body).to have_content(@next_artist.get_name.upcase)
+  within('.container-header') do |header|
+    expect(header).to have_content(@next_artist.get_name.upcase)
   end
 end
 
