@@ -8,6 +8,7 @@ Background:
   And there are open studios artists with art in the system
   And there is open studios cms content in the system
   When I visit the home page
+  And I wait until the page is done loading infinite scroll
 
 Scenario:  Visiting the open studios promo page
   When I click on the current open studios link

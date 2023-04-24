@@ -69,9 +69,6 @@ Rails.application.configure do
     host: ENVIRONMENT_HOST,
   }
 
-  # Raises error for missing translations
-  # config.action_view.raise_on_missing_translations = true
-
   config.action_controller.asset_host = ENVIRONMENT_HOST
   config.action_mailer.asset_host = ENVIRONMENT_HOST
 

@@ -61,6 +61,10 @@ module CapybaraHelpers
 
     Capybara.current_session.driver.browser.execute_script(script, element.native)
   end
+
+  def page_body
+    page.find('body')
+  end
 end
 
 World CapybaraHelpers

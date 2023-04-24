@@ -3,11 +3,11 @@ When(/^I click to add this as a favorite$/) do
 end
 
 Then(/^I see all the favorites in a table$/) do
-  expect(page).to have_content 'Favorites!'
+  expect(page_body).to have_content 'Favorites!'
   favs = User.all.map(&:favorites).sort_by(&:length).flatten.map(&:favoritable)
   totals = StatsCalculator.histogram(favs.map { |f| f.class.name })
   within 'tr.totals' do
-    expect(page).to have_content 'Total'
+    expect(page_body).to have_content 'Total'
     expect(page).to have_css 'td', text: totals['ArtPiece'].to_s
     expect(page).to have_css 'td', text: totals['Artist'].to_s
   end
@@ -45,12 +45,12 @@ When(/^I visit my favorites page$/) do
 end
 
 Then(/^I see someone else's favorites$/) do
-  expect(page).to have_content "#{@someone_else.get_name}'s Favorites"
-  expect(page).to have_content 'has not favorited'
+  expect(page_body).to have_content "#{@someone_else.get_name}'s Favorites"
+  expect(page_body).to have_content 'has not favorited'
 end
 
 Then(/^I see my favorites$/) do
-  expect(page).to have_content 'My Favorites'
+  expect(page_body).to have_content 'My Favorites'
   expect(page).to have_css('.art-card')
   expect(page).to have_css('.artist-card')
   expect(page).to have_css('.favorite-artists .section.header', text: "Artists (#{@artist.fav_artists.count})")
@@ -58,10 +58,10 @@ Then(/^I see my favorites$/) do
 end
 
 Then(/^I see my empty favorites page$/) do
-  expect(page).to have_content /Go find/
-  expect(page).to have_content 'Find Artists by Name'
-  expect(page).to have_content 'Find Artists by Medium'
-  expect(page).to have_content 'Find Artists by Tag'
+  expect(page_body).to have_content /Go find/
+  expect(page_body).to have_content 'Find Artists by Name'
+  expect(page_body).to have_content 'Find Artists by Medium'
+  expect(page_body).to have_content 'Find Artists by Tag'
   expect(page).to have_css('.thumb')
 end
 

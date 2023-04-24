@@ -30,7 +30,7 @@ Then(/^I see that "(.*?)" is on the "(.*?)" email list$/) do |email_string, list
       page.has_content? email_string
     end
   end
-  expect(page).to have_content email_string
+  expect(page_body).to have_content email_string
 end
 
 When /I click "(.*?)" in the "(.*?)" email form$/ do |button, _list_name|
@@ -48,6 +48,6 @@ end
 
 Then(/^I see that "([^"]*)" is not on the "([^"]*)" email list$/) do |email, list_name|
   within get_email_list_manager(list_name) do
-    expect(page).to_not have_content(email)
+    expect(page_body).to_not have_content(email)
   end
 end

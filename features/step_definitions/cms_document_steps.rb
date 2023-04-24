@@ -6,6 +6,6 @@ end
 
 Then(/^I see no cms content in the list$/) do
   within 'table.js-data-tables' do
-    expect(page).to have_content 'No data available in table'
+    expect(page_body).to have_content 'No data available in table'
   end
 end

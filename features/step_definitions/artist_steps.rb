@@ -16,8 +16,8 @@ Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
     /#{Regexp.quote(new_title)}/i =~ title
   end
   within '.title' do
-    expect(page).to_not have_content 'Mona Lisa'
-    expect(page).to have_content new_title
+    expect(page_body).to_not have_content 'Mona Lisa'
+    expect(page_body).to have_content new_title
   end
 end
 
@@ -27,7 +27,7 @@ end
 
 Then(/^I see that my art medium was updated to the last medium$/) do
   within '.media' do
-    expect(page).to have_content(Medium.last.name)
+    expect(page_body).to have_content(Medium.last.name)
   end
 end
 
@@ -39,7 +39,7 @@ Then(/^I see that my art tags are:$/) do |data|
   expected_tags = data.raw.first
   within '.tags' do
     expected_tags.each do |tag|
-      expect(page).to have_content tag
+      expect(page_body).to have_content tag
     end
   end
 end
@@ -66,15 +66,15 @@ When(/^I fill out the add art form$/) do
 end
 
 Then /^I see that my art was added$/ do
-  expect(page).to have_content 'Mona Lisa'
-  expect(page).to have_content 'complimicated, superfragile'
-  expect(page).to have_content @medium.name
-  expect(page).to have_content '$100'
+  expect(page_body).to have_content 'Mona Lisa'
+  expect(page_body).to have_content 'complimicated, superfragile'
+  expect(page_body).to have_content @medium.name
+  expect(page_body).to have_content '$100'
 end
 
 Then /^I see that my art was not added$/ do
   within '.error-msg' do
-    expect(page).to have_content "Title can't be blank"
+    expect(page_body).to have_content "Title can't be blank"
   end
   expect(page).to have_css '#art_piece_title_input.error'
 end
@@ -172,8 +172,8 @@ end
 Then(/^I see that artist's profile page$/) do
   expect(page).to have_css '.header', text: @artist.full_name
   expect(page).to have_css '.artist-profile'
-  expect(page).to have_content @artist.facebook
-  expect(page).to have_content @artist.art_pieces.first.medium.name
+  expect(page_body).to have_content @artist.facebook
+  expect(page_body).to have_content @artist.art_pieces.first.medium.name
   expect(current_path).to eql artist_path(@artist)
 end
 
