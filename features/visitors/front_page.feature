@@ -29,7 +29,5 @@ Scenario:  Visiting the home page
 Scenario:  Visiting the home page when there is an active notification
   When there is an active notification
   And I visit the home page
-  Then I see that notification
   And wait until the page is done loading infinite scroll
-  # Grr - wait until sampler is done loading
-  #And I wait "5" seconds
+  Then I see that notification
