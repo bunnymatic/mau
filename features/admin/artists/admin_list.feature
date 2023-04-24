@@ -9,6 +9,7 @@ Background:
   And there is a studio named "The Rock House"
   And an "admin" account has been created
   And I login
+  And I wait until the page is done loading infinite scroll
 
 Scenario: List artists
   When I click on "artists" in the admin menu

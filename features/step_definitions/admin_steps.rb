@@ -163,9 +163,9 @@ When('I attach a new profile image file') do
 end
 
 Then('I see the new profile image for that artist') do
-  within('.info-block--profile') do
-    expect(page).to have_css 'img.pure-img'
-    expect(page_body).to have_content 'profile.png'
+  within('.info-block--profile') do |block|
+    expect(block).to have_css 'img.pure-img'
+    expect(block).to have_content 'profile.png'
   end
 end
 

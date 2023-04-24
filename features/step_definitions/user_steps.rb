@@ -45,8 +45,8 @@ end
 
 Then(/^I see that I'm logged in$/) do
   expect(page).to have_flash :notice, /you're in/i
-  within('.nav') do
-    expect(page_body).to have_content /my Account/i
+  within('.nav') do |nav|
+    expect(nav).to have_content /my Account/i
   end
 end
 

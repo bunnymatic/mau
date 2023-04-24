@@ -7,6 +7,7 @@ Feature: Admin CMS Content
 Background:
   Given an "admin" account has been created
   And I login
+  And I wait until the page is done loading infinite scroll
   And I click on "cms" in the admin menu
 
 Scenario: Showing existing content

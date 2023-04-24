@@ -16,8 +16,8 @@ end
 
 Then('I see the open studios catalog cms message') do
   expect(page_body).to have_content('This is about the catalog preview')
-  within('.section.markdown h2') do
-    expect(page_body).to have_content('this is going to rock (catalog summary)')
+  within('.section.markdown h2') do |h2|
+    expect(h2).to have_content('this is going to rock (catalog summary)')
   end
 end
 
