@@ -22,26 +22,26 @@ When(/^I change the street address to "(.*?)"$/) do |street_address|
 end
 
 Then(/^I see the first studio has the street address "(.*?)"$/) do |street_address|
-  expect(page).to have_content street_address
+  expect(page_body).to have_content street_address
 end
 
 Then(/^I see the first studio page/) do
   studio = Studio.by_position.first
   expect(page).to have_selector('.studios.show')
   expect(current_path).to eql studio_path(studio.to_param)
-  expect(page).to have_content studio.name
+  expect(page_body).to have_content studio.name
 end
 
 Then /^I see the studio page for me$/ do
   s = (@manager || @artist || @user).studio
   expect(current_path).to eql studio_path(s)
-  expect(page).to have_content s.name
+  expect(page_body).to have_content s.name
 end
 
 Then(/^I see the studio page for "(.*)"/) do |studio_slug|
   s = Studio.find(studio_slug)
   expect(current_path).to eql studio_path(s)
-  expect(page).to have_content s.name
+  expect(page_body).to have_content s.name
 end
 
 Then /^I see that some studios are participating in open studios$/ do

@@ -92,17 +92,17 @@ When /I am signed in as an artist/ do
 end
 
 Then /^I see "(.*?)" on the page$/ do |content|
-  expect(page).to have_content content
+  expect(page_body).to have_content content
 end
 
 When /^I (log|sign)\s?out$/ do |_dummy|
   visit logout_path
-  expect(page).to have_content /sign in/i
+  expect(page_body).to have_content /sign in/i
   expect(page).to have_flash :notice, /make some art/
 end
 
 Then /^I see that I'm signed in$/ do
-  expect(page).to have_content 'MY PROFILE'
+  expect(page_body).to have_content 'MY PROFILE'
 end
 
 When(/^I change "(.*?)" to "(.*?)" in the "(.*?)" form$/) do |form_field_label, value, form_selector|
@@ -133,7 +133,7 @@ Then(/^I see an error in the form "(.*?)"$/) do |msg|
 end
 
 Then(/^I do not see "(.*?)"/) do |string|
-  expect(page).to_not have_content(string)
+  expect(page_body).to_not have_content(string)
 end
 
 Then(/^I do not see an error message$/) do
@@ -286,7 +286,7 @@ end
 
 Then(/^I see "([^"]*)" in the "([^"]*)"$/) do |text, container|
   within container do
-    expect(page).to have_content text
+    expect(page_body).to have_content text
   end
 end
 
@@ -336,7 +336,7 @@ Then(/^I can see the credits from the footer link$/) do
   within '.sidenav__footer .fine-print-links' do
     click_on 'credits'
   end
-  expect(page).to have_content 'Built at MAU Headquarters'
+  expect(page_body).to have_content 'Built at MAU Headquarters'
   click_on 'close'
   expect(page).not_to have_content 'Built at MAU Headquarters'
 end
@@ -363,4 +363,10 @@ end
 
 When('I press the {string} key') do |string|
   page.find('body').send_keys(string.to_sym)
+end
+
+When(/^(I )?wait until the page is done loading infinite scroll/) do |_|
+  wait_until do
+    expect(page).to_not have_css('#js-scroll-load-more')
+  end
 end

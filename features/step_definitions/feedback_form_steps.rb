@@ -27,6 +27,6 @@ end
 
 When(/^I see the feedback form$/) do
   within '.ReactModal__Content' do
-    expect(page).to have_content /feedback/i
+    expect(page_body).to have_content /feedback/i
   end
 end

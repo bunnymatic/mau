@@ -46,7 +46,7 @@ end
 Then(/^I see that I'm logged in$/) do
   expect(page).to have_flash :notice, /you're in/i
   within('.nav') do
-    expect(page).to have_content /my Account/i
+    expect(page_body).to have_content /my Account/i
   end
 end
 
@@ -71,7 +71,7 @@ When(/^I fill in my email/) do
 end
 
 Then(/^I see the login page$/) do
-  expect(page).to have_content 'Sign In'
+  expect(page_body).to have_content 'Sign In'
   expect(page).to have_css('form.user_session')
 end
 
@@ -80,7 +80,7 @@ When(/^I login$/) do
   # if we're already logged in we'll be somewhere else
   fill_in_login_form (@artist || @user).login, '8characters'
   step %(I click "Sign In")
-  expect(page).to have_content /sign out/i
+  expect(page_body).to have_content /sign out/i
   step %(I close the flash)
 end
 
