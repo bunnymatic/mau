@@ -8,7 +8,7 @@ Background:
   And I login
 
 Scenario: Admin updates an art piece
-  When I wait wait until the page is done loading infinite scroll
+  When I wait until the page is done loading infinite scroll
   When I navigate to the first art piece admin edit path
   Then I see the edit admin art piece page
   When I add a new file
