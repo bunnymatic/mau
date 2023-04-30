@@ -1,4 +1,3 @@
-@javascript
 Feature: Visitors to the open studios promo page
   get information about the upcoming open studios
   so they can plan their virtual visit
@@ -11,10 +10,10 @@ Background:
 
 Scenario:  Visiting the open studios promo page
   When I visit the home page
-  And I wait until the page is done loading infinite scroll
   When I click on the current open studios link
   Then I see the open studios promo page
 
+@javascript
 Scenario:  Visiting the open studios promo page as an editor
   When I visit the home page
   When I login as an editor

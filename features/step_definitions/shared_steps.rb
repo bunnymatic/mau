@@ -366,7 +366,8 @@ When('I press the {string} key') do |string|
 end
 
 When(/^(I )?wait until the page is done loading infinite scroll/) do |_|
-  wait_until do
-    expect(page).to_not have_css('#js-scroll-load-more')
+  wait_until(10) do
+    !page.has_css?('#js-scroll-load-more')
   end
+  expect(page).to_not have_css('#js-scroll-load-more')
 end
