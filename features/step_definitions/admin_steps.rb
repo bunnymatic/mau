@@ -71,6 +71,12 @@ When(/^I suspend the first artist$/) do
   click_on_first 'Suspend artist'
 end
 
+When(/^I reactivate the first artist$/) do
+  name = first('#bad table tbody tr a.admin-artist-reactivate-link').ancestor('tr').find('td.login').text
+  @first_artist = Artist.find_by(login: name)
+  click_on_first 'Reactivate artist'
+end
+
 Then(/^I see the first artist in that table$/) do
   wait_until do
     !all('.admin-table tr').empty?

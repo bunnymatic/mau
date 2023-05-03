@@ -24,7 +24,7 @@ class ArtistsGallery < ArtistsPresenter
     name = first_or_last.to_sym if %i[lastname firstname].include? first_or_last.to_sym
     return [] unless name
 
-    letters = ArtPiece.joins(:artist).where(users: { state: 'active' }).group("lcase(left(users.#{name},1))").count.keys
+    letters = ArtPiece.joins(:artist).where(users: { state: Constants::User::STATE_ACTIVE }).group("lcase(left(users.#{name},1))").count.keys
 
     lettered_entries = letters.grep(LETTERS_REGEX).sort
     if letters.count > lettered_entries.count

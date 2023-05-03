@@ -127,4 +127,32 @@ describe Admin::ArtistsController do
       end
     end
   end
+
+  describe '#suspend' do
+    let(:svc) { instance_double(SuspendArtistService, suspend!: true) }
+    before do
+      login_as admin
+
+      allow(SuspendArtistService).to receive(:new).and_return(svc)
+    end
+    it 'suspends the artist' do
+      post :suspend, params: { id: artist.id }
+      expect(SuspendArtistService).to have_received(:new).with(artist)
+      expect(svc).to have_received(:suspend!)
+    end
+  end
+
+  describe '#reactivate' do
+    let(:svc) { instance_double(SuspendArtistService, unsuspend!: true) }
+    before do
+      login_as admin
+
+      allow(SuspendArtistService).to receive(:new).and_return(svc)
+    end
+    it 're-activates the artist' do
+      post :reactivate, params: { id: artist.id }
+      expect(SuspendArtistService).to have_received(:new).with(artist)
+      expect(svc).to have_received(:unsuspend!)
+    end
+  end
 end

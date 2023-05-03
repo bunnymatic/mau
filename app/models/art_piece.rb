@@ -89,7 +89,7 @@ class ArtPiece < ApplicationRecord
   end
 
   def self.owned
-    joins(:artist).where(users: { state: 'active' })
+    joins(:artist).where(users: { state: Constants::User::STATE_ACTIVE })
   end
 
   def tags

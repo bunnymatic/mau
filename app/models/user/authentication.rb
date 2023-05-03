@@ -6,7 +6,7 @@ class User
 
     def activate!
       mailer_class.activation(self).deliver_later
-      update(state: 'active', activated_at: Time.zone.now)
+      update(state: Constants::User::STATE_ACTIVE, activated_at: Time.zone.now)
     end
   end
 end

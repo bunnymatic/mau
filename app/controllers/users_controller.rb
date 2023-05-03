@@ -66,7 +66,7 @@ class UsersController < ApplicationController
     @user = build_user_from_params
     recaptcha = true # && verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
     secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
-    @user.state = 'pending'
+    @user.state = Constants::User::STATE_PENDING
     redirect_after_create && return if secret && recaptcha && @user.save
 
     render_on_failed_create

@@ -139,7 +139,7 @@ class UserPresenter < ViewPresenter
   end
 
   def activation_code?
-    model.state != 'active' && model.activation_code.present?
+    model.state != Constants::User::STATE_ACTIVE && model.activation_code.present?
   end
 
   def reset_code?

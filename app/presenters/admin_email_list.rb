@@ -84,7 +84,7 @@ class AdminEmailList < ViewPresenter
       MauFan.all
     when 'all'
       Artist.all
-    when 'active', 'pending'
+    when Constants::User::STATE_ACTIVE, Constants::User::STATE_PENDING
       Artist.send(list_names.first).all
     when 'no_profile'
       Artist.active.where(profile_image: nil)
