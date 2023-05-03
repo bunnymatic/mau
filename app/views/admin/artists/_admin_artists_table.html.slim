@@ -77,6 +77,9 @@
               - if !a.suspended? && a != current_user
                 = link_to suspend_admin_artist_path(a.to_param), method: :post, confirm: 'Are you sure you want to suspend this artist?', title: "Suspend artist", class: 'admin-artist-suspend-link' do
                   i.fa.fa-icon.fa-trash-o
+              - if a.suspended? || a.deleted? && a != current_user
+                = link_to reactivate_admin_artist_path(a.to_param), method: :post, confirm: 'Are you sure you want to re-activate this artist?', title: "Reactivate artist", class: 'admin-artist-reactivate-link' do
+                  i.fa.fa-icon.fa-refresh
 
 javascript:
   document.addEventListener("DOMContentLoaded", function () {

@@ -47,7 +47,7 @@ module Admin
         from (
            select count(*) as bucket
            from art_pieces ap, users a
-           where a.state='active' and a.id=ap.artist_id
+           where a.state='#{Constants::User::STATE_ACTIVE}' and a.id=ap.artist_id
            group by ap.artist_id) as tmp
         group by bucket;
       SQL

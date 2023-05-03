@@ -183,6 +183,7 @@ Mau::Application.routes.draw do
         end
         member do
           post :suspend
+          post :reactivate
         end
       end
       resources :users, only: [:show]

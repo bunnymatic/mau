@@ -1,5 +1,5 @@
 @javascript
-Feature: Update Artists OS status
+Feature: Update Artists status and os participation
 
 As an administrator, I can update artists status
 
@@ -36,3 +36,7 @@ Scenario: Suspending artists
   And I close the flash
   And I click on "suspended"
   Then I see the first artist in that table
+
+  When I reactivate the first artist
+  Then I see a flash notice including "has been reactivated"
+  And I see the first artist in that table

@@ -16,14 +16,14 @@ class ArtSampler
   private
 
   def fetch_pieces
-    result = []
-    result += new_pieces if offset < NUM_NEW_ART_PIECES
-    result + (random_pieces - new_pieces)
+    result = offset < NUM_NEW_ART_PIECES ? new_pieces : []
+    result + random_pieces
   end
 
   def random_pieces
     ArtPiece.includes({ artist: :open_studios_events })
             .where(users: { state: :active })
+            .where.not(id: new_pieces.pluck(:id))
             .order(Arel.sql("rand(#{seed})"))
             .limit(@number_of_images_per_fetch)
             .offset(offset)

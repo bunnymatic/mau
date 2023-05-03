@@ -1,7 +1,7 @@
 module Admin
   class ArtistsController < ::BaseAdminController
-    before_action :admin_required, only: %i[suspend index edit update]
-    before_action :set_artist, only: %i[edit suspend update]
+    before_action :admin_required, only: %i[edit index reactivate suspend update]
+    before_action :set_artist, only: %i[edit reactivate suspend update]
 
     def index
       artist_list = AdminArtistList.new
@@ -55,6 +55,11 @@ module Admin
     def suspend
       SuspendArtistService.new(@artist).suspend!
       redirect_to admin_artists_path, notice: "#{@artist.get_name} has been suspended"
+    end
+
+    def reactivate
+      SuspendArtistService.new(@artist).unsuspend!
+      redirect_to admin_artists_path, notice: "#{@artist.get_name} has been reactivated"
     end
 
     def bulk_update

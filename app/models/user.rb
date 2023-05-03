@@ -109,11 +109,11 @@ class User < ApplicationRecord
   end
 
   def active?
-    state == 'active'
+    state == Constants::User::STATE_ACTIVE
   end
 
   def pending?
-    state == 'pending'
+    state == Constants::User::STATE_PENDING
   end
 
   def profile_image?
@@ -185,15 +185,23 @@ class User < ApplicationRecord
   end
 
   def delete!
-    update(state: 'deleted', activation_code: nil, reset_code: nil)
+    update(state: Constants::User::STATE_DELETED, activation_code: nil, reset_code: nil)
+  end
+
+  def reactivate!
+    update(state: Constants::User::STATE_ACTIVE, activation_code: nil, reset_code: nil)
   end
 
   def suspend!
-    update(state: 'suspended', activation_code: nil, reset_code: nil)
+    update(state: Constants::User::STATE_SUSPENDED, activation_code: nil, reset_code: nil)
   end
 
   def suspended?
-    state == 'suspended'
+    state == Constants::User::STATE_SUSPENDED
+  end
+
+  def deleted?
+    state == Constants::User::STATE_DELETED
   end
 
   def fav_artists

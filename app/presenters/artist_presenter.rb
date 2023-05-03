@@ -17,6 +17,7 @@ class ArtistPresenter < UserPresenter
            :artist_info,
            :at_art_piece_limit?,
            :current_open_studios_participant,
+           :deleted?,
            :doing_open_studios?,
            :in_the_mission?,
            :lat,
