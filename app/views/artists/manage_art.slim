@@ -14,7 +14,7 @@
         a href='#delete-art' data-toggle='tab' remove
 .pure-g.tab-content
   .pure-u-1-1#add-art.tab-pane.active
-    .pure-u-1-1.pure-u-sm-1-2.art-piece-new-form.padded-content
+    .pure-u-1-1.pure-u-lg-1-2.art-piece-new-form.padded-content
       - if @artist.at_art_piece_limit?
         .error-msg
           | You cannot have more than #{@artist.max_pieces} art pieces.

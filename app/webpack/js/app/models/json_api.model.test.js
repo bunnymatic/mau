@@ -30,10 +30,6 @@ describe("JsonApiModel", () => {
           artistName: "Rosario AAabraham",
           year: 2001,
           title: "homer",
-          imageUrls: {
-            thumb: "thumb 1",
-            small: "thumb 2",
-          },
         },
         relationships: {
           artist: { meta: { included: false } },

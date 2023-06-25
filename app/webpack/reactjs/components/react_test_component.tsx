@@ -12,9 +12,6 @@ const artPiece = {
   title: "whatever",
   artistName: "joe",
   id: 10,
-  imageUrls: {
-    large: "whatever.jpg",
-  },
 };
 
 const errorWithTimeout = (timeout?: number) => {

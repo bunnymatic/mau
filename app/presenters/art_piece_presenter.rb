@@ -2,7 +2,7 @@ class ArtPiecePresenter < ViewPresenter
   include ActionView::Helpers::NumberHelper
   attr_reader :model
 
-  delegate :id, :year, :medium, :artist, :title, :dimensions, :updated_at, :images, :to_param, :image, to: :model
+  delegate :id, :year, :medium, :artist, :title, :dimensions, :updated_at, :to_param, :image, to: :model
 
   def initialize(model)
     super()

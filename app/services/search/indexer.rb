@@ -115,16 +115,7 @@ module Search
     class StudioSearchService < ObjectSearchService
     end
 
-    def self.run_es_method_on_object(method, object)
-      case object.class.name
-      when Studio.name
-        StudioSearchService.new(object).send(method)
-      when Artist.name
-        ArtistSearchService.new(object).send(method)
-      when ArtPiece.name
-        ArtPieceSearchService.new(object).send(method)
-      end
-    end
+    WAIT_FOR_ACTIVE_STORAGE_SECONDS = 5
 
     def self.import(clz, opts = nil)
       clz.import opts
@@ -134,20 +125,59 @@ module Search
       import(clz, force: true)
     end
 
-    def self.index(object)
-      run_es_method_on_object(:index, object)
+    def self.index(object, async: true)
+      job = get_job_class(object)
+      return unless job
+
+      async ? job.set(wait_until: WAIT_FOR_ACTIVE_STORAGE_SECONDS.seconds.since).perform_later(object.id, :index) : job.perform_now(object.id, :index)
     end
 
-    def self.reindex(object)
-      run_es_method_on_object(:reindex, object)
+    def self.reindex(object, async: true)
+      job = get_job_class(object)
+      return unless job
+
+      if async
+        job.set(wait_until: WAIT_FOR_ACTIVE_STORAGE_SECONDS.seconds.since).perform_later(object.id,
+                                                                                         :reindex)
+      else
+        job.perform_now(object.id, :reindex)
+      end
     end
 
-    def self.remove(object)
-      run_es_method_on_object(:remove, object)
+    def self.update(object, async: true)
+      job = get_job_class(object)
+      return unless job
+
+      if async
+        job.set(wait_until: WAIT_FOR_ACTIVE_STORAGE_SECONDS.seconds.since).perform_later(object.id,
+                                                                                         :update)
+      else
+        job.perform_now(object.id, :update)
+      end
     end
 
-    def self.update(object)
-      run_es_method_on_object(:update, object)
+    def self.remove(object, async: true)
+      job = get_job_class(object)
+      return unless job
+
+      if async
+        job.set(wait_until: WAIT_FOR_ACTIVE_STORAGE_SECONDS.seconds.since).perform_later(object.id,
+                                                                                         :remove)
+      else
+        job.perform_now(object.id, :remove)
+      end
+    end
+
+    class << self
+      private
+
+      def get_job_class(object)
+        object_type = object.class.name
+        job_class = "Search::Jobs::#{object_type}"
+        job_class.constantize
+      rescue NameError
+        nil
+      end
     end
   end
 end

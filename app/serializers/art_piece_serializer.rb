@@ -7,16 +7,11 @@ class ArtPieceSerializer < MauSerializer
              :dimensions,
              :title,
              :artist_id,
-             :image_urls,
              :sold_at
 
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::NumberHelper
-
-  attribute :image_urls do
-    @object.images
-  end
 
   has_one :artist
 

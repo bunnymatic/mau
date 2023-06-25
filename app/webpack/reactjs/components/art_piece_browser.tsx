@@ -11,7 +11,9 @@ import { ShareButton } from "@reactjs/components/share_button";
 import { Spinner } from "@reactjs/components/spinner";
 import { useCarouselState, useEventListener } from "@reactjs/hooks";
 import { Artist, ArtPiece, Studio } from "@reactjs/models";
-import { jsonApi as api } from "@services/json_api";
+import * as types from "@reactjs/types";
+import { api } from "@services/api";
+import { jsonApi } from "@services/json_api";
 import cx from "classnames";
 import React, { FC, useCallback, useEffect, useState } from "react";
 
@@ -48,6 +50,27 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
     previous: _previous,
     setCurrent: _setCurrent,
   } = useCarouselState<ArtPiece>(artPieces, initialArtPiece);
+
+  const [artImages, setArtImages] = useState<string | null>(null);
+  const [thumbnails, setThumbnails] = useState<Record<types.IdType, string>>(
+    {}
+  );
+
+  const setCurrentImage = useCallback(
+    (imageUrl) => {
+      if (!current?.id) {
+        return;
+      }
+      setArtImages((previous) => {
+        return {
+          ...previous,
+          [current.id]: imageUrl,
+        };
+      });
+    },
+    [current?.id]
+  );
+
   const updateHash = (piece: ArtPiece) => {
     window.history.pushState({}, document.title, `#${piece.id}`);
   };
@@ -79,7 +102,45 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
   const profileImagePath = artist.profileImages?.small;
   const isCurrent = (id) => current.id == id;
 
-  if (!current) {
+  /* manage current image */
+  useEffect(() => {
+    if (!current?.id) {
+      return;
+    }
+
+    if (artImages && artImages[current?.id]) {
+      return;
+    }
+    const fetchImage = async () => {
+      current.image('large').then(setCurrentImage)
+    };
+
+    fetchImage().catch(console.error);
+  }, [current?.id, artImages && JSON.stringify(Object.keys(artImages))]);
+
+  /* load thumbnails */
+  useEffect(() => {
+    const fetchThumbnails = async () => {
+      if (isEmpty(artPieces)) {
+        return;
+      }
+      const thumbnails = artPieces.map((piece: ArtPiece) =>
+        api.artPieces.image(piece.id, "small")
+      );
+
+      return Promise.all(thumbnails);
+    };
+
+    fetchThumbnails().then((thumbs) => {
+      const thumbsByArtPieceId = thumbs.reduce((memo, item) => {
+        memo[item.id] = item.url;
+        return memo;
+      }, {});
+      setThumbnails(thumbsByArtPieceId);
+    });
+  }, [artist?.id, artPieces]);
+
+  if (!current || !artImages) {
     return null;
   }
   return (
@@ -187,10 +248,10 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
         </div>
         <div className="pure-u-1-1 pure-u-sm-2-3 pure-u-md-3-4 pure-u-lg-4-5 art-piece">
           <div className="art-piece__wrapper">
-            {current.imageUrls.large ? (
+            {artImages[current.id] ? (
               <div
                 className="art-piece__image"
-                style={{ backgroundImage: `url("${current.imageUrls.large}")` }}
+                style={{ backgroundImage: `url("${artImages[current.id]}")` }}
               ></div>
             ) : (
               <div className="art-piece__image art-piece__image--missing-url"></div>
@@ -216,11 +277,11 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
                         setCurrent(piece);
                       }}
                     >
-                      {piece.imageUrls.small ? (
+                      {thumbnails[piece?.id] ? (
                         <div
                           className="image"
                           style={{
-                            backgroundImage: `url("${piece.imageUrls.small}")`,
+                            backgroundImage: `url("${thumbnails[piece?.id]}")`,
                           }}
                         ></div>
                       ) : (
@@ -250,13 +311,13 @@ const ArtPieceBrowserWrapper: FC<ArtPieceBrowserWrapperProps> = ({
   );
 
   useEffect(() => {
-    const artistCall = api.artists.get(artistId);
-    const artPiecesCall = api.artPieces.index(artistId);
+    const artistCall = jsonApi.artists.get(artistId);
+    const artPiecesCall = jsonApi.artPieces.index(artistId);
     Promise.all([artistCall, artPiecesCall])
       .then(([artist, artPieces]) => {
         setArtist(artist);
         setArtPieces(artPieces);
-        return api.studios.get(artist.studioId).then((studio) => {
+        return jsonApi.studios.get(artist.studioId).then((studio) => {
           setStudio(studio);
         });
       })

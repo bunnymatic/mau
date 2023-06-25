@@ -50,7 +50,7 @@ class Artist < User
     studio_name = studio.try(:name)
     extras['artist_name'] = full_name
     extras['studio_name'] = studio_name if studio_name.present?
-    extras['images'] = representative_piece.try(:images)
+    extras['images'] = { small: representative_piece&.image(:small) }
     extras['bio'] = bio if bio.present?
     extras['os_participant'] = doing_open_studios?
     idxd['artist'].merge!(extras)

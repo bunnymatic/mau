@@ -80,7 +80,7 @@ class Studio < ApplicationRecord
     idxd = as_json(only: %i[name slug])
     extras = {}
     extras['address'] = address.to_s
-    extras['images'] = images
+    extras['images'] = { small: profile_image(:small) }
     extras['os_participant'] = artists.any? { |a| a.try(:doing_open_studios?) }
     idxd['studio'].merge!(extras)
     idxd

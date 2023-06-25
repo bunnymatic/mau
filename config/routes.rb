@@ -28,6 +28,7 @@ Mau::Application.routes.draw do
       resources :studios, only: [:show]
       resources :artists, only: %i[index show] do
         resources :art_pieces, only: %i[index show], shallow: true do
+          get :image
           resource :contact, only: [:create]
         end
       end

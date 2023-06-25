@@ -29,6 +29,12 @@ export const api = {
     contact: (id: types.IdType, formData: types.ContactArtistFormData) => {
       return post(`/api/v2/art_pieces/${id}/contact`, formData).then(camelize);
     },
+    image: (id, size) => {
+      const resp = get(`/api/v2/art_pieces/${id}/image.json?size=${size}`);
+      return resp.then((data) => {
+        return data;
+      });
+    },
   },
   applicationEvents: {
     index: ({ since }): Promise<types.ApplicationEventsListResponse> =>

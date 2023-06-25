@@ -1,15 +1,15 @@
 import { FieldError } from "@reactjs/components/field_error";
 import { MauHint } from "@reactjs/components/mau_hint";
 import { ErrorMessage, Field } from "formik";
-import React, { FC, JSX } from "react";
+import React, { FC, ElementType } from "react";
 
 interface MauTextFieldProps {
   id?: string;
   name: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
-  hint?: string | JSX.Element;
+  hint?: string | ElementType;
   type?: "text" | "email";
   required?: boolean;
 }

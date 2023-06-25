@@ -52,7 +52,7 @@ const NOTE_INFO_LUT: Record<NoteTypes, NoteInfo> = {
   },
 };
 
-const noteInfo: NoteInfo = (noteType: NoteTypes) => {
+const noteInfo = (noteType: NoteTypes): NoteInfo => {
   return NOTE_INFO_LUT[noteType];
 };
 

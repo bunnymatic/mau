@@ -7,12 +7,14 @@ type ShareTypes = "twitter" | "facebook" | "pinterest";
 
 interface ShareButtonProps {
   type: ShareTypes;
+  image?: string;
   artPiece: ArtPiece;
   target?: string;
 }
 
 export const ShareButton: FC<ShareButtonProps> = ({
   artPiece,
+  image,
   type,
   target,
 }) => {
@@ -24,7 +26,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
   const location = window.location;
 
   locationOrigin = location.protocol + "//" + location.hostname;
-  if (location.port != null && location.port !== 80) {
+  if (location.port != null && location.port !== '80') {
     locationOrigin += ":" + location.port;
   }
 
@@ -34,7 +36,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
 
   const safeArtPieceLink = artPieceLink;
   const safeDescription = description;
-  const safeArtPieceImage = "" + artPiece.imageUrls.large;
+  const safeArtPieceImage = "" + image;
   const safeTitle = artPiece.title;
 
   const linkInfo = {

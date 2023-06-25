@@ -1,12 +1,12 @@
 import { MauHint } from "@reactjs/components/mau_hint";
 import cx from "classnames";
 import { Field } from "formik";
-import React, { FC, JSX } from "react";
+import React, { FC, ElementType } from "react";
 
 interface MauCheckboxFieldProps {
   name: string;
   label: string;
-  hint?: string | JSX.Element;
+  hint?: string | ElementType;
   id?: string;
   classes?: string;
   disabled?: boolean;

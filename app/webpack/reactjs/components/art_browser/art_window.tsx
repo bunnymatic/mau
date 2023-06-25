@@ -2,7 +2,8 @@ import { backgroundImageStyle } from "@js/services";
 import { ArtPiece } from "@models/art_piece.model";
 import * as types from "@reactjs/types";
 import cx from "classnames";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
+
 
 interface AnnotationProps {
   label: string;
@@ -29,12 +30,23 @@ interface ArtWindowProps {
 }
 
 export const ArtWindow: FC<ArtWindowProps> = ({ art }) => {
+  const [image, setImage] = useState<string|null>(null);
+  useEffect(() => {
+    if (!art?.id) {
+      return
+    }
+    (async () => art.image('original').then(setImage))().catch(console.error)
+  }, [art?.id])
+
+  if(!image) {
+    return null
+  }
   return (
     <div className="art-window">
       <div className="art-window__image-container">
         <div
           className="art-window__image"
-          style={backgroundImageStyle(art.imageUrls.original, {
+          style={backgroundImageStyle(image, {
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
           })}

@@ -95,6 +95,8 @@ Now, we have to tell Rails that we'll be accessing the dev server with the domai
 
 Run `rails s -p 3000 -b mau.local` and in your browser go to `mau.local:3000` for the Mission Artists site and `openstudios.mau.local:3000` for the Open Studios site.
 
+There are some issues with CORS and vite. This may not get you quite there.  Try starting the browser with `--disable-web-security`.  And you may need to add `host: 'mau.local:3000'` argument to all the `vite_javascript_tag` loaders.
+
 ### Running the test suite
 
 Once you think things are running, you can try running the test suite:

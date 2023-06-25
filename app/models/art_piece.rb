@@ -74,7 +74,7 @@ class ArtPiece < ApplicationRecord
     extras['title_ngram'] = title
     extras['medium'] = medium.try(:name)
     extras['tags'] = tags.map(&:name).join(' ')
-    extras['images'] = images
+    extras['images'] = { small: image(:small) }
     # guard against bad data
     extras['artist_name'] = artist.full_name
     extras['studio_name'] = artist.studio.name if artist.studio
@@ -115,13 +115,6 @@ class ArtPiece < ApplicationRecord
 
   def image(size = :medium)
     attached_photo(size)
-  end
-
-  def images
-    @images ||=
-      MauImage::ImageSize.allowed_sizes.index_with do |size|
-        image(size)
-      end
   end
 
   private

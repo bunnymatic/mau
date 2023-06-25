@@ -5,8 +5,8 @@ import React from "react";
 import { ShareButton } from "./share_button";
 
 describe("ShareButton", () => {
-  const renderComponent = (type, artPiece = undefined) => {
-    return render(<ShareButton artPiece={artPiece} type={type} />);
+  const renderComponent = (type, artPiece = undefined, image = undefined) => {
+    return render(<ShareButton artPiece={artPiece} image={image} type={type} />);
   };
 
   describe("when there is no art piece id", function () {
@@ -16,18 +16,16 @@ describe("ShareButton", () => {
     });
   });
 
+  let image = "the_image.jpg";
+
   describe("when it's a facebook share", function () {
     let artPiece = {
       id: 12,
       title: "Mona Lisa",
       artistName: "Leo",
-      imageUrls: {
-        large: "the_image.jpg",
-      },
     };
-
     beforeEach(() => {
-      renderComponent("facebook", artPiece);
+      renderComponent("facebook", artPiece, image);
     });
 
     it("includes the facebook icon", function () {
@@ -45,13 +43,10 @@ describe("ShareButton", () => {
       id: 12,
       title: "Mona Lisa",
       artistName: "Leo",
-      imageUrls: {
-        large: "the_image.jpg",
-      },
     };
 
     beforeEach(() => {
-      renderComponent("twitter", artPiece);
+      renderComponent("twitter", artPiece, image);
     });
 
     it("includes the twitter icon", function () {
@@ -73,13 +68,10 @@ describe("ShareButton", () => {
       id: 12,
       title: "Mona Lisa",
       artistName: "Leo",
-      imageUrls: {
-        large: "the_image.jpg",
-      },
     };
 
     beforeEach(() => {
-      renderComponent("pinterest", artPiece);
+      renderComponent("pinterest", artPiece, image);
     });
 
     it("includes the twitter icon", function () {

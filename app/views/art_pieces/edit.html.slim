@@ -5,7 +5,7 @@
       '
       span.italic = @art_piece.title
 .pure-g
-  .pure-u-1-1.pure-u-sm-1-2.art-piece-edit-form.padded-content
+  .pure-u-1-1.pure-u-lg-1-2.art-piece-edit-form.padded-content
     = semantic_form_for @art_piece do |f|
       = render '/common/form_errors', form: f
       = render '/flash_notice_error'

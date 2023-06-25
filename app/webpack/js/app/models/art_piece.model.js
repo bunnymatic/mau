@@ -2,6 +2,7 @@ import { some } from "@js/app/helpers";
 import { ArtPieceTag } from "@models/art_piece_tag.model";
 import { JsonApiModel } from "@models/json_api.model";
 import { Medium } from "@models/medium.model";
+import { api } from "@services/api";
 
 export class ArtPiece extends JsonApiModel {
   constructor(data, included) {
@@ -13,6 +14,13 @@ export class ArtPiece extends JsonApiModel {
     if (some(this.tags)) {
       this.tags = this.tags.map((tag) => new ArtPieceTag(tag));
     }
+  }
+
+  async image(size) {
+    return api.artPieces
+      .image(this.id, size)
+      .catch(console.error)
+      .then(({ url, _id }) => url);
   }
 
   get hasSold() {

@@ -35,7 +35,7 @@ export const SearchForm: FC<SearchFormProps> = () => {
       },
       250,
       false
-    )
+    ), [pageSize, page]
   );
 
   return (
