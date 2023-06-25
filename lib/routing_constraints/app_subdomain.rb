@@ -1,4 +1,4 @@
-require_relative './open_studios_subdomain'
+require_relative 'open_studios_subdomain'
 
 module RoutingConstraints
   class AppSubdomain

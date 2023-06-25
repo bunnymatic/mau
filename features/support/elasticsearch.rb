@@ -1,5 +1,5 @@
 require_relative '../../spec/support/test_es_server'
-require_relative './webmock'
+require_relative 'webmock'
 
 BeforeAll do
   TestEsServer.start unless ENV['CI']

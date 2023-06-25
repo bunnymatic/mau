@@ -1,4 +1,4 @@
-require_relative './test_es_server'
+require_relative 'test_es_server'
 
 module RSpec
   module Elasticsearch
