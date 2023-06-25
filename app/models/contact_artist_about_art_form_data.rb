@@ -10,7 +10,7 @@ class ContactArtistAboutArtFormData
   validate :email_or_phone_present?
 
   def email_or_phone_present?
-    return unless email.blank? && phone.blank?
+    return false unless email.blank? && phone.blank?
 
     msg = 'You must include either email or phone or both'
     errors.add('email', msg)

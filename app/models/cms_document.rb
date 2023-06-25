@@ -23,6 +23,6 @@ class CmsDocument < ApplicationRecord
   private
 
   def clean_newlines
-    self.article = article.gsub(/\r\n/, "\n")
+    self.article = article.gsub("\r\n", "\n")
   end
 end
