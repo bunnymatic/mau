@@ -1,7 +1,7 @@
 import { MauHint } from "@reactjs/components/mau_hint";
 import cx from "classnames";
 import { Field } from "formik";
-import React, { FC, ElementType } from "react";
+import React, { ElementType, FC } from "react";
 
 interface MauCheckboxFieldProps {
   name: string;

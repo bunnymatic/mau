@@ -1,9 +1,7 @@
 import { ArtPiece } from "@models/art_piece.model";
 import { ArtModal } from "@reactjs/components/art_modal";
-import { ArtPiecesContext } from "@reactjs/contexts/art_pieces.context";
 import cx from "classnames";
-
-import React, { FC, useEffect, useContext, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 interface AttributionProps {
   artPiece: ArtPiece;
@@ -39,11 +37,11 @@ interface ArtCardProps {
 }
 
 export const ArtCard: FC<ArtCardProps> = ({ artPiece, classes }) => {
-  const [ image, setImage ] = useState<string|null>(null);
+  const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
-    artPiece.image('original').then(url => setImage(url))
-  }, [artPiece?.id])
+    artPiece.image("original").then((url) => setImage(url));
+  }, [artPiece?.id]);
   return (
     <div className={cx("art-card", classes)}>
       <ArtModal artPiece={artPiece}>

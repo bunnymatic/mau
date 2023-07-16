@@ -4,7 +4,6 @@ import * as types from "@reactjs/types";
 import cx from "classnames";
 import React, { FC, useEffect, useState } from "react";
 
-
 interface AnnotationProps {
   label: string;
   value?: string | number;
@@ -30,16 +29,16 @@ interface ArtWindowProps {
 }
 
 export const ArtWindow: FC<ArtWindowProps> = ({ art }) => {
-  const [image, setImage] = useState<string|null>(null);
+  const [image, setImage] = useState<string | null>(null);
   useEffect(() => {
     if (!art?.id) {
-      return
+      return;
     }
-    (async () => art.image('original').then(setImage))().catch(console.error)
-  }, [art?.id])
+    (async () => art.image("original").then(setImage))().catch(console.error);
+  }, [art?.id]);
 
-  if(!image) {
-    return null
+  if (!image) {
+    return null;
   }
   return (
     <div className="art-window">

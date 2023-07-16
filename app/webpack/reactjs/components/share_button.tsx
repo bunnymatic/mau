@@ -26,7 +26,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
   const location = window.location;
 
   locationOrigin = location.protocol + "//" + location.hostname;
-  if (location.port != null && location.port !== '80') {
+  if (location.port != null && location.port !== "80") {
     locationOrigin += ":" + location.port;
   }
 

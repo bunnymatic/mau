@@ -112,7 +112,7 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
       return;
     }
     const fetchImage = async () => {
-      current.image('large').then(setCurrentImage)
+      current.image("large").then(setCurrentImage);
     };
 
     fetchImage().catch(console.error);

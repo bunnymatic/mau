@@ -6,7 +6,9 @@ import { ShareButton } from "./share_button";
 
 describe("ShareButton", () => {
   const renderComponent = (type, artPiece = undefined, image = undefined) => {
-    return render(<ShareButton artPiece={artPiece} image={image} type={type} />);
+    return render(
+      <ShareButton artPiece={artPiece} image={image} type={type} />
+    );
   };
 
   describe("when there is no art piece id", function () {

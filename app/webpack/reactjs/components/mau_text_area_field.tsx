@@ -1,7 +1,7 @@
 import { FieldError } from "@reactjs/components/field_error";
 import { MauHint } from "@reactjs/components/mau_hint";
 import { ErrorMessage, Field } from "formik";
-import React, { FC, ElementType } from "react";
+import React, { ElementType, FC } from "react";
 
 interface MauTextAreaFieldProps {
   id?: string;
