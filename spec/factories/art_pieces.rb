@@ -4,7 +4,7 @@ FactoryBot.define do
     dimensions { "#{Random.rand(10..50)} x #{Random.rand(10..50)}" }
     year { (Time.zone.now - Random.rand(10).years).year }
     medium
-    price { rand(1..1000) + rand.round(2) }
+    price { rand(1000..2000) + rand.round(2) }
     artist do
       FactoryBot.create(:artist, :active)
     end

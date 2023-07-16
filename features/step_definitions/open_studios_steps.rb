@@ -224,7 +224,7 @@ Then('I see details about the art on each art card') do
   pieces = @artist.art_pieces
   expect(pieces).to have_at_least(1).piece
   pieces.each do |piece|
-    expect(page).to have_content(piece.price)
+    expect(page).to have_content(ActionController::Base.helpers.number_to_currency(piece.price))
     expect(page).to have_content(piece.dimensions)
   end
 end
@@ -242,7 +242,7 @@ end
 Then('I see that art in a modal') do
   within '.art-modal__content' do
     expect(page).to have_content(@art_piece.title)
-    expect(page).to have_content(@art_piece.price)
+    expect(page).to have_content(ActionController::Base.helpers.number_to_currency(@art_piece.price))
     expect(page).to have_content(@art_piece.dimensions)
     expect(page).to have_content(@art_piece.medium.name)
   end
@@ -254,7 +254,7 @@ Then('I see the next art piece in the modal') do
 
   within '.art-modal__content' do
     expect(page).to have_content(next_piece.title)
-    expect(page).to have_content(next_piece.price)
+    expect(page).to have_content(ActionController::Base.helpers.number_to_currency(next_piece.price))
     expect(page).to have_content(next_piece.dimensions)
     expect(page).to have_content(next_piece.medium.name)
   end
