@@ -1,5 +1,6 @@
 import Flash from "@js/app/flash";
 import { isEmpty } from "@js/app/helpers";
+import { Artist, ArtPiece, Studio } from "@js/app/models";
 import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY } from "@js/event_constants";
 import { routing } from "@js/services";
 import { ArtPieceTagLink } from "@reactjs/components/art_piece_tag_link";
@@ -10,7 +11,6 @@ import { MediumLink } from "@reactjs/components/medium_link";
 import { ShareButton } from "@reactjs/components/share_button";
 import { Spinner } from "@reactjs/components/spinner";
 import { useCarouselState, useEventListener } from "@reactjs/hooks";
-import { Artist, ArtPiece, Studio } from "@reactjs/models";
 import * as types from "@reactjs/types";
 import { api } from "@services/api";
 import { jsonApi } from "@services/json_api";
@@ -29,7 +29,7 @@ const OpenStudiosViolator: FC = () => (
 );
 
 interface ArtPieceBrowserProps {
-  artPieceId: number;
+  artPieceId: types.IdType;
   artPieces: ArtPiece[];
   studio: Studio;
   artist: Artist;
@@ -51,7 +51,7 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
     setCurrent: _setCurrent,
   } = useCarouselState<ArtPiece>(artPieces, initialArtPiece);
 
-  const [artImages, setArtImages] = useState<string | null>(null);
+  const [artImages, setArtImages] = useState<Record<types.IdType, string>>({});
   const [thumbnails, setThumbnails] = useState<Record<types.IdType, string>>(
     {}
   );
@@ -87,14 +87,17 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
     updateHash(newCurrent);
   };
 
-  const keyDownHandler = useCallback((e) => {
-    if (e.key === ARROW_LEFT_KEY) {
-      previous();
-    }
-    if (e.key === ARROW_RIGHT_KEY) {
-      next();
-    }
-  });
+  const keyDownHandler = useCallback(
+    (e) => {
+      if (e.key === ARROW_LEFT_KEY) {
+        previous();
+      }
+      if (e.key === ARROW_RIGHT_KEY) {
+        next();
+      }
+    },
+    [previous, next]
+  );
 
   useEventListener("keydown", keyDownHandler);
 

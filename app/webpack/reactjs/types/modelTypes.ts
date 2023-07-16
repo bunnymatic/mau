@@ -8,6 +8,7 @@ interface ActiveRecordModel {
 }
 
 export interface CmsDocument {
+  id: IdType;
   page: string;
   section: string;
   cmsid: number;

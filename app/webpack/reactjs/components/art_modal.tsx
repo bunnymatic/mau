@@ -15,7 +15,7 @@ import React, { FC, useCallback, useContext } from "react";
 
 interface ArtModalWindowProps {
   artPiece: ArtPiece;
-  handleClose: (MouseEvent) => void;
+  handleClose: React.MouseEventHandler<HTMLAnchorElement>;
 }
 
 const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
@@ -27,29 +27,34 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
     isOpen: isFormVisible,
     open: showForm,
     close: hideForm,
-  } = useModalState(false);
+  } = useModalState();
 
   const contactArtistTitle = `Contact the artist directy ${artPiece.title}`;
-  const keyDownHandler = useCallback((e) => {
-    if (e.key === ARROW_LEFT_KEY) {
-      previous();
-    }
-    if (e.key === ARROW_RIGHT_KEY) {
-      next();
-    }
-  });
+  const keyDownHandler = useCallback(
+    (e) => {
+      if (e.key === ARROW_LEFT_KEY) {
+        previous();
+      }
+      if (e.key === ARROW_RIGHT_KEY) {
+        next();
+      }
+    },
+    [previous, next]
+  );
 
   useEventListener("keydown", keyDownHandler);
 
-  const handleNext = (e: MouseEvent) => {
+  const handleNext: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();
     next();
   };
-  const handlePrevious = (e: MouseEvent) => {
+  const handlePrevious: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();
     previous();
   };
-  const handleShowContactForm = (e: MouseEvent) => {
+  const handleShowContactForm: React.MouseEventHandler<HTMLAnchorElement> = (
+    e
+  ) => {
     e.preventDefault();
     showForm();
   };
@@ -114,10 +119,12 @@ interface ArtModalProps {
 }
 
 export const ArtModal: FC<ArtModalProps> = ({ artPiece, children }) => {
-  const { isOpen, open, close } = useModalState(false);
+  const { isOpen, open, close } = useModalState("closed");
   return (
     <>
-      {isOpen && <ArtModalWindow artPiece={artPiece} handleClose={close} />}
+      {isOpen && (
+        <ArtModalWindow artPiece={artPiece} handleClose={() => close()} />
+      )}
       <div
         onClick={(ev) => {
           ev.preventDefault();

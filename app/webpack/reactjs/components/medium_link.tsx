@@ -1,5 +1,5 @@
+import { Medium } from "@js/app/models";
 import { routing } from "@js/services";
-import { Medium } from "@reactjs/models";
 import React, { FC } from "react";
 
 interface MediumLinkProps {

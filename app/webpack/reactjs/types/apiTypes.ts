@@ -1,6 +1,6 @@
 /** api request/response shapes **/
 
-import { ApplicationEvent } from "./modelTypes";
+import { ApplicationEvent, IdType, OpenStudiosParticipant } from "./modelTypes";
 
 export interface ContactArtistFormData {
   name: string;
@@ -12,4 +12,10 @@ export interface ContactArtistFormData {
 
 export interface ApplicationEventsListResponse {
   applicationEvents: ApplicationEvent[];
+}
+
+export interface OpenStudiosParticipantUpdateRequest {
+  id: IdType;
+  artistId: IdType;
+  openStudiosParticipant: OpenStudiosParticipant;
 }

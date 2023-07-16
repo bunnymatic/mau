@@ -1,5 +1,5 @@
+import { ArtPiece } from "@js/app/models";
 import { hashToQueryString } from "@js/app/query_string_parser";
-import { ArtPiece } from "@reactjs/models";
 import cx from "classnames";
 import React, { FC } from "react";
 
