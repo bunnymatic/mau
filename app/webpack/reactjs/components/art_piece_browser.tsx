@@ -114,11 +114,10 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
     if (artImages && artImages[current?.id]) {
       return;
     }
-    const fetchImage = async () => {
-      current.image("large").then(setCurrentImage);
-    };
-
-    fetchImage().catch(console.error);
+    current
+      .image("large")
+      .then((url) => setCurrentImage(url))
+      .catch(console.error);
   }, [current?.id, artImages && JSON.stringify(Object.keys(artImages))]);
 
   /* load thumbnails */
@@ -325,7 +324,9 @@ const ArtPieceBrowserWrapper: FC<ArtPieceBrowserWrapperProps> = ({
         });
       })
       .catch((err) => {
-        new Flash().show({ error: "rats" + err });
+        new Flash().show({
+          error: "Rats! Something seems to have gone wrong. " + err,
+        });
       });
   }, [artistId]);
 

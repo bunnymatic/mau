@@ -29,11 +29,11 @@ Scenario: "Editing Art"
   And I update the art piece tags to:
     | new tag | other tag |
   And I click "Update"
-  Then I see that my art title was updated to "Gobbledy Goop"
+  Then I see a flash notice "art has been updated"
+  And I see that my art title was updated to "Gobbledy Goop"
   And I see that my art medium was updated to the last medium
   And I see that my art tags are:
     | new tag | other tag |
-  And I see a flash notice "art has been updated"
 
   When I click on "My Art" in the sidebar menu
   And I click on "edit"
