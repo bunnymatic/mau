@@ -21,15 +21,6 @@ describe ArtPieceSerializer do
       expect(parsed_art_piece[:display_price]).to eq number_to_currency(art_piece.price)
     end
 
-    # it 'includes paths to the images' do
-    #   sizes = %i[large medium original small]
-    #   files = parsed_art_piece[:image_urls]
-    #   expect(files.keys.sort).to eql sizes
-    #   sizes.each do |sz|
-    #     expect(files[sz]).to include art_piece.attached_photo(sz)
-    #   end
-    # end
-
     it 'includes the tags' do
       expect(relationships[:tags]).to be_present
     end
