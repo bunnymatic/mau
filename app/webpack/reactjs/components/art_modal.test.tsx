@@ -8,14 +8,21 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
+import { api } from "@services/api";
+import { mocked } from "ts-jest/utils";
 import React from "react";
 
 import { ArtModal } from "./art_modal";
 
+jest.mock("@services/api");
+const mockApi = mocked(api, true);
+
 describe("ArtModal", () => {
   beforeEach(() => {
+    api.artPieces.image.mockResolvedValue({url:'https://theimage.whatever.com/thing.jpg'})
     jest.resetAllMocks();
   });
+
   const renderComponent = (props) => {
     return render(
       <ArtModal {...props}>

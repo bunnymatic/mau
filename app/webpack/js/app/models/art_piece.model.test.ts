@@ -67,7 +67,7 @@ describe("ArtPiece", () => {
     const mockApiImage = api.artPieces.image;
 
     beforeEach(() => {
-      mockApiImage.mockResolvedValue('https://theimage.whatever.com/thing.jpg')
+      mockApiImage.mockResolvedValue({ url: 'https://theimage.whatever.com/thing.jpg' })
     })
     it("fetches the image via the api", async () => {
       const data = {
@@ -80,7 +80,9 @@ describe("ArtPiece", () => {
         },
       };
       const model = new ArtPiece(data);
-      await model.image("original");
+      const url = await model.image("original");
+
+      expect(url).toEqual('https://theimage.whatever.com/thing.jpg')
       expect(mockApiImage).toHaveBeenCalledWith(data.id, "original");
     });
   });
