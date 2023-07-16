@@ -19,3 +19,5 @@ export interface OpenStudiosParticipantUpdateRequest {
   artistId: IdType;
   openStudiosParticipant: OpenStudiosParticipant;
 }
+
+export type ImageSize = "small" | "medium" | "large" | "original";

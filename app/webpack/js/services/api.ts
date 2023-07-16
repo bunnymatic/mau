@@ -29,11 +29,10 @@ export const api = {
     contact: (id: types.IdType, formData: types.ContactArtistFormData) => {
       return post(`/api/v2/art_pieces/${id}/contact`, formData).then(camelize);
     },
-    image: (id, size) => {
-      const resp = get(`/api/v2/art_pieces/${id}/image.json?size=${size}`);
-      return resp.then((data) => {
-        return data;
-      });
+    image: (id: types.IdType, size: types.ImageSize) => {
+      const url = `/api/v2/art_pieces/${id}/image.json?size=${size}`;
+
+      return get(url).then(camelize);
     },
   },
   applicationEvents: {
