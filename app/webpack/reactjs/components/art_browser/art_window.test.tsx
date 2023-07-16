@@ -1,20 +1,21 @@
 import { ArtPiece } from "@models/art_piece.model";
-import { jsonApiArtPieceFactory as artPieceFactory } from "@test/factories";
-import { render, screen, waitFor} from "@testing-library/react";
 import { api } from "@services/api";
-import { mocked } from "ts-jest/utils";
+import { jsonApiArtPieceFactory as artPieceFactory } from "@test/factories";
+import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
+import { mocked } from "ts-jest/utils";
 
 import { ArtWindow } from "./art_window";
 
 jest.mock("@services/api");
 const mockApi = mocked(api, true);
 
-
 describe("ArtWindow", () => {
   let artPiece;
   beforeEach(() => {
-    api.artPieces.image.mockResolvedValue({url:'https://theimage.whatever.com/thing.jpg'})
+    mockApi.artPieces.image.mockResolvedValue({
+      url: "https://theimage.whatever.com/thing.jpg",
+    });
   });
   describe("if the art has sold", () => {
     beforeEach(() => {
@@ -22,7 +23,7 @@ describe("ArtWindow", () => {
     });
     it("matches the snapshot", async () => {
       const { container } = render(<ArtWindow art={artPiece} />);
-      await waitFor (() => screen.getByText("Sold"))
+      await waitFor(() => screen.getByText("Sold"));
       expect(container).toMatchSnapshot();
     });
   });
@@ -33,7 +34,7 @@ describe("ArtWindow", () => {
     });
     it("matches the snapshot", async () => {
       const { container } = render(<ArtWindow art={artPiece} />);
-      await waitFor (() => screen.getByText("Sold"))
+      await waitFor(() => screen.getByText("Sold"));
       expect(container).toMatchSnapshot();
     });
   });

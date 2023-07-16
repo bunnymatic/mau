@@ -1,6 +1,7 @@
-import { ArtPiece } from "./art_piece.model";
 import { api } from "@services/api";
 import { mocked } from "ts-jest/utils";
+
+import { ArtPiece } from "./art_piece.model";
 
 jest.mock("@services/api");
 const mockApi = mocked(api, true);
@@ -61,14 +62,12 @@ describe("ArtPiece", () => {
     );
   });
 
-
   describe("#image", () => {
-
-    const mockApiImage = api.artPieces.image;
-
     beforeEach(() => {
-      mockApiImage.mockResolvedValue({ url: 'https://theimage.whatever.com/thing.jpg' })
-    })
+      mockApi.artPieces.image.mockResolvedValue({
+        url: "https://theimage.whatever.com/thing.jpg",
+      });
+    });
     it("fetches the image via the api", async () => {
       const data = {
         id: "36",
@@ -82,8 +81,8 @@ describe("ArtPiece", () => {
       const model = new ArtPiece(data);
       const url = await model.image("original");
 
-      expect(url).toEqual('https://theimage.whatever.com/thing.jpg')
-      expect(mockApiImage).toHaveBeenCalledWith(data.id, "original");
+      expect(url).toEqual("https://theimage.whatever.com/thing.jpg");
+      expect(mockApi.artPieces.image).toHaveBeenCalledWith(data.id, "original");
     });
   });
 });

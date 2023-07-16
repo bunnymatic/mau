@@ -34,7 +34,10 @@ export const ArtWindow: FC<ArtWindowProps> = ({ art }) => {
     if (!art?.id) {
       return;
     }
-    art.image("original").then((url) => setImage(url)).catch(console.error);
+    art
+      .image("original")
+      .then((url) => setImage(url))
+      .catch(console.error);
   }, [art?.id]);
 
   if (!image) {

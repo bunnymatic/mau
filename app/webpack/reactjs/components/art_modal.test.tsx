@@ -1,5 +1,6 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { ArtPiece } from "@models/art_piece.model";
+import { api } from "@services/api";
 import { jsonApiArtPieceFactory } from "@test/factories";
 import {
   act,
@@ -8,9 +9,8 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import { api } from "@services/api";
-import { mocked } from "ts-jest/utils";
 import React from "react";
+import { mocked } from "ts-jest/utils";
 
 import { ArtModal } from "./art_modal";
 
@@ -19,8 +19,9 @@ const mockApi = mocked(api, true);
 
 describe("ArtModal", () => {
   beforeEach(() => {
-    api.artPieces.image.mockResolvedValue({url:'https://theimage.whatever.com/thing.jpg'})
-    jest.resetAllMocks();
+    mockApi.artPieces.image.mockResolvedValue({
+      url: "https://theimage.whatever.com/thing.jpg",
+    });
   });
 
   const renderComponent = (props) => {
