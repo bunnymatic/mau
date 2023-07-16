@@ -1,4 +1,9 @@
 import { ArtPiece } from "./art_piece.model";
+import { api } from "@services/api";
+import { mocked } from "ts-jest/utils";
+
+jest.mock("@services/api");
+const mockApi = mocked(api, true);
 
 describe("ArtPiece", () => {
   it("wraps nested items in models", () => {
@@ -54,5 +59,29 @@ describe("ArtPiece", () => {
         ]),
       })
     );
+  });
+
+
+  describe("#image", () => {
+
+    const mockApiImage = api.artPieces.image;
+
+    beforeEach(() => {
+      mockApiImage.mockResolvedValue('https://theimage.whatever.com/thing.jpg')
+    })
+    it("fetches the image via the api", async () => {
+      const data = {
+        id: "36",
+        type: "art_piece",
+        attributes: {
+          artistName: "Rosario AAabraham",
+          year: 2001,
+          title: "homer",
+        },
+      };
+      const model = new ArtPiece(data);
+      await model.image("original");
+      expect(mockApiImage).toHaveBeenCalledWith(data.id, "original");
+    });
   });
 });

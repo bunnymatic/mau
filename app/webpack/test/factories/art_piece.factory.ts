@@ -13,12 +13,6 @@ const jsonApiArtPieceAttributesFactory =
     .attr("dimensions", "10x 20")
     .attr("title", "the title goes here")
     .attr("artistId", 45)
-    .attr("imageUrls", {
-      small: "small.png",
-      medium: "medium.png",
-      large: "large.png",
-      original: "original.png",
-    })
     .attr("soldAt", "a time stamp");
 
 export const jsonApiArtPieceFactory = Factory.define<types.JsonApiArtPiece>(
