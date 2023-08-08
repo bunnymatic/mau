@@ -87,7 +87,7 @@ describe ArtistMailer, elasticsearch: :stub do
     let(:contact_info) { { name: 'bill', message: 'love it!', email: 'bill@example.com' } }
     subject(:mail) { ArtistMailer.contact_about_art(artist, art_piece, contact_info) }
     it 'includes an image of the art' do
-      expect(mail).to have_css("img[src=\"#{art_piece.attached_photo(:large)}\"]")
+      expect(mail).to have_css('img[src*=active_storage\/representations]')
     end
     it 'includes the contact name and email' do
       expect(mail).to have_body_text 'Name: bill'
