@@ -17,6 +17,7 @@ Scenario: Showing the artists
   And I see everyone who is "pending"
   And I see everyone who is "suspended"
   And I see everyone who is "deleted"
+  And I wait 2 seconds
 
 Scenario: Setting open studios for artists
   When I set all artists to do open studios
