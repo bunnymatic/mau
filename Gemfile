@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.7.6'
+ruby '3.1.3'
 
 gem 'actionmailer-text'
 gem 'active_storage_validations'
@@ -8,6 +8,7 @@ gem 'authlogic'
 gem 'aws-sdk-s3'
 gem 'browser'
 gem 'browserslist_useragent'
+gem 'cgi', '~>0.3.6'
 gem 'connection_pool' # for dalli > 3
 gem 'dalli'
 gem 'elasticsearch', '~> 6.x'

@@ -148,6 +148,7 @@ GEM
       capybara (>= 1.0, < 4)
       launchy
     capybara-select-2 (0.5.1)
+    cgi (0.3.6)
     climate_control (0.2.0)
     code_analyzer (0.5.5)
       sexp_processor
@@ -586,6 +587,7 @@ DEPENDENCIES
   capybara-email
   capybara-screenshot
   capybara-select-2
+  cgi (~> 0.3.6)
   connection_pool
   cucumber
   cucumber-rails
@@ -653,7 +655,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 2.7.6p219
+   ruby 3.1.3p185
 
 BUNDLED WITH
    2.4.18

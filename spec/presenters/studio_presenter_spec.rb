@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe StudioPresenter do
   let(:studio) { FactoryBot.create(:studio, cross_street: 'hollywood', phone: '4156171234') }
-  let(:artist1) { FactoryBot.create(:artist, :active, :with_art, studio: studio) }
-  let(:artist2) { FactoryBot.create(:artist, :active, studio: studio) }
-  let(:artist3) { FactoryBot.create(:artist, :pending, studio: studio) }
+  let(:artist1) { FactoryBot.create(:artist, :active, :with_art, studio:) }
+  let(:artist2) { FactoryBot.create(:artist, :active, studio:) }
+  let(:artist3) { FactoryBot.create(:artist, :pending, studio:) }
   let!(:artists) { [artist1, artist2, artist3] }
   subject(:presenter) { StudioPresenter.new(studio) }
 
@@ -57,7 +57,7 @@ describe StudioPresenter do
     let(:all_os_artists) do
       [
         create(:artist, doing_open_studios: true),
-        create(:artist, studio: studio, doing_open_studios: true),
+        create(:artist, studio:, doing_open_studios: true),
       ]
     end
     before do

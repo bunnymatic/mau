@@ -1,5 +1,5 @@
 class YoutubeUrlValidator < ActiveModel::EachValidator
-  YOUTUBE_URL_REGEX = %r{^((?:https?:)?//)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(/(?:[\w-]+\?v=|embed/|v/)?)([\w-]+)(\S+)?$}.freeze
+  YOUTUBE_URL_REGEX = %r{^((?:https?:)?//)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(/(?:[\w-]+\?v=|embed/|v/)?)([\w-]+)(\S+)?$}
 
   def validate_each(record, attribute, value)
     # test for presence separately

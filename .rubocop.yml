@@ -5,7 +5,7 @@ require:
 AllCops:
   # Only runs checks on specific directories. Could be expanded to
   # include more directories.
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.1
   NewCops: enable
   SuggestExtensions: false
 

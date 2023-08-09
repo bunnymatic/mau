@@ -3,7 +3,7 @@ require 'rails_helper'
 describe StudioArtist do
   let(:studios) { FactoryBot.create_list :studio, 2 }
   let(:studio) { studios.first }
-  let(:artist) { FactoryBot.create(:artist, :active, :manager, studio: studio) }
+  let(:artist) { FactoryBot.create(:artist, :active, :manager, studio:) }
 
   subject(:studio_artist) { StudioArtist.new(studio, artist) }
 

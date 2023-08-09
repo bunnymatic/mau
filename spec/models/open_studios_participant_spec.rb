@@ -23,7 +23,7 @@ describe OpenStudiosParticipant do
         end
         subject.update({
                          user: artist,
-                         open_studios_event: open_studios_event,
+                         open_studios_event:,
                          video_conference_schedule: schedule,
                        })
         subject.save!

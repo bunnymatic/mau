@@ -50,7 +50,7 @@ class OpenStudiosEvent < ApplicationRecord
 
   SPECIAL_EVENT_FIELDS = %w[special_event_start_time special_event_end_time special_event_start_date special_event_end_date].freeze
   def generate_special_event_time_slots
-    return if (changed & SPECIAL_EVENT_FIELDS).blank?
+    return unless changed.intersect?(SPECIAL_EVENT_FIELDS)
 
     if [special_event_start_date, special_event_end_date, special_event_start_time, special_event_end_time].any?(&:blank?)
       self.special_event_time_slots = []

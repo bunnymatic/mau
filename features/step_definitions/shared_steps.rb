@@ -233,7 +233,7 @@ end
 When(/^I fill in the form with:$/) do |table|
   info = table.hashes.first
   info.each do |field, val|
-    if /Studio/.match?(field)
+    if field.include? 'Studio'
       select val, from: field
     else
       fill_in_field_with_value field, val
@@ -245,7 +245,7 @@ When(/^I fill in the "([^"]*?)" form with:$/) do |form_locator, table|
   within form_locator do
     info = table.hashes.first
     info.each do |field, val|
-      if /Studio/.match?(field)
+      if field.include? 'Studio'
         select val, from: field
       else
         fill_in_field_with_value field, val

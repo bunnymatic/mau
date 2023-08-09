@@ -68,7 +68,7 @@ class StudioPresenter < ViewPresenter
   def open_studios_artists
     return Artist.none if OpenStudiosEventService.current.blank?
 
-    OpenStudiosEventService.current.artists.where(studio: studio)
+    OpenStudiosEventService.current.artists.where(studio:)
   end
 
   def artists_with_art?

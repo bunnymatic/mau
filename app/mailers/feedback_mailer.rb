@@ -7,7 +7,7 @@ class FeedbackMailer < MauMailer
     subject = "[Mission Artists Feedback] #{feedback.subject}"
     @feedback = feedback
 
-    mail(to: emails, from: from, reply_to: reply_to, subject: subject) do |fmt|
+    mail(to: emails, from:, reply_to:, subject:) do |fmt|
       fmt.html { render 'feedback' }
     end
   end

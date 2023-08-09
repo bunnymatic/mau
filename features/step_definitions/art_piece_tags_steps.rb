@@ -40,7 +40,7 @@ When(/^I click on the first tag$/) do
   wait_until { page.find('a.art-piece-tag-link') }
 
   name = page.find('a.art-piece-tag-link').text
-  @tag = ArtPieceTag.find_by(name: name)
+  @tag = ArtPieceTag.find_by(name:)
   page.find('a.art-piece-tag-link').click
 end
 

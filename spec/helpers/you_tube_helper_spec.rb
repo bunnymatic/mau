@@ -5,6 +5,7 @@ describe YouTubeHelper do
     iframe = helper.embed_you_tube('https://www.youtube.com/watch?v=biwW1Zx2KDU')
     node = Nokogiri::HTML::DocumentFragment.parse(iframe)
     rendered = node.css('iframe')
+
     expect(rendered.attribute('src').value).to eq 'https://www.youtube.com/embed/biwW1Zx2KDU'
     expect(rendered.attribute('width').value).to eq '100%'
     expect(rendered.attribute('height').value).to eq '200'

@@ -71,7 +71,7 @@ class User < ApplicationRecord
   end
 
   def self.login_or_email_finder(login)
-    find_by(login: login) || find_by(email: login)
+    find_by(login:) || find_by(email: login)
   end
 
   def delete_favorites

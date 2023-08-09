@@ -12,9 +12,9 @@ describe UserPresenter do
     create :artist,
            created_at: created,
            activated_at: activated,
-           last_request_at: last_request_at,
-           last_login_at: last_login_at,
-           current_login_at: current_login_at
+           last_request_at:,
+           last_login_at:,
+           current_login_at:
   end
   subject(:presenter) { described_class.new(user) }
 

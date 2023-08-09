@@ -69,9 +69,9 @@ class FeedbackMail
 
     em = (account? ? account_email : email)
     f = Feedback.new(email: em,
-                     subject: subject,
-                     login: login,
-                     comment: comment)
+                     subject:,
+                     login:,
+                     comment:)
     success = f.save
     FeedbackMailer.feedback(f).deliver_later if success
     success

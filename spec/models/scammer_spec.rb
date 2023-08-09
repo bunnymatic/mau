@@ -30,7 +30,7 @@ describe Scammer do
   describe 'validations' do
     it 'doesn\'t allow duplicate faso_id entries' do
       faso_id = Scammer.first.faso_id
-      expect(Scammer.new(faso_id: faso_id, email: 'joe@example.com', name: 'my name')).not_to be_valid
+      expect(Scammer.new(faso_id:, email: 'joe@example.com', name: 'my name')).not_to be_valid
     end
   end
 end

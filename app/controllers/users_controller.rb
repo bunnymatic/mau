@@ -173,7 +173,7 @@ class UsersController < ApplicationController
     email = inputs[:email]
     if email.present?
       flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
-      user = User.find_by(email: email)
+      user = User.find_by(email:)
       user&.resend_activation
       redirect_back_or_default('/')
     else

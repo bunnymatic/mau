@@ -8,9 +8,9 @@ class AdminMailer < MauMailer
 
     mail(
       to: mailer_list.formatted_emails,
-      from: from,
-      reply_to: reply_to,
-      subject: subject,
+      from:,
+      reply_to:,
+      subject:,
     ) do |fmt|
       fmt.html { render 'spammer' }
     end
@@ -24,9 +24,9 @@ class AdminMailer < MauMailer
     @status = status
     mail(
       to: mailer_list.formatted_emails,
-      from: from,
-      reply_to: reply_to,
-      subject: subject,
+      from:,
+      reply_to:,
+      subject:,
     ) do |fmt|
       fmt.html { render 'server_trouble' }
     end

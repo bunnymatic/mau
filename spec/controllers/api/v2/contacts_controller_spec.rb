@@ -4,7 +4,7 @@ describe Api::V2::ContactsController do
     let(:params) { {} }
 
     def execute_request(params)
-      post :create, params: params
+      post :create, params:
     end
 
     context 'with valid params' do

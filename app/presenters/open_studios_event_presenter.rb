@@ -82,7 +82,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def date_range(separator: '-')
-    DateRangeHelpers.date_range(model.start_date, model.end_date, separator: separator)
+    DateRangeHelpers.date_range(model.start_date, model.end_date, separator:)
   end
 
   def time_range
@@ -101,7 +101,7 @@ class OpenStudiosEventPresenter < ViewPresenter
 
     DateRangeHelpers.date_range(model.special_event_start_date,
                                 model.special_event_end_date,
-                                separator: separator)
+                                separator:)
   end
 
   def special_event_time_range
@@ -113,9 +113,9 @@ class OpenStudiosEventPresenter < ViewPresenter
 
   def for_display(reverse: false)
     if available?
-      model.for_display(reverse: reverse)
+      model.for_display(reverse:)
     else
-      OpenStudiosEventService.for_display(current_open_studios_key, reverse: reverse)
+      OpenStudiosEventService.for_display(current_open_studios_key, reverse:)
     end
   end
 

@@ -90,7 +90,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def safe_find_art_piece(id)
-    ArtPiece.find_by(id: id)
+    ArtPiece.find_by(id:)
   end
 
   def build_page_description(art_piece)

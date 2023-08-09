@@ -12,13 +12,13 @@ describe DenylistDomain do
 
   %w[valid.com a.valid.domain.biz].each do |domain|
     it "validates #{domain} as valid" do
-      expect(DenylistDomain.new(domain: domain)).to be_valid
+      expect(DenylistDomain.new(domain:)).to be_valid
     end
   end
 
   %w[invalid whover.superlongtld a.b.c.e.f.g.h].each do |domain|
     it "validates #{domain} as invalid" do
-      expect(DenylistDomain.new(domain: domain)).not_to(be_valid, "#{domain} appears invalid")
+      expect(DenylistDomain.new(domain:)).not_to(be_valid, "#{domain} appears invalid")
     end
   end
 

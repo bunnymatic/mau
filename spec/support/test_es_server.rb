@@ -11,7 +11,7 @@ class TestEsServer
   end
 
   def self.server_args
-    DEFAULT_TEST_ARGS.merge(port: port)
+    DEFAULT_TEST_ARGS.merge(port:)
   end
 
   def self.running?

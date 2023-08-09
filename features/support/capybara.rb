@@ -16,7 +16,7 @@ end
 
 Capybara.register_driver :chrome do |app|
   options = CapybaraChromeConfig.chrome_capabilities(headless: false)
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 
 Capybara::Screenshot.register_driver :chrome do |driver, path|
@@ -25,7 +25,7 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   options = CapybaraChromeConfig.chrome_capabilities(headless: true)
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 
 Capybara::Screenshot.register_driver :chrome do |driver, path|

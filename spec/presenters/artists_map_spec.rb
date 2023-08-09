@@ -7,7 +7,7 @@ describe ArtistsMap do
   let(:ne_bounds) { MissionBoundaries::BOUNDS['NE'] }
   let(:sw_bounds) { MissionBoudnaries::BOUNDS['SW'] }
 
-  subject(:map) { ArtistsMap.new(os_only: os_only) }
+  subject(:map) { ArtistsMap.new(os_only:) }
   let(:artists) do
     [
       create(:artist, :active, :with_art, :in_the_mission),

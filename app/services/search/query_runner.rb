@@ -4,7 +4,7 @@ module Search
     attr_accessor :_index, :_type, :_id, :_score, :_source
 
     def as_json
-      { _type: _type, _id: _id, _score: _score, _source: _source }
+      { _type:, _id:, _score:, _source: }
     end
   end
 

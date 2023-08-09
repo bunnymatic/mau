@@ -25,16 +25,16 @@ When(/^I remove the role "(.*)"$/) do |role|
 end
 
 Then(/^I see there is a role called "(.*?)"$/) do |role|
-  expect(page).to have_selector ".#{role.downcase}.role-container .role_members li", count: Role.find_by(role: role).users.count
+  expect(page).to have_selector ".#{role.downcase}.role-container .role_members li", count: Role.find_by(role:).users.count
 end
 
 Then(/^I see there is a role called "(.*?)" with (\d+) users?$/) do |role, count|
-  expect(page).to have_selector(".#{role.downcase}.role-container .role_members li", count: count)
+  expect(page).to have_selector(".#{role.downcase}.role-container .role_members li", count:)
 end
 
 Then(/^I see there is not a role called "(.*?)"$/) do |role|
   expect(page).to_not have_selector(".#{role.downcase}.role-container")
-  expect(Role.where(role: role)).to be_empty
+  expect(Role.where(role:)).to be_empty
 end
 
 When(/^I click on the manage link for (.*)s$/) do |role|

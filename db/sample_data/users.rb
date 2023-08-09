@@ -1,9 +1,9 @@
 def ensure_user(login, *factory_args)
-  user = User.find_by(login: login)
-  return user if User.find_by(login: login)
+  user = User.find_by(login:)
+  return user if User.find_by(login:)
 
   traits, opts = factory_args.partition { |arg| !arg.is_a? Hash }
-  options = opts.reduce({}, :merge).merge(login: login, email: "#{login}@example.com")
+  options = opts.reduce({}, :merge).merge(login:, email: "#{login}@example.com")
   user = FactoryBot.create(*traits, options)
   puts "--> Created account for #{user.login} <#{user.email}>"
   user

@@ -10,7 +10,7 @@ describe UsersController do
   let(:pending) { FactoryBot.create :artist, :pending }
   let(:pending_fan) { FactoryBot.create :fan, :pending }
   let(:art_pieces) do
-    FactoryBot.create_list :art_piece, 4, :with_tag, artist: artist
+    FactoryBot.create_list :art_piece, 4, :with_tag, artist:
   end
   let(:art_piece) do
     art_pieces.first
@@ -385,29 +385,29 @@ describe UsersController do
     let(:reset_code) { 'whatever' }
     context 'get' do
       before do
-        expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
-        fan.update(reset_code: reset_code)
-        get :reset, params: { reset_code: reset_code }
+        expect(User).to receive(:find_by).with(reset_code:).and_return(fan)
+        fan.update(reset_code:)
+        get :reset, params: { reset_code: }
       end
       it { expect(response).to be_successful }
     end
     context 'get with invalid reset code' do
       before do
-        get :reset, params: { reset_code: reset_code }
+        get :reset, params: { reset_code: }
       end
       it { expect(response).to be_not_found }
     end
     context 'post' do
       context "with passwords that don't match" do
         before do
-          expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
+          expect(User).to receive(:find_by).with(reset_code:).and_return(fan)
           post :reset,
                params: {
                  user: {
                    password: 'whatever',
                    password_confirmation: 'whateveryo',
                  },
-                 reset_code: reset_code,
+                 reset_code:,
                }
         end
         it { expect(response).to be_successful }
@@ -417,7 +417,7 @@ describe UsersController do
       end
       context 'with matching passwords' do
         before do
-          expect(User).to receive(:find_by).with(reset_code: reset_code).and_return(fan)
+          expect(User).to receive(:find_by).with(reset_code:).and_return(fan)
           allow(User).to receive(:find_by).and_call_original
           expect_any_instance_of(MauFan).to receive(:delete_reset_code).exactly(:once)
           post :reset,
@@ -426,7 +426,7 @@ describe UsersController do
                    password: 'whatever',
                    password_confirmation: 'whatever',
                  },
-                 reset_code: reset_code,
+                 reset_code:,
                }
         end
         it 'returns redirect' do
@@ -449,8 +449,8 @@ describe UsersController do
 
     context "post with email that's not in the system" do
       before do
-        expect(User).to receive(:find_by).with(email: email).and_return(nil)
-        post :resend_activation, params: { user: { email: email } }
+        expect(User).to receive(:find_by).with(email:).and_return(nil)
+        post :resend_activation, params: { user: { email: } }
       end
       it 'redirect to root' do
         expect(response).to redirect_to(root_url)
@@ -461,7 +461,7 @@ describe UsersController do
     end
     context 'post with email that is for a fan' do
       before do
-        post :resend_activation, params: { user: { email: email } }
+        post :resend_activation, params: { user: { email: } }
       end
       it 'redirect to root' do
         expect(response).to redirect_to(root_url)
@@ -472,7 +472,7 @@ describe UsersController do
     end
     context 'post with email that is for an artist' do
       before do
-        post :resend_activation, params: { user: { email: email } }
+        post :resend_activation, params: { user: { email: } }
       end
       it 'redirect to root' do
         expect(response).to redirect_to(root_url)

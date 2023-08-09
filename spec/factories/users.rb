@@ -69,7 +69,7 @@ FactoryBot.define do
     type { 'Artist' }
 
     after(:create) do |artist, context|
-      FactoryBot.create(:artist_info, artist: artist, max_pieces: context.max_pieces)
+      FactoryBot.create(:artist_info, artist:, max_pieces: context.max_pieces)
       artist.open_studios_events << OpenStudiosEventService.current if context.doing_open_studios
     end
 
@@ -121,14 +121,14 @@ FactoryBot.define do
     trait :with_tagged_art do
       active
       after(:create) do |artist, ctx|
-        FactoryBot.create_list(:art_piece, ctx.number_of_art_pieces, :with_tag, artist: artist)
+        FactoryBot.create_list(:art_piece, ctx.number_of_art_pieces, :with_tag, artist:)
       end
     end
     trait :with_art do
       active
       after(:create) do |artist, ctx|
         ctx.number_of_art_pieces.to_i.times.each do |idx|
-          FactoryBot.create(:art_piece, artist: artist, created_at: idx.weeks.ago, updated_at: idx.weeks.ago)
+          FactoryBot.create(:art_piece, artist:, created_at: idx.weeks.ago, updated_at: idx.weeks.ago)
         end
         artist.reload
       end
@@ -138,7 +138,7 @@ FactoryBot.define do
       active
       after(:create) do |artist|
         studio = Studio.first || FactoryBot.create(:studio)
-        artist.update studio: studio
+        artist.update(studio:)
         artist.update artist_info_attributes: { lat: nil, lng: nil }
       end
     end

@@ -41,6 +41,6 @@ module AddressMixin
   end
 
   def should_recompute?
-    (changes.keys & %w[street city addr_state zipcode]).present?
+    changes.keys.intersect?(%w[street city addr_state zipcode])
   end
 end

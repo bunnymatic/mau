@@ -1,6 +1,6 @@
 def ensure_open_studios_event(start_date)
   OpenStudiosEvent.find_or_create_by(key: start_date.strftime('%Y%m')) do |os|
-    os.assign_attributes(FactoryBot.attributes_for(:open_studios_event, start_date: start_date))
+    os.assign_attributes(FactoryBot.attributes_for(:open_studios_event, start_date:))
   end
   puts "--> Added Open Studios Event for #{start_date}"
 end

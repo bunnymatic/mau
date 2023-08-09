@@ -5,8 +5,8 @@ describe ArtistsController, elasticsearch: :stub do
   let(:artist) do
     FactoryBot.create(:artist,
                       :with_art,
-                      studio: studio,
-                      number_of_art_pieces: number_of_art_pieces,
+                      studio:,
+                      number_of_art_pieces:,
                       nomdeplume: nil,
                       firstname: 'joe',
                       lastname: 'ablow')
@@ -15,7 +15,7 @@ describe ArtistsController, elasticsearch: :stub do
   let(:admin) { FactoryBot.create(:artist, :admin) }
   let(:number_of_art_pieces) { 1 }
   let(:artist_info) { artist.artist_info }
-  let(:artist2) { FactoryBot.create(:artist, :active, studio: studio) }
+  let(:artist2) { FactoryBot.create(:artist, :active, studio:) }
   let(:artists) do
     [artist] + FactoryBot.create_list(:artist, 2, :with_studio, :with_tagged_art, number_of_art_pieces: 1)
   end
@@ -284,8 +284,8 @@ describe ArtistsController, elasticsearch: :stub do
     let(:artist) do
       FactoryBot.create(:artist,
                         :with_art,
-                        studio: studio,
-                        number_of_art_pieces: number_of_art_pieces,
+                        studio:,
+                        number_of_art_pieces:,
                         nomdeplume: nil,
                         firstname: 'joe',
                         lastname: 'ablow')
@@ -356,11 +356,11 @@ describe ArtistsController, elasticsearch: :stub do
     let(:art_pieces_for_deletion) do
       art_pieces.map.with_index { |a, idx| [a.id, idx % 2] }.to_h
     end
-    let(:destroy_params) { { params: { art: art_pieces_for_deletion } } }
+    let(:destroy_params) { { art: art_pieces_for_deletion } }
     let(:num_to_dump) { art_pieces_for_deletion.values.select { |v| v == 1 }.count }
 
-    def run_destroy(params = nil)
-      post :destroyart, params || { params: {} }
+    def run_destroy(params = {})
+      post :destroyart, params:
     end
 
     context 'with no args' do

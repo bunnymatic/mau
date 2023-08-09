@@ -10,7 +10,7 @@ When(/^I click on the first medium$/) do
   wait_until { page.find('a.medium-link') }
 
   name = page.find('a.medium-link').text
-  @medium = Medium.find_by(name: name)
+  @medium = Medium.find_by(name:)
   within '.art-piece__info' do
     click_on name
   end

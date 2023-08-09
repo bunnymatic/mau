@@ -12,7 +12,7 @@ describe NewArtPiecePresenter do
   let(:artist) { create(:artist, :active, :with_studio) }
   let(:medium) { create(:medium, name: 'My Medium') }
   let(:art_piece) do
-    create(:art_piece, :with_tags, artist: artist, medium: medium)
+    create(:art_piece, :with_tags, artist:, medium:)
   end
   let(:current_time) {}
 
