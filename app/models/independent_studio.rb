@@ -79,11 +79,11 @@ class IndependentStudio
   end
 
   def cross_street?
-    nil
+    false
   end
 
   def phone?
-    nil
+    false
   end
 
   def url?
