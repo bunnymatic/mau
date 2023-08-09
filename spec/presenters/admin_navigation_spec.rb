@@ -10,7 +10,7 @@ describe AdminNavigation do
   it { expect(subject.links.map(&:first)).to eq %i[models pr admin internal] }
 
   describe 'as a manager' do
-    let(:user) { FactoryBot.create(:user, :manager, :active, studio: studio) }
+    let(:user) { FactoryBot.create(:user, :manager, :active, studio:) }
     it { expect(subject.links.last.last.map(&:first)).to eq [:studios] }
   end
 

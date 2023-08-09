@@ -21,7 +21,7 @@ class TagCloudPresenter < ViewPresenter
     @all_tags.limit(MAX_SHOW_TAGS)
   end
 
-  def each(&block)
-    tags.each(&block)
+  def each(&)
+    tags.each(&)
   end
 end

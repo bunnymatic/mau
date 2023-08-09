@@ -13,7 +13,7 @@ class MediaCloudPresenter < ViewPresenter
     @selected == medium
   end
 
-  def each(&block)
-    @media.each(&block)
+  def each(&)
+    @media.each(&)
   end
 end

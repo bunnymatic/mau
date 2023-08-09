@@ -23,7 +23,7 @@ module Admin
         end
       end
       if errors.present?
-        render json: { errors: errors }, status: :bad_request
+        render json: { errors: }, status: :bad_request
       else
         render json: { emails: @email_list.reload.emails }
       end

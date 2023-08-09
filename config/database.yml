@@ -10,26 +10,38 @@
 #   while working. You can add “pool: 30” or similar to your database.yml file to increase
 #   it. Again, you’ll have to tune this number to your processing environment.
 
-default: &default
+# Psych 4 requires extra params to use aliases, so let's just not use them
+development:
   adapter: mysql2
   encoding: utf8
   username: root
   password:
   host: 127.0.0.1
-
-development: &dev
-  <<: *default
   database: mau_dev
 
-test: &test
-  <<: *default
+test:
+  adapter: mysql2
+  encoding: utf8
+  username: root
+  password:
+  host: 127.0.0.1
   database: mau_test
   pool: 5
 
 # we need these for cap tasks and other things that might run in acceptance
 # or production environments locally and need to think their ok
 acceptance:
-  <<: *dev
+  adapter: mysql2
+  encoding: utf8
+  username: root
+  password:
+  host: 127.0.0.1
+  database: mau_dev
 
 production:
-  <<: *dev
+  adapter: mysql2
+  encoding: utf8
+  username: root
+  password:
+  host: 127.0.0.1
+  database: mau_dev

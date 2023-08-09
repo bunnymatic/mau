@@ -80,5 +80,5 @@ class HaveLinkInBody
 end
 
 def have_link_in_body(link, href: nil)
-  HaveLinkInBody.new(link, href: href)
+  HaveLinkInBody.new(link, href:)
 end

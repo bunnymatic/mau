@@ -22,7 +22,7 @@ describe OpenStudiosParticipantPresenter do
     let(:participant) do
       create(:open_studios_participant,
              :with_conference_schedule,
-             user: user,
+             user:,
              show_email: true,
              show_phone_number: true)
     end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Artist do
   let(:max_pieces) { 10 }
-  subject(:artist) { FactoryBot.create(:artist, :active, :with_studio, :with_art, max_pieces: max_pieces, firstname: 'Joe', lastname: 'Blow') }
+  subject(:artist) { FactoryBot.create(:artist, :active, :with_studio, :with_art, max_pieces:, firstname: 'Joe', lastname: 'Blow') }
   let!(:open_studios_event) { FactoryBot.create(:open_studios_event) }
   let!(:past_open_studios_event) { FactoryBot.create(:open_studios_event, :past) }
   let(:wayout_artist) { FactoryBot.create(:artist, :active, :out_of_the_mission) }
@@ -122,7 +122,7 @@ describe Artist do
         # don't update lat in factory because `compute_geocode` takes over
         studio.update_attribute(:lat, 37.75)
         studio.update_attribute(:lng, -122.41)
-        wayout_artist.update studio: studio
+        wayout_artist.update(studio:)
         wayout_artist.reload
       end
       it 'returns true' do

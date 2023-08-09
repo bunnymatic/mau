@@ -7,13 +7,13 @@ describe BaseOpenStudiosPresenter do
   let(:open_studios_event) { create(:open_studios_event) }
   let!(:summary) do
     create(:cms_document,
-           page: page,
+           page:,
            section: :summary,
            article: "# spring 2004\n\n## spring 2004 header2 \n\nwhy _spring_.")
   end
   let!(:preview_reception) do
     create(:cms_document,
-           page: page,
+           page:,
            section: :preview_reception,
            article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
   end

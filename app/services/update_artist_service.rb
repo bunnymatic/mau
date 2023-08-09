@@ -68,7 +68,7 @@ class UpdateArtistService
           "#{participating} for #{@current_os.for_display(reverse: true)} open studios"
     data = { user: artist.login, user_id: artist.id }
     OpenStudiosSignupEvent.create(message: msg,
-                                  data: data)
+                                  data:)
   end
 
   def refresh_in_search_index

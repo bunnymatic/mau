@@ -1,5 +1,5 @@
 def ensure_studio(name, *factory_args)
-  return if Studio.find_by(name: name)
+  return if Studio.find_by(name:)
 
   traits, opts = factory_args.partition { |arg| !arg.is_a? Hash }
   options = opts.reduce({}, :merge)

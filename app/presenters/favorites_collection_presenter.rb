@@ -66,7 +66,7 @@ class FavoritesCollectionPresenter < ViewPresenter
     !@user.favorites.exists?
   end
 
-  def each(&block)
-    @user.favorites.each(&block)
+  def each(&)
+    @user.favorites.each(&)
   end
 end

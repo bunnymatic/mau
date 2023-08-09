@@ -28,7 +28,7 @@ describe Admin::ApplicationEventsController do
           params: {
             query: {
               number_of_records: limit,
-              since: since,
+              since:,
             },
           }
     end

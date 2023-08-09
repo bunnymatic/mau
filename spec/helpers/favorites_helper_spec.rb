@@ -4,7 +4,7 @@ describe FavoritesHelper do
   let(:favorite) { create :art_piece }
   describe '#draw_micro_favorite' do
     let(:options) { {} }
-    subject(:micro) { helper.draw_micro_favorite(favorite, options) }
+    subject(:micro) { helper.draw_micro_favorite(favorite, **options) }
     it 'returns an li with the favorite in there' do
       expect(micro).to have_css("li a[title='#{favorite.title}'] div[title='#{favorite.title}']")
       expect(micro).to have_css('[style*=background-image]')

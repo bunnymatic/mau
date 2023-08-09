@@ -6,7 +6,7 @@ describe Medium do
 
   describe '#hashtag' do
     let(:name) { 'medium name' }
-    subject(:medium) { build(:medium, name: name) }
+    subject(:medium) { build(:medium, name:) }
     its(:hashtag) { is_expected.to eql medium.name.parameterize.underscore }
 
     context 'for Painting - Oil' do

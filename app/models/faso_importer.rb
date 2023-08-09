@@ -20,12 +20,12 @@ class FasoImporter
       next unless entry
 
       name = entry['name_used'].encode('utf-8', invalid: :replace, undef: :replace)
-      Scammer.new(name: name, faso_id: entry['id'], email: entry['email'])
+      Scammer.new(name:, faso_id: entry['id'], email: entry['email'])
     end.uniq
   end
 
-  def each(&block)
-    scammers.each(&block)
+  def each(&)
+    scammers.each(&)
   end
 
   private

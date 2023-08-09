@@ -9,7 +9,7 @@ describe SocialCatalogPresenter do
     create(:artist, :active, :in_the_mission, :with_links, :with_art, { doing_open_studios: true })
   end
   let(:listed_studio_artists) do
-    create_list(:artist, 5, :active, :in_the_mission, :with_links, :with_art, doing_open_studios: true, studio: studio)
+    create_list(:artist, 5, :active, :in_the_mission, :with_links, :with_art, doing_open_studios: true, studio:)
   end
 
   let!(:artists) do

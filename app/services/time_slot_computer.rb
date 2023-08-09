@@ -1,5 +1,5 @@
 class TimeSlotComputer
-  CLOCK_TIME_REGEX = /^\s?(\d{1,2})\s?:\s?(\d{1,2})\s?([ap]m)\s?/i.freeze
+  CLOCK_TIME_REGEX = /^\s?(\d{1,2})\s?:\s?(\d{1,2})\s?([ap]m)\s?/i
 
   attr_reader :date, :duration, :start_clock_time, :end_clock_time
 

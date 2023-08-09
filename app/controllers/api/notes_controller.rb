@@ -1,7 +1,7 @@
 module Api
   class NotesController < ApiController
     def create
-      f = FeedbackMail.new(feedback_mail_params.merge(current_user: current_user))
+      f = FeedbackMail.new(feedback_mail_params.merge(current_user:))
       unless f.save
         render json: { success: false, error_messages: f.errors.full_messages }, status: :bad_request
         return

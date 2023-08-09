@@ -1,6 +1,6 @@
 module YouTubeHelper
-  YOUTUBE_URL_REGEX = %r{\?(v=|embed/|v/?)([^&\s]+)?}.freeze
-  YOUTUBE_SHORT_URL_REGEX = %r{//youtu\.be/(.*)$}.freeze
+  YOUTUBE_URL_REGEX = %r{\?(v=|embed/|v/?)([^&\s]+)?}
+  YOUTUBE_SHORT_URL_REGEX = %r{//youtu\.be/(.*)$}
 
   def _embed_url_from_url(url)
     matches = YOUTUBE_URL_REGEX.match(url)
@@ -21,14 +21,14 @@ module YouTubeHelper
 
     return '' unless embed_url
 
-    tag.iframe({
-                 width: width,
-                 height: height,
-                 src: embed_url,
-                 title: title,
-                 frameborder: 0,
-                 allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
-                 allowfullscreen: true,
-               }) {}
+    tag.iframe(
+      width:,
+      height:,
+      src: embed_url,
+      title:,
+      frameborder: 0,
+      allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+      allowfullscreen: true,
+    ) {}
   end
 end

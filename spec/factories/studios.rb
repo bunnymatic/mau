@@ -18,7 +18,7 @@ FactoryBot.define do
 
     trait :with_artists do
       after(:create) do |studio, context|
-        create_list :artist, context.artist_count, :active, studio: studio
+        create_list :artist, context.artist_count, :active, studio:
       end
     end
   end

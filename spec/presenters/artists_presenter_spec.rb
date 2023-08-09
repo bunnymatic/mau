@@ -15,7 +15,7 @@ describe ArtistsPresenter do
 
     describe 'os_only flag' do
       let(:os_only) { false }
-      subject(:presenter) { ArtistsPresenter.new(os_only: os_only) }
+      subject(:presenter) { ArtistsPresenter.new(os_only:) }
 
       context 'os_only is false' do
         it 'shows active artists sorted by name' do
@@ -53,7 +53,7 @@ describe ArtistsPresenter do
           FactoryBot.create(:artist, :with_art, :in_the_mission, firstname: 'ZZ', lastname: 'zz', nomdeplume: nil),
         ]
       end
-      subject(:presenter) { ArtistsPresenter.new(sort_by_name: sort_by_name) }
+      subject(:presenter) { ArtistsPresenter.new(sort_by_name:) }
       context 'sort_by_name is false' do
         it 'is returned unsorted' do
           artists_names = subject.artists.map(&:sortable_name)

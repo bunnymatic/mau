@@ -11,7 +11,7 @@ class Favorite < ApplicationRecord
   FAVORITABLE_TYPES = %w[Artist ArtPiece].freeze
 
   def uniqueness_of_owner_and_item
-    return unless Favorite.exists?(owner: owner, favoritable_type: favoritable_type, favoritable_id: favoritable_id)
+    return unless Favorite.exists?(owner:, favoritable_type:, favoritable_id:)
 
     errors.add(:owner, 'You have already favorited that item')
   end

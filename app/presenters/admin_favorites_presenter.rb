@@ -56,8 +56,8 @@ class AdminFavoritesPresenter
     sum_column(:favorited)
   end
 
-  def each(&block)
-    favorites.each(&block)
+  def each(&)
+    favorites.each(&)
   end
 
   private

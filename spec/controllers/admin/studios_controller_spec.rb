@@ -3,9 +3,9 @@ require 'htmlentities'
 
 describe Admin::StudiosController do
   let(:studio) { FactoryBot.create(:studio) }
-  let(:manager) { FactoryBot.create(:artist, :manager, :active, studio: studio) }
+  let(:manager) { FactoryBot.create(:artist, :manager, :active, studio:) }
   let(:manager_studio) { manager.studio }
-  let(:editor) { FactoryBot.create(:artist, :editor, :active, studio: studio) }
+  let(:editor) { FactoryBot.create(:artist, :editor, :active, studio:) }
   let(:admin) { FactoryBot.create(:artist, :admin, :active) }
 
   context 'as an admin' do
@@ -197,7 +197,7 @@ describe Admin::StudiosController do
       let(:artist) { admin }
       before do
         # validate fixtures
-        admin.update(studio: studio)
+        admin.update(studio:)
       end
 
       it 'does not let you unaffiliate yourself' do

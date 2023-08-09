@@ -33,10 +33,10 @@ class MainController < ApplicationController
     @page_title = PageInfoService.title('Open Studios')
     page = 'main'
     section = 'artist_resources'
-    doc = CmsDocument.find_by(page: page, section: section)
+    doc = CmsDocument.find_by(page:, section:)
     @content = {
-      page: page,
-      section: section,
+      page:,
+      section:,
     }
     render && return unless doc
 
@@ -48,10 +48,10 @@ class MainController < ApplicationController
     @page_title = PageInfoService.title('Venues')
     page = 'venues'
     section = 'all'
-    doc = CmsDocument.find_by(page: page, section: section)
+    doc = CmsDocument.find_by(page:, section:)
     @content = {
-      page: page,
-      section: section,
+      page:,
+      section:,
     }
     render && return unless doc
 
