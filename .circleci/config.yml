@@ -39,7 +39,7 @@ commands:
           shell: /bin/bash
           name: Bundle Install and Audit
           command: |-
-            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+            bundle check || bundle install
             bundle exec bundle-audit update && bundle exec bundle-audit check
             bundle clean --force
       - save_cache:
