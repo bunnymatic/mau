@@ -29,6 +29,11 @@ commands:
   bundle_install:
     description: Bundle Install (and cache)
     steps:
+      - run:
+          shell: /bin/bash
+          name: "Set bundler path to vendor/bundle"
+          command: |-
+            bundle config set --local path vendor/bundle
       - restore_cache:
           keys:
             - mau-bundler-cache-v3-{{arch}}-{{ checksum ".ruby-version" }}-{{
