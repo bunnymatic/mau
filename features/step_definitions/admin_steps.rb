@@ -190,7 +190,6 @@ end
 Then('I see the new image') do
   expect(page_body).not_to have_content 'new-art-piece.jpg'
   expect(page_body).to have_content 'art.png'
-  puts "CURRENT_PATH #{current_path}"
 end
 
 Then('I see the pending list') do
