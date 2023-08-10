@@ -31,3 +31,4 @@ Scenario: List artists when there is no current OS
 
   When I click on "Not Yet Activated"
   Then I see the pending list
+  And I wait 3 seconds # clean up to avoid mysql transaction issues
