@@ -15,3 +15,4 @@ Scenario:  I can drill into a studio detail
   And I see that some studios are participating in open studios
   When I click on the first studio card
   Then I see the first studio page
+  And I wait 3 seconds # clean up to avoid mysql transaction issues
