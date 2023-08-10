@@ -15,4 +15,3 @@ Scenario: Admin updates an art piece
   And I click "Upload"
   Then I see the edit admin art piece page
   And I see the new image
-  And I wait 3 seconds # clean up to avoid mysql transaction issues
