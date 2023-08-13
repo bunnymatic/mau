@@ -17,14 +17,16 @@ form #art_piece_photo {
 }
 
 .header {
+  .art-piece__title-container .os-violator {
+    position: relative;
+    top: -4px;
+  }
   .art-piece__byline {
     font-style: italic;
   }
   .art-piece__byline-conjunction {
     font-size: 0.9rem;
     text-transform: uppercase;
-    padding-left: 5px;
-    padding-right: 5px;
   }
 }
 .art_pieces.show {

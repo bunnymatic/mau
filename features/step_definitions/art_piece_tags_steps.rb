@@ -17,7 +17,7 @@ Then(/^I see a list of artists who have art in the most popular tag$/) do
 
   expect(page).to have_css('.tag__name', text: @first_tag.name)
   expect(page).to have_css '.paginator'
-  expect(page).to have_content '>'
+  expect(page_body).to have_content '>'
   expect(page).to have_css '.paginator__page--current', text: '1'
 end
 

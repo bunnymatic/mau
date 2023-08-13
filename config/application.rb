@@ -1,36 +1,22 @@
-require File.expand_path('boot', __dir__)
+require_relative 'boot'
 
-# Unrolled `rails/all.rb` from https://github.com/rails/rails/blob/master/railties/lib/rails/all.rb as of 03/23/2020
-
-# rubocop:disable Style/RedundantBegin
-# rubocop:disable Lint/SuppressedException
 require 'rails'
-
-[
-  'active_record/railtie',
-  'active_storage/engine',
-  'action_controller/railtie',
-  'action_view/railtie',
-  'action_mailer/railtie',
-  # 'action_mailbox/engine',
-  'action_text/engine',
-  # 'rails/test_unit/railtie',
-  #  "active_job/railtie",
-  #  "action_cable/engine",
-  #  "sprockets/railtie",
-].each do |railtie|
-  begin
-    require railtie
-  rescue LoadError
-  end
-end
-# rubocop:enable Lint/SuppressedException
-# rubocop:enable Style/RedundantBegin
+# Pick the frameworks you want:
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+# require "action_mailbox/engine"
+require 'action_text/engine'
+require 'action_view/railtie'
+# require "action_cable/engine"
+# require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 
-Bundler.require(*Rails.groups)
 require_relative '../app/lib/app_config'
 
 c = AppConfig.new
@@ -40,31 +26,27 @@ c.use_file! File.expand_path('../config/config.keys.yml', __dir__)
 c.use_section! Rails.env
 Conf = c
 
+Bundler.require(*Rails.groups)
+
 module Mau
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 7.0
 
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
 
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
-    config.load_defaults 6.0
+    # Don't generate system test files.
+    config.generators.system_tests = nil
 
-    config.cache_store = :mem_cache_store, { namespace: "mau#{Rails.env}" }
-
-    # app_paths = %w(services lib mailers presenters paginators models/concerns)
-    # config.autoload_paths += app_paths.map{|path| File.join(Rails.root,'app', path)}
+    config.elasticsearch_url = ENV.fetch('ELASTICSEARCH_URL', 'http://localhost:9200')
 
     config.action_mailer.delivery_method = :file
-
-    # config.i18n.enforce_available_locales = true
-
-    # config.filter_parameters += [:password, :password_confirmation]
 
     config.s3_info = {
       bucket: ::Conf.S3_BUCKET || "mission-artists-#{Rails.env}",
@@ -84,6 +66,3 @@ module Mau
     config.active_storage.variant_processor = :vips
   end
 end
-
-ignored_autoload_dirs = %w[app/webpack app/frontend]
-Rails.autoloaders.main.ignore(ignored_autoload_dirs.map { |f| Rails.root.join(f) })

@@ -26,7 +26,7 @@ Then(/^the system knows that my inquiry was submitted$/) do
 end
 
 When(/^I see the feedback form$/) do
-  within '.ReactModal__Content' do
-    expect(page).to have_content /feedback/i
+  within '.ReactModal__Content' do |modal|
+    expect(modal).to have_content /feedback/i
   end
 end

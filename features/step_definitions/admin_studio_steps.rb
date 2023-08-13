@@ -8,7 +8,7 @@ end
 
 Then(/^I see there is a new studio called "(.*)"$/) do |name|
   expect(page).to have_flash :notice, 'More studios means more artists'
-  expect(page).to have_content name
+  expect(page_body).to have_content name
 end
 
 Then(/^I click on the last remove studio button$/) do

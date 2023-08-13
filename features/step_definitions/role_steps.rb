@@ -1,5 +1,5 @@
 Then(/^I see the admin roles page$/) do
-  expect(page).to have_content 'Roles & Members'
+  expect(page_body).to have_content 'Roles & Members'
   expect(page).to have_selector '.editor.role-container .role_members li', count: Role.editor.users.count
   expect(page).to have_selector '.admin.role-container .role_members li', count: Role.admin.users.count
 end

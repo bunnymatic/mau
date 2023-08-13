@@ -29,4 +29,5 @@ Scenario:  Visiting the home page
 Scenario:  Visiting the home page when there is an active notification
   When there is an active notification
   And I visit the home page
+  And wait until the page is done loading infinite scroll
   Then I see that notification
