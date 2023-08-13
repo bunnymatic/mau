@@ -15,9 +15,9 @@ Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
     title = all('.title').map(&:text).join
     /#{Regexp.quote(new_title)}/i =~ title
   end
-  within '.title' do
-    expect(page_body).to_not have_content 'Mona Lisa'
-    expect(page).to have_content new_title
+  within '.title' do |title_el|
+    expect(title_el).to_not have_content 'Mona Lisa'
+    expect(title_el).to have_content new_title
   end
 end
 

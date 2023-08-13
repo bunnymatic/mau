@@ -86,12 +86,12 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
     <div className="art-piece-browser">
       <div className="pure-g sticky-header">
         <div className="pure-u-1-1 header padded-content">
-          <h2 className="title">
-            <span className="art-piece__title">{current.title}</span>
-            <span className="art-piece__byline-conjunction">by Artist</span>
+          <h2 className="title art-piece__title-container">
+            <span className="art-piece__title">{current.title}</span>{" "}
+            <span className="art-piece__byline-conjunction">by Artist</span>{" "}
             <span className="art-piece__byline">
               <a href={currentArtistPath}>{artist.fullName}</a>
-            </span>
+            </span>{" "}
             {artist.doingOpenStudios && <OpenStudiosViolator />}
           </h2>
         </div>
