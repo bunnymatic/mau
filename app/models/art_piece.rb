@@ -115,8 +115,9 @@ class ArtPiece < ApplicationRecord
 
   def image(size = :medium)
     attached_photo(size)
-  rescue Mysql2::Error
+  rescue ActiveRecord::Deadlocked, ActiveRecord::InvalidForeignKey
     # There is some clean up problem with capybara and rails 7
+    # around FK constraints and active storage variant records
     # hopefully this helps
     raise unless Rails.env.test?
   end
