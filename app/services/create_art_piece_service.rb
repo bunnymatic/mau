@@ -22,6 +22,10 @@ class CreateArtPieceService
     emails = WatcherMailerList.first&.formatted_emails
     WatcherMailer.notify_new_art_piece(art_piece, emails).deliver_now if art_piece.persisted? && emails.present?
 
+    # trigger create medium variant
+    art_piece&.image(:medium)
+    art_piece&.image(:large)
+
     art_piece
   end
 end
