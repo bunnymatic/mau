@@ -21,7 +21,11 @@ class ArtSampler
   end
 
   def random_pieces
-    ArtPiece.includes({ artist: :open_studios_events })
+    # Though including open studios events in this for AREL performance
+    # it ruins the random order and limit/offset so that we end up with duplicate
+    # art pieces in the samples.  So please leave it out
+    ArtPiece.distinct
+            .includes(:artist)
             .where(users: { state: :active })
             .where.not(id: new_pieces.pluck(:id))
             .order(Arel.sql("rand(#{seed})"))
