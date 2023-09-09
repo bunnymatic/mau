@@ -1,7 +1,7 @@
 class ApiAuthorizor
   def self.authorize(request)
     auth_key = request.headers['HTTP_AUTHORIZATION']
-    check_authorization_key(auth_key) || internal_request?(request)
+    FeatureFlags.skip_api_authorization? || check_authorization_key(auth_key) || internal_request?(request)
   end
 
   class << self
