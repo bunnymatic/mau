@@ -4,6 +4,8 @@ describe Api::V2::StudiosController do
   let(:studio) { create(:studio, :with_artists) }
   let(:headers) { {} }
   before do
+    allow(FeatureFlags).to receive(:skip_api_authorization?).and_return(false)
+
     studio
   end
 
