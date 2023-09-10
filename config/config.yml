@@ -6,6 +6,7 @@ test:
   min_artists_per_studio: 1
   features:
     virtual_open_studios: true
+    skip_api_authorization: true
   pagination:
     media:
       per_page: 12
@@ -18,6 +19,7 @@ test:
 development:
   features:
     virtual_open_studios: true
+    skip_api_authorization: true
   S3_REGION: 'us-west-1'
   cache_expiry:
     feed: 300
