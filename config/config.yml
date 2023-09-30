@@ -2,6 +2,7 @@
 #
 # note : no tabs and indent is ipmortant.
 test:
+  api_consumer_key: whatever
   mailchimp_api_key: bogus-key
   min_artists_per_studio: 1
   features:
