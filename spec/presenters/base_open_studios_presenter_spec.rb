@@ -120,8 +120,10 @@ describe BaseOpenStudiosPresenter do
         allow(FeatureFlags).to receive(:virtual_open_studios?).and_return true
       end
       it 'returns a link to the artist with subdomain' do
-        expect(subject.link_to_artist(artist)).to include 'target="_blank"'
-        expect(subject.link_to_artist(artist)).to include 'href="http://openstudios.test.host/artists/'
+        link = Nokogiri::XML::DocumentFragment.parse(subject.link_to_artist(artist)).children.first
+        expect(link.attribute('target').value).to eq '_blank'
+        expect(link.attribute('href').value).to eq "http://openstudios.test.host/artists/#{artist.slug}"
+        expect(link.text).to eq artist.get_name
       end
     end
     context 'when open studios feature is off' do
