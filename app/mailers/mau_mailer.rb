@@ -9,7 +9,7 @@ class MauMailer < ApplicationMailer
   default content_type: 'multipart/alternative'
 
   def mailer_list
-    Object.const_get("#{self.class.name}List").first
+    Object.const_get("#{self.class.name}List").instance
   end
 
   protected

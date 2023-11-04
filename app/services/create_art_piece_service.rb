@@ -19,7 +19,7 @@ class CreateArtPieceService
     art_piece.photo.attach(file)
     art_piece.save
 
-    emails = WatcherMailerList.first&.formatted_emails
+    emails = WatcherMailerList.instance.formatted_emails
     WatcherMailer.notify_new_art_piece(art_piece, emails).deliver_now if art_piece.persisted? && emails.present?
 
     # trigger create medium variant

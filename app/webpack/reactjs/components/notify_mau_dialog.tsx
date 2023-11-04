@@ -12,7 +12,8 @@ import { sendInquiry } from "@services/notification.service";
 import { Form, Formik } from "formik";
 import React, { FC } from "react";
 
-type NoteTypes = "inquiry" | "help" | "feedback";
+type NoteTypes = "inquiry" | "help" | "feedback" | "secretWord";
+type InputField = "inquiry" | "email" | "emailConfirm";
 
 interface NotifyMauFormProps {
   noteType: NoteTypes;
@@ -23,8 +24,9 @@ interface NotifyMauFormProps {
 
 interface NoteInfo {
   message: string;
-  questionLabel: string;
+  questionLabel?: string;
   title?: string;
+  requiredFields: InputField[];
 }
 
 const NOTE_INFO_LUT: Record<NoteTypes, NoteInfo> = {
@@ -42,6 +44,13 @@ const NOTE_INFO_LUT: Record<NoteTypes, NoteInfo> = {
       "We love to hear from you.  Please let us know your thoughts, questions, rants." +
       " We'll do our best to respond in a timely manner.",
     questionLabel: "Your Question",
+  },
+  secretWord: {
+    title: "Looking to sign up?",
+    message:
+      "Give us your email and we'll send you the secret word to get signed up." +
+      " We'll do our best to respond in a timely manner.",
+    questionLabel: "How did you find us and why do you want to sign up?",
   },
   help: {
     message:

@@ -15,9 +15,9 @@
       label.label for="secret_word" What's the secret word?
       = text_field_tag :secret_word
       p.inline-hints
-        | If you don't know,
+        | If you don't know it,
         '
-        = react_component id: 'secret-word-mailer', component: "Mailer", props: {subject:"Send me the secret word please!", text:"contact us via email"}, wrapper_tag: "span"
+        = react_component id: 'secret-word-mailer', component: "NotifyMauDialog", wrapper_tag: "span", props: { note_type: 'secretWord', link_text: 'you can ask us'}
         '
         | and we'll let you in on the secret.
   = f.actions do

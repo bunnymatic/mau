@@ -32,11 +32,6 @@
   Medium.find_or_create_by(name:)
 end
 
-# Not including RecruitingMailerList
-%w[FeedbackMailerList AdminMailerList WatcherMailerList].each do |type|
-  EmailList.find_or_create_by(type:)
-end
-
 %i[admin manager editor].each do |role|
   Role.find_or_create_by(role:)
 end
