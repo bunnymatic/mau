@@ -20,7 +20,7 @@ module Api
         :os,
         :browser,
         :device,
-        :version,
+        #        :version,
       )
     end
   end
