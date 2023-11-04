@@ -20,7 +20,7 @@ When(/^I change my email to "(.*?)"$/) do |new_email|
 end
 
 Then('I see the secret word email link') do
-  expect(find('#secret-word-mailer a')).to be_present
+  expect(find('#secret-word-mailer button')).to be_present
 end
 
 When(/^I add a photo to upload$/) do
@@ -121,7 +121,7 @@ When(/^I login as "(.*?)"$/) do |login|
   path = current_path
   path = '/' if path.nil? || path == ',' # comma comes from some capybara startup thing
   visit login_path
-  @artist = User.find_by(login: login)
+  @artist = User.find_by(login:)
   fill_in_login_form login, '8characters'
   steps %(And I click "Sign In")
   steps %(Then I see a flash notice "You're in")
