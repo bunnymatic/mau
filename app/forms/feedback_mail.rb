@@ -12,7 +12,7 @@ class FeedbackMail
                 :browser,
                 :device
 
-  VALID_NOTE_TYPES = %w[help inquiry feedback].freeze
+  VALID_NOTE_TYPES = %w[help inquiry feedback secretWord].freeze
 
   validates :note_type,
             presence: true,
@@ -73,7 +73,13 @@ class FeedbackMail
                      login:,
                      comment:)
     success = f.save
-    FeedbackMailer.feedback(f).deliver_later if success
+    if success
+      if note_type == 'secretWord'
+        SignUpSupportMailer.secret_word_request(f).deliver_later
+      else
+        FeedbackMailer.feedback(f).deliver_later
+      end
+    end
     success
   end
 end

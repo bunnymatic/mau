@@ -1,4 +1,4 @@
-class WatcherMailerList < EmailList
+class SignUpSupportMailerList < EmailList
   def self.instance
     first || create
   end

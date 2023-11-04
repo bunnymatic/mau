@@ -9,4 +9,5 @@ FactoryBot.define do
   factory :watcher_email_list, parent: :email_list, class: 'WatcherMailerList'
   factory :admin_email_list, parent: :email_list, class: 'AdminMailerList'
   factory :feedback_email_list, parent: :email_list, class: 'FeedbackMailerList'
+  factory :sign_up_support_email_list, parent: :email_list, class: 'SignUpSupportMailerList'
 end
