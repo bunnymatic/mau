@@ -3,8 +3,10 @@ class ArtistSerializer < MauSerializer
              :artist_info,
              :city,
              :doing_open_studios,
+             :facebook,
              :firstname,
              :full_name,
+             :instagram,
              :lastname,
              :link,
              :map_url,
@@ -25,6 +27,14 @@ class ArtistSerializer < MauSerializer
 
   attribute :url do
     @object.website
+  end
+
+  attribute :facebook do
+    @object.facebook
+  end
+
+  attribute :instagram do
+    @object.instagram
   end
 
   attribute :link do
