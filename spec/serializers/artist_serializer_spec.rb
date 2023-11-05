@@ -31,6 +31,8 @@ describe ArtistSerializer do
       expect(parsed_artist[:street_address]).to eql artist.address.street
       expect(parsed_artist[:city]).to eql artist.address.city
       expect(parsed_artist[:map_url]).to eql artist.map_link
+      expect(parsed_artist[:instagram]).to eql artist.facebook
+      expect(parsed_artist[:facebook]).to eql artist.instagram
     end
   end
 end
