@@ -1,3 +1,4 @@
-class MauSerializer < JSONAPI::Serializable::Resource
-  type { @object.class.name.underscore }
+class MauSerializer
+  include JSONAPI::Serializer
+  set_type name.underscore
 end

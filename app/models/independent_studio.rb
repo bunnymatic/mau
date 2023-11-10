@@ -78,6 +78,10 @@ class IndependentStudio
     @artists ||= Artist.active.where(studio_id: nil)
   end
 
+  def artist_ids
+    artists.pluck :id
+  end
+
   def cross_street?
     false
   end

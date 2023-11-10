@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ArtistSerializer do
   let(:artist) { create :artist }
-  let(:parsed) { serialize(artist, described_class) }
+  let(:parsed) { described_class.new(artist).serializable_hash }
   let(:parsed_artist) { parsed[:data][:attributes] }
 
   describe 'to_json' do

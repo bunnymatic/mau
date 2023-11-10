@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe StudioSerializer do
   let(:studio) { create :studio, :with_artists }
-  let(:parsed) { serialize(studio, described_class) }
+  let(:parsed) { described_class.new(studio).serializable_hash }
   let(:parsed_studio) { parsed[:data][:attributes] }
 
   describe 'to_json' do

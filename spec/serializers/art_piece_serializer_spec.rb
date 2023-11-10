@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ArtPieceSerializer do
   let(:art_piece) { create(:art_piece, :with_tags) }
   let(:artist) { art_piece.artist }
-  let(:parsed) { serialize(art_piece, described_class) }
+  let(:parsed) { described_class.new(art_piece).serializable_hash }
   let(:parsed_art_piece) { parsed[:data][:attributes] }
   let(:relationships) { parsed[:data][:relationships] }
 

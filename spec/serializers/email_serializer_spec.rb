@@ -3,7 +3,7 @@ require 'rails_helper'
 describe EmailSerializer do
   let(:email) { build(:email) }
   subject(:serialized) do
-    serialize(email, described_class)
+    described_class.new(email).serializable_hash
   end
 
   it 'includes type: email' do

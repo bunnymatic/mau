@@ -23,7 +23,7 @@ gem 'geokit-rails'
 gem 'gibbon' # mailchimp connect
 gem 'htmlentities'
 gem 'image_processing'
-gem 'jsonapi-rails'
+gem 'jsonapi.rb'
 gem 'listen'
 gem 'lograge'
 gem 'mime-types'

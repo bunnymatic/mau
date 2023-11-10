@@ -1,32 +1,21 @@
 class StudioSerializer < MauSerializer
-  attributes :name, :street_address, :city, :map_url, :url, :slug
+  attributes :name, :slug
 
-  include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
 
-  has_many :artists, class: StudioArtistSerializer do
-    data do
-      @object.artists.active
-    end
+  has_many :artists, meta: proc { |studio, _params| { count: studio.artists.active.count } }
 
-    meta do
-      { count: @object.artists.active.count }
-    end
+  attribute :url do |object|
+    Rails.application.routes.url_helpers.studio_path(object) unless object.is_a? IndependentStudio
   end
 
-  attribute :url do
-    studio_path(@object) unless @object.is_a? IndependentStudio
+  attribute :street_address do |object|
+    object.address.street
   end
 
-  attribute :street_address do
-    @object.address.street
+  attribute :city do |object|
+    object.address.city
   end
 
-  attribute :city do
-    @object.address.city
-  end
-
-  attribute :map_url do
-    @object.map_link
-  end
+  attribute :map_url, &:map_link
 end
