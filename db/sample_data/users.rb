@@ -26,8 +26,10 @@ rescue StandardError
   puts 'Failed to add some favorites - moving on'
 end
 
-# puts '--> Adding lots of artists with last names that start with A'
-# 30.times do |_idx|
-#   username = "A#{Faker::Internet.username(6..10)}"
-#   ensure_user(username, :artist, :active, :with_art, lastname: "A#{username}")
+# s1890 = Studio.friendly.find!('1890-bryant-street-studios')
+
+# puts '--> Adding 1890 artists'
+# 2.times do |_idx|
+#  username = Faker::Internet.username
+#  ensure_user(username, :artist, :active, :with_art, number_of_art_pieces: rand(1..4), studio: s1890, lastname: username.capitalize)
 # end
