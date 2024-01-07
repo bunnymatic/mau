@@ -1,9 +1,9 @@
 class BryantStreetStudiosWebhook
-  def artist_updated(artist_id)
+  def self.artist_updated(artist_id)
     webhook(:post, "/artist/#{artist_id}/update")
   end
 
-  def webhook(method, path)
+  def self.webhook(method, path)
     conn = Faraday.new(url(path)) do |c|
       c.use FaradayMiddleware::FollowRedirects, limit: 3
       c.adapter :typhoeus
@@ -19,7 +19,7 @@ class BryantStreetStudiosWebhook
 
   private
 
-  def url(path)
+  def self.url(path)
     Conf.bryant_street_studios_webhook_url + path
   end
 end
