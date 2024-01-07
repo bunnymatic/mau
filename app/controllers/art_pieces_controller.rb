@@ -60,6 +60,7 @@ class ArtPiecesController < ApplicationController
     artist = @art_piece.artist
     if owned_by_current_user?(@art_piece)
       @art_piece.destroy
+      BryantStreetStudiosWebhook.artist_updated(@art_piece.artist.id)
       Messager.new.publish "/artists/#{artist.id}/art_pieces/delete", "removed art piece #{@art_piece.id}"
     end
     redirect_to(artist)
