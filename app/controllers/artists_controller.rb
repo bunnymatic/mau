@@ -134,6 +134,7 @@ class ArtistsController < ApplicationController
           a&.update(position: idx)
         end
         Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", 'reordered art pieces'
+        BryantStreetStudiosWebhook.artist_updated(current_artist.id)
       rescue Elasticsearch::Transport::Transport::Errors::Forbidden
         nil
       end

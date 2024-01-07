@@ -48,7 +48,7 @@ module Search
         remove
         index
       rescue Elasticsearch::Transport::Transport::Errors::Forbidden => e
-        Rails.logger.error('Failed to index')
+        Rails.logger.error('Failed to reindex')
         Rails.logger.error(e)
       rescue Elasticsearch::Transport::Transport::Errors::NotFound, Faraday::ConnectionFailed
       end
@@ -56,7 +56,7 @@ module Search
       def remove
         object.__elasticsearch__.delete_document
       rescue Elasticsearch::Transport::Transport::Errors::Forbidden => e
-        Rails.logger.error('Failed to index')
+        Rails.logger.error('Failed to remove')
         Rails.logger.error(e)
       rescue Elasticsearch::Transport::Transport::Errors::NotFound, Faraday::ConnectionFailed
       end
@@ -64,7 +64,7 @@ module Search
       def update
         object.__elasticsearch__.update_document
       rescue Elasticsearch::Transport::Transport::Errors::Forbidden => e
-        Rails.logger.error('Failed to index')
+        Rails.logger.error('Failed to update')
         Rails.logger.error(e)
       rescue Elasticsearch::Transport::Transport::Errors::NotFound, Faraday::ConnectionFailed
         index

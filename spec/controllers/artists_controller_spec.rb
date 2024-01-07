@@ -295,6 +295,7 @@ describe ArtistsController, elasticsearch: :stub do
 
     context 'while logged in' do
       before(:each) do
+        allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
         login_as(artist)
       end
       it 'returns art_pieces in new order' do
@@ -315,6 +316,12 @@ describe ArtistsController, elasticsearch: :stub do
         expect(Messager).to receive(:new).and_return(mock_messager)
         order1 = [art_piece_ids[0], art_piece_ids[2], art_piece_ids[1]]
         post :setarrangement, params: { neworder: order1.join(',') }
+      end
+
+      it 'posts webhook to BSS' do
+        order1 = [art_piece_ids[0], art_piece_ids[2], art_piece_ids[1]]
+        post :setarrangement, params: { neworder: order1.join(',') }
+        expect(BryantStreetStudiosWebhook).to have_received(:artist_updated).with(artist.id)
       end
 
       it 'sets a flash and redirects to the artist page with invalid params' do
