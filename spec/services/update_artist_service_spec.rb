@@ -7,6 +7,10 @@ describe UpdateArtistService do
 
   include MockSearchService
 
+  before do
+    allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
+  end
+
   describe '.update' do
     before do
       stub_search_service!
@@ -37,6 +41,10 @@ describe UpdateArtistService do
         expect(UserChangedEvent).to receive(:create)
         service.update
       end
+      it 'posts an update webhook' do
+        service.update
+        expect(BryantStreetStudiosWebhook).to have_received(:artist_updated).with(artist.id)
+      end
     end
 
     describe 'with artist info attributes' do
@@ -55,6 +63,10 @@ describe UpdateArtistService do
         expect(artist.reload.studionumber).to eql '5'
         expect(artist.artist_info.id).to eql info_id
       end
+      it 'posts an update webhook' do
+        service.update
+        expect(BryantStreetStudiosWebhook).to have_received(:artist_updated).with(artist.id)
+      end
     end
 
     describe 'with a huge bio update' do
@@ -64,6 +76,10 @@ describe UpdateArtistService do
       end
       it 'updates things without raising an error' do
         service.update
+      end
+      it 'posts an update webhook' do
+        service.update
+        expect(BryantStreetStudiosWebhook).to have_received(:artist_updated).with(artist.id)
       end
     end
 
@@ -104,6 +120,11 @@ describe UpdateArtistService do
 
       it 'returns nothing' do
         expect(update_os).to be_nil
+      end
+
+      it 'does not post an update webhook' do
+        update_os
+        expect(BryantStreetStudiosWebhook).to_not have_received(:artist_updated).with(artist.id)
       end
     end
 

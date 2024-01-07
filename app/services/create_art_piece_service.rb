@@ -19,13 +19,20 @@ class CreateArtPieceService
     art_piece.photo.attach(file)
     art_piece.save
 
-    emails = WatcherMailerList.instance.formatted_emails
-    WatcherMailer.notify_new_art_piece(art_piece, emails).deliver_now if art_piece.persisted? && emails.present?
+    if art_piece.persisted?
+      emails = WatcherMailerList.instance.formatted_emails
+      WatcherMailer.notify_new_art_piece(art_piece, emails).deliver_now if emails.present?
+      trigger_artist_update
+    end
 
     # trigger create medium variant
     art_piece&.image(:medium)
     art_piece&.image(:large)
 
     art_piece
+  end
+
+  def trigger_artist_update
+    BryantStreetStudiosWebhook.artist_updated(artist.id)
   end
 end

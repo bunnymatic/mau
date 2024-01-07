@@ -17,8 +17,6 @@ class BryantStreetStudiosWebhook
     false
   end
 
-  private
-
   def self.url(path)
     Conf.bryant_street_studios_webhook_url + path
   end
