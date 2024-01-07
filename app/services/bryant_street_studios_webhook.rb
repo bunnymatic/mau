@@ -13,10 +13,12 @@ class BryantStreetStudiosWebhook
         c.use FaradayMiddleware::FollowRedirects, limit: 3
         c.adapter :typhoeus
       end
+      # Faraday (or someone) turns this into HTTP_BSS_API_AUTHORIZATION
+      # so watch it!
       headers = {
         'bss-api-authorization' => Conf.bryant_street_studios_api_key,
       }
-      response = conn.post(url(path), {}, headers)
+      response = conn.post(url(path), nil, headers)
       response.status == 200
     rescue Errno::ECONNREFUSED, Faraday::ConnectionFailed
       false
