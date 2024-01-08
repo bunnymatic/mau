@@ -119,10 +119,6 @@ describe ArtPiecesController do
           post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
           expect(flash[:notice]).to eql "You've got new art!"
         end
-        it 'publishes a message' do
-          expect_any_instance_of(Messager).to receive(:publish)
-          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
-        end
         it 'correctly adds tags to the art piece' do
           post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge(tag_ids: tags) }
           expect(ArtPiece.last.tags.count).to eql 3
@@ -170,10 +166,6 @@ describe ArtPiecesController do
       it 'sets a flash message on success' do
         post :update, params: { id: art_piece.id, art_piece: { title: 'new title' } }
         expect(flash[:notice]).to eql 'The art has been updated.'
-      end
-      it 'publishes a message' do
-        expect_any_instance_of(Messager).to receive(:publish)
-        post :update, params: { id: art_piece.id, art_piece: { title: 'new title' } }
       end
       it 'redirects to show page on cancel' do
         post :update, params: { id: art_piece.id, commit: 'Cancel', art_piece: { title: 'new title' } }
@@ -282,11 +274,6 @@ describe ArtPiecesController do
         end.to change(ArtPiece, :count).by 0
       end
 
-      it 'does not publish a message ' do
-        expect_any_instance_of(Messager).to receive(:publish).never
-        post :destroy, params: { id: art_piece.id }
-      end
-
       it 'does not post webhook to BSS' do
         post :destroy, params: { id: art_piece.id }
         expect(BryantStreetStudiosWebhook).to_not have_received(:artist_updated)
@@ -304,10 +291,6 @@ describe ArtPiecesController do
       it 'removes that art piece' do
         post :destroy, params: { id: art_piece.id }
         expect { ArtPiece.find(art_piece.id) }.to raise_error ActiveRecord::RecordNotFound
-      end
-      it 'calls messager.publish' do
-        expect_any_instance_of(Messager).to receive(:publish).exactly(:once)
-        post :destroy, params: { id: art_piece.id }
       end
       it 'calls bryant street studios webhook' do
         post :destroy, params: { id: art_piece.id }

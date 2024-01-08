@@ -1,13 +1,6 @@
 require 'rails_helper'
 
 describe ApplicationEvent do
-  it 'sends events to subscribers after save' do
-    mock_messager = double(Messager)
-    expect(mock_messager).to receive :publish
-    expect(Messager).to receive(:new).and_return mock_messager
-    OpenStudiosSignupEvent.create(message: 'this is a new open studios event')
-  end
-
   describe '#scopes' do
     before do
       FactoryBot.create(:open_studios_signup_event, created_at: 5.days.ago, data: { user: 'artist' })

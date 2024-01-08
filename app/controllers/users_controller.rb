@@ -78,7 +78,6 @@ class UsersController < ApplicationController
       return
     end
     if current_user.update(user_params)
-      Messager.new.publish "/artists/#{current_user.id}/update", 'updated artist info'
       flash[:notice] = 'Your profile has been updated'
       redirect_to edit_user_url(current_user)
     else
@@ -227,7 +226,6 @@ class UsersController < ApplicationController
       @user.build_artist_info
       @user.artist_info.save!
       @user.save!
-      Messager.new.publish '/artists/create', 'added a new artist'
       flash[:notice] = "We're so excited to have you! Just sign in to get started."
     else
       flash[:notice] = "Thanks for signing up!  Login and you're ready to roll!"
