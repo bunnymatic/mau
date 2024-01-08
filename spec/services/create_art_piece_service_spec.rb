@@ -11,6 +11,7 @@ describe CreateArtPieceService do
   before do
     create(:open_studios_event)
     allow(WatcherMailer).to receive(:notify_new_art_piece).and_call_original
+    allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
   end
 
   context 'when the watcher list has members' do
@@ -34,6 +35,11 @@ describe CreateArtPieceService do
       it 'sends an email to the watchers' do
         service.call
         expect(WatcherMailer).to have_received(:notify_new_art_piece)
+      end
+
+      it 'notifies bryant street studios' do
+        service.call
+        expect(BryantStreetStudiosWebhook).to have_received(:artist_updated).with(artist.id)
       end
     end
 
@@ -76,6 +82,11 @@ describe CreateArtPieceService do
       it 'does not send an email to the watchers' do
         service.call
         expect(WatcherMailer).not_to have_received(:notify_new_art_piece)
+      end
+
+      it 'does not notifies bryant street studios' do
+        service.call
+        expect(BryantStreetStudiosWebhook).to_not have_received(:artist_updated).with(artist.id)
       end
     end
   end

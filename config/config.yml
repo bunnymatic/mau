@@ -16,6 +16,7 @@ test:
     artists:
       per_page: 12
   subdomain: openstudios
+  bryant_street_studios_api_key: testing man
 
 development:
   features:
@@ -55,6 +56,7 @@ production:
   subdomain: openstudios
 
 common:
+  bryant_street_studios_webhook_url: http://localhost:9292/webhook
   event_time_zone: America/Los_Angeles
   open_studios_help_document_url: https://bit.ly/mission-fall2021
   features:

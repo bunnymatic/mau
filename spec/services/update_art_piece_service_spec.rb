@@ -7,6 +7,10 @@ describe UpdateArtPieceService do
   let(:params) { {} }
   subject(:service) { described_class.new(art, params) }
 
+  before do
+    allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
+  end
+
   context 'with params[:tags]' do
     let(:tag_params) { ['mytag', 'YourTag', 'MyTag', existing_tag.name] }
     let(:params) do
@@ -29,6 +33,11 @@ describe UpdateArtPieceService do
       ap = service.update_art_piece
       expect(ap.valid?).to eq true
       expect(ap.tags.map(&:name)).to match_array ['mytag', 'yourtag', existing_tag.name]
+    end
+
+    it 'posts a changed artist webhook to bryant street studios' do
+      service.update_art_piece
+      expect(BryantStreetStudiosWebhook).to have_received(:artist_updated).with(artist.id)
     end
   end
 end

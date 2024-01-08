@@ -254,6 +254,9 @@ describe ArtPiecesController do
   end
 
   describe '#delete' do
+    before do
+      allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
+    end
     context 'while not logged in' do
       before do
         post :destroy, params: { id: 'whatever' }
@@ -278,9 +281,15 @@ describe ArtPiecesController do
           post :destroy, params: { id: art_piece.id }
         end.to change(ArtPiece, :count).by 0
       end
+
       it 'does not publish a message ' do
         expect_any_instance_of(Messager).to receive(:publish).never
         post :destroy, params: { id: art_piece.id }
+      end
+
+      it 'does not post webhook to BSS' do
+        post :destroy, params: { id: art_piece.id }
+        expect(BryantStreetStudiosWebhook).to_not have_received(:artist_updated)
       end
     end
 
@@ -299,6 +308,10 @@ describe ArtPiecesController do
       it 'calls messager.publish' do
         expect_any_instance_of(Messager).to receive(:publish).exactly(:once)
         post :destroy, params: { id: art_piece.id }
+      end
+      it 'calls bryant street studios webhook' do
+        post :destroy, params: { id: art_piece.id }
+        expect(BryantStreetStudiosWebhook).to have_received(:artist_updated).with(art_piece.artist.id)
       end
     end
   end

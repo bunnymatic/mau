@@ -61,6 +61,7 @@ class UpdateArtistService
     end
 
     UserChangedEvent.create(message: msg, data: { changes: formatted_changes, user: artist.login, user_id: artist.id })
+    BryantStreetStudiosWebhook.artist_updated(artist.id)
   end
 
   def trigger_os_signup_event(participating)

@@ -45,6 +45,7 @@ gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
 gem 'scrypt'
 gem 'slim-rails'
+gem 'typhoeus'
 # gem 'unicorn' # webserver
 gem 'vite_rails'
 

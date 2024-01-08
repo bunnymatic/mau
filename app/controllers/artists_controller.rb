@@ -126,13 +126,18 @@ class ArtistsController < ApplicationController
 
   def setarrangement
     if params.key? :neworder
-      # new endpoint for rearranging - more than just setting representative
-      neworder = params[:neworder].split(',')
-      neworder.each_with_index do |apid, idx|
-        a = ArtPiece.where(id: apid, artist_id: current_user.id).first
-        a&.update(position: idx)
+      begin
+        # new endpoint for rearranging - more than just setting representative
+        neworder = params[:neworder].split(',')
+        neworder.each_with_index do |apid, idx|
+          a = ArtPiece.where(id: apid, artist_id: current_user.id).first
+          a&.update(position: idx)
+        end
+        Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", 'reordered art pieces'
+        BryantStreetStudiosWebhook.artist_updated(current_artist.id)
+      rescue Elasticsearch::Transport::Transport::Errors::Forbidden
+        nil
       end
-      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", 'reordered art pieces'
     else
       flash[:error] = 'There was a problem interpreting the input parameters.  Please try again.'
     end
