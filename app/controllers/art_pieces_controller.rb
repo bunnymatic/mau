@@ -31,7 +31,6 @@ class ArtPiecesController < ApplicationController
 
     if art_piece&.persisted?
       flash[:notice] = "You've got new art!"
-      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/create", 'added art piece'
       redirect_to art_piece
     else
       @art_piece = art_piece
@@ -47,7 +46,6 @@ class ArtPiecesController < ApplicationController
     @art_piece = UpdateArtPieceService.new(@art_piece, art_piece_params).update_art_piece
     if @art_piece.valid?
       flash[:notice] = 'The art has been updated.'
-      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
       redirect_to art_piece_path(@art_piece)
     else
       render 'edit'
@@ -61,7 +59,6 @@ class ArtPiecesController < ApplicationController
     if owned_by_current_user?(@art_piece)
       @art_piece.destroy
       BryantStreetStudiosWebhook.artist_updated(@art_piece.artist.id)
-      Messager.new.publish "/artists/#{artist.id}/art_pieces/delete", "removed art piece #{@art_piece.id}"
     end
     redirect_to(artist)
   end

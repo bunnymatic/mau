@@ -116,7 +116,6 @@ class ArtistsController < ApplicationController
 
     ids = destroy_art_params.reject { |_kk, vv| vv == '0' }.keys
     ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
-    Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", 'deleted art pieces'
     redirect_to(artist_path(current_user))
   end
 
@@ -133,7 +132,6 @@ class ArtistsController < ApplicationController
           a = ArtPiece.where(id: apid, artist_id: current_user.id).first
           a&.update(position: idx)
         end
-        Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", 'reordered art pieces'
         BryantStreetStudiosWebhook.artist_updated(current_artist.id)
       rescue Elasticsearch::Transport::Transport::Errors::Forbidden
         nil
@@ -159,7 +157,6 @@ class ArtistsController < ApplicationController
       return
     end
     if UpdateArtistService.new(current_artist, artist_params).update
-      Messager.new.publish "/artists/#{current_artist.id}/update", 'updated artist info'
       flash[:notice] = 'Your profile has been updated'
       redirect_to edit_artist_url(current_user)
     else

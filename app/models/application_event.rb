@@ -8,10 +8,4 @@ class ApplicationEvent < ApplicationRecord
   scope :since, ->(date) { where(created_at: date..Time.zone.now) }
 
   serialize :data, Hash
-
-  after_save :publish_event
-
-  def publish_event
-    Messager.new.publish "/events/#{self.class.to_s.tableize}", data
-  end
 end

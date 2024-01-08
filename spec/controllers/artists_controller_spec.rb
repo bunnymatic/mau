@@ -132,15 +132,6 @@ describe ArtistsController, elasticsearch: :stub do
             expect(flash[:notice]).to eql 'Your profile has been updated'
             expect(response).to redirect_to(edit_artist_path(artist))
           end
-          it 'publishes an update message' do
-            mock_messagers = Array.new(2) do
-              mock_messager = instance_double(Messager)
-              expect(mock_messager).to receive(:publish)
-              mock_messager
-            end
-            expect(Messager).to receive(:new).and_return(*mock_messagers)
-            put :update, params: { id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs } }
-          end
         end
       end
       context 'cancel post with new bio data' do
@@ -171,15 +162,6 @@ describe ArtistsController, elasticsearch: :stub do
         it 'updates user address' do
           put :update, params: { id: artist, commit: 'submit', artist: { studio_id: nil, artist_info_attributes: artist_info_attrs } }
           expect(artist.address.to_s).to include street
-        end
-        it 'publishes an update message' do
-          mock_messagers = Array.new(2) do
-            mock_messager = instance_double(Messager)
-            expect(mock_messager).to receive(:publish)
-            mock_messager
-          end
-          expect(Messager).to receive(:new).and_return(*mock_messagers)
-          put :update, params: { id: artist, commit: 'submit', artist: { artist_info_attributes: { street: 'wherever' } } }
         end
       end
     end
@@ -308,14 +290,6 @@ describe ArtistsController, elasticsearch: :stub do
           expect(aps.map(&:id)).to eql order1
           expect(aps[0].artist.representative_piece.id).to eq(aps[0].id)
         end
-      end
-
-      it 'publishes a message to the Messager that something happened' do
-        mock_messager = instance_double(Messager)
-        expect(mock_messager).to receive(:publish)
-        expect(Messager).to receive(:new).and_return(mock_messager)
-        order1 = [art_piece_ids[0], art_piece_ids[2], art_piece_ids[1]]
-        post :setarrangement, params: { neworder: order1.join(',') }
       end
 
       it 'posts webhook to BSS' do
