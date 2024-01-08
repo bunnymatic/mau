@@ -16,6 +16,7 @@ test:
     artists:
       per_page: 12
   subdomain: openstudios
+  bryant_street_studios_api_key: testing man
 
 development:
   features:
