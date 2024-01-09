@@ -93,7 +93,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def build_page_description(art_piece)
-    return "Mission Artists Art : #{art_piece.title} by #{art_piece.artist.get_name(escape: true)}" if art_piece
+    HtmlEncoder.encode("Mission Artists Art : #{art_piece.title} by #{art_piece.artist.full_name}") if art_piece
   end
 
   def art_piece_params
