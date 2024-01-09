@@ -298,4 +298,18 @@ describe ArtPiecesController do
       end
     end
   end
+
+  describe 'protected .build_page_description' do
+    let(:artist) { create(:artist, nomdeplume: 'Heller, Gusikowski and Robel') }
+    let(:art_piece) do
+      FactoryBot.create(:art_piece,
+                        artist:,
+                        title: '"an.ä.log dumb > title with " quotes " by mr rogers')
+    end
+
+    it 'prove that page description is html safe' do
+      expect(described_class.new.send(:build_page_description, art_piece))
+        .to eq 'Mission Artists Art : &quot;an.&auml;.log dumb &gt; title with &quot; quotes &quot; by mr rogers by Heller, Gusikowski and Robel'
+    end
+  end
 end
