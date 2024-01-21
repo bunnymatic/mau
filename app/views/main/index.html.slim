@@ -1,6 +1,6 @@
 #main_thumbs
   #sampler.js-sampler data-seed=@seed
-    - if false || current_open_studios.empty?
+    - if true || current_open_studios.empty?
       = render "default_banner"
     - else
       = render partial: 'virtual_os_banner', locals: {open_studios_event: current_open_studios}
