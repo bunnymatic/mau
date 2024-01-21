@@ -248,16 +248,27 @@ class User < ApplicationRecord
     mailer_class.resend_activation(self).deliver_later if resent_activation?
   end
 
+  def add_http_to_links
+    User.stored_attributes[:links].each do |site|
+      value = send(site)
+      next if value.blank?
+
+      if (site == :instagram) && %r{.*instagram.*/} !~ value
+        # auto prefix with instagram
+        value.sub!(/^@/, '')
+        send("#{site}=", "https://www.instagram.com/#{value}")
+      end
+
+      send("#{site}=", _add_http_to_link(send(site)))
+    end
+  end
+
+  private
+
   def _add_http_to_link(link)
     return if link.blank?
 
     %r{^https?://}.match?(link) ? link : "http://#{link}"
-  end
-
-  def add_http_to_links
-    User.stored_attributes[:links].each do |site|
-      send("#{site}=", _add_http_to_link(send(site))) if send(site).present?
-    end
   end
 
   class << self

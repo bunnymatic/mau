@@ -38,11 +38,50 @@ describe User, elasticsearch: :stub do
   it { is_expected.to validate_length_of(:firstname).is_at_most(100) }
   it { is_expected.to validate_length_of(:lastname).is_at_most(100) }
 
-  it 'validates and cleans phone number on validate' do
-    user = FactoryBot.build(:user)
-    user.phone = '(415) 123 - 4567'
-    expect(user).to be_valid
-    expect(user.phone).to eq '4151234567'
+  describe 'before validation cleanups' do
+    it 'validates and cleans phone number on validate' do
+      user = FactoryBot.build(:user)
+      user.phone = '(415) 123 - 4567'
+      expect(user).to be_valid
+      expect(user.phone).to eq '4151234567'
+    end
+
+    it 'validates and cleans links without http' do
+      user = FactoryBot.build(:user)
+      user.facebook = 'www.facebook.com/my-name'
+      expect(user).to be_valid
+      expect(user.facebook).to eq 'http://www.facebook.com/my-name'
+    end
+
+    context 'instagram' do
+      it 'builds instagram link if we only get a handle' do
+        user = FactoryBot.build(:user)
+        user.instagram = 'my-name'
+        expect(user).to be_valid
+        expect(user.instagram).to eq 'https://www.instagram.com/my-name'
+      end
+
+      it 'builds instagram link if we only get a handle with a leading @' do
+        user = FactoryBot.build(:user)
+        user.instagram = '@my-name'
+        expect(user).to be_valid
+        expect(user.instagram).to eq 'https://www.instagram.com/my-name'
+      end
+
+      it 'makes no mods if instagram is in the link' do
+        user = FactoryBot.build(:user)
+        user.instagram = 'https://www.instagram.com/my-name'
+        expect(user).to be_valid
+        expect(user.instagram).to eq 'https://www.instagram.com/my-name'
+      end
+
+      it 'validates and cleans instagram links without http' do
+        user = FactoryBot.build(:user)
+        user.instagram = 'instagram.com/my-name'
+        expect(user).to be_valid
+        expect(user.instagram).to eq 'http://instagram.com/my-name'
+      end
+    end
   end
 
   context '.login_or_email_finder' do
