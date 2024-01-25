@@ -14,6 +14,7 @@ require 'capistrano/local_precompile'
 
 install_plugin Capistrano::SCM::Git
 install_plugin Capistrano::Puma
+install_plugin Capistrano::Puma::Systemd
 
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
 Dir.glob('./config/capistrano/tasks/*.cap').each { |r| import r }
