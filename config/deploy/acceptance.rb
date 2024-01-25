@@ -26,6 +26,9 @@ ask :branch, (proc { `git rev-parse --abbrev-ref HEAD`.chomp })
 # set :branch, 'main'
 set :deploy_to, '/home/deploy/deployed/mau'
 # set :rails_env, 'acceptance'                  # If the environment differs from the stage name
+# For server restart
+set :puma_systemctl_user, :system # For capistrano-puma - should force sudo
+set :puma_service_unit_name, 'puma-mau'
 
 # you can set custom ssh options
 # it's possible to pass any option but you need to keep in mind that net/ssh understand limited list of options
