@@ -117,8 +117,9 @@ end
 
 Then(/my "(.*?)" is "(.*?)" in the "(.*?)" section of the form/) do |form_field_label, value, section|
   step "I click on \"#{section}\""
-  expect(page).to have_selector 'form.formtastic'
-  expect(find_field(form_field_label).value).to eql value
+  within '.panel-body' do
+    expect(find_field(form_field_label).value).to eql value
+  end
 end
 
 Then(/^I see that the studio "(.*?)" has an artist called "(.*?)"$/) do |studio_name, user_login|

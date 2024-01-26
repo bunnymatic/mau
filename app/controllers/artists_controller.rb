@@ -116,6 +116,7 @@ class ArtistsController < ApplicationController
 
     ids = destroy_art_params.reject { |_kk, vv| vv == '0' }.keys
     ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
+    BryantStreetStudiosWebhook.artist_updated(current_user.id)
     redirect_to(artist_path(current_user))
   end
 

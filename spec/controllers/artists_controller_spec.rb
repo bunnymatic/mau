@@ -371,6 +371,7 @@ describe ArtistsController, elasticsearch: :stub do
     context 'when trying to destroy art that is yours' do
       let(:art_pieces) { artist.art_pieces }
       before do
+        allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
         # For some reason the elasticsearch mocks were not working as of
         # rspec 3.10, so we just mock things higher for this test
         allow(ArtPiece).to receive(:where).and_return(double('ArRelation', destroy_all: true))
@@ -387,6 +388,9 @@ describe ArtistsController, elasticsearch: :stub do
         }
         expect(ArtPiece).to have_received(:where).with(expected_where_clause)
         expect(ArtPiece.where).to have_received(:destroy_all)
+      end
+      it 'calls the bryant webhook' do
+        expect(BryantStreetStudiosWebhook).to have_received(:artist_updated).with(artist.id)
       end
     end
   end
