@@ -32,7 +32,7 @@ Scenario: I can edit my links
   When I click on "Links"
   And I change "Website" to "http://my.website.com"
   And I change "Instagram" to "http://instagram.com/my_instagram"
-  And I click on "Save Changes"
+  And I click on the first "Save Changes"
   Then my "Website" is "http://my.website.com" in the "Links" section of the form
   And my "Instagram" is "http://instagram.com/my_instagram" in the "Links" section of the form
 
