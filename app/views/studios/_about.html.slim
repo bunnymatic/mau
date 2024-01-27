@@ -2,11 +2,11 @@
 .pure-g
   .pure-u-1-1.studio-profile
     section.studio__image
-      .image style=background_image_style(studio.image)
+      .image role="img" style=background_image_style(studio.image) *{"aria-labelledby"=>"studio-profile--studio-name"}
     section.studio__studio
       .body
         .studio-name
-          = link_to studio.name, studio.studio_path
+          = link_to studio.name, studio.studio_path, id: "studio-profile--studio-name"
           .studio-address
             = studio.street
             '

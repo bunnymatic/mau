@@ -1,6 +1,6 @@
 / expects artist as parameters
 .artist-profile__image
   - if artist.profile_image?
-    img class="pure-img profile" src=artist.profile_image
+    img class="pure-img profile" src=artist.profile_image aria-labelledby="artist-show__artist-name"
   - else
-    i.fa.fa-user
+    i.fa.fa-user role="img" aria-labelledby="artist-show__artist-name"
