@@ -1,6 +1,6 @@
 .pure-g.sticky-header
   .pure-u-1-1.header.padded-content
-    h2.title
+    h2.title#artist-show__artist-name
       | Artist:
       span.artist__name< #{@artist.get_name}
       - if @artist.doing_open_studios?
