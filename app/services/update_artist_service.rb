@@ -26,6 +26,7 @@ class UpdateArtistService
       trigger_user_change_event(changes) if changes.present?
     end
     refresh_in_search_index if success
+    notify_bryant_street_studios if success
     success
   end
 
@@ -61,7 +62,6 @@ class UpdateArtistService
     end
 
     UserChangedEvent.create(message: msg, data: { changes: formatted_changes, user: artist.login, user_id: artist.id })
-    BryantStreetStudiosWebhook.artist_updated(artist.id)
   end
 
   def trigger_os_signup_event(participating)
@@ -70,6 +70,10 @@ class UpdateArtistService
     data = { user: artist.login, user_id: artist.id }
     OpenStudiosSignupEvent.create(message: msg,
                                   data:)
+  end
+
+  def notify_bryant_street_studios
+    BryantStreetStudiosWebhook.artist_updated(artist.id)
   end
 
   def refresh_in_search_index
