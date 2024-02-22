@@ -44,7 +44,7 @@ When(/^I click on the manage link for (.*)s$/) do |role|
 end
 
 When(/^I choose the last user in the user list$/) do
-  @new_editor = User.all.last
+  @new_editor = User.last
   select2 @new_editor.full_name, css: '.add-user-role form'
 end
 

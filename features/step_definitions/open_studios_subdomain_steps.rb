@@ -5,7 +5,7 @@ Given(/^I visit "?([^"]*)"? in the catalog$/) do |path|
 end
 
 Then('I see pictures from all participating artists') do
-  artist_names = OpenStudiosParticipant.all.map(&:user).map(&:get_name)
+  artist_names = OpenStudiosParticipant.all.map { |_osp| ops.user.get_name }
   expect(artist_names).to have_at_least(1).name
 
   artist_names.each do |name|

@@ -50,7 +50,7 @@ describe AdminController do
     end
     it 'sets a list of artists in alpha order by last name' do
       expect(assigns(:artists)).to have(Artist.active.count).items
-      expect(assigns(:artists).map(&:lastname).map(&:downcase)).to be_monotonically_increasing
+      expect(assigns(:artists).map { |a| a.lastname.downcase }).to be_monotonically_increasing
       expect(assigns(:totals).count).to eql 1
     end
   end

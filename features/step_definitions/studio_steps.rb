@@ -7,7 +7,7 @@ Then(/^I see update studio links for things I can manage/) do
   s = @manager.studio
   expect(Studio.all).to have_at_least(2).studios
   expect(page).to have_link('Edit', href: edit_admin_studio_path(s))
-  expect(page).to have_link('Show', count: Studio.all.count)
+  expect(page).to have_link('Show', count: Studio.count)
 end
 
 When(/^I edit the first studio$/) do
