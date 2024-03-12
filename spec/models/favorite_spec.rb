@@ -36,12 +36,12 @@ describe Favorite, 'named scopes' do
     end
     it '#artists fetches artists and #art_pieces fetches art pieces' do
       expect(Favorite.artists.count).to be > 0
-      Favorite.artists.all.each do |f|
+      Favorite.artists.find_each do |f|
         expect(f.favoritable).to be_a_kind_of(Artist)
       end
 
       expect(Favorite.art_pieces.count).to be > 0
-      Favorite.art_pieces.all.each do |f|
+      Favorite.art_pieces.find_each do |f|
         expect(f.favoritable).to be_a_kind_of(ArtPiece)
       end
     end

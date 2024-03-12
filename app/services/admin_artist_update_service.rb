@@ -24,7 +24,7 @@ class AdminArtistUpdateService
       updated_count = 0
       skipped_count = 0
 
-      Artist.active.where(id: os_updates_by_artist_id.keys).each do |artist|
+      Artist.active.where(id: os_updates_by_artist_id.keys).find_each do |artist|
         changed = update_artist_os_standing(
           artist,
           current_os,

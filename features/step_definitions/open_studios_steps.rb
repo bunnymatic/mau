@@ -71,7 +71,7 @@ end
 
 Then(/^I see the open studios events$/) do
   expect(page).to have_selector '.os-events__table-row', count: OpenStudiosEvent.count
-  expect(page).to have_selector '.os-events__table-item--key', text: OpenStudiosEvent.all.first.key
+  expect(page).to have_selector '.os-events__table-item--key', text: OpenStudiosEvent.first.key
 end
 
 Then /^I see a new open studios form$/ do

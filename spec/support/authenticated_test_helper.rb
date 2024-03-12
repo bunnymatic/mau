@@ -11,7 +11,7 @@ module AuthenticatedTestHelper
   end
 
   def current_user(user = nil)
-    @current_user = (user || FactoryBot.create(:user))
+    @current_user = user || FactoryBot.create(:user)
   end
 
   def user_session(user, stubs = {})

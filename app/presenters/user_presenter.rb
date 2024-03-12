@@ -47,7 +47,7 @@ class UserPresenter < ViewPresenter
   end
 
   def member_since_date
-    (model.activated_at || model.created_at)
+    model.activated_at || model.created_at
   end
 
   def member_since
@@ -60,7 +60,7 @@ class UserPresenter < ViewPresenter
 
   def last_login_at
     Time.use_zone(Conf.event_time_zone) do
-      (model.last_request_at || model.current_login_at || model.last_login_at)
+      model.last_request_at || model.current_login_at || model.last_login_at
     end
   end
 

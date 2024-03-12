@@ -20,7 +20,7 @@ class AdminFavoritesPresenter
     def increment(type)
       key = LUT[type.to_sym]
       cur = send(key)
-      send("#{key}=", cur + 1)
+      send(:"#{key}=", cur + 1)
     end
   end
 

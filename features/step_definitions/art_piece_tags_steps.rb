@@ -29,7 +29,7 @@ Then(/^I see more artists who have art in the most popular tag$/) do
   expect(page).to have_css '.paginator'
   expect(page).to have_css '.paginator__page--current', text: '2'
 
-  pieces = @first_tag.art_pieces.all.order(created_at: :desc)
+  pieces = @first_tag.art_pieces.order(created_at: :desc)
 
   name_tags = page.all('.search-results .desc .name')
   expect(name_tags.any? { |el| el.text =~ /#{pieces.first.title}/ }).to eq false

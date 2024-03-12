@@ -4,10 +4,10 @@
 # where we try to identify or use the Independent Studio
 # (until it's refactored so we don't have to play these tricks)
 class StudioService
-  MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio || 3)
+  MIN_ARTISTS_PER_STUDIO = Conf.min_artists_per_studio || 3
 
   def self.all
-    Studio.by_position.all.includes({ artists: :art_pieces })
+    Studio.by_position.includes({ artists: :art_pieces })
   end
 
   def self.all_studios

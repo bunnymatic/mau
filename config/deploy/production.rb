@@ -22,7 +22,7 @@ server 'www.missionartists.org',
          forward_agent: true,
        }
 
-ask :branch, (proc { `git rev-parse --abbrev-ref HEAD`.chomp })
+ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 # set :branch, 'main'
 set :deploy_to, '/home/deploy/deployed/mau'
 set :puma_systemctl_user, :system # For capistrano-puma - should force sudo

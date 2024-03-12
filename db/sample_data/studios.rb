@@ -11,6 +11,6 @@ ensure_studio('1890 Bryant', :studio)
 ensure_studio('Workspace', :studio)
 ensure_studio('Over There', :studio)
 
-Studio.all.each do |studio|
+Studio.find_each do |studio|
   studio.artists << Artist.active.order('rand()').limit(1)
 end

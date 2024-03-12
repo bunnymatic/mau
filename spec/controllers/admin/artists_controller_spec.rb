@@ -72,7 +72,7 @@ describe Admin::ArtistsController do
           expect(parsed.headers).to match_array(expected_headers)
         end
         it 'includes the right data' do
-          expect(parsed.size).to eq(Artist.all.count)
+          expect(parsed.size).to eq(Artist.count)
           row = parsed.detect { |r| r['Full Name'] == artist.full_name }
           expect(row).to be_present
           expect(row['Login']).to eql artist.login

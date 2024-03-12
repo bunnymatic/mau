@@ -18,7 +18,8 @@ class UsersController < ApplicationController
   end
 
   def whoami
-    ((render json: {}) && return) unless current_user
+    (render json: {}) && return unless current_user
+
     render json: {
       current_user: {
         id: current_user&.id,
@@ -298,7 +299,7 @@ class UsersController < ApplicationController
   end
 
   def user_attrs
-    (params[:artist] || params[:mau_fan] || params[:user] || {})
+    params[:artist] || params[:mau_fan] || params[:user] || {}
   end
 
   def user_params_key

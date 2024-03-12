@@ -45,7 +45,7 @@ module Paperclip
     def next_record
       records = model.where.not(attachment_file_name_field => nil)
                      .where.not(
-                       id: ActiveStorage::Attachment.where(record_type: record_types).distinct(:record_id).pluck(:record_id),
+                       id: ActiveStorage::Attachment.where(record_type: record_types).distinct(:record_id).select(:record_id),
                      )
                      .where(failed_migration_field => nil)
       records.first

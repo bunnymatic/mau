@@ -78,7 +78,7 @@ describe Admin::StatsController do
       it 'returns an entries have date and count' do
         entry = @favorites_per_day.first
         expect(entry.entries.size).to eq(2)
-        last_favorite_date = Favorite.all.order(:created_at).last.created_at.utc.to_date
+        last_favorite_date = Favorite.order(:created_at).last.created_at.utc.to_date
         expect(Time.zone.at(entry[0].to_i).utc.to_date).to eql last_favorite_date
         expect(entry[1]).to be >= 1
       end

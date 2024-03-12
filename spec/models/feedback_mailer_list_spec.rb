@@ -15,7 +15,7 @@ describe FeedbackMailerList do
   end
 
   it 'adds email to the Email table' do
-    mailing_list = FeedbackMailerList.all.first
+    mailing_list = FeedbackMailerList.first
     expect do
       mailing_list.emails << Email.new(email: 'whatever@dude.com')
       mailing_list.save
@@ -23,7 +23,7 @@ describe FeedbackMailerList do
   end
 
   it 'adds email to this list' do
-    mailing_list = FeedbackMailerList.all.first
+    mailing_list = FeedbackMailerList.first
     mailing_list.emails << Email.new(email: 'whatever@dude.com')
     mailing_list.save
     mailing_list.reload
