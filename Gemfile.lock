@@ -199,6 +199,9 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     date (3.3.4)
+    debug (1.9.1)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     debug_inspector (1.2.0)
     diff-lcs (1.5.1)
     docile (1.4.0)
@@ -284,6 +287,10 @@ GEM
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
+    io-console (0.7.2)
+    irb (1.12.0)
+      rdoc
+      reline (>= 0.4.2)
     jmespath (1.6.2)
     json (2.7.1)
     jsonapi-deserializable (0.2.0)
@@ -371,6 +378,8 @@ GEM
     postmark-rails (0.22.1)
       actionmailer (>= 3.0.0)
       postmark (>= 1.21.3, < 2.0)
+    psych (5.1.2)
+      stringio
     public_suffix (5.0.4)
     puma (6.4.2)
       nio4r (~> 2.0)
@@ -435,8 +444,12 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rdiscount (2.2.7.3)
+    rdoc (6.6.2)
+      psych (>= 4.0.0)
     recaptcha (5.14.0)
     regexp_parser (2.9.0)
+    reline (0.4.3)
+      io-console (~> 0.5)
     request_store (1.5.1)
       rack (>= 1.4)
     require_all (3.0.0)
@@ -533,6 +546,7 @@ GEM
       net-scp (>= 1.1.2)
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
+    stringio (3.1.0)
     sys-uname (1.2.3)
       ffi (~> 1.1)
     temple (0.10.3)
@@ -605,6 +619,7 @@ DEPENDENCIES
   cucumber-rails
   dalli
   database_cleaner
+  debug
   dotenv-rails
   elasticsearch (~> 6.x)
   elasticsearch-extensions

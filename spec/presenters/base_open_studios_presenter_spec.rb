@@ -67,7 +67,7 @@ describe BaseOpenStudiosPresenter do
       expect(presenter.participating_indies.size).to eq(2)
     end
     it 'in order by artist last name' do
-      expect(subject.participating_indies.map(&:lastname).map(&:downcase)).to be_monotonically_increasing
+      expect(subject.participating_indies.map { |a| a.lastname.downcase }).to be_monotonically_increasing
     end
   end
 
