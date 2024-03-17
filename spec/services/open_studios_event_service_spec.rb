@@ -115,7 +115,7 @@ describe OpenStudiosEventService do
     end
 
     it 'does nothing if there are no open studios events' do
-      OpenStudiosEvent.all.destroy_all
+      OpenStudiosEvent.destroy_all
       expect { described_class.tally_os }.to change(OpenStudiosTally, :count).by(0)
     end
   end

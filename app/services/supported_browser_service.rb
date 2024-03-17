@@ -5,7 +5,7 @@ class SupportedBrowserService
     return true if supported_browsers.blank?
 
     matcher = BrowserslistUseragent::Match.new(supported_browsers, user_agent)
-    (matcher.browser? && matcher.version?(allow_higher: true))
+    matcher.browser? && matcher.version?(allow_higher: true)
   end
 
   def self.supported_browsers

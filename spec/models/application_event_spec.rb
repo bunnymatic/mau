@@ -11,7 +11,7 @@ describe ApplicationEvent do
 
     describe '.by_recency' do
       it 'returns events in order by time' do
-        expect(described_class.by_recency.to_a).to eql described_class.all.order(created_at: :desc).to_a
+        expect(described_class.by_recency.to_a).to eql described_class.order(created_at: :desc).to_a
       end
     end
 

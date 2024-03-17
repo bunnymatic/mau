@@ -148,7 +148,7 @@ describe UpdateArtistService do
         end
 
         it 'returns their new open studios participant record' do
-          expect(update_os).to eq artist.open_studios_participants.where(open_studios_event: OpenStudiosEvent.current).take
+          expect(update_os).to eq artist.open_studios_participants.find_by(open_studios_event: OpenStudiosEvent.current)
         end
       end
 
@@ -189,7 +189,7 @@ describe UpdateArtistService do
         it 'returns the new OpenStudiosParticipant record' do
           participant = update_os
           # this find forces the artist_info reload
-          expect(participant).to eq OpenStudiosParticipant.where(user: artist, open_studios_event: current_os).take
+          expect(participant).to eq OpenStudiosParticipant.find_by(user: artist, open_studios_event: current_os)
         end
       end
 

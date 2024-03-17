@@ -230,7 +230,7 @@ class User < ApplicationRecord
   def cleanup_fields
     %i[firstname lastname nomdeplume email].each do |fld|
       v = send(fld)
-      send("#{fld}=", v.strip) if v.present? && v.respond_to?(:strip)
+      send(:"#{fld}=", v.strip) if v.present? && v.respond_to?(:strip)
     end
   end
 
@@ -256,10 +256,10 @@ class User < ApplicationRecord
       if (site == :instagram) && %r{.*instagram.*/} !~ value
         # auto prefix with instagram
         value.sub!(/^@/, '')
-        send("#{site}=", "https://www.instagram.com/#{value}")
+        send(:"#{site}=", "https://www.instagram.com/#{value}")
       end
 
-      send("#{site}=", _add_http_to_link(send(site)))
+      send(:"#{site}=", _add_http_to_link(send(site)))
     end
   end
 

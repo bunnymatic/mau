@@ -75,6 +75,7 @@ group :development do
   gem 'capistrano-local-precompile', '~> 1.2', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rbenv', require: false
+  gem 'debug'
   gem 'letter_opener'
   gem 'rails_best_practices'
   gem 'scout_apm'

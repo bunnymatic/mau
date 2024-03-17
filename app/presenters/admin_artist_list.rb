@@ -59,7 +59,7 @@ class AdminArtistList < ViewPresenter
     @csv ||=
       CSV.generate(**DEFAULT_CSV_OPTS) do |csv|
         csv << csv_headers
-        artists.all.each do |artist|
+        artists.find_each do |artist|
           csv << artist_as_csv_row(ArtistPresenter.new(artist))
         end
       end

@@ -59,8 +59,8 @@ module DuplicateActiveStorage
       s3_url = "https://#{Rails.application.config.s3_info[:bucket]}.s3.amazonaws.com/#{key(self.class.paperclip_attachment_name)}"
       ActiveStorage::Blob.create_after_upload!(
         io: URI.open(Addressable::URI.parse(s3_url).display_uri.to_s),
-        filename: send("#{self.class.paperclip_attachment_name}_file_name"),
-        content_type: send("#{self.class.paperclip_attachment_name}_content_type"),
+        filename: send(:"#{self.class.paperclip_attachment_name}_file_name"),
+        content_type: send(:"#{self.class.paperclip_attachment_name}_content_type"),
         service_name: :amazon,
       )
     else
@@ -69,8 +69,8 @@ module DuplicateActiveStorage
         # rubocop:disable Lint/UriEscapeUnescape
         ActiveStorage::Blob.create_after_upload!(
           io: open(file),
-          filename: URI.escape(send("#{paperclip_attachment_name}_file_name")),
-          content_type: send("#{paperclip_attachment_name}_content_type"),
+          filename: URI.escape(send(:"#{paperclip_attachment_name}_file_name")),
+          content_type: send(:"#{paperclip_attachment_name}_content_type"),
           service_name: :test,
         )
         # rubocop:enable Lint/UriEscapeUnescape
@@ -90,7 +90,7 @@ module DuplicateActiveStorage
   end
 
   def key(attachment)
-    filename = send("#{attachment}_file_name")
+    filename = send(:"#{attachment}_file_name")
     klass = self.class.table_name
     klass = 'artists' if klass == 'users'
     id = self.id
