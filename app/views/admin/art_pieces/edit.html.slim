@@ -6,10 +6,13 @@
 .pure-g
   .pure-u-1-2.padded-content.admin-art-piece-edit-form
     .info-block
-      - url = @art_piece.image
+      - url = @art_piece.image('original')
+      h4 original image
       .image
         img.pure-img src=url
-      .url = url
+      .url
+        a href=url target="_blank"
+          | Link to image
 
       .form-update
         = semantic_form_for :art_piece, method: :patch, url: admin_art_piece_path(@art_piece) do |form|
