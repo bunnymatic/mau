@@ -64,14 +64,17 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
     updateHash(newCurrent);
   };
 
-  const keyDownHandler = useCallback((e) => {
-    if (e.key === ARROW_LEFT_KEY) {
-      previous();
-    }
-    if (e.key === ARROW_RIGHT_KEY) {
-      next();
-    }
-  });
+  const keyDownHandler = useCallback(
+    (e) => {
+      if (e.key === ARROW_LEFT_KEY) {
+        previous();
+      }
+      if (e.key === ARROW_RIGHT_KEY) {
+        next();
+      }
+    },
+    [previous, next]
+  );
 
   useEventListener("keydown", keyDownHandler);
 
@@ -90,7 +93,9 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
             <span className="art-piece__title">{current.title}</span>
             <span className="art-piece__byline-conjunction">by Artist</span>
             <span className="art-piece__byline">
-              <a href={currentArtistPath}>{artist.fullName}</a>
+              <a href={currentArtistPath} title={`${artist.fullName}'s page`}>
+                {artist.fullName}
+              </a>
             </span>
             {artist.doingOpenStudios && <OpenStudiosViolator />}
           </h2>
@@ -100,7 +105,7 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
         <div className="pure-u-1-1 pure-u-sm-1-3 pure-u-md-1-4 pure-u-lg-1-5 art-piece__info">
           <section className="artist__image">
             <div className="artist-profile__image">
-              <a href={currentArtistPath}>
+              <a href={currentArtistPath} title={`${artist.fullName}'s page`}>
                 {profileImagePath ? (
                   <img className="pure-img profile" src={profileImagePath} />
                 ) : (
@@ -211,6 +216,7 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
                   >
                     <a
                       href={`/art_pieces/${piece.id}`}
+                      title={piece.title}
                       onClick={(e) => {
                         e.preventDefault();
                         setCurrent(piece);
