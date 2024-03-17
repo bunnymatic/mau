@@ -6,6 +6,6 @@ Background:
   And there are artists and art pieces with favorites
   And I login
 
-Scenario: Viewing and cleaning out tags
+Scenario: Viewing favorites as an admin
   When I click on "favorites" in the admin menu
   Then I see all the favorites in a table
