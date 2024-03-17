@@ -4,6 +4,7 @@ require 'uri'
 driver_hosts = Webdrivers::Common.subclasses.map { |driver| URI(driver.base_url).host }
 
 driver_hosts += [
+  'storage.googleapis.com',
   'chromedriver.storage.googleapis.com',
   'googlechromelabs.github.io',
   'edgedl.me.gvt1.com',

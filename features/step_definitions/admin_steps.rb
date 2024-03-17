@@ -189,9 +189,9 @@ Then('I see the edit admin art piece page') do
 end
 
 Then('I see the new image') do
-  save_and_open_page
   expect(page).not_to have_content 'new-art-piece.jpg'
-  expect(page).to have_content 'art.png'
+  expect(page).to have_css('img')
+  expect(page).to have_link 'Link to image'
 end
 
 Then('I see the pending list') do

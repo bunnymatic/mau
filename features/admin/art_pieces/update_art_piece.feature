@@ -7,7 +7,7 @@ Background:
   And there are artists with art in the system
   And I login
 
-Scenario: Viewing and cleaning out tags
+Scenario: Update art piece as an admin
   When I navigate to the first art piece admin edit path
   Then I see the edit admin art piece page
   When I add a new file
