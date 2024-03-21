@@ -1,6 +1,7 @@
 / expects sampler_thumb as the art piece from the render collection call
 - clz = (sampler_thumb_counter == 0) ? 'first' : ''
-= link_to sampler_thumb.artist_path, class: "sampler__thumb js-sampler__thumb #{clz}" do
+- aria_label = "#{sampler_thumb.title} by #{sampler_thumb.artist_name}"
+= link_to sampler_thumb.artist_path, class: "sampler__thumb js-sampler__thumb #{clz}", "aria-label": aria_label do
   - if sampler_thumb.artist.doing_open_studios
     .os-violator title='Open Studios Participant!'
   .item = sampler_thumb.id
