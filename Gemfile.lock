@@ -444,7 +444,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rdiscount (2.2.7.3)
-    rdoc (6.6.2)
+    rdoc (6.6.3.1)
       psych (>= 4.0.0)
     recaptcha (5.14.0)
     regexp_parser (2.9.0)
