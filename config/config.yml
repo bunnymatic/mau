@@ -54,6 +54,7 @@ production:
     objects: 0
     new_art: 86400
   subdomain: openstudios
+  bryant_street_studios_webhook_url: https://www.1890bryant.com/webhook
 
 common:
   # bryant_street_studios_webhook_url: https://ghost-stunning-leech.ngrok.io/webhook

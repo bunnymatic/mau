@@ -19,8 +19,11 @@ class BryantStreetStudiosWebhook
         'bss-api-authorization' => Conf.bryant_street_studios_api_key,
       }
       response = conn.post(url(path), nil, headers)
-      response.status == 200
+      success = response.status == 200
+      Rails.logger.warn("Failed to update artist: http code #{response.status}") unless success
+      success
     rescue Errno::ECONNREFUSED, Faraday::ConnectionFailed
+      Rails.logger.error('Connection failed trying to post to the webhook')
       false
     rescue StandardError => e
       Rails.logger.error('Something went wrong posting the webhook')
