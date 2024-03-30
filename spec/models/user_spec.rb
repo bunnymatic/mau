@@ -234,7 +234,7 @@ describe User, elasticsearch: :stub do
     end
     context 'when there is no image' do
       it 'returns nil' do
-        expect(artist.profile_image).to be_nil
+        expect(artist.profile_image).to be_blank
       end
     end
   end
@@ -305,7 +305,7 @@ describe User, elasticsearch: :stub do
         expect do
           maufan.create_reset_code
           expect(maufan.reset_code).not_to be_nil
-        end.to have_enqueued_job.on_queue('mailers')
+        end.to have_enqueued_job(ActionMailer::MailDeliveryJob).with('UserMailer', 'reset_notification', 'deliver_now', anything)
       end
     end
     context 'artist' do

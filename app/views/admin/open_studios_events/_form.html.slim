@@ -7,9 +7,9 @@
         = f.input :title, placeholder: 'e.g. Spring Open Studios'
         .pure-g
           .pure-u-1-2
-            = f.input :start_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.start_date.try(:to_s,:admin_date_only) }
+            = f.input :start_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.start_date.try(:to_fs,:admin_date_only) }
           .pure-u-1-2
-            = f.input :end_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.end_date.try(:to_s,:admin_date_only) }
+            = f.input :end_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.end_date.try(:to_fs,:admin_date_only) }
         .pure-g
           .pure-u-1-2
             = f.input :start_time, as: :string, placeholder: 'choose a time', hint: "Something like 12noon or noon or 11a.  This is used for display only (not for date/time math)"
@@ -23,9 +23,9 @@
             h3 Optional Special Event Times
         .pure-g
           .pure-u-1-2
-            = f.input :special_event_start_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.special_event_start_date.try(:to_s,:admin_date_only) }
+            = f.input :special_event_start_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.special_event_start_date.try(:to_fs,:admin_date_only) }
           .pure-u-1-2
-            = f.input :special_event_end_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.special_event_end_date.try(:to_s,:admin_date_only) }
+            = f.input :special_event_end_date, as: :date_picker, placeholder: 'yyyy-mm-dd', input_html: { value: os_event.special_event_end_date.try(:to_fs,:admin_date_only) }
         .pure-g
           .pure-u-1-2
             = f.input :special_event_start_time, as: :string, placeholder: 'hh:mm {am|pm}', hint: "We will use (and validate) these as time strings in the 12hr time format e.g. '1:00pm',  '9:45 am'"

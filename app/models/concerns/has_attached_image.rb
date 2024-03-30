@@ -65,7 +65,8 @@ module HasAttachedImage
               # STI needs to query parent classes
               att = attached_#{name}_collection.last
               variant = att.variant(MauImage::Paperclip.variant_args(size)).processed if att
-              Rails.application.routes.url_helpers.rails_representation_url(variant) if variant
+              return '' unless variant
+              variant.send(:processed?) ? Rails.application.routes.url_helpers.url_for(variant) : Rails.application.routes.url_helpers.rails_representation_url(variant)
             rescue Aws::S3::Errors::BadRequest, ActiveStorage::FileNotFoundError => e
               Rails.logger.error(e.backtrace.join("\n"))
               # we need to return a string to make sure elasticsearch indexes are

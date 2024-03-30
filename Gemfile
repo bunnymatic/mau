@@ -11,9 +11,9 @@ gem 'browserslist_useragent'
 gem 'cgi', '~>0.3.6'
 gem 'connection_pool' # for dalli > 3
 gem 'dalli'
-gem 'elasticsearch', '~> 6.x'
-gem 'elasticsearch-model', '~> 6.x'
-gem 'elasticsearch-rails', '~> 6.x'
+gem 'elasticsearch', '~> 7.x'
+gem 'elasticsearch-model', '~> 7.x'
+gem 'elasticsearch-rails', '~> 7.x'
 gem 'faraday'
 gem 'faraday_middleware'
 gem 'formtastic'
@@ -38,7 +38,7 @@ gem 'puma'
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~>6.1.5.x', require: false
+gem 'rails', '~> 7.1.x', require: false
 gem 'rails-observers'
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'

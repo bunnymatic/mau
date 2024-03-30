@@ -53,12 +53,12 @@ When(/^I remove the first artist from the studio$/) do
   anchor = first('a.unaffiliate')
   artist_id = anchor['href'].split('?').last.split('=').last
   @unaffiliated_artist = Artist.find(artist_id)
-  expect(page).to have_content @unaffiliated_artist.full_name
+  expect(page_body).to have_content @unaffiliated_artist.full_name
   anchor.click
 end
 
 Then(/^I see that artist is no longer part of the studio list$/) do
-  expect(page).to_not have_content @unaffiliated_artist.full_name
+  expect(page_body).to_not have_content @unaffiliated_artist.full_name
 end
 
 When(/^I suspend the first artist$/) do
@@ -163,21 +163,20 @@ When('I attach a new profile image file') do
 end
 
 Then('I see the new profile image for that artist') do
-  within('.info-block--profile') do
-    expect(page).to have_css 'img.pure-img'
-    expect(page).to have_content 'profile.png'
+  within('.info-block--profile') do |block|
+    expect(block).to have_css 'img.pure-img'
+    expect(block).to have_content 'profile.png'
   end
 end
 
 Then('I see that this artist has no profile picture') do
-  expect(page).to have_content 'No profile picture'
+  expect(page_body).to have_content 'No profile picture'
 end
 
 When('I navigate to the first art piece admin edit path') do
   @art_piece = ArtPiece.first
   expect(@art_piece).to be_persisted
   visit edit_admin_art_piece_path(@art_piece)
-  save_and_open_page
 end
 
 When('I add a new file') do
@@ -185,21 +184,23 @@ When('I add a new file') do
 end
 
 Then('I see the edit admin art piece page') do
-  expect(page).to have_content 'Editing Art Piece:'
+  expect(page_body).to have_content 'Editing Art Piece:'
 end
 
 Then('I see the new image') do
-  expect(page).not_to have_content 'new-art-piece.jpg'
-  expect(page).to have_css('img')
-  expect(page).to have_link 'Link to image'
+  expect(page_body).not_to have_content 'new-art-piece.jpg'
+  expect(page_body).to have_content 'original image'
+  expect(page_body).to have_css '.image .pure-img'
+  img = find('.image .pure-img')
+  expect(img['src']).to match /art.png$/
 end
 
 Then('I see the pending list') do
   expect(page).not_to have_css '#spinner'
-  expect(page).to have_content @pending_artist.email
+  expect(page_body).to have_content @pending_artist.email
 end
 
 Then('I see the suspended list') do
   expect(page).not_to have_css '#spinner'
-  expect(page).to have_content @suspended_artist.email
+  expect(page_body).to have_content @suspended_artist.email
 end

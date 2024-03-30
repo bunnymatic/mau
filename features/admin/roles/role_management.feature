@@ -9,6 +9,7 @@ Background:
   Given an "admin" account has been created
   And there are artists with art in the system
   And I login
+  And I wait until the page is done loading infinite scroll
   And I click on "roles" in the admin menu
 
 Scenario: Showing the users and their roles

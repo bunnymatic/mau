@@ -7,5 +7,5 @@ class ApplicationEvent < ApplicationRecord
   scope :by_recency, -> { order('created_at desc') }
   scope :since, ->(date) { where(created_at: date..Time.zone.now) }
 
-  serialize :data, Hash
+  serialize :data, type: Hash
 end

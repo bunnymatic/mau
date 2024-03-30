@@ -186,7 +186,7 @@ Given /^the email lists have been created with emails$/ do
     begin
       clz.create unless clz.first
     rescue Exception => e
-      ::Rails.logger.debug { "Failed to create #{mailing_list} : #{e}" }
+      Rails.logger.debug { "Failed to create #{mailing_list} : #{e}" }
     end
     clz.first.emails.create(name: Faker::Name.name, email: Faker::Internet.email)
   end

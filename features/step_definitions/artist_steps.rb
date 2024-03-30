@@ -15,9 +15,9 @@ Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
     title = all('.title').map(&:text).join
     /#{Regexp.quote(new_title)}/i =~ title
   end
-  within '.title' do
-    expect(page).to_not have_content 'Mona Lisa'
-    expect(page).to have_content new_title
+  within '.title' do |title_el|
+    expect(title_el).to_not have_content 'Mona Lisa'
+    expect(title_el).to have_content new_title
   end
 end
 
@@ -66,10 +66,10 @@ When(/^I fill out the add art form$/) do
 end
 
 Then /^I see that my art was added$/ do
-  expect(page).to have_content 'Mona Lisa'
-  expect(page).to have_content 'complimicated, superfragile'
-  expect(page).to have_content @medium.name
-  expect(page).to have_content '$100'
+  expect(page_body).to have_content 'Mona Lisa'
+  expect(page_body).to have_content 'complimicated, superfragile'
+  expect(page_body).to have_content @medium.name
+  expect(page_body).to have_content '$100'
 end
 
 Then /^I see that my art was not added$/ do
@@ -172,8 +172,8 @@ end
 Then(/^I see that artist's profile page$/) do
   expect(page).to have_css '.header', text: @artist.full_name
   expect(page).to have_css '.artist-profile'
-  expect(page).to have_content @artist.facebook
-  expect(page).to have_content @artist.art_pieces.first.medium.name
+  expect(page_body).to have_content @artist.facebook
+  expect(page_body).to have_content @artist.art_pieces.first.medium.name
   expect(current_path).to eql artist_path(@artist)
 end
 
