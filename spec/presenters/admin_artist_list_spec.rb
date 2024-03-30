@@ -107,9 +107,9 @@ describe AdminArtistList, elasticsearch: false do
       xit 'includes last seen and member since' do
         Time.use_zone(Conf.event_time_zone) do
           expected = {
-            'Last Seen' => 2.days.ago.to_s(:admin),
+            'Last Seen' => 2.days.ago.to_fs(:admin),
             'Since' => Time.zone.now.strftime('%Y-%m-%d'),
-            'Last Updated Profile' => Time.zone.now.to_s(:admin),
+            'Last Updated Profile' => Time.zone.now.to_fs(:admin),
           }
           expect(parsed.first.to_h).to include(expected)
         end
@@ -142,7 +142,7 @@ describe AdminArtistList, elasticsearch: false do
           schedule = scheduled_slots.map do |slot|
             OpenStudiosParticipant.parse_time_slot(slot).first
           end
-          formatted = schedule.map { |start_time| start_time.to_s(:admin_with_zone) }
+          formatted = schedule.map { |start_time| start_time.to_fs(:admin_with_zone) }
           expect(formatted).to have(4).timeslots
           formatted.each do |slot|
             expect(parsed[1].to_h[slot]).to eq 'true'

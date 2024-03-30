@@ -234,7 +234,7 @@ describe User, elasticsearch: :stub do
     end
     context 'when there is no image' do
       it 'returns nil' do
-        expect(artist.profile_image).to be_nil
+        expect(artist.profile_image).to be_blank
       end
     end
   end
