@@ -10,7 +10,7 @@ module FavoritesHelper
     when MauFan
       img = vite_asset_path('entrypoints/images/default_user.svg')
     else
-      img = fav.profile_image(size) || vite_asset_path('entrypoints/images/default_user.svg')
+      img = fav.profile_image(size).presence || vite_asset_path('entrypoints/images/default_user.svg')
       path = user_path(fav)
     end
     [img, path, title]
