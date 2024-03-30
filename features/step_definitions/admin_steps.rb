@@ -189,7 +189,10 @@ end
 
 Then('I see the new image') do
   expect(page_body).not_to have_content 'new-art-piece.jpg'
-  expect(page_body).to have_content 'art.png'
+  expect(page_body).to have_content 'original image'
+  expect(page_body).to have_css '.image .pure-img'
+  img = find('.image .pure-img')
+  expect(img['src']).to match /art.png$/
 end
 
 Then('I see the pending list') do
