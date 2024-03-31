@@ -17,9 +17,8 @@
       - if @studio.artists_without_art?
         .pure-u-1-1.pure-u-md-1-2.pure-u-lg-1-3.pure-u-xl-1-4
           .studio-memberlist
-            - if @studio.artists_with_art?
-              h4 More Artists:
-              ul
-                - @studio.artists_without_art.map{|a| link_to(a.get_name, a )}.each do |link|
-                  li
-                    = link.html_safe
+            h4 More Artists:
+            ul
+              - @studio.artists_without_art.map{|a| link_to(a.get_name, a )}.each do |link|
+                li
+                  = link.html_safe
