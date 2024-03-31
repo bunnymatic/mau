@@ -13,6 +13,14 @@ class AdminArtistUpdateService
     [true, { notice: msg }]
   end
 
+  def self.update(artist, artist_params)
+    return unless artist
+
+    result = artist.update(artist_params)
+    BryantStreetStudiosWebhook.artist_updated(artist.id) if result
+    result
+  end
+
   class << self
     private
 
