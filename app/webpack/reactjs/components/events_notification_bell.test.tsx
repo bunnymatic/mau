@@ -1,8 +1,8 @@
 import { describe, expect, it } from "@jest/globals";
 import { EmailChangedEventsService } from "@js/services/email_changed_events.service";
 import { act, render, screen, waitFor } from "@testing-library/react";
-import React from "react";
 import { mocked } from "jest-mock";
+import React from "react";
 
 import { EventsNotificationBell } from "./events_notification_bell";
 

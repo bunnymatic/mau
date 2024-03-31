@@ -7,8 +7,8 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import React from "react";
 import { mocked } from "jest-mock";
+import React from "react";
 
 import { FavoriteThis } from "./favorite_this";
 

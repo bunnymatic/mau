@@ -56,7 +56,9 @@ interface TimeSlotInfo {
   parsed: TimeSlot;
 }
 
-const timeSlotsByDay = (timeslots: string[]): Record<string, TimeSlotInfo> => {
+const timeSlotsByDay = (
+  timeslots: string[]
+): Record<string, TimeSlotInfo[]> => {
   return timeslots.reduce((memo, rawSlot) => {
     const timeSlot = parseTimeSlot(rawSlot);
     const day = timeSlot.start.toFormat("cccc, L/d/yy ZZZZ");

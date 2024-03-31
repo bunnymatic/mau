@@ -4,7 +4,7 @@ import jQuery from "jquery";
 
 jest.dontMock("jquery");
 
-//jQuery.fx.off = true;
+jQuery.fx.speeds = { slow: 0, fast: 0, _default: 0 };
 
 import "@testing-library/jest-dom";
 

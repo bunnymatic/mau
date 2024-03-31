@@ -9,8 +9,8 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import React from "react";
 import { mocked } from "jest-mock";
+import React from "react";
 
 import { AddEmailModal, AddEmailModalProps } from "./add_email_modal";
 
