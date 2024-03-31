@@ -2,12 +2,12 @@ version: 2.1
 executors:
   ruby_node:
     docker:
-      - image: cimg/ruby:3.1.3-browsers
       - image: cimg/node:18.20.0
+      - image: cimg/ruby:3.1.3-browsers
   ruby_node_mysql_elasticsearch:
     docker:
-      - image: cimg/ruby:3.1.3-browsers
       - image: cimg/node:18.20.0
+      - image: cimg/ruby:3.1.3-browsers
       - image: cimg/mysql:5.8
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
@@ -69,8 +69,7 @@ commands:
           command: |-
             yarn install
       - save_cache:
-          key: mau-npm-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{ checksum
-            "yarn.lock" }}
+          key: mau-npm-cache-v3-{{ arch }}-{{ checksum ".ruby-version" }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
   chrome_install:
