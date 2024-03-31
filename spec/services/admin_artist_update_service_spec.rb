@@ -59,4 +59,37 @@ describe AdminArtistUpdateService do
       end
     end
   end
+
+  describe '.update' do
+    let(:artist) { create(:artist) }
+
+    before do
+      artist
+      allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
+    end
+
+    it 'updates the artist' do
+      service.update(artist, firstname: 'whatever man')
+      expect(artist.reload.firstname).to eq 'whatever man'
+    end
+
+    it 'calls the webhook' do
+      service.update(artist, lastname: 'whosit')
+      expect(BryantStreetStudiosWebhook).to have_received(:artist_updated).with(artist.id)
+    end
+
+    context 'when there is a problem' do
+      it 'returns false' do
+        email = artist.email
+        result = service.update(artist, email: 'not a valid email')
+        expect(artist.reload.email).to eq email
+        expect(result).to eq false
+      end
+
+      it 'does not call the webhook' do
+        service.update(artist, email: 'not a valid email')
+        expect(BryantStreetStudiosWebhook).not_to have_received(:artist_updated)
+      end
+    end
+  end
 end

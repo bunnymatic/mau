@@ -34,7 +34,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = Rails.root.join 'spec/fixtures'
+  config.fixture_paths = [Rails.root.join('spec/fixtures')]
 
   # this should be false or else we run into thread deadlocks with elasticsearch
   config.use_transactional_fixtures = false #
