@@ -10,7 +10,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import React from "react";
-import { mocked } from "ts-jest/utils";
+import { mocked } from "jest-mock";
 
 import { AddEmailModal, AddEmailModalProps } from "./add_email_modal";
 

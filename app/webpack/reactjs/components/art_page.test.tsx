@@ -4,7 +4,7 @@ import { jsonApi } from "@services/json_api";
 import { jsonApiArtPieceFactory } from "@test/factories";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import { mocked } from "ts-jest/utils";
+import { mocked } from "jest-mock";
 
 import { ArtPage } from "./art_page";
 

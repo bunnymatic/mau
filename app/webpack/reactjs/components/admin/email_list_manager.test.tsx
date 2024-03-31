@@ -5,7 +5,7 @@ import { api } from "@services/api";
 import { emailFactory } from "@test/factories";
 import { act, render, waitFor } from "@testing-library/react";
 import React from "react";
-import { mocked } from "ts-jest/utils";
+import { mocked } from "jest-mock";
 
 import { EmailListManager, EmailListManagerProps } from "./email_list_manager";
 

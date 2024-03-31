@@ -1,6 +1,6 @@
 import * as types from "@reactjs/types";
 import { randomBoolean } from "@test/support/faker_helpers";
-import faker from "faker";
+import { faker } from "@faker-js/faker";
 import { Factory } from "rosie";
 
 export const openStudiosParticipantFactory =
