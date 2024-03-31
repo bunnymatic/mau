@@ -1,8 +1,8 @@
 import { BasePageObject } from "@reactjs/test/base_page_object";
 import { sendInquiry } from "@services/notification.service";
 import { render } from "@testing-library/react";
+import { mocked } from "jest-mock";
 import React from "react";
-import { mocked } from "ts-jest/utils";
 
 import { NotifyMauDialog } from "./notify_mau_dialog";
 

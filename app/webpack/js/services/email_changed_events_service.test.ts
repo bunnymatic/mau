@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { api } from "@services/api";
+import { mocked } from "jest-mock";
 import { DateTime } from "luxon";
-import { mocked } from "ts-jest/utils";
 
 import { EmailChangedEventsService } from "./email_changed_events.service";
 

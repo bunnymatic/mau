@@ -2,8 +2,8 @@ import esSearchResults from "@fixtures/files/search_results.json";
 import * as searchService from "@js/services/search.service";
 import { BasePageObject } from "@reactjs/test/base_page_object";
 import { render } from "@testing-library/react";
+import { mocked } from "jest-mock";
 import React from "react";
-import { mocked } from "ts-jest/utils";
 
 import { SearchForm } from "./search_form";
 

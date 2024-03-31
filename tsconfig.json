@@ -19,7 +19,9 @@
       "@services/*": ["app/webpack/js/services/*"],
       "@test/*": ["app/webpack/test/*"],
       "@fixtures/*": ["spec/fixtures/*"]
-    }
+    },
+    "types": ["jest", "jest-dom"],
+    "typeRoots": ["node_modules/@types", "node_modules/@testing-library"]
   },
   "exclude": [
     "**/*.spec.ts",

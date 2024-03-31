@@ -3,8 +3,8 @@ import { ArtPiece } from "@models/art_piece.model";
 import { jsonApi } from "@services/json_api";
 import { jsonApiArtPieceFactory } from "@test/factories";
 import { act, render, screen, waitFor } from "@testing-library/react";
+import { mocked } from "jest-mock";
 import React from "react";
-import { mocked } from "ts-jest/utils";
 
 import { ArtPage } from "./art_page";
 

@@ -4,8 +4,8 @@ import * as types from "@reactjs/types";
 import { api } from "@services/api";
 import { emailFactory } from "@test/factories";
 import { act, render, waitFor } from "@testing-library/react";
+import { mocked } from "jest-mock";
 import React from "react";
-import { mocked } from "ts-jest/utils";
 
 import { EmailListManager, EmailListManagerProps } from "./email_list_manager";
 

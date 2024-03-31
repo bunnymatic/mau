@@ -12,7 +12,7 @@ import React, { FC } from "react";
 
 interface ContactArtistFormProps {
   artPiece: ArtPiece;
-  handleClose: (ev: MouseEvent) => void;
+  handleClose: (ev?: MouseEvent) => void;
 }
 
 const DEFAULT_FORM_VALUES = {
