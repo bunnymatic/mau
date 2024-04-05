@@ -9,3 +9,10 @@ export interface TimeSlot {
 export type MauButtonStyle = "primary" | "secondary";
 export type MauButtonStyleAttr = Record<MauButtonStyle, Boolean>;
 export type ClassNames = string | Array<string> | Record<string, boolean>;
+
+export enum FlashType {
+  Debug = 'debug',
+  Notice = 'notice',
+  Warning = 'warning',
+  Error = 'error',
+}

@@ -1,7 +1,5 @@
 import { FC } from "react";
 
-import { EmailListManager } from "./admin/email_list_manager";
-import { Welcome } from "./admin/tests/welcome";
 import { ArtCard } from "./art_card";
 import { ArtModal } from "./art_modal";
 import { ArtPage } from "./art_page";
@@ -10,14 +8,17 @@ import { ConfirmModal } from "./confirm_modal";
 import { CreditsModal } from "./credits_modal";
 import { DonateButton } from "./donate_button";
 import { EditableContentTrigger } from "./editable_content_trigger";
+import { EmailListManager } from "./admin/email_list_manager";
 import { EventsNotificationBell } from "./events_notification_bell";
 import { FavoriteThis } from "./favorite_this";
+import { FlashMessage } from "./flash_message/flash_message";
 import { Mailer } from "./mailer";
 import { MauButton } from "./mau_button";
 import { NotifyMauDialog } from "./notify_mau_dialog";
 import { OpenStudiosRegistrationSection } from "./open_studios/open_studios_registration_section";
 import { ReactTestComponent } from "./react_test_component";
 import { Search } from "./search";
+import { Welcome } from "./admin/tests/welcome";
 
 class UnregisteredComponentError extends Error {
   constructor(message) {
@@ -42,6 +43,7 @@ const reactComponents = {
   EmailListManager,
   EventsNotificationBell,
   FavoriteThis,
+  FlashMessage,
   Mailer,
   MauButton,
   NotifyMauDialog,

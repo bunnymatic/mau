@@ -1,4 +1,4 @@
-import { some } from "@js/app/helpers";
+import { some } from "@js/app/typed_helpers";
 import { ArtPieceTag } from "@models/art_piece_tag.model";
 import { JsonApiModel } from "@models/json_api.model";
 import { Medium } from "@models/medium.model";

@@ -1,4 +1,4 @@
-import { identity } from "@js/app/helpers";
+import { identity } from "@js/app/typed_helpers";
 import { ArtPiece } from "@models/art_piece.model";
 import * as types from "@reactjs/types";
 import { Factory } from "rosie";

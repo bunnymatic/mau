@@ -1,7 +1,6 @@
-export const identity = (x) => x;
+import { identity } from "./typed_helpers";
+
 export const noop = (_) => {};
-export const isNil = (x) => x == null;
-export const isArray = Array.isArray;
 export function isFunction(func) {
   return Boolean(func && typeof func === "function");
 }
@@ -53,13 +52,6 @@ export function sortBy(arr, key) {
     return (a, b) => (a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0);
   };
   return [...arr].sort(sorter(key));
-}
-
-export function some(arr, comparator = identity) {
-  if (!arr) {
-    return false;
-  }
-  return arr.some(comparator);
 }
 
 export function all(arr, comparator = identity) {

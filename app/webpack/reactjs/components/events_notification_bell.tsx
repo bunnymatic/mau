@@ -1,4 +1,4 @@
-import { some } from "@js/app/helpers";
+import { some } from "@js/app/typed_helpers";
 import { EmailChangedEventsService } from "@js/services/email_changed_events.service";
 import * as types from "@reactjs/types";
 import { DateTime } from "luxon";
