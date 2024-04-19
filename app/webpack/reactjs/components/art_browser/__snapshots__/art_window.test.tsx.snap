@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ArtWindow if the art has not sold matches the snapshot 1`] = `
+exports[`ArtWindow > if the art has not sold > matches the snapshot 1`] = `
 <div>
   <div
     class="art-window"
@@ -91,7 +91,7 @@ exports[`ArtWindow if the art has not sold matches the snapshot 1`] = `
 </div>
 `;
 
-exports[`ArtWindow if the art has sold matches the snapshot 1`] = `
+exports[`ArtWindow > if the art has sold > matches the snapshot 1`] = `
 <div>
   <div
     class="art-window"

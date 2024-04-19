@@ -1,13 +1,11 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
+import { describe, expect, it, vi } from "vitest";
 
 import { CreditsWindow } from "./credits_modal";
 
 describe("CreditsModal", () => {
-  const handleClose = jest.fn();
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
+  const handleClose = vi.fn();
   describe("CreditsWindow", () => {
     it("renders the credits window", () => {
       render(

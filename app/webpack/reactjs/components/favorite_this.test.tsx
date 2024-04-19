@@ -1,4 +1,3 @@
-import { describe, expect, it } from "@jest/globals";
 import { api } from "@services/api";
 import {
   act,
@@ -7,14 +6,14 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import { mocked } from "jest-mock";
 import React from "react";
+import { describe, expect, it, vi } from "vitest";
 
 import { FavoriteThis } from "./favorite_this";
 
-jest.mock("@services/api");
+vi.mock("@services/api");
 
-const mockApi = mocked(api, true);
+const mockApi = api;
 
 describe("FavoriteThis", () => {
   const renderComponent = (type: string, id: number) => {

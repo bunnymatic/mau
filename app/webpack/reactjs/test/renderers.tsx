@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { Formik } from "formik";
 import React, { ReactElement } from "react";
-
+import { vi } from "vitest";
 export interface ServicesRenderResult {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   history?: any;
@@ -13,7 +13,7 @@ interface RenderInFormConfig {
 }
 
 export const defaultConfig: RenderInFormConfig = {
-  onSubmit: jest.fn(),
+  onSubmit: vi.fn(),
   initialValues: {},
 };
 

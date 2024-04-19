@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import React, { type FC, MouseEventHandler } from "react";
 
 interface CloseButtonProps {
-  handleClick: () => void;
+  handleClick: MouseEventHandler | (() => void);
 }
 
 export const CloseButton: FC<CloseButtonProps> = ({ handleClick }) => {
@@ -12,7 +12,7 @@ export const CloseButton: FC<CloseButtonProps> = ({ handleClick }) => {
       href="#"
       onClick={(ev) => {
         ev.preventDefault();
-        handleClick();
+        handleClick(ev);
       }}
     >
       <i className="fa fa-times"></i>

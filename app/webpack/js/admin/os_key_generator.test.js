@@ -1,9 +1,7 @@
-import expect from "expect";
 import jQuery from "jquery";
+import { expect } from "vitest";
 
 import OsKeyGenerator from "./os_key_generator";
-
-jest.dontMock("jquery");
 
 describe("OsKeyGenerator", function () {
   beforeEach(function () {

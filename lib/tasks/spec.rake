@@ -4,7 +4,7 @@ begin
 
   namespace :spec do
     desc 'Run all javascript specs'
-    task javascripts: ['jest:test']
+    task javascripts: ['js:test']
 
     desc 'Run the code examples in spec/ except those in spec/system'
     RSpec::Core::RakeTask.new(:without_features) do |t|

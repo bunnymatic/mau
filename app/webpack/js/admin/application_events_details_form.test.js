@@ -1,9 +1,7 @@
-import expect from "expect";
 import jQuery from "jquery";
+import { expect } from "vitest";
 
 import ApplicationEventsDetailsForm from "./application_events_details_form";
-
-jest.dontMock("jquery");
 
 describe("ApplicationEventsDetailsForm", function () {
   beforeEach(function () {

@@ -1,6 +1,8 @@
-import React, { FC } from "react";
+import React, { type FC, type ReactNode } from "react";
 
-interface FieldErrorProps {}
+interface FieldErrorProps {
+  children: ReactNode;
+}
 
 export const FieldError: FC<FieldErrorProps> = ({ children }) => {
   if (Array.isArray(children)) {

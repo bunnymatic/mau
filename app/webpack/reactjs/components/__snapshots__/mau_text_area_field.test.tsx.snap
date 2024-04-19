@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MauTextAreaField matches the snapshot 1`] = `
+exports[`MauTextAreaField > matches the snapshot 1`] = `
 <div>
   <div
     class="string input optional "
@@ -26,7 +26,7 @@ exports[`MauTextAreaField matches the snapshot 1`] = `
 </div>
 `;
 
-exports[`MauTextAreaField matches the snapshot if id is provided 1`] = `
+exports[`MauTextAreaField > matches the snapshot if id is provided 1`] = `
 <div>
   <div
     class="string input optional "

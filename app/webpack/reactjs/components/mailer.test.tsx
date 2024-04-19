@@ -1,7 +1,6 @@
-import { describe, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import expect from "expect";
 import React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Mailer } from "./mailer";
 
@@ -10,7 +9,7 @@ describe("Mailer", () => {
     text: "the text",
   };
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
     render(<Mailer {...props} />);
   });
   it("renders the mailer component", () => {

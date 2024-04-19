@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ConfirmModal works with button text 1`] = `
+exports[`ConfirmModal > works with button text 1`] = `
 <div>
   <div
     class="mau-modal confirm-modal__trigger"
@@ -17,7 +17,7 @@ exports[`ConfirmModal works with button text 1`] = `
 </div>
 `;
 
-exports[`ConfirmModal works with button text and style 1`] = `
+exports[`ConfirmModal > works with button text and style 1`] = `
 <div>
   <div
     class="mau-modal confirm-modal__trigger"

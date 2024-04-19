@@ -31,6 +31,7 @@ secret/*
 config/config.keys.yml
 research
 .env.*
+.projections.json
 
 *.mysql
 *.psql

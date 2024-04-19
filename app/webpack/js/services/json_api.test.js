@@ -2,12 +2,13 @@ import { ArtPiece } from "@models/art_piece.model";
 import { Artist } from "@models/artist.model";
 import { Studio } from "@models/studio.model";
 import jQuery from "jquery";
+import { vi } from "vitest";
 
 import { jsonApi } from "./json_api";
 
-jest.mock("@models/artist.model");
-jest.mock("@models/art_piece.model");
-jest.mock("@models/studio.model");
+vi.mock("@models/artist.model");
+vi.mock("@models/art_piece.model");
+vi.mock("@models/studio.model");
 
 const MOCK_JSON_API_GET_RESPONSE = {
   data: { data_that: "gets camelized" },
@@ -16,15 +17,13 @@ const MOCK_JSON_API_GET_RESPONSE = {
 
 describe("jsonApi", () => {
   beforeEach(() => {
-    jest.resetAllMocks();
-    jest.spyOn(jQuery, "ajaxSetup");
+    vi.resetAllMocks();
+    vi.spyOn(jQuery, "ajaxSetup");
   });
   describe("artists", () => {
     describe("get", () => {
       beforeEach(() => {
-        jest
-          .spyOn(jQuery, "ajax")
-          .mockResolvedValue(MOCK_JSON_API_GET_RESPONSE);
+        vi.spyOn(jQuery, "ajax").mockResolvedValue(MOCK_JSON_API_GET_RESPONSE);
       });
       it("returns builds an artist model with the json api data", async () => {
         await jsonApi.artists.get(5);
@@ -47,9 +46,7 @@ describe("jsonApi", () => {
   describe("artPieces", () => {
     describe("get", () => {
       beforeEach(() => {
-        jest
-          .spyOn(jQuery, "ajax")
-          .mockResolvedValue(MOCK_JSON_API_GET_RESPONSE);
+        vi.spyOn(jQuery, "ajax").mockResolvedValue(MOCK_JSON_API_GET_RESPONSE);
       });
       it("returns builds an art piece model with the json api data", async () => {
         await jsonApi.artPieces.get(5);
@@ -70,7 +67,7 @@ describe("jsonApi", () => {
     });
     describe("index", () => {
       beforeEach(() => {
-        jest.spyOn(jQuery, "ajax").mockResolvedValue({
+        vi.spyOn(jQuery, "ajax").mockResolvedValue({
           data: [{ art_piece: 1 }, { art_piece: 2 }],
           included: { other_stuff_that: "gets camelized" },
         });
@@ -100,9 +97,7 @@ describe("jsonApi", () => {
   describe("studio", () => {
     describe("get", () => {
       beforeEach(() => {
-        jest
-          .spyOn(jQuery, "ajax")
-          .mockResolvedValue(MOCK_JSON_API_GET_RESPONSE);
+        vi.spyOn(jQuery, "ajax").mockResolvedValue(MOCK_JSON_API_GET_RESPONSE);
       });
       it("returns builds an studio model with the json api data", async () => {
         await jsonApi.studios.get(5);

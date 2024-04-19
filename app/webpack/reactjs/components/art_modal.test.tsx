@@ -1,4 +1,3 @@
-import { describe, expect, it, jest } from "@jest/globals";
 import { ArtPiece } from "@models/art_piece.model";
 import { jsonApiArtPieceFactory } from "@test/factories";
 import {
@@ -9,12 +8,13 @@ import {
   waitFor,
 } from "@testing-library/react";
 import React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ArtModal } from "./art_modal";
 
 describe("ArtModal", () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
   const renderComponent = (props) => {
     return render(

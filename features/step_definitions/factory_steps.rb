@@ -1,4 +1,4 @@
-Given(/^an account has been created/) do
+bGiven(/^an account has been created/) do
   @artist = Artist.where(login: TestUsersHelper::DEFAULT_LOGIN).first
   @artist ||= FactoryBot.create(:artist, :active, :with_art, :in_the_mission, login: TestUsersHelper::DEFAULT_LOGIN)
   @artist.password = TestUsersHelper::DEFAULT_PASSWORD

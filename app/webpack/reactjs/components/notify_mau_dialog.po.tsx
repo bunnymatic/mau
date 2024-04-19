@@ -1,13 +1,13 @@
 import { BasePageObject } from "@reactjs/test/base_page_object";
 import { sendInquiry } from "@services/notification.service";
 import { render } from "@testing-library/react";
-import { mocked } from "jest-mock";
 import React from "react";
+import { vi } from "vitest";
 
 import { NotifyMauDialog } from "./notify_mau_dialog";
 
-jest.mock("@services/notification.service");
-const mockSendInquiry = mocked(sendInquiry, true);
+vi.mock("@services/notification.service");
+const mockSendInquiry = sendInquiry;
 
 export class NotifyMauDialogPageObject extends BasePageObject {
   constructor({ debug, raiseOnFind } = {}) {

@@ -1,14 +1,15 @@
 import { camelizeKeys } from "humps";
 import jQuery from "jquery";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { api } from "./api";
 
 describe("api", () => {
   const mockResp = { the_result: "is here" };
   beforeEach(() => {
-    jest.resetAllMocks();
-    jest.spyOn(jQuery, "ajaxSetup");
-    jest.spyOn(jQuery, "ajax").mockResolvedValue(mockResp);
+    vi.resetAllMocks();
+    vi.spyOn(jQuery, "ajaxSetup");
+    vi.spyOn(jQuery, "ajax").mockResolvedValue(mockResp);
   });
   describe("notes", () => {
     describe("create", () => {

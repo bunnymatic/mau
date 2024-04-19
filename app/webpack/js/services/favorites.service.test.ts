@@ -1,13 +1,13 @@
 import { api } from "@services/api";
-import expect from "expect";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as service from "./favorites.service";
 
-jest.mock("@services/api");
+vi.mock("@services/api");
 
 describe("mau.services.favoriteService", function () {
-  beforeEach(function () {
-    jest.resetAllMocks();
+  beforeEach(() => {
+    vi.resetAllMocks();
   });
 
   describe(".add", function () {
@@ -17,14 +17,14 @@ describe("mau.services.favoriteService", function () {
       const success = {
         message: "eat at joes",
       };
-      api.users.whoami = jest.fn().mockResolvedValue({
+      api.users.whoami = vi.fn().mockResolvedValue({
         currentUser: {
           id: 1,
           login: "the_user",
           slug: "the_user_slug",
         },
       });
-      api.favorites.add = jest.fn().mockResolvedValue(success);
+      api.favorites.add = vi.fn().mockResolvedValue(success);
       const data = await service.add(type, id);
 
       expect(data.message).toEqual("eat at joes");
@@ -32,7 +32,7 @@ describe("mau.services.favoriteService", function () {
       expect(api.favorites.add).toHaveBeenCalledWith("the_user_slug", type, id);
     });
     it("returns a message if there is not a logged in user", async function () {
-      api.users.whoami = jest.fn().mockResolvedValue({});
+      api.users.whoami = vi.fn().mockResolvedValue({});
       const data = await service.add("the_type", "the_id");
       expect(data.message).toEqual(
         "You need to login before you can favorite things"
@@ -41,14 +41,14 @@ describe("mau.services.favoriteService", function () {
       expect(api.favorites.add).not.toHaveBeenCalled();
     });
     it("returns a message if there is favoriting fails", async function () {
-      api.users.whoami = jest.fn().mockResolvedValue({
+      api.users.whoami = vi.fn().mockResolvedValue({
         currentUser: {
           id: 1,
           login: "somebody",
           slug: "somebody_slug",
         },
       });
-      api.favorites.add = jest.fn().mockRejectedValue({});
+      api.favorites.add = vi.fn().mockRejectedValue({});
       const data = await service.add(null, null);
       expect(data).toEqual({
         message:

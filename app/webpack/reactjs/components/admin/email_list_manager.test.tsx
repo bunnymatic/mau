@@ -1,16 +1,18 @@
-import { describe, expect, it } from "@jest/globals";
 import { BasePageObject } from "@reactjs/test/base_page_object";
 import * as types from "@reactjs/types";
 import { api } from "@services/api";
 import { emailFactory } from "@test/factories";
 import { act, render, waitFor } from "@testing-library/react";
-import { mocked } from "jest-mock";
 import React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { EmailListManager, EmailListManagerProps } from "./email_list_manager";
+import {
+  EmailListManager,
+  type EmailListManagerProps,
+} from "./email_list_manager";
 
-jest.mock("@services/api");
-const mockApi = mocked(api, true);
+vi.mock("@services/api");
+const mockApi = api;
 
 class EmailListManagerPageObject extends BasePageObject {
   props: EmailListManagerProps;
@@ -18,7 +20,6 @@ class EmailListManagerPageObject extends BasePageObject {
 
   constructor({ debug, raiseOnFind } = {}) {
     super({ debug, raiseOnFind });
-    jest.resetAllMocks();
     this.props = {
       title: "This List",
       info: "Here's why we have this list",
@@ -60,6 +61,7 @@ describe("EmailListManager", () => {
   let po: EmailListManagerPageObject;
 
   beforeEach(() => {
+    vi.resetAllMocks();
     po = new EmailListManagerPageObject();
   });
 

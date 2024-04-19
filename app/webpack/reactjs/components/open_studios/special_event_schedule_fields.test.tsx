@@ -2,19 +2,8 @@ import { all } from "@js/app/helpers";
 import { renderInForm } from "@reactjs/test/renderers";
 import { screen } from "@testing-library/react";
 import React from "react";
-
+import { describe, it, expect, beforeEach } from 'vitest'
 import { SpecialEventScheduleFields } from "./special_event_schedule_fields";
-
-/* describe("parseTimeSlot", () => {
- *   it("returns timeslots parsed into date times", () => {
- *     expect(parseTimeSlot("1605135600::1605139200")).toEqual({
- *       start: DateTime.fromSeconds(1605135600),
- *       end: DateTime.fromSeconds(1605139200),
- *     });
- *   });
- * });
-
- *  */
 
 describe("SpecialEventScheduleFields", () => {
   let rendered;
