@@ -5,15 +5,21 @@ import { describe, expect, it } from "vitest";
 
 import { EditableContentTrigger } from "./editable_content_trigger";
 
+interface OptionalCmsDocument {
+  cmsid?: number,
+  page?: string,
+  section?: string,
+}
+
 describe("EditableContentTrigger", () => {
   const renderComponent = (
-    opts: types.CmsDocument = {
+    opts: OptionalCmsDocument = {
       cmsid: undefined,
       page: "myPage",
       section: "mySection",
     }
   ) => {
-    return render(<EditableContentTrigger {...opts} />);
+    return render(<EditableContentTrigger {...opts as types.CmsDocument} />);
   };
 
   it("renders an edit button", () => {
