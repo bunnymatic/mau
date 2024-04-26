@@ -14,12 +14,12 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@js/*": ["./app/webpack/js/*"],
-      "@reactjs/*": ["./app/webpack/reactjs/*"],
-      "@models/*": ["./app/webpack/js/app/models/*"],
-      "@services/*": ["./app/webpack/js/services/*"],
-      "@test/*": ["./app/webpack/test/*"],
-      "@fixtures/*": ["./spec/fixtures/*"]
+      "@js/*": ["app/webpack/js/*"],
+      "@reactjs/*": ["app/webpack/reactjs/*"],
+      "@models/*": ["app/webpack/js/app/models/*"],
+      "@services/*": ["app/webpack/js/services/*"],
+      "@test/*": ["app/webpack/test/*"],
+      "@fixtures/*": ["spec/fixtures/*"]
     },
     "types": ["node", "jest-dom"],
     "typeRoots": ["node_modules/@types", "node_modules/@testing-library"]

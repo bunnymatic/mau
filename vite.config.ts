@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import RubyPlugin from 'vite-plugin-ruby'
 import svg from 'vite-plugin-svgr';
-import tsconfigPaths from 'vite-tsconfig-paths'
 import path from 'path';
 
 export default defineConfig({
@@ -15,12 +14,8 @@ export default defineConfig({
     // }),
     RubyPlugin(),
     svg(),
-    tsconfigPaths(),
   ],
-  test: {
-    globals: true,
-    setupFiles: '../../jstest/setupFiles.js',
-    environment: 'jsdom',
+  resolve: {
     alias: {
       "@js": path.resolve(__dirname, "./app/webpack/js"),
       "@reactjs": path.resolve(__dirname, "./app/webpack/reactjs"),
@@ -29,6 +24,12 @@ export default defineConfig({
       "@test": path.resolve(__dirname, "./app/webpack/test"),
       "@fixtures": path.resolve(__dirname, "./spec/fixtures"),
       "images": path.resolve(__dirname, "./app/frontend/entrypoints/images"),
+      "@styles": path.resolve(__dirname, "./app/webpack/stylesheets"),
     }
+  },
+  test: {
+    globals: true,
+    setupFiles: '../../jstest/setupFiles.js',
+    environment: 'jsdom',
   }
 });
