@@ -13,13 +13,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ContactArtistForm } from "./contact_artist_form";
 
-vi.mock("@services/api");
-
-const mockApiContact = api.artPieces.contact;
-
 describe("ContactArtistForm", () => {
   const mockHandleClose = vi.fn();
   const artPiece = artPieceFactory.build();
+  let mockApiContact;
 
   const renderComponent = () => {
     render(
@@ -29,6 +26,7 @@ describe("ContactArtistForm", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockApiContact = vi.spyOn(api.artPieces, 'contact')
   });
 
   it("shows the form", async () => {

@@ -5,8 +5,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { EventsNotificationBell } from "./events_notification_bell";
 
-vi.mock("@js/services/email_changed_events.service");
-const mockService = EmailChangedEventsService;
+
+let mockChangedEventsList;
 
 class EventsNotificationBellPageObject {
   constructor() {}
@@ -16,10 +16,11 @@ class EventsNotificationBellPageObject {
   }
 
   setupApiMocks(found = true) {
+    mockChangedEventsList = vi.spyOn(EmailChangedEventsService, 'list')
     const data = found
       ? [{ userChangedEvent: { data: { stuff: "here" } } }]
       : [];
-    mockService.list.mockResolvedValue(data);
+    mockChangedEventsList.mockResolvedValue(data);
   }
 }
 

@@ -11,8 +11,7 @@ import {
   type EmailListManagerProps,
 } from "./email_list_manager";
 
-vi.mock("@services/api");
-const mockApi = api;
+const mockEmailsApi = vi.mocked(api.emailLists.emails, { partial: true });
 
 class EmailListManagerPageObject extends BasePageObject {
   props: EmailListManagerProps;
@@ -34,21 +33,15 @@ class EmailListManagerPageObject extends BasePageObject {
 
   setupApiMocks({
     index = true,
-    remove = true,
-  }: { index?: boolean; remove?: boolean } = {}) {
+  }: { index?: boolean } = {}) {
+    mockEmailsApi.index = vi.fn();
     if (index) {
       const response = { emails: this.emails.map((email) => ({ email })) };
-      mockApi.emailLists.emails.index.mockResolvedValue(response);
+      mockEmailsApi.index.mockResolvedValue(response);
     } else {
-      mockApi.emailLists.emails.index.mockRejectedValue({
+      mockEmailsApi.index.mockRejectedValue({
         errors: { email: ["bad email"] },
       });
-    }
-
-    if (remove) {
-      mockApi.emailLists.emails.remove.mockResolvedValue({});
-    } else {
-      mockApi.emailLists.emails.remove.mockRejectedValue({});
     }
   }
 
@@ -81,7 +74,7 @@ describe("EmailListManager", () => {
       });
     });
 
-    it("renders a list the list title", async () => {
+    it("renders a list with the title", async () => {
       act(() => {
         po.render();
       });
@@ -95,7 +88,7 @@ describe("EmailListManager", () => {
     beforeEach(() => {
       po.setupApiMocks({ index: false });
     });
-    it("renders a list of emails and names", async () => {
+    it("renders an error", async () => {
       act(() => {
         po.render();
       });
@@ -104,7 +97,7 @@ describe("EmailListManager", () => {
       });
     });
 
-    it("renders a list the list title", async () => {
+    it("renders a list with the title", async () => {
       act(() => {
         po.render();
       });
