@@ -65,7 +65,11 @@ const noteInfo: NoteInfo = (noteType: NoteTypes) => {
   return NOTE_INFO_LUT[noteType];
 };
 
-const fieldIsRequired = (fieldName: InputField, values: Record<InputField, unknown>, errors: NotifyMauFormErrors = {}) => {
+const fieldIsRequired = (
+  fieldName: InputField,
+  values: Record<InputField, unknown>,
+  errors: NotifyMauFormErrors = {}
+) => {
   if (!values[fieldName]) {
     errors[fieldName] ||= [];
     errors[fieldName].push("is required");
@@ -112,7 +116,7 @@ const NotifyMauForm: FC<NotifyMauFormProps> = ({
     onCancel();
   };
   const validate = (values) => {
-    const errors:NotifyMauFormErrors = {};
+    const errors: NotifyMauFormErrors = {};
     fieldIsRequired("email", values, errors);
     fieldIsRequired("emailConfirm", values, errors);
     fieldIsRequired("inquiry", values, errors);

@@ -2,7 +2,8 @@ import { all } from "@js/app/helpers";
 import { renderInForm } from "@reactjs/test/renderers";
 import { screen } from "@testing-library/react";
 import React from "react";
-import { describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it } from "vitest";
+
 import { SpecialEventScheduleFields } from "./special_event_schedule_fields";
 
 describe("SpecialEventScheduleFields", () => {

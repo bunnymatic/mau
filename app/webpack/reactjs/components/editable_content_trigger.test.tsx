@@ -1,7 +1,8 @@
 import * as types from "@reactjs/types";
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from "vitest";
+
 import { EditableContentTrigger } from "./editable_content_trigger";
 
 describe("EditableContentTrigger", () => {
