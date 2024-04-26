@@ -1,5 +1,5 @@
 import jQuery from "jquery";
-import { expect } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import ApplicationEventsDetailsForm from "./application_events_details_form";
 
