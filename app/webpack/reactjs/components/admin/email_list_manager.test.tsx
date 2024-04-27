@@ -31,9 +31,7 @@ class EmailListManagerPageObject extends BasePageObject {
     return render(<EmailListManager {...this.props} />);
   }
 
-  setupApiMocks({
-    index = true,
-  }: { index?: boolean } = {}) {
+  setupApiMocks({ index = true }: { index?: boolean } = {}) {
     mockEmailsApi.index = vi.fn();
     if (index) {
       const response = { emails: this.emails.map((email) => ({ email })) };

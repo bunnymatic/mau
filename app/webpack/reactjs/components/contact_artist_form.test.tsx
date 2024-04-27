@@ -26,7 +26,7 @@ describe("ContactArtistForm", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockApiContact = vi.spyOn(api.artPieces, 'contact')
+    mockApiContact = vi.spyOn(api.artPieces, "contact");
   });
 
   it("shows the form", async () => {

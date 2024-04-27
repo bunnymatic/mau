@@ -5,7 +5,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { EventsNotificationBell } from "./events_notification_bell";
 
-
 let mockChangedEventsList;
 
 class EventsNotificationBellPageObject {
@@ -16,7 +15,7 @@ class EventsNotificationBellPageObject {
   }
 
   setupApiMocks(found = true) {
-    mockChangedEventsList = vi.spyOn(EmailChangedEventsService, 'list')
+    mockChangedEventsList = vi.spyOn(EmailChangedEventsService, "list");
     const data = found
       ? [{ userChangedEvent: { data: { stuff: "here" } } }]
       : [];
