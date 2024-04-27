@@ -1,20 +1,18 @@
 import "@js/app/utils";
 
-import expect from "expect";
 import jQuery from "jquery";
+import { expect, vi } from "vitest";
 
 import MarkItDown from "./mark_it_down";
 
-jest.mock("@js/app/utils", () => ({
+vi.mock("@js/app/utils", () => ({
   debounce: (f, _t, _) => f(),
 }));
-
-jest.dontMock("jquery");
 
 describe("MarkItDown", function () {
   let loadSpy;
   beforeEach(function () {
-    loadSpy = jest.spyOn(jQuery.fn, "load");
+    loadSpy = vi.spyOn(jQuery.fn, "load");
     document.documentElement.innerHTML =
       '<div id="fixture">' +
       '  <input id="input" value="# here we go"/>' +

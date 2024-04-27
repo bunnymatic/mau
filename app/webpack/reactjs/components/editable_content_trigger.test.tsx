@@ -1,18 +1,25 @@
 import * as types from "@reactjs/types";
 import { render, screen } from "@testing-library/react";
 import React from "react";
+import { describe, expect, it } from "vitest";
 
 import { EditableContentTrigger } from "./editable_content_trigger";
 
+interface OptionalCmsDocument {
+  cmsid?: number;
+  page?: string;
+  section?: string;
+}
+
 describe("EditableContentTrigger", () => {
   const renderComponent = (
-    opts: types.CmsDocument = {
+    opts: OptionalCmsDocument = {
       cmsid: undefined,
       page: "myPage",
       section: "mySection",
     }
   ) => {
-    return render(<EditableContentTrigger {...opts} />);
+    return render(<EditableContentTrigger {...(opts as types.CmsDocument)} />);
   };
 
   it("renders an edit button", () => {
@@ -25,7 +32,9 @@ describe("EditableContentTrigger", () => {
     const trigger = screen.queryByText("edit me");
     const link = trigger.closest("a");
     expect(trigger).toBeInTheDocument();
-    expect(link.href).toEqual("http://localhost/admin/cms_documents/5/edit");
+    expect(link.href).toEqual(
+      "http://localhost:3000/admin/cms_documents/5/edit"
+    );
   });
 
   it("given no cmsid, it makes an new path", () => {
@@ -34,7 +43,7 @@ describe("EditableContentTrigger", () => {
     const link = trigger.closest("a");
     expect(trigger).toBeInTheDocument();
     expect(link.href).toEqual(
-      "http://localhost/admin/cms_documents/new?cms_document[page]=myPage&cms_document[section]=mySection"
+      "http://localhost:3000/admin/cms_documents/new?cms_document[page]=myPage&cms_document[section]=mySection"
     );
   });
 });

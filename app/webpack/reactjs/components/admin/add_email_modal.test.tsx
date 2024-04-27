@@ -1,4 +1,3 @@
-import { describe, expect, it } from "@jest/globals";
 import { all } from "@js/app/helpers";
 import { BasePageObject } from "@reactjs/test/base_page_object";
 import { api } from "@services/api";
@@ -9,23 +8,22 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import { mocked } from "jest-mock";
 import React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { AddEmailModal, AddEmailModalProps } from "./add_email_modal";
 
-jest.mock("@services/api");
-const mockApi = mocked(api, true);
+vi.mock("@services/api");
+const mockApi = api;
 
 class AddEmailModalPageObject extends BasePageObject {
   defaultProps: AddEmailModalProps;
 
   constructor({ debug, raiseOnFind } = {}) {
     super({ debug, raiseOnFind });
-    jest.resetAllMocks();
     this.defaultProps = {
       listId: 4,
-      onAdd: jest.fn(),
+      onAdd: vi.fn(),
     };
   }
   render(props) {
@@ -91,6 +89,7 @@ describe("AddEmailModal", () => {
   let po: AddEmailModalPageObject;
 
   beforeEach(() => {
+    vi.resetAllMocks();
     po = new AddEmailModalPageObject({ raiseOnFind: true });
   });
 

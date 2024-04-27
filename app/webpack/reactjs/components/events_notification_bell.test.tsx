@@ -1,28 +1,25 @@
-import { describe, expect, it } from "@jest/globals";
 import { EmailChangedEventsService } from "@js/services/email_changed_events.service";
 import { act, render, screen, waitFor } from "@testing-library/react";
-import { mocked } from "jest-mock";
 import React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { EventsNotificationBell } from "./events_notification_bell";
 
-jest.mock("@js/services/email_changed_events.service");
-const mockService = mocked(EmailChangedEventsService, true);
+let mockChangedEventsList;
 
 class EventsNotificationBellPageObject {
-  constructor() {
-    jest.resetAllMocks();
-  }
+  constructor() {}
 
   render() {
     return render(<EventsNotificationBell />);
   }
 
   setupApiMocks(found = true) {
+    mockChangedEventsList = vi.spyOn(EmailChangedEventsService, "list");
     const data = found
       ? [{ userChangedEvent: { data: { stuff: "here" } } }]
       : [];
-    mockService.list.mockResolvedValue(data);
+    mockChangedEventsList.mockResolvedValue(data);
   }
 }
 

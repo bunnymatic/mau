@@ -1,12 +1,12 @@
-import expect from "expect";
 import { Spinner as SpinJS } from "spin.js";
+import { expect, vi } from "vitest";
 
 import Spinner from "./spinner";
 
-jest.mock("spin.js");
+vi.mock("spin.js");
 
-const mockSpin = jest.fn();
-const mockStop = jest.fn();
+const mockSpin = vi.fn();
+const mockStop = vi.fn();
 SpinJS.prototype.spin = mockSpin;
 SpinJS.prototype.stop = mockStop;
 
@@ -14,8 +14,7 @@ describe("Spinner", function () {
   let spinner;
 
   beforeEach(() => {
-    jest.resetAllMocks();
-
+    vi.resetAllMocks();
     document.documentElement.innerHTML =
       '<div id="fixture">' + `<div class="spin-goes-here"></div>` + "</div>";
 

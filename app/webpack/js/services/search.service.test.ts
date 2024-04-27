@@ -1,19 +1,19 @@
-import { describe, expect, it } from "@jest/globals";
 import { api } from "@services/api";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as searchService from "./search.service";
 
-jest.mock("@services/api");
+vi.mock("@services/api");
 
 describe("mau.services.searchService", function () {
   const successPayload = ["search_results"];
-
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
+
   describe(".query", function () {
     it("calls the apps search endpoint", function () {
-      api.search.query = jest.fn().mockResolvedValue(successPayload);
+      api.search.query = vi.fn().mockResolvedValue(successPayload);
       const query = "the query string";
       const extras = { whatever: "man" };
       const expectedParams = { q: query, ...extras };
@@ -44,7 +44,7 @@ describe("mau.services.searchService", function () {
       const query = "the query string";
       const extras = { whatever: "man" };
       const expectedParams = { q: query, ...extras };
-      api.search.query = jest.fn().mockRejectedValue(new Error("oops"));
+      api.search.query = vi.fn().mockRejectedValue(new Error("oops"));
       const response = searchService.query({
         query,
         ...extras,

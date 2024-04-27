@@ -11,17 +11,17 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import expect from "expect";
 import React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { OpenStudiosInfoForm } from "./open_studios_info_form";
 
-jest.mock("@js/services/api");
+vi.mock("@js/services/api");
 
 describe("OpenStudiosInfoForm", () => {
   const defaultOsEvent = openStudiosEventFactory.build();
   const participant = openStudiosParticipantFactory.build();
-  const mockOnUpdateParticipant = jest.fn();
+  const mockOnUpdateParticipant = vi.fn();
   const artistId = 4;
   const defaultProps = {
     location: "the place",
@@ -41,6 +41,9 @@ describe("OpenStudiosInfoForm", () => {
 
   const timeSlots = ["1605128400::1605132000", "1605132000::1605135600"];
 
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
   describe("without interaction", () => {
     describe("when there is no special event", () => {
       beforeEach(() => {
@@ -152,7 +155,6 @@ describe("OpenStudiosInfoForm", () => {
 
   describe("when the update call succeeds", () => {
     beforeEach(() => {
-      jest.resetAllMocks();
       mockUpdate.mockResolvedValue({
         openStudiosParticipant: participant,
       });
@@ -193,7 +195,6 @@ describe("OpenStudiosInfoForm", () => {
 
   describe("when the form submit fails", () => {
     beforeEach(() => {
-      jest.resetAllMocks();
       mockUpdate.mockRejectedValue({
         responseJSON: {
           errors: {
@@ -232,7 +233,6 @@ describe("OpenStudiosInfoForm", () => {
   describe("if i change my mind", () => {
     describe("and handle unregistration works fine", () => {
       beforeEach(() => {
-        jest.resetAllMocks();
         mockSubmitRegStatus.mockResolvedValue({});
         renderComponent();
       });
@@ -253,7 +253,6 @@ describe("OpenStudiosInfoForm", () => {
     });
     describe("and handle unregistration fails", () => {
       beforeEach(() => {
-        jest.resetAllMocks();
         mockSubmitRegStatus.mockResolvedValue({});
         mockUpdate.mockRejectedValue({});
         renderComponent();

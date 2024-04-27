@@ -1,8 +1,8 @@
-import { describe, expect, it } from "@jest/globals";
 import { ArtPiece } from "@models/art_piece.model";
 import { jsonApiArtPieceFactory } from "@test/factories";
 import { render } from "@testing-library/react";
 import React from "react";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { ArtCard } from "./art_card";
 

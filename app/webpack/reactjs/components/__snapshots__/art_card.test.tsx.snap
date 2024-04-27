@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ArtCard matches the snapshot with all the props 1`] = `
+exports[`ArtCard > matches the snapshot with all the props 1`] = `
 <div>
   <div
     class="art-card"
@@ -38,7 +38,7 @@ exports[`ArtCard matches the snapshot with all the props 1`] = `
 </div>
 `;
 
-exports[`ArtCard matches the snapshot with minimal props 1`] = `
+exports[`ArtCard > matches the snapshot with minimal props 1`] = `
 <div>
   <div
     class="art-card"

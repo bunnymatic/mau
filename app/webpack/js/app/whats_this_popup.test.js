@@ -1,9 +1,7 @@
-import expect from "expect";
 import jQuery from "jquery";
+import { expect } from "vitest";
 
 import WhatsThisPopup from "./whats_this_popup";
-
-jest.dontMock("jquery");
 
 describe("WhatsThisPopup", function () {
   beforeEach(() => {

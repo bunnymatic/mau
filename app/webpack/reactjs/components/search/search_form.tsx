@@ -1,7 +1,7 @@
 import { debounce } from "@js/app/utils";
 import * as searchService from "@js/services/search.service";
 import { SearchResultsContext } from "@reactjs/components/search/search_results.context";
-import React, { FC, useCallback, useContext } from "react";
+import React, { type FC, useCallback, useContext } from "react";
 
 interface SearchFormProps {}
 import { SearchHit } from "@js/app/models/search_hit.model";
@@ -35,7 +35,8 @@ export const SearchForm: FC<SearchFormProps> = () => {
       },
       250,
       false
-    )
+    ),
+    [setLoading, setResults, pageSize, page]
   );
 
   return (
@@ -47,7 +48,9 @@ export const SearchForm: FC<SearchFormProps> = () => {
         Search
       </label>
       <input
-        onChange={(e) => executeSearch(e.target.value)}
+        onChange={(e) => {
+          executeSearch(e.target.value);
+        }}
         autoComplete="off"
         autoFocus
         id="search_query"

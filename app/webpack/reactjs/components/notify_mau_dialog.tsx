@@ -10,11 +10,12 @@ import { MauTextButton } from "@reactjs/components/mau_text_button";
 import { useModalState } from "@reactjs/hooks";
 import { sendInquiry } from "@services/notification.service";
 import { Form, Formik } from "formik";
-import React, { FC } from "react";
+import React, { type FC } from "react";
 
 type NoteTypes = "inquiry" | "help" | "feedback" | "secretWord";
 type InputField = "inquiry" | "email" | "emailConfirm";
 
+type NotifyMauFormErrors = Record<InputField | undefined, string | undefined>;
 interface NotifyMauFormProps {
   noteType: NoteTypes;
   email?: string;
@@ -26,7 +27,6 @@ interface NoteInfo {
   message: string;
   questionLabel?: string;
   title?: string;
-  requiredFields: InputField[];
 }
 
 const NOTE_INFO_LUT: Record<NoteTypes, NoteInfo> = {
@@ -65,7 +65,11 @@ const noteInfo: NoteInfo = (noteType: NoteTypes) => {
   return NOTE_INFO_LUT[noteType];
 };
 
-const fieldIsRequired = (fieldName, values, errors = {}) => {
+const fieldIsRequired = (
+  fieldName: InputField,
+  values: Record<InputField, unknown>,
+  errors: NotifyMauFormErrors = {}
+) => {
   if (!values[fieldName]) {
     errors[fieldName] ||= [];
     errors[fieldName].push("is required");
@@ -112,7 +116,7 @@ const NotifyMauForm: FC<NotifyMauFormProps> = ({
     onCancel();
   };
   const validate = (values) => {
-    const errors = {};
+    const errors: NotifyMauFormErrors = {};
     fieldIsRequired("email", values, errors);
     fieldIsRequired("emailConfirm", values, errors);
     fieldIsRequired("inquiry", values, errors);

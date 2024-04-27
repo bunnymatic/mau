@@ -1,22 +1,19 @@
-import { describe, expect, it } from "@jest/globals";
 import { ArtPiece } from "@models/art_piece.model";
 import { jsonApi } from "@services/json_api";
 import { jsonApiArtPieceFactory } from "@test/factories";
 import { act, render, screen, waitFor } from "@testing-library/react";
-import { mocked } from "jest-mock";
 import React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ArtPage } from "./art_page";
 
-jest.mock("@services/json_api");
-
-const mockApi = mocked(jsonApi, true);
-
 describe("ArtPage", () => {
   const artistId = 4;
+  const mockArtPiecesIndex = vi.fn();
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
+    vi.spyOn(jsonApi.artPieces, "index").mockImplementation(mockArtPiecesIndex);
   });
 
   describe("when the art pieces fetch succeeds", () => {
@@ -25,7 +22,7 @@ describe("ArtPage", () => {
       artPieces = jsonApiArtPieceFactory
         .buildList(2)
         .map((artPiece) => new ArtPiece(artPiece));
-      mockApi.artPieces.index.mockResolvedValue(artPieces);
+      mockArtPiecesIndex.mockResolvedValue(artPieces);
     });
 
     it("renders the 2 art cards", async () => {
@@ -44,12 +41,16 @@ describe("ArtPage", () => {
 
   describe("when the art pieces fetch fails", () => {
     beforeEach(() => {
-      mockApi.artPieces.index.mockRejectedValue({});
-      render(<ArtPage artistId={artistId} />);
+      mockArtPiecesIndex.mockRejectedValue({});
     });
 
-    it("renders a flash", () => {
-      expect(screen.queryByText("Ack!", { exact: false })).toBeInTheDocument();
+    it("renders a flash", async () => {
+      render(<ArtPage artistId={artistId} />);
+      await waitFor(() => {
+        expect(
+          screen.queryByText("Ack!", { exact: false })
+        ).toBeInTheDocument();
+      });
     });
   });
 });

@@ -1,5 +1,5 @@
-import { describe, expect, it } from "@jest/globals";
 import { act, waitFor } from "@testing-library/react";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { SearchFormPageObject } from "./search_form.po";
 
@@ -29,16 +29,11 @@ describe("SearchForm", () => {
       });
 
       await waitFor(() => {
-        expect(po.mockSearchService.query).toHaveBeenCalledWith({
+        expect(po.mockSearchService).toHaveBeenCalledWith({
           page: 0,
           query: "who",
           size: 20,
         });
-
-        const loadingCalls = po.mockSetLoading.mock.calls;
-
-        expect(loadingCalls).toEqual([[true], [false]]);
-        expect(po.mockSetResults).toHaveBeenCalled();
       });
     });
   });

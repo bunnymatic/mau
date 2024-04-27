@@ -1,5 +1,4 @@
-import { describe, it } from "@jest/globals";
-import expect from "expect";
+import { describe, expect, it } from "vitest";
 
 import { mailToLink } from "./mailer.service";
 

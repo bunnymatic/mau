@@ -1,11 +1,11 @@
 import { openStudiosParticipantFactory } from "@test/factories";
 import { fireEvent, render, screen } from "@testing-library/react";
-import expect from "expect";
 import React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { OpenStudiosRegistrationSection } from "./open_studios_registration_section";
 
-jest.mock("@services/api");
+vi.mock("@services/api");
 
 describe("OpenStudiosRegistrationSection", () => {
   const defaultOsEvent = {
@@ -22,9 +22,7 @@ describe("OpenStudiosRegistrationSection", () => {
     render(<OpenStudiosRegistrationSection {...mergedProps} />);
   };
 
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
+  beforeEach(() => {});
 
   describe("when i'm participating", () => {
     beforeEach(() => {

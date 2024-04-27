@@ -1,16 +1,17 @@
-import { describe, expect, it } from "@jest/globals";
 import { api } from "@js/services/api";
 import Bowser from "bowser";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as notificationService from "./notification.service";
 
-jest.mock("bowser");
-jest.mock("@services/api");
+vi.mock("bowser");
+vi.mock("@services/api");
 
 describe("mau.services.notificationService", function () {
   beforeEach(() => {
-    jest.resetAllMocks();
-    Bowser.parse = jest.fn().mockReturnValue({
+    vi.resetAllMocks();
+
+    Bowser.parse = vi.fn().mockReturnValue({
       os: {
         name: "BunnymaticOS",
         version: "12.01",
@@ -33,7 +34,7 @@ describe("mau.services.notificationService", function () {
 
   describe(".sendInquiry", function () {
     it("calls the note create endpoint", async function () {
-      api.notes.create = jest.fn().mockResolvedValue(successPayload);
+      api.notes.create = vi.fn().mockResolvedValue(successPayload);
       const noteInfo = {
         noteType: "inquiry",
         inquiry: "what's up?",

@@ -11,7 +11,13 @@ import {
   useModalState,
 } from "@reactjs/hooks";
 import HeartSpeechBubble from "images/heart_speech_bubble.svg";
-import React, { FC, useCallback, useContext } from "react";
+import React, {
+  type FC,
+  MouseEventHandler,
+  type ReactNode,
+  useCallback,
+  useContext,
+} from "react";
 
 interface ArtModalWindowProps {
   artPiece: ArtPiece;
@@ -41,15 +47,15 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
 
   useEventListener("keydown", keyDownHandler);
 
-  const handleNext = (e: MouseEvent) => {
+  const handleNext: MouseEventHandler = (e) => {
     e.preventDefault();
     next();
   };
-  const handlePrevious = (e: MouseEvent) => {
+  const handlePrevious: MouseEventHandler = (e) => {
     e.preventDefault();
     previous();
   };
-  const handleShowContactForm = (e: MouseEvent) => {
+  const handleShowContactForm: MouseEventHandler = (e) => {
     e.preventDefault();
     showForm();
   };
@@ -111,10 +117,11 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
 
 interface ArtModalProps {
   artPiece: ArtPiece;
+  children: ReactNode;
 }
 
 export const ArtModal: FC<ArtModalProps> = ({ artPiece, children }) => {
-  const { isOpen, open, close } = useModalState(false);
+  const { isOpen, open, close } = useModalState();
   return (
     <>
       {isOpen && <ArtModalWindow artPiece={artPiece} handleClose={close} />}

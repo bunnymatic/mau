@@ -1,6 +1,6 @@
-import { describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import React from "react";
+import { describe, expect, it } from "vitest";
 
 import { ShareButton } from "./share_button";
 
@@ -36,7 +36,7 @@ describe("ShareButton", () => {
       expect(icon).toHaveLength(1);
       expect(icon[0].classList).toContain("fa-facebook");
       expect(link.href).toMatch(/\/\/www\.facebook\.com\/sharer\/sharer.php\?/);
-      expect(link.href).toContain("localhost%3A%2Fart_pieces%2F12");
+      expect(link.href).toContain("localhost%3A3000%2Fart_pieces%2F12");
     });
   });
 
@@ -64,7 +64,7 @@ describe("ShareButton", () => {
         "text=Check+out+Mona+Lisa+by+Leo+on+Mission+Artists"
       );
       expect(link.href).toContain("&via=sfmau");
-      expect(link.href).toMatch(/url=.*localhost%3A%2Fart_pieces%2F12/);
+      expect(link.href).toMatch(/url=.*localhost%3A3000%2Fart_pieces%2F12/);
     });
   });
 
@@ -88,7 +88,7 @@ describe("ShareButton", () => {
       expect(icon).toHaveLength(1);
       expect(icon[0].classList).toContain("fa-pinterest");
       expect(link.href).toMatch(/\/\/pinterest\.com\/pin\/create\/button\/?/);
-      expect(link.href).toMatch(/url=.*localhost%3A%2Fart_pieces%2F12/);
+      expect(link.href).toMatch(/url=.*localhost%3A3000%2Fart_pieces%2F12/);
       expect(link.href).toContain("title=Mona+Lisa");
       expect(link.href).toContain(
         "description=Check+out+Mona+Lisa+by+Leo+on+Mission+Artists"

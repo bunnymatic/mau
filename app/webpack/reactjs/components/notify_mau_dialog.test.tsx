@@ -1,5 +1,5 @@
-import { describe, it } from "@jest/globals";
 import { act, waitFor } from "@testing-library/react";
+import { beforeEach, describe, it, vi } from "vitest";
 
 import { NotifyMauDialogPageObject } from "./notify_mau_dialog.po";
 
@@ -7,7 +7,7 @@ describe("NotifyMauDialog", () => {
   let po: NotifyMauDialogPageObject;
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
     po = new NotifyMauDialogPageObject();
     po.setupApiMocks(true);
   });

@@ -2,50 +2,37 @@ import esSearchResults from "@fixtures/files/search_results.json";
 import * as searchService from "@js/services/search.service";
 import { BasePageObject } from "@reactjs/test/base_page_object";
 import { render } from "@testing-library/react";
-import { mocked } from "jest-mock";
 import React from "react";
+import { type Mock, vi } from "vitest";
 
 import { SearchForm } from "./search_form";
+import { SearchResultsProvider } from "./search_results.context";
+import { SearchResult } from "./searchTypes";
 
-jest.mock("@js/services/search.service");
-
-const mockSearchService = mocked(searchService, true);
-
-const mockSetLoading = jest.fn();
-const mockSetResults = jest.fn();
-
-jest.mock("react", () => {
-  const ActualReact = jest.requireActual("react");
-  return {
-    ...ActualReact,
-    useContext: () => ({
-      setLoading: mockSetLoading,
-      setResults: mockSetResults,
-    }),
-  };
-});
+const mockSearchService = vi.fn();
 
 export class SearchFormPageObject extends BasePageObject {
-  mockSearchService: jest.Mock;
-  mockSetLoading: jest.Mock;
-  mockSetResults: jest.Mock;
+  mockSearchService: Mock;
 
   constructor({ debug, raiseOnFind } = {}) {
     super({ debug, raiseOnFind });
     this.mockSearchService = mockSearchService;
-    this.mockSetLoading = mockSetLoading;
-    this.mockSetResults = mockSetResults;
   }
 
-  renderComponent() {
-    return render(<SearchForm />);
+  renderComponent(results?: SearchResult[]) {
+    return render(
+      <SearchResultsProvider initialResults={results ?? []}>
+        <SearchForm />
+      </SearchResultsProvider>
+    );
   }
 
   setupApiMocks(success = true) {
+    vi.spyOn(searchService, "query").mockImplementation(mockSearchService);
     if (success) {
-      mockSearchService.query.mockResolvedValue(esSearchResults.hits.hits);
+      this.mockSearchService.mockResolvedValue(esSearchResults.hits.hits);
     } else {
-      mockSearchService.query.mockRejectedValue("rats");
+      this.mockSearchService.mockRejectedValue("rats");
     }
   }
 

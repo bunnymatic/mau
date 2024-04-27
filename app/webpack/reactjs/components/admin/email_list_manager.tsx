@@ -72,7 +72,7 @@ const EmailList: FC<EmailListProps> = ({ emails, handleDelete }) => {
   ));
 };
 
-interface EmailListManagerProps {
+export interface EmailListManagerProps {
   title: string;
   info: string;
   listId: types.IdType;

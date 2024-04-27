@@ -1,7 +1,7 @@
 import esSearchResults from "@fixtures/files/search_results.json";
-import { describe, expect, it } from "@jest/globals";
 import { SearchHit } from "@js/app/models/search_hit.model";
 import { act, waitFor } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 
 import { SearchResultsPageObject } from "./search_results.po";
 
@@ -53,12 +53,12 @@ describe("SearchResults", () => {
       await waitFor(() => {
         const studioImageLink = po.imageLink(STUDIO_HIT);
         expect(studioImageLink.href).toEqual(
-          `http://localhost${STUDIO_HIT.link}`
+          `http://localhost:3000${STUDIO_HIT.link}`
         );
 
         const studioMainLink = po.mainLink(STUDIO_HIT);
         expect(studioMainLink.href).toEqual(
-          `http://localhost${STUDIO_HIT.link}`
+          `http://localhost:3000${STUDIO_HIT.link}`
         );
 
         po.within(studioMainLink, (el) => {
@@ -78,12 +78,12 @@ describe("SearchResults", () => {
       await waitFor(() => {
         const artPieceImageLink = po.imageLink(ART_PIECE_HIT);
         expect(artPieceImageLink.href).toEqual(
-          `http://localhost${ART_PIECE_HIT.link}`
+          `http://localhost:3000${ART_PIECE_HIT.link}`
         );
 
         const artPieceMainLink = po.mainLink(ART_PIECE_HIT);
         expect(artPieceMainLink.href).toEqual(
-          `http://localhost${ART_PIECE_HIT.link}`
+          `http://localhost:3000${ART_PIECE_HIT.link}`
         );
 
         po.within(artPieceMainLink, (el) => {
@@ -103,12 +103,12 @@ describe("SearchResults", () => {
       await waitFor(() => {
         const artistImageLink = po.imageLink(ARTIST_HIT);
         expect(artistImageLink.href).toEqual(
-          `http://localhost${ARTIST_HIT.link}`
+          `http://localhost:3000${ARTIST_HIT.link}`
         );
 
         const artistMainLink = po.mainLink(ARTIST_HIT);
         expect(artistMainLink.href).toEqual(
-          `http://localhost${ARTIST_HIT.link}`
+          `http://localhost:3000${ARTIST_HIT.link}`
         );
 
         po.within(artistMainLink, (el) => {

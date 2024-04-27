@@ -2,11 +2,11 @@
 /* import sorting blows this test setup */
 import jQuery from "jquery";
 
-jest.dontMock("jquery");
-
 jQuery.fx.speeds = { slow: 0, fast: 0, _default: 0 };
 
+// gives us jest matchers (instead of vitest default Chai matchers)
 import "@testing-library/jest-dom";
+import { vi } from 'vitest'
 
 const oldWindowLocation = window.location;
 
@@ -19,7 +19,7 @@ beforeAll(() => {
       ...Object.getOwnPropertyDescriptors(oldWindowLocation),
       assign: {
         configurable: true,
-        value: jest.fn(),
+        value: vi.fn(),
       },
     }
   );

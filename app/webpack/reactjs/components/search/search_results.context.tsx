@@ -1,4 +1,4 @@
-import React, { createContext, FC, useState } from "react";
+import React, { createContext, type FC, type ReactNode, useState } from "react";
 
 import * as searchTypes from "./searchTypes";
 
@@ -8,6 +8,7 @@ SearchResultsContext.displayName = "SearchResultsData";
 
 interface SearchProviderProps {
   initialResults?: searchTypes.SearchResult[];
+  children?: ReactNode;
   /* setResults: (results: searchTypes.SearchResult[]) => void;
    * loading: boolean;
    * setLoading: (loading: boolean) => void; */

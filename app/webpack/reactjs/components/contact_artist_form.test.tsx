@@ -1,4 +1,3 @@
-import { describe, expect, it } from "@jest/globals";
 import { api } from "@services/api";
 import { jsonApiArtPieceFactory as artPieceFactory } from "@test/factories";
 import { fillIn, findButton, findField } from "@test/support/dom_finders";
@@ -10,16 +9,14 @@ import {
   waitFor,
 } from "@testing-library/react";
 import React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ContactArtistForm } from "./contact_artist_form";
 
-jest.mock("@services/api");
-
-const mockApiContact = api.artPieces.contact;
-
 describe("ContactArtistForm", () => {
-  const mockHandleClose = jest.fn();
+  const mockHandleClose = vi.fn();
   const artPiece = artPieceFactory.build();
+  let mockApiContact;
 
   const renderComponent = () => {
     render(
@@ -28,7 +25,8 @@ describe("ContactArtistForm", () => {
   };
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.clearAllMocks();
+    mockApiContact = vi.spyOn(api.artPieces, "contact");
   });
 
   it("shows the form", async () => {
@@ -185,7 +183,7 @@ describe("ContactArtistForm", () => {
 
     describe("when the note save fails because of something bad", () => {
       beforeEach(() => {
-        jest.spyOn(console, "error");
+        vi.spyOn(console, "error");
         mockApiContact.mockRejectedValue({});
       });
 

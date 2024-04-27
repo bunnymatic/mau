@@ -1,9 +1,7 @@
-import expect from "expect";
 import jQuery from "jquery";
+import { describe, expect, it } from "vitest";
 
 import Flash from "./flash";
-
-jest.dontMock("jquery");
 
 describe("Flash", function () {
   beforeEach(function () {

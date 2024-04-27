@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ArtModal when there is no art renders nothing 1`] = `
+exports[`ArtModal > when there is no art > renders nothing 1`] = `
 <div>
   <div>
     <button

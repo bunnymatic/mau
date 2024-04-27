@@ -4,7 +4,7 @@ import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
 import { useModalState } from "@reactjs/hooks";
 import * as types from "@reactjs/types";
 import cx from "classnames";
-import React, { FC } from "react";
+import React, { type FC, type ReactNode } from "react";
 
 type ConfirmModalHandler = (success: boolean) => void;
 
@@ -20,6 +20,7 @@ interface ConfirmModalProps {
   handleConfirm?: ConfirmModalHandler;
   containerClass?: string;
   variant?: "normal" | "large";
+  children?: ReactNode;
 }
 
 export const ConfirmModal: FC<ConfirmModalProps> = ({

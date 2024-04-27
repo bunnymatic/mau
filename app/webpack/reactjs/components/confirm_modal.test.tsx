@@ -6,6 +6,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import React from "react";
+import { describe, expect, it, vi } from "vitest";
 
 import { ConfirmModal } from "./confirm_modal";
 
@@ -65,7 +66,7 @@ describe("ConfirmModal", () => {
   });
 
   it("when i click yes and the button the modal opens", () => {
-    const mockConfirm = jest.fn();
+    const mockConfirm = vi.fn();
     render(
       <ConfirmModal
         id="my-modal"

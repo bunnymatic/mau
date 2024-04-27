@@ -1,14 +1,12 @@
-import expect from "expect";
 import jQuery from "jquery";
+import { beforeEach, expect, it, vi } from "vitest";
 
 import ArtistsAdminIndex from "./artists_admin_index";
-
-jest.dontMock("jquery");
 
 describe("ArtistsAdminIndex", function () {
   let loadSpy;
   beforeEach(function () {
-    loadSpy = jest.spyOn(jQuery.fn, "load");
+    loadSpy = vi.spyOn(jQuery.fn, "load");
     document.documentElement.innerHTML =
       '<div id="fixture">' +
       '<div class="tabs">' +

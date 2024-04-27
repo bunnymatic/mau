@@ -1,8 +1,6 @@
-import expect from "expect";
+import { expect } from "vitest";
 
 import { IsOverflowing } from "./is_overflowing";
-
-jest.dontMock("jquery");
 
 describe("isOverflowing", function () {
   it("is not overflowing with a small amount of content", function () {

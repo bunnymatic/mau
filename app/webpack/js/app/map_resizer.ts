@@ -7,7 +7,6 @@ class MapResizer {
     const update = () => {
       const mapContainer = jQuery(mapSelector);
       const matchElement = jQuery(matchElementSelector);
-      console.log({ w: matchElement.width() });
       mapContainer.width(matchElement.width());
     };
 

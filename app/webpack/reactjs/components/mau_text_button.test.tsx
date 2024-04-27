@@ -1,6 +1,6 @@
-import { describe, expect, it } from "@jest/globals";
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
+import { describe, expect, it, vi } from "vitest";
 
 import { MauTextButton } from "./mau_text_button";
 
@@ -16,7 +16,7 @@ describe("MauTextButton", () => {
   });
 
   it("runs onClick when it's pressed", () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     renderComponent({ children: "this button", onClick });
     const button = screen.getByRole("button", { name: "this button" });
     fireEvent.click(button);

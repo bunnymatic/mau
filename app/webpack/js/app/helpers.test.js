@@ -1,4 +1,4 @@
-import { describe, expect, it, jest } from "@jest/globals";
+import { describe, expect, it, vi } from "vitest";
 
 import * as helpers from "./helpers";
 
@@ -18,7 +18,7 @@ describe("helpers", () => {
   });
   describe("each", () => {
     it("handles arrays", () => {
-      const cb = jest.fn();
+      const cb = vi.fn();
       const arr = ["a", "b", "c"];
       helpers.each(arr, cb);
       expect(cb.mock.calls).toHaveLength(3);
@@ -28,7 +28,7 @@ describe("helpers", () => {
     });
 
     it("handles objects", () => {
-      const cb = jest.fn();
+      const cb = vi.fn();
       const dictionary = { a: 5, b: 7, c: 9 };
       helpers.each(dictionary, cb);
       expect(cb.mock.calls).toHaveLength(3);

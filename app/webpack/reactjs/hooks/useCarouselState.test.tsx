@@ -1,5 +1,5 @@
-import { describe, expect, it } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { useCarouselState } from "./useCarouselState";
 

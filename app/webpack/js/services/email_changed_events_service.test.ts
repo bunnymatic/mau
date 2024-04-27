@@ -1,17 +1,18 @@
-import { describe, expect, it } from "@jest/globals";
 import { api } from "@services/api";
-import { mocked } from "jest-mock";
 import { DateTime } from "luxon";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { EmailChangedEventsService } from "./email_changed_events.service";
 
-jest.mock("@services/api");
-const mockApi = mocked(api, true);
-
 describe("EmailChangedEventsService", () => {
+  const mockAppEventsIndex = vi.fn();
+
   describe("list", () => {
     beforeEach(() => {
-      jest.resetAllMocks();
+      vi.resetAllMocks();
+      vi.spyOn(api.applicationEvents, "index").mockImplementation(
+        mockAppEventsIndex
+      );
     });
     it("returns only events that are user changed events with email changes", async () => {
       const events = [
@@ -39,7 +40,7 @@ describe("EmailChangedEventsService", () => {
           },
         },
       ];
-      mockApi.applicationEvents.index.mockResolvedValue({
+      mockAppEventsIndex.mockResolvedValue({
         applicationEvents: events,
       });
 
