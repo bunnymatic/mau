@@ -146,4 +146,12 @@ describe OpenStudiosEventPresenter do
       expect(event.active?).to eq false
     end
   end
+
+  # describe '.banner_image_url' do
+  #   let(:os) { build_stubbed(:open_studios_event, :with_banner_image) }
+  #   it 'returns correct banner image url' do
+  #     presented_event = described_class.new(os)
+  #     expect(presented_event.banner_image_url).to eq("garbage")
+  #   end
+  # end
 end
