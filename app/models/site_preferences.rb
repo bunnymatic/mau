@@ -7,6 +7,9 @@ class SitePreferences < ApplicationRecord
 
   CACHE_KEY = :site_preferences
 
+  has_one_attached :open_studios_banner_image
+  validates :open_studios_banner_image, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif]
+
   def self.instance(check_cache: false)
     (check_cache && cached) || first || create
   end
