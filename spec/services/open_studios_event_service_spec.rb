@@ -42,18 +42,21 @@ describe OpenStudiosEventService do
   end
 
   describe '.for_display' do
-    it 'returns the pretty version for a given tag' do
-      expect(service.for_display('201104')).to eql '2011 Apr'
+    context 'when the event is in the db' do
+      before do
+        create(:open_studios_event, start_date: Date.new(2011, 4, 2))
+      end
+      it 'returns the pretty version for a given tag year first' do
+        expect(service.for_display('201104')).to eql '2011 Apr'
+      end
+      it 'returns month first the date given month_first = true' do
+        expect(service.for_display('201104', month_first: true)).to eql 'Apr 2-3 2011'
+      end
     end
-    it 'reverses the date given reverse = true' do
-      expect(service.for_display('201104', reverse: true)).to eql 'Apr 2011'
-    end
-  end
-
-  describe '.parse_key' do
-    it 'returns the year month as a string and can return it reversed' do
-      expect(service.parse_key('201410')).to eql '2014 Oct'
-      expect(service.parse_key('201410', reverse: true)).to eql 'Oct 2014'
+    context 'for a key that doesnt correspond to a known event' do
+      it 'returns n/a' do
+        expect(service.for_display('201104')).to eql 'n/a'
+      end
     end
   end
 

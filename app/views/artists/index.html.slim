@@ -5,7 +5,7 @@
       '
       span.letter #{@gallery.letter&.html_safe}
       - if @os_only
-        = " in #{OpenStudiosEvent.current.try(:for_display,true)} Open Studios"
+        = " in #{OpenStudiosEvent.current.try(:for_display, month_first: true)} Open Studios"
     .search.js-in-page-search
       a href="/search" title="search"
         = fa_icon "search"

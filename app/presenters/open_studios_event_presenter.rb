@@ -111,11 +111,11 @@ class OpenStudiosEventPresenter < ViewPresenter
                                 model.special_event_end_time)
   end
 
-  def for_display(reverse: false)
+  def for_display(month_first: false)
     if available?
-      model.for_display(reverse:)
+      model.for_display(month_first:)
     else
-      OpenStudiosEventService.for_display(current_open_studios_key, reverse:)
+      OpenStudiosEventService.for_display(current_open_studios_key, month_first:)
     end
   end
 

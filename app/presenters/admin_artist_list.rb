@@ -25,11 +25,7 @@ class AdminArtistList < ViewPresenter
       'Email Address',
       'Phone',
     ]
-    if OpenStudiosEvent.current
-      headers << "Participating in Open Studios #{OpenStudiosEvent.current.for_display}" if OpenStudiosEvent.current
-    else
-      headers << 'No Current Open Studios'
-    end
+    headers << (current_os.present? ? "Participating in Open Studios #{current_os.for_display}" : 'No Current Open Studios')
     headers << 'Since'
     headers << 'Last Seen'
     headers << 'Last Updated Profile'
@@ -76,7 +72,7 @@ class AdminArtistList < ViewPresenter
   end
 
   def current_os
-    @current_os ||= OpenStudiosEvent.current
+    @current_os ||= OpenStudiosEventService.current
   end
 
   def artist_as_csv_row(artist)
@@ -100,9 +96,8 @@ class AdminArtistList < ViewPresenter
   end
 
   def open_studios_participant_as_csv_row(participant)
-    os = OpenStudiosEvent.current
     base_attrs = %i[show_phone_number show_email shop_url youtube_url video_conference_url]
-    available_time_slots = os&.special_event_time_slots || []
+    available_time_slots = current_os&.special_event_time_slots || []
 
     return Array.new(base_attrs.size + available_time_slots.size, '') unless participant
 

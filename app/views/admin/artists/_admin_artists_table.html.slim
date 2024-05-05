@@ -18,7 +18,7 @@
           th Art
           th Info
           th
-            = OpenStudiosEventService.current&.for_display(reverse: true) || "OS"
+            = OpenStudiosEventService.current&.for_display(month_first: true) || "OS"
           th.admin-controls data-orderable="false"
 
       tbody
