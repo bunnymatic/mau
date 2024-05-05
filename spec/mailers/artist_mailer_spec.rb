@@ -77,7 +77,7 @@ describe ArtistMailer, elasticsearch: :stub do
       expect(mail).to have_body_text artist.get_name
     end
     it 'includes the Open Studios date' do
-      expect(mail).to have_body_text open_studios.for_display(reverse: true)
+      expect(mail).to have_body_text open_studios.for_display(month_first: true)
     end
   end
 

@@ -179,7 +179,7 @@ describe OpenStudiosEvent do
         context 'if the dates are within the same month' do
           it 'returns the pretty version for the current os' do
             expected = current_os.start_date.strftime('%b %-d-') + current_os.end_date.strftime('%-d %Y')
-            expect(current_os.for_display(reverse: true)).to eql expected
+            expect(current_os.for_display(month_first: true)).to eql expected
           end
         end
         context 'if the dates are across months' do
@@ -191,7 +191,7 @@ describe OpenStudiosEvent do
           it 'returns the pretty version for the current os' do
             expected = current_os.start_date.strftime('%b %-d-') +
                        current_os.end_date.strftime('%b %-d %Y')
-            expect(current_os.for_display(reverse: true)).to eql expected
+            expect(current_os.for_display(month_first: true)).to eql expected
           end
         end
       end

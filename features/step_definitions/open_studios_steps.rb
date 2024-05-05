@@ -1,5 +1,5 @@
 When /I click on the current open studios link/ do
-  os_link_text = OpenStudiosEventService.current.for_display(reverse: true)
+  os_link_text = OpenStudiosEventService.current.for_display(month_first: true)
   click_on_first os_link_text
 end
 

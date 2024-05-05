@@ -2,7 +2,7 @@
   Hello, <%= @artist.get_name %>
 </p>
 <p>
-  Thanks for registering for Open Studios <%= @current_os.for_display(reverse: true) %>.
+  Thanks for registering for Open Studios <%= @current_os.for_display(month_first: true) %>.
   We're so excited you're participating!
 </p>
 
@@ -12,7 +12,7 @@
 <p>
   <ol>
     <li> Hang some art at your studio.</li>
-    <li> Have your studio open on <%= @current_os.for_display(reverse: true) %> from <% @current_os.time_range_for_display %>.</li>
+    <li> Have your studio open on <%= @current_os.for_display(month_first: true) %> from <% @current_os.time_range_for_display %>.</li>
     <li> Promote the event to your mailing list and social fans.</li>
   </ol>
 </p>
