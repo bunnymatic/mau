@@ -15,7 +15,7 @@ import React, { type FC } from "react";
 type NoteTypes = "inquiry" | "help" | "feedback" | "secretWord";
 type InputField = "inquiry" | "email" | "emailConfirm";
 
-type NotifyMauFormErrors = Record<InputField | undefined, string | undefined>;
+type NotifyMauFormErrors = Partial<Record<InputField, string[] | undefined>>;
 interface NotifyMauFormProps {
   noteType: NoteTypes;
   email?: string;
@@ -61,7 +61,7 @@ const NOTE_INFO_LUT: Record<NoteTypes, NoteInfo> = {
   },
 };
 
-const noteInfo: NoteInfo = (noteType: NoteTypes) => {
+const noteInfo = (noteType: NoteTypes): NoteInfo => {
   return NOTE_INFO_LUT[noteType];
 };
 

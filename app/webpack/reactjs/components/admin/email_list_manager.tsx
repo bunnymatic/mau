@@ -6,7 +6,7 @@ import {
 import { MauTextButton } from "@reactjs/components/mau_text_button";
 import * as types from "@reactjs/types";
 import { api } from "@services/api";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 
 interface EmailItem {
   id: types.IdType;
@@ -85,7 +85,7 @@ export const EmailListManager: FC<EmailListManagerProps> = ({
 }) => {
   const [emails, setEmails] = useState<EmailItem[]>([]);
 
-  const fetchEmails = () => {
+  const fetchEmails = useCallback(() => {
     api.emailLists.emails
       .index(listId)
       .then(({ emails }) => {
@@ -94,7 +94,7 @@ export const EmailListManager: FC<EmailListManagerProps> = ({
       .catch((_err) => {
         new Flash().show({ error: "Ack. Something went awry." });
       });
-  };
+  }, [listId]);
 
   const handleDelete = (id) => {
     return api.emailLists.emails.remove(id, listId).then(fetchEmails);
@@ -106,7 +106,7 @@ export const EmailListManager: FC<EmailListManagerProps> = ({
 
   useEffect(() => {
     fetchEmails();
-  }, []);
+  }, [fetchEmails]);
 
   return (
     <div className="email-list-manager__wrapper">

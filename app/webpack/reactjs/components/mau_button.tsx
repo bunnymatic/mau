@@ -11,13 +11,11 @@ interface MauButtonProps {
   disabled?: boolean;
 }
 
-export const buttonStyleAttrs = (
-  style: types.MauButtonStyle
-): types.ButtonStyleAttrs => {
+export const buttonStyleAttrs = (style: types.MauButtonStyle) => {
   return { [style]: true };
 };
 
-export const MauButton: FC<MauButtonProps> = ({
+export const MauButton: FC<MauButtonProps & types.ChildrenProp> = ({
   type,
   primary,
   secondary,

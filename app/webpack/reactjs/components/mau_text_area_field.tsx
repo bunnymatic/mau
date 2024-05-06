@@ -7,15 +7,17 @@ interface MauTextAreaFieldProps {
   id?: string;
   name: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
   hint?: string | JSX.Element;
+  required?: boolean;
 }
 
 export const MauTextAreaField: FC<MauTextAreaFieldProps> = ({
   id,
   name,
   label,
+  required,
   placeholder,
   className,
   hint,
@@ -28,6 +30,7 @@ export const MauTextAreaField: FC<MauTextAreaFieldProps> = ({
         as="textarea"
         name={name}
         placeholder={placeholder}
+        required={required}
         id={id || name}
       />
       <ErrorMessage component={FieldError} name={name} />

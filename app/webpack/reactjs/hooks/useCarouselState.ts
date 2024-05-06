@@ -1,5 +1,11 @@
 import { isEmpty, noop } from "@js/app/helpers";
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 interface CarouselStateReturn<T> {
   current: T;
@@ -12,30 +18,28 @@ export const useCarouselState = <T>(
   items: T[],
   initial?: T
 ): CarouselStateReturn<T> => {
-  if (isEmpty(items)) {
-    return {
-      current: initial,
-      next: noop,
-      previous: noop,
-      setCurrent: noop,
-    };
-  }
-
   const [current, setCurrent] = useState<T>(
-    initial ?? (items.length ? items[0] : undefined)
+    initial ?? (items && items.length ? items[0] : undefined)
   );
-  const numItems = items.length;
+  const currentIndex = useMemo(
+    () => (items ?? []).findIndex((val) => val === current),
+    [current, items]
+  );
 
-  const next = () => {
-    const currentIndex = items.findIndex((val) => val === current);
-    const index: number = (currentIndex + 1) % numItems;
+  const next = useCallback(() => {
+    if (isEmpty(items)) {
+      return;
+    }
+    const index: number = (currentIndex + 1) % items.length;
     const newCurrent = items[index];
     setCurrent(newCurrent);
     return newCurrent;
-  };
+  }, [items, currentIndex]);
 
-  const previous = () => {
-    const currentIndex = items.findIndex((val) => val === current);
+  const previous = useCallback(() => {
+    if (isEmpty(items)) {
+      return;
+    }
     let index = currentIndex;
     if (currentIndex <= 0) {
       index = items.length;
@@ -44,8 +48,16 @@ export const useCarouselState = <T>(
     const newCurrent = items[index];
     setCurrent(newCurrent);
     return newCurrent;
-  };
+  }, [items, currentIndex]);
 
+  if (isEmpty(items)) {
+    return {
+      current: initial,
+      next: noop,
+      previous: noop,
+      setCurrent: noop,
+    };
+  }
   return {
     current,
     next,

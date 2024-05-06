@@ -1,3 +1,4 @@
+import * as types from "@reactjs/types";
 import cx from "classnames";
 import React, { FC, MouseEventHandler } from "react";
 
@@ -7,7 +8,7 @@ interface MauTextButtonProps {
   title?: string;
 }
 
-export const MauTextButton: FC<MauTextButtonProps> = ({
+export const MauTextButton: FC<MauTextButtonProps & types.ChildrenProp> = ({
   children,
   title,
   classes,

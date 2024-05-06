@@ -10,11 +10,11 @@ import {
   useEventListener,
   useModalState,
 } from "@reactjs/hooks";
+import * as types from "@reactjs/types";
 import HeartSpeechBubble from "images/heart_speech_bubble.svg";
 import React, {
   type FC,
   MouseEventHandler,
-  type ReactNode,
   useCallback,
   useContext,
 } from "react";
@@ -33,17 +33,20 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
     isOpen: isFormVisible,
     open: showForm,
     close: hideForm,
-  } = useModalState(false);
+  } = useModalState("closed");
 
   const contactArtistTitle = `Contact the artist directy ${artPiece.title}`;
-  const keyDownHandler = useCallback((e) => {
-    if (e.key === ARROW_LEFT_KEY) {
-      previous();
-    }
-    if (e.key === ARROW_RIGHT_KEY) {
-      next();
-    }
-  });
+  const keyDownHandler = useCallback(
+    (e) => {
+      if (e.key === ARROW_LEFT_KEY) {
+        previous();
+      }
+      if (e.key === ARROW_RIGHT_KEY) {
+        next();
+      }
+    },
+    [previous, next]
+  );
 
   useEventListener("keydown", keyDownHandler);
 
@@ -117,10 +120,12 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
 
 interface ArtModalProps {
   artPiece: ArtPiece;
-  children: ReactNode;
 }
 
-export const ArtModal: FC<ArtModalProps> = ({ artPiece, children }) => {
+export const ArtModal: FC<ArtModalProps & types.ChildrenProp> = ({
+  artPiece,
+  children,
+}) => {
   const { isOpen, open, close } = useModalState();
   return (
     <>
