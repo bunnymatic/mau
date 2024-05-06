@@ -48,21 +48,28 @@ const ArtPieceBrowser: FC<ArtPieceBrowserProps> = ({
     previous: _previous,
     setCurrent: _setCurrent,
   } = useCarouselState<ArtPiece>(artPieces, initialArtPiece);
-  const updateHash = (piece: ArtPiece) => {
+
+  const updateHash = useCallback((piece: ArtPiece) => {
     window.history.pushState({}, document.title, `#${piece.id}`);
-  };
-  const setCurrent = (piece: ArtPiece) => {
-    _setCurrent(piece);
-    updateHash(piece);
-  };
-  const previous = () => {
+  }, []);
+
+  const setCurrent = useCallback(
+    (piece: ArtPiece) => {
+      _setCurrent(piece);
+      updateHash(piece);
+    },
+    [updateHash, _setCurrent]
+  );
+
+  const previous = useCallback(() => {
     const newCurrent = _previous();
     updateHash(newCurrent);
-  };
-  const next = () => {
+  }, [updateHash, _previous]);
+
+  const next = useCallback(() => {
     const newCurrent = _next();
     updateHash(newCurrent);
-  };
+  }, [updateHash, _next]);
 
   const keyDownHandler = useCallback(
     (e) => {
@@ -273,9 +280,9 @@ const ArtPieceBrowserWrapper: FC<ArtPieceBrowserWrapperProps> = ({
 
   useEffect(() => {
     if (window.location.hash) {
-      setInitialArtPieceId(window.location.hash.substr(1));
+      setInitialArtPieceId(window.location.hash.substring(1));
     }
-  }, [window.location.hash]);
+  }, []);
 
   if (!artist || (!artPieces && !isEmpty(artPieces)) || !studio) {
     return (

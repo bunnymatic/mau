@@ -7,11 +7,10 @@ import React, { FC, useEffect, useState } from "react";
 interface EventsNotificationBellProps {}
 
 export const EventsNotificationBell: FC<EventsNotificationBellProps> = () => {
-  const since = DateTime.local().minus({ days: 7 });
-
   const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
+    const since = DateTime.local().minus({ days: 7 });
     EmailChangedEventsService.list(since)
       .then(function (data: types.ApplicationEvent[]) {
         setShow(some(data));

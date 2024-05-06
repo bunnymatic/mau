@@ -23,7 +23,8 @@
     "simple-import-sort",
     "prettier",
     "unused-imports",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "react-hooks"
   ],
   "rules": {
     "no-duplicate-imports": ["error", { "includeExports": true }],
@@ -37,7 +38,9 @@
     "prettier/prettier": 2,
     "import/no-unresolved": 0,
     "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error"
+    "simple-import-sort/exports": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "extends": [
     "eslint:recommended",

@@ -7,7 +7,7 @@ interface MauTextFieldProps {
   id?: string;
   name: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
   hint?: string | JSX.Element;
   type?: "text" | "email";
