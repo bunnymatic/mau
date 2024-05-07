@@ -15,6 +15,11 @@
             = f.input :start_time, as: :string, placeholder: 'choose a time', hint: "Something like 12noon or noon or 11a.  This is used for display only (not for date/time math)"
           .pure-u-1-2
             = f.input :end_time, as: :string, placeholder: 'choose a time', hint: "Something like 6p.  This is used for display only (not for date/time math)"
+        .pure-g
+          .pure-u-1-2
+            = f.input :activated_at, as: :date_picker, placeholder: 'choose a date', hint: "This date is when we'll start shown Open Studios stuff in the navigation, highlights on peoples profiles etc.", input_html: { value: os_event.activated_at.try(:to_fs,:admin_date_only) }
+          .pure-u-1-2
+            = f.input :deactivated_at, as: :date_picker, placeholder: 'choose a date', hint: "This date is when we'll stop showing Open Studios links and stuff.", input_html: { value: os_event.deactivated_at.try(:to_fs,:admin_date_only) }
         = f.input :key, placeholder: 'e.g. YYYYMM'
         = f.input :promote, as: :boolean, inline_label: true, label: false, hint: "If true, we'll remind artists in navigation to register when we're near (in time) this event."
 

@@ -1,10 +1,8 @@
-# frozen_string_literal: true
-
 require 'find'
 require 'fileutils'
 require 'yaml'
 
-alldbconf = YAML.load_file(Rails.root.join('config', 'database.yml'))
+YAML.load_file(Rails.root.join('config/database.yml'))
 
 namespace :mau do
   desc 'show social link counts'
@@ -30,25 +28,25 @@ namespace :mau do
 
   desc 'clean up studio 0 artists'
   task indy_studio_artist_cleanup: [:environment] do
-    Artists.where(studio_id: 0).each { |a| a.update(studio_id: nil) }
+    Artists.where(studio_id: 0).find_each { |a| a.update(studio_id: nil) }
   end
 
   desc 'initiate studio slugs'
   task slug_studios: [:environment] do
-    Studio.all.each do |s|
+    Studio.find_each do |s|
       s.touch
       s.save!
     end
   end
 
-  desc 'initiate studio slugs'
+  desc 'initiate media slugs'
   task slug_media: [:environment] do
-    Medium.all.each(&:save!)
+    Medium.find_each(&:save!)
   end
 
   desc 'initiate user slugs'
   task slug_users: [:environment] do
-    User.all.each do |u|
+    User.find_each do |u|
       u.touch
       u.save
     end
@@ -63,7 +61,7 @@ namespace :mau do
         artist = user.becomes(Artist)
         %i[facebook twitter blog pinterest myspace flickr instagram].each do |key|
           val = artist&.artist_info.try(key)
-          artist.send("#{key}=", val) if val
+          artist.send(:"#{key}=", val) if val
         end
       end
       user.save
@@ -72,13 +70,13 @@ namespace :mau do
 
   desc 'cleanup names (remove leading/trailing whitespace'
   task clean_names: [:environment] do
-    Artist.all.each(&:save)
+    Artist.find_each(&:save)
   end
 
   def ask_for_confirmation(question)
     puts question
-    STDOUT.flush
-    while (input = STDIN.gets.chomp)
+    $stdout.flush
+    while (input = $stdin.gets.chomp)
       case input.upcase
       when 'Y', 'YES'
         return true
@@ -116,7 +114,7 @@ namespace :mau do
 
   desc 'reset all passwords to "whatever"'
   task reset_passwords: [:environment] do
-    User.all.each do |u|
+    User.find_each do |u|
       u.password = 'whatever'
       u.password_confirmation = 'whatever'
       u.save
@@ -125,8 +123,8 @@ namespace :mau do
 
   desc 'normalize emails - convert everyone to "@example.com"'
   task normalize_emails: [:environment] do
-    User.all.each do |u|
-      u.update_attribute(:email, u.email.gsub(/^(.*)\@(.*)/, '\1@example.com'))
+    User.find_each do |u|
+      u.update_attribute(:email, u.email.gsub(/^(.*)@(.*)/, '\1@example.com'))
     end
   end
 
@@ -136,6 +134,17 @@ namespace :mau do
       ArtPieceTag.all.reject { |t| t.name == t.name.downcase }.each do |t|
         t.name = t.name.downcase
         t.save!
+      end
+    end
+  end
+
+  namespace :open_studios do
+    desc 'Set activation dates on open studios event without activation (set to os date boundaries + 1 day)'
+    task set_activation_dates: :environment do
+      OpenStudiosEvent.where(activated_at: nil).or(OpenStudiosEvent.where(deactivated_at: nil)).find_each do |ev|
+        activated_at = ev.activated_at || (ev.start_date - 1.day)
+        deactivated_at = ev.deactivated_at || (ev.end_date + 1.day)
+        ev.update!(activated_at:, deactivated_at:)
       end
     end
   end

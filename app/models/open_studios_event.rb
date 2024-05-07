@@ -8,6 +8,7 @@ class OpenStudiosEvent < ApplicationRecord
   validates :start_date, presence: true
   validates :end_date, presence: true
   validate :dates_are_in_order
+  validate :activation_dates_are_in_order
   validate :special_event_dates_are_in_order
   validate :special_event_dates_are_both_present_or_both_empty
   validate :special_event_dates_are_within_event_dates
@@ -35,15 +36,24 @@ class OpenStudiosEvent < ApplicationRecord
   # define future/past not as scopes because we want Time.zone.now() to be evaluated at query time
   # Also, this allows us to test with TimesHelper as opposed to using database NOW() method
   def self.past
-    where('start_date < ?', Time.zone.now).order(:start_date)
+    where(start_date: ..Time.zone.now).order(:start_date)
   end
 
   def self.future
-    where('end_date > ?', Time.zone.now).order(:start_date)
+    where(end_date: Time.zone.now..).order(:start_date)
+  end
+
+  def self.activated
+    where(activated_at: ..Time.zone.now).and(deactivated.invert_where).or(where(activated_at: nil))
+  end
+
+  def self.deactivated
+    where(deactivated_at: ...Time.zone.now)
   end
 
   def self.current
-    future.first || past.last
+    active = all.activated
+    active.future.first || active.past.last
   end
 
   private
@@ -69,6 +79,10 @@ class OpenStudiosEvent < ApplicationRecord
     date_fields_are_in_order(:start_date, :end_date)
   end
 
+  def activation_dates_are_in_order
+    date_fields_are_in_order(:activated_at, :deactivated_at)
+  end
+
   def special_event_dates_are_in_order
     date_fields_are_in_order(:special_event_start_date, :special_event_end_date)
   end
@@ -78,7 +92,7 @@ class OpenStudiosEvent < ApplicationRecord
     end_val = send(end_field)
     return unless end_val && start_val
 
-    errors.add(end_field, 'should be after start date') unless end_val >= start_val
+    errors.add(end_field, "should be after #{start_field.to_s.humanize.downcase}") unless end_val >= start_val
   end
 
   def special_event_dates_are_both_present_or_both_empty

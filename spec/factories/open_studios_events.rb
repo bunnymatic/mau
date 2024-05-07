@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :open_studios_event do
-    start_date { Time.zone.now }
+    start_date { Time.zone.now.to_date }
     end_date { start_date + 1.day }
     start_time { 'noon' }
     end_time { '6p' }
@@ -23,6 +23,11 @@ FactoryBot.define do
       end_date { start_date + 1.week }
       special_event_start_date { start_date + 1.day }
       special_event_end_date { special_event_start_date + 1.day }
+    end
+    trait :with_activation_dates do
+      end_date { start_date + 1.week }
+      activated_at { start_date - 1.day }
+      deactivated_at { end_date + 2.days }
     end
   end
 end
