@@ -1,9 +1,16 @@
 @use "../colors" as c;
+@use "../gto/variables" as v;
 
 .nothing-scheduled {
   color: c.$gto-dark-blue;
+  @media (max-width: v.$screen-sm-min) {
+    max-width: 375px;
+  }
 }
 .nothing-scheduled--bg {
+  @media (max-width: v.$screen-sm-min) {
+    max-width: 375px;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,6 +18,9 @@
   height: 90vh;
 }
 .nothing-scheduled--bg-img {
+  @media (max-width: v.$screen-sm-min) {
+    max-width: 375px;
+  }
 }
 .nothing-scheduled--contents {
   position: absolute;
