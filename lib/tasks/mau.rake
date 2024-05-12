@@ -2,8 +2,6 @@ require 'find'
 require 'fileutils'
 require 'yaml'
 
-YAML.load_file(Rails.root.join('config/database.yml'))
-
 namespace :mau do
   desc 'show social link counts'
   task show_social_link_type_counts: [:environment] do

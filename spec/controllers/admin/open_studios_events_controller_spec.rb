@@ -43,7 +43,7 @@ describe Admin::OpenStudiosEventsController do
         expect(response).to redirect_to admin_open_studios_events_path
       end
 
-      it 'updates the event with new data a new open studios event' do
+      it 'updates the event with new data' do
         expect(event.reload.start_time).to eq 'whatever'
       end
     end
