@@ -1,7 +1,9 @@
 class OpenStudiosEventPresenter < ViewPresenter
   attr_reader :model
 
-  delegate :end_time,
+  delegate :activated_at,
+           :deactivated_at,
+           :end_time,
            :key,
            :logo,
            :logo?,
@@ -90,14 +92,14 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def special_event_date_range_with_year
-    return unless model.special_event_start_date && model.special_event_end_date
+    return unless with_special_event?
 
     DateRangeHelpers.date_range_with_year(model.special_event_start_date,
                                           model.special_event_end_date)
   end
 
   def special_event_date_range(separator: '-')
-    return unless model.special_event_start_date && model.special_event_end_date
+    return unless with_special_event?
 
     DateRangeHelpers.date_range(model.special_event_start_date,
                                 model.special_event_end_date,
@@ -105,10 +107,16 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def special_event_time_range
-    return unless model.special_event_start_date && model.special_event_end_date
+    return unless with_special_event?
 
     DateRangeHelpers.time_range(model.special_event_start_time,
                                 model.special_event_end_time)
+  end
+
+  def activation_date_range
+    return unless with_activation_dates?
+
+    DateRangeHelpers.date_range(model.activated_at, model.deactivated_at)
   end
 
   def for_display(month_first: false)
@@ -139,6 +147,10 @@ class OpenStudiosEventPresenter < ViewPresenter
 
   def with_special_event?
     !!(@model.special_event_start_date && @model.special_event_end_date)
+  end
+
+  def with_activation_dates?
+    !!(@model.activated_at && @model.deactivated_at)
   end
 
   def start_date

@@ -9,7 +9,7 @@ describe Admin::OpenStudiosEventsController do
 
   describe '#create' do
     context 'with valid data' do
-      let(:attributes) { attributes_for(:open_studios_event) }
+      let(:attributes) { attributes_for(:open_studios_event, :with_activation_dates, :with_current_special_event) }
       def do_create
         post :create, params: { open_studios_event: attributes.except(:id) }
       end
@@ -23,6 +23,9 @@ describe Admin::OpenStudiosEventsController do
         expect do
           do_create
           expect(OpenStudiosEvent.last.start_time).to eq attributes[:start_time]
+          expect(OpenStudiosEvent.last.special_event_start_date).to be_present
+          expect(OpenStudiosEvent.last.special_event_start_date.to_date).to eq attributes[:start_date]
+          expect(OpenStudiosEvent.last.activated_at).to eq attributes[:activated_at]
         end.to change(OpenStudiosEvent, :count).by(1)
       end
     end
@@ -40,7 +43,7 @@ describe Admin::OpenStudiosEventsController do
         expect(response).to redirect_to admin_open_studios_events_path
       end
 
-      it 'creates a new open studios event' do
+      it 'updates the event with new data' do
         expect(event.reload.start_time).to eq 'whatever'
       end
     end
@@ -63,7 +66,7 @@ describe Admin::OpenStudiosEventsController do
         expect(response).to redirect_to admin_open_studios_events_path
       end
 
-      it 'creates a new open studios event' do
+      it 'updates the event' do
         event.reload
         expect(event.special_event_start_date).to eq Time.zone.parse('2020-10-10 00:00:00.000000000 -0700')
         expect(event.special_event_end_date).to eq Time.zone.parse('2020-10-11 00:00:00.000000000 -0700')

@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_open_studios_active
-    @open_studios_active = SitePreferences.instance(check_cache: true).open_studios_active?
+    @open_studios_active = OpenStudiosEventService.current
   end
 
   protected

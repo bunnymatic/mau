@@ -29,7 +29,8 @@
           th title
           th dates
           th special event dates
-          th promoted
+          th active range
+          th promoted to artists
           th participants
           th data-orderable="false"
       tbody
@@ -50,6 +51,11 @@
                   = os_event.special_event_time_range
               - else
                 | n/a
+            td.os-events__table-item.os-events__table-item--active
+              - if os_event.with_activation_dates?
+                = os_event.activation_date_range
+              - else
+                | always
             td.os-events__table-item.os-events__table-item--promoted = boolean_as_checkmark(os_event.promote?)
             td.os-events__table-item.os-events__table-item--participants = os_event.num_participants
             td.admin-controls

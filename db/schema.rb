@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_04_23_184843) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_07_014331) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -209,6 +209,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_04_23_184843) do
     t.string "special_event_start_time", default: "12:00 PM"
     t.string "special_event_end_time", default: "4:00 PM"
     t.text "special_event_time_slots"
+    t.date "activated_at"
+    t.date "deactivated_at"
     t.index ["key"], name: "index_open_studios_events_on_key", unique: true
   end
 

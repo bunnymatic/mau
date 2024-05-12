@@ -27,6 +27,14 @@ describe OpenStudiosEvent do
       expect(os.errors[:end_date]).to include 'should be after start date'
     end
 
+    it 'requires activation dates to be in order' do
+      os = build(:open_studios_event,
+                 activated_at: Time.zone.today,
+                 deactivated_at: 2.days.ago)
+      expect(os).not_to be_valid
+      expect(os.errors[:deactivated_at]).to include 'should be after activated at'
+    end
+
     it 'requires special event dates to be in order' do
       os = build(:open_studios_event,
                  start_date: Time.zone.today,
@@ -35,7 +43,7 @@ describe OpenStudiosEvent do
                  special_event_end_date: Time.zone.today + 1.day)
 
       expect(os).not_to be_valid
-      expect(os.errors[:special_event_end_date]).to include 'should be after start date'
+      expect(os.errors[:special_event_end_date]).to include 'should be after special event start date'
     end
 
     it 'is invalid if special event start date is defined and end date is not' do
@@ -141,24 +149,25 @@ describe OpenStudiosEvent do
   end
 
   describe 'scopes' do
+    let(:all_oses) { [past_oses, current_os, future_oses].flatten }
     before do
       freeze_time
-      [past_oses, current_os, future_oses].flatten
+      all_oses
     end
 
-    describe '#future' do
+    describe '.future' do
       it 'includes 2 open studios' do
         expect(OpenStudiosEvent.future.size).to eq(3)
       end
     end
 
-    describe '#past' do
+    describe '.past' do
       it 'includes 1 open studios' do
         expect(OpenStudiosEvent.past.size).to eq(2)
       end
     end
 
-    describe '#current' do
+    describe '.current' do
       it 'includes the nearest future event' do
         expect(OpenStudiosEvent.current).to eql current_os
       end
@@ -167,6 +176,102 @@ describe OpenStudiosEvent do
         travel_to(current_os.end_date + 1.day)
 
         expect(OpenStudiosEvent.current).to eql future_oses.first
+      end
+
+      context 'if the some events have activation dates set' do
+        context 'and the event should be active today (activated is in the past and deactivated is in the future)' do
+          let(:current_os) do
+            FactoryBot.create(:open_studios_event,
+                              activated_at: 2.days.ago,
+                              deactivated_at: 2.days.since)
+          end
+          it 'returns current' do
+            expect(OpenStudiosEvent.current).to eql current_os
+          end
+        end
+        context 'and the event should is active in the future' do
+          let(:current_os) do
+            FactoryBot.create(:open_studios_event,
+                              activated_at: 2.days.since,
+                              deactivated_at: 3.days.since)
+          end
+          it 'returns the most current event without activation dates' do
+            expect(OpenStudiosEvent.current).to eql future_oses.first
+          end
+        end
+      end
+
+      context 'if the all events have activation dates set' do
+        let(:past_oses) do
+          [
+            FactoryBot.create(:open_studios_event, :with_activation_dates, start_date: 6.months.ago),
+            FactoryBot.create(:open_studios_event, :with_activation_dates, start_date: 12.months.ago),
+          ]
+        end
+        let(:current_os) do
+          FactoryBot.create(:open_studios_event,
+                            :with_activation_dates,
+                            start_date: Time.zone.today.at_beginning_of_month.next_month)
+        end
+        let(:future_oses) do
+          [
+            FactoryBot.create(:open_studios_event, :with_activation_dates, start_date: 6.months.since),
+            FactoryBot.create(:open_studios_event, :with_activation_dates, start_date: 12.months.since),
+          ]
+        end
+
+        context 'and the event should be active today (activated is in the past and deactivated is in the future)' do
+          let(:current_os) do
+            FactoryBot.create(:open_studios_event,
+                              activated_at: 2.days.ago,
+                              deactivated_at: 2.days.since)
+          end
+          it 'returns current' do
+            expect(OpenStudiosEvent.current).to eql current_os
+          end
+        end
+        context 'and the current event should is active in the future' do
+          let(:current_os) do
+            FactoryBot.create(:open_studios_event,
+                              activated_at: 2.days.since,
+                              deactivated_at: 3.days.since)
+          end
+          it 'returns nothing' do
+            expect(OpenStudiosEvent.current).to eql nil
+          end
+        end
+        context 'and the current events activation has passed' do
+          let(:current_os) do
+            FactoryBot.create(:open_studios_event,
+                              activated_at: 3.days.ago,
+                              deactivated_at: 2.days.ago)
+          end
+          it 'returns nothing' do
+            expect(OpenStudiosEvent.current).to eql nil
+          end
+        end
+      end
+
+      describe '.activated' do
+        let(:active) { create(:open_studios_event, :with_activation_dates) }
+        let(:future_inactive) { create(:open_studios_event, :with_activation_dates, start_date: 2.months.since) }
+        let(:past_inactive) { create(:open_studios_event, :with_activation_dates, start_date: 2.months.ago) }
+        let(:all_oses) { [active, future_inactive, past_inactive].flatten }
+
+        it 'returns events for which today is between activation dates' do
+          expect(OpenStudiosEvent.activated).to eq([active])
+        end
+      end
+
+      describe '.deactivated' do
+        let(:active) { create(:open_studios_event, :with_activation_dates) }
+        let(:future_inactive) { create(:open_studios_event, :with_activation_dates, start_date: 2.months.since) }
+        let(:past_inactive) { create(:open_studios_event, :with_activation_dates, start_date: 2.months.ago) }
+        let(:all_oses) { [active, future_inactive, past_inactive].flatten }
+
+        it 'returns events for which were deactivated before today' do
+          expect(OpenStudiosEvent.deactivated).to eq([past_inactive])
+        end
       end
     end
 
@@ -198,7 +303,7 @@ describe OpenStudiosEvent do
     end
   end
 
-  describe '.key' do
+  describe '#key' do
     it 'returns a year month key based on start date' do
       expect(current_os.key).to eql current_os.start_date.year.to_s + sprintf('%02d', current_os.start_date.month)
     end

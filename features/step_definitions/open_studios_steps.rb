@@ -334,3 +334,11 @@ end
 Then('I don\'t see any open studios violators') do
   expect(page).to_not have_css('.os-violator')
 end
+
+When('I deactivate the first open studios event') do
+  within('form') do
+    fill_in 'Activated at', with: 2.days.ago
+    fill_in 'Deactivated at', with: 1.day.ago
+    click_on 'Update Open studios event'
+  end
+end
