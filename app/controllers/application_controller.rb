@@ -72,7 +72,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_open_studios_active
-    @open_studios_active = OpenStudiosEventService.current
+    current = OpenStudiosEventService.current
+    @open_studios_active = current.present? ? OpenStudiosEventPresenter.new(current) : nil
   end
 
   protected

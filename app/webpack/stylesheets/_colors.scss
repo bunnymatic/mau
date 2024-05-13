@@ -1,3 +1,6 @@
+// NOTE: If you add a color here,
+// Add to all colors and update admin/pallettes/show page
+
 $black: #000;
 $bluegray: #738294;
 $darkbluegray: #223;
@@ -13,13 +16,17 @@ $gto_hot_pink: #ed2891;
 $lightbluegray: #c6c7d6;
 $white: #fff;
 
+// modified base colors
 $base-background-color: lighten($gto_gray, 60);
 $border-gray: darken($gto_gray, 9%);
 $darkgray: darken($gto_gray, 23%);
+$highlight-yellow: lighten($gto_yellow, 50%);
 $light-gray: lighten($gto_gray, 31%);
 $medium-gray: lighten($gto_gray, 24%);
 $x-light-gray: lighten($gto_gray, 47%);
 $xx-light-gray: lighten($gto_gray, 58%);
+
+// aliases
 $light-gray-background: $xx-light-gray;
 
 $all_colors: (
@@ -39,6 +46,7 @@ $all_colors: (
   "gto_teal": $gto_teal,
   "gto_yellow": $gto_yellow,
   "gto_hot_pink": $gto_hot_pink,
+  "highlight-yellow": $highlight-yellow,
   "light-gray-background": $light-gray-background,
   "light-gray": $light-gray,
   "lightbluegray": $lightbluegray,

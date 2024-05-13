@@ -149,6 +149,15 @@ class OpenStudiosEventPresenter < ViewPresenter
     !!(@model.special_event_start_date && @model.special_event_end_date)
   end
 
+  def active?
+    # currently default to always active if activation dates haven't been specified for
+    # backwards compatibility.  If activated_at/deactivated_at become required, this check can
+    # go away
+    return true unless @model.activated_at && @model.deactivated_at
+
+    Time.zone.now.to_date.between?(@model.activated_at, @model.deactivated_at)
+  end
+
   def with_activation_dates?
     !!(@model.activated_at && @model.deactivated_at)
   end

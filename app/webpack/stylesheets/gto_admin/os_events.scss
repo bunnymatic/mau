@@ -1,5 +1,9 @@
 @use "./_mixins";
+@use "../colors";
 
+.os-events__table-row.os-events--active > td {
+  background-color: colors.$highlight-yellow !important; // override pure striped table
+}
 .os-events__table-item--time {
   white-space: nowrap;
 }

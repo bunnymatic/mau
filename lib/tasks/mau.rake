@@ -140,9 +140,11 @@ namespace :mau do
     desc 'Set activation dates on open studios event without activation (set to os date boundaries + 1 day)'
     task set_activation_dates: :environment do
       OpenStudiosEvent.where(activated_at: nil).or(OpenStudiosEvent.where(deactivated_at: nil)).find_each do |ev|
-        activated_at = ev.activated_at || (ev.start_date - 1.day)
-        deactivated_at = ev.deactivated_at || (ev.end_date + 1.day)
-        ev.update!(activated_at:, deactivated_at:)
+        attrs = {
+          activated_at: ev.activated_at || (ev.start_date - 1.day),
+          deactivated_at: ev.deactivated_at || (ev.end_date + 1.day)
+        }
+        OpenStudiosEventService.update(ev, attrs)
       end
     end
   end
