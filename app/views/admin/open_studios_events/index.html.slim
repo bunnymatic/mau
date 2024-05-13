@@ -12,14 +12,9 @@
   .pure-u-1-1.padded-content
     .os-events[class=(@open_studios_active ? "os-active__on" : "os-active__off")]
       - if !@open_studios_active
-        p &#9888; Open Studios is currently not active.
+        p &#9888; There is currently active Open Studios event.
       - else
-        p &#128077; Open Studios is currently active.
-      p
-        | If you want to change that, check the
-        '
-        a href=edit_admin_site_preferences_path
-          | Site Preferences page
+        p &#128077; Open Studios #{@open_studios_active.date_range_with_year} is currently activated
 
   .pure-u-1-1.padded-content
     table.os-events.pure-table.pure-table-striped.os-events__table
@@ -35,7 +30,7 @@
           th data-orderable="false"
       tbody
         - @os_events.each_with_index do |os_event|
-          tr.os-events__table-row
+          tr.os-events__table-row[class=(os_event.active? ? "os-events--active" : nil)]
             td.os-events__table-item.os-events__table-item--key = os_event.key
             td.os-events__table-item.os-events__table-item--title = os_event.title
             td.os-events__table-item.os-events__table-item--dates

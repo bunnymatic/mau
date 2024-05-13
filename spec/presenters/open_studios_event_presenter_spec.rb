@@ -117,4 +117,33 @@ describe OpenStudiosEventPresenter do
       expect(presenter.special_event_date_range_with_year).to eql 'Apr 30-May 1 2015'
     end
   end
+
+  describe '.active?' do
+    let(:today) { Time.current.to_date }
+    it 'returns true if there is no activated/deactivated date' do
+      event = described_class.new(os)
+      expect(event.active?).to eq true
+    end
+    it 'returns true if todays date is equal to the activated_at' do
+      event = described_class.new(build(:open_studios_event, activated_at: today, deactivated_at: today + 2.days))
+      expect(event.active?).to eq true
+    end
+    it 'returns true if todays date is equal to the deactivated_at' do
+      event = described_class.new(build(:open_studios_event, activated_at: today - 2.days, deactivated_at: today))
+      expect(event.active?).to eq true
+    end
+    it 'returns true if todays date is between activation dates' do
+      event = described_class.new(build(:open_studios_event, activated_at: today - 1.day, deactivated_at: today + 1.day))
+      expect(event.active?).to eq true
+    end
+    it 'returns false if todays date is before activated_at' do
+      event = described_class.new(build(:open_studios_event, activated_at: today + 2.days, deactivated_at: today - 4.days))
+      expect(event.active?).to eq false
+    end
+
+    it 'returns false if todays date is after deactivated_at' do
+      event = described_class.new(build(:open_studios_event, activated_at: today - 4.days, deactivated_at: today - 2.days))
+      expect(event.active?).to eq false
+    end
+  end
 end
