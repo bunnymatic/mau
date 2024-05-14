@@ -2,6 +2,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   attr_reader :model
 
   delegate :activated_at,
+           :artists,
            :deactivated_at,
            :end_time,
            :key,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_07_014331) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_13_061645) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -270,7 +270,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_07_014331) do
     t.string "social_media_tags"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "open_studios_active"
   end
 
   create_table "studios", id: :integer, charset: "utf8mb3", force: :cascade do |t|
