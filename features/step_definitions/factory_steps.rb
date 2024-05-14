@@ -72,9 +72,8 @@ Given /there are application events in the system/ do
   ]
 end
 
-Given /there is a scheduled Open Studios event/ do
-  step %(The site preferences open studio switch is on)
-  FactoryBot.create(:open_studios_event, :with_special_event)
+Given /there is a scheduled (active\s+)?Open Studios event/ do |_|
+  FactoryBot.create(:open_studios_event, :with_activation_dates, :with_special_event)
 rescue ActiveRecord::RecordInvalid
   Rails.logger.warn('Open studios event already exists in this feature.  No problem.')
 end

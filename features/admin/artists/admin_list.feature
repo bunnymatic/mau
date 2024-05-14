@@ -20,14 +20,3 @@ Scenario: List artists
 
   When I click on "Not Yet Activated"
   Then I see the pending list
-
-Scenario: List artists when there is no current OS
-  When The site preferences open studio switch is off
-  And I click on "artists" in the admin menu
-  Then I see the admin artists list
-
-  When I click on "Suspended"
-  Then I see the suspended list
-
-  When I click on "Not Yet Activated"
-  Then I see the pending list

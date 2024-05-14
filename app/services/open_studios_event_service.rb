@@ -24,14 +24,12 @@ class OpenStudiosEventService
   end
 
   def self.current
-    return nil unless SitePreferences.instance(check_cache: true).open_studios_active?
-
-    cache = SafeCache.read(CURRENT_CACHE_KEY)
-    unless cache
-      cache = OpenStudiosEvent.current
-      SafeCache.write(CURRENT_CACHE_KEY, cache)
+    cached_event = SafeCache.read(CURRENT_CACHE_KEY)
+    unless cached_event
+      cached_event = OpenStudiosEvent.current
+      SafeCache.write(CURRENT_CACHE_KEY, cached_event)
     end
-    cache
+    cached_event
   end
 
   def self.future
