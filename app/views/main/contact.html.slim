@@ -16,11 +16,12 @@
     p
       | And you are always invited to follow us on
       '
-      <a href="#{Conf.social_links['twitter']}">twitter</a>,
-      '
-      <a href="#{Conf.social_links['instagram']}">instagram</a>
+      a href=Conf.social_links['instagram']
+        | instagram
       '
       | or find us on
-      a>< href=Conf.social_links['facebook'] facebook.
+      '
+      a href=Conf.social_links['facebook']
+        | facebook.
 
     = render '/main/info_footer'

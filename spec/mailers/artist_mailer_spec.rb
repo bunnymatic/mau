@@ -70,7 +70,6 @@ describe ArtistMailer, elasticsearch: :stub do
     end
     it "includes links to mau's social media sites" do
       expect(mail).to have_link_in_body 'Facebook', href: Conf.social_links['facebook']
-      expect(mail).to have_link_in_body 'Twitter', href: Conf.social_links['twitter']
       expect(mail).to have_link_in_body 'Instagram', href: Conf.social_links['instagram']
     end
     it "includes the artist's name" do

@@ -142,34 +142,3 @@
               | based on their MAU profile.
         .content
           = render "featured_on_instagram", artist: @user
-    .pure-u-1-2.padded-content
-      .featured-snippet.mod-twitter.info-block
-        h4
-          = link_to 'http://www.twitter.com/sfmau' do
-            .info-block-icon.fa.fa-ico-invert.fa-twitter
-          | For Twitter
-
-        .instructions
-          p
-            | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
-            |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
-            '
-            = link_to 'twitter', 'http://www.twitter.com', target: '_blank', class: "found-handle"
-            '
-            - if @user.twitter?
-              | We think it might be
-              '
-              = link_to @user.twitter_handle, @user.twitter
-              '
-              | based on their MAU profile.
-
-          p
-            | How to post pictures on twitter:
-            '
-            = link_to "https://support.twitter.com/articles/20156423", "https://support.twitter.com/articles/20156423"
-            '
-            | We loose some characters when we post a photo, so we don’t get quite 140. Delete from the end of the
-            | line as you go over character count.
-            | their handle.
-        .content
-          = render "featured_on_twitter", artist: @user
