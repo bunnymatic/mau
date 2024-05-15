@@ -72,9 +72,7 @@ common:
       per_page: 28
   social_links:
     facebook: http://www.facebook.com/MissionArtists
-    twitter: http://www.twitter.com/sfmau
     instagram: https://www.instagram.com/missionartists
-    pinterest: http://pinterest.com/mausf/
 
   cache_server: localhost:11211
   signup_secret_word: eat-shit-hackers
