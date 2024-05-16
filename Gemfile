@@ -28,7 +28,6 @@ gem 'listen'
 gem 'lograge'
 gem 'mime-types'
 gem 'mojo_magick'
-gem 'mysql2'
 gem 'newrelic_rpm' # moitoring
 gem 'nokogiri'
 gem 'paperclip'
@@ -45,6 +44,7 @@ gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
 gem 'scrypt'
 gem 'slim-rails'
+gem 'trilogy' # db connector
 gem 'typhoeus'
 # gem 'unicorn' # webserver
 gem 'vite_rails'

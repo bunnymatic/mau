@@ -1,5 +1,3 @@
-require_relative '../../lib/middleware/disable_animations'
-
 Rails.application.configure do
   # Configure 'rails notes' to inspect Cucumber files
   config.annotations.register_directories('features')
@@ -59,7 +57,8 @@ Rails.application.configure do
 
   config.elasticsearch_url = "http://localhost:#{ENV.fetch('TEST_CLUSTER_PORT', 9250)}"
 
-  config.middleware.use DisableAnimations
+  config.active_storage.service = :test
 end
 
-Rails.application.routes.default_url_options[:host] = 'test.host'
+test_host = 'test.host'
+Rails.application.routes.default_url_options[:host] = test_host

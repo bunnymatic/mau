@@ -4,6 +4,7 @@
 # USERAGENT = 'HTTP_USER_AGENT'
 class ApplicationController < ActionController::Base
   include UserControllerHelpers
+  include ActiveStorage::SetCurrent
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 

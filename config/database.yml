@@ -12,7 +12,7 @@
 
 # Psych 4 requires extra params to use aliases, so let's just not use them
 development:
-  adapter: mysql2
+  adapter: trilogy
   encoding: utf8
   username: root
   password:
@@ -20,7 +20,7 @@ development:
   database: mau_dev
 
 test:
-  adapter: mysql2
+  adapter: trilogy
   encoding: utf8
   username: root
   password:
