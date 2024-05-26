@@ -57,7 +57,8 @@ Rails.application.configure do
     host: 'test.host',
   }
 
-  config.elasticsearch_url = "http://localhost:#{ENV.fetch('TEST_CLUSTER_PORT', 9250)}"
+  config.elasticsearch_url = ENV.fetch('TEST_CLUSTER_URL', 'http://localhost:9250')
+  config.opensearch_url = config.elasticsearch_url
 
   config.middleware.use DisableAnimations
 end

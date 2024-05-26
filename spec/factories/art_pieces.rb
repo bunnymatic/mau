@@ -5,9 +5,7 @@ FactoryBot.define do
     year { (Time.zone.now - Random.rand(10).years).year }
     medium
     price { rand(1..1000) + rand.round(2) }
-    artist do
-      FactoryBot.create(:artist, :active)
-    end
+    association :artist, :active
 
     photo { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/art.png'), 'image/png') }
     trait :with_tag do

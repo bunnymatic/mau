@@ -8,6 +8,7 @@ test:
   features:
     virtual_open_studios: true
     skip_api_authorization: true
+    use_open_search: true
   pagination:
     media:
       per_page: 12
@@ -17,11 +18,13 @@ test:
       per_page: 12
   subdomain: openstudios
   bryant_street_studios_api_key: testing man
+  opensearch_password: Stay-outa-my-searches-3
 
 development:
   features:
     virtual_open_studios: true
     skip_api_authorization: true
+    use_open_search: true
   S3_REGION: 'us-west-1'
   cache_expiry:
     feed: 300
@@ -47,6 +50,7 @@ acceptance:
 production:
   features:
     virtual_open_studios: true
+    use_open_search: false
   S3_REGION: 'us-west-1'
   cache_expiry:
     feed: 3600
@@ -63,6 +67,8 @@ common:
   open_studios_help_document_url: https://bit.ly/mission-fall2021
   features:
     virtual_open_studios: false
+    skip_authorization: false
+    use_open_search: true
   pagination:
     media:
       per_page: 24

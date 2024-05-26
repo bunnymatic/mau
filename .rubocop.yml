@@ -32,6 +32,7 @@ AllCops:
     - log/**/*
     - lib/tasks/mau.rake
     - lib/tasks/debug.rake
+    - local_gems/**/*
     - app/lib/app_config.rb
     - config/environment.rb
     - config/initializers/filter_parameter_logging.rb
@@ -83,7 +84,7 @@ Lint/StructNewOverride:
 Lint/SuppressedException:
   Exclude:
     - lib/tasks/*.rake
-    - app/services/search/indexer.rb
+    - app/services/search/elasticsearch/search_service.rb
 
 Metrics/AbcSize:
   Max: 38

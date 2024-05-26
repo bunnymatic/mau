@@ -1,4 +1,4 @@
-require_relative 'test_es_server'
+require_relative 'test_search_server'
 
 module RSpec
   module Elasticsearch
@@ -22,7 +22,7 @@ RSpec.configure do |config|
     case example.metadata[:elasticsearch]
     when true
       begin
-        TestEsServer.start unless ENV['CI']
+        TestSearchServer.start unless ENV['CI']
       rescue Exception => e
         puts "Failed to start Elasticsearch: #{e}"
       end
@@ -31,7 +31,6 @@ RSpec.configure do |config|
         mock = elasticsearch_double(name: "EsDoubleFor#{clz.name}")
         allow_any_instance_of(clz).to receive('__elasticsearch__').and_return mock
       end
-    # when false
     else
       # stub elastic search calls
       allow(Search::Indexer).to receive(:index)
@@ -42,7 +41,7 @@ RSpec.configure do |config|
 end
 
 at_exit do
-  TestEsServer.stop unless ENV['CI']
+  TestSearchServer.stop unless ENV['CI']
 rescue Exception => e
   puts "Failed to stop Elasticsearch: #{e}"
 end

@@ -10,7 +10,7 @@ type SourceDetails = Record<
 type EsSearchSource = Record<string, SourceDetails>;
 
 interface EsSearchResult {
-  _type: string;
+  _type: string | null;
   _score: number;
   _id: string;
   _source: EsSearchSource;
@@ -33,8 +33,12 @@ export class SearchHit {
     if (this.hit._type === "_doc") {
       return Object.keys(this.src)[0];
     }
-    return this.hit._type;
+    if (this.hit._type) {
+      return this.hit._type;
+    }
+    return Object.keys(this.src)[0];
   }
+
   get score() {
     return this.hit._score;
   }

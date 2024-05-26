@@ -31,6 +31,7 @@ gem 'mojo_magick'
 gem 'mysql2'
 gem 'newrelic_rpm' # moitoring
 gem 'nokogiri'
+gem 'opensearch-ruby'
 gem 'paperclip'
 gem 'postmark'
 gem 'postmark-rails'
@@ -87,10 +88,11 @@ group :test, :development do
   gem 'byebug'
   gem 'database_cleaner'
   gem 'dotenv-rails'
-  gem 'elasticsearch-extensions', require: nil
+  gem 'elasticsearch-extensions', require: false
   gem 'factory_bot', require: false
   gem 'factory_bot_rails', require: false
   gem 'faker'
+  gem 'opensearch-extensions', require: false, path: './local_gems/opensearch-extensions'
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'

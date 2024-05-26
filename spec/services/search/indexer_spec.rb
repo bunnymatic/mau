@@ -1,146 +1,157 @@
 require 'rails_helper'
 
-describe Search::Indexer, elasticsearch: :stub do
-  subject(:service) { Search::Indexer }
-  let(:artist) { create :artist, :with_art }
-  let(:art_piece) { artist.art_pieces.first }
-  let(:studio) { create :studio }
+describe Search::Indexer, elasticsearch: :stub, opensearch: :stub do
+  let(:service) { described_class }
+  let(:artist) { build_stubbed :artist, :with_art }
+  let(:art_piece) { build_stubbed :art_piece }
+  let(:studio) { build_stubbed :studio }
 
-  describe 'an artist' do
-    let(:object) { artist }
+  shared_examples_for 'calls the underlying SearchService interface correctly' do
+    before do
+      allow(search_service_class).to receive(:index)
+      allow(search_service_class).to receive(:reindex)
+      allow(search_service_class).to receive(:update)
+      allow(search_service_class).to receive(:remove)
+    end
+    describe 'an artist' do
+      let(:object) { artist }
 
-    describe '.index' do
-      it 'indexes the artist' do
-        expect(object.__elasticsearch__).to receive(:index_document)
-        service.index(object)
-      end
-      it 'indexes all the artists art pieces' do
-        object.art_pieces.each do |art|
-          expect(art.__elasticsearch__).to receive(:index_document)
+      describe '.index' do
+        it 'indexes the artist and art pieces' do
+          service.index(object)
+          expect(search_service_class).to have_received(:index).with(
+            object,
+          )
         end
-        service.index(object)
+        it 'indexes all the artists art pieces' do
+          service.index(object)
+          object.art_pieces.each do |art|
+            expect(search_service_class).to have_received(:index).with(art)
+          end
+        end
+      end
+      describe '.reindex' do
+        it 'reindexes the artist' do
+          service.reindex(object)
+          expect(search_service_class).to have_received(:reindex).with(object)
+        end
+        it 'reindexes all the artists art pieces' do
+          service.reindex(object)
+          object.art_pieces.each do |art|
+            expect(search_service_class).to have_received(:reindex).with(art)
+          end
+        end
+      end
+      describe '.update' do
+        it 'updates the artist' do
+          service.update(object)
+          expect(search_service_class).to have_received(:update).with(object)
+        end
+        it 'updates all the artists art pieces' do
+          service.update(object)
+          object.art_pieces.each do |art|
+            expect(search_service_class).to have_received(:update).with(art)
+          end
+        end
+      end
+      describe '.remove' do
+        it 'removes the artist' do
+          service.remove(object)
+          expect(search_service_class).to have_received(:remove).with(object)
+        end
+        it 'removes all the artists art pieces' do
+          service.remove(object)
+          object.art_pieces.each do |art|
+            expect(search_service_class).to have_received(:remove).with(art)
+          end
+        end
       end
     end
-    describe '.reindex' do
-      it 'reindexes the artist' do
-        expect(object.__elasticsearch__).to receive(:delete_document)
-        expect(object.__elasticsearch__).to receive(:index_document)
-        service.reindex(object)
-      end
-      it 'reindexes all the artists art pieces' do
-        object.art_pieces.each do |art|
-          expect(art.__elasticsearch__).to receive(:delete_document)
-          expect(art.__elasticsearch__).to receive(:index_document)
+
+    describe 'an art_piece' do
+      let(:object) { art_piece }
+
+      describe '.index' do
+        it 'indexes the art piece document' do
+          service.index(object)
+          expect(search_service_class).to have_received(:index).with(object)
         end
-        service.reindex(object)
+        fit 'indexes the artist' do
+          service.index(object)
+          expect(search_service_class).to have_received(:index).with(object.artist)
+        end
+      end
+      describe '.reindex' do
+        it 'reindexes the art piece document' do
+          service.reindex(object)
+          expect(search_service_class).to have_received(:reindex).with(object)
+        end
+        it 'reindexes the artist' do
+          service.reindex(object)
+          expect(search_service_class).to have_received(:reindex).with(object.artist)
+        end
+      end
+      describe '.update' do
+        it 'updates the art piece document' do
+          service.update(object)
+          expect(search_service_class).to have_received(:update).with(object)
+        end
+        it 'updates the artist' do
+          service.update(object)
+          expect(search_service_class).to have_received(:update).with(object.artist)
+        end
+      end
+      describe '.remove' do
+        it 'removes the art piece document' do
+          service.remove(object)
+          expect(search_service_class).to have_received(:remove).with(object)
+        end
       end
     end
-    describe '.update' do
-      it 'updates the artist' do
-        expect(object.__elasticsearch__).to receive(:update_document)
-        service.update(object)
-      end
-      it 'updates all the artists art pieces' do
-        object.art_pieces.each do |art|
-          expect(art.__elasticsearch__).to receive(:update_document)
+
+    describe 'an studio' do
+      let(:object) { studio }
+
+      describe '.index' do
+        it 'indexes the studio' do
+          service.index(object)
+          expect(search_service_class).to have_received(:index).with(object)
         end
-        service.update(object)
       end
-    end
-    describe '.remove' do
-      it 'removes the artist' do
-        expect(object.__elasticsearch__).to receive(:delete_document)
-        service.remove(object)
-      end
-      it 'removes all the artists art pieces' do
-        object.art_pieces.each do |art|
-          expect(art.__elasticsearch__).to receive(:delete_document)
+      describe '.reindex' do
+        it 'reindexes the studio' do
+          service.reindex(object)
+          expect(search_service_class).to have_received(:reindex).with(object)
         end
-        service.remove(object)
+      end
+      describe '.update' do
+        it 'updates the studio' do
+          service.update(object)
+          expect(search_service_class).to have_received(:update).with(object)
+        end
+      end
+      describe '.remove' do
+        it 'removes the studio' do
+          service.remove(object)
+          expect(search_service_class).to have_received(:remove).with(object)
+        end
       end
     end
   end
 
-  describe 'an art_piece' do
-    let(:object) { art_piece }
-
-    describe '.index' do
-      it 'indexes the art piece document' do
-        expect(object.__elasticsearch__).to receive(:index_document)
-        service.index(object)
-      end
-      it 'indexes all the artists art pieces' do
-        expect(object.artist.__elasticsearch__).to receive(:index_document)
-        service.index(object)
-      end
+  context 'when we use elasticsearch' do
+    before do
+      allow(FeatureFlags).to receive(:use_open_search?).and_return false
     end
-    describe '.reindex' do
-      it 'reindexes the art piece document' do
-        expect(object.__elasticsearch__).to receive(:delete_document)
-        expect(object.__elasticsearch__).to receive(:index_document)
-        service.reindex(object)
-      end
-      it 'reindexes all the artists art pieces' do
-        expect(object.artist.__elasticsearch__).to receive(:delete_document)
-        expect(object.artist.__elasticsearch__).to receive(:index_document)
-        service.reindex(object)
-      end
-    end
-    describe '.update' do
-      it 'updates the art piece document' do
-        expect(object.__elasticsearch__).to receive(:update_document)
-        service.update(object)
-      end
-      it 'updates all the artists art pieces' do
-        expect(object.artist.__elasticsearch__).to receive(:update_document)
-        service.update(object)
-      end
-    end
-    describe '.remove' do
-      it 'removes the art piece document' do
-        expect(object.__elasticsearch__).to receive(:delete_document)
-        service.remove(object)
-      end
-    end
+    let(:search_service_class) { Search::Elasticsearch::SearchService }
+    it_behaves_like 'calls the underlying SearchService interface correctly'
   end
 
-  describe 'an studio' do
-    let(:object) { studio }
-    describe '.index' do
-      it 'indexes the studio' do
-        expect(object.__elasticsearch__).to receive(:index_document)
-        service.index(object)
-      end
+  context 'when we use open search' do
+    before do
+      allow(FeatureFlags).to receive(:use_open_search?).and_return true
     end
-    describe '.reindex' do
-      it 'reindexes the studio' do
-        expect(object.__elasticsearch__).to receive(:delete_document)
-        expect(object.__elasticsearch__).to receive(:index_document)
-        service.reindex(object)
-      end
-    end
-    describe '.update' do
-      it 'updates the studio' do
-        expect(object.__elasticsearch__).to receive(:update_document)
-        service.update(object)
-      end
-    end
-    describe '.remove' do
-      it 'removes the studio' do
-        expect(object.__elasticsearch__).to receive(:delete_document)
-        service.remove(object)
-      end
-    end
-  end
-
-  describe Search::Indexer::ObjectSearchService, elasticsearch: true do
-    let(:model) { create :artist }
-    subject(:service) { described_class.new(model) }
-
-    it 'reindexes successfully even if the item is not in the bucket' do
-      expect do
-        subject.reindex
-      end.not_to raise_error
-    end
+    let(:search_service_class) { Search::OpenSearch::SearchService }
+    it_behaves_like 'calls the underlying SearchService interface correctly'
   end
 end

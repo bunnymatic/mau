@@ -74,7 +74,7 @@ class ArtPiece < ApplicationRecord
     extras['title_ngram'] = title
     extras['medium'] = medium.try(:name)
     extras['tags'] = tags.map(&:name).join(' ')
-    extras['images'] = images
+    extras['images'] = images.as_json
     # guard against bad data
     extras['artist_name'] = artist.full_name
     extras['studio_name'] = artist.studio.name if artist.studio

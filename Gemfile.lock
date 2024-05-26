@@ -1,3 +1,10 @@
+PATH
+  remote: local_gems/opensearch-extensions
+  specs:
+    opensearch-extensions (0.0.1)
+      ansi
+      opensearch-ruby
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -378,6 +385,9 @@ GEM
     nokogiri (1.16.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    opensearch-ruby (3.3.0)
+      faraday (>= 1.0, < 3)
+      multi_json (>= 1.0)
     paperclip (6.1.0)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
@@ -663,6 +673,8 @@ DEPENDENCIES
   mysql2
   newrelic_rpm
   nokogiri
+  opensearch-extensions!
+  opensearch-ruby
   paperclip
   postmark
   postmark-rails
