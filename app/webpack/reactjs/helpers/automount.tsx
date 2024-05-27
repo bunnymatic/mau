@@ -17,7 +17,7 @@ export function automount() {
       const propsJSON = node.getAttribute("data-react-props") || "{}";
       const Component = lookup(componentClass);
       const props = JSON.parse(propsJSON);
-      const root = createRoot(node)
+      const root = createRoot(node);
       root.render(<Component {...props} />);
     });
   });
