@@ -55,7 +55,11 @@ describe("mau.services.favoriteService", function () {
           "That item doesn't seem to be available to favorite.  If you think it should be, please drop us a note and we'll look into it.",
       });
       expect(api.users.whoami).toHaveBeenCalled();
-      expect(api.favorites.add).not.toHaveBeenCalledWith("xxx");
+      expect(api.favorites.add).toHaveBeenCalledWith(
+        "somebody_slug",
+        null,
+        null
+      );
     });
   });
 });
