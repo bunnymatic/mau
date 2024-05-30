@@ -4,12 +4,12 @@
 .nothing-scheduled {
   color: c.$gto-dark-blue;
   @media (max-width: v.$screen-sm-min) {
-    max-width: 375px;
+    max-width: 90%;
   }
 }
 .nothing-scheduled--bg {
   @media (max-width: v.$screen-sm-min) {
-    max-width: 375px;
+    max-width: 100%;
   }
   display: flex;
   justify-content: center;
@@ -19,7 +19,7 @@
 }
 .nothing-scheduled--bg-img {
   @media (max-width: v.$screen-sm-min) {
-    max-width: 375px;
+    max-width: 350px;
   }
 }
 .nothing-scheduled--contents {
