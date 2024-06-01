@@ -3,8 +3,16 @@ module Search
     include ActiveModel::Model
     attr_accessor :_index, :_type, :_id, :_score, :_source, :_ignored
 
+    def ==(other)
+      self.class == other.class &&
+        _id == other._id &&
+        _index == other._index &&
+        _score == other._score &&
+        _source == other._source
+    end
+
     def as_json
-      { _type:, _id:, _score:, _source: }
+      { _type:, _id:, _score:, _source: }.as_json
     end
   end
 
@@ -16,15 +24,11 @@ module Search
     def search
       return [] if @query.blank?
 
-      results = service.search(@query)
+      results = Search::SearchService.search(@query)
       package_results(results)
     end
 
     private
-
-    def service
-      @service ||= FeatureFlags.use_open_search? ? Search::OpenSearch::SearchService : Search::Elasticsearch::SearchService
-    end
 
     def package_results(raw_results)
       return unless raw_results.key?('hits') && raw_results['hits'].key?('hits')

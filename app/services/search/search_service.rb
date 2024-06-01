@@ -6,7 +6,7 @@ module Search
     end
 
     class << self
-      delegate :index, :update, :reindex, :remove, :reindex_all, :create_index, :delete_index, :multi_index_search, to: :service
+      delegate :index, :update, :reindex, :remove, :reindex_all, :create_index, :delete_index, :multi_index_search, :search, to: :service
     end
   end
 end
