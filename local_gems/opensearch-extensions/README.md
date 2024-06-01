@@ -1,28 +1,16 @@
 # OpenSearch::Extensions
 
-This library provides a set of extensions to the [`elasticsearch`](https://github.com/elasticsearch/elasticsearch-ruby) Rubygem.
+This library provides a set of extensions to the [`opensearch`](https://github.com/opensearch-project/opensearch-ruby) Rubygem.
 
 ## Installation
 
-Install the package from [Rubygems](https://rubygems.org):
-
-    gem install elasticsearch-extensions
-
-To use an unreleased version, either add it to your `Gemfile` for [Bundler](http://gembundler.com):
-
-    gem 'elasticsearch-extensions', git: 'git://github.com/elasticsearch/elasticsearch-ruby.git'
-
-or install it from a source code checkout:
-
-    git clone https://github.com/elasticsearch/elasticsearch-ruby.git
-    cd elasticsearch-ruby/elasticsearch-extensions
-    bundle install
-    rake install
-
+Currently this is only available here as a subcomponent of Mission Artists.
 
 ## Extensions
 
 ### Backup
+
+NOTE: not tested with the move to opensearch - use with caution
 
 Backup OpenSearch indices as flat JSON files on the disk via integration
 with the [_Backup_](http://backup.github.io/backup/v4/) gem.
@@ -31,7 +19,7 @@ Use the Backup gem's DSL to configure the backup:
 
     require 'opensearch/extensions/backup'
 
-    Model.new(:elasticsearch_backup, 'OpenSearch') do
+    Model.new(:opensearch_backup, 'OpenSearch') do
 
       database OpenSearch do |db|
         db.url     = 'http://localhost:9200'
@@ -47,12 +35,15 @@ Use the Backup gem's DSL to configure the backup:
 
 Perform the backup with the Backup gem's command line utility:
 
-    $ backup perform -t elasticsearch_backup
+    $ backup perform -t opensearch_backup
 
 See more information in the [`Backup::Database::OpenSearch`](lib/opensearch/extensions/backup.rb)
 class documentation.
 
 ### Reindex
+
+NOTE: not tested with the move to opensearch - use with caution
+
 
 Copy documents from one index and cluster into another one, for example for purposes of changing
 the settings and mappings of the index.
@@ -103,6 +94,9 @@ class documentation.
 
 ### ANSI
 
+NOTE: not tested with the move to opensearch - use with caution
+
+
 Colorize and format selected  OpenSearch response parts in terminal:
 
 Display formatted search results:
@@ -136,7 +130,7 @@ Start the cluster on specific port, with a specific OpenSearch version, number o
 
     OpenSearch::Extensions::Test::Cluster.start \
       cluster_name:    "my-testing-cluster",
-      command:         "/usr/local/Cellar/elasticsearch/0.90.10/bin/elasticsearch",
+      command:         "path/to/opensearch",
       port:            9350,
       number_of_nodes: 3
 
@@ -162,18 +156,17 @@ Stop this cluster:
 You can control the cluster configuration with environment variables as well:
 
     TEST_CLUSTER_NAME=my-testing-cluster \
-    TEST_CLUSTER_COMMAND=/usr/local/Cellar/elasticsearch/0.90.10/bin/elasticsearch \
+    TEST_CLUSTER_COMMAND=path/to/opensearch \
     TEST_CLUSTER_PORT=9350 \
     TEST_CLUSTER_NODES=3 \
     TEST_CLUSTER_NAME=my_testing_cluster \
-    ruby -r elasticsearch -e "require 'opensearch/extensions/test/cluster'; OpenSearch::Extensions::Test::Cluster.start"
+    ruby -r opensearch-ruby -e "require 'opensearch/extensions/test/cluster'; OpenSearch::Extensions::Test::Cluster.start"
 
 To prevent deleting data and configurations when the cluster is started, for example in a development environment,
 use the `clear_cluster: false` option or the `TEST_CLUSTER_CLEAR=false` environment variable.
 
-[Full documentation](http://rubydoc.info/gems/elasticsearch-extensions/OpenSearch/Extensions/Test/Cluster)
-
 ### Test::StartupShutdown
+
 
 Allows to register `startup` and `shutdown` hooks for Test::Unit, similarly to RSpec's `before(:all)`,
 compatible with the [Test::Unit 2](https://github.com/test-unit/test-unit/blob/master/lib/test/unit/testcase.rb) syntax.
@@ -196,11 +189,9 @@ Example of handler registration:
       shutdown { puts "Suite shutting down..." }
     end
 
-[Full documentation](http://rubydoc.info/gems/elasticsearch-extensions/OpenSearch/Extensions/Test/StartupShutdown)
-
-Examples in the OpenSearch gem test suite: [1](https://github.com/elasticsearch/elasticsearch-ruby/blob/master/elasticsearch-transport/test/integration/client_test.rb#L4-L6), [2](https://github.com/elasticsearch/elasticsearch-ruby/blob/master/elasticsearch-transport/test/test_helper.rb#L44)
-
 ### Test::Profiling
+
+NOTE: not tested with the move to opensearch - use with caution
 
 Allows to define and execute profiling tests within [Shoulda](https://github.com/thoughtbot/shoulda) contexts.
 Measures operations and reports statistics, including code profile.
@@ -238,10 +229,6 @@ Let's run it:
 
 When using the `QUIET` option, only the statistics on operation throughput are printed.
 When omitted, the full code profile by [RubyProf](https://github.com/ruby-prof/ruby-prof) is printed.
-
-[Full documentation](http://rubydoc.info/gems/elasticsearch-extensions/OpenSearch/Extensions/Test/StartupShutdown)
-
-[Example in the OpenSearch gem](https://github.com/elasticsearch/elasticsearch-ruby/blob/master/elasticsearch-transport/test/profile/client_benchmark_test.rb)
 
 
 ## Development
