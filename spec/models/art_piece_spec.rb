@@ -14,13 +14,13 @@ describe ArtPiece do
 
   describe 'new' do
     it 'allows quotes' do
-      p = valid_attrs.merge(title: 'what"ever')
+      p = valid_attrs.merge(title: 'what"ever', artist_id: artist.id)
       ap = ArtPiece.new(p)
       expect(ap).to be_valid
     end
 
     it 'encodes quotes to html numerically' do
-      p = valid_attrs.merge(title: 'what"ever')
+      p = valid_attrs.merge(title: 'what"ever', artist_id: artist.id)
       ap = ArtPiece.new(p)
       expect(ap.safe_title).to eq('what&quot;ever')
     end
