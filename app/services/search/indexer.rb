@@ -17,7 +17,7 @@ module Search
     }.freeze
     TOKENIZERS = {
       mau_ngram_tokenizer: {
-        type: 'ngram',
+        type: FeatureFlags.use_open_search? ? 'ngram' : 'nGram',
         min_gram: 3,
         max_gram: 6,
         token_chars: %i[letter digit],

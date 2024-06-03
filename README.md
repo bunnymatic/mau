@@ -112,7 +112,7 @@ If like docker, you can run the search server with docker like this:
 $ docker run -it -p 9200:9200 -p 9600:9600 -e OPENSEARCH_INITIAL_ADMIN_PASSWORD=Doesnt1MatterSecurity-Disabled -e "discovery.type=single-node" -e "plugins.security.disabled=true" --name opensearch-node  opensearchproject/opensearch:latest
 
 ```
-You may need to restart it occasionally. 
+You may need to restart it occasionally.
 ```
 $ docker stop opensearch-node && docker remove opensearch-node
 
@@ -122,6 +122,13 @@ if you know docker better, maybe we can build some better helpers with `colima` 
 If you don't care about docker, you can `brew install opensearch` and manage it yourself.
 
 Either way, for testing you'll probably need to `brew install opensearch` until we can figure out how to get tests to fire up docker.
+
+
+#### With docker compose
+
+`brew install docker-compose`
+
+`docker compose up
 
 ### Testing
 

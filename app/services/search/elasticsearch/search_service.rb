@@ -36,7 +36,7 @@ module Search
       end
 
       def self.reindex_all(clz)
-        clz.import(force: true)
+        clz.all.map { |obj| reindex(obj) }
       end
 
       def self.delete_index(clz)
