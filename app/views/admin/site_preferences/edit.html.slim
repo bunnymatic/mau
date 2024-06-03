@@ -7,14 +7,6 @@
       = render partial: 'common/form_errors', locals: { form: f }
       = f.inputs do
         = f.input :social_media_tags, placeholder: 'e.g. #supertag, #anotherTag', hint: "Tags here will be the first tags shown in the new art email that goes out to all our new art watchers."
-        / = f.input :open_studios_active, hint: "If set false, all Open Studios decorators will be suppressed"
-        / .pure-g 
-        /   .pure-u-1-2
-        /     = f.input :open_studios_banner_image, as: :file, hint: "Upload Open Studios Banner Image"
-        /   .pure-u-1-2
-        /     - if @site_preferences.open_studios_banner_image.present? && Rails.application.routes.url_helpers.rails_representation_url(@site_preferences.open_studios_banner_image).present?          
-        /       img style='max-width:50%' src=Rails.application.routes.url_helpers.rails_representation_url(@site_preferences.open_studios_banner_image)
-
       = f.actions do
         .form-controls
           = f.submit class: 'pure-button pure-button-primary'

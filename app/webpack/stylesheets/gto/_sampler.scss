@@ -46,6 +46,15 @@
         transition: all 0.3s linear;
       }
     }
+
+    .sampler_promo--os-banner-image {
+      position: absolute;
+      width: -webkit-calc(100% - 12px);
+      width: calc(100% - 12px);
+      height: 100%;
+      @include background-cover;
+    }
+    
     .sampler__promo-contents {
       width: 90%;
       @include in-the-middle;

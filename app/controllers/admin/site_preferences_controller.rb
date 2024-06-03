@@ -5,9 +5,6 @@ module Admin
     def edit; end
 
     def update
-      file = site_preferences_params.delete(:open_studios_banner_image)
-      @site_preferences.open_studios_banner_image.attach(file) if file.present?
-
       if @site_preferences.update(site_preferences_params)
         redirect_to edit_admin_site_preferences_path, notice: 'Got it.  The new preferences are in place.'
       else
