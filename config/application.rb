@@ -44,8 +44,6 @@ module Mau
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    config.elasticsearch_url = ENV.fetch('ELASTICSEARCH_URL', 'http://localhost:9200')
-
     config.action_mailer.delivery_method = :file
 
     config.s3_info = {
@@ -57,6 +55,7 @@ module Mau
 
     config.api_consumer_key = ENV.fetch('API_CONSUMER_KEY', ::Conf.api_consumer_key)
     config.elasticsearch_url = ENV.fetch('ELASTICSEARCH_URL', 'http://localhost:9200')
+    config.opensearch_url = config.elasticsearch_url
 
     config.active_support.test_order = :random
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol, ActionController::Parameters]

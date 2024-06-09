@@ -40,12 +40,54 @@ http_interactions:
       - '0.198084'
     body:
       encoding: UTF-8
-      string: Challenger 7.1.0
+      string: Impala 9.0.0
     http_version:
   recorded_at: Sat, 08 Sep 2018 23:03:07 GMT
 - request:
     method: get
     uri: http://localhost:9250/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '284'
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "name" : "node-1",
+          "cluster_name" : "elasticsearch-test-kinda",
+          "cluster_uuid" : "L9_X_7rzTwuwP2_wtct-fg",
+          "version" : {
+            "number" : "6.2.2",
+            "build_hash" : "10b1edd",
+            "build_date" : "2018-02-16T19:01:30.685723Z",
+            "build_snapshot" : false,
+            "lucene_version" : "7.2.1",
+            "minimum_wire_compatibility_version" : "5.6.0",
+            "minimum_index_compatibility_version" : "5.0.0"
+          },
+          "tagline" : "You Know, for Search"
+        }
+    http_version:
+  recorded_at: Sat, 08 Sep 2018 23:03:07 GMT
+- request:
+    method: get
+    uri: http://localhost:9200/
     body:
       encoding: US-ASCII
       string: ''

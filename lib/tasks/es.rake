@@ -11,7 +11,7 @@ namespace :es do
   task delete_indices: [:environment] do
     [Artist, Studio, ArtPiece].each do |model|
       puts "Deleting index: #{model.index_name}"
-      Search::EsClient.client.indices.delete index: model.index_name
+      Search::Indexer.delete_index(model)
     end
   end
 
@@ -19,7 +19,10 @@ namespace :es do
   task create_indices: [:environment] do
     [Artist, Studio, ArtPiece].each do |model|
       puts "Creating index: #{model.index_name}"
-      Search::EsClient.client.indices.create index: model.index_name, body: { settings: Search::Indexer::INDEX_SETTINGS }
+      Search::Indexer.create_index(model)
+    rescue OpenSearch::Transport::Transport::Errors::BadRequest => e
+      # swallow already exists errors
+      raise unless e.to_s.include? 'resource_already_exists_exception'
     end
   end
 end

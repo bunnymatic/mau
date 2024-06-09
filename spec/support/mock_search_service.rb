@@ -1,18 +1,15 @@
 module MockSearchService
   def stub_query_runner!
     runner = Search::QueryRunner.new('query')
-    allow(runner).to receive(:search).and_call_original
-    allow(runner).to receive(:multi_index_search).and_return JSON.parse(mock_search_results)
+    allow(runner).to receive(:search).and_return JSON.parse(mock_search_results)
     allow(Search::QueryRunner).to receive(:new).and_return(runner)
   end
 
   def stub_indexer!
-    mock_indexer = double(Search::Indexer::ObjectSearchService)
-    allow(mock_indexer).to receive(:index)
-    allow(mock_indexer).to receive(:reindex)
-    allow(mock_indexer).to receive(:update)
-    allow(mock_indexer).to receive(:remove)
-    allow(Search::Indexer::ObjectSearchService).to receive(:new).and_return(mock_indexer)
+    allow(Search::SearchService).to receive(:index)
+    allow(Search::SearchService).to receive(:reindex)
+    allow(Search::SearchService).to receive(:update)
+    allow(Search::SearchService).to receive(:remove)
   end
 
   def stub_search_service!

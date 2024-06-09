@@ -11,10 +11,14 @@ executors:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_PASSWORD: ""
           MYSQL_DATABASE: mau_test
-      - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+      - image: opensearchproject/opensearch:2.14.0
         environment:
+          TEST_CLUSTER_URL: 'http://localhost:9200'
+          TEST_CLUSTER_PORT: 9200
           TEST_CLUSTER_NODES: 1
           discovery.type: single-node
+          plugins.security.disabled: true
+          OPENSEARCH_INITIAL_ADMIN_PASSWORD: Stay-outa-my-searches-3
 
 commands:
   vips_install:
@@ -40,7 +44,7 @@ commands:
             # match .nvmrc
             nvm install v18.19.1
             nvm alias default 18.19.1
-      
+
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
@@ -133,6 +137,7 @@ jobs:
       RAILS_ENV: test
       RACK_ENV: test
       CI: true
+      TEST_CLUSTER_URL: 'http://localhost:9200'
       TEST_CLUSTER_PORT: 9200
     executor: ruby_node
     steps:
@@ -150,6 +155,7 @@ jobs:
       RAILS_ENV: test
       RACK_ENV: test
       CI: true
+      TEST_CLUSTER_URL: 'http://localhost:9200'
       TEST_CLUSTER_PORT: 9200
     executor: ruby_node
     steps:
@@ -178,6 +184,7 @@ jobs:
       RAILS_ENV: test
       RACK_ENV: test
       CI: true
+      TEST_CLUSTER_URL: 'http://localhost:9200'
       TEST_CLUSTER_PORT: 9200
     executor: ruby_node_mysql_elasticsearch
     steps:
@@ -216,6 +223,7 @@ jobs:
       RACK_ENV: test
       CI: true
       TEST_CLUSTER_PORT: 9200
+      TEST_CLUSTER_URL: 'http://localhost:9200'
     executor: ruby_node_mysql_elasticsearch
 
     steps:

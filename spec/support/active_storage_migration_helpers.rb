@@ -1,4 +1,4 @@
-require_relative 'test_es_server'
+require_relative 'test_search_server'
 
 RSpec.configure do |config|
   config.before do |example|

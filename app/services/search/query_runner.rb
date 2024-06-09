@@ -1,63 +1,34 @@
 module Search
   class SearchHit
     include ActiveModel::Model
-    attr_accessor :_index, :_type, :_id, :_score, :_source
+    attr_accessor :_index, :_type, :_id, :_score, :_source, :_ignored
+
+    def ==(other)
+      self.class == other.class &&
+        _id == other._id &&
+        _index == other._index &&
+        _score == other._score &&
+        _source == other._source
+    end
 
     def as_json
-      { _type:, _id:, _score:, _source: }
+      { _type:, _id:, _score:, _source: }.as_json
     end
   end
 
   class QueryRunner
-    def initialize(query = nil, _include_highlight: true)
+    def initialize(query = nil)
       @query = query
     end
 
     def search
       return [] if @query.blank?
 
-      results = multi_index_search
+      results = Search::SearchService.search(@query)
       package_results(results)
     end
 
-    def multi_index_search
-      query_body = {
-        query: {
-          multi_match: {
-            query: @query,
-            fields: [
-              'studio.name^5',
-              'artist.artist_name^5',
-              'art_piece.title^5',
-              'art_piece.title_ngram^3',
-              'art_piece.artist_name^3',
-              'artist.firstname',
-              'artist.lastname',
-              'art_piece.medium',
-              'art_piece.tags',
-            ],
-            type: 'most_fields',
-            fuzziness: 0,
-          },
-        },
-        size: 100,
-        # highlight: {
-        #   fields: {
-        #     'studio.name' => {},
-        #     'artist.artist_name' => {},
-        #     'art_piece.title' => {},
-        #     'art_piece.tags' => {},
-        #     'art_piece.medium' => {},
-        #     'art_piece.title' => {},
-        #     'artist.artist_name' => {},
-        #   },
-        # },
-      }
-      EsClient.client.search(
-        index: %i[art_pieces studios artists].join(','),
-        body: query_body,
-      )
-    end
+    private
 
     def package_results(raw_results)
       return unless raw_results.key?('hits') && raw_results['hits'].key?('hits')
@@ -71,7 +42,5 @@ module Search
         SearchHit.new(hit)
       end
     end
-
-    delegate :client, to: :es, prefix: true
   end
 end

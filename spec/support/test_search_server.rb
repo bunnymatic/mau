@@ -1,12 +1,14 @@
 require 'elasticsearch/extensions/test/cluster'
-class TestEsServer
+require 'opensearch/extensions/test/cluster'
+
+class TestSearchServer
   DEFAULT_TEST_ARGS = {
     number_of_nodes: 1,
     clear_cluster: true,
   }.freeze
 
   def self.cluster
-    Elasticsearch::Extensions::Test::Cluster
+    FeatureFlags.use_open_search? ? OpenSearch::Extensions::Test::Cluster : Elasticsearch::Extensions::Test::Cluster
   end
 
   def self.port
@@ -24,7 +26,7 @@ class TestEsServer
   def self.start
     return if running?
 
-    puts "Starting elasticsearch cluster on port #{port}"
+    puts "Starting #{cluster.name} cluster on port #{port}"
     cluster.start(server_args) unless running?
   end
 

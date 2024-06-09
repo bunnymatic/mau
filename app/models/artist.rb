@@ -47,14 +47,17 @@ class Artist < User
 
     idxd = as_json(only: %i[firstname lastname nomdeplume slug])
     extras = {}
+    images = representative_piece.try(:images)
+    return {} if images.blank?
+
     studio_name = studio.try(:name)
     extras['artist_name'] = full_name
     extras['studio_name'] = studio_name if studio_name.present?
-    extras['images'] = representative_piece.try(:images)
     extras['bio'] = bio if bio.present?
     extras['os_participant'] = doing_open_studios?
+    extras['images'] = images.as_json
     idxd['artist'].merge!(extras)
-    active? && extras['images'].present? ? idxd : {}
+    idxd
   end
 
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql

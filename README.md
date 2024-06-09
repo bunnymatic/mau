@@ -28,7 +28,7 @@ Follow the post-install instructions to get your MySQL server running.  For easy
 
 Use `homebrew` to install the following packages:
 
-    brew install markdown imagemagick memcached elasticsearch@6
+    brew install markdown imagemagick memcached opensearch
 
 At this point, you should have all the binary resources you'll need (hopefully).
 
@@ -103,9 +103,36 @@ Once you think things are running, you can try running the test suite:
 
 ## Development
 
+### Search server
+
+We depend on having a search server.  We used to use elasticsearch and are moving to open search.
+
+If like docker, you can run the search server with docker like this:
+```
+$ docker run -it -p 9200:9200 -p 9600:9600 -e OPENSEARCH_INITIAL_ADMIN_PASSWORD=Doesnt1MatterSecurity-Disabled -e "discovery.type=single-node" -e "plugins.security.disabled=true" --name opensearch-node  opensearchproject/opensearch:latest
+
+```
+You may need to restart it occasionally.
+```
+$ docker stop opensearch-node && docker remove opensearch-node
+
+```
+if you know docker better, maybe we can build some better helpers with `colima` or `docker-compose`.
+
+If you don't care about docker, you can `brew install opensearch` and manage it yourself.
+
+Either way, for testing you'll probably need to `brew install opensearch` until we can figure out how to get tests to fire up docker.
+
+
+#### With docker compose
+
+`brew install docker-compose`
+
+`docker compose up
+
 ### Testing
 
-We use RSpec and Cucumber.  We have some test code that will auto start Elasticsearch on port 9250.
+We use RSpec and Cucumber.  We have some test code that will auto start Elasticsearch/OpenSearch on port 9250.
 
 You shouldn't need to do anything to get things rolling.  Tests that need elastic search know they do and they will start up a server for testing.
 
