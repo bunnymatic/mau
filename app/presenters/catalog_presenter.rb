@@ -20,7 +20,7 @@ class CatalogPresenter < ViewPresenter
   def all_artists
     @all_artists ||=
       begin
-        artists = OpenStudiosEventService.current.artists
+        artists = OpenStudiosEventService.current&.artists || []
         artists.exists? ? artists.includes(:studio, :artist_info) : Artist.none
       end
   end
