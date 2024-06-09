@@ -128,6 +128,8 @@ class Artist < User
   end
 
   def current_open_studios_participant
+    return false unless OpenStudiosEventService.current
+
     open_studios_participants.find_by(open_studios_event: OpenStudiosEventService.current)
   end
 
