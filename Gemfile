@@ -60,6 +60,7 @@ group :test do
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'rack-handlers'
   gem 'rspec_junit_formatter'
+  gem 'ruby-vips'
   gem 'selenium-webdriver'
   gem 'vcr'
   gem 'webdrivers'
