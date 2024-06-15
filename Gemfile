@@ -29,7 +29,6 @@ gem 'lograge'
 gem 'mime-types'
 gem 'mojo_magick'
 gem 'mysql2'
-gem 'newrelic_rpm' # moitoring
 gem 'nokogiri'
 gem 'opensearch-ruby'
 gem 'paperclip'

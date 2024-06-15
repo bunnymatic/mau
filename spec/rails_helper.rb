@@ -37,7 +37,7 @@ RSpec.configure do |config|
   config.fixture_paths = [Rails.root.join('spec/fixtures')]
 
   # this should be false or else we run into thread deadlocks with elasticsearch
-  config.use_transactional_fixtures = false #
+  config.use_transactional_fixtures = false
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
