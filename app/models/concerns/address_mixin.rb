@@ -35,7 +35,7 @@ module AddressMixin
           [lat, lng]
         end
       end
-    rescue Geocoder::Error
+    rescue Geokit::Geocoders::GeocodeError
       logger.warn("Failed to Geocode: #{address.to_s(true)} for #{inspect}")
     end
   end

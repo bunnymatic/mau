@@ -697,6 +697,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rails
+  ruby-vips
   scout_apm
   scrypt
   selenium-webdriver

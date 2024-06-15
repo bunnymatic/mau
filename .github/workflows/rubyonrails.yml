@@ -1,0 +1,167 @@
+# This workflow uses actions that are not certified by GitHub.  They are
+# provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+#
+# This workflow will install a prebuilt Ruby version, install dependencies, and
+# run tests and linters.
+name: "MAU CI"
+on:
+  pull_request:
+    branches: [ '**' ]
+jobs:
+  ruby-test:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+      DB_DATABASE: test_db
+      DB_USER: root
+      DB_PASSWORD: root
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ankane/setup-opensearch@v1
+        with:
+          opensearch-version: 2
+          config: |
+            http.port: 9250
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libvips libvips-dev
+          version: 1.0
+      - name: Node setup
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+      - run: yarn install
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: MySQL
+        run: sudo /etc/init.d/mysql start
+      - name: Install CI Database Config
+        run: cp config/database.ci.yml config/database.yml
+      - name: Set up database schema
+        run: bin/rake db:drop db:create db:schema:load db:seed
+      - name: Webdrivers update
+        run: RAILS_ENV=test bundle exec rake webdrivers:chromedriver:update
+      - name: RSpec
+        run: bin/rspec spec
+  cucumber-test:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+      DB_DATABASE: test_db
+      DB_USER: root
+      DB_PASSWORD: root
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ankane/setup-opensearch@v1
+        with:
+          opensearch-version: 2
+          config: |
+            http.port: 9250
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libvips libvips-dev
+          version: 1.0
+      - name: Node setup
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+      - run: yarn install
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: MySQL
+        run: sudo /etc/init.d/mysql start
+      - name: Install CI Database Config
+        run: cp config/database.ci.yml config/database.yml
+      - name: Set up database schema
+        run: bin/rake db:drop db:create db:schema:load db:seed
+      - name: Webdrivers update
+        run: RAILS_ENV=test bundle exec rake webdrivers:chromedriver:update
+      - name: Cucumber
+        run: bundle exec cucumber
+
+  yarn-test:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Node setup
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+      - run: yarn install
+      - name: yarn test
+        run: yarn test
+
+  build:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+      DB_DATABASE: test_db
+      DB_USER: root
+      DB_PASSWORD: root
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ankane/setup-opensearch@v1
+        with:
+          opensearch-version: 2
+          config: |
+            http.port: 9250
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libvips libvips-dev
+          version: 1.0
+
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libvips libvips-dev
+          version: 1.0
+      - name: Node setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn install
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: MySQL
+        run: sudo /etc/init.d/mysql start
+      - name: Install CI Database Config
+        run: cp config/database.ci.yml config/database.yml
+      - name: Set up database schema
+        run: bin/rake db:drop db:create db:schema:load db:seed
+      - name: DB Sample Data Check
+        run: bundle exec rake db:sample_data
+      - name: Build assets
+        run: bin/rails assets:precompile
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Node setup
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: yarn install
+      - name: Lint Ruby files
+        run: bundle exec rubocop --parallel
+      - name: Lint JS files
+        run: yarn lint
+      - name: Audit
+        run: bundle exec bundler-audit --update
