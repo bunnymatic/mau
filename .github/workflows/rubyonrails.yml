@@ -8,6 +8,8 @@ name: "MAU CI"
 on:
   pull_request:
     branches: [ '**' ]
+  push:
+    branches: [ 'main' ]
 jobs:
   ruby-test:
     runs-on: ubuntu-latest
