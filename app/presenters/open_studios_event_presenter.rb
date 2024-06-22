@@ -170,4 +170,8 @@ class OpenStudiosEventPresenter < ViewPresenter
   def end_date
     model.end_date.strftime('%b %d, %Y')
   end
+
+  def banner_image_url
+    model.banner_image.url
+  end
 end

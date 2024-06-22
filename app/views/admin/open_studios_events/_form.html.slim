@@ -36,6 +36,12 @@
             = f.input :special_event_start_time, as: :string, placeholder: 'hh:mm {am|pm}', hint: "We will use (and validate) these as time strings in the 12hr time format e.g. '1:00pm',  '9:45 am'"
           .pure-u-1-2
             = f.input :special_event_end_time, as: :string, placeholder: 'hh:mm {am|pm}', hint: "We will use (and validate) these as time strings in the 12hr time format e.g. '1:00pm',  '9:45 am'"
+        .pure-g 
+          .pure-u-1-2
+            = f.input :banner_image, as: :file, hint: "Recommend 2.6 aspect ratio (~13/5 portrait) and a width of at least 1000 pixels"
+          .pure-u-1-2
+            - if os_event.banner_image.present? && os_event.banner_image.url     
+              img style='max-width:50%' src=os_event.banner_image.url
       = f.actions do
         .form-controls
           = f.submit class: 'pure-button pure-button-primary'

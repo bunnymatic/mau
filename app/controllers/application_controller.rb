@@ -76,6 +76,10 @@ class ApplicationController < ActionController::Base
     @open_studios_active = current.present? ? OpenStudiosEventPresenter.new(current) : nil
   end
 
+  # def preferences
+  #   @preferences ||= SitePreferencesPresenter.new(SitePreferences.instance(check_cache: true))
+  # end
+
   protected
 
   def check_browser
