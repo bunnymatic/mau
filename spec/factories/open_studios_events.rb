@@ -29,8 +29,5 @@ FactoryBot.define do
       activated_at { start_date - 1.day }
       deactivated_at { end_date + 2.days }
     end
-    trait :with_banner_image do
-      banner_image { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/profile.png'), 'image/png') }
-    end
   end
 end

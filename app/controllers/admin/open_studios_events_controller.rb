@@ -60,7 +60,6 @@ module Admin
         :special_event_end_time,
         :activated_at,
         :deactivated_at,
-        :banner_image,
       ).tap do |prms|
         # coerce/force dates to be in Conf.event_time_zone
         Time.use_zone(Conf.event_time_zone) do
