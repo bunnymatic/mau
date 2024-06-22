@@ -1,7 +1,5 @@
 / expects open_studios_event object
-- img_url = open_studios_event.banner_image_url
 
-.sampler__promo.js-sampler__promo
-  .sampler_promo--os-banner-image style='#{background_image_style(img_url)}'
+.sampler__promo.js-sampler__promo.mod-virtual-os
   = link_to open_studios_path, title: "Mission Open Studios #{open_studios_event.date_range_with_year}"
     | &nbsp;
