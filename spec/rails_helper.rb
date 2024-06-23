@@ -63,3 +63,5 @@ RSpec.configure do |config|
     request.env['HTTP_REFERER'] = SHARED_REFERER
   end
 end
+
+ViteRuby.commands.build
