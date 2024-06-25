@@ -3,3 +3,11 @@
 .admin-open-studios-event-form__subsection__header {
   margin-bottom: 10px;
 }
+
+.admin-open-studios-event-form__banner-image-wrapper {
+  max-width: 50%;
+  img {
+    // for svgs
+    width: 100%;
+  }
+}

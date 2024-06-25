@@ -12,7 +12,7 @@
   .pure-u-1-1.padded-content
     .os-events[class=(@open_studios_active ? "os-active__on" : "os-active__off")]
       - if !@open_studios_active
-        p &#9888; There is currently active Open Studios event.
+        p &#9888; There is currently no active Open Studios event.
       - else
         p &#128077; Open Studios #{@open_studios_active.date_range_with_year} is currently activated
 
@@ -27,6 +27,7 @@
           th active range
           th promoted to artists
           th participants
+          th banner
           th data-orderable="false"
       tbody
         - @os_events.each_with_index do |os_event|
@@ -53,6 +54,9 @@
                 | always
             td.os-events__table-item.os-events__table-item--promoted = boolean_as_checkmark(os_event.promote?)
             td.os-events__table-item.os-events__table-item--participants = os_event.num_participants
+            td.os-events__table-item.os-events__table-item--banner-image
+              - if os_event.banner_image_url
+                img src=os_event.banner_image_url
             td.admin-controls
               = link_to edit_admin_open_studios_event_path(os_event), title: 'Edit' do
                 = fa_icon 'edit'

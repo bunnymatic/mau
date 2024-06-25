@@ -63,5 +63,9 @@ module Mau
     config.action_dispatch.tld_length = Integer(Conf.TLD_LENGTH || 1)
 
     config.active_storage.variant_processor = :vips
+
+    # Without this, SVG's are served (from S3) as application/octet-stream
+    # and browsers get confused.
+    config.active_storage.content_types_to_serve_as_binary -= ['image/svg+xml']
   end
 end

@@ -21,7 +21,7 @@ class OpenStudiosEvent < ApplicationRecord
   has_many :artists, through: :open_studios_participants, class_name: 'Artist', source: :user
 
   has_one_attached :banner_image
-  validates :banner_image, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif]
+  validates :banner_image, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif svg]
 
   def for_display(month_first: false)
     if month_first

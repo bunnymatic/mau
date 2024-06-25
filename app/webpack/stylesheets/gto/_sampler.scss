@@ -7,6 +7,10 @@
   .sampler__thumb {
     @include sampler-block-mixin;
   }
+  .sampler_promo--os-banner-image {
+    height: 100%;
+    width: 100%;
+  }
   .sampler__promo {
     width: 40%;
     float: left;
