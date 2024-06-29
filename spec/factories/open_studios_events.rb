@@ -5,6 +5,7 @@ FactoryBot.define do
     start_time { 'noon' }
     end_time { '6p' }
     key { start_date.strftime('%Y%m') }
+    title { 'This open Studios' }
     promote { true }
     trait :future do
       start_date { 1.week.from_now }

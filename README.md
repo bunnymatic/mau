@@ -123,6 +123,8 @@ If you don't care about docker, you can `brew install opensearch` and manage it 
 
 Either way, for testing you'll probably need to `brew install opensearch` until we can figure out how to get tests to fire up docker.
 
+If you run into issues with open search after running a test, we don't clean up after ourselves very well.  You may need to kill the test opensearch server with `kill -TERM $(lsof -ti:9250)`
+
 
 #### With docker compose
 

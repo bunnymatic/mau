@@ -40,7 +40,8 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # config.active_storage.service = :local
+  config.active_storage.service = :amazon
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -79,8 +80,6 @@ Rails.application.configure do
   config.hosts << 'mau.local'
   config.hosts << 'openstudios.mau.local'
   config.hosts << 'www.mau.local'
-
-  config.active_storage.service = :amazon
 end
 
 Rails.application.routes.default_url_options[:host] = ENVIRONMENT_HOST

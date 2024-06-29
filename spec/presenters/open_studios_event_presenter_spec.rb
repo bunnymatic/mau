@@ -147,11 +147,18 @@ describe OpenStudiosEventPresenter do
     end
   end
 
-  # describe '.banner_image_url' do
-  #   let(:os) { build_stubbed(:open_studios_event, :with_banner_image) }
-  #   it 'returns correct banner image url' do
-  #     presented_event = described_class.new(os)
-  #     expect(presented_event.banner_image_url).to eq("garbage")
-  #   end
-  # end
+  describe '.banner_image_url' do
+    # there are problems to ask active storage for url outside of a controller or higher level
+    # object because it wants the host.  To avoid this, we're mocking the underyling active storage
+    # model attachment to prove that we've called it correctly.
+    # This is a brittle test if we move away from active storage
+    before do
+      allow_any_instance_of(ActiveStorage::Blob).to receive(:url).and_return('the_url')
+    end
+    let(:os) { build_stubbed(:open_studios_event, :with_banner_image) }
+    it 'returns correct banner image url' do
+      presented_event = described_class.new(os)
+      expect(presented_event.banner_image_url).to eq('the_url')
+    end
+  end
 end

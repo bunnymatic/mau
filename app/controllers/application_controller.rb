@@ -119,7 +119,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_open_studios
-    @current_open_studios ||= OpenStudiosEventPresenter.new(OpenStudiosEventService.current)
+    @current_open_studios ||= OpenStudiosEventPresenter.new(OpenStudiosEventService.current) if OpenStudiosEventService.current
   end
 
   def supported_browser?

@@ -26,8 +26,29 @@ Scenario:  Visiting the home page
   And I can see the credits from the footer link
 
 @javascript
-Scenario:  Visiting the home page when there is an active notification
+Scenario: Visiting the home page when there is an active notification
   When there is an active notification
   And I visit the home page
   And wait until the page is done loading infinite scroll
   Then I see that notification
+
+@javascript
+Scenario: Visiting the home page when there is no active open studios
+  When there are no active open studios events
+  When I visit the home page
+  And wait until the page is done loading infinite scroll
+  Then I see the default banner
+
+@javascript
+Scenario: Visiting the home page when there is an active open studios with no banner image
+  When there is an active open studios without a banner image
+  And I visit the home page
+  And wait until the page is done loading infinite scroll
+  Then I see the default open studios banner
+
+@javascript
+Scenario: Visiting the home page when there is an active open studios with a banner image
+  When there is an active open studios with a banner image
+  And I visit the home page
+  And wait until the page is done loading infinite scroll
+  Then I see the custom open studios banner
