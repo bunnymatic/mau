@@ -16,4 +16,6 @@ Then('I see the custom open studios banner') do
   expect(page).to have_selector('.sampler_promo--os-banner-image') do |element|
     expect(element['style']).to match /background-image:\s+url/
   end
+  os = OpenStudiosEventService.current
+  expect(page).to have_selector("a[title='#{os.title} #{os.for_display(month_first: true)}']")
 end

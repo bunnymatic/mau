@@ -73,7 +73,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def title
-    available? && @model.title.present? ? @model.title : 'Open Studios'
+    @model.title.presence || 'Open Studios' if available?
   end
 
   def link_text
