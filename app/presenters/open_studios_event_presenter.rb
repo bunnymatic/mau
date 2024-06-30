@@ -172,6 +172,8 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def banner_image_url
-    model&.banner_image&.url
+    return nil unless model&.banner_image
+
+    model.banner_image.url
   end
 end
