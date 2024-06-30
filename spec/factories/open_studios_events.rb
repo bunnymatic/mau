@@ -5,6 +5,7 @@ FactoryBot.define do
     start_time { 'noon' }
     end_time { '6p' }
     key { start_date.strftime('%Y%m') }
+    title { 'This open Studios' }
     promote { true }
     trait :future do
       start_date { 1.week.from_now }
@@ -28,6 +29,9 @@ FactoryBot.define do
       end_date { start_date + 1.week }
       activated_at { start_date - 1.day }
       deactivated_at { end_date + 2.days }
+    end
+    trait :with_banner_image do
+      banner_image { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/profile.png'), 'image/png') }
     end
   end
 end

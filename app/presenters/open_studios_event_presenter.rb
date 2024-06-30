@@ -73,7 +73,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def title
-    available? && @model.title.present? ? @model.title : 'Open Studios'
+    @model.title.presence || 'Open Studios' if available?
   end
 
   def link_text
@@ -169,5 +169,11 @@ class OpenStudiosEventPresenter < ViewPresenter
 
   def end_date
     model.end_date.strftime('%b %d, %Y')
+  end
+
+  def banner_image_url
+    return nil unless model&.banner_image
+
+    model.banner_image.url
   end
 end

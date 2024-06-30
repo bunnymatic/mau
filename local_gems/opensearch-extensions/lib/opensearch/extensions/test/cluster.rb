@@ -109,7 +109,7 @@ module OpenSearch
                 -E node.attr.testattr=test \
                 -E path.repo=/tmp \
                 -E repositories.url.allowed_urls=http://snapshot.test* \
-                #{"-E discovery.type=single-node" if arguments[:number_of_nodes] < 2} \
+                #{'-E discovery.type=single-node' if arguments[:number_of_nodes] < 2} \
                 -E discovery.seed_hosts=#{arguments[:number_of_nodes] - 1} \
                 -E node.max_local_storage_nodes=#{arguments[:number_of_nodes]} \
                 -E logger.level=#{ENV['DEBUG'] ? 'DEBUG' : 'INFO'} \
@@ -129,7 +129,7 @@ module OpenSearch
                 -E node.attr.testattr=test \
                 -E path.repo=/tmp \
                 -E repositories.url.allowed_urls=http://snapshot.test* \
-                #{"-E discovery.type=single-node" if arguments[:number_of_nodes] < 2} \
+                #{'-E discovery.type=single-node' if arguments[:number_of_nodes] < 2} \
                 -E discovery.seed_hosts=#{arguments[:number_of_nodes] - 1} \
                 -E node.max_local_storage_nodes=#{arguments[:number_of_nodes]} \
                 -E logger.level=#{ENV['DEBUG'] ? 'DEBUG' : 'INFO'} \
@@ -314,15 +314,21 @@ module OpenSearch
           # @return Boolean
           #
           def running?
-            if (cluster_health = begin
-              Timeout.timeout(0.25) { __get_cluster_health }
+            num_tries = 20
+            cluster_health = nil
+            begin
+              cluster_health = __get_cluster_health
             rescue StandardError
-              nil
-            end)
-              return cluster_health['cluster_name']    == arguments[:cluster_name] &&
-                     cluster_health['number_of_nodes'] == arguments[:number_of_nodes]
+              sleep(0.2)
+              num_tries -= 1
+              retry unless num_tries.negative?
             end
-            false
+            if cluster_health
+              cluster_health['cluster_name'] == arguments[:cluster_name] &&
+                cluster_health['number_of_nodes'] == arguments[:number_of_nodes]
+            else
+              false
+            end
           end
 
           # Waits until the cluster is green and prints information about it
@@ -392,7 +398,6 @@ module OpenSearch
           # @return String
           #
           def __determine_version
-            path_to_lib = "#{File.dirname(arguments[:command])}/../lib/"
             version = if arguments[:version]
                         arguments[:version]
                       else
@@ -458,7 +463,7 @@ module OpenSearch
 
                       end
 
-            return version.split(".")[0..1].join(".")
+            version.split('.')[0..1].join('.')
           end
 
           # Returns the launch command for a specific version

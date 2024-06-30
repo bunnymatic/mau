@@ -1,0 +1,20 @@
+
+/ expects nilable open_studios_event object
+- open_studios_event ||= open_studios_event
+- img_url = open_studios_event&.banner_image_url
+
+.sampler__promo.js-sampler__promo
+  - if img_url
+    = link_to open_studios_path, class: 'sampler__promo-contents--with-banner', title: "#{ open_studios_event.title} #{open_studios_event.date_range_with_year}"
+      .sampler_promo--os-banner-image style='#{background_image_style(img_url)}'
+  - elsif open_studios_event
+    = link_to open_studios_path, class: 'sampler__promo-contents--with-banner', title: "#{ open_studios_event.title} #{open_studios_event.date_range_with_year}"
+      .bg
+      .sampler__promo-contents
+        .header = open_studios_event.title
+        .body = open_studios_event.for_display(month_first: true)
+  - else
+    .bg
+    .sampler__promo-contents
+      .header Mission Artists
+      .body San Francisco

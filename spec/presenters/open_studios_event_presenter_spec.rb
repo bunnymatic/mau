@@ -26,6 +26,27 @@ describe OpenStudiosEventPresenter do
     end
   end
 
+  describe '.title' do
+    context 'the event is not available' do
+      let(:os) { nil }
+      it 'is nil' do
+        expect(presenter.title).to be_nil
+      end
+    end
+    context 'the event has no title' do
+      let(:os) { build_stubbed(:open_studios_event, :with_activation_dates, title: '') }
+      it 'is "Open Studios" if the event has no title' do
+        expect(presenter.title).to eq 'Open Studios'
+      end
+    end
+    context 'the event has a title' do
+      let(:os) { build_stubbed(:open_studios_event, :with_activation_dates, title: 'The best open studios ever') }
+      it 'is the event title' do
+        expect(presenter.title).to eq 'The best open studios ever'
+      end
+    end
+  end
+
   describe '.date_range' do
     context 'if the dates are in the same month' do
       let(:os) do
@@ -144,6 +165,21 @@ describe OpenStudiosEventPresenter do
     it 'returns false if todays date is after deactivated_at' do
       event = described_class.new(build(:open_studios_event, activated_at: today - 4.days, deactivated_at: today - 2.days))
       expect(event.active?).to eq false
+    end
+  end
+
+  describe '.banner_image_url' do
+    # there are problems to ask active storage for url outside of a controller or higher level
+    # object because it wants the host.  To avoid this, we're mocking the underyling active storage
+    # model attachment to prove that we've called it correctly.
+    # This is a brittle test if we move away from active storage
+    before do
+      allow_any_instance_of(ActiveStorage::Blob).to receive(:url).and_return('the_url')
+    end
+    let(:os) { build_stubbed(:open_studios_event, :with_banner_image) }
+    it 'returns correct banner image url' do
+      presented_event = described_class.new(os)
+      expect(presented_event.banner_image_url).to eq('the_url')
     end
   end
 end

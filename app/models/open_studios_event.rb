@@ -20,6 +20,9 @@ class OpenStudiosEvent < ApplicationRecord
   has_many :open_studios_participants, inverse_of: :open_studios_event, dependent: :destroy
   has_many :artists, through: :open_studios_participants, class_name: 'Artist', source: :user
 
+  has_one_attached :banner_image
+  validates :banner_image, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif svg]
+
   def for_display(month_first: false)
     if month_first
       date = start_date.strftime(REVERSE_START_DATE_FORMAT)

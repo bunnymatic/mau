@@ -29,7 +29,7 @@ end
 
 Given /there are artists with art in my studio$/ do
   studio = (@manager || @artist || @user).studio
-  FactoryBot.create_list(:artist, 2, :with_art, studio: studio, number_of_art_pieces: 1)
+  FactoryBot.create_list(:artist, 2, :with_art, studio:, number_of_art_pieces: 1)
 end
 
 Given /the following artists with art are in the system:/ do |table|
@@ -78,6 +78,19 @@ rescue ActiveRecord::RecordInvalid
   Rails.logger.warn('Open studios event already exists in this feature.  No problem.')
 end
 
+When('there are no active open studios events') do
+  OpenStudiosEvent.update!(activated_at: 3.days.ago, deactivated_at: 2.days.ago)
+end
+
+When('there is an active open studios without a banner image') do
+  @open_studios_event = OpenStudiosEventService.current || create(:open_studios_event, :without_banner_image)
+  @open_studios_event.banner_image&.destroy
+end
+
+When('there is an active open studios with a banner image') do
+  @open_studios_event = create(:open_studios_event, :with_banner_image)
+end
+
 Given /the current open studios event has a special event/ do
   os = OpenStudiosEvent.current
   OpenStudiosEvent.current.update(special_event_start_date: os.start_date, special_event_end_date: os.end_date)
@@ -124,18 +137,18 @@ end
 
 Given /there is open studios cms content( in the system)?$/ do |_|
   args = { page: :main_openstudios, section: :preview_reception }
-  @os_reception_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
+  @os_reception_content ||= CmsDocument.where(args).first || FactoryBot.create(:cms_document, args)
 
   args = { page: :main_openstudios, section: :summary }
-  @os_summary_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
+  @os_summary_content ||= CmsDocument.where(args).first || FactoryBot.create(:cms_document, args)
 end
 
 Given /there is open studios catalog cms content( in the system)?$/ do |_|
   args = { page: :catalog_open_studios, section: :preview_reception, article: 'This is about the catalog preview' }
-  @catalog_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
+  @catalog_content ||= CmsDocument.where(args).first || FactoryBot.create(:cms_document, args)
 
   args = { page: :catalog_open_studios, section: :summary, article: '## this is going to rock (catalog summary)' }
-  @os_summary_content ||= (CmsDocument.where(args).first || FactoryBot.create(:cms_document, args))
+  @os_summary_content ||= CmsDocument.where(args).first || FactoryBot.create(:cms_document, args)
 end
 
 Given /there are users in the system/ do

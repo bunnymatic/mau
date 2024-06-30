@@ -61,7 +61,7 @@ describe StudioPresenter do
       ]
     end
     before do
-      create(:open_studios_event, :future)
+      create(:open_studios_event, :future, title: 'Custom Open Studios')
       all_os_artists
     end
     it 'returns all open studios artists in this studio' do
@@ -72,7 +72,7 @@ describe StudioPresenter do
 
     describe '.open_studios_artists_count_label' do
       it 'returns a label with os artist count info' do
-        expect(presenter.open_studios_artists_count_label).to eq '1 artist in Open Studios'
+        expect(presenter.open_studios_artists_count_label).to eq '1 artist in Custom Open Studios'
       end
     end
   end

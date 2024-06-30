@@ -1,8 +1,8 @@
 test:
-  service: Disk
+  service: DiskWithHost
   root: <%= Rails.root.join("tmp/storage") %>
 local:
-  service: Disk
+  service: DiskWithHost
   root: <%= Rails.root.join("storage") %>
 amazon:
   service: S3
