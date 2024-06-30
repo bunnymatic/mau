@@ -20,8 +20,8 @@ Scenario: Adding a new open studios event
   And I see a flash notice "Successfully added a new Open Studios Event"
   Then I see the open studios event with the title "SuperDuper"
 
-  When I click delete on the "Open Studios" titled open studios event
-  Then I see that the open studios event titled "Open Studios" is no longer there
+  When I click delete on the "SuperDuper" titled open studios event
+  Then I see that the open studios event titled "SuperDuper" is no longer there
 
   When I click on the first "clear os dates cache" button
   Then I see the "admin open studios events" page
