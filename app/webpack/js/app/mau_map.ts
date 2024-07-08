@@ -1,4 +1,4 @@
-import MarkerClusterer from "@google/markerclustererplus";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import Spinner from "@js/app/spinner";
 import { post } from "@services/mau_ajax";
 
