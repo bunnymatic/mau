@@ -1,4 +1,7 @@
-import { openStudiosParticipantFactory } from "@test/factories";
+import {
+  openStudiosEventFactory,
+  openStudiosParticipantFactory,
+} from "@test/factories";
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -8,13 +11,12 @@ import { OpenStudiosRegistrationSection } from "./open_studios_registration_sect
 vi.mock("@services/api");
 
 describe("OpenStudiosRegistrationSection", () => {
-  const defaultOsEvent = {
-    dateRange: "The dates of the event",
-  };
+  const defaultOsEvent = openStudiosEventFactory.build();
   const defaultProps = {
-    participating: false,
+    participant: null,
     openStudiosEvent: defaultOsEvent,
     location: "The Location Is Here",
+    artistId: 5,
   };
 
   const renderComponent = (props = {}) => {
@@ -32,7 +34,7 @@ describe("OpenStudiosRegistrationSection", () => {
     it("shows a message if you're already participating", () => {
       expect(
         screen.queryByText(
-          "Yay! You are currently registered for Open Studios on The dates of the event",
+          "Yay! You are currently registered for Open Studios on July 10-12 2020",
           { exact: false }
         )
       ).toBeInTheDocument();

@@ -1,5 +1,6 @@
 import { all } from "@js/app/helpers";
 import { renderInForm } from "@reactjs/test/renderers";
+import { specialEventDetailsFactory } from "@test/factories/special_event_details.factory";
 import { screen } from "@testing-library/react";
 import React from "react";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -8,7 +9,7 @@ import { SpecialEventScheduleFields } from "./special_event_schedule_fields";
 
 describe("SpecialEventScheduleFields", () => {
   let rendered;
-  const event = {
+  const event = specialEventDetailsFactory.build({
     dateRange: "Nov 12-13 2020",
     timeSlots: [
       "1605128400::1605132000",
@@ -16,7 +17,7 @@ describe("SpecialEventScheduleFields", () => {
       "1605215000::1605218800",
       "1605218800::1605222400",
     ],
-  };
+  });
 
   describe("when the component is enabled", () => {
     beforeEach(() => {

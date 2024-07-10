@@ -51,7 +51,6 @@ export const OpenStudiosRegistrationSection: FC<
       {isParticipating ? (
         <OpenStudiosInfoForm
           artistId={artistId}
-          location={location}
           onUpdateParticipant={setParticipant}
           openStudiosEvent={event}
           participant={participant}

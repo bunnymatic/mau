@@ -1,4 +1,5 @@
 import { isEmpty } from "@js/app/helpers";
+import { isObject } from "@js/app/typed_helpers";
 import { ellipsizeParagraph } from "@js/app/utils";
 import { routing } from "@services/routing.service";
 
@@ -46,7 +47,11 @@ export class SearchHit {
     return { id: this.id, ...(this.src[this.type] ?? {}) } as SourceDetails;
   }
   get image() {
-    if (isEmpty(this.object.images)) {
+    const images = this.object.images;
+    if (isEmpty(images)) {
+      return null;
+    }
+    if (!isObject(images)) {
       return null;
     }
     return this.object.images?.small;

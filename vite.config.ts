@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import { defineConfig } from 'vite'
 import RubyPlugin from 'vite-plugin-ruby'
 import svg from 'vite-plugin-svgr';
@@ -8,10 +10,6 @@ export default defineConfig({
     sourcemap: true,
   },
   plugins: [
-    // inject({   // => that should be first under plugins array
-    //   $: 'jquery',
-    //   jQuery: 'jquery',
-    // }),
     RubyPlugin(),
     svg(),
   ],
@@ -31,5 +29,6 @@ export default defineConfig({
     globals: true,
     setupFiles: '../../jstest/setupFiles.js',
     environment: 'jsdom',
+    dir: "app/webpack"
   }
 });
