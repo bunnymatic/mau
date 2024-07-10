@@ -10,13 +10,13 @@ import {
 import React from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { ArtModal } from "./art_modal";
+import { ArtModal, type ArtModalProps } from "./art_modal";
 
 describe("ArtModal", () => {
   beforeEach(() => {
     vi.resetAllMocks();
   });
-  const renderComponent = (props) => {
+  const renderComponent = (props?: ArtModalProps) => {
     return render(
       <ArtModal {...props}>
         <button data-testid="trigger">trigger open</button>

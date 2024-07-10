@@ -1,6 +1,7 @@
 /** api request/response shapes **/
 
-import { ApplicationEvent } from "./modelTypes";
+import { ApplicationEvent, IdType } from "./modelTypes";
+import { Nullable } from "./utilTypes";
 
 export interface ContactArtistFormData {
   name: string;
@@ -12,4 +13,20 @@ export interface ContactArtistFormData {
 
 export interface ApplicationEventsListResponse {
   applicationEvents: ApplicationEvent[];
+}
+
+interface OpenStudiosParticipant {
+  openStudiosEventId: IdType;
+  showEmail: Nullable<boolean>;
+  showPhoneNumber: Nullable<boolean>;
+  shopUrl: Nullable<string>;
+  videoConferenceUrl: Nullable<string>;
+  videoConferenceSchedule: Nullable<Record<string, boolean>>;
+  youtubeUrl: Nullable<string>;
+}
+
+export interface OpenStudiosParticipantUpdateRequest {
+  id: number;
+  artistId: number;
+  openStudiosParticipant: OpenStudiosParticipant;
 }

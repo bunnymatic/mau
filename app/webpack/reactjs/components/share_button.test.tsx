@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { ShareButton } from "./share_button";
 
@@ -31,7 +31,9 @@ describe("ShareButton", () => {
     });
 
     it("includes the facebook icon", function () {
-      const link = screen.getByTitle("Share this on Facebook");
+      const link = screen.getByTitle(
+        "Share this on Facebook"
+      ) as HTMLLinkElement;
       const icon = link.getElementsByTagName("I");
       expect(icon).toHaveLength(1);
       expect(icon[0].classList).toContain("fa-facebook");
@@ -55,7 +57,7 @@ describe("ShareButton", () => {
     });
 
     it("includes the twitter icon", function () {
-      const link = screen.getByTitle("Tweet this");
+      const link = screen.getByTitle("Tweet this") as HTMLLinkElement;
       const icon = link.getElementsByTagName("I");
       expect(icon).toHaveLength(1);
       expect(icon[0].classList).toContain("fa-twitter");
@@ -83,7 +85,7 @@ describe("ShareButton", () => {
     });
 
     it("includes the twitter icon", function () {
-      const link = screen.getByTitle("Pin it");
+      const link = screen.getByTitle("Pin it") as HTMLLinkElement;
       const icon = link.getElementsByTagName("I");
       expect(icon).toHaveLength(1);
       expect(icon[0].classList).toContain("fa-pinterest");

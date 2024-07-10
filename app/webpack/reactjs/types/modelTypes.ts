@@ -7,7 +7,7 @@ interface ActiveRecordModel {
   id: IdType;
 }
 
-export interface CmsDocument {
+export interface CmsDocument extends ActiveRecordModel {
   page: string;
   section: string;
   cmsid: number;

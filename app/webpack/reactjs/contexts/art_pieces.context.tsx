@@ -9,10 +9,9 @@ interface ArtPiecesProviderProps {
   artPieces: ArtPiece[];
 }
 
-export const ArtPiecesProvider: FC<ArtPiecesProviderProps> = ({
-  children,
-  artPieces,
-}) => {
+export const ArtPiecesProvider: FC<
+  ArtPiecesProviderProps & types.ChildrenProp
+> = ({ children, artPieces }) => {
   return (
     <ArtPiecesContext.Provider value={{ artPieces }}>
       {children}

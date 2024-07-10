@@ -1,21 +1,23 @@
 import { BasePageObject } from "@reactjs/test/base_page_object";
-import { sendInquiry } from "@services/notification.service";
+import * as notificationService from "@services/notification.service";
 import { render } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
 
-import { NotifyMauDialog } from "./notify_mau_dialog";
+import { NoteTypes, NotifyMauDialog } from "./notify_mau_dialog";
 
-vi.mock("@services/notification.service");
-const mockSendInquiry = sendInquiry;
+const mockSendInquiry = vi.spyOn(notificationService, "sendInquiry");
 
 export class NotifyMauDialogPageObject extends BasePageObject {
-  constructor({ debug, raiseOnFind } = {}) {
-    super({ debug, raiseOnFind });
+  constructor() {
+    super();
   }
 
-  renderComponent(props) {
-    const defaultProps = { noteType: "inquiry", linkText: "Here we go" };
+  renderComponent(props?: Record<string, any>) {
+    const defaultProps: { noteType: NoteTypes; linkText: string } = {
+      noteType: "inquiry",
+      linkText: "Here we go",
+    };
     return render(<NotifyMauDialog {...defaultProps} {...props} />);
   }
 

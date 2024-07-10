@@ -1,5 +1,3 @@
-import { isArray } from "@js/app/helpers";
-
 const matcher = (data, item) => data.id == item.id && data.type === item.type;
 
 export class JsonApiModel {
@@ -19,7 +17,7 @@ export class JsonApiModel {
         if (!data) {
           continue;
         }
-        if (isArray(data)) {
+        if (Array.isArray(data)) {
           const items = included.filter((item) =>
             data.find((datum) => matcher(datum, item))
           );

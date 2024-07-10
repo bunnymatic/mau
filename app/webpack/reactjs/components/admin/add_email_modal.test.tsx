@@ -1,5 +1,8 @@
 import { all } from "@js/app/helpers";
-import { BasePageObject } from "@reactjs/test/base_page_object";
+import {
+  BasePageObject,
+  BasePageObjectProps,
+} from "@reactjs/test/base_page_object";
 import { api } from "@services/api";
 import {
   act,
@@ -13,31 +16,30 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { AddEmailModal, AddEmailModalProps } from "./add_email_modal";
 
-vi.mock("@services/api");
-const mockApi = api;
+const mockApiEmailsSave = vi.spyOn(api.emailLists.emails, "save");
 
 class AddEmailModalPageObject extends BasePageObject {
   defaultProps: AddEmailModalProps;
 
-  constructor({ debug, raiseOnFind } = {}) {
-    super({ debug, raiseOnFind });
+  constructor(args: BasePageObjectProps = {}) {
+    super(args);
     this.defaultProps = {
       listId: 4,
       onAdd: vi.fn(),
     };
   }
-  render(props) {
+  render(props?: Partial<AddEmailModalProps>) {
     return render(<AddEmailModal {...props} {...this.defaultProps} />);
   }
 
   setupApiMocks({ save = true }: { save?: boolean } = {}) {
     if (save) {
-      mockApi.emailLists.emails.save.mockResolvedValue({
+      mockApiEmailsSave.mockResolvedValue({
         email: "newemail@example.com",
         name: "new name",
       });
     } else {
-      mockApi.emailLists.emails.save.mockRejectedValue({
+      mockApiEmailsSave.mockRejectedValue({
         errors: { email: ["bad email"] },
       });
     }
@@ -71,7 +73,7 @@ class AddEmailModalPageObject extends BasePageObject {
   }
 
   get submitButton() {
-    return screen.queryByText("Add");
+    return screen.queryByText("Add") as HTMLButtonElement;
   }
 
   inputField(label: string) {
@@ -133,10 +135,9 @@ describe("AddEmailModal", () => {
       });
 
       await waitFor(() => {
-        expect(mockApi.emailLists.emails.save).toHaveBeenCalledWith(
-          po.defaultProps.listId,
-          { email: { email: "jon@example.com", name: "jon" } }
-        );
+        expect(mockApiEmailsSave).toHaveBeenCalledWith(po.defaultProps.listId, {
+          email: { email: "jon@example.com", name: "jon" },
+        });
       });
 
       await waitFor(() => {
@@ -173,10 +174,9 @@ describe("AddEmailModal", () => {
       });
 
       await waitFor(() => {
-        expect(mockApi.emailLists.emails.save).toHaveBeenCalledWith(
-          po.defaultProps.listId,
-          { email: { email: "jon@example.com", name: "jon" } }
-        );
+        expect(mockApiEmailsSave).toHaveBeenCalledWith(po.defaultProps.listId, {
+          email: { email: "jon@example.com", name: "jon" },
+        });
         expect(po.flashError).toBeInTheDocument();
       });
     });

@@ -1,3 +1,4 @@
+import { IdType } from "@reactjs/types";
 import { api } from "@services/api";
 import {
   act,
@@ -7,25 +8,24 @@ import {
   waitFor,
 } from "@testing-library/react";
 import React from "react";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { FavoriteThis } from "./favorite_this";
 
-vi.mock("@services/api");
-
-const mockApi = api;
+const mockWhoAmI = vi.spyOn(api.users, "whoami");
+const mockAddFavorite = vi.spyOn(api.favorites, "add");
 
 describe("FavoriteThis", () => {
-  const renderComponent = (type: string, id: number) => {
+  const renderComponent: (type?: string, id?: IdType) => void = (type, id) => {
     render(<FavoriteThis type={type} id={id} />);
   };
 
   describe("default", function () {
     beforeEach(() => {
-      mockApi.users.whoami.mockResolvedValue({
+      mockWhoAmI.mockResolvedValue({
         currentUser: { slug: "the-artist" },
       });
-      mockApi.favorites.add.mockResolvedValue({});
+      mockAddFavorite.mockResolvedValue({});
     });
 
     it("sets up the directive with the art piece attributes", async function () {
@@ -35,8 +35,8 @@ describe("FavoriteThis", () => {
         fireEvent.click(button);
       });
       await waitFor(() => {
-        expect(mockApi.users.whoami).toHaveBeenCalled();
-        expect(mockApi.favorites.add).toHaveBeenCalledWith(
+        expect(mockWhoAmI).toHaveBeenCalled();
+        expect(mockAddFavorite).toHaveBeenCalledWith(
           "the-artist",
           "Artist",
           10
@@ -50,8 +50,8 @@ describe("FavoriteThis", () => {
         fireEvent.click(button);
       });
       await waitFor(() => {
-        expect(mockApi.users.whoami).toHaveBeenCalled();
-        expect(mockApi.favorites.add).toHaveBeenCalledWith(
+        expect(mockWhoAmI).toHaveBeenCalled();
+        expect(mockAddFavorite).toHaveBeenCalledWith(
           "the-artist",
           "Artist",
           10
@@ -62,7 +62,7 @@ describe("FavoriteThis", () => {
 
   describe("when you're not logged in", function () {
     beforeEach(() => {
-      mockApi.users.whoami.mockResolvedValue({});
+      mockWhoAmI.mockResolvedValue({});
     });
 
     it("sets up the directive with the art piece attributes", async function () {
@@ -72,7 +72,7 @@ describe("FavoriteThis", () => {
         fireEvent.click(button);
       });
       await waitFor(() => {
-        expect(mockApi.users.whoami).toHaveBeenCalled();
+        expect(mockWhoAmI).toHaveBeenCalled();
         expect(
           screen.queryByText("You need to login", { exact: false })
         ).toBeInTheDocument();
@@ -82,10 +82,10 @@ describe("FavoriteThis", () => {
 
   describe("when the favorite call fails", function () {
     beforeEach(() => {
-      mockApi.users.whoami.mockResolvedValue({
+      mockWhoAmI.mockResolvedValue({
         currentUser: { slug: "the-artist" },
       });
-      mockApi.favorites.add.mockRejectedValue({});
+      mockAddFavorite.mockRejectedValue({});
     });
 
     it("sets up the directive with the art piece attributes", async function () {
@@ -95,7 +95,7 @@ describe("FavoriteThis", () => {
         fireEvent.click(button);
       });
       await waitFor(() => {
-        expect(mockApi.users.whoami).toHaveBeenCalled();
+        expect(mockWhoAmI).toHaveBeenCalled();
         expect(
           screen.queryByText(
             "That item doesn't seem to be available to favorite",

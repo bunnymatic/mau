@@ -1,4 +1,7 @@
-import { MarkerClusterer } from "@googlemaps/markerclusterer";
+import {
+  MarkerClusterer,
+  SuperClusterAlgorithm,
+} from "@googlemaps/markerclusterer";
 import Spinner from "@js/app/spinner";
 import { post } from "@services/mau_ajax";
 
@@ -112,11 +115,16 @@ class MauMap {
   }
 
   cluster(markers: Array<google.maps.Marker>) {
-    const markerCluster = new MarkerClusterer(this.map, markers, {
+    const algorithm = new SuperClusterAlgorithm({
       imagePath: "/images/google_maps/js-marker-clusterer/",
       zoomOnClick: true,
       maxZoom: 17,
       gridSize: 20,
+    });
+    const markerCluster = new MarkerClusterer({
+      map: this.map,
+      markers,
+      algorithm,
     });
     return markerCluster;
   }

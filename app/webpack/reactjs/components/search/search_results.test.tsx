@@ -1,7 +1,7 @@
 import esSearchResults from "@fixtures/files/search_results.json";
 import { SearchHit } from "@js/app/models/search_hit.model";
 import { act, waitFor } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { SearchResultsPageObject } from "./search_results.po";
 

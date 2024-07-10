@@ -1,5 +1,5 @@
 import { act, waitFor } from "@testing-library/react";
-import { beforeEach, describe, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { NotifyMauDialogPageObject } from "./notify_mau_dialog.po";
 

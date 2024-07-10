@@ -76,11 +76,11 @@ export class SearchHit {
   get name() {
     switch (this.type) {
       case "studio":
-        return this.object.name;
+        return this.object.name as string | null;
       case "art_piece":
-        return this.object.title;
+        return this.object.title as string | null;
       case "artist":
-        return this.object.artist_name;
+        return this.object.artist_name as string | null;
       default:
         return null;
     }
