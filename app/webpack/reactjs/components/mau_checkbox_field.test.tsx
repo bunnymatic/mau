@@ -1,5 +1,6 @@
 import { renderInForm } from "@reactjs/test/renderers";
 import React from "react";
+import { describe, expect, it } from "vitest";
 
 import { MauCheckboxField } from "./mau_checkbox_field";
 

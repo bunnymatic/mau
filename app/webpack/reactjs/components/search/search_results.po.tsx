@@ -8,8 +8,8 @@ import { SearchResults } from "./search_results";
 
 export class SearchResultsPageObject extends BasePageObject {
   public results: SearchHit[];
-  constructor({ debug, raiseOnFind } = {}) {
-    super({ debug, raiseOnFind });
+  constructor() {
+    super();
     this.results = [];
   }
 
@@ -26,10 +26,10 @@ export class SearchResultsPageObject extends BasePageObject {
   }
 
   imageLink(hit: SearchHit) {
-    return screen.getAllByTitle(hit.name)[0];
+    return screen.getAllByTitle(hit.name)[0] as HTMLLinkElement;
   }
 
   mainLink(hit: SearchHit) {
-    return screen.getAllByTitle(hit.name)[1];
+    return screen.getAllByTitle(hit.name)[1] as HTMLLinkElement;
   }
 }

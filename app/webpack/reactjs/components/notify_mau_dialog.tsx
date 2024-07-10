@@ -12,7 +12,7 @@ import { sendInquiry } from "@services/notification.service";
 import { Form, Formik } from "formik";
 import React, { type FC } from "react";
 
-type NoteTypes = "inquiry" | "help" | "feedback" | "secretWord";
+export type NoteTypes = "inquiry" | "help" | "feedback" | "secretWord";
 type InputField = "inquiry" | "email" | "emailConfirm";
 
 type NotifyMauFormErrors = Partial<Record<InputField, string[] | undefined>>;

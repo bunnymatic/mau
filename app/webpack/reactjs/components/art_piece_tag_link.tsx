@@ -1,5 +1,5 @@
 import { routing } from "@js/services";
-import { ArtPieceTag } from "@reactjs/models";
+import { ArtPieceTag } from "@models/art_piece_tag.model";
 import React, { FC } from "react";
 
 interface ArtPieceTagLinkProps {

@@ -10,7 +10,13 @@ import { Form, Formik } from "formik";
 import { camelizeKeys } from "humps";
 import React, { FC } from "react";
 
-export type OnAddCallback = ({ email: string, name: string }) => void;
+export type OnAddCallback = ({
+  email,
+  name,
+}: {
+  email: string;
+  name: string;
+}) => void;
 
 export interface AddEmailModalProps {
   onAdd: OnAddCallback;

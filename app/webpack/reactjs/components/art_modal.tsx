@@ -122,7 +122,7 @@ interface ArtModalProps {
   artPiece: ArtPiece;
 }
 
-export const ArtModal: FC<ArtModalProps & types.ChildrenProp> = ({
+const ArtModal: FC<ArtModalProps & types.ChildrenProp> = ({
   artPiece,
   children,
 }) => {
@@ -141,3 +141,5 @@ export const ArtModal: FC<ArtModalProps & types.ChildrenProp> = ({
     </>
   );
 };
+
+export { ArtModal, type ArtModalProps };

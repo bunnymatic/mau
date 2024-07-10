@@ -35,10 +35,12 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
   const { isOpen, open, close } = useModalState();
   setAppElement("body");
 
-  const submit = (answer: boolean) => (_event: MouseEvent) => {
-    (handleConfirm ?? noop)(answer);
-    close();
-  };
+  const submit =
+    (answer: boolean): React.MouseEventHandler<HTMLButtonElement> =>
+    (_event) => {
+      (handleConfirm ?? noop)(answer);
+      close();
+    };
 
   return (
     <>

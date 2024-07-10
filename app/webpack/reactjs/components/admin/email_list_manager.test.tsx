@@ -1,4 +1,7 @@
-import { BasePageObject } from "@reactjs/test/base_page_object";
+import {
+  BasePageObject,
+  BasePageObjectProps,
+} from "@reactjs/test/base_page_object";
 import * as types from "@reactjs/types";
 import { api } from "@services/api";
 import { emailFactory } from "@test/factories";
@@ -17,8 +20,8 @@ class EmailListManagerPageObject extends BasePageObject {
   props: EmailListManagerProps;
   emails: types.EmailAttributes[];
 
-  constructor({ debug, raiseOnFind } = {}) {
-    super({ debug, raiseOnFind });
+  constructor(args: BasePageObjectProps = {}) {
+    super(args);
     this.props = {
       title: "This List",
       info: "Here's why we have this list",

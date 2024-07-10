@@ -2,6 +2,9 @@ import Flash from "@js/app/flash";
 import { isEmpty } from "@js/app/helpers";
 import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY } from "@js/event_constants";
 import { routing } from "@js/services";
+import { ArtPiece } from "@models/art_piece.model";
+import { Artist } from "@models/artist.model";
+import { Studio } from "@models/studio.model";
 import { ArtPieceTagLink } from "@reactjs/components/art_piece_tag_link";
 import { FavoriteThis } from "@reactjs/components/favorite_this";
 import { JoinChildren } from "@reactjs/components/join_children";
@@ -10,7 +13,7 @@ import { MediumLink } from "@reactjs/components/medium_link";
 import { ShareButton } from "@reactjs/components/share_button";
 import { Spinner } from "@reactjs/components/spinner";
 import { useCarouselState, useEventListener } from "@reactjs/hooks";
-import { Artist, ArtPiece, Studio } from "@reactjs/models";
+import { IdType } from "@reactjs/types";
 import { jsonApi as api } from "@services/json_api";
 import cx from "classnames";
 import React, { FC, useCallback, useEffect, useState } from "react";
@@ -27,7 +30,7 @@ const OpenStudiosViolator: FC = () => (
 );
 
 interface ArtPieceBrowserProps {
-  artPieceId: number;
+  artPieceId: IdType;
   artPieces: ArtPiece[];
   studio: Studio;
   artist: Artist;

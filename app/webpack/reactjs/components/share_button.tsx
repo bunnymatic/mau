@@ -1,9 +1,9 @@
 import { hashToQueryString } from "@js/app/query_string_parser";
-import { ArtPiece } from "@reactjs/models";
+import { ArtPiece } from "@models/art_piece.model";
 import cx from "classnames";
 import React, { FC } from "react";
 
-type ShareTypes = "twitter" | "facebook" | "pinterest";
+export type ShareTypes = "twitter" | "facebook" | "pinterest";
 
 interface ShareButtonProps {
   type: ShareTypes;
@@ -24,7 +24,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
   const location = window.location;
 
   locationOrigin = location.protocol + "//" + location.hostname;
-  if (location.port != null && location.port !== 80) {
+  if (location.port != null && location.port !== "80") {
     locationOrigin += ":" + location.port;
   }
 

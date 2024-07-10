@@ -16,8 +16,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { OpenStudiosInfoForm } from "./open_studios_info_form";
 
-vi.mock("@js/services/api");
-
 describe("OpenStudiosInfoForm", () => {
   const defaultOsEvent = openStudiosEventFactory.build();
   const participant = openStudiosParticipantFactory.build();
@@ -36,8 +34,11 @@ describe("OpenStudiosInfoForm", () => {
     render(<OpenStudiosInfoForm {...mergedProps} />);
   };
 
-  const mockUpdate = api.openStudios.participants.update;
-  const mockSubmitRegStatus = api.openStudios.submitRegistrationStatus;
+  const mockUpdate = vi.spyOn(api.openStudios.participants, "update");
+  const mockSubmitRegStatus = vi.spyOn(
+    api.openStudios,
+    "submitRegistrationStatus"
+  );
 
   const timeSlots = ["1605128400::1605132000", "1605132000::1605135600"];
 

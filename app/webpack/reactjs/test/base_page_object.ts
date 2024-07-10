@@ -5,8 +5,8 @@ export interface BasePageObjectProps {
   raiseOnFind?: boolean;
 }
 export class BasePageObject {
-  private readonly debug: boolean;
-  private readonly raiseOnFind: boolean;
+  private readonly debug?: boolean;
+  private readonly raiseOnFind?: boolean;
 
   constructor(
     { debug, raiseOnFind }: BasePageObjectProps = {
@@ -23,7 +23,10 @@ export class BasePageObject {
     return screen.getAllByRole("button", { name }) as HTMLButtonElement[];
   }
 
-  findButton(name: string, opts: { exact?: boolean } = {}): HTMLButtonElement {
+  findButton(
+    name: string,
+    opts: { exact?: boolean; hidden?: boolean } = {}
+  ): HTMLButtonElement {
     this.debugLog(`trying to find a button with text "${name}"`);
     return screen.getByRole("button", { name, ...opts }) as HTMLButtonElement;
   }
