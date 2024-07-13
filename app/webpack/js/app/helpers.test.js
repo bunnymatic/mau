@@ -3,19 +3,6 @@ import { describe, expect, it, vi } from "vitest";
 import * as helpers from "./helpers";
 
 describe("helpers", () => {
-  describe("isNil", () => {
-    it("returns true if the value is null or undefined", () => {
-      expect(helpers.isNil(null)).toEqual(true);
-      expect(helpers.isNil()).toEqual(true);
-      expect(helpers.isNil(undefined)).toEqual(true);
-    });
-    it("returns false if the value defined", () => {
-      expect(helpers.isNil(0)).toEqual(false);
-      expect(helpers.isNil(1 / 0)).toEqual(false);
-      expect(helpers.isNil(NaN)).toEqual(false);
-      expect(helpers.isNil("")).toEqual(false);
-    });
-  });
   describe("each", () => {
     it("handles arrays", () => {
       const cb = vi.fn();

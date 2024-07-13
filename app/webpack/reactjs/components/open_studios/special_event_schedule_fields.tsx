@@ -5,8 +5,8 @@ import { DateTime } from "luxon";
 import React, { FC } from "react";
 
 interface TimeSlot {
-  start: string;
-  end: string;
+  start: DateTime;
+  end: DateTime;
 }
 
 const parseTimeSlot = (timeSlot: string): TimeSlot => {
@@ -20,9 +20,9 @@ const parseTimeSlot = (timeSlot: string): TimeSlot => {
 
 const formatTimeSlot = (timeslot: TimeSlot): string => {
   const { start, end } = timeslot;
-  return `${start.toLocaleString(DateTime.TIME_SIMPLE)} - ${end.toLocaleString(
-    DateTime.TIME_SIMPLE
-  )}`;
+  const startString = start.toLocaleString(DateTime.TIME_SIMPLE);
+  const endString = end.toLocaleString(DateTime.TIME_SIMPLE);
+  return `${startString} - ${endString}`;
 };
 
 interface TimeSlotCheckBoxProps {
@@ -106,7 +106,7 @@ export const SpecialEventScheduleFields: FC<
                 <div className="special-event-schedule__day-title">{day}</div>
                 {slotInfos.map(({ parsed: slot, fieldName }) => (
                   <TimeSlotCheckBox
-                    key={slot.start}
+                    key={slot.start.toString()}
                     timeslot={slot}
                     name={fieldName}
                     disabled={disabled}

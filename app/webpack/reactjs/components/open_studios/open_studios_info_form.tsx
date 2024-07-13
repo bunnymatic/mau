@@ -40,7 +40,6 @@ export const OpenStudiosInfoForm: FC<OpenStudiosInfoFormProps> = ({
 }) => {
   const specialEventDateRange =
     event.specialEvent?.dateRange || event.dateRange;
-
   const handleUnregistration = (unregistering: boolean) => {
     return submitRegistration(!unregistering).then((data) => {
       onUpdateParticipant(data.participant);

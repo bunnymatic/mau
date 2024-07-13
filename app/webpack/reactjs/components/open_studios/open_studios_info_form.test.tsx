@@ -3,6 +3,7 @@ import {
   openStudiosEventFactory,
   openStudiosParticipantFactory,
 } from "@test/factories";
+import { specialEventDetailsFactory } from "@test/factories/special_event_details.factory";
 import { fillIn, findButton, findField } from "@test/support/dom_finders";
 import {
   act,
@@ -17,7 +18,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { OpenStudiosInfoForm } from "./open_studios_info_form";
 
 describe("OpenStudiosInfoForm", () => {
-  const defaultOsEvent = openStudiosEventFactory.build();
+  const defaultOsEvent = openStudiosEventFactory.build({
+    specialEvent: null,
+  });
   const participant = openStudiosParticipantFactory.build();
   const mockOnUpdateParticipant = vi.fn();
   const artistId = 4;
@@ -64,7 +67,6 @@ describe("OpenStudiosInfoForm", () => {
         const dateRanges = screen.queryAllByText(defaultOsEvent.dateRange, {
           exact: false,
         });
-
         expect(dateRanges).toHaveLength(2);
       });
 
@@ -82,10 +84,10 @@ describe("OpenStudiosInfoForm", () => {
     describe("when there is a special event", () => {
       beforeEach(() => {
         const openStudiosEvent = openStudiosEventFactory.build({
-          specialEvent: {
+          specialEvent: specialEventDetailsFactory.build({
             dateRange: "some other dates that are important",
             timeSlots,
-          },
+          }),
         });
         mockUpdate.mockResolvedValue({});
         renderComponent({

@@ -1,4 +1,4 @@
-import { isNil } from "@js/app/helpers";
+import { isNil } from "@js/app/typed_helpers";
 import { decamelizeKeys } from "humps";
 import jQuery from "jquery";
 
