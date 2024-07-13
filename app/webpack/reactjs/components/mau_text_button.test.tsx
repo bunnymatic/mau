@@ -5,8 +5,13 @@ import { describe, expect, it, vi } from "vitest";
 import { MauTextButton } from "./mau_text_button";
 
 describe("MauTextButton", () => {
+  const mockOnClick = vi.fn();
   const renderComponent = ({ children, ...props }) => {
-    render(<MauTextButton {...props}>{children}</MauTextButton>);
+    render(
+      <MauTextButton onClick={mockOnClick} {...props}>
+        {children}
+      </MauTextButton>
+    );
   };
 
   it("has the basic classes", () => {
@@ -16,10 +21,9 @@ describe("MauTextButton", () => {
   });
 
   it("runs onClick when it's pressed", () => {
-    const onClick = vi.fn();
-    renderComponent({ children: "this button", onClick });
+    renderComponent({ children: "this button" });
     const button = screen.getByRole("button", { name: "this button" });
     fireEvent.click(button);
-    expect(onClick).toHaveBeenCalled();
+    expect(mockOnClick).toHaveBeenCalled();
   });
 });

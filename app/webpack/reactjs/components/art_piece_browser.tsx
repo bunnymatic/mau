@@ -298,7 +298,7 @@ const ArtPieceBrowserWrapper: FC<ArtPieceBrowserWrapperProps> = ({
     <ArtPieceBrowser
       studio={studio}
       artPieces={artPieces}
-      artPieceId={initialArtPieceId}
+      artPieceId={Number(initialArtPieceId)}
       artist={artist}
     />
   );

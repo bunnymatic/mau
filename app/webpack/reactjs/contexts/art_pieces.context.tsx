@@ -2,7 +2,9 @@ import { ArtPiece } from "@models/art_piece.model";
 import * as types from "@reactjs/types";
 import React, { createContext, FC } from "react";
 
-export const ArtPiecesContext = createContext<types.ArtPiecesContext>({});
+export const ArtPiecesContext = createContext<types.ArtPiecesContext>({
+  artPieces: [],
+});
 ArtPiecesContext.displayName = "ArtPiecesData";
 
 interface ArtPiecesProviderProps {

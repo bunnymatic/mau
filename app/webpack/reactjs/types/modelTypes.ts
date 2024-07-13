@@ -38,7 +38,7 @@ export interface JsonApiModel<T, R> {
 type ImageSizes = "small" | "medium" | "large" | "original";
 
 // JsonAPI models look pretty different
-interface ArtPieceAttributes {
+export interface ArtPieceAttributes {
   artist_name: string;
   favorites_count: number;
   price: Nullable<number>;

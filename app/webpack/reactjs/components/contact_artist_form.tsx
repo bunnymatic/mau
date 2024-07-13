@@ -12,7 +12,7 @@ import React, { FC } from "react";
 
 interface ContactArtistFormProps {
   artPiece: ArtPiece;
-  handleClose: (ev?: MouseEvent) => void;
+  handleClose: (ev?) => void;
 }
 
 const DEFAULT_FORM_VALUES = {
@@ -125,7 +125,7 @@ export const ContactArtistForm: FC<ContactArtistFormProps> = ({
                 >
                   Send!
                 </MauButton>
-                <MauButton onClick={handleClose}>Cancel</MauButton>
+                <MauButton onClick={(_ev) => handleClose()}>Cancel</MauButton>
               </div>
             </Form>
           );

@@ -1,25 +1,28 @@
 import esSearchResults from "@fixtures/files/search_results.json";
+import { SearchHit } from "@js/app/models/search_hit.model";
 import * as searchService from "@js/services/search.service";
-import { BasePageObject } from "@reactjs/test/base_page_object";
+import {
+  BasePageObject,
+  BasePageObjectProps,
+} from "@reactjs/test/base_page_object";
 import { render } from "@testing-library/react";
 import React from "react";
 import { type Mock, vi } from "vitest";
 
 import { SearchForm } from "./search_form";
 import { SearchResultsProvider } from "./search_results.context";
-import { SearchResult } from "./searchTypes";
 
 const mockSearchService = vi.fn();
 
 export class SearchFormPageObject extends BasePageObject {
   mockSearchService: Mock;
 
-  constructor({ debug, raiseOnFind } = {}) {
-    super({ debug, raiseOnFind });
+  constructor(args: BasePageObjectProps = {}) {
+    super(args);
     this.mockSearchService = mockSearchService;
   }
 
-  renderComponent(results?: SearchResult[]) {
+  renderComponent(results?: SearchHit[]) {
     return render(
       <SearchResultsProvider initialResults={results ?? []}>
         <SearchForm />
