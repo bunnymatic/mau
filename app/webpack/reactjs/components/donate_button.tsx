@@ -6,8 +6,8 @@ import QrCode from "images/mau_venmo_qrcode.jpg";
 import React, { FC, useRef } from "react";
 
 export const DonateButton: FC = () => {
-  const { toggle, isOpen } = useModalState(false);
-  const qrCodeRef = useRef<HTMLElement>(null);
+  const { toggle, isOpen } = useModalState();
+  const qrCodeRef = useRef<HTMLAnchorElement>(null);
   const toggleAndScrollIntoView = () => {
     toggle();
     if (!isOpen) {

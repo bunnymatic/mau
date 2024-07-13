@@ -9,7 +9,7 @@ const get = (url) => ajaxGet(url).then((data) => camelizeKeys(data));
 
 export const jsonApi = {
   artists: {
-    get: (id: IdType): Artist => {
+    get: (id: IdType): Promise<Artist> => {
       const resp = get(`/api/v2/artists/${id}.json`);
       return resp.then((data) => {
         return new Artist(data.data, data.included);
@@ -17,7 +17,7 @@ export const jsonApi = {
     },
   },
   artPieces: {
-    index: (artistId: IdType): Array<ArtPiece> => {
+    index: (artistId: IdType): Promise<Array<ArtPiece>> => {
       const resp = get(`/api/v2/artists/${artistId}/art_pieces.json`);
       return resp.then((data) => {
         const pieces = data.data;
@@ -25,7 +25,7 @@ export const jsonApi = {
         return pieces.map((piece) => new ArtPiece(piece, included));
       });
     },
-    get: (id: IdType): ArtPiece => {
+    get: (id: IdType): Promise<ArtPiece> => {
       const resp = get(`/api/v2/art_pieces/${id}.json`);
       return resp.then((data) => {
         return new ArtPiece(data.data, data.included);
@@ -33,7 +33,7 @@ export const jsonApi = {
     },
   },
   studios: {
-    get: (id: IdType): Studio => {
+    get: (id: IdType): Promise<Studio> => {
       const resp = get(`/api/v2/studios/${id || 0}.json`);
       return resp.then((data) => {
         return new Studio(data.data, data.included);
