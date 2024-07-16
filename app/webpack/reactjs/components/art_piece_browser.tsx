@@ -287,7 +287,7 @@ const ArtPieceBrowserWrapper: FC<ArtPieceBrowserWrapperProps> = ({
     }
   }, []);
 
-  if (!artist || (!artPieces && !isEmpty(artPieces)) || !studio) {
+  if (!artist || (!artPieces && isEmpty(artPieces)) || !studio) {
     return (
       <div className="mau-spinner-wrapper--takeover">
         <Spinner />

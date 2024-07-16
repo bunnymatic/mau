@@ -17,6 +17,7 @@ export function each(data, cb) {
     });
   }
 }
+
 export function groupBy(arr, keyOrCb) {
   let cb = keyOrCb;
   if (!isFunction(keyOrCb)) {

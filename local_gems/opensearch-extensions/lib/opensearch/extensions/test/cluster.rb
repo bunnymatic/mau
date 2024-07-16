@@ -23,6 +23,7 @@ require 'uri'
 require 'json'
 require 'ansi'
 require 'debug'
+require 'open3'
 $stdout.sync = true
 $stderr.sync = true
 
@@ -117,6 +118,26 @@ module OpenSearch
               COMMAND
             },
             '2.14' => lambda { |arguments, node_number|
+              <<-COMMAND.gsub('                ', '').gsub(/\n$/, '')
+                #{arguments[:command]} \
+                -E cluster.name=#{arguments[:cluster_name]} \
+                -E node.name=#{arguments[:node_name]}-#{node_number} \
+                -E http.port=#{arguments[:port].to_i + (node_number - 1)} \
+                -E path.data=#{arguments[:path_data]} \
+                -E path.logs=#{arguments[:path_logs]} \
+                -E cluster.routing.allocation.disk.threshold_enabled=false \
+                -E network.host=#{arguments[:network_host]} \
+                -E node.attr.testattr=test \
+                -E path.repo=/tmp \
+                -E repositories.url.allowed_urls=http://snapshot.test* \
+                #{'-E discovery.type=single-node' if arguments[:number_of_nodes] < 2} \
+                -E discovery.seed_hosts=#{arguments[:number_of_nodes] - 1} \
+                -E node.max_local_storage_nodes=#{arguments[:number_of_nodes]} \
+                -E logger.level=#{ENV['DEBUG'] ? 'DEBUG' : 'INFO'} \
+                #{arguments[:es_params]}
+              COMMAND
+            },
+            '2.15' => lambda { |arguments, node_number|
               <<-COMMAND.gsub('                ', '').gsub(/\n$/, '')
                 #{arguments[:command]} \
                 -E cluster.name=#{arguments[:cluster_name]} \
@@ -425,31 +446,21 @@ module OpenSearch
                         begin
                           # First, try the new `--version` syntax...
                           __log "Running [#{arguments[:command]} --version] to determine version" if ENV['DEBUG']
-                          io = IO.popen("#{arguments[:command]} --version")
-                          pid = io.pid
+                          output = nil
+                          status = nil
 
                           Timeout.timeout(arguments[:timeout_version]) do
-                            Process.wait(pid)
-                            output = io.read
+                            output, status = Open3.capture2e("#{arguments[:command]} --version")
                           end
                         rescue Timeout::Error
                           # ...else, the old `-v` syntax
-                          __log "Running [#{arguments[:command]} -v] to determine version" if ENV['DEBUG']
-                          output = `#{arguments[:command]} -V`
-                        ensure
-                          if pid
-                            begin
-                              Process.kill('INT', pid)
-                            rescue StandardError
-                              Errno::ESRCH
-                            end
-                          end
-                          io.close unless io.closed?
+                          __log "Running [#{arguments[:command]} -V] to determine version" if ENV['DEBUG']
+                          output, status = Open3.capture2e("#{arguments[:command]} -V")
                         end
 
                         warn "> #{output}" if ENV['DEBUG']
 
-                        if output.empty?
+                        if output.empty? || !status.success?
                           raise "Cannot determine OpenSearch version from [#{arguments[:command]} --version] or [#{arguments[:command]} -v]"
                         end
 
