@@ -1,3 +1,4 @@
+
 export const isObject = (maybeObj: any): maybeObj is Object => {
   return (
     (typeof maybeObj === "object" || typeof maybeObj === "function") &&

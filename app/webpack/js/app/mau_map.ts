@@ -4,6 +4,7 @@ import {
 } from "@googlemaps/markerclusterer";
 import Spinner from "@js/app/spinner";
 import { post } from "@services/mau_ajax";
+import jQuery from 'jquery';
 
 const random = (min, max) => Math.random() * (max - min) + min;
 const MAX_RANDOM_DISTANCE = 6;
@@ -146,14 +147,14 @@ class MauMap {
     }
     post("/api/open_studios/map")
       .done((data: MapInfoResponse) => {
-        $(spinnerSelector).remove();
+        jQuery(spinnerSelector).remove();
         new MauMap(mapId, {
           markers: data.map_markers,
           bounds: data.map_bounds,
         }).render();
       })
       .always(() => {
-        $(spinnerSelector).remove();
+        jQuery(spinnerSelector).remove();
       });
   }
 }
