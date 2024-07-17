@@ -1,11 +1,11 @@
 import Flash from "@js/app/flash";
+import { isEmpty } from "@js/app/helpers";
 import { ArtPiece } from "@models/art_piece.model";
 import { ArtCard } from "@reactjs/components/art_card";
 import { Spinner } from "@reactjs/components/spinner";
 import { ArtPiecesProvider } from "@reactjs/contexts/art_pieces.context";
 import { jsonApi as api } from "@services/json_api";
 import React, { FC, useEffect, useState } from "react";
-
 interface ArtPageProps {
   artistId: number;
   initialArtPieceId?: number;
@@ -26,7 +26,7 @@ export const ArtPage: FC<ArtPageProps> = ({ artistId, initialArtPieceId }) => {
       });
   }, [artistId, initialArtPieceId]);
 
-  if (!artPieces) {
+  if (!artPieces || isEmpty(artPieces)) {
     return <Spinner />;
   }
 
