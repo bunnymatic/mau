@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CloseButton } from "./close_button";
 
 describe("CloseButton", () => {
-  let mockHandleClose = vi.fn();
+  const mockHandleClose = vi.fn();
   let container;
 
   beforeEach(() => {

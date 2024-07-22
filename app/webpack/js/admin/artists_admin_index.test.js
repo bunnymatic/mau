@@ -1,5 +1,5 @@
 import jQuery from "jquery";
-import { beforeEach, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import ArtistsAdminIndex from "./artists_admin_index";
 

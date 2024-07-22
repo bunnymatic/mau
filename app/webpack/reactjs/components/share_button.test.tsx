@@ -17,7 +17,7 @@ describe("ShareButton", () => {
   });
 
   describe("when it's a facebook share", function () {
-    let artPiece = {
+    const artPiece = {
       id: 12,
       title: "Mona Lisa",
       artistName: "Leo",
@@ -43,7 +43,7 @@ describe("ShareButton", () => {
   });
 
   describe("when it's a twitter share", function () {
-    let artPiece = {
+    const artPiece = {
       id: 12,
       title: "Mona Lisa",
       artistName: "Leo",
@@ -71,7 +71,7 @@ describe("ShareButton", () => {
   });
 
   describe("when it's a pinterest share", function () {
-    let artPiece = {
+    const artPiece = {
       id: 12,
       title: "Mona Lisa",
       artistName: "Leo",

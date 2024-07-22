@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { ArtPiece } from "./art_piece.model";
 
 describe("ArtPiece", () => {
