@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { MediumLink } from "./medium_link";
 
 describe("MediumLink", () => {
-  let medium = { name: "my medium", id: 12, slug: "my-tag" };
+  const medium = { name: "my medium", id: 12, slug: "my-tag" };
   let container;
 
   beforeEach(function () {

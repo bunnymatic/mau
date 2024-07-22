@@ -13,7 +13,7 @@ export class NotifyMauDialogPageObject extends BasePageObject {
     super();
   }
 
-  renderComponent(props?: Record<string, any>) {
+  renderComponent(props?: Parameters<typeof NotifyMauDialog>) {
     const defaultProps: { noteType: NoteTypes; linkText: string } = {
       noteType: "inquiry",
       linkText: "Here we go",

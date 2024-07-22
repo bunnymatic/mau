@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { JsonApiModel } from "./json_api.model";
 
 describe("JsonApiModel", () => {

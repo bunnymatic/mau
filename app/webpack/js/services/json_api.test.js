@@ -2,7 +2,7 @@ import { ArtPiece } from "@models/art_piece.model";
 import { Artist } from "@models/artist.model";
 import { Studio } from "@models/studio.model";
 import jQuery from "jquery";
-import { vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { jsonApi } from "./json_api";
 

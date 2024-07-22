@@ -1,5 +1,5 @@
 import jQuery from "jquery";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import Flash from "./flash";
 

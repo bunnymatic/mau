@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { ArtPieceTagLink } from "./art_piece_tag_link";
 
 describe("ArtPieceLink", () => {
-  let tag = { name: "my tag", id: 12, slug: "my-tag" };
+  const tag = { name: "my tag", id: 12, slug: "my-tag" };
   let container;
 
   beforeEach(function () {

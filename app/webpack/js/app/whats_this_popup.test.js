@@ -1,5 +1,5 @@
 import jQuery from "jquery";
-import { expect } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import WhatsThisPopup from "./whats_this_popup";
 
