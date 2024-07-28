@@ -1,4 +1,4 @@
-require_relative '../../lib/mau_image/paperclip'
+require_relative '../../lib/mau_image'
 
 module HasAttachedImage
   extend ActiveSupport::Concern
@@ -53,7 +53,7 @@ module HasAttachedImage
         #   begin
         #     # STI needs to query parent classes
         #     att = attached_photo_collection.last
-        #     variant = att.variant(MauImage::Paperclip.variant_args(size)).processed if att
+        #     variant = att.variant(MauImage.variant_args(size)).processed if att
         #     Rails.application.routes.url_helpers.rails_representation_url(variant) if variant
         #   rescue Aws::S3::Errors::BadRequest => e
         #     Rails.logger.error(e.backtrace.join("\n"))
@@ -64,7 +64,7 @@ module HasAttachedImage
             begin
               # STI needs to query parent classes
               att = attached_#{name}_collection.last
-              variant = att.variant(MauImage::Paperclip.variant_args(size)).processed if att
+              variant = att.variant(MauImage.variant_args(size)).processed if att
               return '' unless variant
               variant.send(:processed?) ? Rails.application.routes.url_helpers.url_for(variant) : Rails.application.routes.url_helpers.rails_representation_url(variant)
             rescue Aws::S3::Errors::BadRequest, ActiveStorage::FileNotFoundError => e
