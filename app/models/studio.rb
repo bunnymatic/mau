@@ -106,10 +106,4 @@ class Studio < ApplicationRecord
   def normalize_attributes
     self.phone = normalize_phone_number(phone)
   end
-
-  class << self
-    def paperclip_attachment_name
-      :photo
-    end
-  end
 end

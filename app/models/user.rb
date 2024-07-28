@@ -122,14 +122,6 @@ class User < ApplicationRecord
 
   def profile_image(size = :medium)
     attached_photo(size)
-    # begin
-    #   att = ActiveStorage::Attachment.where(record_id: id, record_type: self.class.name, name: 'photo').order(:id).last
-    #   return att.variant(MauImage::Paperclip::VARIANT_RESIZE_ARGUMENTS[size.to_sym]).processed.url if att
-    # rescue Aws::S3::Errors::BadRequest => e
-    #   Rails.logger.error(e.backtrace.join("\n"))
-    # end
-
-    # photo(size) if photo?
   end
 
   def full_name
@@ -269,11 +261,5 @@ class User < ApplicationRecord
     return if link.blank?
 
     %r{^https?://}.match?(link) ? link : "http://#{link}"
-  end
-
-  class << self
-    def paperclip_attachment_name
-      :photo
-    end
   end
 end

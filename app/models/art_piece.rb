@@ -149,10 +149,4 @@ class ArtPiece < ApplicationRecord
       del += 1
     end
   end
-
-  class << self
-    def paperclip_attachment_name
-      :photo
-    end
-  end
 end
