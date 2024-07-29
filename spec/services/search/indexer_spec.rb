@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Search::Indexer, elasticsearch: :stub, opensearch: :stub do
+describe Search::Indexer, search: :none do
   let(:service) { described_class }
   let(:artist) { build_stubbed :artist, :with_art }
   let(:art_piece) { build_stubbed :art_piece }

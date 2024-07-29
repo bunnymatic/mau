@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'htmlentities'
 
-describe ArtistsController, elasticsearch: :stub do
+describe ArtistsController, search: :elasticsearch_stub do
   let(:artist) do
     FactoryBot.create(:artist,
                       :with_art,

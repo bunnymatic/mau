@@ -8,5 +8,5 @@ end
 at_exit do
   TestSearchServer.stop unless ENV['CI']
 rescue Exception => e
-  puts "Failed to stop Elasticsearch: #{e}"
+  puts "Failed to stop search server #{e}"
 end
