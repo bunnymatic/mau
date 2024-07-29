@@ -4,7 +4,11 @@ import { render } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
 
-import { NoteTypes, NotifyMauDialog } from "./notify_mau_dialog";
+import {
+  NoteTypes,
+  NotifyMauDialog,
+  NotifyMauDialogProps,
+} from "./notify_mau_dialog";
 
 const mockSendInquiry = vi.spyOn(notificationService, "sendInquiry");
 
@@ -13,7 +17,7 @@ export class NotifyMauDialogPageObject extends BasePageObject {
     super();
   }
 
-  renderComponent(props?: Parameters<typeof NotifyMauDialog>) {
+  renderComponent(props?: Partial<NotifyMauDialogProps>) {
     const defaultProps: { noteType: NoteTypes; linkText: string } = {
       noteType: "inquiry",
       linkText: "Here we go",

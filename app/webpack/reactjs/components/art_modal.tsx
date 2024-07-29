@@ -4,7 +4,7 @@ import { ArtWindow } from "@reactjs/components/art_browser/art_window";
 import { CloseButton } from "@reactjs/components/close_button";
 import { ContactArtistForm } from "@reactjs/components/contact_artist_form";
 import { MauModal, setAppElement } from "@reactjs/components/mau_modal";
-import { ArtPiecesContext } from "@reactjs/contexts/art_pieces.context";
+import { useArtPiecesContext } from "@reactjs/contexts/art_pieces.context";
 import {
   useCarouselState,
   useEventListener,
@@ -12,12 +12,7 @@ import {
 } from "@reactjs/hooks";
 import * as types from "@reactjs/types";
 import HeartSpeechBubble from "images/heart_speech_bubble.svg";
-import React, {
-  type FC,
-  MouseEventHandler,
-  useCallback,
-  useContext,
-} from "react";
+import React, { type FC, MouseEventHandler, useCallback, useMemo } from "react";
 
 interface ArtModalWindowProps {
   artPiece: ArtPiece;
@@ -27,7 +22,7 @@ interface ArtModalWindowProps {
 const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
   setAppElement("body");
 
-  const { artPieces } = useContext(ArtPiecesContext);
+  const { artPieces } = useArtPiecesContext();
   const { current, next, previous } = useCarouselState(artPieces, artPiece);
   const {
     isOpen: isFormVisible,
@@ -50,40 +45,58 @@ const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
 
   useEventListener("keydown", keyDownHandler);
 
-  const handleNext: MouseEventHandler = (e) => {
-    e.preventDefault();
-    next();
-  };
-  const handlePrevious: MouseEventHandler = (e) => {
-    e.preventDefault();
-    previous();
-  };
-  const handleShowContactForm: MouseEventHandler = (e) => {
-    e.preventDefault();
-    showForm();
-  };
-
-  const prevButton = (
-    <a
-      href="#"
-      title="previous"
-      className="art-modal__previous"
-      onClick={handlePrevious}
-    >
-      <i className="fa fa-angle-left" />
-    </a>
+  const handleNext: MouseEventHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      next();
+    },
+    [next]
+  );
+  const handlePrevious: MouseEventHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      previous();
+    },
+    [previous]
+  );
+  const handleShowContactForm: MouseEventHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      showForm();
+    },
+    [showForm]
   );
 
-  const nextButton = (
-    <a href="#" title="next" className="art-modal__next" onClick={handleNext}>
-      <i className="fa fa-angle-right" />
-    </a>
+  const prevButton = useMemo(
+    () => (
+      <a
+        href="#"
+        title="previous"
+        className="art-modal__previous"
+        onClick={handlePrevious}
+      >
+        <i className="fa fa-angle-left" />
+      </a>
+    ),
+    [handlePrevious]
   );
 
-  const closeButton = (
-    <div className="art-modal__close">
-      <CloseButton handleClick={handleClose} />
-    </div>
+  const nextButton = useMemo(
+    () => (
+      <a href="#" title="next" className="art-modal__next" onClick={handleNext}>
+        <i className="fa fa-angle-right" />
+      </a>
+    ),
+    [handleNext]
+  );
+
+  const closeButton = useMemo(
+    () => (
+      <div className="art-modal__close">
+        <CloseButton handleClick={handleClose} />
+      </div>
+    ),
+    [handleClose]
   );
 
   return (

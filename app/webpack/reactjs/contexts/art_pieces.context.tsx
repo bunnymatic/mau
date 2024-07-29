@@ -1,6 +1,6 @@
 import { ArtPiece } from "@models/art_piece.model";
 import * as types from "@reactjs/types";
-import React, { createContext, FC } from "react";
+import React, { createContext, FC, useContext } from "react";
 
 export const ArtPiecesContext = createContext<types.ArtPiecesContext>({
   artPieces: [],
@@ -20,3 +20,5 @@ export const ArtPiecesProvider: FC<
     </ArtPiecesContext.Provider>
   );
 };
+
+export const useArtPiecesContext = () => useContext(ArtPiecesContext);

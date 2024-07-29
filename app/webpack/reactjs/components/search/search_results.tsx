@@ -1,9 +1,9 @@
 import { isEmpty } from "@js/app/helpers";
 import { SearchHit } from "@js/app/models/search_hit.model";
-import { SearchResultsContext } from "@reactjs/components/search/search_results.context";
+import { useSearchResultsContext } from "@reactjs/components/search/search_results.context";
 import { Spinner } from "@reactjs/components/spinner";
 import cx from "classnames";
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 
 interface SearchResultProps {
   result: SearchHit;
@@ -104,7 +104,7 @@ const SearchResult: FC<SearchResultProps> = ({ result }) => {
 };
 
 export const SearchResults: FC = () => {
-  const { results, loading } = useContext(SearchResultsContext);
+  const { results, loading } = useSearchResultsContext();
 
   if (loading) {
     return <Spinner />;
