@@ -197,7 +197,7 @@ const NotifyMauForm: FC<NotifyMauFormProps> = ({
   );
 };
 
-interface NotifyMauDialogProps {
+export interface NotifyMauDialogProps {
   noteType: NoteTypes;
   linkText: string;
   linkClasses?: string;

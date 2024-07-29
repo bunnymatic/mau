@@ -1,13 +1,13 @@
 import { debounce } from "@js/app/utils";
 import * as searchService from "@js/services/search.service";
-import { SearchResultsContext } from "@reactjs/components/search/search_results.context";
-import React, { type FC, useCallback, useContext } from "react";
+import { useSearchResultsContext } from "@reactjs/components/search/search_results.context";
+import React, { type FC, useCallback } from "react";
 
 interface SearchFormProps {}
 import { SearchHit } from "@js/app/models/search_hit.model";
 
 export const SearchForm: FC<SearchFormProps> = () => {
-  const { setResults, setLoading } = useContext(SearchResultsContext);
+  const { setResults, setLoading } = useSearchResultsContext();
   const pageSize = 20;
   const page = 0;
 
