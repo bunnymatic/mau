@@ -5,17 +5,11 @@ describe UpdateArtistService do
   let(:artist) { create(:artist) }
   subject(:service) { described_class.new(artist, params) }
 
-  include MockSearchService
-
   before do
     allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
   end
 
   describe '.update' do
-    before do
-      stub_search_service!
-    end
-
     describe 'without an artist' do
       it 'raises an error' do
         expect { described_class.new(nil, params) }.to raise_error UpdateArtistService::Error
