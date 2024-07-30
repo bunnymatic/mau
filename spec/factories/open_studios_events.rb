@@ -1,10 +1,9 @@
 FactoryBot.define do
   factory :open_studios_event do
     start_date { Time.zone.now.to_date }
-    end_date { start_date + 1.day }
+    end_date { start_date + 1.day if start_date }
     start_time { 'noon' }
     end_time { '6p' }
-    key { start_date.strftime('%Y%m') }
     title { 'This open Studios' }
     promote { true }
     trait :future do

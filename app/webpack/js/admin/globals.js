@@ -12,7 +12,6 @@ import ArtistsAdminIndex from "./artists_admin_index";
 import { GraphPerDay, PlainGraph } from "./graph_helpers";
 import MarkItDown from "./mark_it_down";
 import MauDatatables from "./mau_datatables";
-import OsKeyGenerator from "./os_key_generator";
 import SlideToggler from "./slide_toggler";
 import StudioArranger from "./studio_arranger";
 
@@ -24,7 +23,6 @@ const globals = {
   MarkItDown,
   MauDatatables,
   MauTimeago,
-  OsKeyGenerator,
   PlainGraph,
   SlideToggler,
   StudioArranger,

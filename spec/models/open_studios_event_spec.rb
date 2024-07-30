@@ -93,6 +93,26 @@ describe OpenStudiosEvent do
   end
 
   describe 'lifecycle' do
+    describe 'before_validation' do
+      it 'constructs the key if there is a start date' do
+        event = build(:open_studios_event, start_date: Time.current.to_date)
+        expect(event.key).to be_nil
+        event.valid?
+        expect(event.key).to eq Time.current.strftime('%Y%m')
+      end
+      it 'leaves key empty if there is no start date' do
+        event = build(:open_studios_event, start_date: nil)
+        expect(event.key).to be_nil
+        event.valid?
+        expect(event.key).to be_nil
+      end
+      it 'updates key if the start date changes' do
+        event = create(:open_studios_event, start_date: 3.months.ago)
+        expect do
+          event.update(start_date: Time.current)
+        end.to change(event, :key).from(3.months.ago.strftime('%Y%m')).to(Time.current.strftime('%Y%m'))
+      end
+    end
     describe 'before_save' do
       it 'generates time slots if special event fields have changed' do
         now = Time.zone.today

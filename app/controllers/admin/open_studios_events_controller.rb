@@ -52,7 +52,6 @@ module Admin
         :end_date,
         :start_time,
         :end_time,
-        :key,
         :promote,
         :special_event_start_date,
         :special_event_start_time,

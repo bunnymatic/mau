@@ -7,6 +7,7 @@ class OpenStudiosEvent < ApplicationRecord
   validates :key, presence: true, uniqueness: { case_sensitive: true }
   validates :start_date, presence: true
   validates :end_date, presence: true
+  validates :banner_image, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif svg]
   validate :dates_are_in_order
   validate :activation_dates_are_in_order
   validate :special_event_dates_are_in_order
@@ -15,13 +16,12 @@ class OpenStudiosEvent < ApplicationRecord
 
   serialize :special_event_time_slots
 
+  before_validation :generate_key
   before_save :generate_special_event_time_slots
 
   has_many :open_studios_participants, inverse_of: :open_studios_event, dependent: :destroy
   has_many :artists, through: :open_studios_participants, class_name: 'Artist', source: :user
-
   has_one_attached :banner_image
-  validates :banner_image, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif svg]
 
   def for_display(month_first: false)
     if month_first
@@ -60,6 +60,12 @@ class OpenStudiosEvent < ApplicationRecord
   end
 
   private
+
+  def generate_key
+    return unless start_date
+
+    self.key = start_date.strftime('%Y%m')
+  end
 
   SPECIAL_EVENT_FIELDS = %w[special_event_start_time special_event_end_time special_event_start_date special_event_end_date].freeze
   def generate_special_event_time_slots
