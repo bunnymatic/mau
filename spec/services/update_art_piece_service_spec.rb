@@ -2,13 +2,15 @@ require 'rails_helper'
 
 describe UpdateArtPieceService do
   let(:artist) { create :artist, :active, :with_tagged_art }
-  let!(:art) { artist.art_pieces.first }
+  let(:art) { artist.reload.art_pieces.first }
   let(:existing_tag) { art.tags.first }
   let(:params) { {} }
   subject(:service) { described_class.new(art, params) }
 
   before do
     allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
+    # prebuild so we can check change count accurately
+    art
   end
 
   context 'with params[:tags]' do

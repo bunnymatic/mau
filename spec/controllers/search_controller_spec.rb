@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe SearchController, elasticsearch: false do
+describe SearchController do
   describe '#index' do
     context 'finding by studio' do
       before do

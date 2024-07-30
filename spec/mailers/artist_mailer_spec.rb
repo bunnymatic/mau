@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ArtistMailer, elasticsearch: :stub do
+describe ArtistMailer, search: :elasticsearch_stub do
   let(:artist) { FactoryBot.create(:artist, :active) }
   let(:fan) { FactoryBot.create(:fan, :active) }
   let(:pending_artist) { FactoryBot.build(:artist, :pending) }

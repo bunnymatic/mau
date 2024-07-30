@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe User, elasticsearch: :stub do
+describe User, search: :elasticsearch_stub do
   let(:simple_artist) { FactoryBot.build(:artist) }
   let(:maufan) { FactoryBot.create(:fan, :active) }
   let(:artist) { FactoryBot.create(:artist, :with_art, profile_image: 'profile.jpg') }

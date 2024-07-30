@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'capybara/rspec'
 
-describe AdminArtistList, elasticsearch: false do
+describe AdminArtistList do
   include PresenterSpecHelpers
 
   let(:active_artists) do
