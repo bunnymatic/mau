@@ -10,12 +10,13 @@ on:
     branches: [ '**' ]
   push:
     branches: [ 'main' ]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ruby-test:
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
     env:
       RAILS_ENV: test
       DB_DATABASE: test_db
@@ -54,9 +55,6 @@ jobs:
         run: bin/rspec spec
   cucumber-test:
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
     env:
       RAILS_ENV: test
       DB_DATABASE: test_db
@@ -96,9 +94,6 @@ jobs:
 
   yarn-test:
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
     env:
       RAILS_ENV: test
     steps:
@@ -114,9 +109,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
     env:
       RAILS_ENV: test
       DB_DATABASE: test_db
@@ -160,9 +152,6 @@ jobs:
         run: bin/rails assets:precompile
   lint:
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
