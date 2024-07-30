@@ -9,6 +9,8 @@ describe UpdateArtPieceService do
 
   before do
     allow(BryantStreetStudiosWebhook).to receive(:artist_updated)
+    # prebuild so we can check change count accurately
+    art
   end
 
   context 'with params[:tags]' do
