@@ -49,7 +49,7 @@ describe ArtPiecesController do
       context 'when the artist is not active' do
         it 'reports a missing art piece' do
           artist.update!(state: :pending)
-          get :show, params: { id: artist.representative_piece.id }
+          get :show, params: { id: artist.reload.representative_piece.id }
           expect(response).to redirect_to '/error'
         end
       end
@@ -172,7 +172,7 @@ describe ArtPiecesController do
         expect(response).to redirect_to art_piece
       end
       it 'redirects to show if you try to edit someone elses art' do
-        ap = artist2.art_pieces.first
+        ap = artist2.reload.art_pieces.first
         post :update, params: { id: ap.id, art_piece: { title: 'new title' } }
         expect(response).to redirect_to(ap)
       end
@@ -225,7 +225,7 @@ describe ArtPiecesController do
       end
       context 'get' do
         before do
-          get :edit, params: { id: artist2.art_pieces.first.id }
+          get :edit, params: { id: artist2.reload.art_pieces.first.id }
         end
         it "returns error if you don't own the artpiece" do
           expect(response).to redirect_to '/error'
@@ -238,7 +238,7 @@ describe ArtPiecesController do
       end
       context 'get ' do
         before do
-          get :edit, params: { id: artist.art_pieces.last }
+          get :edit, params: { id: art_pieces.last }
         end
         it { expect(response).to be_successful }
       end

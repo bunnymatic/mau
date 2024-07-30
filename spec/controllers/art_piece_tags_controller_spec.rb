@@ -76,7 +76,7 @@ describe ArtPieceTagsController do
   describe '#show' do
     let(:artists) { FactoryBot.create_list(:artist, 3, :with_tagged_art) }
     let(:artist) { artists.first }
-    let(:tags) { artist.art_pieces.map(&:tags).flatten }
+    let(:tags) { artist.reload.art_pieces.map(&:tags).flatten }
     let(:tag) { tags.first }
     before do
       tags
