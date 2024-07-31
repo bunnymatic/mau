@@ -20,7 +20,6 @@
             = f.input :activated_at, as: :date_picker, placeholder: 'choose a date', hint: "This date is when we'll start shown Open Studios stuff in the navigation, highlights on peoples profiles etc.", input_html: { value: os_event.activated_at.try(:to_fs,:admin_date_only) }
           .pure-u-1-2
             = f.input :deactivated_at, as: :date_picker, placeholder: 'choose a date', hint: "This date is when we'll stop showing Open Studios links and stuff.", input_html: { value: os_event.deactivated_at.try(:to_fs,:admin_date_only) }
-        = f.input :key, placeholder: 'e.g. YYYYMM'
         = f.input :promote, as: :boolean, inline_label: true, label: false, hint: "If true, we'll remind artists in navigation to register when we're near (in time) this event."
 
         .pure-g
@@ -48,7 +47,3 @@
           = f.submit class: 'pure-button pure-button-primary'
           = link_to 'Cancel', admin_open_studios_events_path, class: 'pure-button'
 
-javascript:
-  document.addEventListener("DOMContentLoaded", function() {
-    new MAU.OsKeyGenerator(".js-open-studios-event-editor form");
-  });

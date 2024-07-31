@@ -115,7 +115,6 @@ Then /^I fill in the open studios event form for next weekend with the title "(.
   set_start_end_date_on_open_studios_form(@start_date, @end_date)
   fill_in 'Start time', with: '12a'
   fill_in 'End time', with: '5a'
-  expect(find('#open_studios_event_key').value).to eql @start_date.strftime('%Y%m')
   click_on 'Create'
 end
 
