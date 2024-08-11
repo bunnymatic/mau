@@ -69,7 +69,8 @@ class FavoritesService
     end
 
     def trying_to_favorite_yourself?(owner, obj)
-      false if obj.nil?
+      return false if obj.blank?
+
       ((obj.is_a?(User) || obj.is_a?(Artist)) && obj.id == owner.id) ||
         (obj.is_a?(ArtPiece) && obj.artist.id == owner.id)
     end
