@@ -58,7 +58,7 @@
         tr.admin-user__profile-table__row
           td Activation Date
           td = @user.activation_date
-    - if @user.artist? && @user.doing_open_studios?
+    - if current_open_studios.available? && @user.artist? && @user.doing_open_studios?
       .admin-user__os-info.info-block
         h3 = "Open Studios Participant Information for #{current_open_studios.date_range_with_year}"
         = render partial: "open_studios_participation", locals: { open_studios_participant: @user.current_open_studios_participant }
@@ -95,50 +95,52 @@
         - else
           h4 No art here
     .pure-u-1-2.padded-content
-      .featured-snippet.mod-facebook.info-block
-        h4
-          = link_to Conf.social_links['facebook']
-            .info-block-icon.fa-ico-invert.fa.fa-facebook
-          | For Facebook
-        .instructions
-          p
-            | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
-            |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
-            '
-            = link_to "facebook", "https://www.facebook.com/search/top/?q=#{@user.full_name}", target: '_blank'
-            '
-            | and see if you can find their handle.
-            - if @user.facebook?
-              | We think it might be
+      - if @current_open_studios.available?
+        .featured-snippet.mod-facebook.info-block
+          h4
+            = link_to Conf.social_links['facebook']
+              .info-block-icon.fa-ico-invert.fa.fa-facebook
+            | For Facebook
+          .instructions
+            p
+              | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
+              |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
               '
-              = link_to @user.facebook_handle, @user.facebook
+              = link_to "facebook", "https://www.facebook.com/search/top/?q=#{@user.full_name}", target: '_blank'
               '
-              | based on their MAU profile.
-          p ALSO: tag the artist in the photo
+              | and see if you can find their handle.
+              - if @user.facebook?
+                | We think it might be
+                '
+                = link_to @user.facebook_handle, @user.facebook
+                '
+                | based on their MAU profile.
+            p ALSO: tag the artist in the photo
 
-        .content
-          = render "featured_on_facebook", artist: @user
+          .content
+            = render "featured_on_facebook", artist: @user, current_open_studios: @current_open_studios
     .pure-u-1-2.padded-content
-      .featured-snippet.mod-instagram.info-block
-        h4
-          = link_to Conf.social_links['instagram']
-            .info-block-icon.fa.fa-ico-invert.fa-instagram
-          | For Instagram
+      - if @current_open_studios.available?
+        .featured-snippet.mod-instagram.info-block
+          h4
+            = link_to Conf.social_links['instagram']
+              .info-block-icon.fa.fa-ico-invert.fa-instagram
+            | For Instagram
 
-        .instructions
-          p
-            | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
-            |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
-            '
-            = link_to 'instagram', "http://instagram.com/explore/tags/sfmau", target: '_blank'
-            '
-            | and see if you can find their handle.
-          - if @user.instagram?
-            .hint
-              | We think it might be
+          .instructions
+            p
+              | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
+              |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
               '
-              = link_to @user.instagram_handle, @user.instagram
+              = link_to 'instagram', "http://instagram.com/explore/tags/sfmau", target: '_blank'
               '
-              | based on their MAU profile.
-        .content
-          = render "featured_on_instagram", artist: @user
+              | and see if you can find their handle.
+            - if @user.instagram?
+              .hint
+                | We think it might be
+                '
+                = link_to @user.instagram_handle, @user.instagram
+                '
+                | based on their MAU profile.
+          .content
+            = render "featured_on_instagram", artist: @user, current_open_studios: @current_open_studios

@@ -4,6 +4,7 @@ module Admin
 
     def show
       @user = ArtistPresenter.new(@user)
+      @current_open_studios = OpenStudiosEventPresenter.new(OpenStudiosEventService.current)
     end
 
     private

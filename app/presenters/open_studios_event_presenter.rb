@@ -134,6 +134,10 @@ class OpenStudiosEventPresenter < ViewPresenter
     [model.start_time, model.end_time].join('-')
   end
 
+  def year
+    model.start_date.year
+  end
+
   def display_logo
     if available? && logo?
       logo.url(:square)
