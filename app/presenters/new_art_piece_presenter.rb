@@ -5,7 +5,7 @@ class NewArtPiecePresenter
     @art_piece = ArtPiecePresenter.new(art_piece)
     @artist = @art_piece.artist
     @studio = StudioPresenter.new(@artist.studio || IndependentStudio.new)
-    @current_open_studios = OpenStudiosEventPresenter.new(OpenStudiosEvent.current) if OpenStudiosEvent.current
+    @current_open_studios = OpenStudiosEventPresenter.new(OpenStudiosEventService.current) if OpenStudiosEventService.current
   end
 
   def open_studios_info
