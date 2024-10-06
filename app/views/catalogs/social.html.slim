@@ -1,11 +1,10 @@
-- date_range = @social_artists.os.date_range(separator: " & ") + ", #{@social_artists.os.year}"
 #catalog
   - unless @social_artists.artists.present?
     h3 Nothing to show here.  Probably no one has signed up for open studios yet...
   - @social_artists.artists.each do |artist|
     .catalog-entry
       .catalog-entry--image
-        img src=artist.art_pieces.sort_by(&:updated_at).reverse!.first.photo
+        img src=artist.art_pieces.sort_by(&:updated_at).reverse!.first.image
       .catalog-entry--info
         .catalog-entry--name
           = artist.name
@@ -14,7 +13,7 @@
           '
           = artist.studio.try(:name)
           '
-          = date_range
+          = @social_artists.date_range
           '
           = artist.representative_piece_tags.map {|tag| "##{tag}" }.join(" ")
           '

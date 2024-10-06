@@ -1,7 +1,5 @@
 module Admin
   class StatsController < ::BaseAdminController
-    include OpenStudiosEventShim
-
     def art_pieces_per_day
       apd = compute_art_pieces_per_day
       render json: format_for_graph(apd)
@@ -28,7 +26,7 @@ module Admin
     end
 
     def os_signups
-      tally = OpenStudiosTally.where(oskey: current_open_studios_key)
+      tally = OpenStudiosTally.where(oskey: OpenStudiosEventService.current&.key)
       tally = tally.map { |t| [t.recorded_on.to_datetime.to_i, t.count] }
       render json: format_for_graph(tally)
     end

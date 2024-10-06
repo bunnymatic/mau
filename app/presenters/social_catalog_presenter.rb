@@ -1,8 +1,6 @@
 require 'csv'
 
 class SocialCatalogPresenter < ArtistsPresenter
-  include OpenStudiosEventShim
-
   SOCIAL_KEYS = User.stored_attributes[:links].freeze
 
   def initialize
@@ -26,7 +24,17 @@ class SocialCatalogPresenter < ArtistsPresenter
   end
 
   def csv_filename
-    @csv_filename ||= "#{['mau_social_artists', current_open_studios_key].compact.join('_')}.csv"
+    @csv_filename ||= "#{['mau_social_artists', current_open_studios&.key].compact.join('_')}.csv"
+  end
+
+  def current_open_studios
+    @current_open_studios ||= OpenStudiosEventPresenter.new(OpenStudiosEventService.current)
+  end
+
+  def date_range
+    return '' unless current_open_studios.available? && artists.present?
+
+    current_open_studios.date_range(separator: ' & ') + ", #{current_open_studios.year}"
   end
 
   private

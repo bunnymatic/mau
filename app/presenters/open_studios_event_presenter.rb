@@ -18,9 +18,8 @@ class OpenStudiosEventPresenter < ViewPresenter
            :start_time,
            :to_param,
            :year,
-           to: :model
-
-  include OpenStudiosEventShim
+           to: :model,
+           allow_nil: true
 
   class DateRangeHelpers
     class << self
@@ -77,19 +76,19 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def link_text
-    "#{date_range} #{model.start_date.strftime('%Y')}"
+    "#{date_range} #{model.start_date.strftime('%Y')}" if available?
   end
 
   def date_range_with_year
-    DateRangeHelpers.date_range_with_year(model.start_date, model.end_date)
+    DateRangeHelpers.date_range_with_year(model.start_date, model.end_date) if available?
   end
 
   def date_range(separator: '-')
-    DateRangeHelpers.date_range(model.start_date, model.end_date, separator:)
+    DateRangeHelpers.date_range(model.start_date, model.end_date, separator:) if available?
   end
 
   def time_range
-    DateRangeHelpers.time_range(model.start_time, model.end_time)
+    DateRangeHelpers.time_range(model.start_time, model.end_time) if available?
   end
 
   def special_event_date_range_with_year
@@ -135,6 +134,8 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def year
+    return 0 unless available?
+
     model.start_date.year
   end
 
@@ -151,7 +152,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def with_special_event?
-    !!(@model.special_event_start_date && @model.special_event_end_date)
+    available? && !!(@model.special_event_start_date && @model.special_event_end_date)
   end
 
   def active?
@@ -164,14 +165,18 @@ class OpenStudiosEventPresenter < ViewPresenter
   end
 
   def with_activation_dates?
-    !!(@model.activated_at && @model.deactivated_at)
+    available? && !!(@model.activated_at && @model.deactivated_at)
   end
 
   def start_date
+    return 'n/a' unless available?
+
     model.start_date.strftime('%b %d, %Y')
   end
 
   def end_date
+    return 'n/a' unless available?
+
     model.end_date.strftime('%b %d, %Y')
   end
 

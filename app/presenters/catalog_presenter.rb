@@ -1,10 +1,8 @@
 require 'csv'
 
 class CatalogPresenter < ViewPresenter
-  include OpenStudiosEventShim
-
   def csv_filename
-    @csv_filename ||= "#{['mau_catalog', current_open_studios_key].compact.join('_')}.csv"
+    @csv_filename ||= "#{['mau_catalog', current_open_studios.key].compact.join('_')}.csv"
   end
 
   def csv
@@ -18,15 +16,17 @@ class CatalogPresenter < ViewPresenter
   end
 
   def all_artists
+    return Artist.none unless current_open_studios
+
     @all_artists ||=
       begin
-        artists = OpenStudiosEventService.current&.artists || []
+        artists = current_open_studios.artists
         artists.exists? ? artists.includes(:studio, :artist_info) : Artist.none
       end
   end
 
   def indy_artists
-    @indy_artists ||= all_artists.independent_studio
+    @indy_artists ||= all_artists&.independent_studio || []
   end
 
   def indy_artists_count
@@ -34,7 +34,7 @@ class CatalogPresenter < ViewPresenter
   end
 
   def group_studio_artists
-    @group_studio_artists ||= all_artists.try(:in_a_group_studio) || []
+    @group_studio_artists ||= all_artists&.in_a_group_studio || []
   end
 
   def artists_by_studio
@@ -70,6 +70,10 @@ class CatalogPresenter < ViewPresenter
   end
 
   private
+
+  def current_open_studios
+    OpenStudiosEventService.current
+  end
 
   def csv_headers
     @csv_headers ||= [
