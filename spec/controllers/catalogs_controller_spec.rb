@@ -45,6 +45,14 @@ describe CatalogsController do
   end
 
   describe '#social' do
+    let(:mock_catalog_presenter) do
+      instance_double(SocialCatalogPresenter, catalog_presenter_methods)
+    end
+
+    before do
+      allow(SocialCatalogPresenter).to receive(:new).and_return(mock_catalog_presenter)
+    end
+
     before do
       allow(SocialCatalogPresenter).to receive(:new).and_return(mock_catalog_presenter)
     end

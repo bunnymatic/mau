@@ -96,69 +96,6 @@ module OpenSearch
         class Cluster
           attr_reader :arguments
 
-          COMMANDS = {
-            '2.13' => lambda { |arguments, node_number|
-              <<-COMMAND.gsub('                ', '').gsub(/\n$/, '')
-                #{arguments[:command]} \
-                -E cluster.name=#{arguments[:cluster_name]} \
-                -E node.name=#{arguments[:node_name]}-#{node_number} \
-                -E http.port=#{arguments[:port].to_i + (node_number - 1)} \
-                -E path.data=#{arguments[:path_data]} \
-                -E path.logs=#{arguments[:path_logs]} \
-                -E cluster.routing.allocation.disk.threshold_enabled=false \
-                -E network.host=#{arguments[:network_host]} \
-                -E node.attr.testattr=test \
-                -E path.repo=/tmp \
-                -E repositories.url.allowed_urls=http://snapshot.test* \
-                #{'-E discovery.type=single-node' if arguments[:number_of_nodes] < 2} \
-                -E discovery.seed_hosts=#{arguments[:number_of_nodes] - 1} \
-                -E node.max_local_storage_nodes=#{arguments[:number_of_nodes]} \
-                -E logger.level=#{ENV['DEBUG'] ? 'DEBUG' : 'INFO'} \
-                #{arguments[:es_params]}
-              COMMAND
-            },
-            '2.14' => lambda { |arguments, node_number|
-              <<-COMMAND.gsub('                ', '').gsub(/\n$/, '')
-                #{arguments[:command]} \
-                -E cluster.name=#{arguments[:cluster_name]} \
-                -E node.name=#{arguments[:node_name]}-#{node_number} \
-                -E http.port=#{arguments[:port].to_i + (node_number - 1)} \
-                -E path.data=#{arguments[:path_data]} \
-                -E path.logs=#{arguments[:path_logs]} \
-                -E cluster.routing.allocation.disk.threshold_enabled=false \
-                -E network.host=#{arguments[:network_host]} \
-                -E node.attr.testattr=test \
-                -E path.repo=/tmp \
-                -E repositories.url.allowed_urls=http://snapshot.test* \
-                #{'-E discovery.type=single-node' if arguments[:number_of_nodes] < 2} \
-                -E discovery.seed_hosts=#{arguments[:number_of_nodes] - 1} \
-                -E node.max_local_storage_nodes=#{arguments[:number_of_nodes]} \
-                -E logger.level=#{ENV['DEBUG'] ? 'DEBUG' : 'INFO'} \
-                #{arguments[:es_params]}
-              COMMAND
-            },
-            '2.15' => lambda { |arguments, node_number|
-              <<-COMMAND.gsub('                ', '').gsub(/\n$/, '')
-                #{arguments[:command]} \
-                -E cluster.name=#{arguments[:cluster_name]} \
-                -E node.name=#{arguments[:node_name]}-#{node_number} \
-                -E http.port=#{arguments[:port].to_i + (node_number - 1)} \
-                -E path.data=#{arguments[:path_data]} \
-                -E path.logs=#{arguments[:path_logs]} \
-                -E cluster.routing.allocation.disk.threshold_enabled=false \
-                -E network.host=#{arguments[:network_host]} \
-                -E node.attr.testattr=test \
-                -E path.repo=/tmp \
-                -E repositories.url.allowed_urls=http://snapshot.test* \
-                #{'-E discovery.type=single-node' if arguments[:number_of_nodes] < 2} \
-                -E discovery.seed_hosts=#{arguments[:number_of_nodes] - 1} \
-                -E node.max_local_storage_nodes=#{arguments[:number_of_nodes]} \
-                -E logger.level=#{ENV['DEBUG'] ? 'DEBUG' : 'INFO'} \
-                #{arguments[:es_params]}
-              COMMAND
-            },
-          }.freeze
-
           # Create a new instance of the Cluster class
           #
           # @option arguments [String]  :cluster_name Cluster name (default: `opensearch_test`)
@@ -484,10 +421,34 @@ module OpenSearch
           # @return String
           #
           def __command(version, arguments, node_number)
-            raise ArgumentError, "Cannot find command for version [#{version}]" unless (command = COMMANDS[version])
+            command_proc = case version
+                           when '2.13', '2.14', '2.15', '2.16'
+                             lambda { |arguments, node_number|
+                               <<-COMMAND.gsub('                ', '').gsub(/\n$/, '')
+                    #{arguments[:command]} \
+                    -E cluster.name=#{arguments[:cluster_name]} \
+                    -E node.name=#{arguments[:node_name]}-#{node_number} \
+                    -E http.port=#{arguments[:port].to_i + (node_number - 1)} \
+                    -E path.data=#{arguments[:path_data]} \
+                    -E path.logs=#{arguments[:path_logs]} \
+                    -E cluster.routing.allocation.disk.threshold_enabled=false \
+                    -E network.host=#{arguments[:network_host]} \
+                    -E node.attr.testattr=test \
+                    -E path.repo=/tmp \
+                    -E repositories.url.allowed_urls=http://snapshot.test* \
+                    #{'-E discovery.type=single-node' if arguments[:number_of_nodes] < 2} \
+                    -E discovery.seed_hosts=#{arguments[:number_of_nodes] - 1} \
+                    -E node.max_local_storage_nodes=#{arguments[:number_of_nodes]} \
+                    -E logger.level=#{ENV['DEBUG'] ? 'DEBUG' : 'INFO'} \
+                    #{arguments[:es_params]}
+                               COMMAND
+                             }
+                           else
+                             raise ArgumentError, "Cannot find command for version [#{version}]"
+                           end
 
             arguments[:dist] = @dist
-            command.call(arguments, node_number)
+            command_proc.call(arguments, node_number)
           end
 
           # Blocks the process and waits for the cluster to be in a "green" state

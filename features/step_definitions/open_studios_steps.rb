@@ -328,3 +328,10 @@ When('I deactivate the first open studios event') do
     click_on 'Update Open studios event'
   end
 end
+
+Then('I see the open studios artists\' login on the page') do
+  os = OpenStudiosEventService.current
+  os.artists.each do |artist|
+    expect(page).to have_content Regexp.new(artist.login)
+  end
+end

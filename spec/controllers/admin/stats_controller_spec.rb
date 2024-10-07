@@ -19,6 +19,36 @@ describe Admin::StatsController do
     end
   end
 
+  describe '#os_signups' do
+    context 'when there is no current os' do
+      before do
+        artist
+      end
+      it 'returns no data' do
+        get :os_signups, xhr: true
+        expect(response.body).to eq '[]'
+      end
+    end
+    context 'when there is a current os with some signups' do
+      let(:artist) do
+        create(:artist, doing_open_studios: true)
+      end
+      before do
+        freeze_time do
+          create(:open_studios_event)
+          artist
+          OpenStudiosEventService.tally_os
+        end
+      end
+      it 'returns data' do
+        get :os_signups, xhr: true
+        resp = JSON.parse(response.body)
+        # return timestamp and number of signups on that day
+        expect(resp).to match_array([[Time.current.beginning_of_day.to_i, 1]])
+      end
+    end
+  end
+
   describe 'helper methods' do
     let(:art_pieces_per_day) { Admin::StatsController.new.send(:compute_art_pieces_per_day) }
     let(:artists_per_day) { Admin::StatsController.new.send(:compute_artists_per_day) }

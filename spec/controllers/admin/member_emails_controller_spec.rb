@@ -4,8 +4,6 @@ describe Admin::MemberEmailsController do
   let(:admin) { FactoryBot.create(:artist, :admin) }
   let(:pending_artist) { FactoryBot.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }
 
-  include OpenStudiosEventShim
-
   describe '#show' do
     before do
       login_as admin
