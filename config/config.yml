@@ -27,9 +27,6 @@ development:
     use_open_search: true
   S3_REGION: 'us-west-1'
   cache_expiry:
-    feed: 300
-    search: 20
-    objects: 0
     new_art: 300
   pagination:
     artists:
@@ -53,10 +50,8 @@ production:
     use_open_search: false
   S3_REGION: 'us-west-1'
   cache_expiry:
-    feed: 3600
-    search: 300
-    objects: 0
     new_art: 86400
+    current_open_studios: 86400 # 24hrs
   subdomain: openstudios
   bryant_street_studios_webhook_url: https://www.1890bryant.com/webhook
 
@@ -83,10 +78,9 @@ common:
   cache_server: localhost:11211
   signup_secret_word: eat-shit-hackers
   cache_expiry:
-    feed: 300
-    search: 20
-    objects:
+    current_open_studios: 300 # 5 minutes
     new_art: 300
+
 
   shop_url: http://www.cafepress.com/MissionArtists
   # minimum artists before we show a studio

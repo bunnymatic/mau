@@ -27,7 +27,7 @@ class OpenStudiosEventService
     cached_event = SafeCache.read(CURRENT_CACHE_KEY)
     unless cached_event
       cached_event = OpenStudiosEvent.current
-      SafeCache.write(CURRENT_CACHE_KEY, cached_event)
+      SafeCache.write(CURRENT_CACHE_KEY, cached_event, expires_in: Conf.cache_expiry['current_open_studios'])
     end
     cached_event
   end
