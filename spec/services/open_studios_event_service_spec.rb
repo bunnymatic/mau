@@ -23,8 +23,23 @@ describe OpenStudiosEventService do
   end
 
   describe '.current' do
+    before do
+      allow(SafeCache).to receive(:write).and_call_original
+      allow(SafeCache).to receive(:read).and_call_original
+    end
     it 'returns the current os' do
       expect(service.current).to eq current_os
+    end
+    it 'sets the cache time based on config' do
+      service.current
+      expect(SafeCache).to have_received(:write).with(:current_os_event, current_os, expires_in: 300)
+    end
+    it 'reads from the cache if it is available' do
+      service.current
+      service.current
+      service.current
+      expect(SafeCache).to have_received(:write).once
+      expect(SafeCache).to have_received(:read).exactly(3).times
     end
   end
 

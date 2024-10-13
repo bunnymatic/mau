@@ -11,7 +11,9 @@ describe OpenStudiosSubdomain::ArtistsController do
   describe '#show' do
     context 'with virtual_open_studios flag on' do
       before do
-        mock_app_config(:features, { virtual_open_studios: true })
+        mock_app_config_fallback
+        mock_app_config(:features, { virtual_open_studios: true, use_open_search: true })
+        mock_app_config(:cache_expiry, { current_open_studios: 20 })
       end
 
       it 'renders successfully if the artist is active and doing open studios' do
@@ -41,7 +43,9 @@ describe OpenStudiosSubdomain::ArtistsController do
 
     context 'with virtual open studios flag off' do
       before do
-        mock_app_config(:features, { virtual_open_studios: false })
+        mock_app_config_fallback
+        mock_app_config(:features, { virtual_open_studios: false, use_open_search: true })
+        mock_app_config(:cache_expiry, { current_open_studios: 20 })
       end
       it 'renders error page' do
         get :show, params: { id: active_artist_doing_open_studios }
