@@ -7,7 +7,7 @@ Background:
   And there are open studios artists with art in the system
   When I visit the home page
   And I wait until the page is done loading infinite scroll
-  And I click on "group studios"
+  And I click on "studios"
 
 @javascript
 Scenario:  I can drill into a studio detail
