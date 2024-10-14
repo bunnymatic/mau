@@ -6,7 +6,7 @@
       img src=studio.image(:medium)
   .studio-card__desc
     .name
-      a href=studio.studio_path title=studio.name} = studio.name
+      a href=studio.studio_path = studio.name
     - unless studio.indy?
       .address
         = studio.street

@@ -4,29 +4,29 @@
   .js-nav-mobile.nav-mobile.nav-icon title="menu"
     = fa_icon "bars"
   section.nav-section
-    .tab.search.js-in-page-search.nav-icon title="search"
-      a href="/search" title="search"
+    .tab.search.js-in-page-search.nav-icon
+      a href="/search"
         = fa_icon "search"
         .text< search
 
   section.nav-section
     ul.tabs.tabs__nav
       li.tab
-        a href=artists_path title="artists" artists a-z
+        a href=artists_path artists a-z
       li.tab
-        a href=studios_path title="group studios" studios
+        a href=studios_path studios
 
   - if open_studios_active
     section.nav-section.open-studios
       ul.tabs.tabs__nav
         li.tab
-          a href=open_studios_path title="open studios #{open_studios_nav_title}"
+          a href=open_studios_path
             = open_studios_nav_title
 
-          a.nav-secondary-link href=open_studios_path  title ="open studios #{open_studios_nav_title}" open studios
+          a.nav-secondary-link href=open_studios_path open studios
 
           - if user_nav.remind_for_open_studios_register?
-            a.nav-secondary-link--emphasis href=register_for_current_open_studios_artists_path title = "register for open studios"
+            a.nav-secondary-link--emphasis href=register_for_current_open_studios_artists_path
               = "register now!"
 
   - if logged_in?
@@ -39,11 +39,11 @@
     section.nav-section.signin-nav
       ul.signin__links.tabs
         li.tab
-          = link_to login_path,  { title: "sign in" } do
+          = link_to login_path do
             .text sign in
             .nav-icon.fa.fa-sign-in
         li.tab
-          = link_to signup_path, { title: "create an account" } do
+          = link_to signup_path do
             .text sign up
             .nav-icon.fa.fa-user
 
@@ -52,17 +52,17 @@
       = fa_icon "times"
     ul.tab-panel
       li.nav-mobile__title
-        a href=artists_path title="artists" artists a-z
+        a href=artists_path artists a-z
     ul.tab-panel
       li.nav-mobile__title
-        a href=studios_path title="group studios" studios
+        a href=studios_path studios
     ul.tab-panel
       li.nav-mobile__title
-        a href=search_path title="search" search
+        a href=search_path search
     - if open_studios_active
       ul.tab-panel#open-studios
         li.nav-mobile__title
-          a href=open_studios_path title="open studios #{open_studios_nav_title}" = open_studios_nav_title
+          a href=open_studios_path = open_studios_nav_title
 
     - if logged_in?
       ul.tab-panel.signin__links
@@ -70,9 +70,9 @@
     - else logged_in?
       ul.tab-panel.signout__links
         li.nav-mobile__title
-          a href=login_path title="sign in" sign in
+          a href=login_path sign in
         li.nav-mobile__title
-          a href=signup_path title="sign up" sign up
+          a href=signup_path sign up
 javascript:
   document.addEventListener("DOMContentLoaded",  function() {
     new MAU.MobileNavigation('.nav');

@@ -2,7 +2,7 @@
   .pure-u-1-1.header.offset-content
     h2.title Contact Us
   .pure-u-1-1.pure-u-md-2-3.pure-u-lg-1-2.offset-content.contact-us
-    h4 Got a question?
+    h3 Got a question?
     p
       | Send us an
       = react_component id:"notify-mau", component:"NotifyMauDialog", wrapper_tag: "span", props: { note_type: "inquiry", link_text: "email", with_icon: true, email: current_user.try(:email) }

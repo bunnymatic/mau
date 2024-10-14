@@ -221,7 +221,6 @@ export const NotifyMauDialog: FC<NotifyMauDialogProps> = ({
     <>
       <span className="mau-modal confirm-modal__trigger">
         <MauTextButton
-          title={linkText}
           classes={linkClasses}
           onClick={(ev) => {
             ev.preventDefault();
