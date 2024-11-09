@@ -16,7 +16,7 @@ class ArtistsMap < ArtistsPresenter
             (keyed[ky] ||= []) << a if ky
           end
         end
-        by_address.select { |_k, v| v.present? }
+        by_address.compact_blank
       end
   end
 

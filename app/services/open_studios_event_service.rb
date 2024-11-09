@@ -50,8 +50,8 @@ class OpenStudiosEventService
     cache
   end
 
-  def self.where(*args)
-    OpenStudiosEvent.where(*args)
+  def self.where(*)
+    OpenStudiosEvent.where(*)
   end
 
   def self.find_by_key(key, cached: true)
