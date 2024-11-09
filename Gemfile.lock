@@ -183,6 +183,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    csv (3.3.0)
     cucumber (9.2.0)
       builder (~> 3.2)
       cucumber-ci-environment (> 9, < 11)
@@ -631,6 +632,7 @@ DEPENDENCIES
   capybara-select-2
   cgi (~> 0.3.6)
   connection_pool
+  csv
   cucumber
   cucumber-rails
   dalli

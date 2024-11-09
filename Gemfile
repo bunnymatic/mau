@@ -10,6 +10,7 @@ gem 'browser'
 gem 'browserslist_useragent'
 gem 'cgi', '~>0.3.6'
 gem 'connection_pool' # for dalli > 3
+gem 'csv'
 gem 'dalli'
 gem 'elasticsearch', '~> 7.x'
 gem 'elasticsearch-model', '~> 7.x'
