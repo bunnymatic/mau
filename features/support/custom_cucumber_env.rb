@@ -8,8 +8,8 @@ require 'factory_bot'
 require 'capybara/rspec'
 require 'capybara-screenshot/cucumber'
 
-Dir[Rails.root.join('spec/factories/**/*.rb')].each { |f| require f }
-Dir[Rails.root.join('features/support/**/*.rb')].each { |f| require f }
+Rails.root.glob('spec/factories/**/*.rb').each { |f| require f }
+Rails.root.glob('features/support/**/*.rb').each { |f| require f }
 
 require './spec/support/fake_geocoder'
 

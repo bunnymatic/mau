@@ -422,7 +422,7 @@ module OpenSearch
           #
           def __command(version, arguments, node_number)
             command_proc = case version
-                           when '2.13', '2.14', '2.15', '2.16'
+                           when '2.13', '2.14', '2.15', '2.16', '2.17'
                              lambda { |arguments, node_number|
                                <<-COMMAND.gsub('                ', '').gsub(/\n$/, '')
                     #{arguments[:command]} \

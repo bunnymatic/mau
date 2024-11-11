@@ -7,7 +7,7 @@ module CapybaraHelpers
   # @param [String] locator      Text, id or value of link or button
   #
   def click_on_first(locator, options = {})
-    click_on(locator, **options.merge(match: :first))
+    click_on(locator, **options, match: :first)
   end
 
   def javascript_driver?
