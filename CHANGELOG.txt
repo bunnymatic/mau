@@ -26,3 +26,5 @@ about the over change (maybe a rollup of feature checkins), add it here
 * ... lots of stuff
 
 * 08 09 2023 v9.0.0 Impala - ruby 3/rails 7
+
+* 11 15 2024 v9.1.0 Impala LT - ruby 3.3/rails 7.1

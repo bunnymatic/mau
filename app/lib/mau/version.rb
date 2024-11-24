@@ -7,12 +7,13 @@
 # Challenger v7
 # Coronet v8
 # Impala v9 - ruby3/rails7
+# Impala LT v9.1 - ruby 3.3/rails 7.1
 module Mau
   class Version
     VERSION = {
       name: 'Impala',
       major: '9',
-      minor: '0',
+      minor: '1',
       rev: '0',
       build: 'unk',
     }.freeze
