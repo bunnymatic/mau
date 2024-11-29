@@ -7,7 +7,7 @@ class Favorite < ApplicationRecord
   scope :art_pieces, -> { where(favoritable_type: ArtPiece.name) }
   scope :artists, -> { where(favoritable_type: Artist.name) }
   scope :by_recency, -> { order(created_at: :desc) }
-
+  scope :active_owners, -> { includes(:owner).where(owner: { state: 'active' }) }
   FAVORITABLE_TYPES = %w[Artist ArtPiece].freeze
 
   def uniqueness_of_owner_and_item

@@ -103,4 +103,19 @@ describe UserPresenter do
       expect(presenter.who_i_favorite).not_to include fan
     end
   end
+
+  describe '#who_favorites_me' do
+    let(:active_with_art) { create :artist, :active, :with_art }
+    let(:inactive_with_art) { create :artist, :with_art, state: :suspended }
+
+    before do
+      create_favorite active_with_art, user
+      create_favorite inactive_with_art, user
+    end
+
+    it 'includes only active artists' do
+      expect(presenter.who_favorites_me).to include active_with_art
+      expect(presenter.who_favorites_me).not_to include inactive_with_art
+    end
+  end
 end

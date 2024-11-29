@@ -83,9 +83,10 @@ class UserPresenter < ViewPresenter
 
   def who_favorites_me
     @who_favorites_me ||=
+      # Because of STI issues we can't do `favoritable: model` - already tried
       Favorite.where(favoritable_type: model.class.name, favoritable_id: model.id)
-              .includes(:owner)
-              .order('created_at desc')
+              .merge(Favorite.active_owners)
+              .order(created_at: :desc)
               .distinct(:owner)
               .map(&:owner).flatten
   end
