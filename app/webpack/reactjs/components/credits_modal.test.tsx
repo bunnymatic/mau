@@ -14,17 +14,13 @@ describe("CreditsModal", () => {
           version="1.0 version goes here"
         />
       );
-      expect(screen.queryByText("Credits")).toBeInTheDocument();
-      const trish = screen.queryByText("Trish Tunney", { exact: false });
-      const mrRogers = screen.queryByText("Mr Rogers", { exact: false });
-      const liwei = screen.queryByText("Liwei Xu", { exact: false });
-      const ryan = screen.queryByText("Ryan Workman", { exact: false });
-      expect(ryan).toBeInTheDocument();
-      expect(liwei).toBeInTheDocument();
-      expect(trish).toBeInTheDocument();
-      expect(mrRogers).toBeInTheDocument();
-      expect(mrRogers.closest("a").href).toEqual("http://rcode5.com/");
-      expect(trish.closest("a").href).toEqual("http://trishtunney.com/");
+      expect(screen.getByText("Credits")).toBeInTheDocument();
+      expect(screen.getByRole('link', {name: 'Mr Rogers'})).toHaveAttribute('href', 'http://rcode5.com')
+      expect(screen.getByRole('link', {name: 'Trish Tunney'})).toHaveAttribute('href', 'http://trishtunney.com')
+
+      expect(screen.getByText("Liwei Xu", { exact: false })).toBeInTheDocument();
+      expect(screen.getByText("Ryan Workman", { exact: false })).toBeInTheDocument();
+      expect(screen.getByText("Kathrin Neyzberg", { exact: false })).toBeInTheDocument();
       expect(
         screen.queryByText("Version: 1.0 version goes here")
       ).toBeInTheDocument();
