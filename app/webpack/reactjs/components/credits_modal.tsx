@@ -30,10 +30,13 @@ export const CreditsWindow: FC<CreditsWindowProps> = ({
           {", "}
           <a href="http://rcode5.com">Mr Rogers</a>
           {", "}
+          <span>Kathrin Neyzberg</span>
+          {", "}
           <span>Liwei Xu</span>
           {" and "}
           <span>Ryan Workman</span>
         </p>
+        <p>Design guidance from Randy Titchenal.</p>
         <div className="release_version">Version: {version}</div>
       </div>
     </>
