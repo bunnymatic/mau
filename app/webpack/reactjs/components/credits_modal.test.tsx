@@ -15,12 +15,23 @@ describe("CreditsModal", () => {
         />
       );
       expect(screen.getByText("Credits")).toBeInTheDocument();
-      expect(screen.getByRole('link', {name: 'Mr Rogers'})).toHaveAttribute('href', 'http://rcode5.com')
-      expect(screen.getByRole('link', {name: 'Trish Tunney'})).toHaveAttribute('href', 'http://trishtunney.com')
+      expect(screen.getByRole("link", { name: "Mr Rogers" })).toHaveAttribute(
+        "href",
+        "http://rcode5.com"
+      );
+      expect(
+        screen.getByRole("link", { name: "Trish Tunney" })
+      ).toHaveAttribute("href", "http://trishtunney.com");
 
-      expect(screen.getByText("Liwei Xu", { exact: false })).toBeInTheDocument();
-      expect(screen.getByText("Ryan Workman", { exact: false })).toBeInTheDocument();
-      expect(screen.getByText("Kathrin Neyzberg", { exact: false })).toBeInTheDocument();
+      expect(
+        screen.getByText("Liwei Xu", { exact: false })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Ryan Workman", { exact: false })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Kathrin Neyzberg", { exact: false })
+      ).toBeInTheDocument();
       expect(
         screen.queryByText("Version: 1.0 version goes here")
       ).toBeInTheDocument();
