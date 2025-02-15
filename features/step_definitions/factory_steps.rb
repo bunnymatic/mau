@@ -23,7 +23,7 @@ Given /^there is a studio named "(.*)" with artists$/ do |studio|
 end
 
 Given /there are artists with art in the system$/ do
-  @artists = FactoryBot.create_list(:artist, 3, :with_art, :with_studio, number_of_art_pieces: 5)
+  @artists = FactoryBot.create_list(:artist, 3, :with_art, :with_links, :with_studio, number_of_art_pieces: 5)
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
@@ -35,8 +35,7 @@ end
 Given /the following artists with art are in the system:/ do |table|
   @artists = []
   table.hashes.each do |artist_params|
-    args = { number_of_art_pieces: 5 }.merge artist_params
-    @artists << FactoryBot.create(:artist, :with_art, :with_studio, args)
+    @artists << FactoryBot.create(:artist, :with_art, :with_studio, **artist_params, number_of_art_pieces: 5)
   end
   @art_pieces = @artists.compact.map { |a| a.reload.art_pieces }.flatten
 end
@@ -44,8 +43,7 @@ end
 Given /the following artists who aren't ready to sign up for os are in the system:/ do |table|
   @artists = []
   table.hashes.each do |artist_params|
-    args = { number_of_art_pieces: 5 }.merge artist_params
-    @artists << FactoryBot.create(:artist, :active, :without_address, args)
+    @artists << FactoryBot.create(:artist, :active, :without_address, **artist_params, number_of_art_pieces: 5)
   end
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
@@ -108,12 +106,8 @@ Given /there are open studios artists with art in the system/ do
   )
   @artists.each do |a|
     a.open_studios_events << OpenStudiosEventService.current
-    a.artist_info.update_attribute(:lat, 37.75)
-    a.artist_info.update_attribute(:lng, -122.41)
-    if a.studio
-      a.studio.update_attribute(:lat, 37.75)
-      a.studio.update_attribute(:lng, -122.41)
-    end
+    a.artist_info.update(lat: 37.75, lng: -122.41)
+    a.studio&.update(lat: 37.75, lng: -122.41)
   end
 end
 
@@ -197,7 +191,7 @@ Given /^the email lists have been created with emails$/ do
     clz = mailing_list.constantize
     begin
       clz.create unless clz.first
-    rescue Exception => e
+    rescue StandardError => e
       Rails.logger.debug { "Failed to create #{mailing_list} : #{e}" }
     end
     clz.first.emails.create(name: Faker::Name.name, email: Faker::Internet.email)
