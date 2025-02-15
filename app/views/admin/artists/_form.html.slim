@@ -17,13 +17,15 @@
             = artist_info.input :bio
       .pure-u-1-1.pure-u-md-1-2.padded-content
         h3.admin-artists-edit__section-header links
-        = f.semantic_fields_for :links, OpenStruct.new(artist.links) do |links|
+        = f.semantic_fields_for :links, ArtistFormLinks.new(artist.links) do |links|
           = links.inputs do
             - link_info.each do |key|
               = links.input key
       .pure-u-1-1.pure-u-md-1-2.padded-content.admin-artists-edit__section
         h3.admin-artists-edit__section-header open studios info
-        - unless artist.doing_open_studios?
+        - if !current_open_studios
+          p There is no active open studios
+        - elsif !artist.doing_open_studios?
           p = "This artist does not appear to be participating in #{current_open_studios.for_display}"
         - else
           = f.semantic_fields_for :open_studios_participants do |participant_form|
