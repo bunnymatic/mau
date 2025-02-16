@@ -72,7 +72,7 @@ group :development do
   gem 'capistrano', require: false
   gem 'capistrano3-puma',   require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano-local-precompile', '1.2.1', github: 'rcode5/capistrano-local-precompile', require: false
+  gem 'capistrano-local-precompile', github: 'rcode5/capistrano-local-precompile', require: false, branch: 'master'
   gem 'capistrano-rails', require: false
   gem 'capistrano-rbenv', require: false
   gem 'debug'

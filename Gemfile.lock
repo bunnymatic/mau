@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/rcode5/capistrano-local-precompile.git
   revision: 91a7f9157d3b74786abc4a6b85e46c4128941a37
+  branch: master
   specs:
     capistrano-local-precompile (1.2.1)
       capistrano (>= 3.8)
@@ -634,7 +635,7 @@ DEPENDENCIES
   byebug
   capistrano
   capistrano-bundler
-  capistrano-local-precompile (= 1.2.1)!
+  capistrano-local-precompile!
   capistrano-rails
   capistrano-rbenv
   capistrano3-puma
