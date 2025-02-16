@@ -633,7 +633,7 @@ DEPENDENCIES
   byebug
   capistrano
   capistrano-bundler
-  capistrano-local-precompile!
+  capistrano-local-precompile (= 1.2.1)!
   capistrano-rails
   capistrano-rbenv
   capistrano3-puma
