@@ -8,7 +8,7 @@ gem 'authlogic'
 gem 'aws-sdk-s3'
 gem 'browser'
 gem 'browserslist_useragent'
-gem 'cgi', '~>0.3.6'
+gem 'cgi', '~>0.3.7'
 gem 'connection_pool' # for dalli > 3
 gem 'csv'
 gem 'dalli'
