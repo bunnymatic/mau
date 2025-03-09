@@ -23,7 +23,8 @@ Given /^there is a studio named "(.*)" with artists$/ do |studio|
 end
 
 Given /there are artists with art in the system$/ do
-  @artists = FactoryBot.create_list(:artist, 3, :with_art, :with_links, :with_studio, number_of_art_pieces: 5)
+  @artists = FactoryBot.create_list(:artist, 3, :with_art, :with_links, :with_studio, number_of_art_pieces: 5) +
+     FactoryBot.create_list(:artist, 1, :with_art, :with_links, number_of_art_pieces: 3)
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
