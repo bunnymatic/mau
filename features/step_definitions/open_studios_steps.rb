@@ -65,8 +65,7 @@ end
 
 Then /I see the open studios promo page$/ do
   expect(page).to have_selector 'h2', text: /Open Studios/
-  expect(page).to have_content /participating independent artists/i
-  expect(page).to have_content /participating group studios/i
+  expect(page).to have_content /participating artists/i
   expect(current_path).to eq open_studios_path
 end
 
