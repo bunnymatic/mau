@@ -11,7 +11,7 @@
 .pure-g.tab-content
   .pure-u-1-1#about
     .pure-g
-      .pure-u-1-1.pure-u-md-5-6.pure-u-lg-4-5.padded-content.open-studios-index__container
+      .pure-u-1-1.pure-u-md-5-6.pure-u-lg-4-5.padded-content
         = render_cms_content @presenter.packaged_summary
         = render_cms_content @presenter.packaged_preview_reception
         .section.open-studios-index__section
@@ -20,24 +20,12 @@
               .pure-u-1-1.pure-u-sm-1-1.pure-u-md-2-3.pure-u-lg-4-5
                 .map-spinner
                 #map-canvas
-        - if @presenter.participating_studios.present?
-          .section.open-studios-index__list-container
-            h4.open-studios-index__header Participating Group Studios
+          .open-studios-index__list-container
+            h4.section.open-studios-index__header Participating Artists
             ul.open-studios-index__participant-list
-              - @presenter.participating_studios.each do |s|
+              - @presenter.participating_artists.each do |artist|
                 li.open-studios-index__participant
-                  = link_to(s.name,s)
-                  '
-                  = "(#{pluralize(s.artists.to_a.count(&:doing_open_studios?), 'artist')})"
-        - if @presenter.participating_indies.present?
-          .section.open-studios-index__list-container
-            h4.open-studios-index__header Participating Independent Artists
-            ul.open-studios-index__participant-list
-              - @presenter.participating_indies.each do |a|
-                li.open-studios-index__participant
-                  = link_to(a.get_name, a)
-                  '
-                  = a&.address&.street
+                  = @presenter.link_to_artist(artist)
 
           = render :partial => '/main/info_footer'
 
