@@ -6,7 +6,7 @@ def site_keys_file
 end
 
 def secure_digest(*args)
-  Digest::SHA1.hexdigest(args.flatten.join('--'))
+  Digest::SHA1.hexdigest(args.join('--'))
 end
 
 def make_token

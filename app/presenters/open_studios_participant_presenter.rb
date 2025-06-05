@@ -31,15 +31,15 @@ class OpenStudiosParticipantPresenter
     @conference_time_slots ||= display_time_slots(time_slots, compact: true)
   end
 
-  def has_shop? # rubocop:disable Naming/PredicateName
+  def has_shop?
     participant.shop_url.present?
   end
 
-  def has_scheduled_conference? # rubocop:disable Naming/PredicateName
+  def has_scheduled_conference?
     participant.video_conference_time_slots.present? && participant.video_conference_url.present?
   end
 
-  def has_youtube? # rubocop:disable Naming/PredicateName
+  def has_youtube?
     participant.youtube_url.present?
   end
 

@@ -33,7 +33,7 @@ class AdminArtistUpdateService
       skipped_count = 0
 
       Artist.active.where(id: os_updates_by_artist_id.keys).find_each do |artist|
-        changed = update_artist_os_standing(
+        changed = maybe_update_artist_os_standing(
           artist,
           current_os,
           truthy?(os_updates_by_artist_id[artist.id.to_s]),
@@ -47,8 +47,9 @@ class AdminArtistUpdateService
       [updated_count, skipped_count]
     end
 
+    # rubocop:disable Naming/PredicateMethod
     # return ternary - nil if the artist was skipped, else true if the artist setting was changed, false if not
-    def update_artist_os_standing(artist, current_os, doing_it)
+    def maybe_update_artist_os_standing(artist, current_os, doing_it)
       return false if artist.doing_open_studios? == doing_it
 
       if doing_it
@@ -58,5 +59,6 @@ class AdminArtistUpdateService
       end
       true
     end
+    # rubocop:enable Naming/PredicateMethod
   end
 end

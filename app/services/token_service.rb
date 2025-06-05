@@ -1,6 +1,6 @@
 class TokenService
   def self.secure_digest(*args)
-    Digest::SHA1.hexdigest(args.flatten.join('--'))
+    Digest::SHA1.hexdigest(args.join('--'))
   end
 
   def self.generate

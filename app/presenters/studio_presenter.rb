@@ -3,7 +3,6 @@ class StudioPresenter < ViewPresenter
 
   delegate :slug,
            :phone,
-           :phone?,
            :map_link,
            :address,
            :city,

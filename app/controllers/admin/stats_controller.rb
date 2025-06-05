@@ -31,13 +31,13 @@ module Admin
       render json: format_for_graph(tally)
     end
 
+    GRAPH_LOOKBACK = '1 YEAR'.freeze
+
     private
 
     def format_for_graph(data)
       data.to_json
     end
-
-    GRAPH_LOOKBACK = '1 YEAR'.freeze
 
     def compute_art_piece_count_histogram
       sql = <<-SQL.squish
