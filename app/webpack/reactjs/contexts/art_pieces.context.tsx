@@ -1,6 +1,11 @@
 import { ArtPiece } from "@models/art_piece.model";
 import * as types from "@reactjs/types";
-import React, { createContext, FC, useContext } from "react";
+import React, {
+  createContext,
+  type PropsWithChildren,
+  type ReactNode,
+  useContext,
+} from "react";
 
 export const ArtPiecesContext = createContext<types.ArtPiecesContext>({
   artPieces: [],
@@ -11,9 +16,10 @@ interface ArtPiecesProviderProps {
   artPieces: ArtPiece[];
 }
 
-export const ArtPiecesProvider: FC<
-  ArtPiecesProviderProps & types.ChildrenProp
-> = ({ children, artPieces }) => {
+export const ArtPiecesProvider = ({
+  children,
+  artPieces,
+}: PropsWithChildren<ArtPiecesProviderProps>): ReactNode => {
   return (
     <ArtPiecesContext.Provider value={{ artPieces }}>
       {children}

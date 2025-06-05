@@ -67,7 +67,7 @@ export const ContactArtistForm: FC<ContactArtistFormProps> = ({
           const { errors } = camelizeKeys(err.responseJSON);
           actions.setErrors(errors);
           error = "Whoops. There was a problem.";
-        } catch (e) {
+        } catch {
           error = "Ack. Something is seriously wrong. Please try again later.";
         }
         new Flash().show({ error });

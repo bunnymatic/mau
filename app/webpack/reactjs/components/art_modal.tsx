@@ -10,16 +10,24 @@ import {
   useEventListener,
   useModalState,
 } from "@reactjs/hooks";
-import * as types from "@reactjs/types";
 import HeartSpeechBubble from "images/heart_speech_bubble.svg";
-import React, { type FC, MouseEventHandler, useCallback, useMemo } from "react";
+import React, {
+  MouseEventHandler,
+  type PropsWithChildren,
+  type ReactNode,
+  useCallback,
+  useMemo,
+} from "react";
 
 interface ArtModalWindowProps {
   artPiece: ArtPiece;
   handleClose: (MouseEvent) => void;
 }
 
-const ArtModalWindow: FC<ArtModalWindowProps> = ({ artPiece, handleClose }) => {
+const ArtModalWindow = ({
+  artPiece,
+  handleClose,
+}: ArtModalWindowProps): ReactNode => {
   setAppElement("body");
 
   const { artPieces } = useArtPiecesContext();
@@ -135,10 +143,10 @@ interface ArtModalProps {
   artPiece: ArtPiece;
 }
 
-const ArtModal: FC<ArtModalProps & types.ChildrenProp> = ({
+const ArtModal = ({
   artPiece,
   children,
-}) => {
+}: PropsWithChildren<ArtModalProps>): ReactNode => {
   const { isOpen, open, close } = useModalState();
   return (
     <>

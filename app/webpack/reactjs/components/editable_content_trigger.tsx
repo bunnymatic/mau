@@ -1,14 +1,14 @@
 import { routing } from "@js/services/routing.service";
 import * as types from "@reactjs/types";
-import React, { FC } from "react";
+import React, { type ReactNode } from "react";
 
-interface EditableContentTriggerProps extends types.CmsDocument {}
+type EditableContentTriggerProps = types.CmsDocument;
 
-export const EditableContentTrigger: FC<EditableContentTriggerProps> = ({
+export const EditableContentTrigger = ({
   cmsid,
   page,
   section,
-}) => {
+}: EditableContentTriggerProps): ReactNode => {
   const path = cmsid
     ? routing.editCmsDocumentPath({ id: cmsid })
     : routing.newCmsDocumentPath({ page, section });

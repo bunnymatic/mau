@@ -1,8 +1,5 @@
-import React, { FC } from "react";
-
-interface ReactTestComponentProps {}
-
 import Flash from "@js/app/flash";
+import React, { type ReactNode } from "react";
 
 import { FavoriteThis } from "./favorite_this";
 import { MediumLink } from "./medium_link";
@@ -25,7 +22,7 @@ const noticeWithTimeout = (timeout?: number) => {
   new Flash().show({ notice: "a regular notice", timeout });
 };
 
-export const ReactTestComponent: FC<ReactTestComponentProps> = (_props) => {
+export const ReactTestComponent = (): ReactNode => {
   return (
     <div>
       <FavoriteThis type="Artist" id={10} />
