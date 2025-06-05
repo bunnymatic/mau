@@ -1,8 +1,6 @@
 class SignUpSupportMailer < MauMailer
   def secret_word_request(feedback)
-    emails = mailer_list.formatted_emails
-    emails = ['jon+mausignup@bunnymatic.com', 'trish@trishtunney.com'] if emails.blank?
-
+    emails = mailer_list.formatted_emails.presence || ['jon+mausignup@bunnymatic.com', 'trish@trishtunney.com']
     from = 'info@missionartists.org'
     reply_to = NO_REPLY_FROM_ADDRESS
     subject = "[Mission Artists Support] Someone's trying to sign up"
