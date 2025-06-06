@@ -59,6 +59,8 @@ class OpenStudiosEvent < ApplicationRecord
     active.future.first || active.past.last
   end
 
+  SPECIAL_EVENT_FIELDS = %w[special_event_start_time special_event_end_time special_event_start_date special_event_end_date].freeze
+
   private
 
   def generate_key
@@ -67,7 +69,6 @@ class OpenStudiosEvent < ApplicationRecord
     self.key = start_date.strftime('%Y%m')
   end
 
-  SPECIAL_EVENT_FIELDS = %w[special_event_start_time special_event_end_time special_event_start_date special_event_end_date].freeze
   def generate_special_event_time_slots
     return unless changed.intersect?(SPECIAL_EVENT_FIELDS)
 

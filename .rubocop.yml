@@ -1,5 +1,5 @@
 inherit_from: .rubocop.todo.yml
-require:
+plugins:
   - rubocop-performance
   - rubocop-rails
 AllCops:
@@ -116,12 +116,23 @@ Naming/AccessorMethodName:
 Naming/ConstantName:
   Exclude:
     - config/application.rb
+    - app/presenters/open_studios_participant_presenter.rb
 
 Naming/MemoizedInstanceVariableName:
   EnforcedStyleForLeadingUnderscores: optional
   Exclude:
     - app/controllers/**/*.rb
     - spec/support/**/*.rb
+
+Naming/PredicateMethod:
+  Exclude:
+    - app/models/independent_studio.rb
+
+Naming/PredicatePrefix:
+  Exclude:
+    - config/application.rb
+    - app/presenters/open_studios_participant_presenter.rb
+    - spec/support/mail_matchers.rb
 
 Rails/ActionControllerFlashBeforeRender:
   Enabled: false

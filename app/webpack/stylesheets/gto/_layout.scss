@@ -73,7 +73,7 @@ body {
         @media (min-width: v.$screen-sm-max) {
           padding: 5px 40px;
         }
-        background-color: x-light-gray;
+        background-color: $x-light-gray;
       }
       &.shown {
         animation: pulsate 3s ease-out;

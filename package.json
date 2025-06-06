@@ -2,7 +2,7 @@
   "type": "module",
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.7",
-    "@faker-js/faker": "^8.4.1",
+    "@faker-js/faker": "^9.0.0",
     "@googlemaps/markerclusterer": "^2.5.3",
     "@rollup/plugin-inject": "^5.0.2",
     "@testing-library/dom": "^10.1.0",
@@ -28,12 +28,13 @@
     "prettier": "^3.2.5",
     "rosie": "^2.0.1",
     "typescript": "^5.4.3",
-    "typescript-eslint": "^7.4.0",
-    "vite": "^5.0.0",
+    "typescript-eslint": "^8.0.0",
+    "vite": "^6.0.0",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-ruby": "^5.1.0",
     "vite-plugin-svgr": "^4.2.0",
-    "vitest": "^2.0.0"
+    "vitest": "^3.0.0",
+    "yaml": "^2.8.0"
   },
   "scripts": {
     "build": "vite build",

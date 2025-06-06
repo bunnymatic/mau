@@ -1,11 +1,6 @@
-import * as types from "@reactjs/types";
-import React, { FC } from "react";
+import React, { type PropsWithChildren, type ReactNode } from "react";
 
-interface MauHintProps {}
-
-export const MauHint: FC<MauHintProps & types.ChildrenProp> = ({
-  children,
-}) => {
+export const MauHint = ({ children }: PropsWithChildren): ReactNode => {
   if (children) {
     return <p className="inline-hints">{children}</p>;
   }

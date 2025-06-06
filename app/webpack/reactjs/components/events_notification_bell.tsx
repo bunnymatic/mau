@@ -2,11 +2,9 @@ import { some } from "@js/app/helpers";
 import { EmailChangedEventsService } from "@js/services/email_changed_events.service";
 import * as types from "@reactjs/types";
 import { DateTime } from "luxon";
-import React, { FC, useEffect, useState } from "react";
+import React, { type ReactNode, useEffect, useState } from "react";
 
-interface EventsNotificationBellProps {}
-
-export const EventsNotificationBell: FC<EventsNotificationBellProps> = () => {
+export const EventsNotificationBell = (): ReactNode => {
   const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {

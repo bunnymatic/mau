@@ -18,7 +18,6 @@ class UserPresenter < ViewPresenter
            :get_name,
            :id,
            :instagram,
-           :last_login,
            :lastname,
            :login,
            :name,
@@ -204,7 +203,7 @@ class UserPresenter < ViewPresenter
     def choose_icon_from_site(site, key)
       if site.include?('.tumblr.')
         'fa-tumblr'
-      elsif key.to_sym == :blog || key.to_sym == :blogger
+      elsif %i[blog blogger].include?(key.to_sym)
         if site.include?('.blogger.')
           'fa-blogger'
         elsif site.present?

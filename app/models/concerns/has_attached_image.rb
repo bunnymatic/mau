@@ -8,8 +8,6 @@ module HasAttachedImage
     self._sti_class_names = Set.new
   end
 
-  private
-
   class_methods do
     attr_accessor :_sti_class_names
 

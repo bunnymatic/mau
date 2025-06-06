@@ -1,6 +1,10 @@
 import * as types from "@reactjs/types";
 import cx from "classnames";
-import React, { FC, MouseEventHandler } from "react";
+import React, {
+  MouseEventHandler,
+  type PropsWithChildren,
+  type ReactNode,
+} from "react";
 
 interface MauButtonProps {
   type?: "button" | "submit";
@@ -15,7 +19,7 @@ export const buttonStyleAttrs = (style: types.MauButtonStyle) => {
   return { [style]: true };
 };
 
-export const MauButton: FC<MauButtonProps & types.ChildrenProp> = ({
+export const MauButton = ({
   type,
   primary,
   secondary,
@@ -23,7 +27,7 @@ export const MauButton: FC<MauButtonProps & types.ChildrenProp> = ({
   onClick,
   disabled,
   children,
-}) => {
+}: PropsWithChildren<MauButtonProps>): ReactNode => {
   return (
     <button
       role="button"

@@ -1,6 +1,6 @@
 import { isEmpty } from "@js/app/helpers";
 import { isObject } from "@js/app/typed_helpers";
-import { ellipsizeParagraph } from "@js/app/utils";
+import { ellipsizeParagraph } from "@js/app/typed_helpers";
 import { routing } from "@services/routing.service";
 
 type SourceDetails = Record<
@@ -70,7 +70,7 @@ export class SearchHit {
   }
   get description() {
     if (this.object.bio) {
-      return ellipsizeParagraph(this.object.bio);
+      return ellipsizeParagraph(this.object.bio.toString());
     }
     if (this.type == "studio") {
       return this.object.address;

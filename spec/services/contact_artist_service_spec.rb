@@ -18,7 +18,8 @@ describe ContactArtistService do
 
       it 'mails the artist' do
         contact
-        expect(ArtistMailer).to have_received(:contact_about_art).with(art_piece.artist, art_piece, contact_info.to_h)
+        expect(ActionMailer::Base.deliveries.length).to eq 1
+        expect(ArtistMailer).to have_received(:contact_about_art).at_least(1).with(art_piece.artist, art_piece, contact_info.to_h)
       end
     end
 

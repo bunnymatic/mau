@@ -14,10 +14,8 @@ class OpenStudiosEventPresenter < ViewPresenter
            :special_event_start_date,
            :special_event_start_time,
            :special_event_time_slots,
-           :start_date,
            :start_time,
            :to_param,
-           :year,
            to: :model,
            allow_nil: true
 
@@ -28,9 +26,9 @@ class OpenStudiosEventPresenter < ViewPresenter
       end
 
       def date_range(start_date, end_date, separator: '-')
-        return start_date.strftime('%b %-d') if same_day(start_date, end_date)
+        return start_date.strftime('%b %-d') if same_day?(start_date, end_date)
 
-        if same_month(start_date, end_date)
+        if same_month?(start_date, end_date)
           "#{start_date.strftime('%b')} #{start_date.strftime('%-d')}#{separator}#{end_date.strftime('%-d')}"
         else
           start_date.strftime('%b %-d') + separator + end_date.strftime('%b %-d')
@@ -41,11 +39,11 @@ class OpenStudiosEventPresenter < ViewPresenter
         "#{start_time} &mdash; #{end_time}".html_safe
       end
 
-      def same_month(start_date, end_date)
+      def same_month?(start_date, end_date)
         start_date.month == end_date.month
       end
 
-      def same_day(start_date, end_date)
+      def same_day?(start_date, end_date)
         start_date.day == end_date.day
       end
     end

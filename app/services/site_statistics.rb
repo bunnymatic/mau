@@ -24,6 +24,11 @@ class SiteStatistics
     end
   end
 
+  CREATED_CLAUSE = 'created_at >= ?'.freeze
+  ACTIVATED_CLAUSE = 'activated_at >= ?'.freeze
+  LAST_SEEN_CLAUSE = 'last_request_at >= ?'.freeze
+  LAST_LOGIN_CLAUSE = 'current_login_at >= ?'.freeze
+
   private
 
   def compute
@@ -33,10 +38,6 @@ class SiteStatistics
     compute_totals
   end
 
-  CREATED_CLAUSE = 'created_at >= ?'.freeze
-  ACTIVATED_CLAUSE = 'activated_at >= ?'.freeze
-  LAST_SEEN_CLAUSE = 'last_request_at >= ?'.freeze
-  LAST_LOGIN_CLAUSE = 'current_login_at >= ?'.freeze
   def queries(clause = CREATED_CLAUSE)
     {
       last_30_days: [clause, 30.days.ago],

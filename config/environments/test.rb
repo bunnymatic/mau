@@ -61,6 +61,8 @@ Rails.application.configure do
   config.opensearch_url = config.elasticsearch_url
 
   config.middleware.use DisableAnimations
+
+  config.active_job.queue_adapter = :inline
 end
 
 Rails.application.routes.default_url_options[:host] = 'test.host'
