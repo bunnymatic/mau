@@ -6,7 +6,7 @@ import svg from 'vite-plugin-svgr';
 import path from 'path';
 
 export default defineConfig({
- build: {
+  build: {
     sourcemap: true,
   },
   plugins: [

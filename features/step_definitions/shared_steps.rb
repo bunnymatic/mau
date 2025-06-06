@@ -192,6 +192,7 @@ When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
   if running_js?
     if all('#admin_nav').count.positive?
       find('#admin_nav .handle').hover
+      sleep 0.1
       el = all('#admin_nav a', text: link_title).first
     else
       el = all('.pure-menu a', text: link_title).first
