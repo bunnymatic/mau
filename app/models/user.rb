@@ -27,17 +27,19 @@ class User < ApplicationRecord
               if: :require_password?,
             }
 
-  store :links, accessors: %i[website facebook twitter blog pinterest myspace flickr instagram artspan]
+  store :links, accessors: %i[website facebook twitter blog instagram artspan]
 
   attr_accessor :password_confirmation
 
   extend FriendlyId
+
   friendly_id :login, use: [:slugged]
 
   # custom validations
   validate :validate_email
 
   include HasAttachedImage
+
   image_attachments(:photo, sti_class_names: ['Artist'])
   validates :photo, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif]
 

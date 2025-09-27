@@ -20,9 +20,6 @@ describe SocialCatalogPresenter do
         'Facebook',
         'Twitter',
         'Blog',
-        'Pinterest',
-        'Myspace',
-        'Flickr',
         'Instagram',
         'Artspan',
       ]

@@ -1,6 +1,7 @@
 module Search
   class SearchHit
     include ActiveModel::Model
+
     attr_accessor :_index, :_type, :_id, :_score, :_source, :_ignored
 
     def ==(other)

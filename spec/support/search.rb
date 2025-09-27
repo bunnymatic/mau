@@ -28,7 +28,7 @@ RSpec.configure do |config|
       nil
     when :opensearch, :elasticsearch
       begin
-        TestSearchServer.start unless ENV['CI']
+        TestSearchServer.start unless ENV['CI'] || ENV['DOCKER_OPENSEARCH']
       rescue Exception => e
         puts "Failed to start search server: #{e}"
       end
@@ -57,7 +57,7 @@ RSpec.configure do |config|
 end
 
 at_exit do
-  TestSearchServer.stop unless ENV['CI']
+  TestSearchServer.stop unless ENV['CI'] || ENV['DOCKER_OPENSEARCH']
 rescue Exception => e
   puts "Failed to stop Elasticsearch: #{e}"
 end

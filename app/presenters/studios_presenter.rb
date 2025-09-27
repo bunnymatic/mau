@@ -1,5 +1,6 @@
 class StudiosPresenter
   include Enumerable
+
   attr_reader :view_mode
 
   def initialize(studios, view_mode = nil)

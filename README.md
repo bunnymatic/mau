@@ -28,7 +28,7 @@ Follow the post-install instructions to get your MySQL server running.  For easy
 
 Use `homebrew` to install the following packages:
 
-    brew install markdown imagemagick memcached opensearch
+    brew install markdown imagemagick memcached colima
 
 At this point, you should have all the binary resources you'll need (hopefully).
 
@@ -134,6 +134,23 @@ If you run into issues with open search after running a test, we don't clean up 
 
 ### Testing
 
+As `opensearch` and `java` continue to change, we need a good way to mange the version.
+
+#### Hosting search via docker
+
+Included in the repo are `docker-compose.yml` and `docker-compose.test.yml` files which will
+use a docker version of opensearch which we can reliably fetch and and run.
+
+The second is used to start up a server that listens at 9250 for testing.  You must
+manually start this instance before running cucumber tests.  Assuming you have docker and colima
+setup and running...
+
+```
+docker compose up -f docker-compose.test.yml
+```
+will run the search server.  this can be done in a separate terminal from running the tests.
+
+#### Hosting locally (not recommended)
 We use RSpec and Cucumber.  We have some test code that will auto start Elasticsearch/OpenSearch on port 9250.
 
 You shouldn't need to do anything to get things rolling.  Tests that need elastic search know they do and they will start up a server for testing.

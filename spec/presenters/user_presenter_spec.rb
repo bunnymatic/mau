@@ -9,12 +9,12 @@ describe UserPresenter do
   let(:last_request_at) { 1.minute.ago }
   let(:current_login_at) { 1.hour.ago }
   let(:user) do
-    create :artist,
-           created_at: created,
-           activated_at: activated,
-           last_request_at:,
-           last_login_at:,
-           current_login_at:
+    build :artist,
+          created_at: created,
+          activated_at: activated,
+          last_request_at:,
+          last_login_at:,
+          current_login_at:
   end
   subject(:presenter) { described_class.new(user) }
 
@@ -71,6 +71,16 @@ describe UserPresenter do
   end
 
   describe '#links_html' do
+    let(:user) do
+      build :artist,
+            :with_links,
+            created_at: created,
+            activated_at: activated,
+            last_request_at:,
+            last_login_at:,
+            current_login_at:
+    end
+
     it 'shows html links' do
       links = Nokogiri::HTML(presenter.links_html.first)
       expect(links.css("a[href=\"#{user.links.first[1]}\"] i")).to have(1).item
@@ -81,6 +91,14 @@ describe UserPresenter do
     let(:active_with_art) { create :artist, :active, :with_art }
     let(:inactive_with_art) { create :artist, :with_art, state: :suspended }
     let(:fan) { create :fan }
+    let(:user) do
+      create :artist,
+             created_at: created,
+             activated_at: activated,
+             last_request_at:,
+             last_login_at:,
+             current_login_at:
+    end
 
     before do
       create_favorite user, active_with_art
@@ -107,6 +125,14 @@ describe UserPresenter do
   describe '#who_favorites_me' do
     let(:active_with_art) { create :artist, :active, :with_art }
     let(:inactive_with_art) { create :artist, :with_art, state: :suspended }
+    let(:user) do
+      create :artist,
+             created_at: created,
+             activated_at: activated,
+             last_request_at:,
+             last_login_at:,
+             current_login_at:
+    end
 
     before do
       create_favorite active_with_art, user

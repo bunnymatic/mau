@@ -32,7 +32,7 @@ class SocialCatalogPresenter < ArtistsPresenter
   end
 
   def date_range
-    return '' unless current_open_studios.available? && artists.present?
+    return '' unless current_open_studios&.available? && artists.present?
 
     current_open_studios.date_range(separator: ' & ') + ", #{current_open_studios.year}"
   end

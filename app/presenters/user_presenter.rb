@@ -103,27 +103,15 @@ class UserPresenter < ViewPresenter
   end
 
   def facebook_handle
-    @facebook_handle ||=
-      begin
-        match = %r{facebook.com/(.*)}.match(model.facebook.to_s)
-        match&.captures&.first
-      end
+    @facebook_handle ||= ArtistFormLinks.handle_from_link(model.facebook, source: :facebook)
   end
 
   def instagram_handle
-    @instagram_handle ||=
-      begin
-        match = %r{instagram.com/(.*)}.match(model.instagram.to_s)
-        match&.captures&.first
-      end
+    @instagram_handle ||= ArtistFormLinks.handle_from_link(model.instagram, source: :instagram)
   end
 
   def twitter_handle
-    @twitter_handle ||=
-      begin
-        match = %r{twitter.com/(.*)}.match(model.twitter.to_s)
-        match&.captures&.first
-      end
+    @twitter_handle ||= ArtistFormLinks.handle_from_link(model.twitter, source: :twitter)
   end
 
   def valid?
@@ -163,7 +151,7 @@ class UserPresenter < ViewPresenter
   end
 
   def keyed_links
-    @model.links.compact_blank
+    (@model.links || {}).keep_if { |k, v| v.present? && ALLOWED_LINKS.include?(k.to_sym) }
   end
 
   def links_html
@@ -181,10 +169,6 @@ class UserPresenter < ViewPresenter
 
   def profile_image(size = :small)
     model.profile_image(size)
-  end
-
-  def self.keyed_links
-    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
   end
 
   KNOWN_SOCIAL_ICONS = %i[blog blogger pinterest myspace instagram facebook twitter flickr].freeze

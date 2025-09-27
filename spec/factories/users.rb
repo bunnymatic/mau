@@ -80,6 +80,7 @@ FactoryBot.define do
     end
 
     trait :with_links do
+      website { Faker::Internet.url }
       facebook { Faker::Internet.url }
       twitter { Faker::Internet.url }
       instagram { nil }

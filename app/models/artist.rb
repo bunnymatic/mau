@@ -7,6 +7,7 @@ class Artist < User
   include Elasticsearch::Model
 
   extend FriendlyId
+
   friendly_id :login, use: [:slugged]
 
   __elasticsearch__.client = Search::EsClient.root_es_client

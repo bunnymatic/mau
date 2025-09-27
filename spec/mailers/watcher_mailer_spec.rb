@@ -5,7 +5,7 @@ describe WatcherMailer do
 
   describe '#notify_new_art_piece' do
     let(:to) { ['someone <someone@example.com>', 'other@example.com'] }
-    let(:artist) { create(:artist, :with_art, :with_studio) }
+    let(:artist) { create(:artist, :with_art, :with_studio, instagram: 'https://www.instagram.com/myinstahandle') }
     let(:art_piece) { artist.art_pieces.first }
     let(:studio) { artist.studio }
 
@@ -41,10 +41,25 @@ describe WatcherMailer do
       it 'renders a little social media snippet' do
         tags = art_piece.tags.map { |tag| "##{tag.name}" }.join(' ')
         expect(mail).to have_body_text tags
+        expect(mail).to have_body_text('Instagram:')
+        expect(mail).to have_body_text('@myinstahandle')
+        expect(mail).to have_body_text(artist.instagram)
       end
     end
 
     context 'if there is no current open studios event' do
+      it 'renders the email with the art piece, artist, studio and open studios info' do
+        expect(mail).to have_body_text 'New Art:'
+        expect(mail_body).to have_link(art_piece.title, href: art_piece_url(art_piece))
+        expect(mail_body).to have_link(artist.get_name, href: artist_url(artist))
+        expect(mail_body).to have_link(studio.name, href: studio_url(studio))
+        expect(mail).to_not have_body_text('Participating in')
+      end
+    end
+
+    context 'if artist has no links' do
+      let(:artist) { create(:artist, :with_art, :with_studio) }
+
       it 'renders the email with the art piece, artist, studio and open studios info' do
         expect(mail).to have_body_text 'New Art:'
         expect(mail_body).to have_link(art_piece.title, href: art_piece_url(art_piece))

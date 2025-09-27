@@ -167,7 +167,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def self.keyed_links
-    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
+    ALLOWED_LINKS
   end
 
   def open_studios_info
@@ -193,6 +193,10 @@ class ArtistPresenter < UserPresenter
     else
       super
     end
+  end
+
+  def keyed_links
+    (@model.links || {}).keep_if { |k, v| (ALLOWED_LINKS.include? k.to_sym) && v.present? }
   end
 
   private

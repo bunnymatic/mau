@@ -9,7 +9,7 @@ describe NewArtPiecePresenter do
            end_date: os_end_date,
            promote: promoted)
   end
-  let(:artist) { create(:artist, :active, :with_studio) }
+  let(:artist) { create(:artist, :active, :with_studio, instagram: 'https://instagram.com/my-insta-handle') }
   let(:medium) { create(:medium, name: 'My Medium') }
   let(:art_piece) do
     create(:art_piece, :with_tags, artist:, medium:)
@@ -70,11 +70,15 @@ describe NewArtPiecePresenter do
     it 'includes tags from the art medium' do
       expect(subject.hash_tags).to include '#mymedium'
     end
+    it 'includes instagram handles first' do
+      expect(subject.hash_tags).to start_with '@my-insta-handle'
+    end
+
     it 'includes base tags' do
       expect(subject.hash_tags).to include '#missionartists #sfart'
     end
     it 'includes custom tags' do
-      expect(subject.hash_tags).to start_with('#whateverman #another #thistag #finaltag')
+      expect(subject.hash_tags).to include('#whateverman #another #thistag #finaltag')
     end
     it 'does not include any os tags' do
       os_tags = [

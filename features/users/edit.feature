@@ -33,8 +33,16 @@ Scenario: I can edit my links
   And I change "Website" to "http://my.website.com"
   And I change "Instagram" to "http://instagram.com/my_instagram"
   And I click on the first "Save Changes"
+
   Then my "Website" is "http://my.website.com" in the "Links" section of the form
-  And my "Instagram" is "http://instagram.com/my_instagram" in the "Links" section of the form
+  And my "Instagram" is "https://www.instagram.com/my_instagram" in the "Links" section of the form
+
+  When I change "Facebook" to "my-facebook"
+  And I change "Instagram" to "@instagold"
+  And I click on the first "Save Changes"
+
+  Then my "Facebook" is "https://www.facebook.com/my-facebook" in the "Links" section of the form
+  And my "Instagram" is "https://www.instagram.com/instagold" in the "Links" section of the form
 
 Scenario: I can edit my bio
   When I click on "Bio"

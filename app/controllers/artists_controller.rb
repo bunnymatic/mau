@@ -153,7 +153,7 @@ class ArtistsController < ApplicationController
   end
 
   def update
-    if commit_is_cancel
+    if commit_is_cancel?
       redirect_to user_path(current_user)
       return
     end

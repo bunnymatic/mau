@@ -6,13 +6,14 @@
 .panel-collapse.collapse#links role="tabpanel"
   .panel-body
     .pure-g
-      = form.inputs do
-        - placeholder = "e.g. http://www.myartsite.com"
-        - link_info.each do |key|
-          - placeholder = "e.g. http://#{key}.com/mypage" if key.to_sym != :website
-          .pure-u-1-1.pure-u-sm-1-2
-            - label = content_tag('i', '',class: "user-edit__link-icon #{UserPresenter::icon_link_class(key)}") + content_tag("span", key.to_s.titleize)
-            = form.input key, label: label, placeholder: placeholder
+      = form.semantic_fields_for :links, ArtistFormLinks.new(form.object.links) do |links|
+        = links.inputs do
+          - link_info.each do |key|
+            - placeholder_link = ArtistFormLinks.placeholder_link(key)
+            - value = ArtistFormLinks.link_from_handle(form.object.send(key), source: key).presence || form.object.send(key)
+            .pure-u-1-1.pure-u-sm-1-2
+              - label = content_tag('i', '',class: "user-edit__link-icon #{UserPresenter::icon_link_class(key)}") + content_tag("span", key.to_s.titleize)
+              = form.input key, label: , placeholder: placeholder_link.present? ? "e.g. #{placeholder_link}" : '', input_html: { value: }
     = form.actions do
       = form.submit 'Save Changes', class: "pure-button pure-button-primary"
       = form.submit 'Cancel', class: "pure-button"

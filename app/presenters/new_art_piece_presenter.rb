@@ -22,6 +22,7 @@ class NewArtPiecePresenter
 
   def tags
     (
+      tags_from_artist_social_media +
       custom_tags +
       tags_from_tags +
       tags_from_medium +
@@ -37,7 +38,7 @@ class NewArtPiecePresenter
   end
 
   def studio_address
-    @studio.indy? ? @artist.address : @studio.name
+    studio.indy? ? artist.address : studio.name
   end
 
   def tags_from_tags
@@ -45,7 +46,7 @@ class NewArtPiecePresenter
   end
 
   def tags_from_medium
-    @art_piece.medium.present? ? [@art_piece.medium.name.downcase] : []
+    art_piece.medium.present? ? [art_piece.medium.name.downcase] : []
   end
 
   def tags_for_open_studios
@@ -56,6 +57,17 @@ class NewArtPiecePresenter
     else
       %w[missionopenstudios springopenstudios]
     end
+  end
+
+  def tags_from_artist_social_media
+    return [] if artist.instagram.blank?
+
+    handle = SocialLinkHelper.new(artist.instagram).handle
+    [
+      (if handle.present?
+         handle.starts_with?('@') ? handle : "@#{handle}"
+       end),
+    ].compact_blank
   end
 
   def custom_tags
