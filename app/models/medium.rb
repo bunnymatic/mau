@@ -2,6 +2,7 @@ class Medium < ApplicationRecord
   has_many :art_pieces, dependent: :nullify, inverse_of: :medium
 
   include FriendlyId
+
   friendly_id :name, use: [:slugged]
 
   validates :name, presence: true, length: { within: (2..244) }

@@ -7,6 +7,7 @@ class ArtPiece < ApplicationRecord
   belongs_to :medium, optional: true
 
   include HasAttachedImage
+
   image_attachments(:photo)
   validates :photo, attached: true, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif]
 

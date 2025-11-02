@@ -32,12 +32,14 @@ class User < ApplicationRecord
   attr_accessor :password_confirmation
 
   extend FriendlyId
+
   friendly_id :login, use: [:slugged]
 
   # custom validations
   validate :validate_email
 
   include HasAttachedImage
+
   image_attachments(:photo, sti_class_names: ['Artist'])
   validates :photo, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif]
 

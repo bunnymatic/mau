@@ -25,7 +25,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
   end
 
   def thumbs?
-    thumbs.count.positive?
+    thumbs.any?
   end
 
   def row_class

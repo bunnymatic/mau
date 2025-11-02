@@ -4,7 +4,7 @@ class ApplicationEvent < ApplicationRecord
   validates :type, length: { minimum: 2 }
 
   scope :available_types, -> { distinct(:type).order(:type).pluck(:type) }
-  scope :by_recency, -> { order('created_at desc') }
+  scope :by_recency, -> { order(created_at: :desc) }
   scope :since, ->(date) { where(created_at: date..Time.zone.now) }
 
   serialize :data, type: Hash

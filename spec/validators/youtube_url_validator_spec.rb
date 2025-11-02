@@ -7,6 +7,7 @@ describe YoutubeUrlValidator do
         'UrlValidatorTestModel'
       end
       include ActiveModel::Validations
+
       attr_accessor :video_url
 
       validates :video_url, youtube_url: true

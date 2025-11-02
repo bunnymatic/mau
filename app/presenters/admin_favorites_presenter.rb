@@ -3,6 +3,7 @@ class AdminFavoritesPresenter
 
   class FavoriteStats
     include ActiveModel::Model
+
     attr_accessor :artists, :art_pieces, :favorited
 
     LUT = {

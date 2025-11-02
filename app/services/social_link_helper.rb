@@ -8,7 +8,7 @@ class SocialLinkHelper
   def handle
     return unless instagram?
 
-    link[%r{instagram\.com/([^/\?]*)}, 1]
+    link[%r{instagram\.com/([^/?]*)}, 1]
   end
 
   def instagram?

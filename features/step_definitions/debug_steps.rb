@@ -13,5 +13,5 @@ Then /^show me the os info$/ do
   puts 'cu2r', OpenStudiosEvent.current.key
   puts 'keys', OpenStudiosEvent.all.map(&:inspect)
   puts 'os artists', Artist.active.count(&:doing_open_studios?)
-  puts 'os', (Artist.active.map { |a| a.artist_info.os_participation })
+  puts('os', Artist.active.map { |a| a.artist_info.os_participation })
 end

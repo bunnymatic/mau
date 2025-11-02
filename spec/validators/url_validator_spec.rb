@@ -7,6 +7,7 @@ describe UrlValidator do
         'UrlValidatorTestModel'
       end
       include ActiveModel::Validations
+
       attr_accessor :url
 
       validates :url, url: true

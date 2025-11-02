@@ -6,7 +6,7 @@ class MediaService
       .joins(:art_pieces)
       .select('media.*', 'count(*) frequency')
       .group('id')
-      .order('frequency desc')
+      .order(frequency: :desc)
   end
 
   def self.most_popular_medium

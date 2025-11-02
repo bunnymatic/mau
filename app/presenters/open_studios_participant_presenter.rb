@@ -1,5 +1,6 @@
 class OpenStudiosParticipantPresenter
   include OpenStudiosParticipantsHelper
+
   attr_reader :participant
 
   delegate :video_conference_url, :video_conference_time_slots, :youtube_url, :show_email?, :shop_url, :updated_at, to: :participant

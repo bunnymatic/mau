@@ -19,7 +19,7 @@ end
 Then(/^I see the admin artists list$/) do
   if running_js?
     wait_until do
-      all('#good table, #bad #table').count.positive?
+      all('#good table, #bad #table').any?
     end
   else
     wait_until { current_path == admin_artists_path }
