@@ -1,13 +1,13 @@
 class ApiAuthorizor
-  def self.authorize(request)
+  def self.authorized?(request)
     auth_key = request.headers['mau-api-authorization'] || request.headers['HTTP_AUTHORIZATION']
-    FeatureFlags.skip_api_authorization? || check_authorization_key(auth_key) || internal_request?(request)
+    FeatureFlags.skip_api_authorization? || valid_authorization_key?(auth_key) || internal_request?(request)
   end
 
   class << self
     private
 
-    def check_authorization_key(auth_key)
+    def valid_authorization_key?(auth_key)
       auth_key.present? && auth_key == Rails.application.config.api_consumer_key
     end
 

@@ -25,7 +25,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def create
-    redirect_to(current_artist) && return if commit_is_cancel
+    redirect_to(current_artist) && return if commit_is_cancel?
 
     art_piece = CreateArtPieceService.call(current_artist, art_piece_params)
 
@@ -41,7 +41,7 @@ class ArtPiecesController < ApplicationController
 
   # PUT /art_pieces/1
   def update
-    redirect_to(@art_piece) && return if !owned_by_current_user?(@art_piece) || commit_is_cancel
+    redirect_to(@art_piece) && return if !owned_by_current_user?(@art_piece) || commit_is_cancel?
 
     @art_piece = UpdateArtPieceService.new(@art_piece, art_piece_params).update_art_piece
     if @art_piece.valid?

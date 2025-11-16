@@ -10,7 +10,7 @@ describe ApiAuthorizor do
                                 headers: {},
                                 host: 'test.host',
                                 env: { 'HTTP_REFERER' => 'http://test.host' })
-      expect(ApiAuthorizor.authorize(request)).to be_truthy
+      expect(described_class.authorized?(request)).to be_truthy
     end
 
     it 'allows external requests with the right Authorization header' do
@@ -22,7 +22,7 @@ describe ApiAuthorizor do
                                 },
                                 host: 'other.host',
                                 env: { 'HTTP_REFERER' => 'http://somewhere.else.com' })
-      expect(ApiAuthorizor.authorize(request)).to be_truthy
+      expect(described_class.authorized?(request)).to be_truthy
     end
 
     it 'allows external requests with the cutom mau-api-authorization key even if Authorization header is also set' do
@@ -35,7 +35,7 @@ describe ApiAuthorizor do
                                 },
                                 host: 'other.host',
                                 env: { 'HTTP_REFERER' => 'http://somewhere.else.com' })
-      expect(ApiAuthorizor.authorize(request)).to be_truthy
+      expect(described_class.authorized?(request)).to be_truthy
     end
 
     context 'when the feature flag skip_api_authorization is on' do
@@ -48,7 +48,7 @@ describe ApiAuthorizor do
                                   headers: {},
                                   host: 'other.host',
                                   env: { 'HTTP_REFERER' => 'http://somewhere.else.com' })
-        expect(ApiAuthorizor.authorize(request)).to be_truthy
+        expect(described_class.authorized?(request)).to be_truthy
       end
     end
   end
