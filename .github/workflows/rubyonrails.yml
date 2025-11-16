@@ -34,7 +34,7 @@ jobs:
           packages: libvips libvips-dev
           version: 1.0
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
@@ -72,7 +72,7 @@ jobs:
           packages: libvips libvips-dev
           version: 1.0
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
@@ -99,7 +99,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
@@ -131,9 +131,9 @@ jobs:
           packages: libvips libvips-dev
           version: 1.0
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version-file: .nvmrc
           cache: 'yarn'
       - run: yarn install
       - name: Ruby setup
@@ -156,7 +156,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
