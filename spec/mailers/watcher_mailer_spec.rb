@@ -5,7 +5,7 @@ describe WatcherMailer do
 
   describe '#notify_new_art_piece' do
     let(:to) { ['someone <someone@example.com>', 'other@example.com'] }
-    let(:artist) { create(:artist, :with_art, :with_studio) }
+    let(:artist) { create(:artist, :with_art, :with_studio, instagram: 'http://instagram.com/my-insta-handle') }
     let(:art_piece) { artist.art_pieces.first }
     let(:studio) { artist.studio }
 
@@ -41,6 +41,8 @@ describe WatcherMailer do
       it 'renders a little social media snippet' do
         tags = art_piece.tags.map { |tag| "##{tag.name}" }.join(' ')
         expect(mail).to have_body_text tags
+        insta_handle = '@my-insta-handle'
+        expect(mail).to have_body_text insta_handle
       end
     end
 

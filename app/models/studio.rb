@@ -41,6 +41,7 @@ class Studio < ApplicationRecord
   end
 
   extend FriendlyId
+
   friendly_id :name, use: [:slugged]
 
   has_many :artists, dependent: :nullify
@@ -52,6 +53,7 @@ class Studio < ApplicationRecord
   validates :phone, phone_number: true, allow_nil: true
 
   include HasAttachedImage
+
   image_attachments(:photo)
   validates :photo, size: { less_than: 8.megabytes }, content_type: %i[png jpg jpeg gif], presence: true
 

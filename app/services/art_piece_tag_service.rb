@@ -10,7 +10,7 @@ class ArtPieceTagService
       .joins(:art_pieces_tags)
       .select('art_piece_tags.*', 'count(*) frequency')
       .group('id')
-      .order('frequency desc')
+      .order(frequency: :desc)
   end
 
   def self.unused_tags

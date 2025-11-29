@@ -80,11 +80,11 @@ class StudioPresenter < ViewPresenter
   end
 
   def artists?
-    artists.count.positive?
+    artists.any?
   end
 
   def open_studios_artists?
-    open_studios_artists.count.positive?
+    open_studios_artists.any?
   end
 
   def artists_without_art?
