@@ -9,7 +9,7 @@ describe NewArtPiecePresenter do
            end_date: os_end_date,
            promote: promoted)
   end
-  let(:artist) { create(:artist, :active, :with_studio, instagram: 'https://instagram.com/my-insta-handle') }
+  let(:artist) { create(:artist, :active, :with_studio, instagram: 'https://www.instagram.com/my-insta-handle') }
   let(:medium) { create(:medium, name: 'My Medium') }
   let(:art_piece) do
     create(:art_piece, :with_tags, artist:, medium:)

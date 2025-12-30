@@ -3,7 +3,7 @@ class NewArtPiecePresenter
 
   def initialize(art_piece)
     @art_piece = ArtPiecePresenter.new(art_piece)
-    @artist = @art_piece.artist
+    @artist = ArtistPresenter.new(@art_piece.artist)
     @studio = StudioPresenter.new(@artist.studio || IndependentStudio.new)
     @current_open_studios = OpenStudiosEventPresenter.new(OpenStudiosEventService.current) if OpenStudiosEventService.current
   end
@@ -60,14 +60,11 @@ class NewArtPiecePresenter
   end
 
   def tags_from_artist_social_media
-    return [] if artist.instagram.blank?
-
-    handle = SocialLinkHelper.new(artist.instagram).handle
-    [
+    [artist.instagram_handle].filter_map do |handle|
       (if handle.present?
          handle.starts_with?('@') ? handle : "@#{handle}"
-       end),
-    ].compact_blank
+       end)
+    end
   end
 
   def custom_tags
