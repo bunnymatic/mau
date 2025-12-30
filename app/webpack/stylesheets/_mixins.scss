@@ -1,4 +1,8 @@
 @use "sass:math";
+@use "sass:color";
+@use "sass:list";
+@use "sass:string";
+@use "sass:meta";
 @use "colors";
 @use "gto/variables" as v;
 
@@ -59,7 +63,7 @@
 $-default-rounded-amount: 3px;
 
 @mixin opacity($opacity) {
-  filter: unquote(
+  filter: string.unquote(
     "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($opacity * 100)})"
   );
   opacity: $opacity;
@@ -211,60 +215,60 @@ $-default-rounded-amount: 3px;
 }
 
 @mixin make-xs-offset($columns, $grid-columns) {
-  margin-left: percentage(math.div($columns, $grid-columns));
+  margin-left: math.percentage(math.div($columns, $grid-columns));
 }
 @mixin make-xs-push($columns, $grid-columns) {
-  left: percentage(math.div($columns, $grid-columns));
+  left: math.percentage(math.div($columns, $grid-columns));
 }
 @mixin make-xs-pull($columns, $grid-columns) {
-  right: percentage(math.div($columns, $grid-columns));
+  right: math.percentage(math.div($columns, $grid-columns));
 }
 
 @mixin make-sm-offset($columns, $grid-columns) {
   @media (min-width: v.$screen-sm-min) {
-    margin-left: percentage(math.div($columns, $grid-columns));
+    margin-left: math.percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-sm-push($columns, $grid-columns) {
   @media (min-width: v.$screen-sm-min) {
-    left: percentage(math.div($columns, $grid-columns));
+    left: math.percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-sm-pull($columns, $grid-columns) {
   @media (min-width: v.$screen-sm-min) {
-    right: percentage(math.div($columns, $grid-columns));
+    right: math.percentage(math.div($columns, $grid-columns));
   }
 }
 
 @mixin make-md-offset($columns, $grid-columns) {
   @media (min-width: v.$screen-md-min) {
-    margin-left: percentage(math.div($columns, $grid-columns));
+    margin-left: math.percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-md-push($columns, $grid-columns) {
   @media (min-width: v.$screen-md-min) {
-    left: percentage(math.div($columns, $grid-columns));
+    left: math.percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-md-pull($columns, $grid-columns) {
   @media (min-width: v.$screen-md-min) {
-    right: percentage(math.div($columns, $grid-columns));
+    right: math.percentage(math.div($columns, $grid-columns));
   }
 }
 
 @mixin make-lg-offset($columns, $grid-columns) {
   @media (min-width: v.$screen-lg-min) {
-    margin-left: percentage(math.div($columns, $grid-columns));
+    margin-left: math.percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-lg-push($columns, $grid-columns) {
   @media (min-width: v.$screen-lg-min) {
-    left: percentage(math.div($columns, $grid-columns));
+    left: math.percentage(math.div($columns, $grid-columns));
   }
 }
 @mixin make-lg-pull($columns, $grid-columns) {
   @media (min-width: v.$screen-lg-min) {
-    right: percentage(math.div($columns, $grid-columns));
+    right: math.percentage(math.div($columns, $grid-columns));
   }
 }
 
@@ -273,7 +277,7 @@ $-default-rounded-amount: 3px;
  * @return {Bool}
  */
 @function is-direction($value) {
-  $is-keyword: index(
+  $is-keyword: list.index(
     (
       to top,
       to top right,
@@ -290,7 +294,7 @@ $-default-rounded-amount: 3px;
     ),
     $value
   );
-  $is-angle: type-of($value) == "number" and
+  $is-angle: typeof($value) == "number" and
     index("deg" "grad" "turn" "rad", unit($value));
 
   @return $is-keyword or $is-angle;
@@ -303,7 +307,7 @@ $-default-rounded-amount: 3px;
     $direction: 180deg;
   }
 
-  background: nth(nth($color-stops, 1), 1);
+  background: list.nth(list.nth($color-stops, 1), 1);
   background: linear-gradient($direction, $color-stops);
 }
 
@@ -335,7 +339,7 @@ $-default-rounded-amount: 3px;
   background-color: colors.$xx-light-gray;
   text-align: center;
   &:hover {
-    background-color: lighten(colors.$gto_yellow, 54%);
+    background-color: color.adjust(colors.$gto_yellow, $lightness: 54%);
   }
 }
 

@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../../mixins" as *;
 @use "../../colors" as *;
 @use "../variables" as v;
@@ -262,7 +263,7 @@
   .empty {
     h4,
     p {
-      color: lighten($gto_gray, 20%);
+      color: color.adjust($gto_gray, $lightness: 20%);
     }
   }
 
@@ -408,7 +409,7 @@
   &.empty {
     h4,
     p {
-      color: lighten($gto_gray, 20%);
+      color: color.adjust($gto_gray, $lightness: 20%);
     }
   }
   p:first-child {

@@ -1,10 +1,11 @@
+@use "sass:color";
 @use "../../colors" as *;
 @use "../../mixins" as *;
 
 .events-notification-bell {
   z-index: 125;
   border: 1px solid $gto_red;
-  background-color: lighten($gto_red, 45%);
+  background-color: $error-bg;
   position: fixed;
   top: 27px;
   right: -5px;

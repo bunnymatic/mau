@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../colors" as *;
 @use "../mixins" as *;
 @use "./variables" as v;
@@ -7,7 +8,7 @@
 .flash__error {
   @include transform(translateX(-50%));
   background-color: rgba(255, 255, 255, 0.95);
-  background-color: lighten($gto-yellow, 58%);
+  background-color: color.adjust($gto-yellow, $lightness: 58%);
   border-radius: 0 0 4px 4px;
   box-shadow: 0 0 20px 2px rgba(120, 120, 120, 0.5);
   font-size: 1.05rem;
@@ -41,7 +42,7 @@
 }
 
 .flash__error {
-  background-color: lighten($gto-red, 45%);
+  background-color: $error-bg;
   color: $gto-red;
   .flash__close {
     color: $gto-red;
