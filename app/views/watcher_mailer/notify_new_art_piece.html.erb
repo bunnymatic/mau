@@ -20,7 +20,7 @@ studio = @new_art.studio
     <li>
       In studio: <%= link_to studio.name, studio_url(studio) %>
     </li>
-    <% artist.links.slice(:facebook, :instagram, :twitter).each do |k,v| %>
+    <% artist.keyed_links.slice(*%i(facebook instagram twitter)).each do |k,v| %>
       <li>
         <%= k&.to_s.capitalize %>: @<%= ArtistFormLinks.handle_from_link(v, source: k) %> - <%= v %>
       </li>
