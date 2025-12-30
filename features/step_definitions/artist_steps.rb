@@ -201,8 +201,6 @@ When(/^I click on an art card$/) do
 end
 
 Then(/^I see links to their social accounts$/) do
-  puts @artist.links&.inspect
-  save_and_open_page
   expect(page).to have_css('.art-piece-browser')
 end
 
