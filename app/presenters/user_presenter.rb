@@ -171,7 +171,7 @@ class UserPresenter < ViewPresenter
     model.profile_image(size)
   end
 
-  KNOWN_SOCIAL_ICONS = %i[blog blogger pinterest myspace instagram facebook twitter flickr].freeze
+  KNOWN_SOCIAL_ICONS = %i[blog blogger instagram facebook twitter].freeze
   def self.icon_link_class(key, site = '')
     site = strip_http_from_link(site)
     key = 'star-alt' unless KNOWN_SOCIAL_ICONS.include?(key.to_sym)
