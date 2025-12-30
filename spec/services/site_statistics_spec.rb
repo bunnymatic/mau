@@ -30,7 +30,7 @@ describe SiteStatistics do
   end
 
   it 'assigns the correct social links' do
-    expect(stats.social_links).to eql('website' => 5, 'facebook' => 2, 'twitter' => 2)
+    expect(stats.social_links).to eql('website' => 5, 'facebook' => 2, 'twitter' => 2, 'instagram' => 2)
   end
 
   it 'assigns correct values for favorites' do

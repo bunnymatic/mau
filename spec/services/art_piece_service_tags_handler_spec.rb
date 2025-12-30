@@ -4,6 +4,7 @@ describe ArtPieceServiceTagsHandler do
   let(:dummy_class) do
     Class.new do
       include ArtPieceServiceTagsHandler
+
       def initialize(parms)
         @params = parms
       end

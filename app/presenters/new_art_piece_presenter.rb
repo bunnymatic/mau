@@ -3,7 +3,7 @@ class NewArtPiecePresenter
 
   def initialize(art_piece)
     @art_piece = ArtPiecePresenter.new(art_piece)
-    @artist = @art_piece.artist
+    @artist = ArtistPresenter.new(@art_piece.artist)
     @studio = StudioPresenter.new(@artist.studio || IndependentStudio.new)
     @current_open_studios = OpenStudiosEventPresenter.new(OpenStudiosEventService.current) if OpenStudiosEventService.current
   end
@@ -22,6 +22,7 @@ class NewArtPiecePresenter
 
   def tags
     (
+      tags_from_artist_social_media +
       custom_tags +
       tags_from_tags +
       tags_from_medium +
@@ -37,7 +38,7 @@ class NewArtPiecePresenter
   end
 
   def studio_address
-    @studio.indy? ? @artist.address : @studio.name
+    studio.indy? ? artist.address : studio.name
   end
 
   def tags_from_tags
@@ -45,7 +46,7 @@ class NewArtPiecePresenter
   end
 
   def tags_from_medium
-    @art_piece.medium.present? ? [@art_piece.medium.name.downcase] : []
+    art_piece.medium.present? ? [art_piece.medium.name.downcase] : []
   end
 
   def tags_for_open_studios
@@ -55,6 +56,14 @@ class NewArtPiecePresenter
       ['SFOS', "SFOS#{current_os_start.year}", 'SFopenstudios']
     else
       %w[missionopenstudios springopenstudios]
+    end
+  end
+
+  def tags_from_artist_social_media
+    [artist.instagram_handle].filter_map do |handle|
+      (if handle.present?
+         handle.starts_with?('@') ? handle : "@#{handle}"
+       end)
     end
   end
 

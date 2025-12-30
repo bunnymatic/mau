@@ -2,12 +2,12 @@ Feature:  Visitors can see artist's information and their art
 
 Background:
   Given the following artists with art are in the system:
-  | firstname | lastname   | nomdeplume |
-  | joe       | bapple     |            |
-  | mr        | bappleseed |            |
-  | johnny    | tutone     |            |
-  | Alexander | Graham     |            |
-  | mister    | mister     |            |
+  | firstname | lastname   | nomdeplume | website                     | facebook                             | twitter                  | instagram                          |
+  | joe       | bapple     |            | https://example.com/website | https://www.facebook.com/my-facebook | https://x.com/my-twitter | https://www.instagram.com/my-insta |
+  | johnny    | tutone     |            |                             |                                      |                          |                                    |
+  | mr        | bappleseed |            |                             |                                      |                          |                                    |
+  | Alexander | Graham     |            |                             |                                      |                          |                                    |
+  | mister    | mister     |            |                             |                                      |                          |                                    |
   And there are future open studios events
 
 @javascript
@@ -18,8 +18,10 @@ Scenario:  Drilling down to an art piece page from the sampler
   And the meta description includes the artist's bio
   When I click on an art card
   And I see that art piece detail page
+  And I see links to their social accounts
   And the meta description includes that art piece's title
   And the meta keywords includes that art piece's tags and medium
+
 
 @javascript
 Scenario:  Drilling down to an art piece page through the artists' index

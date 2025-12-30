@@ -23,7 +23,7 @@ module Api
     end
 
     def require_authorization
-      return true if ApiAuthorizor.authorize(request)
+      return true if ApiAuthorizor.authorized?(request)
 
       render(plain: 'Unauthorized Request.  Access Denied.', status: :unauthorized) && return
     end

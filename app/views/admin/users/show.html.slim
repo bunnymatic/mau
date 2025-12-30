@@ -3,7 +3,7 @@
     h2.title
       = (@user.artist? ? "Artist: " : "Fan: ") + (@user.name.presence || @user.login)
       - if @user.artist?
-        = link_to edit_admin_artist_path(@user), class: "artist-admin-header-edit-link", title:"edit artist"
+        = link_to edit_admin_artist_path(@user), class: "artist-admin-header-edit-link", title:"Edit Artist"
           i.fa.fa-icon.fa-pencil
 
 
@@ -58,7 +58,7 @@
         tr.admin-user__profile-table__row
           td Activation Date
           td = @user.activation_date
-    - if current_open_studios.available? && @user.artist? && @user.doing_open_studios?
+    - if current_open_studios&.available? && @user.artist? && @user.doing_open_studios?
       .admin-user__os-info.info-block
         h3 = "Open Studios Participant Information for #{current_open_studios.date_range_with_year}"
         = render partial: "open_studios_participation", locals: { open_studios_participant: @user.current_open_studios_participant }
@@ -95,7 +95,7 @@
         - else
           h4 No art here
     .pure-u-1-2.padded-content
-      - if @current_open_studios.available?
+      - if @current_open_studios&.available?
         .featured-snippet.mod-facebook.info-block
           h4
             = link_to Conf.social_links['facebook']
@@ -112,7 +112,7 @@
               - if @user.facebook?
                 | We think it might be
                 '
-                = link_to @user.facebook_handle, @user.facebook
+                = link_to @user.facebook_handle, @user.facebook, target: "_blank"
                 '
                 | based on their MAU profile.
             p ALSO: tag the artist in the photo
@@ -120,7 +120,7 @@
           .content
             = render "featured_on_facebook", artist: @user, current_open_studios: @current_open_studios
     .pure-u-1-2.padded-content
-      - if @current_open_studios.available?
+      - if @current_open_studios&.available?
         .featured-snippet.mod-instagram.info-block
           h4
             = link_to Conf.social_links['instagram']
@@ -139,7 +139,7 @@
               .hint
                 | We think it might be
                 '
-                = link_to @user.instagram_handle, @user.instagram
+                = link_to @user.instagram_handle, @user.instagram, target: "_blank"
                 '
                 | based on their MAU profile.
           .content

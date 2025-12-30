@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
     @body_classes = @body_classes.flatten.compact.uniq
   end
 
-  def commit_is_cancel
+  def commit_is_cancel?
     !params[:commit].nil? && params[:commit].casecmp('cancel').zero?
   end
 

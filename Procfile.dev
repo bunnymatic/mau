@@ -1,0 +1,4 @@
+vite: bundle exec vite dev
+web: bundle exec rails server -p 3000 -b 0.0.0.0
+search: docker compose up
+#imgproxy: docker run --rm -it -p 8080:8080 --net=host darthsim/imgproxy

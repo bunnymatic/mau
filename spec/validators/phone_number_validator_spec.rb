@@ -7,6 +7,7 @@ describe 'PhoneNumberValidator' do
         'PhoneNumberValidatorTestModel'
       end
       include ActiveModel::Validations
+
       attr_accessor :phone
 
       validates :phone, phone_number: true

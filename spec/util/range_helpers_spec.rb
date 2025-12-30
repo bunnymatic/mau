@@ -3,6 +3,7 @@ require_relative '../../lib/util/range_helpers'
 
 describe 'RangeHelpers' do
   include RangeHelpers
+
   describe '.overlap?' do
     [
       [1..2, 1..4],

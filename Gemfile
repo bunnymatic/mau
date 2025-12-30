@@ -32,6 +32,7 @@ gem 'mojo_magick'
 gem 'mysql2'
 gem 'nokogiri'
 gem 'opensearch-ruby'
+gem "openssl", "~> 3.3.1" # https://github.com/ruby/openssl/issues/949#issuecomment-3370358680
 gem 'postmark'
 gem 'postmark-rails'
 gem 'puma'

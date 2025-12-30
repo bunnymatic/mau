@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe ArtPieceTagPagination do
   include PresenterSpecHelpers
+
   let(:num_items) { 8 }
   let(:per_page) { 3 }
   let(:current_page) { 0 }

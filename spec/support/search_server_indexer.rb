@@ -1,6 +1,6 @@
 module SearchServerIndexer
   def reindex_search_server
-    [Artist, Studio, ArtPiece].each { |clz| clz.import force: true }
+    [Artist, Studio, ArtPiece].each { |clz| SearchService.reindex_all(clz) }
   end
 end
 

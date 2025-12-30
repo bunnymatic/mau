@@ -22,12 +22,22 @@ Scenario: Updating artists basic info
 
 Scenario: Updating artist links
   When I fill in the form with:
-  | artist_links_website | artist_links_facebook | artist_links_twitter | artist_links_blog | artist_links_pinterest | artist_links_myspace | artist_links_flickr | artist_links_instagram | artist_links_artspan |
-  | http://website.c/x   | http://facebook.c/x   | http://twitter.c/x   | http://blog.c/x   | http://pinterest.c//x  | http://myspace.c/x/  | http://flickr.c/x   | http://instagram.c/x   | http://artspan.c/x   |
+  | artist_links_website | artist_links_facebook | artist_links_twitter | artist_links_blog | artist_links_instagram | artist_links_artspan |
+  | http://website.c/x   | http://facebook.com/x   | http://x.com/x   | http://blog.c/x   | http://instagram.com/x   | http://artspan.org/x   |
   And I click on "Update Artist"
   And I see the admin artist show page with updated values:
-  | website            | facebook            | twitter            | blog            | pinterest             | myspace             | flickr            | instagram            | artspan            |
-  | http://website.c/x | http://facebook.c/x | http://twitter.c/x | http://blog.c/x | http://pinterest.c//x | http://myspace.c/x/ | http://flickr.c/x | http://instagram.c/x | http://artspan.c/x |
+  | website            | facebook            | twitter            | blog            | instagram            | artspan            |
+  | http://website.c/x | http://facebook.com/x | http://x.com/x | http://blog.c/x | http://instagram.com/x | http://artspan.org/x |
+
+  When I click on "Edit Artist"
+  And I click on "Update Artist"
+
+  Then I see "https://www.facebook.com/x" on the page
+  And I see the admin artist show page with updated values:
+  | website            | facebook            | twitter            | blog            | instagram            | artspan            |
+  | http://website.c/x | https://www.facebook.com/x | https://x.com/x | http://blog.c/x | https://www.instagram.com/x | https://www.artspan.org/art/x |
+
+
 
 Scenario: Updating artist links
   When I choose "The Rock House" from "Studio"
@@ -56,7 +66,7 @@ Scenario: Updating artists open studios info
     | Video Conference URL   | Shop URL                        |
     | http://zoom.me/please | http://buy.stuff.from.me/please |
 
-  When I click on "edit artist"
+  When I click on "Edit Artist"
   And as an admin I choose every other time slot for the video conference schedule
   And I click on "Update Artist"
   Then I see that the artist is scheduled for every other time slot
