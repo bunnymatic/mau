@@ -81,9 +81,9 @@ FactoryBot.define do
 
     trait :with_links do
       website { Faker::Internet.url }
-      facebook { Faker::Internet.url }
-      twitter { Faker::Internet.url }
-      instagram { nil }
+      facebook { "https://www.facebook.com/#{Faker::Lorem.word}" }
+      twitter { "https://x.com/#{Faker::Lorem.word}" }
+      instagram { "https://www.instagram.com/#{Faker::Lorem.word}" }
     end
 
     trait :in_the_mission do

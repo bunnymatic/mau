@@ -172,7 +172,7 @@ end
 Then(/^I see that artist's profile page$/) do
   expect(page).to have_css '.header', text: @artist.full_name
   expect(page).to have_css '.artist-profile'
-  expect(page_body).to have_content @artist.facebook
+  expect(page).to have_link @artist.facebook.sub('https://', ''), href: @artist.facebook
   expect(page_body).to have_content @artist.art_pieces.first.medium.name
   expect(current_path).to eql artist_path(@artist)
 end
@@ -198,6 +198,12 @@ When(/^I click on an art card$/) do
   # find(:link_href, art_piece_path(@art_piece)).click
   expect(page).to have_css('.art_pieces.show')
   # puts @art_piece.tags.count
+end
+
+Then(/^I see links to their social accounts$/) do
+  puts @artist.links&.inspect
+  save_and_open_page
+  expect(page).to have_css('.art-piece-browser')
 end
 
 Then(/^I see that art piece detail page$/) do
