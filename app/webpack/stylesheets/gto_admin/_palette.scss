@@ -1,0 +1,60 @@
+@use "../mixins" as *;
+@use "../colors" as c;
+
+.palette-colors {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.palette-colors__color {
+  @include dotted_border;
+  @include large-rounded-corners;
+
+  border: 1px solid c.$light-gray;
+  margin: 7px;
+  width: 120px;
+  height: 120px;
+  position: relative;
+}
+.palette-colors__color-info {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 4px;
+  text-align: center;
+  background-color: rgba(200, 200, 200, 0.7);
+  font-size: 0.8rem;
+  @include large-rounded-bottom-corners;
+  color: c.$gto_dark_blue;
+}
+
+@each $name, $color in c.$all-colors {
+  .palette-colors__color--#{$name} {
+    background-color: #{$color};
+  }
+}
+
+.palette-icons {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.palette-icon {
+  @include flex-center-center;
+  flex-direction: column;
+  border: 1px solid c.$x-light-gray;
+  min-width: 120px;
+  padding: 10px;
+  margin: 10px 5px;
+}
+.palette-icon__icon {
+  font-size: 3rem;
+  margin-bottom: 4px;
+}

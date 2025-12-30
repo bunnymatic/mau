@@ -152,6 +152,9 @@ $-default-rounded-amount: 3px;
 @mixin large-rounded-corners {
   @include round-corners($amount: 7px);
 }
+@mixin large-rounded-bottom-corners {
+  @include round-bottom-corners($amount: 7px);
+}
 
 @mixin floating-window-border {
   @include light-border;
