@@ -5,7 +5,7 @@ Then(/^I see the cms content page$/) do
 end
 
 Then(/^I am on the show page for the new cms$/) do
-  expect(page.current_path).to eq edit_admin_cms_document_path(CmsDocument.last)
+  expect(page.current_path).to eq admin_cms_document_path(CmsDocument.last)
 end
 
 Then(/^I see no cms content in the list$/) do
