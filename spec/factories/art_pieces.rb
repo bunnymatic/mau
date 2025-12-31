@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :art_piece do
-    title { "#{Faker::Name.initials} #{Faker::BossaNova.song}" }
+    title { "#{Faker::Name.initials} #{Faker::Music::BossaNova.song}" }
     dimensions { "#{Random.rand(10..50)} x #{Random.rand(10..50)}" }
     year { (Time.zone.now - Random.rand(10).years).year }
     medium

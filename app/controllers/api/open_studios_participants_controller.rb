@@ -30,7 +30,7 @@ module Api
         video_conference_schedule: {},
       ).tap do |prms|
         prms[:video_conference_schedule]&.each do |k, v|
-          prms[:video_conference_schedule][k] = (v == 'true')
+          prms[:video_conference_schedule][k] = ActiveModel::Type::Boolean.new.cast(v)
         end
       end
     end
