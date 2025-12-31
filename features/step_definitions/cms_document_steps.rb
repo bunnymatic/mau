@@ -13,3 +13,7 @@ Then(/^I see no cms content in the list$/) do
     expect(page).to have_content 'No data available in table'
   end
 end
+
+Then(/^I see the CMS show page for the new content$/) do
+  expect(page).to have_current_path admin_cms_document_path(CmsDocument.order_by(:updated_at).last)
+end

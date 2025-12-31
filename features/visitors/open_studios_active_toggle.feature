@@ -16,6 +16,7 @@ Scenario:  Admin can deactivate the event by setting the deactivated date
   And I click on "os dates" in the admin menu
   And I click on the first "Edit"
   And I deactivate the first open studios event
+  And I see "Successfully updated an Open Studios Event" on the page
   When I visit the home page
   Then I don't see the open studios navigation
   And I don't see any open studios violators

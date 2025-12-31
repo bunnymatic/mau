@@ -1,9 +1,10 @@
+@use "sass:meta";
 #open_studios_subdomain__layout {
-  @import "layout";
-  @import "container_header";
-  @import "open_studios_artist";
-  @import "catalog_paginator";
-  @import "no_scheduled_open_studios";
+  @include meta.load-css("layout");
+  @include meta.load-css("container_header");
+  @include meta.load-css("open_studios_artist");
+  @include meta.load-css("catalog_paginator");
+  @include meta.load-css("no_scheduled_open_studios");
 }
 
 .the-rule-that-no-one-uses {

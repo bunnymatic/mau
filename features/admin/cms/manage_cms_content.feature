@@ -36,5 +36,7 @@ Scenario: Adding CMS Content for the about page
   Then I see "we rule the school" in the "#processed_markdown h1"
   And I click "edit"
   When I click "Save"
+  Then I see "CmsDocument was successfully created" on the page
+  And I am on the show page for the new cms
   And I visit the about page
   Then I see "we rule the school" in the ".markdown h1"

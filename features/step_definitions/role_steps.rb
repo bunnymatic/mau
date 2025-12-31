@@ -10,6 +10,7 @@ When(/^I add a new role called "(.*)"$/) do |role|
   end
   fill_in 'Role', with: role
   click_on 'Create Role'
+  expect(page).to have_current_path admin_roles_path
 end
 
 When(/^I add a user to the "(.*)" role$/) do |role|
