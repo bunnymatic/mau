@@ -91,6 +91,17 @@ describe OpenStudiosEventPresenter do
     it 'shows a pretty date with the year' do
       expect(presenter.date_range_with_year).to eql 'Apr 30-May 1 2015'
     end
+
+    context 'when the range crosses a year' do
+      let(:os) do
+        build_stubbed(:open_studios_event,
+                      start_date: Time.zone.local(2025, 12, 30, 10, 0, 0),
+                      end_date: Time.zone.local(2026, 1, 2, 10, 0, 0))
+      end
+      it 'uses the end date year' do
+        expect(presenter.date_range_with_year).to eql 'Dec 30-Jan 2 2026'
+      end
+    end
   end
 
   describe '.special_event_date_range' do
