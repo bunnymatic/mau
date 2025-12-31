@@ -1,6 +1,8 @@
 // NOTE: If you add a color here,
 // Add to all colors and update admin/pallettes/show page
 
+@use "sass:color";
+
 $black: #000;
 $bluegray: #738294;
 $darkbluegray: #223;
@@ -17,14 +19,15 @@ $lightbluegray: #c6c7d6;
 $white: #fff;
 
 // modified base colors
-$base-background-color: lighten($gto_gray, 60);
-$border-gray: darken($gto_gray, 9%);
-$darkgray: darken($gto_gray, 23%);
-$highlight-yellow: lighten($gto_yellow, 50%);
-$light-gray: lighten($gto_gray, 31%);
-$medium-gray: lighten($gto_gray, 24%);
-$x-light-gray: lighten($gto_gray, 47%);
-$xx-light-gray: lighten($gto_gray, 58%);
+$base-background-color: color.adjust($gto_gray, $lightness: 60%);
+$border-gray: color.adjust($gto_gray, $lightness: -9%);
+$darkgray: color.adjust($gto_gray, $lightness: -23%);
+$error-bg: color.adjust($gto_red, $lightness: 45%);
+$highlight-yellow: color.adjust($gto_yellow, $lightness: 50%);
+$light-gray: color.adjust($gto_gray, $lightness: 31%);
+$medium-gray: color.adjust($gto_gray, $lightness: 24%);
+$x-light-gray: color.adjust($gto_gray, $lightness: 47%);
+$xx-light-gray: color.adjust($gto_gray, $lightness: 58%);
 
 // aliases
 $light-gray-background: $xx-light-gray;
@@ -38,6 +41,7 @@ $all_colors: (
   "darkbluegray": $darkbluegray,
   "darkgray": $darkgray,
   "error_red": $error_red,
+  "error_bg": $error-bg,
   "gto_dark_blue": $gto_dark_blue,
   "gto_dark_teal": $gto_dark_teal,
   "gto_gray": $gto_gray,

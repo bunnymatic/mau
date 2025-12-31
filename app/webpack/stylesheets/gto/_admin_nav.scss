@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../colors" as c;
 @use "../mixins" as *;
 
@@ -32,7 +33,7 @@
     position: relative;
     z-index: 1;
     border: 1px solid c.$gto_red;
-    background-color: lighten(c.$gto_red, 45%);
+    background-color: c.$error-bg;
     margin: 4px auto 0;
     padding: 9px 20px 20px 20px;
     @include round-left-corners(2px);
@@ -40,7 +41,7 @@
     .handle {
       border: 1px solid c.$gto_red;
       border-right: none;
-      background-color: lighten(c.$gto_red, 45%);
+      background-color: c.$error-bg;
       position: absolute;
       left: -48px;
       top: 55px;

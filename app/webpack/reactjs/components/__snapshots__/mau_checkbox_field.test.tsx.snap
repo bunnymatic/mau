@@ -12,7 +12,6 @@ exports[`MauCheckboxField > matches the snapshot 1`] = `
         id="the_name"
         name="the_name"
         type="checkbox"
-        value=""
       />
       <span>
         The Label

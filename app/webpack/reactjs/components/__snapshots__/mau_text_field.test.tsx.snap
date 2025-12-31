@@ -15,7 +15,6 @@ exports[`MauTextField > matches the snapshot 1`] = `
       name="the_name"
       placeholder="e.g. like this"
       type="text"
-      value=""
     />
     <p
       class="inline-hints"
@@ -43,7 +42,6 @@ exports[`MauTextField > matches the snapshot if id is provided 1`] = `
       name="the_name"
       placeholder="e.g. like this"
       type="text"
-      value=""
     />
     <p
       class="inline-hints"
@@ -71,7 +69,6 @@ exports[`MauTextField > matches the snapshot if type is provided 1`] = `
       name="the_name"
       placeholder="e.g. email"
       type="email"
-      value=""
     />
   </div>
 </div>

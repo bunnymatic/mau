@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../colors" as *;
 @use "../mixins" as *;
 @use "./variables" as v;
@@ -16,7 +17,7 @@ $mobile-input-width: 100%;
 }
 .error-msg {
   padding: 12px;
-  background-color: lighten($gto-red, 45%);
+  background-color: $error-bg;
   color: $gto-red;
   margin-bottom: 20px;
   line-height: 1.4rem;
@@ -24,10 +25,10 @@ $mobile-input-width: 100%;
 }
 tr.error-msg {
   &:nth-child(2n) td {
-    background-color: lighten($gto-red, 45%);
+    background-color: $error-bg;
   }
   &:nth-child(2n-1) td {
-    background-color: lighten($gto-red, 40%) !important;
+    background-color: color.adjust($gto-red, $lightness: 40%) !important;
   }
 }
 .inline-hints {
@@ -194,7 +195,7 @@ tr.error-msg {
 }
 
 .select2-container .select2-selection--multiple .select2-selection__choice {
-  background-color: lighten($gto_yellow, 55%) !important;
+  background-color: color.adjust($gto_yellow, $lightness: 55%) !important;
 }
 .select2-container--default
   .select2-results__option--highlighted[aria-selected] {

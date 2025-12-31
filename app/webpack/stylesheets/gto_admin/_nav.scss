@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../mixins" as *;
 @use "../colors" as *;
 @use "../gto/variables" as v;
@@ -86,12 +87,12 @@ appears on the left side of the page.
   #menu .version,
   #menu a,
   #menu .title {
-    color: lighten($gto_gray, 40%);
+    color: color.adjust($gto_gray, $lightness: 40%);
     border: none;
     padding: 0.1em 0.6em 0.1em 0.5em;
   }
   #menu .title {
-    color: lighten($gto_gray, 25%);
+    color: color.adjust($gto_gray, $lightness: 25%);
     padding: 0.4em 0 0.4em 0.2em;
   }
   #menu .dashboard,

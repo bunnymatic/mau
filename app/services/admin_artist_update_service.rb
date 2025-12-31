@@ -25,7 +25,7 @@ class AdminArtistUpdateService
     private
 
     def truthy?(value)
-      ['on', 'true', true, '1'].include? value
+      ActiveModel::Type::Boolean.new.cast value
     end
 
     def run_update(os_updates_by_artist_id, current_os)

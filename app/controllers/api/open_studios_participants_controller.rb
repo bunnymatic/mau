@@ -30,7 +30,9 @@ module Api
         video_conference_schedule: {},
       ).tap do |prms|
         prms[:video_conference_schedule]&.each do |k, v|
-          prms[:video_conference_schedule][k] = (v == 'true')
+          # not sure who but someone is sending ['on'] as the value so...
+          checked = ['true', ['on']].include?(v)
+          prms[:video_conference_schedule][k] = checked
         end
       end
     end

@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "mixins" as *;
 @use "colors" as *;
 
@@ -11,6 +12,6 @@
   font-size: 1.4rem;
   margin: 0;
   padding: 1px 0 0 0;
-  background-color: lighten($gto_gray, 50%);
+  background-color: $x-light-gray;
   color: $gto_dark_teal;
 }

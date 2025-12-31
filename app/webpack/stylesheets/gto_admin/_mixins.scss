@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../colors";
 
 @mixin admin-banner {
@@ -9,7 +10,7 @@
 @mixin admin-warning-banner {
   @include admin-banner;
   border-color: colors.$gto_red;
-  background-color: lighten(colors.$error_red, 35);
+  background-color: color.adjust(colors.$error_red, $lightness: 35%);
 }
 
 @mixin admin-info-banner {
