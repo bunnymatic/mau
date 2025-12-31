@@ -63,13 +63,25 @@ describe Api::OpenStudiosParticipantsController do
               artist_id: artist.id,
               id: participant.id,
               open_studios_participant: {
-                video_conference_schedule: { one: 'true', two: 'not true' },
+                video_conference_schedule: {
+                  one: 'true',
+                  two: 'false',
+                  three: ['on'], # found in actual controller logs IRL
+                  four: ['off'],
+                },
               },
             }
         participant.reload
 
         expect(response).to be_ok
-        expect(participant.video_conference_schedule).to eq({ 'one' => true, 'two' => false })
+        expect(participant.video_conference_schedule).to eq(
+          {
+            'one' => true,
+            'two' => false,
+            'three' => true,
+            'four' => false,
+          },
+        )
       end
 
       it 'returns json errors if data is bad' do
