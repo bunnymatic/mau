@@ -9,10 +9,18 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        loadPaths: ["./node_modules"],
+      },
+    },
+  },
   plugins: [
     RubyPlugin(),
     svg(),
   ],
+
   resolve: {
     alias: {
       "@js": path.resolve(__dirname, "./app/webpack/js"),
