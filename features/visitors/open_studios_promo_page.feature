@@ -30,7 +30,10 @@ Scenario:  Visiting the open studios promo page as an editor
   | Article     |
   | new info about open studios  |
   And I click "Save"
-  And I visit the home page
+  And I am on the show page for the new cms
+  Then I see "new info about open studios" on the page
+
+  When I visit the home page
   And I click on the current open studios link
   Then I see "new info about open studios" on the page
 

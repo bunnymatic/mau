@@ -28,19 +28,19 @@ end
 Then(/^I see the first studio page/) do
   studio = Studio.by_position.first
   expect(page).to have_selector('.studios.show')
-  expect(current_path).to eql studio_path(studio.to_param)
+  expect(page).to have_current_path studio_path(studio.to_param)
   expect(page_body).to have_content studio.name
 end
 
 Then /^I see the studio page for me$/ do
   s = (@manager || @artist || @user).studio
-  expect(current_path).to eql studio_path(s)
+  expect(page).to have_current_path studio_path(s)
   expect(page_body).to have_content s.name
 end
 
 Then(/^I see the studio page for "(.*)"/) do |studio_slug|
   s = Studio.find(studio_slug)
-  expect(current_path).to eql studio_path(s)
+  expect(page).to have_current_path studio_path(s)
   expect(page_body).to have_content s.name
 end
 
