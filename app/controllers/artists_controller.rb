@@ -250,7 +250,7 @@ class ArtistsController < ApplicationController
   end
 
   def os_only?(osonly)
-    ActiveModel::Type::Boolean.new.cast(osonly)
+    !!ActiveModel::Type::Boolean.new.cast(osonly.to_s)
   end
 
   def fetch_artists_for_autosuggest
