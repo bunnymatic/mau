@@ -175,7 +175,7 @@ When(/^I visit "(.*?)"$/) do |path|
 end
 
 Then(/^I see the "(.*?)" page$/) do |titleized_path_name|
-  expect(current_path).to eql path_from_title(titleized_path_name)
+  expect(page).to have_current_path path_from_title(titleized_path_name)
 end
 
 When(/^I click (on\s+)?"([^"]*)"$/) do |_, link_text|

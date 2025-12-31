@@ -12,10 +12,11 @@ Then('I see the default open studios banner') do
 end
 
 Then('I see the custom open studios banner') do
-  expect(page).to have_selector('.sampler__promo')
-  expect(page).to have_selector('.sampler_promo--os-banner-image') do |element|
-    expect(element['style']).to match /background-image:\s+url/
-  end
   os = OpenStudiosEventService.current
-  expect(page).to have_selector("a[title='#{os.title} #{os.for_display(month_first: true)}']")
+  expect(page).to have_selector('.sampler__promo')
+  image = find('.sampler_promo--os-banner-image')
+  expect(image['style']).to match /background-image:\s+url/
+  link_wrapper = image.find(:xpath, '..')
+  expect(link_wrapper['href']).to end_with '/open_studios'
+  expect(link_wrapper['title']).to eq "#{os.title} #{os.for_display(month_first: true)}"
 end

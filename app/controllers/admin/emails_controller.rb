@@ -33,7 +33,7 @@ module Admin
       load_email_list
       load_email
       member = EmailListMembership.where(email_list_id: @email_list.id, email_id: @email.id).first
-      member.destroy if member.present?
+      member.presence&.destroy
       render json: { success: true }
     end
 

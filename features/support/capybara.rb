@@ -4,6 +4,7 @@ class CapybaraChromeConfig
   def self.chrome_capabilities(headless: false)
     Selenium::WebDriver::Chrome::Options.new.tap do |options|
       options.add_argument('--disable-popup-blocking')
+      options.add_argument('--disable-dev-shm-usage')
       options.add_argument('--window-size=1900,1200')
       if headless
         options.add_argument('--headless')

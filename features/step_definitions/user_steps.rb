@@ -134,13 +134,13 @@ end
 
 Then /^I see that "(.*?)" is a new active artist$/ do |username|
   steps %(Then I see a flash notice "We're so excited to have you! Just sign in")
-  expect(current_path).to eql login_path
+  expect(page).to have_current_path login_path
   expect(Artist.find_by(login: username)).to be_active
 end
 
 Then /^I see that "(.*?)" is a new fan$/ do |username|
   steps %(Then I see a flash notice "Thanks for signing up!")
-  expect(current_path).to eql login_path
+  expect(page).to have_current_path login_path
   expect(MauFan.find_by(login: username)).to be_active
 end
 

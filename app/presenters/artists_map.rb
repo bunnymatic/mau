@@ -21,7 +21,7 @@ class ArtistsMap < ArtistsPresenter
   end
 
   def address_key(artist)
-    artist.address.to_s if artist.address.present?
+    artist.address.presence&.to_s
   end
 
   LAT_LNG_KEYS = %i[lat lng].freeze

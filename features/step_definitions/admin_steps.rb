@@ -13,7 +13,7 @@ When /^I set all artists to do open studios$/ do
 end
 
 Then(/^I see the admin dashboard$/) do
-  expect(current_path).to eql admin_path
+  expect(page).to have_current_path admin_path
 end
 
 Then(/^I see the admin artists list$/) do

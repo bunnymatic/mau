@@ -22,7 +22,7 @@ class OpenStudiosEventPresenter < ViewPresenter
   class DateRangeHelpers
     class << self
       def date_range_with_year(start_date, end_date)
-        "#{date_range(start_date, end_date)} #{start_date.year}"
+        "#{date_range(start_date, end_date)} #{end_date.year}"
       end
 
       def date_range(start_date, end_date, separator: '-')

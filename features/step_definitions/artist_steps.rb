@@ -85,7 +85,7 @@ Then(/^I see my art$/) do
 end
 
 Then(/^I can delete my art$/) do
-  expect(current_path).to eql manage_art_artist_path(@artist)
+  expect(page).to have_current_path manage_art_artist_path(@artist)
   expect(page).to have_selector '#delete_art .art-card .image'
 end
 
@@ -174,7 +174,7 @@ Then(/^I see that artist's profile page$/) do
   expect(page).to have_css '.artist-profile'
   expect(page).to have_link @artist.facebook.sub('https://', ''), href: @artist.facebook
   expect(page_body).to have_content @artist.art_pieces.first.medium.name
-  expect(current_path).to eql artist_path(@artist)
+  expect(page).to have_current_path artist_path(@artist)
 end
 
 Then(/^I see the "([^"]*)" profile panel is open/) do |panel_id|

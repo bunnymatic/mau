@@ -54,7 +54,7 @@ class ArtistFormLinks
             return force_https(handle)
           when %r{(.*\.)?instagram\.com/(.*)}
             return "#{URL}#{$2}"
-          when %r{^https?://([^/\.]*$)}
+          when %r{^https?://([^/.]*$)}
             return "#{URL}#{$1}"
           else
             return nil
@@ -93,7 +93,7 @@ class ArtistFormLinks
             return force_https(handle)
           when %r{(.*\.)?facebook\.com/(.*)}
             return "#{URL}#{$2}"
-          when %r{^https?://([^/\.]*$)}
+          when %r{^https?://([^/.]*$)}
             return "#{URL}#{$1}"
           else
             return nil
@@ -129,7 +129,7 @@ class ArtistFormLinks
           case handle
           when %r{^https?://(www.)?x.com/}
             return force_https(handle)
-          when %r{^https?://.*twitter.com/(.*)}, %r{^https?://([^/\.]*$)}
+          when %r{^https?://.*twitter.com/(.*)}, %r{^https?://([^/.]*$)}
             return "#{URL}#{$1}"
           else
             return nil
@@ -166,7 +166,7 @@ class ArtistFormLinks
           return case handle
                  when %r{^https?://www.artspan.org}
                    force_https(handle)
-                 when %r{^https?://.*artspan.org/(.*)}, %r{^https?://([^/\.]*$)}
+                 when %r{^https?://.*artspan.org/(.*)}, %r{^https?://([^/.]*$)}
                    "#{URL}#{$1}"
                  end
         elsif handle =~ %r{artspan.org/(art/)?(.*)}
