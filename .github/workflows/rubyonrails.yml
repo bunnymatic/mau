@@ -36,8 +36,8 @@ jobs:
       - name: Node setup
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
-          cache: 'yarn'
+          node-version-file: .nvmrc
+          cache: yarn
       - run: yarn install
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
@@ -74,8 +74,8 @@ jobs:
       - name: Node setup
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
-          cache: 'yarn'
+          node-version-file: .nvmrc
+          cache: yarn
       - run: yarn install
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
@@ -101,8 +101,8 @@ jobs:
       - name: Node setup
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
-          cache: 'yarn'
+          node-version-file: .nvmrc
+          cache: yarn
       - run: yarn install
       - name: yarn test
         run: yarn test
@@ -133,8 +133,8 @@ jobs:
       - name: Node setup
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: 'yarn'
+          node-version-file: .nvmrc
+          cache: yarn
       - run: yarn install
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
@@ -158,8 +158,8 @@ jobs:
       - name: Node setup
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
-          cache: 'yarn'
+          node-version-file: .nvmrc
+          cache: yarn
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
         with:
