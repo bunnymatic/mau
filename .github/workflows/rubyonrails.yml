@@ -169,5 +169,7 @@ jobs:
         run: bundle exec rubocop --parallel
       - name: Lint JS files
         run: yarn lint
-      - name: Audit
+      - name: Bundle Audit
         run: bundle exec bundler-audit --update
+      - name: Ruby Audit
+        run: bundle exec ruby-audit check

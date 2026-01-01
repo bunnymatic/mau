@@ -568,6 +568,8 @@ GEM
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
+    ruby_audit (3.0.0)
+      bundler-audit (~> 0.9.0)
     rubyzip (2.4.1)
     scout_apm (5.8.0)
       parser
@@ -733,6 +735,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   ruby-vips
+  ruby_audit
   scout_apm
   scrypt
   selenium-webdriver
@@ -747,7 +750,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.3.6p108
+   ruby 3.4.8p72
 
 BUNDLED WITH
    2.6.3
