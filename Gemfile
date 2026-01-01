@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '3.3.6'
+ruby '3.4.8'
 
 gem 'actionmailer-text'
 gem 'active_storage_validations'
@@ -100,6 +100,7 @@ group :test, :development do
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
+  gem 'ruby_audit'
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'test-prof'
