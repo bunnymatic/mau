@@ -56,3 +56,9 @@ node_modules
 # local active storage directory
 /storage
 
+
+/config/master.key
+
+/config/credentials/acceptance.key
+
+/config/credentials/production.key
