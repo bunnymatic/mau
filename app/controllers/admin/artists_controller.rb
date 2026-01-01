@@ -89,16 +89,20 @@ module Admin
         :show_email,
         { video_conference_schedule: {} },
       ]
-      params.require(:artist).permit(:firstname,
-                                     :lastname,
-                                     :phone,
-                                     :email,
-                                     :nomdeplume,
-                                     :studio_id,
-                                     :photo,
-                                     links: allowed_links,
-                                     artist_info_attributes: %i[studionumber street bio],
-                                     open_studios_participants_attributes: open_studios_participant_fields).tap do |prms|
+      params.expect(artist: [
+                      :firstname,
+                      :lastname,
+                      :phone,
+                      :email,
+                      :nomdeplume,
+                      :studio_id,
+                      :photo,
+                      {
+                        links: allowed_links,
+                        artist_info_attributes: %i[studionumber street bio],
+                        open_studios_participants_attributes: open_studios_participant_fields,
+                      },
+                    ]).tap do |prms|
         prms[:open_studios_participants_attributes]&.each do |idx, entry|
           entry[:video_conference_schedule]&.each do |timeslot, val|
             prms[:open_studios_participants_attributes][idx][:video_conference_schedule][timeslot] = (val == '1')

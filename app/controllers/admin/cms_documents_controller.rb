@@ -47,7 +47,7 @@ module Admin
     def cms_document_params
       return {} unless params[:cms_document]
 
-      params.require(:cms_document).permit(:page, :section, :article).merge(user_id: current_user.id)
+      params.expect(cms_document: %i[page section article]).merge(user_id: current_user.id)
     end
   end
 end

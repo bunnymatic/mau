@@ -20,7 +20,7 @@ module Admin
     end
 
     def site_preferences_params
-      params.require(:site_preferences).permit(:social_media_tags)
+      params.expect(site_preferences: [:social_media_tags])
     end
   end
 end

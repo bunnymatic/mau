@@ -169,7 +169,7 @@ class UsersController < ApplicationController
   def resend_activation
     render && return unless request.post?
 
-    inputs = params.require(user_params_key).permit(:email)
+    inputs = params.expect(user_params_key => [:email])
     email = inputs[:email]
     if email.present?
       flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
@@ -184,7 +184,7 @@ class UsersController < ApplicationController
   def forgot
     render && return unless request.post?
 
-    inputs = params.require(user_params_key).permit(:email)
+    inputs = params.expect(user_params_key => [:email])
     user = User.find_by(email: inputs[:email])
     flash[:notice] = "We've sent email with instructions on how to reset your password. " \
                      'Please check your email.'
@@ -295,7 +295,7 @@ class UsersController < ApplicationController
 
   def password_params
     k = user_params_key
-    params.require(k).permit(:password, :password_confirmation)
+    params.expect(k => %i[password password_confirmation])
   end
 
   def user_attrs
@@ -333,7 +333,7 @@ class UsersController < ApplicationController
       nomdeplume
       photo
     ] + User.stored_attributes[:links]
-    params.require(key).permit(*permitted)
+    params.expect(key => [*permitted])
   end
 
   def verify_secret_word(opts)

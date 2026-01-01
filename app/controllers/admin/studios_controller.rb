@@ -89,17 +89,19 @@ module Admin
     private
 
     def studio_params
-      params.require(:studio).permit(:name,
-                                     :street,
-                                     :city,
-                                     :state,
-                                     :zipcode,
-                                     :url,
-                                     :lat,
-                                     :lng,
-                                     :cross_street,
-                                     :phone,
-                                     :photo)
+      params.expect(studio: %i[
+                      name
+                      street
+                      city
+                      state
+                      zipcode
+                      url
+                      lat
+                      lng
+                      cross_street
+                      phone
+                      photo
+                    ])
     end
 
     def reorder_studio_params

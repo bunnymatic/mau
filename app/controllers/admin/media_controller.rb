@@ -47,7 +47,7 @@ module Admin
     private
 
     def medium_params
-      params.require(:medium).permit(:name)
+      params.expect(medium: [:name])
     end
   end
 end
