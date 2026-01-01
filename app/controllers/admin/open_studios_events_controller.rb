@@ -46,20 +46,22 @@ module Admin
     private
 
     def open_studios_event_params
-      params.require(:open_studios_event).permit(
-        :title,
-        :start_date,
-        :end_date,
-        :start_time,
-        :end_time,
-        :promote,
-        :special_event_start_date,
-        :special_event_start_time,
-        :special_event_end_date,
-        :special_event_end_time,
-        :activated_at,
-        :deactivated_at,
-        :banner_image,
+      params.expect(
+        open_studios_event: %i[
+          title
+          start_date
+          end_date
+          start_time
+          end_time
+          promote
+          special_event_start_date
+          special_event_start_time
+          special_event_end_date
+          special_event_end_time
+          activated_at
+          deactivated_at
+          banner_image
+        ],
       ).tap do |prms|
         # coerce/force dates to be in Conf.event_time_zone
         Time.use_zone(Conf.event_time_zone) do

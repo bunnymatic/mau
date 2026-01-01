@@ -33,7 +33,7 @@ module Admin
     end
 
     def denylist_domain_params
-      params.require(:denylist_domain).permit :domain
+      params.expect denylist_domain: [:domain]
     end
   end
 end

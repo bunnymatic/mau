@@ -25,7 +25,7 @@ module Admin
     def application_event_params
       return {} unless params.key?(:query)
 
-      params.require(:query).permit(:number_of_records, :since)
+      params.expect(query: %i[number_of_records since])
     end
   end
 end

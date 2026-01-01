@@ -51,7 +51,7 @@ module Admin
     end
 
     def role_params
-      params.require(:role).permit(:role)
+      params.expect(role: [:role])
     end
   end
 end

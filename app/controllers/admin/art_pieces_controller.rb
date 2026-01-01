@@ -20,7 +20,7 @@ module Admin
     end
 
     def art_piece_params
-      params.require(:art_piece).permit(:photo)
+      params.expect(art_piece: [:photo])
     end
   end
 end

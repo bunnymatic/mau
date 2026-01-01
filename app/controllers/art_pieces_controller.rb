@@ -97,19 +97,21 @@ class ArtPiecesController < ApplicationController
   end
 
   def art_piece_params
-    params.require(:art_piece).permit(
-      :description,
-      :dimensions,
-      :medium,
-      :medium_id,
-      :photo,
-      :position,
-      :price,
-      :sold,
-      :tags,
-      :title,
-      :year,
-      tag_ids: [],
+    params.expect(
+      art_piece: [
+        :description,
+        :dimensions,
+        :medium,
+        :medium_id,
+        :photo,
+        :position,
+        :price,
+        :sold,
+        :tags,
+        :title,
+        :year,
+        { tag_ids: [] },
+      ],
     )
   end
 end

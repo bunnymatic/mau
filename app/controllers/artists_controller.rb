@@ -215,7 +215,7 @@ class ArtistsController < ApplicationController
   end
 
   def os_status_params
-    params.require(:artist).permit('os_participation')
+    params.expect(artist: ['os_participation'])
   end
 
   def artist_info_permitted_attributes
@@ -245,8 +245,7 @@ class ArtistsController < ApplicationController
       url
     ] + User.stored_attributes[:links]
     params
-      .require(:artist)
-      .permit(*permitted, artist_info_attributes: artist_info_permitted_attributes)
+      .expect(artist: [*permitted, { artist_info_attributes: artist_info_permitted_attributes }])
   end
 
   def os_only?(osonly)

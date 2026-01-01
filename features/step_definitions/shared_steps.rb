@@ -97,8 +97,8 @@ end
 
 When /^I (log|sign)\s?out$/ do |_dummy|
   visit logout_path
-  expect(page_body).to have_content /sign in/i
   expect(page).to have_flash :notice, /make some art/
+  expect(page_body).to have_content /sign in/i
 end
 
 Then /^I see that I'm signed in$/ do

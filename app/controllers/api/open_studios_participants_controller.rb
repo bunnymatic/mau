@@ -21,13 +21,15 @@ module Api
     private
 
     def open_studios_participant_params
-      params.require(:open_studios_participant).permit(
-        :shop_url,
-        :show_email,
-        :show_phone_number,
-        :video_conference_url,
-        :youtube_url,
-        video_conference_schedule: {},
+      params.expect(
+        open_studios_participant: [
+          :shop_url,
+          :show_email,
+          :show_phone_number,
+          :video_conference_url,
+          :youtube_url,
+          { video_conference_schedule: {} },
+        ],
       ).tap do |prms|
         prms[:video_conference_schedule]&.each do |k, v|
           # not sure who but someone is sending ['on'] as the value so...

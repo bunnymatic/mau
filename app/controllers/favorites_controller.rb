@@ -48,6 +48,6 @@ class FavoritesController < ApplicationController
   end
 
   def favorite_params
-    params.require(:favorite).permit(:type, :id)
+    params.expect(favorite: %i[type id])
   end
 end

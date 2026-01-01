@@ -12,14 +12,16 @@ module Api
     private
 
     def feedback_mail_params
-      params.require(:feedback_mail).permit(
-        :email,
-        :email_confirm,
-        :question,
-        :note_type,
-        :os,
-        :browser,
-        :device,
+      params.expect(
+        feedback_mail: %i[
+          email
+          email_confirm
+          question
+          note_type
+          os
+          browser
+          device
+        ],
         #        :version,
       )
     end

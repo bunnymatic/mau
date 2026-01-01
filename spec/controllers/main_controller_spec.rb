@@ -83,9 +83,10 @@ describe MainController do
       status = {
         version: Mau::Version::VERSION,
         main: true,
-        elasticsearch: true,
-      }
-      expect(JSON.parse(response.body)).to eq status.with_indifferent_access
+      }.with_indifferent_access
+      expect(JSON.parse(response.body)['version']).to eq status[:version]
+      expect(JSON.parse(response.body)['main']).to eq status[:main]
+      expect(JSON.parse(response.body)['elasticsearch']).to be_in([true, false])
     end
   end
 

@@ -39,7 +39,7 @@ gem 'puma'
 gem 'qr4r'
 gem 'racc'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 7.1.x', require: false
+gem 'rails', '~> 8.0.x', require: false
 gem 'rails-observers'
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
