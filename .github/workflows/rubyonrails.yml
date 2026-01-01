@@ -91,6 +91,9 @@ jobs:
         run: RAILS_ENV=test bundle exec rake webdrivers:chromedriver:update
       - name: Cucumber
         run: bundle exec cucumber
+      - uses: actions/upload-artifact@v4
+        with:
+          path: tmp/capybara/
 
   yarn-test:
     runs-on: ubuntu-latest
