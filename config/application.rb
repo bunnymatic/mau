@@ -31,7 +31,7 @@ Bundler.require(*Rails.groups)
 module Mau
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 8.0
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -58,6 +58,8 @@ module Mau
     config.opensearch_url = config.elasticsearch_url
 
     config.active_support.test_order = :random
+
+    config.active_record.default_column_serializer = YAML
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol, ActionController::Parameters]
 
     config.action_dispatch.tld_length = Integer(Conf.TLD_LENGTH || 1)

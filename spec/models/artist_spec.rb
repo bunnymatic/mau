@@ -291,4 +291,31 @@ describe Artist do
       end
     end
   end
+
+  describe '.as_indexed_json' do
+    it 'serializes for search' do
+      result = artist.as_indexed_json['artist']
+      expect(result).to be_present
+      expect(result.keys).to match_array(%w[
+                                           artist_name
+                                           bio
+                                           firstname
+                                           images
+                                           lastname
+                                           nomdeplume
+                                           os_participant
+                                           slug
+                                           studio_name
+                                         ])
+      expect(result['artist_name']).to eq artist.full_name
+      expect(result['bio']).to eq artist.bio
+      expect(result['firstname']).to eq artist.firstname
+      expect(result['images'].keys).to match_array(%w[small medium large original])
+      expect(result['lastname']).to eq artist.lastname
+      expect(result['nomdeplume']).to eq artist.nomdeplume
+      expect(result['os_participant']).to eq false
+      expect(result['slug']).to eq artist.slug
+      expect(result['studio_name']).to eq artist.studio.name
+    end
+  end
 end

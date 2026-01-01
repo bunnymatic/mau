@@ -70,4 +70,29 @@ describe ArtPiece do
       expect(art_piece.sold_at).to be_nil
     end
   end
+
+  describe '.as_indexed_json' do
+    it 'serializes for search' do
+      result = art_piece.as_indexed_json['art_piece']
+      expect(result).to be_present
+      expect(result.keys).to match_array(%w[
+                                           artist_name
+                                           images
+                                           medium
+                                           os_participant
+                                           tags
+                                           title
+                                           title_ngram
+                                           year
+                                         ])
+      expect(result['artist_name']).to eq art_piece.artist.full_name
+      expect(result['images'].keys).to match_array(%w[small medium large original])
+      expect(result['medium']).to eq art_piece.medium.name
+      expect(result['os_participant']).to eq false
+      expect(result['tags']).to eq ''
+      expect(result['title_ngram']).to eq art_piece.title
+      expect(result['title']).to eq art_piece.title
+      expect(result['year']).to eq art_piece.year
+    end
+  end
 end
