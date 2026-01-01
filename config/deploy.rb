@@ -47,8 +47,6 @@ set :assets_dir, 'public/vite'
 set :linked_files,
     %w[
       config/database.yml
-      config/credentials/production.key
-      config/credentials/acceptance.key
       config/config.keys.yml
       config/puma.rb
       config/storage.yml
