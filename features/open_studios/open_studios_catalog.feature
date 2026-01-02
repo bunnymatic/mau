@@ -95,6 +95,7 @@ Scenario: Open Studios is not active
   And I click on "os dates" in the admin menu
   And I click on the first "Edit"
   And I deactivate the first open studios event
+  And I see "Successfully updated an Open Studios Event" on the page
   And I logout
   When I visit "/" in the catalog
   Then I see nothing is scheduled
