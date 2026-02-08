@@ -40,7 +40,7 @@ module Admin
     end
 
     def compute_art_piece_count_histogram
-      sql = <<-SQL.squish
+      sql = <<~SQL.squish
         select bucket, count(*) as ct
         from (
            select count(*) as bucket
