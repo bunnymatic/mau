@@ -6,10 +6,6 @@ When(/^I visit my\s+(artist\s+)?(profile\s+)?edit page$/) do |_dummy, _dummy2|
   visit edit_artist_path(@artist)
 end
 
-When(/^I visit my user profile edit page$/) do
-  visit edit_artist_path(@user)
-end
-
 Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
   wait_until do
     title = all('.title').map(&:text).join

@@ -1,10 +1,3 @@
-When(/^I change my password to "(.*?)"$/) do |new_pass|
-  visit edit_artist_path(@artist)
-  fill_in('Old Password', with: '8characters')
-  fill_in('New Password', with: new_pass)
-  fill_in('Confirm new Password', with: new_pass)
-  click_on 'change password'
-end
 
 When(/^I set my new password to "(.*?)"$/) do |new_pass|
   fill_in('Password', with: new_pass, match: :prefer_exact)
@@ -126,10 +119,6 @@ When(/^I login as "(.*?)"$/) do |login|
   steps %(And I click "Sign In")
   steps %(Then I see a flash notice "You're in")
   visit path
-end
-
-Then(/^I see my fan profile edit form$/) do
-  expect(page).to have_css '.panel-heading', count: 5
 end
 
 Then /^I see that "(.*?)" is a new active artist$/ do |username|
