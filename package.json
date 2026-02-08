@@ -38,10 +38,10 @@
   },
   "scripts": {
     "build": "vite build",
-    "eslint-fix": "eslint --fix app/**/*.js app/**/*.ts app/**/*.tsx",
+    "eslint-fix": "eslint --no-warn-ignored --fix app/**/*.js app/**/*.ts app/**/*.tsx",
     "eslint-lint": "eslint app/**/*.js app/**/*.ts app/**/*.tsx",
-    "lint": "npm run eslint-lint && npm run prettier-lint",
-    "lint-fix": "npm run eslint-fix && npm run prettier-fix",
+    "lint": "yarn eslint-lint && yarn  prettier-lint",
+    "lint-fix": "yarn eslint-fix && yarn prettier-fix",
     "prettier-fix": "prettier --write app/**/*.ts app/**/*.tsx app/**/*.js app/**/*.scss **/*.json",
     "prettier-lint": "prettier --list-different app/**/*.ts app/**/*.tsx app/**/*.js app/**/*.scss **/*.json",
     "preview": "vite preview",
