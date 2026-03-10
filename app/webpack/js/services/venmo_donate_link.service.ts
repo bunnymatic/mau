@@ -2,10 +2,10 @@ import DeviceDetector, { Devices } from "@services/device_detector.service";
 
 const LINKS: Record<Devices, string> = {
   [Devices.android]:
-    "intent://paycharge?txn=pay&recipients=Mission-Artists/#Intent;package=com.venmo;scheme=venmo;end",
-  [Devices.ios]: "venmo://paycharge?txn=pay&recipients=Mission-Artists",
-  [Devices.desktop]: "https://venmo.com/u/Mission-Artists",
-  [Devices.unknown]: "https://venmo.com/u/Mission-Artists",
+    "intent://paycharge?txn=pay&recipients=Trish-Tunney/#Intent;package=com.venmo;scheme=venmo;end",
+  [Devices.ios]: "venmo://paycharge?txn=pay&recipients=Trish-Tunney",
+  [Devices.desktop]: "https://venmo.com/u/Trish-Tunney",
+  [Devices.unknown]: "https://venmo.com/u/Trish-Tunney",
 };
 
 export const getDonateLink = () => {
