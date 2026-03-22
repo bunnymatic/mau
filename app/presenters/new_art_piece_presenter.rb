@@ -61,9 +61,9 @@ class NewArtPiecePresenter
 
   def tags_from_artist_social_media
     [artist.instagram_handle].filter_map do |handle|
-      (if handle.present?
-         handle.starts_with?('@') ? handle : "@#{handle}"
-       end)
+      if handle.present?
+        handle.starts_with?('@') ? handle : "@#{handle}"
+      end
     end
   end
 
