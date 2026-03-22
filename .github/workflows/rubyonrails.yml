@@ -23,7 +23,7 @@ jobs:
       DB_USER: root
       DB_PASSWORD: root
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ankane/setup-opensearch@v1
         with:
           opensearch-version: 2
@@ -33,12 +33,13 @@ jobs:
         with:
           packages: libvips libvips-dev
           version: 1.0
+      - run: corepack enable
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: yarn
-      - run: yarn install
+      - run: yarn install --immutable
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
         with:
@@ -61,7 +62,7 @@ jobs:
       DB_USER: root
       DB_PASSWORD: root
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ankane/setup-opensearch@v1
         with:
           opensearch-version: 2
@@ -71,12 +72,13 @@ jobs:
         with:
           packages: libvips libvips-dev
           version: 1.0
+      - run: corepack enable
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: yarn
-      - run: yarn install
+      - run: yarn install --immutable
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
         with:
@@ -100,13 +102,14 @@ jobs:
     env:
       RAILS_ENV: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - run: corepack enable
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: yarn
-      - run: yarn install
+      - run: yarn install --immutable
       - name: yarn test
         run: yarn test
 
@@ -118,7 +121,7 @@ jobs:
       DB_USER: root
       DB_PASSWORD: root
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ankane/setup-opensearch@v1
         with:
           opensearch-version: 2
@@ -128,17 +131,17 @@ jobs:
         with:
           packages: libvips libvips-dev
           version: 1.0
-
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: libvips libvips-dev
           version: 1.0
+      - run: corepack enable
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: yarn
-      - run: yarn install
+      - run: yarn install --immutable
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
         with:
@@ -157,17 +160,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+      - run: corepack enable
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: yarn
+      - run: yarn install --immutable
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - run: yarn install
       - name: Lint Ruby files
         run: bundle exec rubocop --parallel
       - name: Lint JS files

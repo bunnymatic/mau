@@ -88,5 +88,6 @@
     "spin.js": "^4.1.0",
     "timeago.js": "^4.0.2",
     "zxcvbn": "^4.4.2"
-  }
+  },
+  "packageManager": "yarn@4.13.0"
 }
