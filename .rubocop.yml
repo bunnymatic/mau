@@ -202,9 +202,6 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
-Style/OneClassPerFile:
-  Enabled: false
-
 Style/RegexpLiteral:
   EnforcedStyle: slashes
   SupportedStyles:
