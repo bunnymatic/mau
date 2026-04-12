@@ -1,6 +1,5 @@
 import { isEmpty } from "@js/app/helpers";
-import { isObject } from "@js/app/typed_helpers";
-import { ellipsizeParagraph } from "@js/app/typed_helpers";
+import { ellipsizeParagraph, isObject } from "@js/app/typed_helpers";
 import { routing } from "@services/routing.service";
 
 type SourceDetails = Record<

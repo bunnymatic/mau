@@ -4,13 +4,13 @@ import {
 } from "@googlemaps/markerclusterer";
 import Spinner from "@js/app/spinner";
 import { post } from "@services/mau_ajax";
-import jQuery from 'jquery';
+import jQuery from "jquery";
 
 const random = (min, max) => Math.random() * (max - min) + min;
 const MAX_RANDOM_DISTANCE = 6;
 
-type InputMarker = Record<string, any>;
-type InputBound = Record<string, any>;
+type InputMarker = Record<string, unknown>;
+type InputBound = Record<string, unknown>;
 type LatLong = { lat: number; lng: number };
 type MapInfoResponse = {
   map_markers: Array<InputMarker>;
