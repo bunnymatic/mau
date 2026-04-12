@@ -97,7 +97,7 @@ group :test, :development do
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails'
-  gem 'rubocop', require: false
+  gem 'rubocop', '1.84.2', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'ruby_audit'
