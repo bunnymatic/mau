@@ -52,13 +52,15 @@ export interface ArtPieceAttributes {
 }
 
 interface ArtPieceRelationships {
-  artist: Object;
-  tags: Object;
-  medium: Object;
+  artist: object;
+  tags: object;
+  medium: object;
 }
 
-export interface JsonApiArtPiece
-  extends JsonApiModel<ArtPieceAttributes, ArtPieceRelationships> {}
+export type JsonApiArtPiece = JsonApiModel<
+  ArtPieceAttributes,
+  ArtPieceRelationships
+>;
 
 export interface OpenStudiosParticipant extends ActiveRecordModel {
   userId: IdType;
@@ -111,9 +113,8 @@ interface GenericEvent {
   updatedAt: string;
 }
 
-interface OpenStudiosSignupEvent extends GenericEvent {}
-
-interface UserChangedEvent extends GenericEvent {}
+export type OpenStudiosSignupEvent = GenericEvent;
+export type UserChangedEvent = GenericEvent;
 
 export interface ApplicationEvent {
   genericEvent?: GenericEvent;

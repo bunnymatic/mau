@@ -1,3 +1,4 @@
+import { isString } from "@js/app/typed_helpers";
 import * as types from "@reactjs/types";
 
 export const routing = {
@@ -27,20 +28,25 @@ export const routing = {
   ): string {
     return this.urlForModel("art_piece", obj);
   },
-  urlForModel: function (model: string, obj: any): string {
+  urlForModel: function (model: string, obj: object): string {
     const pathPrefix =
       {
         medium: "media",
       }[model] || `${model}s`;
     return ["", pathPrefix, this.toParam(obj)].join("/");
   },
-  toParam: function (obj: any): any {
-    if (obj != null ? obj.slug : void 0) {
-      return obj.slug;
-    } else if (obj != null ? obj.id : void 0) {
-      return obj.id;
-    } else {
+  toParam: function (obj: object | string): unknown {
+    if (isString(obj)) {
       return obj;
     }
+
+    if (obj != null) {
+      if ("slug" in obj) {
+        return obj.slug;
+      } else if ("id" in obj) {
+        return obj.id;
+      }
+    }
+    return obj;
   },
 };

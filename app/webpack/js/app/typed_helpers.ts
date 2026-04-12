@@ -1,5 +1,4 @@
-
-export const isObject = (maybeObj: any): maybeObj is Object => {
+export const isObject = (maybeObj: unknown): maybeObj is object => {
   return (
     (typeof maybeObj === "object" || typeof maybeObj === "function") &&
     maybeObj !== null &&
@@ -13,30 +12,36 @@ export const isNil = <T>(val?: T | null): val is null | undefined =>
 export const isUndefined = <T>(val: T | undefined): val is undefined =>
   val === undefined;
 
+export const isString = (data: unknown): data is string => {
+  return typeof data === "string";
+};
 
 type EllipsisOptions = {
-    ellipsis:string,
-    max: number,
-    splitChars: string[],
-}
+  ellipsis: string;
+  max: number;
+  splitChars: string[];
+};
 
 const ELLPISIS_DEFAULTS: EllipsisOptions = {
-    ellipsis: "…",
-    max: 140,
-    splitChars: [" ", "-"],
-  };
+  ellipsis: "…",
+  max: 140,
+  splitChars: [" ", "-"],
+};
 
-export const ellipsizeParagraph =  (str: string, options: Partial<EllipsisOptions> = {}): string => {
-  var c, i, last, len;
+export const ellipsizeParagraph = (
+  str: string,
+  options: Partial<EllipsisOptions> = {}
+): string => {
+  let c, i, last;
   const { max, splitChars, ellipsis } = { ...ELLPISIS_DEFAULTS, ...options };
+  const len = str.length;
 
   last = 0;
   c = "";
-  if (str.length < max) {
+  if (len < max) {
     return str;
   }
   i = 0;
-  len = str.length;
   while (i < len) {
     c = str.charAt(i);
     i++;
@@ -46,7 +51,7 @@ export const ellipsizeParagraph =  (str: string, options: Partial<EllipsisOption
         continue;
       }
       if (last === 0) {
-        return str.substring(0, max - 1) + ellipsis
+        return str.substring(0, max - 1) + ellipsis;
       }
       return str.substring(0, last) + ellipsis;
     }

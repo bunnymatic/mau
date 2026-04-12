@@ -13,7 +13,7 @@ type BackgroundImageStyle = Pick<
 export const backgroundImageStyle = (
   url: string,
   overrides: BackgroundImageStyle = {}
-): BackgroundImageStyle | {} => {
+): BackgroundImageStyle | object => {
   return url
     ? {
         backgroundImage: 'url("' + url + '")',

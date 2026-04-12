@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import { ReactNode } from "react";
 export type Nullable<T> = T | null;
 
 export interface TimeSlot {
@@ -8,5 +7,5 @@ export interface TimeSlot {
 }
 
 export type MauButtonStyle = "primary" | "secondary";
-export type MauButtonStyleAttr = Record<MauButtonStyle, Boolean>;
+export type MauButtonStyleAttr = Record<MauButtonStyle, boolean>;
 export type ClassNames = string | Array<string> | Record<string, boolean>;

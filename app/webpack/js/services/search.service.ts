@@ -1,10 +1,10 @@
 import { omit } from "@js/app/helpers";
 import { api } from "@services/api";
 
-type SearchQueryParams = Record<string, any>;
+type SearchQueryParams = Record<string, unknown>;
 export const query = async function (
   searchParams: SearchQueryParams
-): Promise<any> {
+): Promise<unknown> {
   if (!searchParams.query) {
     return Promise.resolve([]);
   }

@@ -51,7 +51,7 @@ const reactComponents = {
   Welcome,
 };
 
-export const lookup = (componentName: string): FC<any> => {
+export const lookup = (componentName: string): FC => {
   if (!(componentName in reactComponents)) {
     throw new UnregisteredComponentError(
       `Unable to find component ${componentName}.  Has it been registered in the reactComponents index?`
