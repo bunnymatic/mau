@@ -224,7 +224,7 @@ GEM
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
     cucumber-tag-expressions (8.1.0)
-    dalli (5.0.2)
+    dalli (4.3.3)
       logger
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
@@ -730,7 +730,7 @@ DEPENDENCIES
   csv
   cucumber
   cucumber-rails
-  dalli
+  dalli (~> 4.x)
   database_cleaner
   debug
   dotenv-rails
