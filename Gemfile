@@ -11,7 +11,7 @@ gem 'browserslist_useragent'
 gem 'cgi', '~>0.3.6'
 gem 'connection_pool' # for dalli > 3
 gem 'csv'
-gem 'dalli', '~> 4.x' # to bump to 5 we need memcache 1.6 on deployed machines
+gem 'dalli'
 gem 'elasticsearch', '~> 7.x'
 gem 'elasticsearch-model', '~> 7.x'
 gem 'elasticsearch-rails', '~> 7.x'

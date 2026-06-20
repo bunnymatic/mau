@@ -730,7 +730,7 @@ DEPENDENCIES
   csv
   cucumber
   cucumber-rails
-  dalli (~> 4.x)
+  dalli
   database_cleaner
   debug
   dotenv-rails
