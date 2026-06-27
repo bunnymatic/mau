@@ -1,5 +1,3 @@
-require 'faraday_middleware'
-
 class ServerStatus
   def self.run
     {
@@ -22,7 +20,7 @@ class ServerStatus
 
     def url_check(url)
       conn = Faraday.new(url) do |c|
-        c.use FaradayMiddleware::FollowRedirects, limit: 3
+        c.use Faraday::FollowRedirects::Middleware, limit: 3
         c.adapter :net_http
       end
       response = conn.get
