@@ -10,7 +10,7 @@ class BryantStreetStudiosWebhook
       return false unless activated?
 
       conn = Faraday.new(url(path)) do |c|
-        c.use FaradayMiddleware::FollowRedirects, limit: 3
+        c.use Faraday::FollowRedirects::Middleware, limit: 3
         c.adapter :typhoeus
       end
       # Faraday (or someone) turns this into HTTP_BSS_API_AUTHORIZATION
