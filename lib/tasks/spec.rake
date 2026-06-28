@@ -12,7 +12,7 @@ begin
     end
   end
 rescue LoadError
-  print 'RSpec not included.  Nothing to do here'
+  # print 'RSpec not included.  Nothing to do here'
 end
 
 Rake::Task['spec'].clear_actions
