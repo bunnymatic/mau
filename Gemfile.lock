@@ -193,7 +193,7 @@ GEM
     crack (1.0.1)
       bigdecimal
       rexml
-    crass (1.0.6)
+    crass (1.0.7)
     csv (3.3.5)
     cucumber (10.2.0)
       base64 (~> 0.2)
@@ -785,7 +785,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 4.0.5p0
+  ruby 4.0.5p0
 
 BUNDLED WITH
-   4.0.15
+  4.0.15
