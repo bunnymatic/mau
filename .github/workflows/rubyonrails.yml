@@ -23,6 +23,8 @@ jobs:
       DB_USER: root
       DB_PASSWORD: root
     steps:
+      - name: Install libvips
+        run: sudo apt-get update && sudo apt-get install -y libvips
       - uses: actions/checkout@v5
       - uses: ankane/setup-opensearch@v1
         with:
@@ -40,8 +42,6 @@ jobs:
           node-version-file: .nvmrc
           cache: yarn
       - run: yarn install --immutable
-      - name: Install libvips
-        run: sudo apt-get update && sudo apt-get install -y libvips
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
         with:
