@@ -65,7 +65,7 @@ module HasAttachedImage
               variant = att.variant(MauImage.variant_args(size)).processed if att
               return '' unless variant
               variant.send(:processed?) ? Rails.application.routes.url_helpers.url_for(variant) : Rails.application.routes.url_helpers.rails_representation_url(variant)
-            rescue Aws::S3::Errors::BadRequest, ActiveStorage::FileNotFoundError => e
+            rescue Vips::Error, Aws::S3::Errors::BadRequest, ActiveStorage::FileNotFoundError => e
               Rails.logger.error(e.backtrace.join("\n"))
               # we need to return a string to make sure elasticsearch indexes are
               # correctly typed but at this point we don't have an image
