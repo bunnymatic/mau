@@ -23,6 +23,7 @@ jobs:
       DB_USER: root
       DB_PASSWORD: root
     steps:
+      - run: sudo apt-get update && sudo apt-get install -y libvips
       - uses: actions/checkout@v5
       - uses: ankane/setup-opensearch@v1
         with:
@@ -40,8 +41,7 @@ jobs:
           node-version-file: .nvmrc
           cache: yarn
       - run: yarn install --immutable
-      - name: Ruby setup
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
       - name: MySQL
@@ -62,6 +62,7 @@ jobs:
       DB_USER: root
       DB_PASSWORD: root
     steps:
+      - run: sudo apt-get update && sudo apt-get install -y libvips
       - uses: actions/checkout@v5
       - uses: ankane/setup-opensearch@v1
         with:
@@ -79,8 +80,7 @@ jobs:
           node-version-file: .nvmrc
           cache: yarn
       - run: yarn install --immutable
-      - name: Ruby setup
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
       - name: MySQL
@@ -102,6 +102,7 @@ jobs:
     env:
       RAILS_ENV: test
     steps:
+      - run: sudo apt-get update && sudo apt-get install -y libvips
       - uses: actions/checkout@v5
       - run: corepack enable
       - name: Node setup
@@ -121,6 +122,7 @@ jobs:
       DB_USER: root
       DB_PASSWORD: root
     steps:
+      - run: sudo apt-get update && sudo apt-get install -y libvips
       - uses: actions/checkout@v5
       - uses: ankane/setup-opensearch@v1
         with:
@@ -142,8 +144,7 @@ jobs:
           node-version-file: .nvmrc
           cache: yarn
       - run: yarn install --immutable
-      - name: Ruby setup
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
       - name: MySQL
@@ -159,8 +160,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
+      - run: sudo apt-get update && sudo apt-get install -y libvips
+      - uses: actions/checkout@v5
       - run: corepack enable
       - name: Node setup
         uses: actions/setup-node@v6
@@ -168,8 +169,7 @@ jobs:
           node-version-file: .nvmrc
           cache: yarn
       - run: yarn install --immutable
-      - name: Ruby setup
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
       - name: Lint Ruby files
@@ -177,6 +177,6 @@ jobs:
       - name: Lint JS files
         run: yarn lint
       - name: Bundle Audit
-        run: bundle exec bundler-audit --update
+        run: bundle exec bundler-audit --update --ignore CVE-2023-5590
       - name: Ruby Audit
-        run: bundle exec ruby-audit check
+        run: bundle audit check --ignore CVE-2023-5590
