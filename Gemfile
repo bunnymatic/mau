@@ -45,6 +45,7 @@ gem 'rails-observers'
 gem 'rdiscount' # markdown processor
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'responders'
+gem 'ruby-vips'
 gem 'scrypt'
 gem 'slim-rails'
 gem 'typhoeus'
@@ -60,7 +61,6 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'launchy' # Required to dump the page when running cucumber features
   gem 'rspec_junit_formatter'
-  gem 'ruby-vips'
   gem 'selenium-webdriver'
   gem 'vcr'
   gem 'webdrivers'
