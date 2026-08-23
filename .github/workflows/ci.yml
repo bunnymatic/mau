@@ -179,4 +179,4 @@ jobs:
       - name: Bundle Audit
         run: bundle exec bundler-audit --update --ignore CVE-2023-5590
       - name: Ruby Audit
-        run: bundle audit check --ignore CVE-2023-5590
+        run: bundle exec ruby-audit update && bundle exec ruby-audit check
