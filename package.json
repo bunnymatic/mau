@@ -2,7 +2,7 @@
   "type": "module",
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.7",
-    "@faker-js/faker": "^10.0.0",
+    "@faker-js/faker": "^10.5.0",
     "@googlemaps/markerclusterer": "^2.5.3",
     "@rollup/plugin-inject": "^5.0.2",
     "@testing-library/dom": "^10.1.0",
