@@ -76,7 +76,7 @@
     "luxon": "^3.4.4",
     "ng-dialog": "^1.4.0",
     "postcss-import": "^16.1.0",
-    "postcss-preset-env": "^10.0.0",
+    "postcss-preset-env": "^11.6.2",
     "purecss": "^3.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
