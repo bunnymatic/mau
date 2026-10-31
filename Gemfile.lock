@@ -193,7 +193,7 @@ GEM
     crack (1.0.1)
       bigdecimal
       rexml
-    crass (1.0.7)
+    crass (1.0.8)
     csv (3.3.5)
     cucumber (10.2.0)
       base64 (~> 0.2)
@@ -224,7 +224,7 @@ GEM
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
     cucumber-tag-expressions (8.1.0)
-    dalli (4.3.3)
+    dalli (5.2.5)
       logger
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
@@ -232,7 +232,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0)
     database_cleaner-core (2.0.1)
-    date (3.5.1)
+    date (3.6.0)
     debug (1.11.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
@@ -361,7 +361,7 @@ GEM
     loofah (2.25.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    mail (2.9.0)
+    mail (2.9.1)
       logger
       mini_mime (>= 0.1.1)
       net-imap
@@ -387,20 +387,22 @@ GEM
       bigdecimal
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-imap (0.6.4.1)
+    net-imap (0.6.8)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.2.2)
+    net-protocol (0.4.0)
       timeout
-    net-scp (4.1.0)
-      net-ssh (>= 2.6.5, < 8.0.0)
-    net-sftp (4.0.0)
-      net-ssh (>= 5.0.0, < 8.0.0)
-    net-smtp (0.5.1)
+    net-scp (4.2.0)
+      net-ssh (>= 2.6.5, < 9.0.0)
+    net-sftp (4.1.1)
+      net-ssh (>= 5.0.0, < 9.0.0)
+    net-smtp (0.5.2)
       net-protocol
-    net-ssh (7.3.1)
+    net-ssh (8.0.4)
+      logger
+      openssl (>= 3.2.0)
     nio4r (2.7.5)
     nokogiri (1.19.4)
       mini_portile2 (~> 2.8.2)
@@ -449,12 +451,12 @@ GEM
       mojo_magick (~> 0.6.5)
       rqrcode_core (~> 1.0)
     racc (1.8.1)
-    rack (3.2.6)
+    rack (3.2.8)
     rack-cors (3.0.0)
       logger
       rack (>= 3.0.14)
-    rack-proxy (0.7.7)
-      rack
+    rack-proxy (2.0.1)
+      rack (>= 2.0, < 4)
     rack-session (2.1.2)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -646,11 +648,11 @@ GEM
     vite_rails (3.10.0)
       railties (>= 5.1, < 9)
       vite_ruby (~> 3.0, >= 3.2.2)
-    vite_ruby (3.10.0)
+    vite_ruby (3.11.1)
       dry-cli (>= 0.7, < 2)
       logger (~> 1.6)
       mutex_m
-      rack-proxy (~> 0.6, >= 0.6.1)
+      rack-proxy (>= 0.6.1)
       zeitwerk (~> 2.2)
     webdrivers (5.3.1)
       nokogiri (~> 1.6)
