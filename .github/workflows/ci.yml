@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   ruby-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       RAILS_ENV: test
       DB_DATABASE: test_db
@@ -53,7 +53,7 @@ jobs:
       - name: RSpec
         run: bin/rspec spec
   cucumber-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       RAILS_ENV: test
       DB_DATABASE: test_db
@@ -94,7 +94,7 @@ jobs:
           path: tmp/capybara/
 
   yarn-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       RAILS_ENV: test
     steps:
@@ -111,7 +111,7 @@ jobs:
         run: yarn test
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       RAILS_ENV: test
       DB_DATABASE: test_db
@@ -154,7 +154,7 @@ jobs:
       - name: Build assets
         run: bin/rails assets:precompile
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - run: sudo apt-get update && sudo apt-get install -y libvips
       - uses: actions/checkout@v5
