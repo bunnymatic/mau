@@ -1,9 +1,9 @@
 require 'vcr'
 require 'uri'
 
-driver_hosts = Webdrivers::Common.subclasses.map { |driver| URI(driver.base_url).host }
+# driver_hosts = Webdrivers::Common.subclasses.map { |driver| URI(driver.base_url).host }
 
-driver_hosts += [
+driver_hosts = [
   'storage.googleapis.com',
   'chromedriver.storage.googleapis.com',
   'googlechromelabs.github.io',

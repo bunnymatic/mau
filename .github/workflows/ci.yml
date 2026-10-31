@@ -50,8 +50,6 @@ jobs:
         run: cp config/database.ci.yml config/database.yml
       - name: Set up database schema
         run: bin/rake db:drop db:create db:schema:load db:seed
-      - name: Webdrivers update
-        run: RAILS_ENV=test bundle exec rake webdrivers:chromedriver:update
       - name: RSpec
         run: bin/rspec spec
   cucumber-test:
@@ -89,8 +87,6 @@ jobs:
         run: cp config/database.ci.yml config/database.yml
       - name: Set up database schema
         run: bin/rake db:drop db:create db:schema:load db:seed
-      - name: Webdrivers update
-        run: RAILS_ENV=test bundle exec rake webdrivers:chromedriver:update
       - name: Cucumber
         run: bundle exec cucumber
       - uses: actions/upload-artifact@v4
