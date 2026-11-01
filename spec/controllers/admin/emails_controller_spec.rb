@@ -22,7 +22,7 @@ describe Admin::EmailsController do
     it 'returns json' do
       make_request
       expect(response.content_type.to_s).to eql 'application/json; charset=utf-8'
-      expect(JSON.parse(response.body)).to have_key('emails')
+      expect(response.parsed_body).to have_key('emails')
     end
     it 'adds a new email to the email list' do
       expect do

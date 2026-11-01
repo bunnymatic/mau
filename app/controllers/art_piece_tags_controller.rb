@@ -30,7 +30,7 @@ class ArtPieceTagsController < ApplicationController
       @tag = ArtPieceTag
              .friendly
              .includes(art_pieces_tags: { art_piece: { artist: :open_studios_events } })
-             .find(params[:id])
+             .find(params.expect(:id))
     rescue ActiveRecord::RecordNotFound
       redirect_to_most_popular_tag(flash: { error: "Sorry, we can't find the tag you were looking for" }) && (return)
     end

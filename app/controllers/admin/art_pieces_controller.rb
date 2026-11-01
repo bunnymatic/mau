@@ -16,7 +16,7 @@ module Admin
     private
 
     def set_art_piece
-      @art_piece = ArtPiece.find(params[:id])
+      @art_piece = ArtPiece.find(params.expect(:id))
     end
 
     def art_piece_params

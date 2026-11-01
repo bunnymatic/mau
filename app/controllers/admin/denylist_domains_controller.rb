@@ -21,7 +21,7 @@ module Admin
     end
 
     def destroy
-      @domain = DenylistDomain.find(params[:id])
+      @domain = DenylistDomain.find(params.expect(:id))
       @domain.destroy
       redirect_to admin_denylist_domains_path, notice: "Removed entry for #{@domain.domain}"
     end
@@ -29,7 +29,7 @@ module Admin
     private
 
     def load_denylist_domain
-      @domain = DenylistDomain.find(params[:id])
+      @domain = DenylistDomain.find(params.expect(:id))
     end
 
     def denylist_domain_params

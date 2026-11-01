@@ -42,7 +42,7 @@ describe Admin::StatsController do
       end
       it 'returns data' do
         get :os_signups, xhr: true
-        resp = JSON.parse(response.body)
+        resp = response.parsed_body
         # return timestamp and number of signups on that day
         expect(resp).to match_array([[Time.current.beginning_of_day.to_i, 1]])
       end

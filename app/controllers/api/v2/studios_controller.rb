@@ -3,7 +3,7 @@ module Api
     class StudiosController < Api::ApiController
       respond_to :json, :xml
       def show
-        studio = StudioService.find(params[:id])
+        studio = StudioService.find(params.expect(:id))
         if studio
           render jsonapi: studio
         else

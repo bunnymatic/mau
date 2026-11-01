@@ -128,7 +128,7 @@ class ArtistsController < ApplicationController
     if params.key? :neworder
       begin
         # new endpoint for rearranging - more than just setting representative
-        neworder = params[:neworder].split(',')
+        neworder = params.expect(:neworder).split(',')
         neworder.each_with_index do |apid, idx|
           a = ArtPiece.where(id: apid, artist_id: current_user.id).first
           a&.update(position: idx)
@@ -224,7 +224,7 @@ class ArtistsController < ApplicationController
 
   def artist_params
     if params[:artist].key?('studio') && params[:artist]['studio'].blank?
-      params[:artist]['studio_id'] = nil
+      params.expect(:artist)['studio_id'] = nil
       params[:artist].delete('studio')
     end
 

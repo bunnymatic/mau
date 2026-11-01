@@ -111,14 +111,14 @@ describe Admin::ApplicationEventsController do
         expect(response).to be_successful
       end
       it 'fetches all events by type' do
-        events = JSON.parse(response.body)['application_events']
+        events = response.parsed_body['application_events']
         expect(events).to have(12).items
       end
     end
     context 'with a limit of 2' do
       let(:limit) { 2 }
       it 'fetches all events by type' do
-        events = JSON.parse(response.body)['application_events']
+        events = response.parsed_body['application_events']
         expect(events).to have(4).items
       end
     end

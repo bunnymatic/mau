@@ -4,8 +4,8 @@ describe Api::NotesController do
   # frozen_string_literal: true
   shared_examples_for 'has some invalid params' do
     it { expect(response).to be_4xx }
-    it { expect(JSON.parse(response.body)['success']).to eql false }
-    it { expect(JSON.parse(response.body)['error_messages']).to be_present }
+    it { expect(response.parsed_body['success']).to eql false }
+    it { expect(response.parsed_body['error_messages']).to be_present }
   end
 
   describe '#create' do
@@ -15,7 +15,7 @@ describe Api::NotesController do
     describe 'with no emali or note type' do
       before do
         post :create, xhr: true, params: { feedback_mail: { stuff: 'whatever' } }
-        @resp = JSON.parse(response.body)
+        @resp = response.parsed_body
 
         it { expect(response).to be_4xx }
         it "response reports 'invalid note type'" do
@@ -35,7 +35,7 @@ describe Api::NotesController do
                  email: 'a@b.com',
                },
              }
-        @resp = JSON.parse(response.body)
+        @resp = response.parsed_body
       end
       it { expect(response).to be_4xx }
     end
@@ -50,7 +50,7 @@ describe Api::NotesController do
                  email: 'a@b.com',
                },
              }
-        @resp = JSON.parse(response.body)
+        @resp = response.parsed_body
       end
       it_behaves_like 'has some invalid params'
     end
@@ -66,7 +66,7 @@ describe Api::NotesController do
                  email_confirm: 'a@b.com',
                },
              }
-        @resp = JSON.parse(response.body)
+        @resp = response.parsed_body
       end
       it_behaves_like 'has some invalid params'
     end
@@ -84,10 +84,10 @@ describe Api::NotesController do
                    email_confirm: 'a@b.com',
                  },
                }
-          @resp = JSON.parse(response.body)
+          @resp = response.parsed_body
         end
         it { expect(response).to be_successful }
-        it { expect(JSON.parse(response.body)['success']).to eql true }
+        it { expect(response.parsed_body['success']).to eql true }
       end
 
       context 'help' do
@@ -102,10 +102,10 @@ describe Api::NotesController do
                    email_confirm: 'a@b.com',
                  },
                }
-          @resp = JSON.parse(response.body)
+          @resp = response.parsed_body
         end
         it { expect(response).to be_successful }
-        it { expect(JSON.parse(response.body)['success']).to eql true }
+        it { expect(response.parsed_body['success']).to eql true }
       end
     end
   end

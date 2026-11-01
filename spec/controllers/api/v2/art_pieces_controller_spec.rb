@@ -17,7 +17,7 @@ describe Api::V2::ArtPiecesController do
         get :index, params: { artist_id: artist.id, format: :json }
 
         expect(response).to be_successful
-        json = JSON.parse(response.body)['data']
+        json = response.parsed_body['data']
         expect(json).to have(3).art_pieces
       end
 
@@ -26,7 +26,7 @@ describe Api::V2::ArtPiecesController do
           get :index, params: { count: 2, artist_id: artist.id, format: :json }
 
           expect(response).to be_successful
-          json = JSON.parse(response.body)['data']
+          json = response.parsed_body['data']
           expect(json).to have(2).art_pieces
         end
 
@@ -34,7 +34,7 @@ describe Api::V2::ArtPiecesController do
           get :index, params: { count: 20, artist_id: artist.id, format: :json }
 
           expect(response).to be_successful
-          json = JSON.parse(response.body)['data']
+          json = response.parsed_body['data']
           expect(json).to have(3).art_pieces
         end
       end

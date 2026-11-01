@@ -34,7 +34,7 @@ describe ArtPieceTagsController do
     end
     it_behaves_like 'successful json'
     it 'returns all tags as json' do
-      j = JSON.parse(response.body)['art_piece_tags']
+      j = response.parsed_body['art_piece_tags']
       expect(j).to have(3).tags
     end
 
@@ -46,7 +46,7 @@ describe ArtPieceTagsController do
 
     it 'returns tags using the input' do
       get :autosuggest, params: { format: :json, input: tags.first.name.downcase }
-      j = JSON.parse(response.body)['art_piece_tags']
+      j = response.parsed_body['art_piece_tags']
       expect(j).to be_present
     end
 
@@ -62,7 +62,7 @@ describe ArtPieceTagsController do
 
       it 'uses the cache there is data' do
         get :autosuggest, params: { format: :json, input: 'tag' }
-        j = JSON.parse(response.body)
+        j = response.parsed_body
         tags = j['art_piece_tags']
         expect(tags).to have(1).tag
         result = tags.first['art_piece_tag']

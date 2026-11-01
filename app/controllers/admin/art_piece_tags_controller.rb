@@ -18,7 +18,7 @@ module Admin
     private
 
     def load_tag
-      @tag = ArtPieceTag.find(params[:id])
+      @tag = ArtPieceTag.find(params.expect(:id))
     end
   end
 end

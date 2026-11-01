@@ -7,7 +7,7 @@ module Api
       end
 
       def show
-        m = Medium.find(params[:id])
+        m = Medium.find(params.expect(:id))
         respond_with m
       end
     end

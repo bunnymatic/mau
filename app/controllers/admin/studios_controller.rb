@@ -65,7 +65,7 @@ module Admin
     end
 
     def unaffiliate_artist
-      artist = Artist.find(params[:artist_id])
+      artist = Artist.find(params.expect(:artist_id))
       redirect_to_edit(error: 'You cannot unaffiliate yourself') && return if artist == current_artist
 
       msg = if StudioArtist.new(@studio, artist).unaffiliate
@@ -109,7 +109,7 @@ module Admin
     end
 
     def load_studio
-      @studio ||= StudioService.find(params[:id])
+      @studio ||= StudioService.find(params.expect(:id))
     end
   end
 end

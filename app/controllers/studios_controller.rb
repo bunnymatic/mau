@@ -37,6 +37,6 @@ class StudiosController < ApplicationController
   end
 
   def load_studio
-    @studio ||= StudioService.find(params[:id])
+    @studio ||= StudioService.find(params.expect(:id))
   end
 end
