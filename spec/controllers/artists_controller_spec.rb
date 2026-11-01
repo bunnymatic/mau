@@ -306,7 +306,7 @@ describe ArtistsController, search: :elasticsearch_stub do
 
       it 'does not rearrange art if cancel is pressed' do
         order1 = artist.art_pieces.map(&:id)
-        post :setarrangement, params: { neworder: [order1.last] + order1[0..-2], submit: 'cancel' }
+        post :setarrangement, params: { neworder: ([order1.last] + order1[0..-2]).join(','), submit: 'cancel' }
         expect(artist.art_pieces.map(&:id)).to eql order1
       end
       it 'redirects to the artists page' do

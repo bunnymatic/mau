@@ -31,7 +31,8 @@ describe Api::V2::ArtistsController do
       end
       it_behaves_like 'successful api json'
       it 'returns only artists in the studio' do
-        artists = response.parsed_body['data'].count
+        body = JSON.parse(response.parsed_body)
+        artists = body['data'].count
         expect(artists).to eql studio.artists.active.count
         expect(studio.artists.count).not_to eql studio.artists.active.count
       end
