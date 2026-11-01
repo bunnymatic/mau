@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 
   def user_must_be_you
     user_required
-    redirect_back_or_default(user_path(current_user)) unless User.find(params[:user_id]) == current_user
+    redirect_back_or_default(user_path(current_user)) unless User.find(params.expect(:user_id)) == current_user
   end
 
   def redirect_back_or_default(default = nil)
@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def commit_is_cancel?
-    !params[:commit].nil? && params[:commit].casecmp('cancel').zero?
+    !params[:commit].nil? && params.expect(:commit).casecmp('cancel').zero?
   end
 
   def set_version

@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   ruby-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       RAILS_ENV: test
       DB_DATABASE: test_db
@@ -50,12 +50,10 @@ jobs:
         run: cp config/database.ci.yml config/database.yml
       - name: Set up database schema
         run: bin/rake db:drop db:create db:schema:load db:seed
-      - name: Webdrivers update
-        run: RAILS_ENV=test bundle exec rake webdrivers:chromedriver:update
       - name: RSpec
         run: bin/rspec spec
   cucumber-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       RAILS_ENV: test
       DB_DATABASE: test_db
@@ -89,8 +87,6 @@ jobs:
         run: cp config/database.ci.yml config/database.yml
       - name: Set up database schema
         run: bin/rake db:drop db:create db:schema:load db:seed
-      - name: Webdrivers update
-        run: RAILS_ENV=test bundle exec rake webdrivers:chromedriver:update
       - name: Cucumber
         run: bundle exec cucumber
       - uses: actions/upload-artifact@v4
@@ -98,7 +94,7 @@ jobs:
           path: tmp/capybara/
 
   yarn-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       RAILS_ENV: test
     steps:
@@ -115,7 +111,7 @@ jobs:
         run: yarn test
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       RAILS_ENV: test
       DB_DATABASE: test_db
@@ -158,7 +154,7 @@ jobs:
       - name: Build assets
         run: bin/rails assets:precompile
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - run: sudo apt-get update && sudo apt-get install -y libvips
       - uses: actions/checkout@v5
@@ -178,5 +174,3 @@ jobs:
         run: yarn lint
       - name: Bundle Audit
         run: bundle exec bundler-audit --update --ignore CVE-2023-5590
-      - name: Ruby Audit
-        run: bundle audit check --ignore CVE-2023-5590

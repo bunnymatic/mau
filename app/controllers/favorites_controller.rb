@@ -4,7 +4,7 @@ class FavoritesController < ApplicationController
 
   def index
     @user = begin
-      User.find(params[:id])
+      User.find(params.expect(:id))
     rescue ActiveRecord::RecordNotFound
       nil
     end
@@ -33,7 +33,7 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-    fav = Favorite.find(params[:id])
+    fav = Favorite.find(params.expect(:id))
     obj = fav.favoritable
     fav.destroy
     if request.xhr?

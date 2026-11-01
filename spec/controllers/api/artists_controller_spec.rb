@@ -37,7 +37,7 @@ describe Api::ArtistsController, elasticsearch: false do
           get :register_for_open_studios, params: { id: artist.id, participation: '1' }
           expect(artist.reload).to be_doing_open_studios
           expect(response).to be_successful
-          expect(JSON.parse(response.body)).to eq(
+          expect(response.parsed_body).to eq(
             'success' => true,
             'participant' => OpenStudiosParticipant.find_by(user: artist,
                                                             open_studios_event: OpenStudiosEvent.current).as_json(root: false),
@@ -52,7 +52,7 @@ describe Api::ArtistsController, elasticsearch: false do
           get :register_for_open_studios, params: { id: artist.id, participation: '1' }
           expect(artist.reload).to be_doing_open_studios
           expect(response).to be_successful
-          expect(JSON.parse(response.body)).to eq(
+          expect(response.parsed_body).to eq(
             'success' => true,
             'participant' => OpenStudiosParticipant.find_by(user: artist,
                                                             open_studios_event: OpenStudiosEvent.current).as_json(root: false),
@@ -63,7 +63,7 @@ describe Api::ArtistsController, elasticsearch: false do
           get :register_for_open_studios, params: { id: artist.id, participation: '0' }
           expect(artist.reload).not_to be_doing_open_studios
           expect(response).to be_successful
-          expect(JSON.parse(response.body)).to eq(
+          expect(response.parsed_body).to eq(
             'success' => true,
             'participant' => nil,
           )

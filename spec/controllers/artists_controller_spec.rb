@@ -306,7 +306,7 @@ describe ArtistsController, search: :elasticsearch_stub do
 
       it 'does not rearrange art if cancel is pressed' do
         order1 = artist.art_pieces.map(&:id)
-        post :setarrangement, params: { neworder: [order1.last] + order1[0..-2], submit: 'cancel' }
+        post :setarrangement, params: { neworder: ([order1.last] + order1[0..-2]).join(','), submit: 'cancel' }
         expect(artist.art_pieces.map(&:id)).to eql order1
       end
       it 'redirects to the artists page' do
@@ -412,13 +412,13 @@ describe ArtistsController, search: :elasticsearch_stub do
     end
     it_behaves_like 'successful json'
     it 'returns a hash with a list of artists' do
-      j = JSON.parse(response.body)
+      j = response.parsed_body
       expect(j).to be_a_kind_of Array
       expect(j.first.key?('info')).to be
       expect(j.first.key?('value')).to be
     end
     it 'list of artists matches the input parameter' do
-      j = JSON.parse(response.body)
+      j = response.parsed_body
       expect(j).to be_a_kind_of Array
       expect(j.size).to eq(1)
       expect(j.first['value']).to eql artist.get_name

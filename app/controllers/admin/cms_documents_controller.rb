@@ -41,7 +41,7 @@ module Admin
     private
 
     def load_document
-      @cms_document = CmsDocument.find(params[:id])
+      @cms_document = CmsDocument.find(params.expect(:id))
     end
 
     def cms_document_params

@@ -28,7 +28,7 @@ module Admin
     end
 
     def update
-      u = User.find(params[:user])
+      u = User.find(params.expect(:user))
       begin
         u.roles << @role
         flash[:notice] = "Added #{u.full_name} to role #{@role.role}"
@@ -47,7 +47,7 @@ module Admin
     private
 
     def load_role
-      @role = Role.find(params[:id])
+      @role = Role.find(params.expect(:id))
     end
 
     def role_params

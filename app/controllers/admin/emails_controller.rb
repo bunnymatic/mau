@@ -40,11 +40,11 @@ module Admin
     private
 
     def load_email_list
-      @email_list = EmailList.find(params[:email_list_id])
+      @email_list = EmailList.find(params.expect(:email_list_id))
     end
 
     def load_email
-      @email = Email.find(params[:id])
+      @email = Email.find(params.expect(:id))
     end
 
     def email_params

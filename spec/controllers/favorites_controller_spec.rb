@@ -42,7 +42,7 @@ describe FavoritesController do
           post :create, xhr: true, params: { user_id: fan.id, favorite: { type: 'Artist', id: artist.id } }
         end
         it 'returns success' do
-          r = JSON.parse(response.body)
+          r = response.parsed_body
           expect(r['message']).to include 'added to your favorites'
         end
         it 'adds the artist' do
@@ -74,7 +74,7 @@ describe FavoritesController do
             expect(favs.map(&:favoritable_id)).to include art_piece.id
           end
           it 'sets flash with escaped name' do
-            expect(JSON.parse(response.body)['message']).to include html_encode(art_piece.title)
+            expect(response.parsed_body['message']).to include html_encode(art_piece.title)
           end
           it 'adds favorite to user' do
             favs = fan.reload.favorites

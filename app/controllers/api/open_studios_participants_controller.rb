@@ -5,7 +5,7 @@ module Api
     before_action :artist_required
 
     def update
-      @participant = OpenStudiosParticipant.find(params[:id])
+      @participant = OpenStudiosParticipant.find(params.expect(:id))
       if current_artist.id != @participant.user_id
         render json: {}, status: :unauthorized
         return

@@ -3,7 +3,7 @@ module OpenStudiosSubdomain
     def show
       (redirect_to '/error' and return) unless FeatureFlags.virtual_open_studios?
 
-      artist = Artist.active.joins(:open_studios_events).friendly.find(params[:id])
+      artist = Artist.active.joins(:open_studios_events).friendly.find(params.expect(:id))
       @artist = ArtistPresenter.new(artist)
 
       gallery = OpenStudiosCatalogArtists.new

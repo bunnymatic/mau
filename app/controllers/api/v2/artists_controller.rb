@@ -4,7 +4,7 @@ module Api
       def index
         artists = []
         if params[:studio]
-          studio = Studio.find(params[:studio])
+          studio = Studio.find(params.expect(:studio))
           artists = Artist.active.where(studio_id: studio.id) if studio
         end
         render jsonapi: artists
@@ -13,7 +13,7 @@ module Api
       def ids
         artists = Artist.none
         if params[:studio]
-          studio = Studio.find(params[:studio])
+          studio = Studio.find(params.expect(:studio))
           artists = Artist.active.where(studio_id: studio.id)
         end
         render json: { artist_ids: artists.pluck(:id) }
@@ -22,7 +22,7 @@ module Api
       end
 
       def show
-        artist = Artist.active.friendly.find(params[:id])
+        artist = Artist.active.friendly.find(params.expect(:id))
         render jsonapi: artist
       end
     end

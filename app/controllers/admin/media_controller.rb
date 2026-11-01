@@ -12,7 +12,7 @@ module Admin
 
     # GET /media/1/edit
     def edit
-      @medium = Medium.find(params[:id])
+      @medium = Medium.find(params.expect(:id))
     end
 
     def create
@@ -27,7 +27,7 @@ module Admin
     end
 
     def update
-      @medium = Medium.find(params[:id])
+      @medium = Medium.find(params.expect(:id))
 
       if @medium.update(medium_params)
         flash[:notice] = 'Medium was successfully updated.'
@@ -38,7 +38,7 @@ module Admin
     end
 
     def destroy
-      @medium = Medium.find(params[:id])
+      @medium = Medium.find(params.expect(:id))
       @medium.destroy
 
       redirect_to(admin_media_url)

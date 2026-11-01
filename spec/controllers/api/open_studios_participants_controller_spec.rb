@@ -90,7 +90,7 @@ describe Api::OpenStudiosParticipantsController do
         put :update, params: { artist_id: artist.id, id: participant.id, open_studios_participant: bad_attrs }
 
         expect(response).to be_bad_request
-        errors = JSON.parse(response.body)['errors']
+        errors = response.parsed_body['errors']
         expect(errors).to have_key('shop_url')
       end
     end

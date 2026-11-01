@@ -10,7 +10,7 @@ class MediaController < ApplicationController
 
   def show
     begin
-      @medium = Medium.friendly.includes(art_pieces: { artist: %i[artist_info open_studios_events] }).find(params[:id])
+      @medium = Medium.friendly.includes(art_pieces: { artist: %i[artist_info open_studios_events] }).find(params.expect(:id))
     rescue ActiveRecord::RecordNotFound
       redirect_to_most_popular_medium(flash: { error: "Sorry, we couldn't find the medium you were looking for" }) && return
     end
