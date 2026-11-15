@@ -18,22 +18,22 @@ module ImageProcessing
         image1 = ::Vips::Image.new_from_file(file1)
         image2 = ::Vips::Image.new_from_file(file2)
 
-        # puts "Compositing blend: #{blend_mode}..."
-        # puts "offset #{offset}"
-        # puts "x #{offset.x}"
-        # puts "y #{offset.y} #{offset.y.inspect}"
-
         result = image1.composite2 image2, blend_mode, x: offset.x, y: offset.y
         composite_file = Tempfile.new(['comp', '.png'])
         result.write_to_file(composite_file.path)
-        # puts 'Done compositing'
         composite_file.path
       end
 
       def fetch_image(uri)
-        # rubocop:disable  Security/Open
-        source = URI.open(uri)
-        # rubocop:enable  Security/Open
+        # branches for `open` are to avoid rubocop Security/Open violations
+        source = begin
+          path = URI.parse(uri)
+          if path.respond_to? :open
+            path.open
+          else
+            File.open(path, 'rb')
+          end
+        end
         dest = Tempfile.new
         dest.binmode
         dest.write(source.read)
