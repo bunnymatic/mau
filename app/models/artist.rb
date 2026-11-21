@@ -150,7 +150,7 @@ class Artist < User
 
     if piece.blank?
       piece = art_pieces.first
-      SafeCache.write(representative_art_cache_key, piece.id, expires_in: 0) unless piece.nil?
+      SafeCache.write(representative_art_cache_key, piece.id) unless piece.nil?
     end
     piece
   end
